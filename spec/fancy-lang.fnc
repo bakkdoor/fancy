@@ -1,4 +1,6 @@
-# language idea #11 - 25.01.2010
+# -*- coding: utf-8 -*-
+# the fancy language spec
+# (C) 2010 Christopher Bertels <chris@fany-lang.org>
 
 class Person {
   # creates getters & setters for slots
@@ -21,6 +23,13 @@ class Person {
   }
 }
 
+# usage example:
+osna = City new: "Osnabrück"
+p = Person new: "Christopher" age: 22 city: osna
+berlin = City new: "Berlin"
+p go_to: berlin # => p city will then be set to berlin
+
+
 ## shape example
 
 class Shape {
@@ -40,6 +49,8 @@ class Rectangle < Shape {
 
   def Rectangle new: dimension_arr {
     dimension_arr size ==: 2 if_true: {
+      # multiple assignment with first & second values of
+      # dimension_arr
       @width, @height = dimension_arr first, dimension_arr second
     }
   }
@@ -74,28 +85,35 @@ def main: args {
 
   radius = Console readln: "Please enter a radius: " to_num
   circ = Circle new: radius
-  
+
+  # => string interpolation as in ruby :)
   Console println: "Rectangle area: #{rect area}"
   Console println: "Circle area: #{circle area}"
 
   shape = Shape new: "won't work!"
   # shape doesn't have area method correctly defined
+  # => notice, how try:catch: is just a regular method
+  # (at least it's used like one) that takes two blocks, the second
+  # block taking an argument (being the exception that gets thrown <-
+  # it's optional though)
   try: {
     shape
-  } catch: err {
+  } catch: |err| {
     Console println: (err message)
   }
 
   i = 0
-  { i < 10 } while_true: {
+  { i <: 10 } while_true: {
     i = Console readln: "Enter any number: " to_num
   }
 
-  # block with params:
-  10 times: x {
+  # block with one param:
+  10 times: |x| {
     Console println: x
   }
 
-  10 upto: 100 each_with_index: x i {
+  # block with two params:
+  10 upto: 100 each_with_index: |x i| {
+    Console println: "Num: #{x}, Index: #{i}"
   }
 }
