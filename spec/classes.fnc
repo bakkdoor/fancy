@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # some code with class definitions etc:
 
-class Bar {
+def class Bar {
   read_slots: [:name]
-  def new: name {
+  def initialize: name {
     @name = name
   }
 }
@@ -12,9 +12,9 @@ class Bar {
 package: Foo.Bar
 import: [System]
 
-class Foo < Bar {
-  def new {
-    super new: "Foo"
+def class Foo < Bar {
+  def initialize {
+    super: "Foo"
     private_method: "calling it!"
   }
 
@@ -29,9 +29,9 @@ class Foo < Bar {
 # now we're in the Bar.Baz package:
 package: Bar.Baz
 
-class Baz < Bar {
-  def new {
-    super new: "Baz"
+def class Baz < Bar {
+  def initialize {
+    super: "Baz"
     System.Console writeln: "Creating new instance of class Baz"
   }
 }
@@ -41,24 +41,24 @@ import: [System, Foo.Bar, Bar.Baz]
 
 def get_positive: message {
   amount = 0
-  { amount <=: 0 } while_true: {
-    amount = (Console readln: message) to_num
+  { amount <= 0 } while_true: {
+    amount = Console readln: message . to_num
   }
   amount
 }
 
 def main: args {
   foos = []
-  (get_positive: "How many instances of Foo? (> 0)") times: {
-    foos <<: (Foo new)
+  get_positive: "How many instances of Foo? (> 0)" . times: {
+    foos << Foo new
   }
 
   bazs = []
-  (get_positive: "How many instances of Baz? (> 0)") times: {
-    bazs <<: (Baz new)
+  get_positive: "How many instances of Baz? (> 0)" . times: {
+    bazs << Baz new
   }
 
-  (foos +: bazs) each: |x| {
+  foos + bazs . each: |x| {
     Console println: "Name of element: #{x name}"
   }
 }

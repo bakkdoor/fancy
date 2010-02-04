@@ -2,28 +2,28 @@ package: Fancy.Math
 
 def class Number {
   def even? {
-    (self modulo: 2) ==: 0
+    self modulo: 2 . == 0
   }
 
   def odd? {
-    not: (self even?)
+    not: $ self even?
   }
 
   def upto: val {
     coll = []
     tmp = self
-    { tmp <=: val } while_true: {
-      coll <<: tmp
-      tmp = tmp +: 1
+    { tmp <= val } while_true: {
+      coll << tmp
+      tmp = tmp + 1
     }
   }
 
   def downto: val {
     coll = []
     tmp = self
-    { tmp >=: val } while_true: {
-      coll <<: tmp
-      tmp = tmp -: 1
+    { tmp >= val } while_true: {
+      coll << tmp
+      tmp = tmp - 1
     }
   }
 
@@ -42,10 +42,10 @@ def class Number {
 
 def trait Enumerable {
   def sum {
-    self reduce: |x y| { x +: y } with: 0
+    self reduce: |x y| { x + y } with: 0
   }
 
   def product {
-    self reduce: |x y| { x *: y } with: 1
+    self reduce: |x y| { x * y } with: 1
   }
 }

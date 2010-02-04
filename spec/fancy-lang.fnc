@@ -2,22 +2,32 @@
 # the fancy language spec
 # (C) 2010 Christopher Bertels <chris@fany-lang.org>
 
-class Person {
+def class Person {
   # creates getters & setters for slots
   read_write_slots: [:name, :age, :city]
 
-  # => could also be written as follows:
-  # def Person new: name age: age city: city { ... }
-  class_scope: {
-    def new: name age: age city: city {
+  # Person constructor
+  def initialize: name age: age city: city {
       @name = name
       @age = age
       @city = city
-    }
   }
 
   def go_to: city {
-    city is_a?: City if_true: {
+    # The .-operator (dot) manages left associativity and treats
+    # everything left of it as one expression and everything right of
+    # it as a method_call to the left. In this case the following line
+    # of code is equivalent to:
+    ## (city is_a?: City) if_true: { ... }
+
+    # While using parentheses would definately work, the dot-operator
+    # makes left-grouping of expressions much easier.
+    # In contrast to e.g. Smalltalk, Fancy isn't compiled but
+    # interpreted so there usually is not some predefined knowledge of
+    # which methods exist etc., which makes it impossible to determine
+    # if we're dealing with a two-argument method call or a chained
+    # method call ('is_a?:if_true:' vs. '(is_a?: ..) if_true: ..')
+    city is_a?: City . if_true: {
       @city = city
     }
   }
@@ -32,10 +42,10 @@ p go_to: berlin # => p city will then be set to berlin
 
 ## shape example
 
-class Shape {
+def class Shape {
   read_slots: [:name]
     
-  def Shape new: name {
+  def initialize: name {
     @name = name
   }
 
@@ -44,11 +54,11 @@ class Shape {
   }
 }
 
-class Rectangle < Shape {
+def class Rectangle < Shape {
   read_slots: [:height, :width]
 
-  def Rectangle new: dimension_arr {
-    dimension_arr size ==: 2 if_true: {
+  def initialize: dimension_arr {
+    dimension_arr size == 2 . if_true: {
       # multiple assignment with first & second values of
       # dimension_arr
       @width, @height = dimension_arr first, dimension_arr second
@@ -56,15 +66,15 @@ class Rectangle < Shape {
   }
 
   def area {
-    @width *: @height
+    @width * @height
   }
 }
 
-class Circle < Shape {
+def class Circle < Shape {
   read_slots: [:radius]
 
-  def Circle new: radius {
-    radius >=: 0 if_true: {
+  def Circle initialize: radius {
+    radius >= 0 . if_true: {
       @radius = radius
     } else: {
       @radius = 0
@@ -72,7 +82,7 @@ class Circle < Shape {
   }
 
   def area {
-    Math::PI *: (@radius squared)
+    Math::PI * (@radius squared)
   }
 }
 
@@ -99,12 +109,19 @@ def main: args {
   try: {
     shape
   } catch: |err| {
-    Console println: (err message)
+    # The $-operator is similar to the .-operator but with the
+    # opposite semantics: it treats everything right of it (up to a
+    # newline) as one expression and passes it as an argument to the
+    # left.
+    # (Note: It's semantically equivalent to Haskell's $-operator.)
+    # So the following line is equivalent to:
+    ## Console println: (err message)
+    Console println: $ err message
   }
 
   i = 0
-  { i <: 10 } while_true: {
-    i = Console readln: "Enter any number: " to_num
+  { i < 10 } while_true: {
+    i = Console readln: "Enter any number: " . to_num
   }
 
   # block with one param:

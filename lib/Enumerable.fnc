@@ -1,34 +1,41 @@
-package: Fancy.Enumerable
+package: Fancy.Collections
 
 def trait Enumerable {
-  def map: block {
+  def with_collection: block {
     coll = []
-    self each: |x| {
-      coll <<: block call: [x]
-    }
+    block call: [coll]
     coll
+  }
+  
+  def map: block {
+    with_collection: |coll| {
+      self each: |x| {
+        coll << $ block call: [x]
+      }
+    }
   }
 
   def select: condition {
-    coll = []
-    self each: |x| {
-      { coll <<: x } if: (block call: [x])
+    with_collection: |coll| {
+      self each: |x| {
+        { coll << x } if: $ block call: [x]
+      }
     }
-    coll
   }
 
   def reject: condition {
-    coll = []
-    self each: |x| {
-      { coll <<: x } unless: (block call: [x])
+    with_collection: |coll| {
+      self each: |x| {
+        { coll << x } unless: $ block call: [x]
+      }
     }
   }
 
   def take_while: condition {
     coll = []
     self each: |x| {
-      (block call: [x]) if_true: {
-        coll <<: x
+      block call: [x] . if_true: {
+        coll << x
       } else: {
         return: coll
       }

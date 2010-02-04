@@ -1,36 +1,41 @@
 # actors example
 
-class Ping < Actor {
-  def start: receiver {
-    receiver !: :ping
-  }
-  
-  def receive: message {
-    case_of message {
-      :pong -> {
-        Console writeln: "Got PONG by #{message sender}, quitting.."
+def actor Ping: pong_receiver {
+  pong_receiver ! [:ping, self]
+  loop: {
+    receive {
+      [:pong, pid] -> {
+        Console writeln: "Got PONG by #{pid}, quitting.."
         self die
       }
       Any -> {
         Console writeln: "Unknown message: #{message inspect}, waiting for PONG"
-        self receive
       }
     }
   }
 }
 
-class Pong < Actor {
-  def receive: message {
-    case_of message {
-      :ping -> {
+def actor Pong {
+  loop: {
+    receive {
+      [:ping, pid] -> {
         Console writeln: "Got PING by #{message sender}, sending reply!"
-        message sender !: :pong
+        pid ! :pong
       }
       Any -> {
         Console writeln: "Unknown message: #{message inspect}, waiting for PING"
-        self receive
       }
     }
   }
 }
-  
+
+# start actors
+
+def main: args {
+  # start Pong
+  pong = Pong spawn
+  # start Ping with pong's pid
+  ping = Ping spawn: [pong]
+  # wait for both pong & ping processes
+  Process wait: [pong, ping]
+}
