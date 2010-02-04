@@ -56,5 +56,5 @@ def trait Enumerable {
     val
   }
 
-  alias: [:map => :collect, :select => :filter]
+  alias: <[:map => :collect, :select => :filter]>
 }
