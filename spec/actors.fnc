@@ -1,4 +1,5 @@
 # actors example
+import: [System]
 
 def actor Ping: pong_receiver {
   pong_receiver ! [:ping, self]
@@ -30,7 +31,6 @@ def actor Pong {
 }
 
 # start actors
-
 def main: args {
   # start Pong
   pong = Pong spawn

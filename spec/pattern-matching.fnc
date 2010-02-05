@@ -6,7 +6,7 @@ import: [System]
 
 arr = [:foo, :bar, :baz]
 
-tuple match {
+arr match {
   [] -> {
     Console println: "Got empty array!"
   }

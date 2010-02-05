@@ -87,6 +87,7 @@ def class Circle < Shape {
 }
 
 # usage example:
+import: [System]
 
 def main: args {
   width = Console readln: "Please enter a width: " to_num

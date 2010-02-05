@@ -1,4 +1,4 @@
-package: Fancy.Math
+package: Fancy::Math
 
 def class Number {
   def even? {

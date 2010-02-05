@@ -8,8 +8,8 @@ def class Bar {
   }
 }
 
-# everything following this will belong to the Foo.Bar package
-package: Foo.Bar
+# everything following this will belong to the Foo::Bar package
+package: Foo::Bar
 import: [System]
 
 def class Foo < Bar {
@@ -20,24 +20,24 @@ def class Foo < Bar {
 
   private: {
     def private_method: message {
-      # without the upper import, it would be: System.Console
+      # without the upper import, it would be: System::Console
       Console writeln: "Got message: #{message}"
     }
   }
 }
 
-# now we're in the Bar.Baz package:
-package: Bar.Baz
+# now we're in the Bar::Baz package:
+package: Bar::Baz
 
 def class Baz < Bar {
   def initialize {
     super: "Baz"
-    System.Console writeln: "Creating new instance of class Baz"
+    System::Console writeln: "Creating new instance of class Baz"
   }
 }
 
 package: Main
-import: [System, Foo.Bar, Bar.Baz]
+import: [System, Foo::Bar, Bar::Baz]
 
 def get_positive: message {
   amount = 0

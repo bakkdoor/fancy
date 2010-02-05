@@ -1,4 +1,4 @@
-package: Fancy.Collections
+package: Fancy::Collections
 
 def trait Enumerable {
   def with_collection: block {
