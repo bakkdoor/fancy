@@ -9,8 +9,8 @@ def actor Ping: pong_receiver {
         Console writeln: "Got PONG by #{pid}, quitting.."
         self die
       }
-      Any -> {
-        Console writeln: "Unknown message: #{message inspect}, waiting for PONG"
+      _any -> {
+        Console writeln: "Unknown message: #{_any inspect}, waiting for PONG"
       }
     }
   }
@@ -20,11 +20,11 @@ def actor Pong {
   loop: {
     receive {
       [:ping, pid] -> {
-        Console writeln: "Got PING by #{message sender}, sending reply!"
+        Console writeln: "Got PING by #{pid}, sending reply!"
         pid ! :pong
       }
-      Any -> {
-        Console writeln: "Unknown message: #{message inspect}, waiting for PING"
+      _any -> {
+        Console writeln: "Unknown message: #{_any inspect}, waiting for PING"
       }
     }
   }
