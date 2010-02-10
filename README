@@ -1,0 +1,15 @@
+The Fancy Programming Language
+(C) 2010 Christopher Bertels <chris@fancy-lang.org>
+http://www.fancy-lang.org
+
+----------------------------------------------------------------------
+
+Fancy is a dynamic, object-oriented programming language heavily
+inspired by Smalltalk, Ruby and Erlang. It has support for dynamic
+code evaluation (as in Ruby & Smalltalk), concurrency via the
+actor-model and many more features yet to be implemented.
+
+----------------------------------------------------------------------
+
+It’s currently still in development, the implementation consisting of
+an interpreter written in C++.
