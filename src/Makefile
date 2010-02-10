@@ -2,11 +2,11 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
-files = object t nil hash array identifier number string scope errors method core_methods method_call regex assignment
+files = object t nil hash array identifier number string scope errors method core_methods method_call regex assignment method_definition expression_list
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
 obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(parser_files), $(file).o) main.o
 
-sub_dirs = common parser
+sub_dirs = parser
 
 all: subdirs ../bin/fancy
 
@@ -61,6 +61,11 @@ method_call.o: method_call.cc
 assignment.o: assignment.cc
 	$(cc) $(cc_flags) -c assignment.cc -o assignment.o
 
+method_definition.o: method_definition.cc
+	$(cc) $(cc_flags) -c method_definition.cc -o method_definition.o
+
+expression_list.o: expression_list.cc
+	$(cc) $(cc_flags) -c expression_list.cc -o expression_list.o
 
 subdirs:
 	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)

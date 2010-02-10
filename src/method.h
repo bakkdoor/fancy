@@ -1,6 +1,13 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
+struct method_arg_node {
+public:
+  Identifier_p name;
+  Identifier_p identifier;
+  method_arg_node *next;
+};
+
 class Method : public Object
 {
  public:

@@ -23,7 +23,7 @@ Object_p Array::operator[](int index) const
   return this->at(index);
 }
 
-Object_p Array::at(int index) const
+Object_p Array::at(unsigned int index) const
 {
   if(index < this->values.size()) {
     return this->values[index];
@@ -32,7 +32,7 @@ Object_p Array::at(int index) const
   }
 }
 
-Object_p Array::set_value(int index, Object_p value)
+Object_p Array::set_value(unsigned int index, Object_p value)
 {
   if(index < this->values.size()) {
     this->values[index] = value;
@@ -48,9 +48,10 @@ Object_p Array::insert(Object_p value)
   return value;
 }
 
-Object_p Array::insert_at(int index, Object_p value)
+Object_p Array::insert_at(unsigned int index, Object_p value)
 {
   this->set_value(index, value);
+  return value;
 }
 
 Object_p Array::append(Array_p arr)
@@ -59,6 +60,7 @@ Object_p Array::append(Array_p arr)
   for(it = arr->values.begin(); it < arr->values.end(); it++) {
     this->values.push_back(*it);
   }
+  return this;
 }
 
 Object_p Array::first() const

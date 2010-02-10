@@ -15,10 +15,10 @@ class Array : public Object
   ~Array();
 
   Object_p operator[](int index) const;
-  Object_p at(int index) const;
-  Object_p set_value(int index, Object_p value);
+  Object_p at(unsigned int index) const;
+  Object_p set_value(unsigned int index, Object_p value);
   Object_p insert(Object_p value);
-  Object_p insert_at(int index, Object_p value);
+  Object_p insert_at(unsigned int index, Object_p value);
   Object_p append(Array *arr);
   Object_p first() const;
   Object_p last() const;
