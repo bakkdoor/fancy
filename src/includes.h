@@ -35,6 +35,7 @@ using namespace std;
 #include "regex.h"
 #include "expression_list.h"
 
+#include "builtin_method.h"
 #include "scope.h"
 #include "method_call.h"
 #include "assignment.h"
