@@ -6,7 +6,9 @@
   int yylex(void);
   key_val_node* key_val_obj(Object_p key, Object_p val, key_val_node *next);
   array_node* val_list_obj(Object_p val, array_node *next);
+
   list< pair<Identifier_p, Identifier_p> > method_args;
+  list<Expression_p> expression_list;
 %}
 
 %union{
@@ -121,8 +123,9 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
                 ;
 
 method_w_args:  DEF method_args LCURLY exp_list RCURLY {
-                  ExpressionList_p body = new ExpressionList(new Array($4));
-                  Method_p method = new Method(new Array(0), body);
+                  ExpressionList_p body = new ExpressionList(expression_list);
+                  expression_list.clear();
+                  Method_p method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new MethodDefExpr(method_args, method);
                   method_args.clear();
@@ -131,17 +134,19 @@ method_w_args:  DEF method_args LCURLY exp_list RCURLY {
 
 
 method_no_args: DEF IDENTIFIER LCURLY exp_list RCURLY {
-                  ExpressionList_p body = new ExpressionList(new Array($4));
-                  Method_p method = new Method(new Array(0), body);
-                  list< pair<Identifier_p, Identifier_p> > m_args;
-                  $$ = new MethodDefExpr(m_args, method);
+                  ExpressionList_p body = new ExpressionList(expression_list);
+                  expression_list.clear();
+                  list< pair<Identifier_p, Identifier_p> > empty_args;
+                  Method_p method = new Method(empty_args, body);
+                  $$ = new MethodDefExpr(empty_args, method);
                 }
                 ;
 
 class_method_w_args: DEF IDENTIFIER method_args LCURLY exp_list RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList_p body = new ExpressionList(new Array($5));
-                  Method_p method = new Method(new Array(0), body);
+                  ExpressionList_p body = new ExpressionList(expression_list);
+                  expression_list.clear();
+                  Method_p method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new MethodDefExpr(method_args, method);
                   method_args.clear();
@@ -150,10 +155,11 @@ class_method_w_args: DEF IDENTIFIER method_args LCURLY exp_list RCURLY {
 
 class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList_p body = new ExpressionList(new Array($5));
-                  Method_p method = new Method(new Array(0), body);
-                  list< pair<Identifier_p, Identifier_p> > m_args;
-                  $$ = new MethodDefExpr(m_args, method);
+                  ExpressionList_p body = new ExpressionList(expression_list);
+                  expression_list.clear();
+                  list< pair<Identifier_p, Identifier_p> > empty_args;
+                  Method_p method = new Method(empty_args, body);
+                  $$ = new MethodDefExpr(empty_args, method);
                 }
                 ;
 
@@ -185,8 +191,8 @@ array_literal:  empty_array
 empty_array:    LBRACKET RBRACKET { $$ = new Array(0); }
                 ;
 
-exp_list:       exp { $$ = val_list_obj($1, NULL); }
-                | exp COMMA exp_list { $$ = val_list_obj($1, $3); }
+exp_list:       exp { expression_list.push_back($1); }
+                | exp_list COMMA exp { expression_list.push_back($3); }
                 ;
 
 

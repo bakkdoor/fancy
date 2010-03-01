@@ -11,8 +11,8 @@ public:
 class Method : public Object
 {
  public:
-  Method(const Array_p argnames, const Expression_p body);
-  Method(const Array_p argnames, const Expression_p body, bool special);
+  Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body);
+  Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body, bool special);
   ~Method();
 
   virtual Object_p equal(const Object_p other) const;
@@ -20,11 +20,10 @@ class Method : public Object
   virtual string to_s() const;
 
   unsigned int argcount() const;
-  vector<string> argnames() const;
+  list< pair<Identifier_p, Identifier_p> > argnames() const;
 
  protected:
-  void init_argnames(const Array_p argnames);
-  vector<string> _argnames;
+  list< pair<Identifier_p, Identifier_p> > _argnames;
   Expression_p body;
   bool special; /* used for 'special' functions (like macros) */
 };

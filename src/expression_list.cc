@@ -1,6 +1,6 @@
 #include "includes.h"
 
-ExpressionList::ExpressionList(Array_p expressions) :
+ExpressionList::ExpressionList(list<Expression_p> expressions) :
   expressions(expressions)
 {
 }
@@ -11,10 +11,12 @@ ExpressionList::~ExpressionList()
 
 Object_p ExpressionList::eval(Scope *scope)
 {
-  assert(this->expressions);
-  for(int i = 0; i < this->expressions->size(); i++) {
-    this->expressions->at(i)->eval(scope);
+  Object_p retval = nil;
+  list<Expression_p>::iterator it;
+  for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
+    retval = (*it)->eval(scope);
   }
+  return retval;
 }
 
 Object_p ExpressionList::equal(const Object_p other) const
