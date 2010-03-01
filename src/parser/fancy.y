@@ -53,7 +53,7 @@
 %type  <object>             hash_literal
 %type  <object>             array_literal
 %type  <key_val_list>       key_value_list
-%type  <value_list>         exp_list
+
 
 %type  <object>             empty_array
 %type  <object>             exp
@@ -185,7 +185,7 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
 
 
 array_literal:  empty_array
-                | LBRACKET exp_list RBRACKET { $$ = new Array($2); }
+                | LBRACKET exp_list RBRACKET { $$ = new Array(expression_list); }
                 ;
 
 empty_array:    LBRACKET RBRACKET { $$ = new Array(0); }

@@ -12,6 +12,7 @@ class Array : public Object
  public:
   Array(array_node *val_list);
   Array(vector<Object_p> list);
+  Array(list<Expression_p> expressions);
   ~Array();
 
   Object_p operator[](int index) const;
@@ -33,6 +34,8 @@ class Array : public Object
 
  private:
   vector<Object_p> values;
+  bool unevaled;
+  list<Expression_p> expressions;
 };
 
 typedef Array* Array_p;

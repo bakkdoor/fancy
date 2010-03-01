@@ -6,12 +6,20 @@ Array::Array(array_node *val_list) : Object(OBJ_ARRAY)
     if(tmp->value)
       this->values.push_back(tmp->value);
   }
+  this->unevaled = false;
 }
 
-Array::Array(vector<Object_p> list) : Object(OBJ_ARRAY)
+Array::Array(vector<Object_p> list) :
+  Object(OBJ_ARRAY), values(list)
 {
   // copy elements of given list
-  this->values = list;
+  this->unevaled = false;
+}
+
+Array::Array(list<Expression_p> expressions) :
+  Object(OBJ_ARRAY), expressions(expressions)
+{
+  this->unevaled = true;
 }
 
 Array::~Array() 
@@ -83,7 +91,16 @@ Object_p Array::last() const
 
 Object_p Array::eval(Scope *scope)
 {
-  return this;
+  if(!this->unevaled) {
+    return this;
+  } else {
+    // eval all expressions and save them to values
+    list<Expression_p>::iterator it;
+    for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
+      this->values.push_back((*it)->eval(scope));
+    }
+    return this;
+  }
 }
 
 string Array::to_s() const
