@@ -37,6 +37,8 @@ using namespace std;
 
 #include "builtin_method.h"
 #include "scope.h"
+#include "module.h"
+#include "class.h"
 #include "method_call.h"
 #include "assignment.h"
 #include "method_definition.h"
