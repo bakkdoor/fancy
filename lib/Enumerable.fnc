@@ -1,10 +1,13 @@
 package: Fancy::Collections
 
 def trait Enumerable {
-  def with_collection: block {
-    coll = []
-    block call: [coll]
-    coll
+  private: {
+    # private helper method
+    def with_collection: block {
+      coll = self type new
+      block call: [coll]
+      coll
+    }
   }
   
   def map: block {
@@ -18,7 +21,7 @@ def trait Enumerable {
   def select: condition {
     with_collection: |coll| {
       self each: |x| {
-        { coll << x } if: $ block call: [x]
+        { coll << x } if: $ condition call: [x]
       }
     }
   }
@@ -26,26 +29,34 @@ def trait Enumerable {
   def reject: condition {
     with_collection: |coll| {
       self each: |x| {
-        { coll << x } unless: $ block call: [x]
+        { coll << x } unless: $ condition call: [x]
       }
     }
   }
 
   def take_while: condition {
-    coll = []
-    self each: |x| {
-      block call: [x] . if_true: {
-        coll << x
-      } else: {
-        return: coll
+    with_collection: |coll| {
+      self each: |x| {
+        condition call: [x] . if_true: {
+          coll << x
+        } else: {
+          return: coll
+        }
       }
     }
   }
 
   def drop_while: condition {
-    coll = self reverse
-    coll = coll take_while: condition
-    coll reverse
+    with_collection: |coll| {
+      drop = false
+      self each: |x| {
+        drop if_true: {
+          drop = condition call: [x]
+        } else: {
+          coll << x
+        }
+      }
+    }
   }
 
   def reduce: block with: init_val {
