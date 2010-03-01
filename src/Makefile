@@ -2,7 +2,7 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
-files = object t nil hash array identifier number string scope errors method core_methods method_call regex assignment method_definition expression_list
+files = object t nil hash array identifier number string builtin_method scope errors method core_methods method_call regex assignment method_definition expression_list
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
 obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(parser_files), $(file).o) main.o
 
@@ -42,6 +42,9 @@ number.o: number.cc
 
 string.o: string.cc
 	$(cc) $(cc_flags) -c string.cc -o string.o
+
+builtin_method.o: builtin_method.cc
+	$(cc) $(cc_flags) -c builtin_method.cc -o builtin_method.o
 
 scope.o: scope.cc
 	$(cc) $(cc_flags) -c scope.cc -o scope.o
