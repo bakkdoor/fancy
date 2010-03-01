@@ -1,5 +1,5 @@
-#ifndef _GOBJECT_H_
-#define _GOBJECT_H_
+#ifndef _OBJECT_H_
+#define _OBJECT_H_
 
 /**
  * This file contains the definition of the gobject structure, as well
@@ -76,6 +76,9 @@ class Object : public Expression
 #define IS_NUM(obj) \
   (IS_INT(obj) || IS_DOUBLE(obj))
 
+#define NUMVAL(obj) \
+  IS_NUM(obj) ? (IS_INT(obj) ? ((Number_p)obj)->intval() : ((Number_p)obj)->doubleval()) : 0
+
 #define IS_IDENT(obj) \
   obj->type() == OBJ_IDENTIFIER
 
@@ -91,9 +94,6 @@ class Object : public Expression
 #define IS_METHOD(obj) \
   obj->type() == OBJ_METHOD
 
-#define IS_SPECIAL_METHOD(obj) \
-  (IS_METHOD(obj) && *(obj->value.lambdaval.special))
-
 #define IS_BIF(obj) \
   obj->type() == OBJ_BIF
 
@@ -103,11 +103,14 @@ class Object : public Expression
 #define IS_ASSIGNEXPR(obj) \
   obj->type() == OBJ_ASSIGNEXPR
 
-#define IS_FIRST_CONS(obj) \
-  (IS_CONS(obj) && *(obj->value.ccell.is_first))
+#define IS_METHODDEFEXPR(obj) \
+  obj->type() == OBJ_METHODDEFEXPR
 
-#define NUMVAL(obj) \
-  IS_NUM(obj) ? (IS_INT(obj) ? ((Number_p)obj)->intval() : ((Number_p)obj)->doubleval()) : 0
+#define IS_MODULE(obj) \
+  obj->type() == OBJ_MODULE
+
+#define IS_CLASS(obj) \
+  obj->type() == OBJ_CLASS
 
 /**
  * nil & t objects 
@@ -117,4 +120,4 @@ extern Object_p t;
 
 void init_global_objects();
 
-#endif /* _GOBJECT_H_ */
+#endif /* _OBJECT_H_ */

@@ -4,7 +4,7 @@
 class AssignmentExpr : public Object
 {
  public:
-  AssignmentExpr(Identifier *identifier, Object_p value_expr);
+  AssignmentExpr(Identifier_p identifier, Object_p value_expr);
   ~AssignmentExpr();
   
   virtual Object_p equal(const Object_p other) const;
@@ -12,8 +12,8 @@ class AssignmentExpr : public Object
   virtual Object_p eval(Scope *scope);
 
  private:
-  Identifier  *identifier;
-  Object_p value_expr;
+  Identifier_p  identifier;
+  Object_p      value_expr;
 };
 
 typedef AssignmentExpr* AssignmentExpr_p;
