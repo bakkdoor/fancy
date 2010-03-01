@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 {
   GC_INIT();
 
-  int i;
+  // int i;
   // string files[] = STDLIB_FILES;
 
   init_global_objects();
