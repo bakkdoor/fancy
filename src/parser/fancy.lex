@@ -34,6 +34,8 @@ comment         #[^\n]*
 
 %%
 
+{class}         { return CLASS; }
+{def}           { return DEF; }
 {int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
 {string_lit}	{ 
@@ -70,8 +72,6 @@ comment         #[^\n]*
 {comma}         { return COMMA; }
 {equals}        { return EQUALS; }
 {colon}         { return COLON; }
-{class}         { return CLASS; }
-{def}           { return DEF; }
 {inherit}       { return INHERIT; }
 {dot}           { return DOT; }
 {dollar}        { return DOLLAR; }

@@ -1,30 +1,30 @@
 #include "includes.h"
 
-MethodCall::MethodCall(Object_p receiver,
-                       Identifier_p method_identifier,
-                       Array_p arg_expressions) :
+MethodCall::MethodCall(Expression_p receiver,
+                       list< pair<Identifier_p, Expression_p> > method_arg_expr) :
   Object(OBJ_METHODCALL),
   receiver(receiver),
-  method_ident(method_identifier),
-  method(0),
-  arg_expressions(arg_expressions)
+  method(0)
 {
-  cout << "new funcall: (" 
-       << method_identifier->name() 
-       << " " 
-       << arg_expressions->to_s() 
-       << ")" 
-       << endl;
 }
 
-MethodCall::MethodCall(Object_p receiver,
-                       Method_p method,
-                       Array_p arg_expressions) :
+// MethodCall::MethodCall(Object_p receiver,
+//                        Method_p method,
+//                        Array_p arg_expressions) :
+//   Object(OBJ_METHODCALL),
+//   receiver(receiver),
+//   method_ident(0),
+//   method(method),
+//   arg_expressions(arg_expressions)
+// {
+// }
+
+
+MethodCall::MethodCall(Expression_p receiver, Identifier_p method_ident) :
   Object(OBJ_METHODCALL),
   receiver(receiver),
-  method_ident(0),
-  method(method),
-  arg_expressions(arg_expressions)
+  method_ident(method_ident),
+  method(0)
 {
 }
 
@@ -37,30 +37,46 @@ Object_p MethodCall::equal(const Object_p other) const
   if(!IS_METHODCALL(other))
     return nil;
 
-  MethodCall_p other_method_call = (MethodCall_p)other;
+  // MethodCall_p other_method_call = (MethodCall_p)other;
 
   // methodcalls are equal, if receiver, method & arguments are equal
-  if(this->method) {
-    if(other_method_call->method) {
-      if((this->method->equal(other_method_call->method) != nil)
-         && (this->arg_expressions->equal(other_method_call->arg_expressions) != nil)
-         && (this->receiver->equal(other_method_call->receiver) != nil))
-        return t;
-      return nil;
-    } else {
-      return nil;
-    }
-  } else {
-    if((this->method_ident->equal(other_method_call->method_ident) != nil)
-       && (this->arg_expressions->equal(other_method_call->arg_expressions) != nil)
-       && (this->receiver->equal(other_method_call->receiver) != nil))
-      return t;
-    return nil;
-  }
+  // if(this->method) {
+  //   if(other_method_call->method) {
+  //     if((this->method->equal(other_method_call->method) != nil)
+  //        && (this->arg_expressions->equal(other_method_call->arg_expressions) != nil)
+  //        && (this->receiver->equal(other_method_call->receiver) != nil))
+  //       return t;
+  //     return nil;
+  //   } else {
+  //     return nil;
+  //   }
+  // } else {
+  //   if((this->method_ident->equal(other_method_call->method_ident) != nil)
+  //      && (this->arg_expressions->equal(other_method_call->arg_expressions) != nil)
+  //      && (this->receiver->equal(other_method_call->receiver) != nil))
+  //     return t;
+  //   return nil;
+  // }
+  return nil;
 }
 
 Object_p MethodCall::eval(Scope *scope)
 {
+  cout << "eval funcall: (" 
+       << method_ident->name() 
+       << " ";
+  
+  list< pair<Identifier_p, Expression_p> >::iterator it;
+  for(it = arg_expressions.begin(); it != arg_expressions.end(); it++) {
+    Expression_p exp = (*it).first;
+    cout << exp->eval(scope)->to_s() << " ";
+  }
+
+  cout << ")" 
+       << endl;
+
+  //////////////////////
+
   if(this->method) {
     return eval_lambda_call(this->method, scope);
   }
@@ -75,7 +91,7 @@ Object_p MethodCall::eval(Scope *scope)
       return eval_lambda_call(func_obj, scope);
     } else if(IS_BIF(func_obj)) {
       BuiltinMethod_p bif = (BuiltinMethod_p)func_obj;
-      bif->arg_expressions = this->arg_expressions;
+      // bif->arg_expressions = this->arg_expressions;
       return bif->eval(scope);
     } else {
       cerr << "ERROR: don't know how to call method: " << this->method_ident->name() << endl;

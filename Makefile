@@ -6,3 +6,6 @@ fancy:
 clean:
 	cd src && make clean > /dev/null
 	rm -f bin/*
+
+test:
+	bin/fancy examples/hello-world.fnc
