@@ -165,7 +165,7 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
 
 receiver:       LPAREN exp RPAREN { $$ = $2; }
                 | exp { $$ = $1; }
-                | { $$ = new Identifier("self"); }
+                | { $$ = Identifier::from_string("self"); }
                 ;
 
 literal_value:  INTEGER_LITERAL	{ $$ = $1; }

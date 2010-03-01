@@ -56,3 +56,29 @@ int Number::intval() const
     return this->_intval;
   }
 }
+
+map<int, Number_p> Number::int_cache;
+Number_p Number::from_int(int value)
+{
+  if(int_cache.find(value) != int_cache.end()) {
+    return int_cache[value];
+  } else {
+    // insert new value into int_cache & return new number value
+    Number_p new_num = new Number(value);
+    int_cache[value] = new_num;
+    return new_num;
+  }
+}
+
+map<double, Number_p> Number::double_cache;
+Number_p Number::from_double(double value)
+{
+  if(double_cache.find(value) != double_cache.end()) {
+    return double_cache[value];
+  } else {
+    // insert new value into double_cache & return new number value
+    Number_p new_num = new Number(value);
+    double_cache[value] = new_num;
+    return new_num;
+  }
+}

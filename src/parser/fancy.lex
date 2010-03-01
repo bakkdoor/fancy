@@ -34,12 +34,12 @@ comment         #[^\n]*
 
 %%
 
-{int_lit}	{ yylval.object = new Number(atoi(yytext)); return INTEGER_LITERAL; }
-{double_lit}    { yylval.object = new Number(atof(yytext)); return DOUBLE_LITERAL; }
+{int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
+{double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
 {string_lit}	{ 
                   char *str = (char*)malloc(strlen(yytext) - 2); 
                   strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = new String(str);
+                  yylval.object = String::from_value(str);
                   return STRING_LITERAL; 
                 }
 {lparen}        { return LPAREN; }
@@ -52,13 +52,13 @@ comment         #[^\n]*
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = new Identifier(str);
+                  yylval.object = Identifier::from_string(str);
                   return IDENTIFIER;
                 }
 {symbol_lit}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = new Identifier(str);
+                  yylval.object = Identifier::from_string(str);
                   return SYMBOL_LITERAL;
                 }
 {regex_lit}    { 
