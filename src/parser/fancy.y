@@ -49,6 +49,7 @@
 %token <identifier>         SYMBOL_LITERAL
 %token <regex>              REGEX_LITERAL
 %token <identifier>         IDENTIFIER
+%token <identifier>         OPERATOR
 %type  <object>             literal_value
 %type  <object>             hash_literal
 %type  <object>             array_literal
@@ -70,6 +71,7 @@
 %type  <expression>         method_no_args
 
 %type  <expression>         method_call
+%type  <expression>         operator_call
 %type  <expression>         receiver
 
 
@@ -83,9 +85,9 @@ exp:            assignment
                 | method_def
                 | class_def
                 | method_call
+                | operator_call
                 | literal_value
                 | IDENTIFIER
-                | exp_list
                 ;
 
 assignment:     IDENTIFIER EQUALS exp {
@@ -97,13 +99,13 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: CLASS IDENTIFIER LCURLY exp_list RCURLY {
+class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
                   $$ = nil;
                   /* $$ = new ClassDefExpr */
                 }
                 ;
 
-class_super:    CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
+class_super:    DEF CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
                   $$ = nil;
                   /* $$ = new ClassDefExpr */
                 }
@@ -167,9 +169,15 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
 
 method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
                 | call_args
-                | receiver call_args { 
+                | receiver call_args {
                    /* $$ = new MethodCall($1, methodcall_args); */
                    /* methodcall_args.clear(); */
+                }
+                ;
+
+
+operator_call:  receiver OPERATOR exp {
+                  $$ = new MethodCall($1, $2, $3);
                 }
                 ;
 

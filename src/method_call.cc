@@ -4,7 +4,9 @@ MethodCall::MethodCall(Expression_p receiver,
                        list< pair<Identifier_p, Expression_p> > method_arg_expr) :
   Object(OBJ_METHODCALL),
   receiver(receiver),
-  method(0)
+  method(0),
+  is_opcall(false),
+  operand_exp(0)
 {
 }
 
@@ -24,7 +26,21 @@ MethodCall::MethodCall(Expression_p receiver, Identifier_p method_ident) :
   Object(OBJ_METHODCALL),
   receiver(receiver),
   method_ident(method_ident),
-  method(0)
+  method(0),
+  is_opcall(false),
+  operand_exp(0)
+{
+}
+
+MethodCall::MethodCall(Expression_p receiver,
+                       Identifier_p operator_ident,
+                       Expression_p operand) :
+  Object(OBJ_METHODCALL),
+  receiver(receiver),
+  method_ident(operator_ident),
+  method(0),
+  is_opcall(true),
+  operand_exp(operand)
 {
 }
 

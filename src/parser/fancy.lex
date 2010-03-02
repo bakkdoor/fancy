@@ -52,6 +52,13 @@ comment         #[^\n]*
 {lbracket}      { return LBRACKET; }
 {rbracket}      { return RBRACKET; }
 {arrow}         { return ARROW; }
+{equals}        { return EQUALS; }
+{special}+      {
+                  char *str = (char*)malloc(strlen(yytext));
+                  strcpy(str, yytext);
+                  yylval.object = Identifier::from_string(str);
+                  return OPERATOR;
+                }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
@@ -71,7 +78,6 @@ comment         #[^\n]*
                   return REGEX_LITERAL;
                 }
 {comma}         { return COMMA; }
-{equals}        { return EQUALS; }
 {colon}         { return COLON; }
 {dot}           { return DOT; }
 {dollar}        { return DOLLAR; }
