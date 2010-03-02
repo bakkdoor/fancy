@@ -9,3 +9,8 @@ clean:
 
 test:
 	bin/fancy examples/hello-world.fnc
+	@echo
+	bin/fancy examples/class.fnc
+	@echo
+	bin/fancy examples/arithmetic.fnc
+	@echo
