@@ -3,7 +3,7 @@ cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
 
-files = object t nil hash array identifier number string	\
+files = object t nil hash array identifier symbol number string	\
 builtin_method scope module class errors method core_methods	\
 method_call regex assignment method_definition expression_list
 
@@ -40,6 +40,9 @@ regex.o: regex.cc
 
 identifier.o: identifier.cc
 	$(cc) $(cc_flags) -c identifier.cc -o identifier.o
+
+symbol.o: symbol.cc
+	$(cc) $(cc_flags) -c symbol.cc -o symbol.o
 
 number.o: number.cc
 	$(cc) $(cc_flags) -c number.cc -o number.o

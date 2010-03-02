@@ -19,7 +19,7 @@ lbracket        "["
 rbracket        "]"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
-identifier      ({letter}|{digit}|{special})+
+identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
 comma           ,
@@ -35,6 +35,7 @@ comment         #[^\n]*
 %%
 
 {class}         { return CLASS; }
+{inherit}       { return INHERIT; }
 {def}           { return DEF; }
 {int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
@@ -60,7 +61,7 @@ comment         #[^\n]*
 {symbol_lit}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = Identifier::from_string(str);
+                  yylval.object = Symbol::from_string(str);
                   return SYMBOL_LITERAL;
                 }
 {regex_lit}    { 
@@ -72,7 +73,6 @@ comment         #[^\n]*
 {comma}         { return COMMA; }
 {equals}        { return EQUALS; }
 {colon}         { return COLON; }
-{inherit}       { return INHERIT; }
 {dot}           { return DOT; }
 {dollar}        { return DOLLAR; }
 

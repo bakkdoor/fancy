@@ -28,6 +28,7 @@ using namespace std;
 #include "nil.h"
 #include "t.h"
 #include "identifier.h"
+#include "symbol.h"
 #include "method.h"
 #include "string.h"
 #include "number.h"

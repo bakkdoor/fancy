@@ -11,7 +11,8 @@ enum OBJ_TYPE {
   OBJ_T,
   OBJ_INTEGER,
   OBJ_DOUBLE,
-  OBJ_IDENTIFIER,
+  OBJ_IDNTIFIER,
+  OBJ_SYMBOL,
   OBJ_STRING,
   OBJ_HASH,
   OBJ_REGEX,
@@ -81,6 +82,9 @@ class Object : public Expression
 
 #define IS_IDENT(obj) \
   obj->type() == OBJ_IDENTIFIER
+
+#define IS_SYMBOL(obj) \
+  obj->type() == OBJ_SYMBOL
 
 #define IS_STRING(obj) \
   obj->type() == OBJ_STRING
