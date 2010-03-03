@@ -22,6 +22,8 @@ public:
   virtual Object_p eval(Scope *scope);
   virtual string to_s() const;
 
+  Object_p call_method(const string &method_name, vector<Expression_p> arguments);
+
 private:
   void init_slots();
 

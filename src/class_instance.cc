@@ -79,3 +79,15 @@ string ClassInstance::to_s() const
 {
   return "<ClassInstance>";
 }
+
+Object_p ClassInstance::call_method(const string &method_name, vector<Expression_p> arguments)
+{
+  Method_p method = this->_class->method(method_name);
+  if(method) {
+    // TODO: call method with args etc.
+    return nil;
+  } else {
+    cerr << "ERROR: undefined method: " << method_name << endl;
+    return nil;
+  }
+}

@@ -21,30 +21,30 @@ Object_p Class::create_instance() const
   return instance;
 }
 
-void Class::define_slot(string name)
+void Class::define_slot(const string &name)
 {
   this->_instance_slotnames.push_back(name);
 }
 
-void Class::define_slot(Identifier_p name)
+void Class::define_slot(const Identifier_p name)
 {
   assert(name);
   this->define_slot(name->name());
 }
 
-void Class::define_class_slot(string name, Object_p value)
+void Class::define_class_slot(const string &name, const Object_p value)
 {
   assert(value);
   this->_class_slots[name] = value;
 }
 
-void Class::define_class_slot(Identifier_p name, Object_p value)
+void Class::define_class_slot(const Identifier_p name, const Object_p value)
 {
   assert(name);
   this->define_class_slot(name->name(), value);
 }
 
-void Class::include(Module_p module)
+void Class::include(const Module_p module)
 {
   assert(module);
   this->_included_modules.push_back(module);
@@ -60,25 +60,25 @@ map<string, Object_p> Class::class_slots() const
   return this->_class_slots;
 }
 
-void Class::define_method(string name, Method_p method)
+void Class::define_method(const string &name, const Method_p method)
 {
   assert(method);
   this->_instance_methods[name] = method;
 }
 
-void Class::define_method(Identifier_p name, Method_p method)
+void Class::define_method(const Identifier_p name, const Method_p method)
 {
   assert(name);
   this->define_method(name->name(), method);
 }
 
-void Class::define_class_method(string name, Method_p method)
+void Class::define_class_method(const string &name, const Method_p method)
 {
   assert(method);
   this->_class_methods[name] = method;
 }
 
-void Class::define_class_method(Identifier_p name, Method_p method)
+void Class::define_class_method(const Identifier_p name, const Method_p method)
 {
   assert(name);
   this->define_class_method(name->name(), method);
@@ -101,4 +101,11 @@ Object_p Class::eval(Scope *scope)
 string Class::to_s() const
 {
   return "<Class>";
+}
+
+Method_p Class::method(const string &name)
+{
+  if(this->_instance_methods[name] != this->_instance_methods[name])
+    return this->_instance_methods[name];
+  return 0;
 }
