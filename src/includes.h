@@ -40,6 +40,7 @@ using namespace std;
 #include "scope.h"
 #include "module.h"
 #include "class.h"
+#include "class_instance.h"
 #include "method_call.h"
 #include "assignment.h"
 #include "method_definition.h"

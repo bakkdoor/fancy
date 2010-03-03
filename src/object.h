@@ -23,7 +23,8 @@ enum OBJ_TYPE {
   OBJ_ASSIGNEXPR,
   OBJ_METHODDEFEXPR,
   OBJ_MODULE,
-  OBJ_CLASS
+  OBJ_CLASS,
+  OBJ_CLASSINSTANCE
 };
 
 class Object;
@@ -115,6 +116,9 @@ class Object : public Expression
 
 #define IS_CLASS(obj) \
   obj->type() == OBJ_CLASS
+
+#define IS_CLASSINSTANCE(obj) \
+  obj->type() == OBJ_CLASSINSTANCE
 
 /**
  * nil & t objects 
