@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Identifier::Identifier(const string &name) : Object(OBJ_IDENTIFIER), _name(name)
+Identifier::Identifier(const string &name) : NativeObject(OBJ_IDENTIFIER), _name(name)
 {
 }
 
@@ -8,7 +8,7 @@ Identifier::~Identifier()
 {
 }
 
-Object_p Identifier::equal(const Object_p other) const
+NativeObject_p Identifier::equal(const NativeObject_p other) const
 {
   if(!IS_IDENT(other))
     return nil;
@@ -19,7 +19,7 @@ Object_p Identifier::equal(const Object_p other) const
   return nil;
 }
 
-Object_p Identifier::eval(Scope *scope)
+NativeObject_p Identifier::eval(Scope *scope)
 {
   BuiltinMethod_p bif = scope->get_builtin(this->_name);
   if(bif) {

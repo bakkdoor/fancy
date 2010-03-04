@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Regex::Regex(const string &pattern) : Object(OBJ_REGEX), _pattern(pattern)
+Regex::Regex(const string &pattern) : NativeObject(OBJ_REGEX), _pattern(pattern)
 {
 }
 
@@ -8,7 +8,7 @@ Regex::~Regex()
 {
 }
 
-Object_p Regex::equal(const Object_p other) const
+NativeObject_p Regex::equal(const NativeObject_p other) const
 {
   if(!IS_REGEX(other))
     return nil;
@@ -19,7 +19,7 @@ Object_p Regex::equal(const Object_p other) const
   return nil;
 }
 
-Object_p Regex::eval(Scope *scope)
+NativeObject_p Regex::eval(Scope *scope)
 {
   return this;
 }
@@ -34,7 +34,7 @@ string Regex::pattern() const
   return this->_pattern;
 }
 
-Object_p Regex::match(String_p string) const
+NativeObject_p Regex::match(String_p string) const
 {
   // if match -> return t else nil
   // TODO: implement Regex matching! (via boost::regex?)

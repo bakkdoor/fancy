@@ -4,15 +4,15 @@
 class Number;
 typedef Number* Number_p;
 
-class Number : public Object
+class Number : public NativeObject
 {
  public:
   Number(double value);
   Number(int value);
   ~Number();
   
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   bool is_double() const;

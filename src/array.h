@@ -3,37 +3,37 @@
 
 struct array_node {
 public:
-  Object_p value;
+  NativeObject_p value;
   array_node *next;
 };
 
-class Array : public Object
+class Array : public NativeObject
 {
  public:
   Array(array_node *val_list);
-  Array(vector<Object_p> list);
+  Array(vector<NativeObject_p> list);
   Array(list<Expression_p> expressions);
   ~Array();
 
-  Object_p operator[](int index) const;
-  Object_p at(unsigned int index) const;
-  Object_p set_value(unsigned int index, Object_p value);
-  Object_p insert(Object_p value);
-  Object_p insert_at(unsigned int index, Object_p value);
-  Object_p append(Array *arr);
-  Object_p first() const;
-  Object_p last() const;
+  NativeObject_p operator[](int index) const;
+  NativeObject_p at(unsigned int index) const;
+  NativeObject_p set_value(unsigned int index, NativeObject_p value);
+  NativeObject_p insert(NativeObject_p value);
+  NativeObject_p insert_at(unsigned int index, NativeObject_p value);
+  NativeObject_p append(Array *arr);
+  NativeObject_p first() const;
+  NativeObject_p last() const;
 
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   bool operator==(const Array& other) const;
-  virtual Object_p equal(const Object_p other) const;
+  virtual NativeObject_p equal(const NativeObject_p other) const;
   
   int size() const;
 
  private:
-  vector<Object_p> values;
+  vector<NativeObject_p> values;
   bool unevaled;
   list<Expression_p> expressions;
 };

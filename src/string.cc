@@ -1,6 +1,6 @@
 #include "includes.h"
 
-String::String(const string &value) : Object(OBJ_STRING), _value(value)
+String::String(const string &value) : NativeObject(OBJ_STRING), _value(value)
 {
 }
 
@@ -8,7 +8,7 @@ String::~String()
 {
 }
 
-Object_p String::equal(const Object_p other) const
+NativeObject_p String::equal(const NativeObject_p other) const
 {
   if(!IS_STRING(other))
     return nil;
@@ -19,7 +19,7 @@ Object_p String::equal(const Object_p other) const
   return nil;
 }
 
-Object_p String::eval(Scope *scope)
+NativeObject_p String::eval(Scope *scope)
 {
   return this;
 }

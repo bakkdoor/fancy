@@ -4,8 +4,8 @@
 
   int yyerror(char *s);
   int yylex(void);
-  key_val_node* key_val_obj(Object_p key, Object_p val, key_val_node *next);
-  array_node* val_list_obj(Object_p val, array_node *next);
+  key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
+  array_node* val_list_obj(NativeObject_p val, array_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
   list<Expression_p> expression_list;
@@ -16,7 +16,7 @@
   array_node        *value_list;
   /* method_arg_node   *method_args; */
 
-  Object        *object;
+  NativeObject  *object;
   Identifier    *identifier;
   Number        *number;
   Regex         *regex;
@@ -237,7 +237,7 @@ int yyerror(char *s)
   exit(1);
 }
 
-key_val_node* key_val_obj(Object_p key, Object_p val, key_val_node *next)
+key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next)
 {
   key_val_node *node = new key_val_node;
   node->key = key;
@@ -246,7 +246,7 @@ key_val_node* key_val_obj(Object_p key, Object_p val, key_val_node *next)
   return node;
 }
 
-array_node* val_list_obj(Object_p val, array_node *next)
+array_node* val_list_obj(NativeObject_p val, array_node *next)
 {
   array_node *node = new array_node;
   node->value = val;

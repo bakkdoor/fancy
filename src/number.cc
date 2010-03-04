@@ -1,12 +1,12 @@
 #include "includes.h"
 
 Number::Number(double value) :
-  Object(OBJ_DOUBLE), _intval(0), _doubleval(value), _is_double(true)
+  NativeObject(OBJ_DOUBLE), _intval(0), _doubleval(value), _is_double(true)
 {
 }
 
 Number::Number(int value) :
-  Object(OBJ_INTEGER), _intval(value), _doubleval(0), _is_double(false)
+  NativeObject(OBJ_INTEGER), _intval(value), _doubleval(0), _is_double(false)
 {
 }
 
@@ -14,7 +14,7 @@ Number::~Number()
 {
 }
 
-Object_p Number::equal(const Object_p other) const
+NativeObject_p Number::equal(const NativeObject_p other) const
 {
   if(!IS_NUM(other))
     return nil;
@@ -22,7 +22,7 @@ Object_p Number::equal(const Object_p other) const
   return (NUMVAL(this) == NUMVAL(other)) ? t : nil;
 }
   
-Object_p Number::eval(Scope *scope)
+NativeObject_p Number::eval(Scope *scope)
 {
   return this;
 }

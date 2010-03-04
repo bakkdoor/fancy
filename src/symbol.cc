@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Symbol::Symbol(const string &name) : Object(OBJ_SYMBOL), _name(name)
+Symbol::Symbol(const string &name) : NativeObject(OBJ_SYMBOL), _name(name)
 {
 }
 
@@ -8,7 +8,7 @@ Symbol::~Symbol()
 {
 }
 
-Object_p Symbol::equal(const Object_p other) const
+NativeObject_p Symbol::equal(const NativeObject_p other) const
 {
   if(!IS_SYMBOL(other))
     return nil;
@@ -19,7 +19,7 @@ Object_p Symbol::equal(const Object_p other) const
   return nil;
 }
 
-Object_p Symbol::eval(Scope *scope)
+NativeObject_p Symbol::eval(Scope *scope)
 {
   return this;
 }

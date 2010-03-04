@@ -33,23 +33,23 @@ class Scope : public gc_cleanup
    * @return The (value) object represented by the identifier within the
    * scope
    */
-  Object_p operator[](string identifier) const;
+  NativeObject_p operator[](string identifier) const;
 
-  bool define(string identifier, Object_p value);
+  bool define(string identifier, NativeObject_p value);
 
   void def_builtin(string identifier,
-                   Object_p (&func)(Object_p args, Scope *sc),
+                   NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                    unsigned int n_args);
 
   void def_builtin(Identifier_p identifier,
-                   Object_p (&func)(Object_p args, Scope *sc),
+                   NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                    unsigned int n_args);
 
   void def_builtin_special(string identifier,
-                           Object_p (&func)(Object_p args, Scope *sc),
+                           NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                            unsigned int n_args);
   
-  Object_p get(string identifier);
+  NativeObject_p get(string identifier);
   BuiltinMethod_p get_builtin(string identifier);
 
   string to_s() const;
@@ -57,7 +57,7 @@ class Scope : public gc_cleanup
 
  private:
   map<string, BuiltinMethod_p> builtin_mappings;
-  map<string, Object_p> value_mappings;
+  map<string, NativeObject_p> value_mappings;
   Scope *parent;
   ClassInstance *current_self;
   Class *current_class;

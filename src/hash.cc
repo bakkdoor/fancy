@@ -1,13 +1,13 @@
 #include "includes.h"
 
-Hash::Hash(key_val_node *key_val_list) : Object(OBJ_HASH)
+Hash::Hash(key_val_node *key_val_list) : NativeObject(OBJ_HASH)
 {
   for(; key_val_list; key_val_list = key_val_list->next) {
     this->mappings[key_val_list->key] = key_val_list->val;
   }
 }
 
-Hash::Hash(map<Object_p, Object_p> map) : Object(OBJ_HASH), mappings(map)
+Hash::Hash(map<NativeObject_p, NativeObject_p> map) : NativeObject(OBJ_HASH), mappings(map)
 {
 }
 
@@ -15,9 +15,9 @@ Hash::~Hash()
 {
 }
 
-Object_p Hash::operator[](Object_p key) const
+NativeObject_p Hash::operator[](NativeObject_p key) const
 {
-  map<Object_p, Object_p>::const_iterator citer = this->mappings.find(key);
+  map<NativeObject_p, NativeObject_p>::const_iterator citer = this->mappings.find(key);
   
   if (citer == this->mappings.end()) {
     // throw UnknownIdentifierError("Unknown key object!");
@@ -27,13 +27,13 @@ Object_p Hash::operator[](Object_p key) const
   return (*citer).second;
 }
 
-Object_p Hash::set_value(Object_p key, Object_p value)
+NativeObject_p Hash::set_value(NativeObject_p key, NativeObject_p value)
 {
   this->mappings[key] = value;
   return value;
 }
 
-Object_p Hash::equal(const Object_p other) const
+NativeObject_p Hash::equal(const NativeObject_p other) const
 {
   if(!IS_HASH(other))
     return nil;
@@ -44,7 +44,7 @@ Object_p Hash::equal(const Object_p other) const
   return nil;
 }
 
-Object_p Hash::eval(Scope *scope)
+NativeObject_p Hash::eval(Scope *scope)
 {
   return this;
 }
@@ -54,7 +54,7 @@ string Hash::to_s() const
   stringstream s;
   s << "{ ";
 
-  for(map<Object_p, Object_p>::const_iterator iter = this->mappings.begin(); iter != this->mappings.end(); iter++) {
+  for(map<NativeObject_p, NativeObject_p>::const_iterator iter = this->mappings.begin(); iter != this->mappings.end(); iter++) {
     s << iter->first->to_s();
     s << " => ";
     s << iter->second->to_s();
@@ -67,7 +67,7 @@ string Hash::to_s() const
 
 bool Hash::operator==(const Hash& other) const
 {
-  for(map<Object_p, Object_p>::const_iterator iter = this->mappings.begin(); 
+  for(map<NativeObject_p, NativeObject_p>::const_iterator iter = this->mappings.begin(); 
       iter != this->mappings.end(); 
       iter++) {
     if(iter->first->equal(other[iter->first]) == nil) {

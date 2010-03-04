@@ -20,7 +20,7 @@ Scope::~Scope()
 
 
 void Scope::def_builtin(string ident,
-                        Object_p (&func)(Object_p args, Scope *sc),
+                        NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                         unsigned int n_args)
 {
   BuiltinMethod_p new_builtin(new BuiltinMethod(ident,
@@ -31,7 +31,7 @@ void Scope::def_builtin(string ident,
 }
 
 void Scope::def_builtin(Identifier_p identifier,
-                        Object_p (&func)(Object_p args, Scope *sc),
+                        NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                         unsigned int n_args)
 {
   BuiltinMethod_p new_builtin(new BuiltinMethod(identifier->name(),
@@ -43,7 +43,7 @@ void Scope::def_builtin(Identifier_p identifier,
 
 
 void Scope::def_builtin_special(string ident,
-                                Object_p (&func)(Object_p args, Scope *sc),
+                                NativeObject_p (&func)(NativeObject_p args, Scope *sc),
                                 unsigned int n_args)
 {
   BuiltinMethod_p new_builtin(new BuiltinMethod(ident,
@@ -53,9 +53,9 @@ void Scope::def_builtin_special(string ident,
   this->builtin_mappings[ident] = new_builtin;
 }
 
-Object_p Scope::operator[](string identifier) const
+NativeObject_p Scope::operator[](string identifier) const
 {
-  map<string, Object_p>::const_iterator citer = this->value_mappings.find(identifier);
+  map<string, NativeObject_p>::const_iterator citer = this->value_mappings.find(identifier);
   
   if (citer == this->value_mappings.end()) {
     if(this->parent) {
@@ -69,7 +69,7 @@ Object_p Scope::operator[](string identifier) const
   return (*citer).second;
 }
 
-Object_p Scope::get(string identifier)
+NativeObject_p Scope::get(string identifier)
 {
   if(this->value_mappings.find(identifier) != this->value_mappings.end()) {
     return this->value_mappings[identifier];
@@ -97,7 +97,7 @@ BuiltinMethod_p Scope::get_builtin(string identifier)
   }
 }
 
-bool Scope::define(string identifier, Object_p value)
+bool Scope::define(string identifier, NativeObject_p value)
 {
   bool found = this->value_mappings.find(identifier) != this->value_mappings.end();
   this->value_mappings[identifier] = value;
@@ -108,7 +108,7 @@ string Scope::to_s() const
 {
   stringstream s;
 
-  for(map<string, Object_p>::const_iterator iter = this->value_mappings.begin();
+  for(map<string, NativeObject_p>::const_iterator iter = this->value_mappings.begin();
       iter != this->value_mappings.end();
       iter++) {
     s << iter->first;

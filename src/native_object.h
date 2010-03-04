@@ -1,11 +1,6 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
-/**
- * This file contains the definition of the gobject structure, as well
- * as some useful creator-functions for the built-in object types.
- */
-
 enum OBJ_TYPE {
   OBJ_NIL,
   OBJ_T,
@@ -27,36 +22,21 @@ enum OBJ_TYPE {
   OBJ_CLASSINSTANCE
 };
 
-class Object;
+class NativeObject;
 class Hash;
-typedef Object* Object_p;
+typedef NativeObject* NativeObject_p;
 
-class Object : public Expression
+class NativeObject : public Expression
 {
  public:
-  Object(OBJ_TYPE type);
-  Object(OBJ_TYPE type, bool quoted);
-  ~Object();
+  NativeObject(OBJ_TYPE type);
+  ~NativeObject();
 
   OBJ_TYPE type() const;
-  unsigned int object_id() const;
-
   virtual string to_s() const;
-  bool is_quoted() const;
-  virtual void set_quoted(bool quoted);
-
-  Object_p set_slot(string name, Object_p value);
-  Object_p get_slot(string name) const;
-  Hash* slot_values() const;
 
  private:
   OBJ_TYPE obj_type;
-  bool quoted;
-  unsigned int obj_id;
-  
-  map<string, Object_p> _slot_values;
-  
-  static unsigned int obj_counter;
 };
 
 /**

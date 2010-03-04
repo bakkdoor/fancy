@@ -14,7 +14,7 @@ Class::~Class()
 {
 }
 
-Object_p Class::create_instance() const
+NativeObject_p Class::create_instance() const
 {
   Class_p klass = const_cast<Class_p>(this);
   ClassInstance_p instance = new ClassInstance(klass);
@@ -32,13 +32,13 @@ void Class::define_slot(const Identifier_p name)
   this->define_slot(name->name());
 }
 
-void Class::define_class_slot(const string &name, const Object_p value)
+void Class::define_class_slot(const string &name, const NativeObject_p value)
 {
   assert(value);
   this->_class_slots[name] = value;
 }
 
-void Class::define_class_slot(const Identifier_p name, const Object_p value)
+void Class::define_class_slot(const Identifier_p name, const NativeObject_p value)
 {
   assert(name);
   this->define_class_slot(name->name(), value);
@@ -55,7 +55,7 @@ vector<string> Class::instance_slotnames() const
   return this->_instance_slotnames;
 }
 
-map<string, Object_p> Class::class_slots() const
+map<string, NativeObject_p> Class::class_slots() const
 {
   return this->_class_slots;
 }
@@ -84,7 +84,7 @@ void Class::define_class_method(const Identifier_p name, const Method_p method)
   this->define_class_method(name->name(), method);
 }
 
-Object_p Class::equal(const Object_p other) const
+NativeObject_p Class::equal(const NativeObject_p other) const
 {
   if(!IS_CLASS(other))
     return nil;
@@ -93,7 +93,7 @@ Object_p Class::equal(const Object_p other) const
   return nil;
 }
 
-Object_p Class::eval(Scope *scope)
+NativeObject_p Class::eval(Scope *scope)
 {
   return this;
 }

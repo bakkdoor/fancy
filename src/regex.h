@@ -1,17 +1,17 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
-class Regex : public Object
+class Regex : public NativeObject
 {
  public:
   Regex(const string &pattern);
   ~Regex();
   
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
   string pattern() const;
-  Object_p match(String_p string) const;
+  NativeObject_p match(String_p string) const;
 
  private:
   string _pattern;

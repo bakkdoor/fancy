@@ -2,14 +2,14 @@
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
                const Expression_p body) : 
-  Object(OBJ_METHOD), _argnames(argnames), body(body), special(false)
+  NativeObject(OBJ_METHOD), _argnames(argnames), body(body), special(false)
 {
 }
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> >  argnames,
                const Expression_p body,
                bool special) :
-  Object(OBJ_METHOD), _argnames(argnames), body(body), special(special)
+  NativeObject(OBJ_METHOD), _argnames(argnames), body(body), special(special)
 {
 }
 
@@ -27,13 +27,13 @@ list< pair<Identifier_p, Identifier_p> > Method::argnames() const
   return this->_argnames;
 }
 
-Object_p Method::equal(const Object_p other) const
+NativeObject_p Method::equal(const NativeObject_p other) const
 {
   // can't compare methods with anything else
   return nil;
 }
 
-Object_p Method::eval(Scope *scope)
+NativeObject_p Method::eval(Scope *scope)
 {
   cout << endl << endl <<"eval method!"<<endl <<endl;
   return this->body->eval(scope);

@@ -11,13 +11,13 @@ public:
   Class(Class_p superclass);
   virtual ~Class();
 
-  Object_p create_instance() const;
+  NativeObject_p create_instance() const;
 
   void define_slot(const string &name);
   void define_slot(const Identifier_p name);
 
-  void define_class_slot(const string &name, const Object_p value);
-  void define_class_slot(const Identifier_p name, Object_p value);
+  void define_class_slot(const string &name, const NativeObject_p value);
+  void define_class_slot(const Identifier_p name, NativeObject_p value);
 
   void define_method(const string &name, const Method_p method);
   void define_method(const Identifier_p, const Method_p method);
@@ -28,18 +28,18 @@ public:
   void include(const Module_p module);
 
   vector<string> instance_slotnames() const;
-  map<string, Object_p> class_slots() const;
+  map<string, NativeObject_p> class_slots() const;
 
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   Method_p method(const string &name);
   
 private:
-  /* map<string, Object_p> _slots; */
+  /* map<string, NativeObject_p> _slots; */
   vector<string> _instance_slotnames;
-  map<string, Object_p> _class_slots;
+  map<string, NativeObject_p> _class_slots;
   Class_p _superclass;
   vector<Module_p> _included_modules;
 

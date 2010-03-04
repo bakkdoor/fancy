@@ -8,15 +8,15 @@ public:
   method_arg_node *next;
 };
 
-class Method : public Object
+class Method : public NativeObject
 {
  public:
   Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body);
   Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body, bool special);
   ~Method();
 
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   unsigned int argcount() const;

@@ -1,7 +1,7 @@
 #ifndef _MODULE_H_
 #define _MODULE_H_
 
-class Module : public Object
+class Module : public NativeObject
 {
 public:
   Module();

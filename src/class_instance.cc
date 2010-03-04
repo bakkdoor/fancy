@@ -1,15 +1,15 @@
 #include "includes.h"
 
 ClassInstance::ClassInstance(Class_p _class) :
-  Object(OBJ_CLASSINSTANCE),
+  NativeObject(OBJ_CLASSINSTANCE),
   _class(_class)
 {
   init_slots();
   // native_value = this;
 }
 
-ClassInstance::ClassInstance(Class_p _class, Object_p native_value) :
-  Object(OBJ_CLASSINSTANCE),
+ClassInstance::ClassInstance(Class_p _class, NativeObject_p native_value) :
+  NativeObject(OBJ_CLASSINSTANCE),
   _class(_class),
   _native_value(native_value)
 {
@@ -64,7 +64,7 @@ void ClassInstance::init_slots()
   }
 }
 
-Object_p ClassInstance::equal(const Object_p other) const
+NativeObject_p ClassInstance::equal(const NativeObject_p other) const
 {
   if(!IS_CLASSINSTANCE(other))
     return nil;
@@ -79,7 +79,7 @@ Object_p ClassInstance::equal(const Object_p other) const
   }
 }
 
-Object_p ClassInstance::eval(Scope *scope)
+NativeObject_p ClassInstance::eval(Scope *scope)
 {
   return this;
 }
@@ -101,7 +101,7 @@ ClassInstance_p ClassInstance::call_method(const string &method_name, vector<Exp
   }
 }
 
-Object_p ClassInstance::native_value() const
+NativeObject_p ClassInstance::native_value() const
 {
   return this->_native_value;
 }

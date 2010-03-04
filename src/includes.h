@@ -23,7 +23,7 @@
 using namespace std;
 
 #include "expression.h"
-#include "object.h"
+#include "native_object.h"
 #include "array.h"
 #include "nil.h"
 #include "t.h"

@@ -7,8 +7,8 @@ class ExpressionList : public Expression
   ExpressionList(list<Expression_p> expressions);
   ~ExpressionList();
   
-  virtual Object_p eval(Scope *scope);
-  virtual Object_p equal(const Object_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
 
  private:
   list<Expression_p> expressions;

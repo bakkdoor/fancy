@@ -4,14 +4,14 @@
 class String;
 typedef String* String_p;
 
-class String : public Object
+class String : public NativeObject
 {
  public:
   String(const string &value);
   ~String();
 
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
   string value() const;
 

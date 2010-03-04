@@ -3,23 +3,23 @@
 
 struct key_val_node {
 public:
-  Object_p key;
-  Object_p val;
+  NativeObject_p key;
+  NativeObject_p val;
   key_val_node *next;
 };
 
-class Hash : public Object
+class Hash : public NativeObject
 {
  public:
   Hash(key_val_node *key_val_list);
-  Hash(map<Object_p, Object_p> map);
+  Hash(map<NativeObject_p, NativeObject_p> map);
   ~Hash();
 
-  Object_p operator[](Object_p key) const;
-  Object_p set_value(Object_p key, Object_p value);
+  NativeObject_p operator[](NativeObject_p key) const;
+  NativeObject_p set_value(NativeObject_p key, NativeObject_p value);
 
-  virtual Object_p equal(const Object_p other) const;
-  virtual Object_p eval(Scope *scope);
+  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual NativeObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   bool operator==(const Hash& other) const;
@@ -27,7 +27,7 @@ class Hash : public Object
   int size() const;
 
  private:
-  map<Object_p, Object_p> mappings;
+  map<NativeObject_p, NativeObject_p> mappings;
 };
 
 typedef Hash* Hash_p;

@@ -1,10 +1,10 @@
 #include "includes.h"
 
 BuiltinMethod::BuiltinMethod(string identifier,
-                                 Object_p (&func)(Object_p args, Scope *scope),
+                                 NativeObject_p (&func)(NativeObject_p args, Scope *scope),
                                  unsigned int n_args,
                                  bool special) : 
-  Object(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
+  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
 {
 }
 
@@ -12,7 +12,7 @@ BuiltinMethod::~BuiltinMethod()
 {
 }
 
-Object_p BuiltinMethod::eval(Scope *scope)
+NativeObject_p BuiltinMethod::eval(Scope *scope)
 {
   if(this->arg_expressions) {
     return this->_func(this->arg_expressions, scope);
@@ -22,7 +22,7 @@ Object_p BuiltinMethod::eval(Scope *scope)
   }
 }
 
-Object_p BuiltinMethod::equal(const Object_p other) const
+NativeObject_p BuiltinMethod::equal(const NativeObject_p other) const
 {
   if(other->type() != OBJ_BIF) {
     return nil;

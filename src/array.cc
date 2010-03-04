@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Array::Array(array_node *val_list) : Object(OBJ_ARRAY)
+Array::Array(array_node *val_list) : NativeObject(OBJ_ARRAY)
 {
   for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
     if(tmp->value)
@@ -9,15 +9,15 @@ Array::Array(array_node *val_list) : Object(OBJ_ARRAY)
   this->unevaled = false;
 }
 
-Array::Array(vector<Object_p> list) :
-  Object(OBJ_ARRAY), values(list)
+Array::Array(vector<NativeObject_p> list) :
+  NativeObject(OBJ_ARRAY), values(list)
 {
   // copy elements of given list
   this->unevaled = false;
 }
 
 Array::Array(list<Expression_p> expressions) :
-  Object(OBJ_ARRAY), expressions(expressions)
+  NativeObject(OBJ_ARRAY), expressions(expressions)
 {
   this->unevaled = true;
 }
@@ -26,12 +26,12 @@ Array::~Array()
 {
 }
 
-Object_p Array::operator[](int index) const
+NativeObject_p Array::operator[](int index) const
 {
   return this->at(index);
 }
 
-Object_p Array::at(unsigned int index) const
+NativeObject_p Array::at(unsigned int index) const
 {
   if(index < this->values.size()) {
     return this->values[index];
@@ -40,7 +40,7 @@ Object_p Array::at(unsigned int index) const
   }
 }
 
-Object_p Array::set_value(unsigned int index, Object_p value)
+NativeObject_p Array::set_value(unsigned int index, NativeObject_p value)
 {
   if(index < this->values.size()) {
     this->values[index] = value;
@@ -50,28 +50,28 @@ Object_p Array::set_value(unsigned int index, Object_p value)
   }
 }
 
-Object_p Array::insert(Object_p value)
+NativeObject_p Array::insert(NativeObject_p value)
 {
   this->values.push_back(value);
   return value;
 }
 
-Object_p Array::insert_at(unsigned int index, Object_p value)
+NativeObject_p Array::insert_at(unsigned int index, NativeObject_p value)
 {
   this->set_value(index, value);
   return value;
 }
 
-Object_p Array::append(Array_p arr)
+NativeObject_p Array::append(Array_p arr)
 {
-  vector<Object_p>::iterator it;
+  vector<NativeObject_p>::iterator it;
   for(it = arr->values.begin(); it < arr->values.end(); it++) {
     this->values.push_back(*it);
   }
   return this;
 }
 
-Object_p Array::first() const
+NativeObject_p Array::first() const
 {
   if(this->values.size() > 0) {
     return this->values.front();
@@ -80,7 +80,7 @@ Object_p Array::first() const
   }
 }
 
-Object_p Array::last() const
+NativeObject_p Array::last() const
 {
   if(this->values.size() > 0) {
     return this->values.back();
@@ -89,7 +89,7 @@ Object_p Array::last() const
   }
 }
 
-Object_p Array::eval(Scope *scope)
+NativeObject_p Array::eval(Scope *scope)
 {
   if(!this->unevaled) {
     return this;
@@ -130,7 +130,7 @@ bool Array::operator==(const Array& other) const
   return true;
 }
 
-Object_p Array::equal(const Object_p other) const
+NativeObject_p Array::equal(const NativeObject_p other) const
 {
   if(other->type() != OBJ_ARRAY)
     return nil;

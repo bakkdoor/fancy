@@ -9,9 +9,9 @@ ExpressionList::~ExpressionList()
 {
 }
 
-Object_p ExpressionList::eval(Scope *scope)
+NativeObject_p ExpressionList::eval(Scope *scope)
 {
-  Object_p retval = nil;
+  NativeObject_p retval = nil;
   list<Expression_p>::iterator it;
   for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
     retval = (*it)->eval(scope);
@@ -19,7 +19,7 @@ Object_p ExpressionList::eval(Scope *scope)
   return retval;
 }
 
-Object_p ExpressionList::equal(const Object_p other) const
+NativeObject_p ExpressionList::equal(const NativeObject_p other) const
 {
   return nil;
 }
