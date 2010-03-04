@@ -9,6 +9,9 @@
  * (the scope, in which the function is defined).
  */
 
+class Class;
+class ClassInstance;
+
 class Scope : public gc_cleanup
 {
  public:
@@ -56,6 +59,8 @@ class Scope : public gc_cleanup
   map<string, BuiltinMethod_p> builtin_mappings;
   map<string, Object_p> value_mappings;
   Scope *parent;
+  ClassInstance *current_self;
+  Class *current_class;
 };
 
 /**

@@ -1,8 +1,5 @@
 #include "includes.h"
 
-Object_p nil;
-Object_p t;
-
 Object::Object(OBJ_TYPE type) : obj_type(type), quoted(false)
 {
 }
@@ -72,10 +69,4 @@ Hash_p Object::slot_values() const
     }
   }
   return new Hash(slot_map);
-}
-
-void init_global_objects()
-{
-  nil = new Nil();
-  t = new T();
 }

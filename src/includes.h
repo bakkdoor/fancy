@@ -41,10 +41,10 @@ using namespace std;
 #include "module.h"
 #include "class.h"
 #include "class_instance.h"
+#include "core_classes.h"
 #include "method_call.h"
 #include "assignment.h"
 #include "method_definition.h"
-#include "core_methods.h"
 #include "errors.h"
 
 

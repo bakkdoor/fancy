@@ -5,6 +5,15 @@ ClassInstance::ClassInstance(Class_p _class) :
   _class(_class)
 {
   init_slots();
+  // native_value = this;
+}
+
+ClassInstance::ClassInstance(Class_p _class, Object_p native_value) :
+  Object(OBJ_CLASSINSTANCE),
+  _class(_class),
+  _native_value(native_value)
+{
+  init_slots();
 }
 
 ClassInstance::~ClassInstance()
@@ -16,9 +25,9 @@ Class_p ClassInstance::get_class() const
   return this->_class;
 }
 
-Object_p ClassInstance::get_slot(const string &slotname) const
+ClassInstance_p ClassInstance::get_slot(const string &slotname) const
 {
-  map<string, Object_p>::const_iterator it;
+  map<string, ClassInstance_p>::const_iterator it;
   it = this->slots.find(slotname);
   if(it != this->slots.end()) {
     return it->second;
@@ -27,19 +36,19 @@ Object_p ClassInstance::get_slot(const string &slotname) const
   }
 }
 
-Object_p ClassInstance::get_slot(const Identifier_p slotname) const
+ClassInstance_p ClassInstance::get_slot(const Identifier_p slotname) const
 {
   assert(slotname);
   return this->get_slot(slotname->name());
 }
 
-void ClassInstance::set_slot(const string &slotname, const Object_p value)
+void ClassInstance::set_slot(const string &slotname, const ClassInstance_p value)
 {
   assert(value);
   this->slots[slotname] = value;
 }
 
-void ClassInstance::set_slot(const Identifier_p slotname, const Object_p value)
+void ClassInstance::set_slot(const Identifier_p slotname, const ClassInstance_p value)
 {
   assert(slotname);
   this->set_slot(slotname->name(), value);
@@ -80,7 +89,7 @@ string ClassInstance::to_s() const
   return "<ClassInstance>";
 }
 
-Object_p ClassInstance::call_method(const string &method_name, vector<Expression_p> arguments)
+ClassInstance_p ClassInstance::call_method(const string &method_name, vector<Expression_p> arguments)
 {
   Method_p method = this->_class->method(method_name);
   if(method) {
@@ -90,4 +99,9 @@ Object_p ClassInstance::call_method(const string &method_name, vector<Expression
     cerr << "ERROR: undefined method: " << method_name << endl;
     return nil;
   }
+}
+
+Object_p ClassInstance::native_value() const
+{
+  return this->_native_value;
 }

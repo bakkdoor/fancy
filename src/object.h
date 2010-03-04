@@ -120,12 +120,4 @@ class Object : public Expression
 #define IS_CLASSINSTANCE(obj) \
   obj->type() == OBJ_CLASSINSTANCE
 
-/**
- * nil & t objects 
- */
-extern Object_p nil;
-extern Object_p t;
-
-void init_global_objects();
-
 #endif /* _OBJECT_H_ */

@@ -5,33 +5,6 @@ void init_global_scope()
   global_scope = new Scope();
   global_scope->define("nil", nil);
   global_scope->define("t", t);
-
-  // global_scope->def_builtin("define", functions::define, 2);
-  // global_scope->def_builtin("car", functions::car, 1);
-  // global_scope->def_builtin("cdr", functions::cdr, 1);
-  // global_scope->def_builtin("cons", functions::cons, 2);
-  // global_scope->def_builtin("length", functions::length, 1);
-  // global_scope->def_builtin("print", functions::print_object_stdout, 1);
-  // global_scope->def_builtin("println", functions::println_object_stdout, 1);
-  // global_scope->def_builtin("=", functions::equal, 2);
-  // global_scope->def_builtin("+", functions::add, 2);
-  // global_scope->def_builtin("-", functions::subtract, 2);
-  // global_scope->def_builtin("*", functions::multiply, 2);
-  // global_scope->def_builtin("/", functions::divide, 2);
-  // global_scope->def_builtin("%", functions::modulo, 2);
-  // global_scope->def_builtin("<", functions::lt, 2);
-  // global_scope->def_builtin(">", functions::gt, 2);
-
-  // global_scope->def_builtin("if", functions::if_f, 3);
-  // global_scope->def_builtin("unless", functions::unless, 3);
-  // global_scope->def_builtin_special("define", functions::define, 2);
-  // global_scope->def_builtin_special("lambda", functions::lambda, 2);
-  // global_scope->def_builtin_special("do", functions::do_f, 2);
-  // global_scope->def_builtin_special("special", functions::special, 2);
-  // global_scope->def_builtin("eval", functions::eval_f, 1);
-
-  // // global_scope->def_builtin("not", functions::not_f, 1);
-  // global_scope->def_builtin_special("while", functions::while_f, 2);
 }
 
 /*****************************************
