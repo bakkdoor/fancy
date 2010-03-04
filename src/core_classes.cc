@@ -17,6 +17,8 @@ Class_p ArrayClass;
 Class_p MethodClass;
 Class_p MethodCallClass;
 
+Class_p ConsoleClass;
+
 /**
  * Global Singleton Objects
  */
@@ -48,6 +50,8 @@ void init_core_classes()
   ArrayClass = new Class(ObjectClass);
   MethodClass = new Class(ObjectClass);
   MethodCallClass = new Class(ObjectClass); 
+  
+  ConsoleClass = new Class(ObjectClass); 
 }
 
 void init_global_objects()
@@ -59,7 +63,9 @@ void init_global_objects()
 
 void init_global_scope()
 {
-  global_scope = new Scope();
+  // the global scope has ObjectClass as its current_self value
+  // -> every global method call is a methodcall on ObjectClass
+  global_scope = new Scope(ObjectClass);
 
   /* define classes */
   global_scope->define("Class", ClassClass);
@@ -75,6 +81,8 @@ void init_global_scope()
   global_scope->define("Array", ArrayClass);
   global_scope->define("Method", MethodClass);
   global_scope->define("MethodCall", MethodClass);
+
+  global_scope->define("Console", ConsoleClass);
   
   /* define singleton objects */
   global_scope->define("nil", nil);

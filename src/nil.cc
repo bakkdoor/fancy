@@ -13,7 +13,7 @@ NativeObject_p Nil::equal(const NativeObject_p other) const
 
 FancyObject_p Nil::eval(Scope *scope)
 {
-  return global_scope->get("nil");;
+  return global_scope->get("nil");
 }
 
 string Nil::to_s() const

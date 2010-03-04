@@ -5,13 +5,18 @@ Scope *global_scope;
 /*****************************************
  *****************************************/
 
-Scope::Scope()
+Scope::Scope(FancyObject_p current_self) :
+  parent(0),
+  current_self(current_self)
 {
-  this->parent = 0;
+  this->current_class = current_self->get_class();
 }
 
-Scope::Scope(Scope *parent) : parent(parent)
+Scope::Scope(FancyObject_p current_self, Scope *parent) :
+  parent(parent),
+  current_self(current_self)
 {
+  this->current_class = current_class->get_class();
 }
 
 Scope::~Scope()

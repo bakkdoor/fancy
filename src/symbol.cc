@@ -21,8 +21,7 @@ NativeObject_p Symbol::equal(const NativeObject_p other) const
 
 FancyObject_p Symbol::eval(Scope *scope)
 {
-  // return this;
-  return global_scope->get("nil");
+  return SymbolClass->create_instance(this);
 }
 
 string Symbol::to_s() const

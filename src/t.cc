@@ -7,8 +7,8 @@ T::~T() {}
 NativeObject_p T::equal(const NativeObject_p other) const
 {
   if(other->type() == OBJ_T)
-    return global_scope->get("t");
-  return global_scope->get("nil");
+    return t;
+  return nil;
 }
 
 FancyObject_p T::eval(Scope *scope)

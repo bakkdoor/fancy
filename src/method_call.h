@@ -18,11 +18,11 @@ class MethodCall : public NativeObject
   Expression_p receiver;
   Identifier_p method_ident;
   Method_p method;
+  bool is_opcall;
+  Expression_p operand_exp;
   list< pair<Identifier_p, Expression_p> > arg_expressions;
 
   NativeObject_p eval_lambda_call(NativeObject_p func_obj, Scope *scope);
-  bool is_opcall;
-  Expression_p operand_exp;
 };
 
 typedef MethodCall* MethodCall_p;

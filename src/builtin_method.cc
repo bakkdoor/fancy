@@ -16,10 +16,10 @@ FancyObject_p BuiltinMethod::eval(Scope *scope)
 {
   if(this->arg_expressions) {
     // return this->_func(this->arg_expressions, scope);
-    return global_scope->get("nil");
+    return nil;
   } else {
     cerr << "WARNING: no arg expressions for BIF set!" << endl;
-    return global_scope->get("nil");
+    return nil;
   }
 }
 

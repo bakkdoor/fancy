@@ -35,7 +35,7 @@ public:
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 
-  Method_p method(const string &name);
+  Method_p find_method(const string &name);
   
 private:
   /* map<string, NativeObject_p> _slots; */

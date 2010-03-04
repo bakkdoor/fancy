@@ -6,7 +6,8 @@ MethodCall::MethodCall(Expression_p receiver,
   receiver(receiver),
   method(0),
   is_opcall(false),
-  operand_exp(0)
+  operand_exp(0),
+  arg_expressions(method_arg_expr)
 {
 }
 
@@ -95,31 +96,31 @@ FancyObject_p MethodCall::eval(Scope *scope)
 
   if(this->method) {
     // return eval_lambda_call(this->method, scope);
-    return global_scope->get("nil");
+    return nil;
   }
 
   // cout << "eval funcall: " << this->func_ident->name() << " " << arg_expressions->to_s() << endl;
   FancyObject_p func_obj = this->method_ident->eval(scope);
   if(func_obj == nil) {
     cerr << "ERROR: unkown method: " << this->method_ident->name() << endl;
-    return global_scope->get("nil");
+    return nil;
   } else {
     if(IS_METHOD(func_obj)) {
       // return eval_lambda_call(func_obj, scope);
-      return global_scope->get("nil");
+      return nil;
     } else if(IS_BIF(func_obj)) {
       BuiltinMethod_p bif = (BuiltinMethod_p)func_obj;
       // bif->arg_expressions = this->arg_expressions;
       return bif->eval(scope);
     } else {
       cerr << "ERROR: don't know how to call method: " << this->method_ident->name() << endl;
-      return global_scope->get("nil");
+      return nil;
     }
   }
 }
 
 string MethodCall::to_s() const
-{
+{  
   return "<methocall>";
 }
 

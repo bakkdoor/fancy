@@ -8,6 +8,7 @@
   array_node* val_list_obj(NativeObject_p val, array_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
+  list< pair<Identifier_p, Expression_p> > methodcall_args;
   list<Expression_p> expression_list;
 %}
 
@@ -100,13 +101,13 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = global_scope->get("nil");
+                  $$ = nil;
                   /* $$ = new ClassDefExpr */
                 }
                 ;
 
 class_super:    DEF CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = global_scope->get("nil");
+                  $$ = nil;
                   /* $$ = new ClassDefExpr */
                 }
                 ;
@@ -170,8 +171,8 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
 method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
                 | call_args
                 | receiver call_args {
-                   /* $$ = new MethodCall($1, methodcall_args); */
-                   /* methodcall_args.clear(); */
+                   $$ = new MethodCall($1, methodcall_args);
+                   methodcall_args.clear();
                 }
                 ;
 

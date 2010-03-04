@@ -101,7 +101,7 @@ string FancyObject::to_s() const
 
 FancyObject_p FancyObject::call_method(const string &method_name, vector<Expression_p> arguments)
 {
-  Method_p method = this->_class->method(method_name);
+  Method_p method = this->_class->find_method(method_name);
   if(method) {
     // TODO: call method with args etc.
     return nil;

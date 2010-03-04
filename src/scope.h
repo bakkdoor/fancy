@@ -15,15 +15,16 @@ class FancyObject;
 class Scope : public gc_cleanup
 {
  public:
-  Scope();
+  Scope(FancyObject *current_self);
 
   /**
    * Creates a new scope with a given parent scope.
+   * @param current_self The value for self within the scope.
    * @param parent The parent scope of the new scope. Can be NULL, if no
    * parent exists.
    * @return The newly created scope.
    */
-  Scope(Scope *parent);
+  Scope(FancyObject *current_self, Scope *parent);
   ~Scope();
 
   /**

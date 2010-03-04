@@ -21,8 +21,7 @@ NativeObject_p Regex::equal(const NativeObject_p other) const
 
 FancyObject_p Regex::eval(Scope *scope)
 {
-  // return this;
-  return global_scope->get("nil");
+  return RegexClass->create_instance(this);
 }
 
 string Regex::to_s() const

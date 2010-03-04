@@ -21,8 +21,7 @@ NativeObject_p String::equal(const NativeObject_p other) const
 
 FancyObject_p String::eval(Scope *scope)
 {
-  // return this;
-  return global_scope->get("nil");
+  return StringClass->create_instance(this);
 }
 
 string String::to_s() const

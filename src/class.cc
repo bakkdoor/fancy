@@ -110,7 +110,7 @@ string Class::to_s() const
   return "<Class>";
 }
 
-Method_p Class::method(const string &name)
+Method_p Class::find_method(const string &name)
 {
   if(this->_instance_methods[name] != this->_instance_methods[name])
     return this->_instance_methods[name];
