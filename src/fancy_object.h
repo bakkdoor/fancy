@@ -15,6 +15,7 @@ public:
   virtual ~FancyObject();
   
   Class* get_class() const;
+  void set_class(Class *klass);
 
   FancyObject_p get_slot(const string &slotname) const;
   FancyObject_p get_slot(Identifier *slotname) const;

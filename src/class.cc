@@ -6,7 +6,7 @@ Class::Class() : Module(ClassClass)
 }
 
 Class::Class(Class_p superclass) : 
-  Module(), _superclass(superclass)
+  Module(ClassClass), _superclass(superclass)
 {
 }
 

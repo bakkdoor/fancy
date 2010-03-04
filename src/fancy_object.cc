@@ -25,6 +25,14 @@ Class_p FancyObject::get_class() const
   return this->_class;
 }
 
+void FancyObject::set_class(Class_p klass)
+{
+  if(klass) {
+    this->_class = klass;
+    init_slots();
+  }
+}
+
 FancyObject_p FancyObject::get_slot(const string &slotname) const
 {
   map<string, FancyObject_p>::const_iterator it;
