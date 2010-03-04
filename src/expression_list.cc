@@ -9,9 +9,9 @@ ExpressionList::~ExpressionList()
 {
 }
 
-NativeObject_p ExpressionList::eval(Scope *scope)
+FancyObject_p ExpressionList::eval(Scope *scope)
 {
-  NativeObject_p retval = nil;
+  FancyObject_p retval = nil;
   list<Expression_p>::iterator it;
   for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
     retval = (*it)->eval(scope);

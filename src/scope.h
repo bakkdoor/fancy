@@ -10,7 +10,7 @@
  */
 
 class Class;
-class ClassInstance;
+class FancyObject;
 
 class Scope : public gc_cleanup
 {
@@ -33,23 +33,23 @@ class Scope : public gc_cleanup
    * @return The (value) object represented by the identifier within the
    * scope
    */
-  NativeObject_p operator[](string identifier) const;
+  FancyObject_p operator[](string identifier) const;
 
-  bool define(string identifier, NativeObject_p value);
+  bool define(string identifier, FancyObject_p value);
 
   void def_builtin(string identifier,
-                   NativeObject_p (&func)(NativeObject_p args, Scope *sc),
+                   FancyObject_p (&func)(FancyObject_p args, Scope *sc),
                    unsigned int n_args);
 
   void def_builtin(Identifier_p identifier,
-                   NativeObject_p (&func)(NativeObject_p args, Scope *sc),
+                   FancyObject_p (&func)(FancyObject_p args, Scope *sc),
                    unsigned int n_args);
 
   void def_builtin_special(string identifier,
-                           NativeObject_p (&func)(NativeObject_p args, Scope *sc),
+                           FancyObject_p (&func)(FancyObject_p args, Scope *sc),
                            unsigned int n_args);
   
-  NativeObject_p get(string identifier);
+  FancyObject_p get(string identifier);
   BuiltinMethod_p get_builtin(string identifier);
 
   string to_s() const;
@@ -57,9 +57,9 @@ class Scope : public gc_cleanup
 
  private:
   map<string, BuiltinMethod_p> builtin_mappings;
-  map<string, NativeObject_p> value_mappings;
+  map<string, FancyObject_p> value_mappings;
   Scope *parent;
-  ClassInstance *current_self;
+  FancyObject *current_self;
   Class *current_class;
 };
 

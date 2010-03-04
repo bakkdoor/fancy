@@ -44,9 +44,9 @@ NativeObject_p Hash::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Hash::eval(Scope *scope)
+FancyObject_p Hash::eval(Scope *scope)
 {
-  return this;
+  return RegexClass->create_instance(this);
 }
 
 string Hash::to_s() const

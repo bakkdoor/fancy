@@ -9,11 +9,11 @@ class AssignmentExpr : public NativeObject
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
 
  private:
-  Identifier_p  identifier;
-  NativeObject_p      value_expr;
+  Identifier_p    identifier;
+  NativeObject_p  value_expr;
 };
 
 typedef AssignmentExpr* AssignmentExpr_p;

@@ -24,6 +24,7 @@ using namespace std;
 
 #include "expression.h"
 #include "native_object.h"
+#include "fancy_object.h"
 #include "array.h"
 #include "nil.h"
 #include "t.h"
@@ -36,11 +37,10 @@ using namespace std;
 #include "regex.h"
 #include "expression_list.h"
 
-#include "builtin_method.h"
-#include "scope.h"
 #include "module.h"
 #include "class.h"
-#include "class_instance.h"
+#include "builtin_method.h"
+#include "scope.h"
 #include "core_classes.h"
 #include "method_call.h"
 #include "assignment.h"

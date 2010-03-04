@@ -11,9 +11,9 @@ NativeObject_p Nil::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Nil::eval(Scope *scope)
+FancyObject_p Nil::eval(Scope *scope)
 {
-  return this;
+  return global_scope->get("nil");;
 }
 
 string Nil::to_s() const

@@ -19,9 +19,10 @@ NativeObject_p Regex::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Regex::eval(Scope *scope)
+FancyObject_p Regex::eval(Scope *scope)
 {
-  return this;
+  // return this;
+  return global_scope->get("nil");
 }
 
 string Regex::to_s() const

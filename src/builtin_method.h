@@ -11,17 +11,17 @@ class BuiltinMethod : public NativeObject
 {
  public:
   BuiltinMethod(string identifier,
-                  NativeObject_p (&func)(NativeObject_p args, Scope *scope),
-                  unsigned int n_args,
-                  bool special);
+                FancyObject_p (&func)(FancyObject_p args, Scope *scope),
+                unsigned int n_args,
+                bool special);
   ~BuiltinMethod();
 
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
   
   string _identifier;
-  NativeObject_p (&_func)(NativeObject_p args, Scope *scope);
+  FancyObject_p (&_func)(FancyObject_p args, Scope *scope);
   unsigned int _n_args;
   bool _special;
   NativeObject_p arg_expressions;

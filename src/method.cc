@@ -33,7 +33,7 @@ NativeObject_p Method::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Method::eval(Scope *scope)
+FancyObject_p Method::eval(Scope *scope)
 {
   cout << endl << endl <<"eval method!"<<endl <<endl;
   return this->body->eval(scope);

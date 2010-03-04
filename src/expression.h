@@ -4,11 +4,12 @@
 class Scope;
 class NativeObject;
 typedef NativeObject* NativeObject_p;
+class FancyObject;
 
 class Expression : public gc_cleanup
 {
  public:
-  virtual NativeObject_p eval(Scope *scope) = 0;
+  virtual FancyObject* eval(Scope *scope) = 0;
   virtual NativeObject_p equal(const NativeObject_p other) const = 0;
 };
 

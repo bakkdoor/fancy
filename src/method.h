@@ -16,7 +16,7 @@ class Method : public NativeObject
   ~Method();
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   unsigned int argcount() const;

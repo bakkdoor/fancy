@@ -1,7 +1,7 @@
 #include "includes.h"
 
 BuiltinMethod::BuiltinMethod(string identifier,
-                                 NativeObject_p (&func)(NativeObject_p args, Scope *scope),
+                                 FancyObject_p (&func)(FancyObject_p args, Scope *scope),
                                  unsigned int n_args,
                                  bool special) : 
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
@@ -12,10 +12,10 @@ BuiltinMethod::~BuiltinMethod()
 {
 }
 
-NativeObject_p BuiltinMethod::eval(Scope *scope)
+FancyObject_p BuiltinMethod::eval(Scope *scope)
 {
   if(this->arg_expressions) {
-    return this->_func(this->arg_expressions, scope);
+    // return this->_func(this->arg_expressions, scope);
   } else {
     cerr << "WARNING: no arg expressions for BIF set!" << endl;
     return nil;

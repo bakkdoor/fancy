@@ -1,11 +1,11 @@
 #ifndef _MODULE_H_
 #define _MODULE_H_
 
-class Module : public NativeObject
+class Module : public FancyObject
 {
 public:
   Module();
-  Module(OBJ_TYPE type);
+  Module(Class *klass);
   virtual ~Module();
   
   map<Identifier_p, Method_p> methods() const;

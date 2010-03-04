@@ -3,8 +3,8 @@ cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
 
-files = object t nil hash array identifier symbol number string	\
-builtin_method scope module class class_instance errors method core_classes	\
+files = native_object t nil hash array identifier symbol number string	\
+builtin_method scope module class fancy_object errors method core_classes	\
 method_call regex assignment method_definition expression_list
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
@@ -20,8 +20,8 @@ all: subdirs ../bin/fancy
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(cc) $(cc_flags) -c main.cc -o main.o
 
-object.o: object.cc
-	$(cc) $(cc_flags) -c object.cc -o object.o
+native_object.o: native_object.cc
+	$(cc) $(cc_flags) -c native_object.cc -o native_object.o
 
 t.o: t.cc
 	$(cc) $(cc_flags) -c t.cc -o t.o
@@ -62,8 +62,8 @@ module.o: module.cc
 class.o: class.cc
 	$(cc) $(cc_flags) -c class.cc -o class.o
 
-class_instance.o: class_instance.cc
-	$(cc) $(cc_flags) -c class_instance.cc -o class_instance.o
+fancy_object.o: fancy_object.cc
+	$(cc) $(cc_flags) -c fancy_object.cc -o fancy_object.o
 
 errors.o: errors.cc
 	$(cc) $(cc_flags) -c errors.cc -o errors.o

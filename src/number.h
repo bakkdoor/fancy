@@ -12,7 +12,7 @@ class Number : public NativeObject
   ~Number();
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   bool is_double() const;

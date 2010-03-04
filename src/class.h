@@ -11,7 +11,8 @@ public:
   Class(Class_p superclass);
   virtual ~Class();
 
-  NativeObject_p create_instance() const;
+  FancyObject_p create_instance() const;
+  FancyObject_p create_instance(NativeObject_p native_value) const;
 
   void define_slot(const string &name);
   void define_slot(const Identifier_p name);
@@ -31,7 +32,7 @@ public:
   map<string, NativeObject_p> class_slots() const;
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 
   Method_p method(const string &name);

@@ -11,7 +11,7 @@ class Symbol : public NativeObject
   ~Symbol();
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
   string name() const;
 

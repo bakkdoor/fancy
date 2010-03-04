@@ -19,13 +19,13 @@ NativeObject_p Identifier::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Identifier::eval(Scope *scope)
+FancyObject_p Identifier::eval(Scope *scope)
 {
   BuiltinMethod_p bif = scope->get_builtin(this->_name);
   if(bif) {
-    return bif;
+    return MethodClass->create_instance(bif);
   } else {
-     return scope->get(this->_name);
+    return ObjectClass->create_instance(scope->get(this->_name));
   }
 }
 

@@ -1,12 +1,12 @@
 #include "includes.h"
 
-Class::Class() : Module(OBJ_CLASS)
+Class::Class() : Module(ClassClass)
 {
   this->_superclass = 0;
 }
 
 Class::Class(Class_p superclass) : 
-  Module(OBJ_CLASS), _superclass(superclass)
+  Module(), _superclass(superclass)
 {
 }
 
@@ -14,10 +14,17 @@ Class::~Class()
 {
 }
 
-NativeObject_p Class::create_instance() const
+FancyObject_p Class::create_instance() const
 {
   Class_p klass = const_cast<Class_p>(this);
-  ClassInstance_p instance = new ClassInstance(klass);
+  FancyObject_p instance = new FancyObject(klass);
+  return instance;
+}
+
+FancyObject_p Class::create_instance(NativeObject_p native_value) const
+{
+  Class_p klass = const_cast<Class_p>(this);
+  FancyObject_p instance = new FancyObject(klass, native_value);
   return instance;
 }
 
@@ -93,7 +100,7 @@ NativeObject_p Class::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Class::eval(Scope *scope)
+FancyObject_p Class::eval(Scope *scope)
 {
   return this;
 }

@@ -19,9 +19,10 @@ NativeObject_p Symbol::equal(const NativeObject_p other) const
   return nil;
 }
 
-NativeObject_p Symbol::eval(Scope *scope)
+FancyObject_p Symbol::eval(Scope *scope)
 {
-  return this;
+  // return this;
+  return global_scope->get("nil");
 }
 
 string Symbol::to_s() const

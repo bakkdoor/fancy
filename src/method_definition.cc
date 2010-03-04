@@ -15,7 +15,7 @@ string MethodDefExpr::to_s() const
   return "<method_def>";
 }
 
-NativeObject_p MethodDefExpr::eval(Scope *scope)
+FancyObject_p MethodDefExpr::eval(Scope *scope)
 {
   // scope->define(this->method_name, this->method);
   cout << "can't define functions yet!" << endl;

@@ -100,13 +100,13 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = nil;
+                  $$ = global_scope->get("nil");
                   /* $$ = new ClassDefExpr */
                 }
                 ;
 
 class_super:    DEF CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = nil;
+                  $$ = global_scope->get("nil");
                   /* $$ = new ClassDefExpr */
                 }
                 ;

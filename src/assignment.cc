@@ -28,9 +28,9 @@ string AssignmentExpr::to_s() const
   return "<assignment>";
 }
 
-NativeObject_p AssignmentExpr::eval(Scope *scope)
+FancyObject_p AssignmentExpr::eval(Scope *scope)
 {
-  NativeObject_p value = this->value_expr->eval(scope);
+  FancyObject_p value = this->value_expr->eval(scope);
   scope->define(this->identifier->name(), value);
   return value;
 }

@@ -8,7 +8,7 @@ class Nil : public NativeObject
   ~Nil();
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 };
 

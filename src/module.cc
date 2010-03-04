@@ -1,11 +1,12 @@
 #include "includes.h"
 
 Module::Module() :
-  NativeObject(OBJ_MODULE)
+  FancyObject(ModuleClass)
 {
 }
 
-Module::Module(OBJ_TYPE type) : NativeObject(type)
+Module::Module(Class_p klass) :
+  FancyObject(klass)
 {
 }
 

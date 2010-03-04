@@ -1,11 +1,21 @@
 #ifndef _CORE_METHODS_H_
 #define _CORE_METHODS_H_
 
+extern Class *ClassClass;
+extern Class *ModuleClass;
 extern Class *ObjectClass;
 extern Class *NilClass;
 extern Class *TClass;
-extern ClassInstance *nil;
-extern ClassInstance *t;
+extern Class *StringClass;
+extern Class *SymbolClass;
+extern Class *NumberClass;
+extern Class *RegexClass;
+extern Class *ArrayClass;
+extern Class *MethodClass;
+extern Class *MethodCallClass;
+
+extern FancyObject *nil;
+extern FancyObject *t;
 
 
 void init_core_classes();

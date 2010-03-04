@@ -22,9 +22,9 @@ NativeObject_p Number::equal(const NativeObject_p other) const
   return (NUMVAL(this) == NUMVAL(other)) ? t : nil;
 }
   
-NativeObject_p Number::eval(Scope *scope)
+FancyObject_p Number::eval(Scope *scope)
 {
-  return this;
+  return NumberClass->create_instance(this);
 }
 
 string Number::to_s() const

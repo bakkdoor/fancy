@@ -89,17 +89,17 @@ NativeObject_p Array::last() const
   }
 }
 
-NativeObject_p Array::eval(Scope *scope)
+FancyObject_p Array::eval(Scope *scope)
 {
   if(!this->unevaled) {
-    return this;
+    return ArrayClass->create_instance(this);
   } else {
     // eval all expressions and save them to values
     list<Expression_p>::iterator it;
     for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
       this->values.push_back((*it)->eval(scope));
     }
-    return this;
+    return ArrayClass->create_instance(this);
   }
 }
 

@@ -9,7 +9,7 @@ class MethodDefExpr : public NativeObject
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
-  virtual NativeObject_p eval(Scope *scope);
+  virtual FancyObject_p eval(Scope *scope);
  
 private:
   list< pair<Identifier_p, Identifier_p> > method_args;
