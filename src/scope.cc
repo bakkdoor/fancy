@@ -1,11 +1,6 @@
 #include "includes.h"
 
-void init_global_scope()
-{
-  global_scope = new Scope();
-  global_scope->define("nil", nil);
-  global_scope->define("t", t);
-}
+Scope *global_scope;
 
 /*****************************************
  *****************************************/

@@ -68,9 +68,4 @@ class Scope : public gc_cleanup
  */
 extern Scope *global_scope;
 
-/**
- * Sets up the global scope with predefined functions etc.
- */
-void init_global_scope();
-
 #endif /* _SCOPE_H_ */

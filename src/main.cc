@@ -4,8 +4,6 @@
 /* prototype of bison-generated parser function */
 int yyparse();
 
-Scope *global_scope;
-
 #define STDLIB_FILES {"lib/lists.gna", "lib/math.gna"}
 #define N_STDLIB_FILES 2
 
@@ -27,6 +25,7 @@ int main(int argc, char **argv)
   // int i;
   // string files[] = STDLIB_FILES;
 
+  init_core_classes();
   init_global_objects();
   init_global_scope();
 
