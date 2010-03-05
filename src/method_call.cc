@@ -11,18 +11,6 @@ MethodCall::MethodCall(Expression_p receiver,
 {
 }
 
-// MethodCall::MethodCall(NativeObject_p receiver,
-//                        Method_p method,
-//                        Array_p arg_expressions) :
-//   NativeObject(OBJ_METHODCALL),
-//   receiver(receiver),
-//   method_ident(0),
-//   method(method),
-//   arg_expressions(arg_expressions)
-// {
-// }
-
-
 MethodCall::MethodCall(Expression_p receiver, Identifier_p method_ident) :
   NativeObject(OBJ_METHODCALL),
   receiver(receiver),

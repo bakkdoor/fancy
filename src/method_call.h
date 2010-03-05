@@ -5,7 +5,6 @@ class MethodCall : public NativeObject
 {
  public:
   MethodCall(Expression_p receiver, list< pair<Identifier_p, Expression_p> > method_arg_expr);
-  /* MethodCall(NativeObject_p receiver, Method_p method, list< pair<Identifier_p, Expression_p> > method_arg_expr); */
   MethodCall(Expression_p receiver, Identifier_p method_ident);
   MethodCall(Expression_p receiver, Identifier_p operator_ident, Expression_p operand);
   ~MethodCall();

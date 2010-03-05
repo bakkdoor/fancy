@@ -5,7 +5,7 @@ parser_files = parser/lex parser/bison
 
 files = native_object t nil hash array identifier symbol number string	\
 builtin_method scope module class fancy_object errors method core_classes	\
-method_call regex assignment method_definition expression_list
+method_call operator_call regex assignment method_definition expression_list
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
 obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(parser_files), $(file).o) main.o
@@ -76,6 +76,9 @@ core_classes.o: core_classes.cc
 
 method_call.o: method_call.cc
 	$(cc) $(cc_flags) -c method_call.cc -o method_call.o
+
+operator_call.o: operator_call.cc
+	$(cc) $(cc_flags) -c operator_call.cc -o operator_call.o
 
 assignment.o: assignment.cc
 	$(cc) $(cc_flags) -c assignment.cc -o assignment.o

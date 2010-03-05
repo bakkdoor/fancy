@@ -43,6 +43,7 @@ using namespace std;
 #include "scope.h"
 #include "core_classes.h"
 #include "method_call.h"
+#include "operator_call.h"
 #include "assignment.h"
 #include "method_definition.h"
 #include "errors.h"
