@@ -7,16 +7,18 @@ Scope *global_scope;
 
 Scope::Scope(FancyObject_p current_self) :
   parent(0),
-  current_self(current_self)
+  _current_self(current_self)
 {
-  this->current_class = current_self->get_class();
+  assert(current_self);
+  this->_current_class = current_self->get_class();
 }
 
 Scope::Scope(FancyObject_p current_self, Scope *parent) :
   parent(parent),
-  current_self(current_self)
+  _current_self(current_self)
 {
-  this->current_class = current_class->get_class();
+  assert(current_self);
+  this->_current_class = current_self->get_class();
 }
 
 Scope::~Scope()
@@ -128,4 +130,14 @@ string Scope::to_s() const
 int Scope::size() const
 {
   return this->value_mappings.size() + this->builtin_mappings.size();
+}
+
+FancyObject_p Scope::current_self() const
+{
+  return this->_current_self;
+}
+
+Class* Scope::current_class() const
+{
+ return this->_current_class;
 }

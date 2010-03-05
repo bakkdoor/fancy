@@ -56,12 +56,15 @@ class Scope : public gc_cleanup
   string to_s() const;
   int size() const;
 
+  FancyObject_p current_self() const;
+  Class* current_class() const;
+
  private:
   map<string, BuiltinMethod_p> builtin_mappings;
   map<string, FancyObject_p> value_mappings;
   Scope *parent;
-  FancyObject *current_self;
-  Class *current_class;
+  FancyObject *_current_self;
+  Class *_current_class;
 };
 
 /**
