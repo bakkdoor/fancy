@@ -7,7 +7,8 @@ clean:
 	cd src && make clean > /dev/null
 	rm -f bin/*
 
-test:
+test: all
+	@clear
 	bin/fancy examples/hello-world.fnc
 	@echo
 	bin/fancy examples/class.fnc
