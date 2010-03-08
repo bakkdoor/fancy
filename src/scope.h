@@ -38,20 +38,20 @@ class Scope : public gc_cleanup
 
   bool define(string identifier, FancyObject_p value);
 
-  void def_builtin(string identifier,
-                   FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                   unsigned int n_args);
+  void def_native(string identifier,
+                  FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                  unsigned int n_args);
 
-  void def_builtin(Identifier_p identifier,
-                   FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                   unsigned int n_args);
+  void def_native(Identifier_p identifier,
+                  FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                  unsigned int n_args);
 
-  void def_builtin_special(string identifier,
-                           FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                           unsigned int n_args);
+  void def_native_special(string identifier,
+                          FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                          unsigned int n_args);
   
   FancyObject_p get(string identifier);
-  BuiltinMethod_p get_builtin(string identifier);
+  NativeMethod_p get_native(string identifier);
 
   string to_s() const;
   int size() const;
@@ -60,7 +60,7 @@ class Scope : public gc_cleanup
   Class* current_class() const;
 
  private:
-  map<string, BuiltinMethod_p> builtin_mappings;
+  map<string, NativeMethod_p> builtin_mappings;
   map<string, FancyObject_p> value_mappings;
   Scope *parent;
   FancyObject *_current_self;

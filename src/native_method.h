@@ -1,5 +1,5 @@
-#ifndef _BUILTIN_METHOD_H_
-#define _BUILTIN_METHOD_H_
+#ifndef _NATIVE_METHOD_H_
+#define _NATIVE_METHOD_H_
 
 /**
  * This file contains the definition of the scope structure and its
@@ -7,14 +7,14 @@
  * functions are stored for evaluation purposes.
  */
 
-class BuiltinMethod : public NativeObject
+class NativeMethod : public NativeObject
 {
  public:
-  BuiltinMethod(string identifier,
-                FancyObject_p (&func)(FancyObject_p args, Scope *scope),
-                unsigned int n_args,
-                bool special);
-  ~BuiltinMethod();
+  NativeMethod(string identifier,
+               FancyObject_p (&func)(FancyObject_p args, Scope *scope),
+               unsigned int n_args,
+               bool special);
+  ~NativeMethod();
 
   virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
@@ -27,7 +27,7 @@ class BuiltinMethod : public NativeObject
   NativeObject_p arg_expressions;
 };
 
-typedef BuiltinMethod* BuiltinMethod_p;
+typedef NativeMethod* NativeMethod_p;
 
 
-#endif /* _BUILTIN_METHOD_H_ */
+#endif /* _NATIVE_METHOD_H_ */

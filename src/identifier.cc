@@ -21,7 +21,7 @@ NativeObject_p Identifier::equal(const NativeObject_p other) const
 
 FancyObject_p Identifier::eval(Scope *scope)
 {
-  BuiltinMethod_p bif = scope->get_builtin(this->_name);
+  NativeMethod_p bif = scope->get_native(this->_name);
   if(bif) {
     return MethodClass->create_instance(bif);
   } else {

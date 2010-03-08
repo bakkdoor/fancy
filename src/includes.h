@@ -37,9 +37,9 @@ using namespace std;
 #include "regex.h"
 #include "expression_list.h"
 
+#include "native_method.h"
 #include "module.h"
 #include "class.h"
-#include "builtin_method.h"
 #include "scope.h"
 #include "core_classes.h"
 #include "method_call.h"

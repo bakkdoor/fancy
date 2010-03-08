@@ -97,7 +97,7 @@ FancyObject_p MethodCall::eval(Scope *scope)
       // return eval_lambda_call(func_obj, scope);
       return nil;
     } else if(IS_BIF(func_obj)) {
-      BuiltinMethod_p bif = (BuiltinMethod_p)func_obj;
+      NativeMethod_p bif = (NativeMethod_p)func_obj;
       // bif->arg_expressions = this->arg_expressions;
       return bif->eval(scope);
     } else {

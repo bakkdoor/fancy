@@ -1,18 +1,18 @@
 #include "includes.h"
 
-BuiltinMethod::BuiltinMethod(string identifier,
-                                 FancyObject_p (&func)(FancyObject_p args, Scope *scope),
-                                 unsigned int n_args,
-                                 bool special) : 
+NativeMethod::NativeMethod(string identifier,
+                           FancyObject_p (&func)(FancyObject_p args, Scope *scope),
+                           unsigned int n_args,
+                           bool special) : 
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
 {
 }
 
-BuiltinMethod::~BuiltinMethod()
+NativeMethod::~NativeMethod()
 {
 }
 
-FancyObject_p BuiltinMethod::eval(Scope *scope)
+FancyObject_p NativeMethod::eval(Scope *scope)
 {
   if(this->arg_expressions) {
     // return this->_func(this->arg_expressions, scope);
@@ -23,12 +23,12 @@ FancyObject_p BuiltinMethod::eval(Scope *scope)
   }
 }
 
-NativeObject_p BuiltinMethod::equal(const NativeObject_p other) const
+NativeObject_p NativeMethod::equal(const NativeObject_p other) const
 {
   if(other->type() != OBJ_BIF) {
     return nil;
   } else {
-    BuiltinMethod_p other_bif = (BuiltinMethod_p)other;
+    NativeMethod_p other_bif = (NativeMethod_p)other;
     if(this->_identifier == other_bif->_identifier) {
       return t;
     } else {
@@ -37,7 +37,7 @@ NativeObject_p BuiltinMethod::equal(const NativeObject_p other) const
   }
 }
 
-string BuiltinMethod::to_s() const
+string NativeMethod::to_s() const
 {
   return "<bif>";
 }

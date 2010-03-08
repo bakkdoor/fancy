@@ -4,7 +4,7 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_files = parser/lex parser/bison
 
 files = native_object t nil hash array identifier symbol number string	\
-builtin_method scope module class fancy_object errors method core_classes	\
+native_method scope module class fancy_object errors method core_classes	\
 method_call operator_call regex assignment method_definition expression_list
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
@@ -50,8 +50,8 @@ number.o: number.cc
 string.o: string.cc
 	$(cc) $(cc_flags) -c string.cc -o string.o
 
-builtin_method.o: builtin_method.cc
-	$(cc) $(cc_flags) -c builtin_method.cc -o builtin_method.o
+native_method.o: native_method.cc
+	$(cc) $(cc_flags) -c native_method.cc -o native_method.o
 
 scope.o: scope.cc
 	$(cc) $(cc_flags) -c scope.cc -o scope.o

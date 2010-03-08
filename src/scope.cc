@@ -26,22 +26,22 @@ Scope::~Scope()
 }
 
 
-void Scope::def_builtin(string ident,
-                        FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                        unsigned int n_args)
+void Scope::def_native(string ident,
+                       FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                       unsigned int n_args)
 {
-  BuiltinMethod_p new_builtin(new BuiltinMethod(ident,
+  NativeMethod_p new_builtin(new NativeMethod(ident,
                                                 func,
                                                 n_args,
                                                 false));
   this->builtin_mappings[ident] = new_builtin;
 }
 
-void Scope::def_builtin(Identifier_p identifier,
-                        FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                        unsigned int n_args)
+void Scope::def_native(Identifier_p identifier,
+                       FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                       unsigned int n_args)
 {
-  BuiltinMethod_p new_builtin(new BuiltinMethod(identifier->name(),
+  NativeMethod_p new_builtin(new NativeMethod(identifier->name(),
                                                 func,
                                                 n_args,
                                                 false));
@@ -49,14 +49,14 @@ void Scope::def_builtin(Identifier_p identifier,
 }
 
 
-void Scope::def_builtin_special(string ident,
-                                FancyObject_p (&func)(FancyObject_p args, Scope *sc),
-                                unsigned int n_args)
+void Scope::def_native_special(string ident,
+                               FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                               unsigned int n_args)
 {
-  BuiltinMethod_p new_builtin(new BuiltinMethod(ident,
-                                                func,
-                                                n_args,
-                                                true));
+  NativeMethod_p new_builtin(new NativeMethod(ident,
+                                              func,
+                                              n_args,
+                                              true));
   this->builtin_mappings[ident] = new_builtin;
 }
 
@@ -90,13 +90,13 @@ FancyObject_p Scope::get(string identifier)
   }
 }
 
-BuiltinMethod_p Scope::get_builtin(string identifier)
+NativeMethod_p Scope::get_native(string identifier)
 {
   if(this->builtin_mappings.find(identifier) != this->builtin_mappings.end()) {
     return this->builtin_mappings[identifier];
   } else {
     if(this->parent) {
-      return this->parent->get_builtin(identifier);
+      return this->parent->get_native(identifier);
     } else {
       // throw UnknownIdentifierError(identifier);
       return 0;
