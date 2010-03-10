@@ -25,7 +25,8 @@ FancyObject_p Identifier::eval(Scope *scope)
   if(bif) {
     return MethodClass->create_instance(bif);
   } else {
-    return ObjectClass->create_instance(scope->get(this->_name));
+    // return ObjectClass->create_instance(scope->get(this->_name));
+    return scope->get(this->_name);
   }
 }
 
