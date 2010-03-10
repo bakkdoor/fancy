@@ -26,6 +26,8 @@ public:
   void define_class_method(const string &name, const Method_p method);
   void define_class_method(const Identifier_p name, const Method_p method);
 
+  void define_native_class_method(const NativeMethod_p method);
+
   void include(const Module_p module);
 
   vector<string> instance_slotnames() const;
@@ -36,6 +38,7 @@ public:
   virtual string to_s() const;
 
   Method_p find_method(const string &name);
+  NativeMethod_p find_native_method(const string &name);
   
 private:
   /* map<string, NativeObject_p> _slots; */
@@ -45,7 +48,7 @@ private:
   vector<Module_p> _included_modules;
 
   map<string, Method_p> _instance_methods;
-  map<string, Method_p> _class_methods;
+  map<string, NativeMethod_p> _native_instance_methods;
 };
 
 #endif /* _CLASS_H_ */

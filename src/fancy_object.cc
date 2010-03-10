@@ -2,7 +2,8 @@
 
 FancyObject::FancyObject(Class_p _class) :
   NativeObject(OBJ_CLASSINSTANCE),
-  _class(_class)
+  _class(_class),
+  _native_value(0)
 {
   init_slots();
   // native_value = this;
@@ -96,12 +97,30 @@ FancyObject_p FancyObject::eval(Scope *scope)
 
 string FancyObject::to_s() const
 {
-  return "<FancyObject>";
+  if(this->_native_value) {
+    return this->_native_value->to_s();
+  } else {
+    return "<FancyObject>";
+  }
 }
 
-FancyObject_p FancyObject::call_method(const string &method_name, vector<Expression_p> arguments)
+FancyObject_p FancyObject::call_method(const string &method_name, list<Expression_p> arguments, Scope *scope)
 {
+  // first of all, check singleton methods
+  if(this->_native_singleton_methods.find(method_name) != this->_native_singleton_methods.end()) {
+    NativeMethod_p native_singleton = this->_native_singleton_methods[method_name];
+    return native_singleton->call(arguments, scope);
+  }
+
+  // check native methods first.
+  // then check user-defined methods
+  NativeMethod_p native_method = this->_class->find_native_method(method_name);
+  if(native_method) {
+    return native_method->call(arguments, scope);
+  }
+
   Method_p method = this->_class->find_method(method_name);
+  cout << "calling method: " << method_name << endl;
   if(method) {
     // TODO: call method with args etc.
     return nil;
@@ -114,4 +133,16 @@ FancyObject_p FancyObject::call_method(const string &method_name, vector<Express
 NativeObject_p FancyObject::native_value() const
 {
   return this->_native_value;
+}
+
+void FancyObject::define_singleton_method(const string &name, Method_p method)
+{
+  assert(method);
+  this->_singleton_methods[name] = method;
+}
+
+void FancyObject::define_native_singleton_method(const NativeMethod_p method)
+{
+  assert(method);
+  this->_native_singleton_methods[method->_identifier] = method;
 }

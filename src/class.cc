@@ -82,13 +82,21 @@ void Class::define_method(const Identifier_p name, const Method_p method)
 void Class::define_class_method(const string &name, const Method_p method)
 {
   assert(method);
-  this->_class_methods[name] = method;
+  // class methods are nothing else than singleton methods on class objects :)
+  this->define_singleton_method(name, method);
 }
 
 void Class::define_class_method(const Identifier_p name, const Method_p method)
 {
   assert(name);
-  this->define_class_method(name->name(), method);
+  this->define_singleton_method(name->name(), method);
+}
+
+void Class::define_native_class_method(const NativeMethod_p method)
+{
+  assert(method);
+  // same here, see above
+  this->define_native_singleton_method(method);
 }
 
 NativeObject_p Class::equal(const NativeObject_p other) const
@@ -112,7 +120,20 @@ string Class::to_s() const
 
 Method_p Class::find_method(const string &name)
 {
-  if(this->_instance_methods[name] != this->_instance_methods[name])
+  // first, try instance methods
+  if(this->_instance_methods.find(name) != this->_instance_methods.end()) {
     return this->_instance_methods[name];
+  }
+
+  return 0;
+}
+
+NativeMethod_p Class::find_native_method(const string &name)
+{
+  // first, try native instance methods
+  if(this->_native_instance_methods.find(name) != this->_native_instance_methods.end()) {
+    return this->_native_instance_methods[name];
+  }
+
   return 0;
 }
