@@ -3,4 +3,7 @@
 
 #include "../includes.h"
 
+#include "console.h"
+
+
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

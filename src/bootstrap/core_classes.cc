@@ -17,8 +17,6 @@ Class_p ArrayClass;
 Class_p MethodClass;
 Class_p MethodCallClass;
 
-Class_p ConsoleClass;
-
 /**
  * Global Singleton Objects
  */
@@ -53,14 +51,7 @@ void init_core_classes()
   
   ConsoleClass = new Class(ObjectClass);
 
-  init_core_methods();
-}
-
-void init_core_methods()
-{
-  NativeMethod_p println_method =
-    new NativeMethod("println:", class_method_Console_println, 1, false);
-  ConsoleClass->define_native_class_method(println_method);
+  init_console_class();
 }
 
 void init_global_objects()
@@ -97,16 +88,4 @@ void init_global_scope()
   global_scope->define("nil", nil);
   global_scope->define("true", t);
   global_scope->define("false", _false);
-}
-
-
-FancyObject_p class_method_Console_println(list<Expression_p> args, Scope *scope)
-{
-  if(args.size() > 1) {
-    cerr << "Console#println got more than 1 argument!" << endl;
-  } else {
-    FancyObject_p arg = args.front()->eval(scope);
-    cout << arg->to_s() << endl;
-  }
-  return nil;
 }
