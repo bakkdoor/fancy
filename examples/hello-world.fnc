@@ -1,6 +1,1 @@
-package: HelloWorld
-import: [System]
-
-def main: args {
-  Console println: "Hello, World!"
-}
+Console println: "Hello, World!"
