@@ -169,7 +169,10 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
 
 
 method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
-                | call_args
+                | IDENTIFIER call_args { 
+                  $$ = new MethodCall($1, methodcall_args);
+                  methodcall_args.clear();
+                }
                 | receiver call_args {
                    $$ = new MethodCall($1, methodcall_args);
                    methodcall_args.clear();
@@ -178,7 +181,7 @@ method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
 
 
 operator_call:  receiver OPERATOR exp {
-                  $$ = new MethodCall($1, $2, $3);
+                  $$ = new OperatorCall($1, $2, $3);
                 }
                 ;
 
@@ -188,7 +191,7 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | IDENTIFIER { $$ = $1; }
                 ;
 
-call_args:      IDENTIFIER COLON exp { /* methodcall_args.push_back(pair<Identifier_p, Expression_p>()); */ }
+call_args:      IDENTIFIER COLON exp { methodcall_args.push_back(pair<Identifier_p, Expression_p>($1, $3)); }
                 | call_args call_args
                 ;
 

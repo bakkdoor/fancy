@@ -42,7 +42,7 @@ comment         #[^\n]*
 {string_lit}	{ 
                   char *str = (char*)malloc(strlen(yytext) - 2); 
                   strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = String::from_value(str);
+                  yylval.object = new FancyObject(StringClass, String::from_value(str));
                   return STRING_LITERAL; 
                 }
 {lparen}        { return LPAREN; }

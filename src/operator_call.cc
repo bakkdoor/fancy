@@ -27,10 +27,10 @@ NativeObject_p OperatorCall::equal(const NativeObject_p other) const
 FancyObject_p OperatorCall::eval(Scope *scope)
 {
   FancyObject_p self = scope->current_self();
-  vector<Expression_p> args;
+  list<Expression_p> args;
   args.push_back(this->operand);
 
-  return self->call_method(this->operator_name->name(), args);
+  return self->call_method(this->operator_name->name(), args, scope);
 }
 
 string OperatorCall::to_s() const
