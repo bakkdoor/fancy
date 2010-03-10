@@ -27,18 +27,18 @@ Scope::~Scope()
 
 
 void Scope::def_native(string ident,
-                       FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                       FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
                        unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(ident,
-                                                func,
-                                                n_args,
-                                                false));
+                                              func,
+                                              n_args,
+                                              false));
   this->builtin_mappings[ident] = new_builtin;
 }
 
 void Scope::def_native(Identifier_p identifier,
-                       FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                       FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
                        unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(identifier->name(),
@@ -50,7 +50,7 @@ void Scope::def_native(Identifier_p identifier,
 
 
 void Scope::def_native_special(string ident,
-                               FancyObject_p (&func)(FancyObject_p args, Scope *sc),
+                               FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
                                unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(ident,
@@ -81,6 +81,8 @@ FancyObject_p Scope::get(string identifier)
   if(this->value_mappings.find(identifier) != this->value_mappings.end()) {
     return this->value_mappings[identifier];
   } else {
+    // try to look in current_self & current_class
+    // current_self
     if(this->parent) {
       return this->parent->get(identifier);
     } else {

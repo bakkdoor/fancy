@@ -11,7 +11,7 @@ class NativeMethod : public NativeObject
 {
  public:
   NativeMethod(string identifier,
-               FancyObject_p (&func)(FancyObject_p args, Scope *scope),
+               FancyObject_p (&func)(list<Expression_p> args, Scope *scope),
                unsigned int n_args,
                bool special);
   ~NativeMethod();
@@ -19,12 +19,12 @@ class NativeMethod : public NativeObject
   virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
+  FancyObject_p call(list<Expression_p> args, Scope *scope);
   
   string _identifier;
-  FancyObject_p (&_func)(FancyObject_p args, Scope *scope);
+  FancyObject_p (&_func)(list<Expression_p> args, Scope *scope);
   unsigned int _n_args;
   bool _special;
-  NativeObject_p arg_expressions;
 };
 
 typedef NativeMethod* NativeMethod_p;

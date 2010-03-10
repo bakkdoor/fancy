@@ -1,7 +1,7 @@
 #include "includes.h"
 
 NativeMethod::NativeMethod(string identifier,
-                           FancyObject_p (&func)(FancyObject_p args, Scope *scope),
+                           FancyObject_p (&func)(list<Expression_p> args, Scope *scope),
                            unsigned int n_args,
                            bool special) : 
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
@@ -14,13 +14,8 @@ NativeMethod::~NativeMethod()
 
 FancyObject_p NativeMethod::eval(Scope *scope)
 {
-  if(this->arg_expressions) {
-    // return this->_func(this->arg_expressions, scope);
-    return nil;
-  } else {
-    cerr << "WARNING: no arg expressions for BIF set!" << endl;
-    return nil;
-  }
+  cerr << "calling eval() on NativeMethod .. " << endl;
+  return nil;
 }
 
 NativeObject_p NativeMethod::equal(const NativeObject_p other) const
@@ -40,4 +35,9 @@ NativeObject_p NativeMethod::equal(const NativeObject_p other) const
 string NativeMethod::to_s() const
 {
   return "<bif>";
+}
+
+FancyObject_p NativeMethod::call(list<Expression_p> args, Scope *scope)
+{
+  return this->_func(args, scope);
 }
