@@ -2,7 +2,7 @@
 #define _OBJECT_H_
 
 enum OBJ_TYPE {
-  OBJ_NIL,
+  OBJ_NIL = 0,
   OBJ_T,
   OBJ_INTEGER,
   OBJ_DOUBLE,
