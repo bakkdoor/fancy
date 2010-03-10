@@ -4,18 +4,19 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_files = parser/lex parser/bison
 
 files = native_object t nil hash array identifier symbol number string	\
-native_method scope module class fancy_object errors method core_classes	\
-method_call operator_call regex assignment method_definition expression_list
+native_method scope module class fancy_object errors method		\
+method_call operator_call regex assignment method_definition		\
+expression_list
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
 obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(parser_files), $(file).o) main.o
 
-sub_dirs = parser
+sub_dirs = parser bootstrap
 
 all: subdirs ../bin/fancy
 
 ../bin/fancy: $(obj_files)
-	$(cc) $(cc_flags) $(obj_files) -o ../bin/fancy -lfl -lgc -lgccpp
+	$(cc) $(cc_flags) $(obj_files) bootstrap/*.o -o ../bin/fancy -lfl -lgc -lgccpp
 
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(cc) $(cc_flags) -c main.cc -o main.o
@@ -71,9 +72,6 @@ errors.o: errors.cc
 method.o: method.cc
 	$(cc) $(cc_flags) -c method.cc -o method.o
 
-core_classes.o: core_classes.cc
-	$(cc) $(cc_flags) -c core_classes.cc -o core_classes.o
-
 method_call.o: method_call.cc
 	$(cc) $(cc_flags) -c method_call.cc -o method_call.o
 
@@ -94,4 +92,5 @@ subdirs:
 
 clean:
 	cd parser && make clean > /dev/null
+	cd bootstrap && make clean > /dev/null
 	rm -f *.o > /dev/null

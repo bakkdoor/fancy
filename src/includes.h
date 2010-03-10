@@ -41,7 +41,7 @@ using namespace std;
 #include "module.h"
 #include "class.h"
 #include "scope.h"
-#include "core_classes.h"
+#include "bootstrap/core_classes.h"
 #include "method_call.h"
 #include "operator_call.h"
 #include "assignment.h"
