@@ -26,7 +26,7 @@ FancyObject_p String::eval(Scope *scope)
 
 string String::to_s() const
 {
-  return "\"" + this->_value + "\"";
+  return this->_value;
 }
 
 string String::value() const
