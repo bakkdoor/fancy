@@ -33,8 +33,8 @@ public:
 
   NativeObject_p native_value() const;
 
-  void define_singleton_method(const string &name, Method *method);
-  void define_native_singleton_method(NativeMethod *method);
+  void def_singleton_method(const string &name, Method *method);
+  void def_native_singleton_method(NativeMethod *method);
 
 private:
   void init_slots();

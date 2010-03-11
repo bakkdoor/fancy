@@ -3,6 +3,7 @@
 
 #include "../includes.h"
 
+#include "string.h"
 #include "console.h"
 
 

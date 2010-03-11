@@ -14,19 +14,19 @@ public:
   FancyObject_p create_instance() const;
   FancyObject_p create_instance(NativeObject_p native_value) const;
 
-  void define_slot(const string &name);
-  void define_slot(const Identifier_p name);
+  void def_slot(const string &name);
+  void def_slot(const Identifier_p name);
 
-  void define_class_slot(const string &name, const NativeObject_p value);
-  void define_class_slot(const Identifier_p name, NativeObject_p value);
+  void def_class_slot(const string &name, const NativeObject_p value);
+  void def_class_slot(const Identifier_p name, NativeObject_p value);
 
-  void define_method(const string &name, const Method_p method);
-  void define_method(const Identifier_p, const Method_p method);
+  void def_method(const string &name, const Method_p method);
+  void def_method(const Identifier_p, const Method_p method);
 
-  void define_class_method(const string &name, const Method_p method);
-  void define_class_method(const Identifier_p name, const Method_p method);
+  void def_class_method(const string &name, const Method_p method);
+  void def_class_method(const Identifier_p name, const Method_p method);
 
-  void define_native_class_method(const NativeMethod_p method);
+  void def_native_class_method(const NativeMethod_p method);
 
   void include(const Module_p module);
 

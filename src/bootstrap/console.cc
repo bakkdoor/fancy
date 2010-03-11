@@ -1,16 +1,9 @@
 #include "includes.h"
 
-Class_p ConsoleClass;
-
 void init_console_class()
 {
-  NativeMethod_p print_method =
-    new NativeMethod("print:", class_method_Console_print, 1, false);
-  ConsoleClass->define_native_class_method(print_method); 
-
-  NativeMethod_p println_method =
-    new NativeMethod("println:", class_method_Console_println, 1, false);
-  ConsoleClass->define_native_class_method(println_method); 
+  ConsoleClass->def_native_class_method(new NativeMethod("print:", class_method_Console_print, 1)); 
+  ConsoleClass->def_native_class_method(new NativeMethod("println:", class_method_Console_println, 1)); 
 }
 
 

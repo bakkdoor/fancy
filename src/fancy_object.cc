@@ -135,13 +135,13 @@ NativeObject_p FancyObject::native_value() const
   return this->_native_value;
 }
 
-void FancyObject::define_singleton_method(const string &name, Method_p method)
+void FancyObject::def_singleton_method(const string &name, Method_p method)
 {
   assert(method);
   this->_singleton_methods[name] = method;
 }
 
-void FancyObject::define_native_singleton_method(const NativeMethod_p method)
+void FancyObject::def_native_singleton_method(const NativeMethod_p method)
 {
   assert(method);
   this->_native_singleton_methods[method->_identifier] = method;

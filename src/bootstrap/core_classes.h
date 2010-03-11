@@ -14,6 +14,8 @@ extern Class *ArrayClass;
 extern Class *MethodClass;
 extern Class *MethodCallClass;
 
+extern Class *ConsoleClass;
+
 extern FancyObject *nil;
 extern FancyObject *t;
 

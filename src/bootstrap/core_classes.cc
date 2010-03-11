@@ -17,6 +17,8 @@ Class_p ArrayClass;
 Class_p MethodClass;
 Class_p MethodCallClass;
 
+Class_p ConsoleClass;
+
 /**
  * Global Singleton Objects
  */
@@ -48,9 +50,10 @@ void init_core_classes()
   ArrayClass = new Class(ObjectClass);
   MethodClass = new Class(ObjectClass);
   MethodCallClass = new Class(ObjectClass); 
-  
+
   ConsoleClass = new Class(ObjectClass);
 
+  init_string_class();
   init_console_class();
 }
 

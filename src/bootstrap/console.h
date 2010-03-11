@@ -1,8 +1,6 @@
 #ifndef _BOOTSTRAP_CONSOLE_H_
 #define _BOOTSTRAP_CONSOLE_H_
 
-extern Class *ConsoleClass;
-
 void init_console_class();
 
 /**

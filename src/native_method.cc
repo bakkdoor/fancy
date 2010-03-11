@@ -8,6 +8,19 @@ NativeMethod::NativeMethod(string identifier,
 {
 }
 
+NativeMethod::NativeMethod(string identifier,
+                           FancyObject_p (&func)(list<Expression_p> args, Scope *scope),
+                           unsigned int n_args) :
+  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
+{
+}
+
+NativeMethod::NativeMethod(string identifier,
+                           FancyObject_p (&func)(list<Expression_p> args, Scope *scope)) :
+  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(0), _special(false)
+{
+}
+
 NativeMethod::~NativeMethod()
 {
 }
