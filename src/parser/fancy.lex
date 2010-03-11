@@ -23,6 +23,7 @@ identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
 comma           ,
+semi            ;
 equals          =
 colon           :
 class           "class"
@@ -78,6 +79,7 @@ comment         #[^\n]*
                   return REGEX_LITERAL;
                 }
 {comma}         { return COMMA; }
+{semi}          { return SEMI; }
 {colon}         { return COLON; }
 {dot}           { return DOT; }
 {dollar}        { return DOLLAR; }

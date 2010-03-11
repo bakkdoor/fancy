@@ -36,6 +36,7 @@
 %token                  RBRACKET
 %token                  ARROW
 %token                  COMMA
+%token                  SEMI
 %token                  COLON
 %token                  CLASS
 %token                  DEF
@@ -79,7 +80,8 @@
 %%
 
 programm:       /* empty */
-                | programm exp { Expression_p expr = $2; expr->eval(global_scope); }
+                | exp  { Expression_p expr = $1; expr->eval(global_scope); }
+                | programm SEMI exp { Expression_p expr = $3; expr->eval(global_scope); }
                 ;
 
 exp:            assignment
