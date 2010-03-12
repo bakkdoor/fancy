@@ -214,10 +214,10 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
 
 
 array_literal:  empty_array
-                | LBRACKET exp_list RBRACKET { $$ = new Array(expression_list); }
+                | LBRACKET exp_list RBRACKET { $$ = ArrayClass->create_instance(new Array(expression_list)); }
                 ;
 
-empty_array:    LBRACKET RBRACKET { $$ = new Array(0); }
+empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array(0)); }
                 ;
 
 exp_list:       exp { expression_list.push_back($1); }
@@ -225,7 +225,7 @@ exp_list:       exp { expression_list.push_back($1); }
                 ;
 
 
-hash_literal:   LCURLY key_value_list RCURLY { $$ = new Hash($2); }
+hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
                 ;
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }

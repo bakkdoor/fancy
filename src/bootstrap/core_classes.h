@@ -11,8 +11,10 @@ extern Class *SymbolClass;
 extern Class *NumberClass;
 extern Class *RegexClass;
 extern Class *ArrayClass;
+extern Class *HashClass;
 extern Class *MethodClass;
 extern Class *MethodCallClass;
+extern Class *BlockClass;
 
 extern Class *ConsoleClass;
 

@@ -14,8 +14,10 @@ Class_p SymbolClass;
 Class_p NumberClass;
 Class_p RegexClass;
 Class_p ArrayClass;
+Class_p HashClass;
 Class_p MethodClass;
 Class_p MethodCallClass;
+Class_p BlockClass;
 
 Class_p ConsoleClass;
 
@@ -48,8 +50,10 @@ void init_core_classes()
   NumberClass = new Class(ObjectClass);
   RegexClass = new Class(ObjectClass);
   ArrayClass = new Class(ObjectClass);
+  HashClass = new Class(ObjectClass);
   MethodClass = new Class(ObjectClass);
-  MethodCallClass = new Class(ObjectClass); 
+  MethodCallClass = new Class(ObjectClass);
+  BlockClass = new Class(ObjectClass);
 
   ConsoleClass = new Class(ObjectClass);
 
@@ -82,8 +86,10 @@ void init_global_scope()
   global_scope->define("Number", NumberClass);
   global_scope->define("Regex", RegexClass);
   global_scope->define("Array", ArrayClass);
+  global_scope->define("Hash", HashClass);
   global_scope->define("Method", MethodClass);
   global_scope->define("MethodCall", MethodClass);
+  global_scope->define("Block", BlockClass);
 
   global_scope->define("Console", ConsoleClass);
   
