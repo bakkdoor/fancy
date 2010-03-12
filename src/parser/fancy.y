@@ -75,6 +75,7 @@
 %type  <expression>         method_call
 %type  <expression>         operator_call
 %type  <expression>         receiver
+%type  <expression>         arg_exp
 
 
 %%
@@ -171,10 +172,10 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
 
 
 method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
-                | IDENTIFIER call_args { 
-                  $$ = new MethodCall($1, methodcall_args);
-                  methodcall_args.clear();
-                }
+                /* | IDENTIFIER call_args {  */
+                /*   $$ = new MethodCall($1, methodcall_args); */
+                /*   methodcall_args.clear(); */
+                /* }  */
                 | receiver call_args {
                    $$ = new MethodCall($1, methodcall_args);
                    methodcall_args.clear();
@@ -193,8 +194,13 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | IDENTIFIER { $$ = $1; }
                 ;
 
-call_args:      IDENTIFIER COLON exp { methodcall_args.push_back(pair<Identifier_p, Expression_p>($1, $3)); }
+call_args:      IDENTIFIER COLON arg_exp { methodcall_args.push_back(pair<Identifier_p, Expression_p>($1, $3)); }
                 | call_args call_args
+                ;
+
+arg_exp:        IDENTIFIER { $$ = $1; }
+                | LPAREN exp RPAREN { $$ = $2; }
+                | literal_value { $$ = $1; }
                 ;
 
 literal_value:  INTEGER_LITERAL	{ $$ = $1; }

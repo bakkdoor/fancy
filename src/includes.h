@@ -49,6 +49,7 @@ using namespace std;
 #include "assignment.h"
 #include "method_definition.h"
 #include "errors.h"
+#include "utils.h"
 
 
 #endif /* _INCLUDES_H_ */

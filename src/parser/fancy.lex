@@ -38,13 +38,13 @@ comment         #[^\n]*
 {class}         { return CLASS; }
 {inherit}       { return INHERIT; }
 {def}           { return DEF; }
-{int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
-{double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
+{int_lit}	{ yylval.object = NumberClass->create_instance(Number::from_int(atoi(yytext))); return INTEGER_LITERAL; }
+{double_lit}    { yylval.object = NumberClass->create_instance(Number::from_double(atof(yytext))); return DOUBLE_LITERAL; }
 {string_lit}	{ 
                   char *str = (char*)malloc(strlen(yytext) - 2); 
                   strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = new FancyObject(StringClass, String::from_value(str));
-                  return STRING_LITERAL; 
+                  yylval.object = StringClass->create_instance(String::from_value(str));
+                  return STRING_LITERAL;
                 }
 {lparen}        { return LPAREN; }
 {rparen}        { return RPAREN; }
