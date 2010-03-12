@@ -11,7 +11,7 @@ void init_console_class()
  * Console class methods
  */
 
-FancyObject_p class_method_Console_print(list<Expression_p> args, Scope *scope)
+FancyObject_p class_method_Console_print(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
   if(args.size() > 1) {
     cerr << "Console#print got more than 1 argument!" << endl;
@@ -22,7 +22,7 @@ FancyObject_p class_method_Console_print(list<Expression_p> args, Scope *scope)
   return nil;
 }
 
-FancyObject_p class_method_Console_println(list<Expression_p> args, Scope *scope)
+FancyObject_p class_method_Console_println(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
   if(args.size() > 1) {
     cerr << "Console#println got more than 1 argument!" << endl;

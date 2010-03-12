@@ -92,6 +92,14 @@ void Class::def_class_method(const Identifier_p name, const Method_p method)
   this->def_singleton_method(name->name(), method);
 }
 
+void Class::def_native_method(const NativeMethod_p method)
+{
+  assert(method);
+  // same here, see above
+  // this->def_native_method(method);
+  this->_native_instance_methods[method->_identifier] = method;
+}
+
 void Class::def_native_class_method(const NativeMethod_p method)
 {
   assert(method);

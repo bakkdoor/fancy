@@ -26,6 +26,7 @@ public:
   void def_class_method(const string &name, const Method_p method);
   void def_class_method(const Identifier_p name, const Method_p method);
 
+  void def_native_method(const NativeMethod_p method);
   void def_native_class_method(const NativeMethod_p method);
 
   void include(const Module_p module);

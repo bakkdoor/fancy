@@ -2,21 +2,22 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
+bootstrap_files = core_classes string console
 
 files = native_object t nil hash array identifier symbol number string	\
 native_method scope module class fancy_object errors method		\
 method_call operator_call regex assignment method_definition		\
 expression_list
 
-src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
-obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(parser_files), $(file).o) main.o
+src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
+obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(bootstrap_files), bootstrap/$(file).o) $(foreach file, $(parser_files), $(file).o) main.o
 
 sub_dirs = parser bootstrap
 
 all: subdirs ../bin/fancy
 
 ../bin/fancy: $(obj_files)
-	$(cc) $(cc_flags) $(obj_files) bootstrap/*.o -o ../bin/fancy -lfl -lgc -lgccpp
+	$(cc) $(cc_flags) $(obj_files) -o ../bin/fancy -lfl -lgc -lgccpp
 
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(cc) $(cc_flags) -c main.cc -o main.o

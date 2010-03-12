@@ -27,7 +27,7 @@ Scope::~Scope()
 
 
 void Scope::def_native(string ident,
-                       FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
+                       FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *sc),
                        unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(ident,
@@ -38,7 +38,7 @@ void Scope::def_native(string ident,
 }
 
 void Scope::def_native(Identifier_p identifier,
-                       FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
+                       FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *sc),
                        unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(identifier->name(),
@@ -50,7 +50,7 @@ void Scope::def_native(Identifier_p identifier,
 
 
 void Scope::def_native_special(string ident,
-                               FancyObject_p (&func)(list<Expression_p> args, Scope *sc),
+                               FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *sc),
                                unsigned int n_args)
 {
   NativeMethod_p new_builtin(new NativeMethod(ident,

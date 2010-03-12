@@ -1,2 +1,3 @@
 Console println: "Hello, World!";
-Console print: "YOO!" downcase
+Console println: "YOO!" downcase;
+Console println: "yoo!" upcase

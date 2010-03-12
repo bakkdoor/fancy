@@ -109,14 +109,14 @@ FancyObject_p FancyObject::call_method(const string &method_name, list<Expressio
   // first of all, check singleton methods
   if(this->_native_singleton_methods.find(method_name) != this->_native_singleton_methods.end()) {
     NativeMethod_p native_singleton = this->_native_singleton_methods[method_name];
-    return native_singleton->call(arguments, scope);
+    return native_singleton->call(this, arguments, scope);
   }
 
   // check native methods first.
   // then check user-defined methods
   NativeMethod_p native_method = this->_class->find_native_method(method_name);
   if(native_method) {
-    return native_method->call(arguments, scope);
+    return native_method->call(this, arguments, scope);
   }
 
   Method_p method = this->_class->find_method(method_name);
