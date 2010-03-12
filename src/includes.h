@@ -40,6 +40,7 @@ using namespace std;
 #include "expression_list.h"
 
 #include "native_method.h"
+#include "block.h"
 #include "module.h"
 #include "class.h"
 #include "scope.h"

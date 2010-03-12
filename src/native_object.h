@@ -20,7 +20,8 @@ enum OBJ_TYPE {
   OBJ_METHODDEFEXPR,
   OBJ_MODULE,
   OBJ_CLASS,
-  OBJ_CLASSINSTANCE
+  OBJ_CLASSINSTANCE,
+  OBJ_BLOCK
 };
 
 class NativeObject;
@@ -100,5 +101,8 @@ class NativeObject : public Expression
 
 #define IS_CLASSINSTANCE(obj) \
   obj->type() == OBJ_CLASSINSTANCE
+
+#define IS_BLOCK(obj) \
+  obj->type() == OBJ_BLOCK
 
 #endif /* _OBJECT_H_ */
