@@ -36,10 +36,13 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
   Class_p superclass = this->_superclass;
   if(!superclass && this->_superclass_name) {
     FancyObject_p class_obj = scope->get(this->_superclass_name->name());
-    if(IS_CLASS(class_obj)) {
+    if(class_obj->is_class()) {
       superclass = dynamic_cast<Class_p>(class_obj);
     } else {
-      error("Superclass identifier does not reference a class: ") << this->_superclass_name->name() << endl;
+      error("Superclass identifier does not reference a class: ") 
+        << this->_superclass_name->name() 
+        << "(" << class_obj->type() << ")"
+        << endl;
       return nil;
     }
   }

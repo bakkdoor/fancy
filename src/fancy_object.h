@@ -36,6 +36,8 @@ public:
   void def_singleton_method(const string &name, Method *method);
   void def_native_singleton_method(NativeMethod *method);
 
+  virtual bool is_class() const;
+
 private:
   void init_slots();
  

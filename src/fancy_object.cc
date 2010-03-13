@@ -146,3 +146,8 @@ void FancyObject::def_native_singleton_method(const NativeMethod_p method)
   assert(method);
   this->_native_singleton_methods[method->_identifier] = method;
 }
+
+bool FancyObject::is_class() const
+{
+  return false;
+}

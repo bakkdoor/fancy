@@ -40,7 +40,9 @@ public:
 
   Method_p find_method(const string &name);
   NativeMethod_p find_native_method(const string &name);
-  
+
+  virtual bool is_class() const;
+
 private:
   /* map<string, NativeObject_p> _slots; */
   vector<string> _instance_slotnames;

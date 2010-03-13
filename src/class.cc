@@ -145,3 +145,8 @@ NativeMethod_p Class::find_native_method(const string &name)
 
   return 0;
 }
+
+bool Class::is_class() const
+{
+  return true;
+}
