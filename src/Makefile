@@ -5,7 +5,7 @@ parser_files = parser/lex parser/bison
 bootstrap_files = core_classes string number console
 
 files = native_object t nil hash array identifier symbol number string	\
-native_method scope module class fancy_object errors method		\
+native_method scope module class class_definition fancy_object errors method		\
 method_call operator_call regex assignment method_definition		\
 expression_list block utils
 
@@ -63,6 +63,9 @@ module.o: module.cc
 
 class.o: class.cc
 	$(cc) $(cc_flags) -c class.cc -o class.o
+
+class_definition.o: class_definition.cc
+	$(cc) $(cc_flags) -c class_definition.cc -o class_definition.o
 
 fancy_object.o: fancy_object.cc
 	$(cc) $(cc_flags) -c fancy_object.cc -o fancy_object.o

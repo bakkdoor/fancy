@@ -105,14 +105,14 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = nil;
-                  /* $$ = new ClassDefExpr */
+                  $$ = new ClassDefExpr($3, new ExpressionList(expression_list));
+                  expression_list.clear();
                 }
                 ;
 
 class_super:    DEF CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = nil;
-                  /* $$ = new ClassDefExpr */
+                  $$ = new ClassDefExpr($5, $3, new ExpressionList(expression_list));
+                  expression_list.clear();
                 }
                 ;
 

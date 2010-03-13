@@ -43,6 +43,7 @@ using namespace std;
 #include "block.h"
 #include "module.h"
 #include "class.h"
+#include "class_definition.h"
 #include "scope.h"
 #include "bootstrap/core_classes.h"
 #include "method_call.h"
