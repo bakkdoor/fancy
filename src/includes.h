@@ -24,6 +24,7 @@
 
 using namespace std;
 
+#include "callable.h"
 #include "expression.h"
 #include "native_object.h"
 #include "fancy_object.h"

@@ -2,10 +2,10 @@
 
 void init_number_class()
 {
-  NumberClass->def_native_method(new NativeMethod("+", method_Number_plus, 1));
-  NumberClass->def_native_method(new NativeMethod("-", method_Number_minus, 1));
-  NumberClass->def_native_method(new NativeMethod("*", method_Number_multiply, 1));
-  NumberClass->def_native_method(new NativeMethod("/", method_Number_divide, 1));
+  NumberClass->def_method("+", new NativeMethod("+", method_Number_plus, 1));
+  NumberClass->def_method("-", new NativeMethod("-", method_Number_minus, 1));
+  NumberClass->def_method("*", new NativeMethod("*", method_Number_multiply, 1));
+  NumberClass->def_method("/", new NativeMethod("/", method_Number_divide, 1));
 }
 
 /**

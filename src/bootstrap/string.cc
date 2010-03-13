@@ -2,9 +2,9 @@
 
 void init_string_class()
 {  
-  StringClass->def_native_method(new NativeMethod("downcase", method_String_downcase));
-  StringClass->def_native_method(new NativeMethod("upcase", method_String_upcase));
-  StringClass->def_native_method(new NativeMethod("from:to:", method_String_from__to));
+  StringClass->def_method("downcase", new NativeMethod("downcase", method_String_downcase));
+  StringClass->def_method("upcase", new NativeMethod("upcase", method_String_upcase));
+  StringClass->def_method("from:to:", new NativeMethod("from:to:", method_String_from__to));
 }
 
 

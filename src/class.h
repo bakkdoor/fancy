@@ -20,14 +20,11 @@ public:
   void def_class_slot(const string &name, const NativeObject_p value);
   void def_class_slot(const Identifier_p name, NativeObject_p value);
 
-  void def_method(const string &name, const Method_p method);
-  void def_method(const Identifier_p, const Method_p method);
+  void def_method(const string &name, const Callable_p method);
+  void def_method(const Identifier_p, const Callable_p method);
 
-  void def_class_method(const string &name, const Method_p method);
-  void def_class_method(const Identifier_p name, const Method_p method);
-
-  void def_native_method(const NativeMethod_p method);
-  void def_native_class_method(const NativeMethod_p method);
+  void def_class_method(const string &name, const Callable_p method);
+  void def_class_method(const Identifier_p name, const Callable_p method);
 
   void include(const Module_p module);
 
@@ -38,8 +35,7 @@ public:
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 
-  Method_p find_method(const string &name);
-  NativeMethod_p find_native_method(const string &name);
+  Callable_p find_method(const string &name);
 
   virtual bool is_class() const;
 
@@ -50,8 +46,7 @@ private:
   Class_p _superclass;
   vector<Module_p> _included_modules;
 
-  map<string, Method_p> _instance_methods;
-  map<string, NativeMethod_p> _native_instance_methods;
+  map<string, Callable_p> _instance_methods;
 };
 
 #endif /* _CLASS_H_ */

@@ -2,8 +2,8 @@
 
 void init_console_class()
 {
-  ConsoleClass->def_native_class_method(new NativeMethod("print:", class_method_Console_print, 1)); 
-  ConsoleClass->def_native_class_method(new NativeMethod("println:", class_method_Console_println, 1)); 
+  ConsoleClass->def_class_method("print:", new NativeMethod("print:", class_method_Console_print, 1)); 
+  ConsoleClass->def_class_method("println:", new NativeMethod("println:", class_method_Console_println, 1)); 
 }
 
 

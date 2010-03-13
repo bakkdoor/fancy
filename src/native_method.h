@@ -7,7 +7,7 @@
  * functions are stored for evaluation purposes.
  */
 
-class NativeMethod : public NativeObject
+class NativeMethod : public NativeObject, public Callable
 {
  public:
   NativeMethod(string identifier,
@@ -26,7 +26,7 @@ class NativeMethod : public NativeObject
   virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
-  FancyObject_p call(FancyObject_p self, list<Expression_p> args, Scope *scope);
+  virtual FancyObject_p call(FancyObject_p self, list<Expression_p> args, Scope *scope);
   
   string _identifier;
   FancyObject_p (&_func)(FancyObject_p self, list<Expression_p> args, Scope *scope);

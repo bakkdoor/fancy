@@ -7,7 +7,6 @@ typedef FancyObject* FancyObject_p;
 class Class;
 class Identifier;
 class Method;
-class NativeMethod;
 
 class FancyObject : public NativeObject
 {
@@ -33,8 +32,7 @@ public:
 
   NativeObject_p native_value() const;
 
-  void def_singleton_method(const string &name, Method *method);
-  void def_native_singleton_method(NativeMethod *method);
+  void def_singleton_method(const string &name, Callable_p method);
 
   virtual bool is_class() const;
 
@@ -45,8 +43,7 @@ private:
   NativeObject_p _native_value;
   map<string, FancyObject_p> slots;
 
-  map<string, Method*> _singleton_methods;
-  map<string, NativeMethod*> _native_singleton_methods;
+  map<string, Callable_p> _singleton_methods;
 };
 
 #endif /* _CLASS_INSTANCE_H_ */

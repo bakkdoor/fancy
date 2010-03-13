@@ -35,8 +35,14 @@ NativeObject_p Method::equal(const NativeObject_p other) const
 
 FancyObject_p Method::eval(Scope *scope)
 {
-  cout << endl << endl <<"eval method!"<<endl <<endl;
-  return this->body->eval(scope);
+  cout << endl << endl << "eval method!" << endl <<endl;
+  return MethodClass->create_instance(this);
+}
+
+FancyObject_p Method::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
+{
+  cout << "calling method!" << endl;
+  return nil;
 }
 
 string Method::to_s() const
