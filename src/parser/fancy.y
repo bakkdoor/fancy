@@ -92,6 +92,7 @@ exp:            assignment
                 | operator_call
                 | literal_value
                 | IDENTIFIER
+                | LPAREN exp RPAREN { $$ = $2; }
                 ;
 
 assignment:     IDENTIFIER EQUALS exp {
@@ -192,6 +193,7 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | LPAREN exp RPAREN { $$ = $2; }
                 | exp { $$ = $1; }
                 | IDENTIFIER { $$ = $1; }
+                | exp DOT { $$ = $1; }
                 ;
 
 call_args:      IDENTIFIER COLON arg_exp { methodcall_args.push_back(pair<Identifier_p, Expression_p>($1, $3)); }
@@ -201,6 +203,7 @@ call_args:      IDENTIFIER COLON arg_exp { methodcall_args.push_back(pair<Identi
 arg_exp:        IDENTIFIER { $$ = $1; }
                 | LPAREN exp RPAREN { $$ = $2; }
                 | literal_value { $$ = $1; }
+                | DOLLAR exp { $$ = $2; }
                 ;
 
 literal_value:  INTEGER_LITERAL	{ $$ = $1; }
