@@ -4,6 +4,7 @@
 #include "../includes.h"
 
 #include "string.h"
+#include "number.h"
 #include "console.h"
 
 

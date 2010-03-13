@@ -69,13 +69,13 @@ comment         #[^\n]*
 {symbol_lit}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = Symbol::from_string(str);
+                  yylval.object = SymbolClass->create_instance(Symbol::from_string(str));
                   return SYMBOL_LITERAL;
                 }
 {regex_lit}    { 
                   char *str = (char*)malloc(strlen(yytext) - 2);
                   strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = new Regex(str);
+                  yylval.object = RegexClass->create_instance(new Regex(str));
                   return REGEX_LITERAL;
                 }
 {comma}         { return COMMA; }

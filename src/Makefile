@@ -2,7 +2,7 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 parser_files = parser/lex parser/bison
-bootstrap_files = core_classes string console
+bootstrap_files = core_classes string number console
 
 files = native_object t nil hash array identifier symbol number string	\
 native_method scope module class fancy_object errors method		\
