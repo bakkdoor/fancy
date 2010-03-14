@@ -117,6 +117,9 @@ Callable_p Class::find_method(const string &name)
   if(this->_instance_methods.find(name) != this->_instance_methods.end()) {
     return this->_instance_methods[name];
   }
+  if(this->_superclass) {
+    return this->_superclass->find_method(name);
+  }
 
   return 0;
 }
