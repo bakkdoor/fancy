@@ -6,18 +6,18 @@ Scope *global_scope;
  *****************************************/
 
 Scope::Scope(FancyObject_p current_self) :
-  parent(0),
-  _current_self(current_self)
+  parent(0)
 {
   assert(current_self);
+  set_current_self(current_self);
   this->_current_class = current_self->get_class();
 }
 
 Scope::Scope(FancyObject_p current_self, Scope *parent) :
-  parent(parent),
-  _current_self(current_self)
+  parent(parent)
 {
   assert(current_self);
+  set_current_self(current_self);
   this->_current_class = current_self->get_class();
 }
 
@@ -142,4 +142,10 @@ FancyObject_p Scope::current_self() const
 Class* Scope::current_class() const
 {
  return this->_current_class;
+}
+
+void Scope::set_current_self(FancyObject_p current_self)
+{
+  this->_current_self = current_self;
+  this->define("self", current_self);
 }

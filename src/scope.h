@@ -60,6 +60,8 @@ class Scope : public gc_cleanup
   Class* current_class() const;
 
  private:
+  void set_current_self(FancyObject_p current_self);
+
   map<string, NativeMethod_p> builtin_mappings;
   map<string, FancyObject_p> value_mappings;
   Scope *parent;

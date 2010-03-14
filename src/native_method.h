@@ -18,6 +18,7 @@ class NativeMethod : public NativeObject, public Callable
   NativeMethod(string identifier,
                FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *scope),
                unsigned int n_args);
+
   NativeMethod(string identifier,
                FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *scope));
 
