@@ -130,7 +130,11 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
                 }
                 ;
 
-method_w_args:  DEF method_args LCURLY exp_list RCURLY {
+method_body:    exp { expression_list.push_back($1); }
+                | method_body SEMI exp { expression_list.push_back($3); }
+                ;
+
+method_w_args:  DEF method_args LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList(expression_list);
                   expression_list.clear();
                   Method_p method = new Method(method_args, body);
@@ -141,16 +145,16 @@ method_w_args:  DEF method_args LCURLY exp_list RCURLY {
                 ;
 
 
-method_no_args: DEF IDENTIFIER LCURLY exp_list RCURLY {
+method_no_args: DEF IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList(expression_list);
                   expression_list.clear();
                   list< pair<Identifier_p, Identifier_p> > empty_args;
                   Method_p method = new Method(empty_args, body);
-                  $$ = new MethodDefExpr(empty_args, method);
+                  $$ = new MethodDefExpr($2, method);
                 }
                 ;
 
-class_method_w_args: DEF IDENTIFIER method_args LCURLY exp_list RCURLY {
+class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
                   // TODO: change for class method specific stuff
                   ExpressionList_p body = new ExpressionList(expression_list);
                   expression_list.clear();
@@ -161,7 +165,7 @@ class_method_w_args: DEF IDENTIFIER method_args LCURLY exp_list RCURLY {
                 }
                 ;
 
-class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY exp_list RCURLY {
+class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
                   // TODO: change for class method specific stuff
                   ExpressionList_p body = new ExpressionList(expression_list);
                   expression_list.clear();
@@ -226,7 +230,6 @@ empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array(0
 exp_list:       exp { expression_list.push_back($1); }
                 | exp_list COMMA exp { expression_list.push_back($3); }
                 ;
-
 
 hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
                 ;

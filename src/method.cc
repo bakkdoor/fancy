@@ -41,7 +41,34 @@ FancyObject_p Method::eval(Scope *scope)
 
 FancyObject_p Method::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
-  cout << "calling method!" << endl;
+  Scope *call_scope = new Scope(self, scope);
+
+  // check amount of given arguments
+  if(_argnames.size() != args.size()) {
+    error("Given amount of arguments (")
+      << args.size()
+      << ") doesn't match expected amount ("
+      << _argnames.size()
+      << ")";
+  } else {
+    // if amount ok, set the parameters to the given arguments
+    list< pair<Identifier_p, Identifier_p> >::iterator name_it = _argnames.begin();
+    list<Expression_p>::iterator arg_it = args.begin();
+    
+    while(name_it != _argnames.end() && arg_it != args.end()) {
+      FancyObject_p argval = (*arg_it)->eval(scope);
+      // name_it->second holds the name of the actual param name 
+      // (the first is part of the method name)
+      call_scope->define(name_it->second->name(), argval);
+      name_it++;
+      arg_it++;
+    }
+    
+    // cout << "value for: name is: " << call_scope->get("name")->to_s() <<endl;
+    // finally, eval the methods body expression
+    return this->body->eval(call_scope);
+  }
+  
   return nil;
 }
 
