@@ -14,4 +14,6 @@ test: all
 	bin/fancy examples/class.fnc
 	@echo
 	bin/fancy examples/arithmetic.fnc
+	@echo 
+	bin/fancy examples/blocks.fnc
 	@echo
