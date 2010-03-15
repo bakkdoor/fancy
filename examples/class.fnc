@@ -12,4 +12,6 @@ def class Foo < Bar {
 
 def main: args {
   f = Foo new: "Chris"
-}
+};
+
+f = Bar new: "Chris"

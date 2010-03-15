@@ -38,6 +38,7 @@ void init_core_classes()
 
   ClassClass = new Class(ObjectClass);
   ClassClass->set_class(ClassClass);
+  ObjectClass->set_class(ClassClass);
 
   ModuleClass = new Class(ObjectClass);
   ModuleClass->set_class(ModuleClass);
@@ -57,6 +58,7 @@ void init_core_classes()
 
   ConsoleClass = new Class(ObjectClass);
 
+  init_object_class();
   init_string_class();
   init_number_class();
   init_console_class();

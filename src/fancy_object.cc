@@ -106,17 +106,11 @@ string FancyObject::to_s() const
 
 FancyObject_p FancyObject::call_method(const string &method_name, list<Expression_p> arguments, Scope *scope)
 {
-  // first of all, check singleton methods
-  if(this->_singleton_methods.find(method_name) != this->_singleton_methods.end()) {
-    Callable_p singleton = this->_singleton_methods[method_name];
-    return singleton->call(this, arguments, scope);
-  }
-
-  Callable_p method = this->_class->find_method(method_name);
+  Callable_p method = this->get_method(method_name);
   if(method) {
     return method->call(this, arguments, scope);
   } else {
-    cerr << "ERROR: undefined method: " << method_name << endl;
+    error("undefined method: ") << method_name << endl;
     return nil;
   }
 }
@@ -135,4 +129,22 @@ void FancyObject::def_singleton_method(const string &name, Callable_p method)
 bool FancyObject::is_class() const
 {
   return false;
+}
+
+bool FancyObject::responds_to(const string &method_name)
+{
+  if(this->get_method(method_name)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Callable_p FancyObject::get_method(const string &method_name)
+{
+  // first of all, check singleton methods
+  if(this->_singleton_methods.find(method_name) != this->_singleton_methods.end()) {
+    return this->_singleton_methods[method_name];
+  }
+  return this->_class->find_method(method_name);
 }

@@ -117,6 +117,11 @@ Callable_p Class::find_method(const string &name)
   if(this->_instance_methods.find(name) != this->_instance_methods.end()) {
     return this->_instance_methods[name];
   }
+  // then, try singleton methods (class methods)
+  if(this->_singleton_methods.find(name) != this->_singleton_methods.end()) {
+    return this->_singleton_methods[name];
+  }
+  // then, try getting method from superclass (if there is any)
   if(this->_superclass) {
     return this->_superclass->find_method(name);
   }
