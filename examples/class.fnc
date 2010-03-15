@@ -1,6 +1,7 @@
 def class Bar {
-  def foo {
-    nil
+  def say_hello: name {
+    Console print: "Hello, ";
+    Console println: name
   }
 };
 
@@ -10,8 +11,5 @@ def class Foo < Bar {
   }
 };
 
-def main: args {
-  f = Foo new: "Chris"
-};
-
-f = Bar new: "Chris"
+f = Bar new;
+f say_hello: "Chris"
