@@ -30,7 +30,7 @@ class Array : public NativeObject
   bool operator==(const Array& other) const;
   virtual NativeObject_p equal(const NativeObject_p other) const;
   
-  int size() const;
+  unsigned int size() const;
 
  private:
   vector<NativeObject_p> values;

@@ -31,11 +31,55 @@ FancyObject_p Block::eval(Scope *scope)
   }
 }
 
-FancyObject_p Block::call(list<Expression_p> args, Scope *scope)
+NativeObject_p Block::equal(const NativeObject_p other) const
+{
+  return nil;
+}
+
+FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
   // TODO: call the block
-  warnln("Can't call Blocks yet!");
-  return nil;
+  // warnln("Can't call Blocks yet!");
+
+  Scope *call_scope = new Scope(self, scope);
+
+  if(args.size() > 0) {
+    // eval, so all the values within array are evaluated.
+    NativeObject_p first_arg = args.front()->eval(scope)->native_value();
+    if(IS_ARRAY(first_arg)) {
+      Array_p args_array = dynamic_cast<Array_p>(first_arg);
+
+      // check amount of given arguments
+      if(_argnames.size() != args_array->size()) {
+        error("Given amount of arguments (")
+          << args_array->size()
+          << ") doesn't match expected amount ("
+          << _argnames.size()
+          << ") for block";
+        return nil;
+      }
+
+      // if amount ok, set the parameters to the given arguments
+      list<Identifier_p>::iterator name_it = _argnames.begin();
+      int i = 0;
+      int arr_size = args_array->size();
+
+      while(name_it != _argnames.end() && i < arr_size) {
+        FancyObject_p argval = args_array->at(i)->eval(scope);
+        // name_it->second holds the name of the actual param name
+        // (the first is part of the method name)
+        call_scope->define((*name_it)->name(), argval);
+        name_it++;
+        i++;
+      }
+    } else {
+      errorln("Block#call: expects Array as argument. Got something else!");
+      return nil;
+    }
+  }
+
+  // finally, eval the blocks body expression
+  return this->_body->eval(call_scope);
 }
 
 void Block::init_fancy_obj_cache()

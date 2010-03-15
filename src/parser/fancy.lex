@@ -7,7 +7,7 @@ int yyerror(char *s);
 
 digit		[0-9]
 letter          [A-Za-z]
-special         [-+?!_=*/^|><%]
+special         [-+?!_=*/^><%]
 int_lit 	-?{digit}+
 double_lit      {int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
@@ -17,6 +17,7 @@ lcurly          "{"
 rcurly          "}"
 lbracket        "["
 rbracket        "]"
+stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
 identifier      @?@?({letter}|{digit}|{special})+
@@ -52,6 +53,7 @@ comment         #[^\n]*
 {rcurly}        { return RCURLY; }
 {lbracket}      { return LBRACKET; }
 {rbracket}      { return RBRACKET; }
+{stab}          { return STAB; }
 {arrow}         { return ARROW; }
 {equals}        { return EQUALS; }
 {special}+      {

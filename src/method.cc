@@ -64,7 +64,6 @@ FancyObject_p Method::call(FancyObject_p self, list<Expression_p> args, Scope *s
       arg_it++;
     }
     
-    // cout << "value for: name is: " << call_scope->get("name")->to_s() <<endl;
     // finally, eval the methods body expression
     return this->body->eval(call_scope);
   }

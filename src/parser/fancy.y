@@ -9,6 +9,7 @@
 
   list< pair<Identifier_p, Identifier_p> > method_args;
   list< pair<Identifier_p, Expression_p> > methodcall_args;
+  list<Identifier_p> block_args;
   list<Expression_p> expression_list;
 %}
 
@@ -34,6 +35,7 @@
 %token                  RCURLY
 %token                  LBRACKET
 %token                  RBRACKET
+%token                  STAB
 %token                  ARROW
 %token                  COMMA
 %token                  SEMI
@@ -61,6 +63,7 @@
 %type  <object>             empty_array
 %type  <object>             exp
 %type  <object>             assignment
+%type  <object>             block_literal
 
 %type  <expression>         class_def
 %type  <expression>         class_no_super
@@ -217,8 +220,8 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 | hash_literal { $$ = $1; }
                 | array_literal { $$ = $1; }
                 | REGEX_LITERAL { $$ = $1; }
+                | block_literal { $$ = $1; }
                 ;
-
 
 array_literal:  empty_array
                 | LBRACKET exp_list RBRACKET { $$ = ArrayClass->create_instance(new Array(expression_list)); }
@@ -232,6 +235,21 @@ exp_list:       exp { expression_list.push_back($1); }
                 ;
 
 hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
+                ;
+
+block_literal:  LCURLY method_body RCURLY {
+                  $$ = BlockClass->create_instance(new Block(new ExpressionList(expression_list)));
+                  expression_list.clear();
+                }
+                | STAB block_args STAB LCURLY method_body RCURLY {
+                  $$ = BlockClass->create_instance(new Block(block_args, new ExpressionList(expression_list)));
+                  expression_list.clear();
+                  block_args.clear();
+                }
+                ;
+
+block_args:     IDENTIFIER { block_args.push_back($1); }
+                | block_args COMMA IDENTIFIER { block_args.push_back($3); }
                 ;
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }

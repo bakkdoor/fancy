@@ -59,6 +59,7 @@ void init_core_classes()
   ConsoleClass = new Class(ObjectClass);
 
   init_object_class();
+  init_block_class();
   init_string_class();
   init_number_class();
   init_console_class();

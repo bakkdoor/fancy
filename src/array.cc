@@ -141,7 +141,7 @@ NativeObject_p Array::equal(const NativeObject_p other) const
   return nil;
 }
 
-int Array::size() const
+unsigned int Array::size() const
 {
   return this->values.size();
 }

@@ -76,6 +76,9 @@ class NativeObject : public Expression
 #define IS_HASH(obj) \
   obj->type() == OBJ_HASH
 
+#define IS_ARRAY(obj) \
+  obj->type() == OBJ_ARRAY
+
 #define IS_REGEX(obj) \
   obj->type() == OBJ_REGEX
 

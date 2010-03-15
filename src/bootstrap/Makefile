@@ -1,7 +1,7 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-files = core_classes object string number console
+files = core_classes object block string number console
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -15,6 +15,9 @@ core_classes.o: core_classes.cc
 
 object.o: object.cc
 	$(cc) $(cc_flags) -c object.cc -o object.o
+
+block.o: block.cc
+	$(cc) $(cc_flags) -c block.cc -o block.o
 
 string.o: string.cc
 	$(cc) $(cc_flags) -c string.cc -o string.o
