@@ -20,6 +20,7 @@ extern Class *ConsoleClass;
 
 extern FancyObject *nil;
 extern FancyObject *t;
+extern FancyObject *_false;
 
 
 void init_core_classes();
