@@ -14,12 +14,12 @@ ostream& warnln(string message)
 
 ostream& error(string message)
 {
-  cout << "[ERROR] " << message;
+  cerr << "[ERROR] " << message;
   return cout;
 }
 
 ostream& errorln(string message)
 {
-  cout << "[ERROR] " << message << endl;
+  cerr << "[ERROR] " << message << endl;
   return cout;
 }
