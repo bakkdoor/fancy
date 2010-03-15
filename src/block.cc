@@ -44,10 +44,12 @@ FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *sc
   Scope *call_scope = new Scope(self, scope);
 
   if(args.size() > 0) {
-    // eval, so all the values within array are evaluated.
     NativeObject_p first_arg = args.front()->eval(scope)->native_value();
     if(IS_ARRAY(first_arg)) {
       Array_p args_array = dynamic_cast<Array_p>(first_arg);
+
+      // eval, so all the values within array are evaluated.
+      args_array->eval(scope);
 
       // check amount of given arguments
       if(_argnames.size() != args_array->size()) {
