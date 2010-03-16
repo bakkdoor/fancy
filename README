@@ -5,11 +5,19 @@ http://www.fancy-lang.org
 ----------------------------------------------------------------------
 
 Fancy is a dynamic, object-oriented programming language heavily
-inspired by Smalltalk, Ruby and Erlang. It has support for dynamic
-code evaluation (as in Ruby & Smalltalk), concurrency via the
-actor-model and many more features yet to be implemented.
+inspired by Smalltalk, Ruby and Erlang. It will support dynamic code
+evaluation (as in Ruby & Smalltalk), concurrency via the actor-model
+and many more features yet to be implemented.
 
 ----------------------------------------------------------------------
 
 It’s currently still in development, the implementation consisting of
 an interpreter written in C++.
+
+For some example code (that can be successfully executed), have a look
+at the examples/ directory.
+
+----------------------------------------------------------------------
+
+Fancy is licensed under the terms of the GNU LGPL v3. For more
+information on licensing issues have a look at the LICENSE file.
