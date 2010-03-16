@@ -17,6 +17,59 @@ an interpreter written in C++.
 For some example code (that can be successfully executed), have a look
 at the examples/ directory.
 
+Note however, that the parser is far from done and I'm actually
+considering rewriting it in peg/leg as that might turn out to be a
+better option. If you want to see, what the syntax is supposed to look
+like (e.g. without all those silly semicolons you'll find in the
+examples files), have a look at the spec/ directory. There you'll find
+some sample code, showing how I'd like the language to look & feel
+some distant time in the future.
+
+----------------------------------------------------------------------
+
+----------------------------
+Some technical information:
+----------------------------
+
+
+What's already working?
+------------------------
+
+  - (Simple) Class definitions
+  - (Simple) Instance method definitions
+  - String, Integer, Float, Array & Block literals
+  - Method & Operator calls
+  - Simple loops
+
+
+What's still missing?
+----------------------
+
+  - Instance & class variable access (this will follow soon)
+  - Real support for closures (right now it's simply a broken hack in
+    order to support some simple looping via while_true: etc.)
+  - Pattern matching
+  - Concurrency stuff (Actor-model based concurrency features as in
+    Erlang)
+  - Some more advanced stuff, e.g. runtime inspection of method calls
+    via MethodContext etc. (advanced stuff - saved for later)
+
+
+How is it implemented?
+-----------------------
+
+  - Currently, theres a quite simple interpreter written in
+    non-idiomatic C++. 
+    Sorry, I'm not a big C++ programmer. It should be fairly easy to
+    read though.
+  
+  - I'm planning to add a compiler later on, maybe even writtin in the
+    language itself. Possible targets include beam (Erlang VM), LLVM,
+    JVM, ... ?
+    I'd prefer not writing my own vm from scratch. Erlang would seem a
+    nice fit considering its concurrency model & vm support. Multiple
+    targets would obviously rock even more ;)
+
 ----------------------------------------------------------------------
 
 Fancy is licensed under the terms of the GNU LGPL v3. For more
