@@ -1,6 +1,5 @@
 %{
-#include "includes.h"
-
+  #include "includes.h"
 
   int yyerror(char *s);
   int yylex(void);
