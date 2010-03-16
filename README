@@ -11,19 +11,19 @@ and many more features yet to be implemented.
 
 ----------------------------------------------------------------------
 
-It’s currently still in development, the implementation consisting of
-an interpreter written in C++.
+It’s still in development, the implementation consisting of an
+interpreter written in C++.
 
 For some example code (that can be successfully executed), have a look
 at the examples/ directory.
 
 Note however, that the parser is far from done and I'm actually
 considering rewriting it in peg/leg as that might turn out to be a
-better option. If you want to see, what the syntax is supposed to look
+better option. If you want to see what the syntax is supposed to look
 like (e.g. without all those silly semicolons you'll find in the
-examples files), have a look at the spec/ directory. There you'll find
+example files), have a look at the spec/ directory. There you'll find
 some sample code, showing how I'd like the language to look & feel
-some distant time in the future.
+some time in the future.
 
 ----------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ How is it implemented?
     Sorry, I'm not a big C++ programmer. It should be fairly easy to
     read though.
   
-  - I'm planning to add a compiler later on, maybe even writtin in the
+  - I'm planning to add a compiler later on, maybe even written in the
     language itself. Possible targets include beam (Erlang VM), LLVM,
     JVM, ... ?
     I'd prefer not writing my own vm from scratch. Erlang would seem a
