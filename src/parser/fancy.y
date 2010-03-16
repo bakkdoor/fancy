@@ -84,7 +84,7 @@
 %%
 
 programm:       /* empty */
-                | exp  { Expression_p expr = $1; expr->eval(global_scope); }
+                | exp { Expression_p expr = $1; expr->eval(global_scope); }
                 | programm SEMI exp { Expression_p expr = $3; expr->eval(global_scope); }
                 ;
 

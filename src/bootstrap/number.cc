@@ -6,6 +6,7 @@ void init_number_class()
   NumberClass->def_method("-", new NativeMethod("-", method_Number_minus, 1));
   NumberClass->def_method("*", new NativeMethod("*", method_Number_multiply, 1));
   NumberClass->def_method("/", new NativeMethod("/", method_Number_divide, 1));
+  NumberClass->def_method("<=", new NativeMethod("<", method_Number_lt, 1));
 }
 
 /**
@@ -90,4 +91,25 @@ FancyObject_p method_Number_divide(FancyObject_p self, list<Expression_p> args, 
     }
   }
   return self;
+}
+
+FancyObject_p method_Number_lt(FancyObject_p self, list<Expression_p> args, Scope *scope)
+{
+  if(args.size() != 1) {
+    errorln("Number#< expects 1 argument!");
+  } else {
+    FancyObject_p arg = args.front()->eval(scope);
+    if(IS_NUM(self->native_value()) && IS_NUM(arg->native_value())) {
+      Number_p num1 = dynamic_cast<Number_p>(self->native_value());
+      Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
+      if(num1->doubleval() <= num2->doubleval()) {
+        return t;
+      } else {
+        return nil;
+      }
+    } else {
+      errorln("Number#< only works on Number objects!");
+    }
+  }
+  return nil;
 }
