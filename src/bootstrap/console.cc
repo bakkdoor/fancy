@@ -13,23 +13,15 @@ void init_console_class()
 
 FancyObject_p class_method_Console_print(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
-  if(args.size() > 1) {
-    errorln("Console#print got more than 1 argument!");
-  } else {
-    FancyObject_p arg = args.front()->eval(scope);
-    cout << arg->to_s();
-  }
+  FancyObject_p arg = args.front()->eval(scope);
+  cout << arg->to_s();
   return nil;
 }
 
 FancyObject_p class_method_Console_println(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
-  if(args.size() > 1) {
-    errorln("Console#println got more than 1 argument!");
-  } else {
-    FancyObject_p arg = args.front()->eval(scope);
-    cout << arg->to_s() << endl;
-  }
+  FancyObject_p arg = args.front()->eval(scope);
+  cout << arg->to_s() << endl;
   return nil;
 }
 
