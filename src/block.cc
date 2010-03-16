@@ -50,46 +50,23 @@ FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *sc
   }
 
   // vector with temporary values for block parameter names (original values)
-  int args_size = args.size();
-  vector<FancyObject_p> old_values(args_size);
+  vector<FancyObject_p> old_values(args.size());
 
-  if(args_size > 0) {
-    NativeObject_p first_arg = args.front()->eval(scope)->native_value();
-    if(IS_ARRAY(first_arg)) {
-      Array_p args_array = dynamic_cast<Array_p>(first_arg);
-
-      // eval, so all the values within array are evaluated.
-      args_array->eval(scope);
-
-      // check amount of given arguments
-      if(_argnames.size() != args_array->size()) {
-        error("Given amount of arguments (")
-          << args_array->size()
-          << ") doesn't match expected amount ("
-          << _argnames.size()
-          << ") for block";
-        return nil;
-      }
-
-      // if amount ok, set the parameters to the given arguments
-      list<Identifier_p>::iterator name_it = _argnames.begin();
-      int i = 0;
-      int arr_size = args_array->size();
-
-      while(name_it != _argnames.end() && i < arr_size) {
-        FancyObject_p argval = args_array->at(i)->eval(scope);
-        string name = (*name_it)->name();
-
-        // save old value for name in old_values
-        old_values[i] = _creation_scope->get(name);
-        // set new value (argument)
-        _creation_scope->define(name, argval);
-        name_it++;
-        i++;
-      }
-    } else {
-      errorln("Block#call: expects Array as argument. Got something else!");
-      return nil;
+  if(args.size() > 0) {
+    list<Identifier_p>::iterator name_it = _argnames.begin();
+    list<Expression_p>::iterator args_it = args.begin();
+    int i = 0;
+    while(name_it != _argnames.end() && args_it != args.end()) {
+      FancyObject_p argval = (*args_it)->eval(scope);
+      string name = (*name_it)->name();
+      
+      // save old value for name in old_values
+      old_values[i] = _creation_scope->get(name);
+      // set new value (argument)
+      _creation_scope->define(name, argval);
+      name_it++;
+      args_it++;
+      i++;
     }
   }
   
@@ -97,19 +74,14 @@ FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *sc
   FancyObject_p return_value = this->_body->eval(_creation_scope);
   
   // reset old values for param names in creation_scope (if any args given)
-  if(args_size > 0) {
-    NativeObject_p first_arg = args.front()->eval(scope)->native_value();
-    if(IS_ARRAY(first_arg)) {
-      Array_p args_array = dynamic_cast<Array_p>(first_arg);
-      list<Identifier_p>::iterator name_it = _argnames.begin();
-      int i = 0;
-      int arr_size = args_array->size();
-      while(name_it != _argnames.end() && i < arr_size) {
-        string name = (*name_it)->name();
-        _creation_scope->define(name, old_values[i]);
-        i++;
-        name_it++;
-      }
+  if(args.size() > 0) {
+    list<Identifier_p>::iterator name_it = _argnames.begin();
+    unsigned int i = 0;
+    while(name_it != _argnames.end() && i < args.size()) {
+      string name = (*name_it)->name();
+      _creation_scope->define(name, old_values[i]);
+      i++;
+      name_it++;
     }
   }
 
