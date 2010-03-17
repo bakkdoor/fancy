@@ -13,15 +13,13 @@ void init_console_class()
 
 FancyObject_p class_method_Console_print(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
-  cout << arg->to_s();
+  cout << args.front()->to_s();
   return nil;
 }
 
 FancyObject_p class_method_Console_println(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
-  cout << arg->to_s() << "\n";
+  cout << args.front()->to_s() << "\n";
   return nil;
 }
 

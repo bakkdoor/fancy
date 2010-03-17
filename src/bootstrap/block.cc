@@ -33,8 +33,6 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
     list<FancyObject_p> passed_args;
     if(IS_ARRAY(first_arg)) {
       Array_p args_array = dynamic_cast<Array_p>(first_arg);
-      // eval, so all the values within array are evaluated.
-      args_array->eval(scope);
       int array_size = args_array->size();
       for(int i = 0; i < array_size; i++) {
         passed_args.push_back(dynamic_cast<FancyObject_p>(args_array->at(i)));
@@ -47,7 +45,7 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
 
 FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p first_arg = args.front()->eval(scope);
+  FancyObject_p first_arg = args.front();
   if(IS_BLOCK(first_arg->native_value())) {
     Block_p while_block = dynamic_cast<Block_p>(self->native_value());
     Block_p then_block = dynamic_cast<Block_p>(first_arg->native_value());

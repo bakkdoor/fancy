@@ -19,7 +19,7 @@ void init_number_class()
  */
 FancyObject_p method_Number_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -36,7 +36,7 @@ FancyObject_p method_Number_plus(FancyObject_p self, list<FancyObject_p> args, S
 
 FancyObject_p method_Number_minus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -53,7 +53,7 @@ FancyObject_p method_Number_minus(FancyObject_p self, list<FancyObject_p> args, 
 
 FancyObject_p method_Number_multiply(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -70,7 +70,7 @@ FancyObject_p method_Number_multiply(FancyObject_p self, list<FancyObject_p> arg
 
 FancyObject_p method_Number_divide(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -84,7 +84,7 @@ FancyObject_p method_Number_divide(FancyObject_p self, list<FancyObject_p> args,
 
 FancyObject_p method_Number_lt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -101,7 +101,7 @@ FancyObject_p method_Number_lt(FancyObject_p self, list<FancyObject_p> args, Sco
 
 FancyObject_p method_Number_lt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -119,7 +119,7 @@ FancyObject_p method_Number_lt_eq(FancyObject_p self, list<FancyObject_p> args, 
 
 FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -136,7 +136,7 @@ FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Sco
 
 FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -153,7 +153,7 @@ FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, 
 
 FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_NUM(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Number_p num2 = dynamic_cast<Number_p>(arg->native_value());
@@ -168,7 +168,7 @@ FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Sco
 
 FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  FancyObject_p arg = args.front()->eval(scope);
+  FancyObject_p arg = args.front();
   if(IS_BLOCK(arg->native_value())) {
     Number_p num1 = dynamic_cast<Number_p>(self->native_value());
     Block_p block = dynamic_cast<Block_p>(arg->native_value());
