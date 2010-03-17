@@ -59,6 +59,8 @@ class Scope : public gc_cleanup
   FancyObject_p current_self() const;
   Class* current_class() const;
 
+  void set_current_class(Class_p klass);
+
  private:
   void set_current_self(FancyObject_p current_self);
 

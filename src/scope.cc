@@ -10,7 +10,6 @@ Scope::Scope(FancyObject_p current_self) :
 {
   assert(current_self);
   set_current_self(current_self);
-  this->_current_class = current_self->get_class();
 }
 
 Scope::Scope(FancyObject_p current_self, Scope *parent) :
@@ -18,7 +17,6 @@ Scope::Scope(FancyObject_p current_self, Scope *parent) :
 {
   assert(current_self);
   set_current_self(current_self);
-  this->_current_class = current_self->get_class();
 }
 
 Scope::~Scope()
@@ -78,6 +76,15 @@ FancyObject_p Scope::operator[](string identifier) const
 
 FancyObject_p Scope::get(string identifier)
 {
+  // check for instance & class variables
+  if(identifier[0] == '@') {
+    if(identifier[1] == '@') {
+      return this->_current_class->get_class_slot(identifier);
+    } else {
+      return this->_current_self->get_slot(identifier);
+    }
+  }
+
   if(this->value_mappings.find(identifier) != this->value_mappings.end()) {
     return this->value_mappings[identifier];
   } else {
@@ -108,6 +115,17 @@ NativeMethod_p Scope::get_native(string identifier)
 
 bool Scope::define(string identifier, FancyObject_p value)
 {
+  // check for instance & class variables
+  if(identifier[0] == '@') {
+    if(identifier[1] == '@') {
+      this->_current_class->def_class_slot(identifier, value);
+      return true;
+    } else {
+      this->_current_self->set_slot(identifier, value);
+      return true;
+    }
+  }
+
   bool found = this->value_mappings.find(identifier) != this->value_mappings.end();
   this->value_mappings[identifier] = value;
   return found;
@@ -141,11 +159,18 @@ FancyObject_p Scope::current_self() const
 
 Class* Scope::current_class() const
 {
- return this->_current_class;
+  return this->_current_class;
 }
 
 void Scope::set_current_self(FancyObject_p current_self)
 {
   this->_current_self = current_self;
+  this->_current_class = current_self->get_class();
   this->define("self", current_self);
+}
+
+void Scope::set_current_class(Class_p klass)
+{
+  if(klass)
+    this->_current_class = klass;
 }
