@@ -17,8 +17,10 @@ public:
   void def_slot(const string &name);
   void def_slot(const Identifier_p name);
 
-  void def_class_slot(const string &name, const NativeObject_p value);
-  void def_class_slot(const Identifier_p name, NativeObject_p value);
+  void def_class_slot(const string &name, const FancyObject_p value);
+  void def_class_slot(const Identifier_p name, FancyObject_p value);
+
+  FancyObject_p get_class_slot(const string &identifier) const;
 
   void def_method(const string &name, const Callable_p method);
   void def_method(const Identifier_p, const Callable_p method);
@@ -29,7 +31,7 @@ public:
   void include(const Module_p module);
 
   vector<string> instance_slotnames() const;
-  map<string, NativeObject_p> class_slots() const;
+  map<string, FancyObject_p> class_slots() const;
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
@@ -42,7 +44,7 @@ public:
 private:
   /* map<string, NativeObject_p> _slots; */
   vector<string> _instance_slotnames;
-  map<string, NativeObject_p> _class_slots;
+  map<string, FancyObject_p> _class_slots;
   Class_p _superclass;
   vector<Module_p> _included_modules;
 

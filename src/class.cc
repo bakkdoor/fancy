@@ -39,16 +39,27 @@ void Class::def_slot(const Identifier_p name)
   this->def_slot(name->name());
 }
 
-void Class::def_class_slot(const string &name, const NativeObject_p value)
+void Class::def_class_slot(const string &name, const FancyObject_p value)
 {
   assert(value);
   this->_class_slots[name] = value;
 }
 
-void Class::def_class_slot(const Identifier_p name, const NativeObject_p value)
+void Class::def_class_slot(const Identifier_p name, const FancyObject_p value)
 {
   assert(name);
   this->def_class_slot(name->name(), value);
+}
+
+FancyObject_p Class::get_class_slot(const string &identifier) const
+{
+  map<string, FancyObject_p>::const_iterator it;
+  it = this->slots.find(identifier);
+  if(it != this->slots.end()) {
+    return it->second;
+  } else {
+    return nil;
+  }
 }
 
 void Class::include(const Module_p module)
@@ -62,7 +73,7 @@ vector<string> Class::instance_slotnames() const
   return this->_instance_slotnames;
 }
 
-map<string, NativeObject_p> Class::class_slots() const
+map<string, FancyObject_p> Class::class_slots() const
 {
   return this->_class_slots;
 }
