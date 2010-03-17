@@ -237,11 +237,11 @@ hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(n
                 ;
 
 block_literal:  LCURLY method_body RCURLY {
-                  $$ = BlockClass->create_instance(new Block(new ExpressionList(expression_list)));
+                  $$ = new Block(new ExpressionList(expression_list));
                   expression_list.clear();
                 }
                 | STAB block_args STAB LCURLY method_body RCURLY {
-                  $$ = BlockClass->create_instance(new Block(block_args, new ExpressionList(expression_list)));
+                  $$ = new Block(block_args, new ExpressionList(expression_list));
                   expression_list.clear();
                   block_args.clear();
                 }

@@ -21,7 +21,7 @@ FancyObject_p class_method_Console_print(FancyObject_p self, list<Expression_p> 
 FancyObject_p class_method_Console_println(FancyObject_p self, list<Expression_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
-  cout << arg->to_s() << endl;
+  cout << arg->to_s() << "\n";
   return nil;
 }
 

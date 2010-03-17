@@ -25,6 +25,10 @@ Block::~Block()
 
 FancyObject_p Block::eval(Scope *scope)
 {
+  if(!this->_creation_scope) {
+    set_creation_scope(scope);
+  }
+
   if(this->_block_fancy_obj) {
     return this->_block_fancy_obj;
   } else {
