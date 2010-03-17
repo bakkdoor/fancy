@@ -17,6 +17,7 @@ sub_dirs = parser bootstrap
 all: subdirs ../bin/fancy
 
 ../bin/fancy: $(obj_files)
+	@mkdir -p ../bin/
 	$(cc) $(cc_flags) $(obj_files) -o ../bin/fancy -lfl -lgc -lgccpp
 
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
