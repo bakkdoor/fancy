@@ -41,7 +41,7 @@ libraries/programms in order to build the sources:
 
 For example, to build on Ubuntu Linux, run:
   $ cd <fancy_source_path>
-  $ sudo apt-get install make bison flex libgc
+  $ sudo apt-get install make bison flex libgc-dev
   $ make && make test
 
 
