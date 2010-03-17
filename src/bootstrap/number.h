@@ -10,7 +10,11 @@ FancyObject_p method_Number_plus(FancyObject_p self, list<Expression_p> args, Sc
 FancyObject_p method_Number_minus(FancyObject_p self, list<Expression_p> args, Scope *scope);
 FancyObject_p method_Number_multiply(FancyObject_p self, list<Expression_p> args, Scope *scope);
 FancyObject_p method_Number_divide(FancyObject_p self, list<Expression_p> args, Scope *scope);
+FancyObject_p method_Number_lt(FancyObject_p self, list<Expression_p> args, Scope *scope);
 FancyObject_p method_Number_lt_eq(FancyObject_p self, list<Expression_p> args, Scope *scope);
+FancyObject_p method_Number_gt(FancyObject_p self, list<Expression_p> args, Scope *scope);
+FancyObject_p method_Number_gt_eq(FancyObject_p self, list<Expression_p> args, Scope *scope);
+FancyObject_p method_Number_eq(FancyObject_p self, list<Expression_p> args, Scope *scope);
 FancyObject_p method_Number_times(FancyObject_p self, list<Expression_p> args, Scope *scope);
 
 

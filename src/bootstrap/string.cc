@@ -5,6 +5,7 @@ void init_string_class()
   StringClass->def_method("downcase", new NativeMethod("downcase", method_String_downcase));
   StringClass->def_method("upcase", new NativeMethod("upcase", method_String_upcase));
   StringClass->def_method("from:to:", new NativeMethod("from:to:", method_String_from__to));
+  StringClass->def_method("==", new NativeMethod("==", method_String_eq));
 }
 
 
@@ -43,5 +44,18 @@ FancyObject_p method_String_from__to(FancyObject_p self, list<Expression_p> args
     return self;
   }
 
+  return nil;
+}
+
+FancyObject_p method_String_eq(FancyObject_p self, list<Expression_p> args, Scope *scope)
+{
+  FancyObject_p arg = args.front()->eval(scope);
+  if(IS_STRING(arg->native_value())) {
+    string str1 = dynamic_cast<String_p>(self->native_value())->value();
+    string str2 = dynamic_cast<String_p>(arg->native_value())->value();
+    if(str1 == str2) {
+      return t;
+    }
+  }
   return nil;
 }
