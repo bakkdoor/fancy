@@ -1,4 +1,8 @@
 def class Bar {
+  def initialize {
+    Console println: "In Bar constructor!"
+  };
+
   def say_hello: name {
     Console print: "Hello, ";
     Console println: name

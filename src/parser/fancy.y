@@ -223,7 +223,11 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 ;
 
 array_literal:  empty_array
-                | LBRACKET exp_list RBRACKET { $$ = ArrayClass->create_instance(new Array(expression_list)); }
+                | LBRACKET exp_comma_list RBRACKET { $$ = ArrayClass->create_instance(new Array(expression_list)); }
+                ;
+
+exp_comma_list: exp { expression_list.push_back($1); }
+                | exp_list COMMA exp { expression_list.push_back($3); }
                 ;
 
 empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array(0)); }
