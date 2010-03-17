@@ -41,7 +41,6 @@
 %token                  COLON
 %token                  CLASS
 %token                  DEF
-%token                  INHERIT
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
@@ -112,7 +111,7 @@ class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
                 }
                 ;
 
-class_super:    DEF CLASS IDENTIFIER INHERIT IDENTIFIER LCURLY exp_list RCURLY {
+class_super:    DEF CLASS IDENTIFIER COLON IDENTIFIER LCURLY exp_list RCURLY {
                   $$ = new ClassDefExpr($5, $3, new ExpressionList(expression_list));
                   expression_list.clear();
                 }

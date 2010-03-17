@@ -9,7 +9,7 @@ def class Bar {
   }
 };
 
-def class Foo < Bar {
+def class Foo : Bar {
   def initialize: name {
     Console println: "gonna set @name";
     @name = name

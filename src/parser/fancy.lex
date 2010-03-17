@@ -29,7 +29,6 @@ equals          =
 colon           :
 class           "class"
 def             "def"
-inherit         "<"
 dot             "."
 dollar          "$"
 comment         #[^\n]*
@@ -37,7 +36,6 @@ comment         #[^\n]*
 %%
 
 {class}         { return CLASS; }
-{inherit}       { return INHERIT; }
 {def}           { return DEF; }
 {int_lit}	{ yylval.object = NumberClass->create_instance(Number::from_int(atoi(yytext))); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = NumberClass->create_instance(Number::from_double(atof(yytext))); return DOUBLE_LITERAL; }
