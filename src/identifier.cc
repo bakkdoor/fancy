@@ -21,13 +21,7 @@ NativeObject_p Identifier::equal(const NativeObject_p other) const
 
 FancyObject_p Identifier::eval(Scope *scope)
 {
-  NativeMethod_p bif = scope->get_native(this->_name);
-  if(bif) {
-    return MethodClass->create_instance(bif);
-  } else {
-    // return ObjectClass->create_instance(scope->get(this->_name));
-    return scope->get(this->_name);
-  }
+  return scope->get(this->_name);
 }
 
 string Identifier::to_s() const
