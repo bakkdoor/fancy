@@ -230,7 +230,7 @@ empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array(0
                 ;
 
 exp_list:       exp { expression_list.push_back($1); }
-                | exp_list COMMA exp { expression_list.push_back($3); }
+                | exp_list SEMI exp { expression_list.push_back($3); }
                 ;
 
 hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
