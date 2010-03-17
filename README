@@ -27,6 +27,24 @@ some time in the future.
 
 ----------------------------------------------------------------------
 
+Compiling / Installing from source:
+------------------------------------
+
+Fancy is currently built using flex & bison for parsing and uses the
+BoehmGC for garbage collection. You'll need the following
+libraries/programms in order to build the sources:
+  - GNU Make
+  - Bison
+  - Flex
+  - libgc ( BoehmGC - you can also get it here:
+            http://www.hpl.hp.com/personal/Hans_Boehm/gc/ )
+
+For example, to build on Ubuntu Linux, run:
+  $ cd <fancy_source_path>
+  $ sudo apt-get install make bison flex libgc
+  $ make && make test
+
+
 ----------------------------
 Some technical information:
 ----------------------------
@@ -40,14 +58,14 @@ What's already working?
   - String, Integer, Float, Array & Block literals
   - Method & Operator calls
   - Simple loops
+  - Simple support for closures (it works but there's definately room
+    for performance improvements)
 
 
 What's still missing?
 ----------------------
 
   - Instance & class variable access (this will follow soon)
-  - Real support for closures (right now it's simply a broken hack in
-    order to support some simple looping via while_true: etc.)
   - Pattern matching
   - Concurrency stuff (Actor-model based concurrency features as in
     Erlang)
@@ -62,7 +80,11 @@ How is it implemented?
     non-idiomatic C++. 
     Sorry, I'm not a big C++ programmer. It should be fairly easy to
     read though.
-  
+
+  - It uses the BoehmGC for garbage collection.
+
+  - Currently the lexer & parser are built with flex & bison.
+
   - I'm planning to add a compiler later on, maybe even written in the
     language itself. Possible targets include beam (Erlang VM), LLVM,
     JVM, ... ?
