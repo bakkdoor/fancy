@@ -47,7 +47,7 @@ string Block::to_s() const
   return "<Block>";
 }
 
-FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   if(!this->_creation_scope) {
     set_creation_scope(scope);
@@ -58,7 +58,7 @@ FancyObject_p Block::call(FancyObject_p self, list<Expression_p> args, Scope *sc
 
   if(args.size() > 0) {
     list<Identifier_p>::iterator name_it = _argnames.begin();
-    list<Expression_p>::iterator args_it = args.begin();
+    list<FancyObject_p>::iterator args_it = args.begin();
     int i = 0;
     while(name_it != _argnames.end() && args_it != args.end()) {
       FancyObject_p argval = (*args_it)->eval(scope);

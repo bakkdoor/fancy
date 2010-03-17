@@ -1,7 +1,7 @@
 #include "includes.h"
 
 NativeMethod::NativeMethod(string identifier,
-                           FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *scope),
+                           FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args,
                            bool special) : 
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
@@ -9,14 +9,14 @@ NativeMethod::NativeMethod(string identifier,
 }
 
 NativeMethod::NativeMethod(string identifier,
-                           FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *scope),
+                           FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args) :
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
 {
 }
 
 NativeMethod::NativeMethod(string identifier,
-                           FancyObject_p (&func)(FancyObject_p self, list<Expression_p> args, Scope *scope)) :
+                           FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope)) :
   NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(0), _special(false)
 {
 }
@@ -50,7 +50,7 @@ string NativeMethod::to_s() const
   return "<bif>";
 }
 
-FancyObject_p NativeMethod::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p NativeMethod::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   return this->_func(self, args, scope);
 }

@@ -39,7 +39,7 @@ FancyObject_p Method::eval(Scope *scope)
   return MethodClass->create_instance(this);
 }
 
-FancyObject_p Method::call(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   Scope *call_scope = new Scope(self, scope);
 
@@ -53,7 +53,7 @@ FancyObject_p Method::call(FancyObject_p self, list<Expression_p> args, Scope *s
   } else {
     // if amount ok, set the parameters to the given arguments
     list< pair<Identifier_p, Identifier_p> >::iterator name_it = _argnames.begin();
-    list<Expression_p>::iterator arg_it = args.begin();
+    list<FancyObject_p>::iterator arg_it = args.begin();
     
     while(name_it != _argnames.end() && arg_it != args.end()) {
       FancyObject_p argval = (*arg_it)->eval(scope);

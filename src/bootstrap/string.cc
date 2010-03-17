@@ -13,21 +13,21 @@ void init_string_class()
  * String instance methods
  */
 
-FancyObject_p method_String_downcase(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_String_downcase(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   string str = dynamic_cast<String_p>(self->native_value())->value();
   std::transform(str.begin(), str.end(), str.begin(), ::tolower);
   return StringClass->create_instance(String::from_value(str));
 }
 
-FancyObject_p method_String_upcase(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_String_upcase(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   string str = dynamic_cast<String_p>(self->native_value())->value();
   std::transform(str.begin(), str.end(), str.begin(), ::toupper);
   return StringClass->create_instance(String::from_value(str));
 }
 
-FancyObject_p method_String_from__to(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_String_from__to(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   string str = dynamic_cast<String_p>(self->native_value())->value();
   FancyObject_p arg1 = args.front()->eval(scope);
@@ -47,7 +47,7 @@ FancyObject_p method_String_from__to(FancyObject_p self, list<Expression_p> args
   return nil;
 }
 
-FancyObject_p method_String_eq(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_String_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_STRING(arg->native_value())) {

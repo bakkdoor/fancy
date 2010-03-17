@@ -27,10 +27,9 @@ NativeObject_p OperatorCall::equal(const NativeObject_p other) const
 FancyObject_p OperatorCall::eval(Scope *scope)
 {
   // FancyObject_p self = scope->current_self();
-  list<Expression_p> args;
-  args.push_back(this->operand);
+  list<FancyObject_p> args;
+  args.push_back(this->operand->eval(scope));
 
-  // return self->call_method(this->operator_name->name(), args, scope);
   FancyObject_p receiver_obj = receiver->eval(scope);
   return receiver_obj->call_method(this->operator_name->name(), args, scope);
 }

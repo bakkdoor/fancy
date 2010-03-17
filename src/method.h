@@ -18,7 +18,7 @@ class Method : public NativeObject, public Callable
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
-  virtual FancyObject_p call(FancyObject_p self, list<Expression_p> args, Scope *scope);
+  virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   unsigned int argcount() const;
   list< pair<Identifier_p, Identifier_p> > argnames() const;

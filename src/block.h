@@ -12,7 +12,7 @@ public:
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
 
-  FancyObject_p call(FancyObject_p self, list<Expression_p> args, Scope *scope);
+  FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   void set_creation_scope(Scope *creation_scope);
 

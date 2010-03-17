@@ -17,7 +17,7 @@ void init_number_class()
 /**
  * Number instance methods
  */
-FancyObject_p method_Number_plus(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -34,7 +34,7 @@ FancyObject_p method_Number_plus(FancyObject_p self, list<Expression_p> args, Sc
   return self;
 }
 
-FancyObject_p method_Number_minus(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_minus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -51,7 +51,7 @@ FancyObject_p method_Number_minus(FancyObject_p self, list<Expression_p> args, S
   return self;
 }
 
-FancyObject_p method_Number_multiply(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_multiply(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -68,7 +68,7 @@ FancyObject_p method_Number_multiply(FancyObject_p self, list<Expression_p> args
   return self;
 }
 
-FancyObject_p method_Number_divide(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_divide(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -82,7 +82,7 @@ FancyObject_p method_Number_divide(FancyObject_p self, list<Expression_p> args, 
   return self;
 }
 
-FancyObject_p method_Number_lt(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_lt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -99,7 +99,7 @@ FancyObject_p method_Number_lt(FancyObject_p self, list<Expression_p> args, Scop
   return nil;
 }
 
-FancyObject_p method_Number_lt_eq(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_lt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -117,7 +117,7 @@ FancyObject_p method_Number_lt_eq(FancyObject_p self, list<Expression_p> args, S
 }
 
 
-FancyObject_p method_Number_gt(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -134,7 +134,7 @@ FancyObject_p method_Number_gt(FancyObject_p self, list<Expression_p> args, Scop
   return nil;
 }
 
-FancyObject_p method_Number_gt_eq(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -151,7 +151,7 @@ FancyObject_p method_Number_gt_eq(FancyObject_p self, list<Expression_p> args, S
   return nil;
 }
 
-FancyObject_p method_Number_eq(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_NUM(arg->native_value())) {
@@ -166,7 +166,7 @@ FancyObject_p method_Number_eq(FancyObject_p self, list<Expression_p> args, Scop
   return nil;
 }
 
-FancyObject_p method_Number_times(FancyObject_p self, list<Expression_p> args, Scope *scope)
+FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   FancyObject_p arg = args.front()->eval(scope);
   if(IS_BLOCK(arg->native_value())) {
@@ -174,7 +174,7 @@ FancyObject_p method_Number_times(FancyObject_p self, list<Expression_p> args, S
     Block_p block = dynamic_cast<Block_p>(arg->native_value());
     int val = num1->intval();
     for(int i = 0; i < val; i++) {
-      block->call(self, list<Expression_p>(1, NumberClass->create_instance(Number::from_int(i))), scope);
+      block->call(self, list<FancyObject_p>(1, NumberClass->create_instance(Number::from_int(i))), scope);
     }
   } else {
     errorln("Number#times: expects Block object as parameter!");

@@ -51,7 +51,7 @@ NativeObject_p MethodCall::equal(const NativeObject_p other) const
 FancyObject_p MethodCall::eval(Scope *scope)
 {
   list< pair<Identifier_p, Expression_p> >::iterator it;
-  list<Expression_p> args;
+  list<FancyObject_p> args;
   for(it = arg_expressions.begin(); it != arg_expressions.end(); it++) {
     Expression_p exp = (*it).second;
     args.push_back(exp->eval(scope));
