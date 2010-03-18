@@ -1,17 +1,26 @@
 #include "includes.h"
 
-Class::Class() : Module(ClassClass)
+Class::Class(const string &name) :
+  Module(ClassClass),
+  _name(name)
 {
   this->_superclass = 0;
 }
 
-Class::Class(Class_p superclass) : 
-  Module(ClassClass), _superclass(superclass)
+Class::Class(const string &name, Class_p superclass) : 
+  Module(ClassClass),
+  _name(name),
+  _superclass(superclass)
 {
 }
 
 Class::~Class()
 {
+}
+
+string Class::name() const
+{
+  return _name;
 }
 
 FancyObject_p Class::create_instance() const

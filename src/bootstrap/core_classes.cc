@@ -32,28 +32,28 @@ FancyObject_p t;
  */
 void init_core_classes()
 {
-  ObjectClass = new Class();
+  ObjectClass = new Class("Object");
 
-  ClassClass = new Class(ObjectClass);
+  ClassClass = new Class("Class", ObjectClass);
   ClassClass->set_class(ClassClass);
   ObjectClass->set_class(ClassClass);
 
-  ModuleClass = new Class(ObjectClass);
+  ModuleClass = new Class("Module", ObjectClass);
   ModuleClass->set_class(ModuleClass);
 
-  NilClass = new Class(ObjectClass);
-  TClass = new Class(ObjectClass);
-  StringClass = new Class(ObjectClass);
-  SymbolClass = new Class(ObjectClass);
-  NumberClass = new Class(ObjectClass);
-  RegexClass = new Class(ObjectClass);
-  ArrayClass = new Class(ObjectClass);
-  HashClass = new Class(ObjectClass);
-  MethodClass = new Class(ObjectClass);
-  MethodCallClass = new Class(ObjectClass);
-  BlockClass = new Class(ObjectClass);
+  NilClass = new Class("NilClass", ObjectClass);
+  TClass = new Class("TClass", ObjectClass);
+  StringClass = new Class("String", ObjectClass);
+  SymbolClass = new Class("Symbol", ObjectClass);
+  NumberClass = new Class("Number", ObjectClass);
+  RegexClass = new Class("Regex", ObjectClass);
+  ArrayClass = new Class("Array", ObjectClass);
+  HashClass = new Class("Hash", ObjectClass);
+  MethodClass = new Class("Method", ObjectClass);
+  MethodCallClass = new Class("MethodCall", ObjectClass);
+  BlockClass = new Class("Block", ObjectClass);
 
-  ConsoleClass = new Class(ObjectClass);
+  ConsoleClass = new Class("Console", ObjectClass);
 
   init_object_class();
   init_block_class();

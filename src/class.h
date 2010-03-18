@@ -7,9 +7,11 @@ typedef Class* Class_p;
 class Class : public Module
 {
 public:
-  Class();
-  Class(Class_p superclass);
+  Class(const string &name);
+  Class(const string &name, Class_p superclass);
   virtual ~Class();
+
+  string name() const;
 
   FancyObject_p create_instance() const;
   FancyObject_p create_instance(NativeObject_p native_value) const;
@@ -43,6 +45,7 @@ public:
 
 private:
   /* map<string, NativeObject_p> _slots; */
+  string _name;
   vector<string> _instance_slotnames;
   map<string, FancyObject_p> _class_slots;
   Class_p _superclass;
