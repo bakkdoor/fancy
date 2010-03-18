@@ -61,13 +61,11 @@ FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *s
     list<FancyObject_p>::iterator args_it = args.begin();
     int i = 0;
     while(name_it != _argnames.end() && args_it != args.end()) {
-      FancyObject_p argval = (*args_it)->eval(scope);
       string name = (*name_it)->name();
-      
       // save old value for name in old_values
       old_values[i] = _creation_scope->get(name);
       // set new value (argument)
-      _creation_scope->define(name, argval);
+      _creation_scope->define(name, (*args_it));
       name_it++;
       args_it++;
       i++;

@@ -56,10 +56,9 @@ FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *
     list<FancyObject_p>::iterator arg_it = args.begin();
     
     while(name_it != _argnames.end() && arg_it != args.end()) {
-      FancyObject_p argval = (*arg_it)->eval(scope);
       // name_it->second holds the name of the actual param name 
       // (the first is part of the method name)
-      call_scope->define(name_it->second->name(), argval);
+      call_scope->define(name_it->second->name(), (*arg_it));
       name_it++;
       arg_it++;
     }

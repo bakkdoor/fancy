@@ -47,7 +47,7 @@ NativeObject_p NativeMethod::equal(const NativeObject_p other) const
 
 string NativeMethod::to_s() const
 {
-  return "<bif>";
+  return "<NativeMethod:" + this->_identifier +">";
 }
 
 FancyObject_p NativeMethod::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
