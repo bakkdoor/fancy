@@ -128,7 +128,7 @@ FancyObject_p Class::eval(Scope *scope)
 
 string Class::to_s() const
 {
-  return "<Class>";
+  return "<Class:" + this->_name + ">";
 }
 
 Callable_p Class::find_method(const string &name)
