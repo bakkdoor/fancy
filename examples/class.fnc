@@ -17,7 +17,7 @@ def class Foo : Bar {
   def say_hello {
     Console print: "Hello, ";
     Console println: @name;
-    @block call
+    {@block call} if: @block
   };
   def on_hello_do: block {
     @block = block
@@ -28,7 +28,7 @@ bar = (Bar new);
 bar say_hello: "Chris";
 
 foo = (Foo new: "Chris from Constructor");
-# foo say_hello;
+foo say_hello;
 foo on_hello_do: {
   Console println: "Call me when calling on_hello! :)"
 };

@@ -5,6 +5,7 @@ void init_block_class()
   BlockClass->def_method("call", new NativeMethod("call", method_Block_call));
   BlockClass->def_method("call:", new NativeMethod("call:", method_Block_call_with_arg));
   BlockClass->def_method("while_true:", new NativeMethod("while_true:", method_Block_while_true));
+  BlockClass->def_method("if:", new NativeMethod("if:", method_Block_if));
 }
 
 
@@ -56,6 +57,18 @@ FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> ar
       then_block->call(self, empty, scope);
     }
     return nil;
+  } else {
+    return nil;
+  }
+}
+
+FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  FancyObject_p first_arg = args.front();
+  if(first_arg != nil) {
+    Block_p block = dynamic_cast<Block_p>(self->native_value());
+    list<FancyObject_p> empty;
+    return block->call(self, empty, scope);
   } else {
     return nil;
   }
