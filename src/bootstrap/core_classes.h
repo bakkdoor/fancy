@@ -5,7 +5,7 @@ extern Class *ClassClass;
 extern Class *ModuleClass;
 extern Class *ObjectClass;
 extern Class *NilClass;
-extern Class *TClass;
+extern Class *TrueClass;
 extern Class *StringClass;
 extern Class *SymbolClass;
 extern Class *NumberClass;

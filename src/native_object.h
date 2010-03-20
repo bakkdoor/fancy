@@ -3,7 +3,7 @@
 
 enum OBJ_TYPE {
   OBJ_NIL = 0,
-  OBJ_T,
+  OBJ_TRUE,
   OBJ_INTEGER,
   OBJ_DOUBLE,
   OBJ_IDENTIFIER,
@@ -49,8 +49,8 @@ class NativeObject : public Expression
 #define IS_NIL(obj) \
   obj->type() == OBJ_NIL
 
-#define IS_T(obj) \
-  obj->type() == OBJ_T
+#define IS_TRUE(obj) \
+  obj->type() == OBJ_TRUE
 
 #define IS_INT(obj) \
   obj->type() == OBJ_INTEGER

@@ -7,7 +7,7 @@ Class_p ClassClass = 0;
 Class_p ModuleClass;
 Class_p ObjectClass;
 Class_p NilClass;
-Class_p TClass;
+Class_p TrueClass;
 Class_p StringClass;
 Class_p SymbolClass;
 Class_p NumberClass;
@@ -42,7 +42,7 @@ void init_core_classes()
   ModuleClass->set_class(ModuleClass);
 
   NilClass = new Class("NilClass", ObjectClass);
-  TClass = new Class("TClass", ObjectClass);
+  TrueClass = new Class("TrueClass", ObjectClass);
   StringClass = new Class("String", ObjectClass);
   SymbolClass = new Class("Symbol", ObjectClass);
   NumberClass = new Class("Number", ObjectClass);
@@ -65,7 +65,7 @@ void init_core_classes()
 void init_global_objects()
 {
   nil = new FancyObject(NilClass, new Nil());
-  t = new FancyObject(TClass, new T());
+  t = new FancyObject(TrueClass, new True());
 }
 
 void init_global_scope()
@@ -80,7 +80,7 @@ void init_global_scope()
   global_scope->define("Module", ModuleClass);
   global_scope->define("Object", ObjectClass);
   global_scope->define("NilClass", NilClass);
-  global_scope->define("TrueClass", TClass);
+  global_scope->define("TrueClass", TrueClass);
   global_scope->define("String", StringClass);
   global_scope->define("Symbol", SymbolClass);
   global_scope->define("Number", NumberClass);

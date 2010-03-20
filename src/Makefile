@@ -4,7 +4,7 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object block string number console
 
-files = native_object t nil hash array identifier symbol number string	\
+files = native_object true nil hash array identifier symbol number string	\
 native_method scope module class class_definition fancy_object errors method		\
 method_call operator_call regex assignment method_definition		\
 expression_list block utils
@@ -26,8 +26,8 @@ main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 native_object.o: native_object.cc
 	$(cc) $(cc_flags) -c native_object.cc -o native_object.o
 
-t.o: t.cc
-	$(cc) $(cc_flags) -c t.cc -o t.o
+true.o: true.cc
+	$(cc) $(cc_flags) -c true.cc -o true.o
 
 nil.o: nil.cc
 	$(cc) $(cc_flags) -c nil.cc -o nil.o

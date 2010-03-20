@@ -1,17 +1,17 @@
-#ifndef _T_H_
-#define _T_H_
+#ifndef _TRUE_H_
+#define _TRUE_H_
 
-class T : public NativeObject
+class True : public NativeObject
 {
  public:
-  T();
-  ~T();
+  True();
+  ~True();
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
 };
 
-typedef T* T_p;
+typedef True* True_p;
 
-#endif /* _T_H_ */
+#endif /* _TRUE_H_ */
