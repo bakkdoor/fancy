@@ -70,9 +70,10 @@ void init_global_objects()
 
 void init_global_scope()
 {
-  // the global scope has ObjectClass as its current_self value
+  // the global scope has an instance of ObjectClass as its
+  // current_self value
   // -> every global method call is a methodcall on ObjectClass
-  global_scope = new Scope(ObjectClass);
+  global_scope = new Scope(ObjectClass->create_instance());
 
   /* define classes */
   global_scope->define("Class", ClassClass);
