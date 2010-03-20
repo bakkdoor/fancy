@@ -110,7 +110,7 @@ FancyObject_p FancyObject::call_method(const string &method_name, list<FancyObje
   if(method) {
     return method->call(this, arguments, scope);
   } else {
-    error("undefined method: ") << method_name << endl;
+    error("Method not defined: '") << method_name << "' for instance of: " << this->_class->name() << endl;
     return nil;
   }
 }
