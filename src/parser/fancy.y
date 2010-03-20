@@ -5,6 +5,7 @@
   int yylex(void);
   key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
   array_node* val_list_obj(NativeObject_p val, array_node *next);
+  expression_node* expr_node(Expression_p expr, expression_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
   list< pair<Identifier_p, Expression_p> > methodcall_args;
@@ -15,6 +16,7 @@
 %union{
   key_val_node      *key_val_list;
   array_node        *value_list;
+  expression_node   *expr_list;
   /* method_arg_node   *method_args; */
 
   NativeObject  *object;
@@ -56,6 +58,8 @@
 %type  <object>             hash_literal
 %type  <object>             array_literal
 %type  <key_val_list>       key_value_list
+%type  <expr_list>          exp_list
+%type  <expr_list>          exp_comma_list
 
 
 %type  <object>             empty_array
@@ -106,13 +110,13 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = new ClassDefExpr($3, new ExpressionList(expression_list));
+                  $$ = new ClassDefExpr($3, new ExpressionList($5));
                   expression_list.clear();
                 }
                 ;
 
 class_super:    DEF CLASS IDENTIFIER COLON IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = new ClassDefExpr($5, $3, new ExpressionList(expression_list));
+                  $$ = new ClassDefExpr($5, $3, new ExpressionList($7));
                   expression_list.clear();
                 }
                 ;
@@ -222,18 +226,20 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 ;
 
 array_literal:  empty_array
-                | LBRACKET exp_comma_list RBRACKET { $$ = ArrayClass->create_instance(new Array(expression_list)); }
+                | LBRACKET exp_comma_list RBRACKET {
+                    $$ = ArrayClass->create_instance(new Array($2));
+                }
                 ;
 
-exp_comma_list: exp { expression_list.push_back($1); }
-                | exp_list COMMA exp { expression_list.push_back($3); }
+exp_comma_list: exp { $$ = expr_node($1, 0); }
+                | exp_comma_list COMMA exp { $$ = expr_node($3, $1); }
                 ;
 
-empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array(0)); }
+empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array()); }
                 ;
 
-exp_list:       exp { expression_list.push_back($1); }
-                | exp_list SEMI exp { expression_list.push_back($3); }
+exp_list:       exp { $$ = expr_node($1, 0); }
+                | exp_list SEMI exp { $$ = expr_node($3, $1); }
                 ;
 
 hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
@@ -288,6 +294,14 @@ array_node* val_list_obj(NativeObject_p val, array_node *next)
 {
   array_node *node = new array_node;
   node->value = val;
+  node->next = next;
+  return node;
+}
+
+expression_node* expr_node(Expression_p expr, expression_node *next)
+{
+  expression_node *node = new expression_node;
+  node->expression = expr;
   node->next = next;
   return node;
 }

@@ -1,5 +1,10 @@
 #include "includes.h"
 
+Array::Array() : NativeObject(OBJ_ARRAY)
+{
+  this->unevaled = false;
+}
+
 Array::Array(array_node *val_list) : NativeObject(OBJ_ARRAY)
 {
   for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
@@ -7,6 +12,15 @@ Array::Array(array_node *val_list) : NativeObject(OBJ_ARRAY)
       this->values.push_back(tmp->value);
   }
   this->unevaled = false;
+}
+
+Array::Array(expression_node *expr_list) : NativeObject(OBJ_ARRAY)
+{
+  for(expression_node *tmp = expr_list; tmp; tmp = tmp->next) {
+    if(tmp->expression)
+      this->expressions.push_back(tmp->expression);
+  }
+  this->unevaled = true;
 }
 
 Array::Array(vector<NativeObject_p> list) :

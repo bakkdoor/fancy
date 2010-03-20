@@ -28,6 +28,7 @@ using namespace std;
 #include "expression.h"
 #include "native_object.h"
 #include "fancy_object.h"
+#include "expression_list.h"
 #include "array.h"
 #include "nil.h"
 #include "t.h"
@@ -38,7 +39,6 @@ using namespace std;
 #include "number.h"
 #include "hash.h"
 #include "regex.h"
-#include "expression_list.h"
 
 #include "native_method.h"
 #include "block.h"

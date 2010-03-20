@@ -20,9 +20,9 @@ def class Foo : Bar {
   }
 };
 
-# bar = Bar new;
-# bar say_hello: "Chris";
+bar = (Bar new);
+bar say_hello: "Chris";
 
-foo = Foo new: "Chris from Constructor";
+foo = (Foo new: "Chris from Constructor");
 foo say_hello
 

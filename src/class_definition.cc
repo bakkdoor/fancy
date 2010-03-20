@@ -49,6 +49,7 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
   Class_p new_class = new Class(this->_class_name->name(), superclass);
   // create new scope with current_self set to new class
   Scope *class_eval_scope = new Scope(new_class, scope);
+  class_eval_scope->set_current_class(new_class);
   this->_class_body->eval(class_eval_scope);
   scope->define(this->_class_name->name(), new_class);
   return new_class;

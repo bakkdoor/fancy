@@ -10,7 +10,9 @@ public:
 class Array : public NativeObject
 {
  public:
+  Array();
   Array(array_node *val_list);
+  Array(expression_node *expr_list);
   Array(vector<NativeObject_p> list);
   Array(list<Expression_p> expressions);
   ~Array();
