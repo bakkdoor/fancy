@@ -8,6 +8,7 @@
 #include "string.h"
 #include "number.h"
 #include "console.h"
+#include "nil.h"
 
 
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

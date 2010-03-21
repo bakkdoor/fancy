@@ -19,3 +19,5 @@ test: all
 	@echo 
 	bin/fancy examples/closures.fnc
 	@echo
+	bin/fancy examples/boolean.fnc
+	@echo

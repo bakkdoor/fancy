@@ -60,6 +60,7 @@ void init_core_classes()
   init_string_class();
   init_number_class();
   init_console_class();
+  init_nil_class();
 }
 
 void init_global_objects()
