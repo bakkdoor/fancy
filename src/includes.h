@@ -39,6 +39,7 @@ using namespace std;
 #include "number.h"
 #include "hash.h"
 #include "regex.h"
+#include "file.h"
 
 #include "native_method.h"
 #include "block.h"

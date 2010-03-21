@@ -15,7 +15,7 @@ extern Class *HashClass;
 extern Class *MethodClass;
 extern Class *MethodCallClass;
 extern Class *BlockClass;
-
+extern Class *FileClass;
 extern Class *ConsoleClass;
 
 extern FancyObject *nil;

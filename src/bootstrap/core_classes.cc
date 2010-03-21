@@ -17,7 +17,7 @@ Class_p HashClass;
 Class_p MethodClass;
 Class_p MethodCallClass;
 Class_p BlockClass;
-
+Class_p FileClass;
 Class_p ConsoleClass;
 
 /**
@@ -52,7 +52,7 @@ void init_core_classes()
   MethodClass = new Class("Method", ObjectClass);
   MethodCallClass = new Class("MethodCall", ObjectClass);
   BlockClass = new Class("Block", ObjectClass);
-
+  FileClass = new Class("File", ObjectClass);
   ConsoleClass = new Class("Console", ObjectClass);
 
   init_object_class();
@@ -91,7 +91,7 @@ void init_global_scope()
   global_scope->define("Method", MethodClass);
   global_scope->define("MethodCall", MethodClass);
   global_scope->define("Block", BlockClass);
-
+  global_scope->define("File", FileClass);
   global_scope->define("Console", ConsoleClass);
   
   /* define singleton objects */
