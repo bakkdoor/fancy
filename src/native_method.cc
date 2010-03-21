@@ -4,20 +4,20 @@ NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args,
                            bool special) : 
-  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
+  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
 {
 }
 
 NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args) :
-  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
+  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
 {
 }
 
 NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope)) :
-  NativeObject(OBJ_BIF), _identifier(identifier), _func(func), _n_args(0), _special(false)
+  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(0), _special(false)
 {
 }
 
@@ -27,13 +27,13 @@ NativeMethod::~NativeMethod()
 
 FancyObject_p NativeMethod::eval(Scope *scope)
 {
-  cerr << "calling eval() on NativeMethod .. " << endl;
+  errorln("calling eval() on NativeMethod .. ");
   return nil;
 }
 
 NativeObject_p NativeMethod::equal(const NativeObject_p other) const
 {
-  if(other->type() != OBJ_BIF) {
+  if(!IS_NATIVEMETHOD(other)) {
     return nil;
   } else {
     NativeMethod_p other_bif = (NativeMethod_p)other;

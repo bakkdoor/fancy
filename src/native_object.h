@@ -13,7 +13,7 @@ enum OBJ_TYPE {
   OBJ_REGEX,
   OBJ_ARRAY,
   OBJ_METHOD,
-  OBJ_BIF,
+  OBJ_NATIVEMETHOD,
   OBJ_METHODCALL,
   OBJ_OPCALL,
   OBJ_ASSIGNEXPR,
@@ -85,8 +85,8 @@ class NativeObject : public Expression
 #define IS_METHOD(obj) \
   obj->type() == OBJ_METHOD
 
-#define IS_BIF(obj) \
-  obj->type() == OBJ_BIF
+#define IS_NATIVEMETHOD(obj) \
+  obj->type() == OBJ_NATIVEMETHOD
 
 #define IS_METHODCALL(obj) \
   obj->type() == OBJ_METHODCALL
