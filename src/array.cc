@@ -9,9 +9,9 @@ Array::Array(array_node *val_list) : NativeObject(OBJ_ARRAY)
 {
   for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
     if(tmp->value)
-      this->values.push_back(tmp->value);
+      this->expressions.push_back(tmp->value);
   }
-  this->unevaled = false;
+  this->unevaled = true;
 }
 
 Array::Array(expression_node *expr_list) : NativeObject(OBJ_ARRAY)
@@ -23,7 +23,7 @@ Array::Array(expression_node *expr_list) : NativeObject(OBJ_ARRAY)
   this->unevaled = true;
 }
 
-Array::Array(vector<NativeObject_p> list) :
+Array::Array(vector<FancyObject_p> list) :
   NativeObject(OBJ_ARRAY), values(list)
 {
   // copy elements of given list
@@ -40,12 +40,12 @@ Array::~Array()
 {
 }
 
-NativeObject_p Array::operator[](int index) const
+FancyObject_p Array::operator[](int index) const
 {
   return this->at(index);
 }
 
-NativeObject_p Array::at(unsigned int index) const
+FancyObject_p Array::at(unsigned int index) const
 {
   if(index < this->values.size()) {
     return this->values[index];
@@ -54,7 +54,7 @@ NativeObject_p Array::at(unsigned int index) const
   }
 }
 
-NativeObject_p Array::set_value(unsigned int index, NativeObject_p value)
+FancyObject_p Array::set_value(unsigned int index, FancyObject_p value)
 {
   if(index < this->values.size()) {
     this->values[index] = value;
@@ -64,28 +64,28 @@ NativeObject_p Array::set_value(unsigned int index, NativeObject_p value)
   }
 }
 
-NativeObject_p Array::insert(NativeObject_p value)
+FancyObject_p Array::insert(FancyObject_p value)
 {
   this->values.push_back(value);
   return value;
 }
 
-NativeObject_p Array::insert_at(unsigned int index, NativeObject_p value)
+FancyObject_p Array::insert_at(unsigned int index, FancyObject_p value)
 {
   this->set_value(index, value);
   return value;
 }
 
-NativeObject_p Array::append(Array_p arr)
+FancyObject_p Array::append(Array_p arr)
 {
-  vector<NativeObject_p>::iterator it;
+  vector<FancyObject_p>::iterator it;
   for(it = arr->values.begin(); it < arr->values.end(); it++) {
     this->values.push_back(*it);
   }
-  return this;
+  return ArrayClass->create_instance(this);
 }
 
-NativeObject_p Array::first() const
+FancyObject_p Array::first() const
 {
   if(this->values.size() > 0) {
     return this->values.front();
@@ -94,7 +94,7 @@ NativeObject_p Array::first() const
   }
 }
 
-NativeObject_p Array::last() const
+FancyObject_p Array::last() const
 {
   if(this->values.size() > 0) {
     return this->values.back();

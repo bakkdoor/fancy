@@ -9,6 +9,6 @@
 #include "number.h"
 #include "console.h"
 #include "nil.h"
-
+#include "array.h"
 
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

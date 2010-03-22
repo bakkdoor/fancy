@@ -61,6 +61,7 @@ void init_core_classes()
   init_number_class();
   init_console_class();
   init_nil_class();
+  init_array_class();
 }
 
 void init_global_objects()

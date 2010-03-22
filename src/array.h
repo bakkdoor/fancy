@@ -13,18 +13,18 @@ class Array : public NativeObject
   Array();
   Array(array_node *val_list);
   Array(expression_node *expr_list);
-  Array(vector<NativeObject_p> list);
+  Array(vector<FancyObject_p> list);
   Array(list<Expression_p> expressions);
   ~Array();
 
-  NativeObject_p operator[](int index) const;
-  NativeObject_p at(unsigned int index) const;
-  NativeObject_p set_value(unsigned int index, NativeObject_p value);
-  NativeObject_p insert(NativeObject_p value);
-  NativeObject_p insert_at(unsigned int index, NativeObject_p value);
-  NativeObject_p append(Array *arr);
-  NativeObject_p first() const;
-  NativeObject_p last() const;
+  FancyObject_p operator[](int index) const;
+  FancyObject_p at(unsigned int index) const;
+  FancyObject_p set_value(unsigned int index, FancyObject_p value);
+  FancyObject_p insert(FancyObject_p value);
+  FancyObject_p insert_at(unsigned int index, FancyObject_p value);
+  FancyObject_p append(Array *arr);
+  FancyObject_p first() const;
+  FancyObject_p last() const;
 
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
@@ -35,7 +35,7 @@ class Array : public NativeObject
   unsigned int size() const;
 
  private:
-  vector<NativeObject_p> values;
+  vector<FancyObject_p> values;
   bool unevaled;
   list<Expression_p> expressions;
 };
