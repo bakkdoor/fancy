@@ -232,7 +232,7 @@ array_literal:  empty_array
                 ;
 
 exp_comma_list: exp { $$ = expr_node($1, 0); }
-                | exp_comma_list COMMA exp { $$ = expr_node($3, $1); }
+                | exp COMMA exp_comma_list { $$ = expr_node($1, $3); }
                 ;
 
 empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array()); }

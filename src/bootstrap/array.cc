@@ -19,7 +19,7 @@ FancyObject_p method_Array_each(FancyObject_p self, list<FancyObject_p> args, Sc
     array->eval(scope);
     int size = array->size();
     // TODO: fix this to start from and increment ...
-    for(int i = size-1; i >= 0; i--) {
+    for(int i = 0; i < size; i++) {
       retval = block->call(self, list<FancyObject_p>(1, array->at(i)), scope);
     }
     return retval;
