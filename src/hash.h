@@ -1,22 +1,15 @@
 #ifndef _HASH_H_
 #define _HASH_H_
 
-struct key_val_node {
-public:
-  NativeObject_p key;
-  NativeObject_p val;
-  key_val_node *next;
-};
-
 class Hash : public NativeObject
 {
  public:
-  Hash(key_val_node *key_val_list);
-  Hash(map<NativeObject_p, NativeObject_p> map);
+  Hash();
+  Hash(map<FancyObject_p, FancyObject_p> mappings);
   ~Hash();
 
-  NativeObject_p operator[](NativeObject_p key) const;
-  NativeObject_p set_value(NativeObject_p key, NativeObject_p value);
+  FancyObject_p operator[](FancyObject_p key) const;
+  FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
@@ -27,7 +20,7 @@ class Hash : public NativeObject
   int size() const;
 
  private:
-  map<NativeObject_p, NativeObject_p> mappings;
+  map<FancyObject_p, FancyObject_p> mappings;
 };
 
 typedef Hash* Hash_p;

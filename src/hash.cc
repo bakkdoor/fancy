@@ -1,13 +1,12 @@
 #include "includes.h"
 
-Hash::Hash(key_val_node *key_val_list) : NativeObject(OBJ_HASH)
+Hash::Hash() : NativeObject(OBJ_HASH)
 {
-  for(; key_val_list; key_val_list = key_val_list->next) {
-    this->mappings[key_val_list->key] = key_val_list->val;
-  }
 }
 
-Hash::Hash(map<NativeObject_p, NativeObject_p> map) : NativeObject(OBJ_HASH), mappings(map)
+Hash::Hash(map<FancyObject_p, FancyObject_p> map) :
+  NativeObject(OBJ_HASH),
+  mappings(map)
 {
 }
 
@@ -15,9 +14,9 @@ Hash::~Hash()
 {
 }
 
-NativeObject_p Hash::operator[](NativeObject_p key) const
+FancyObject_p Hash::operator[](FancyObject_p key) const
 {
-  map<NativeObject_p, NativeObject_p>::const_iterator citer = this->mappings.find(key);
+  map<FancyObject_p, FancyObject_p>::const_iterator citer = this->mappings.find(key);
   
   if (citer == this->mappings.end()) {
     // throw UnknownIdentifierError("Unknown key object!");
@@ -27,7 +26,7 @@ NativeObject_p Hash::operator[](NativeObject_p key) const
   return (*citer).second;
 }
 
-NativeObject_p Hash::set_value(NativeObject_p key, NativeObject_p value)
+FancyObject_p Hash::set_value(FancyObject_p key, FancyObject_p value)
 {
   this->mappings[key] = value;
   return value;
@@ -54,7 +53,7 @@ string Hash::to_s() const
   stringstream s;
   s << "{ ";
 
-  for(map<NativeObject_p, NativeObject_p>::const_iterator iter = this->mappings.begin(); iter != this->mappings.end(); iter++) {
+  for(map<FancyObject_p, FancyObject_p>::const_iterator iter = this->mappings.begin(); iter != this->mappings.end(); iter++) {
     s << iter->first->to_s();
     s << " => ";
     s << iter->second->to_s();
@@ -67,7 +66,7 @@ string Hash::to_s() const
 
 bool Hash::operator==(const Hash& other) const
 {
-  for(map<NativeObject_p, NativeObject_p>::const_iterator iter = this->mappings.begin(); 
+  for(map<FancyObject_p, FancyObject_p>::const_iterator iter = this->mappings.begin(); 
       iter != this->mappings.end(); 
       iter++) {
     if(iter->first->equal(other[iter->first]) == nil) {

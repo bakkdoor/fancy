@@ -241,7 +241,7 @@ exp_list:       exp { $$ = expr_node($1, 0); }
                 | exp_list SEMI exp { $$ = expr_node($3, $1); }
                 ;
 
-hash_literal:   LCURLY key_value_list RCURLY { $$ = HashClass->create_instance(new Hash($2)); }
+hash_literal:   LCURLY key_value_list RCURLY { $$ = new HashLiteral($2); }
                 ;
 
 block_literal:  LCURLY method_body RCURLY {
