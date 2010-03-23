@@ -4,9 +4,9 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object block string number console nil array
 
-files = native_object true nil hash array identifier symbol number	\
-string native_method scope module class class_definition fancy_object	\
-errors method method_call operator_call regex assignment		\
+files = native_object true nil hash array array_literal identifier	\
+symbol number string native_method scope module class class_definition	\
+fancy_object errors method method_call operator_call regex assignment	\
 method_definition expression_list block utils file
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
@@ -37,6 +37,9 @@ hash.o: hash.cc
 
 array.o: array.cc
 	$(cc) $(cc_flags) -c array.cc -o array.o
+
+array_literal.o: array_literal.cc
+	$(cc) $(cc_flags) -c array_literal.cc -o array_literal.o
 
 regex.o: regex.cc
 	$(cc) $(cc_flags) -c regex.cc -o regex.o

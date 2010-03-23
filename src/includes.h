@@ -30,6 +30,7 @@ using namespace std;
 #include "fancy_object.h"
 #include "expression_list.h"
 #include "array.h"
+#include "array_literal.h"
 #include "nil.h"
 #include "true.h"
 #include "identifier.h"

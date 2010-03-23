@@ -2,38 +2,19 @@
 
 Array::Array() : NativeObject(OBJ_ARRAY)
 {
-  this->unevaled = false;
 }
 
 Array::Array(array_node *val_list) : NativeObject(OBJ_ARRAY)
 {
   for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
     if(tmp->value)
-      this->expressions.push_back(tmp->value);
+      this->values.push_back(tmp->value);
   }
-  this->unevaled = true;
-}
-
-Array::Array(expression_node *expr_list) : NativeObject(OBJ_ARRAY)
-{
-  for(expression_node *tmp = expr_list; tmp; tmp = tmp->next) {
-    if(tmp->expression)
-      this->expressions.push_back(tmp->expression);
-  }
-  this->unevaled = true;
 }
 
 Array::Array(vector<FancyObject_p> list) :
   NativeObject(OBJ_ARRAY), values(list)
 {
-  // copy elements of given list
-  this->unevaled = false;
-}
-
-Array::Array(list<Expression_p> expressions) :
-  NativeObject(OBJ_ARRAY), expressions(expressions)
-{
-  this->unevaled = true;
 }
 
 Array::~Array() 
@@ -105,16 +86,10 @@ FancyObject_p Array::last() const
 
 FancyObject_p Array::eval(Scope *scope)
 {
-  if(!this->unevaled) {
-    return ArrayClass->create_instance(this);
-  } else {
-    // eval all expressions and save them to values
-    list<Expression_p>::iterator it;
-    for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
-      this->values.push_back((*it)->eval(scope));
-    }
-    return ArrayClass->create_instance(this);
+  if(!this->array_obj_cache) {
+    array_obj_cache = ArrayClass->create_instance(this);
   }
+  return array_obj_cache;
 }
 
 string Array::to_s() const

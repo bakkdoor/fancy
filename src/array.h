@@ -3,7 +3,7 @@
 
 struct array_node {
 public:
-  NativeObject_p value;
+  FancyObject_p value;
   array_node *next;
 };
 
@@ -12,9 +12,7 @@ class Array : public NativeObject
  public:
   Array();
   Array(array_node *val_list);
-  Array(expression_node *expr_list);
   Array(vector<FancyObject_p> list);
-  Array(list<Expression_p> expressions);
   ~Array();
 
   FancyObject_p operator[](int index) const;
@@ -36,8 +34,7 @@ class Array : public NativeObject
 
  private:
   vector<FancyObject_p> values;
-  bool unevaled;
-  list<Expression_p> expressions;
+  FancyObject_p array_obj_cache;
 };
 
 typedef Array* Array_p;

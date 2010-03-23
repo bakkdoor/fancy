@@ -4,7 +4,6 @@
   int yyerror(char *s);
   int yylex(void);
   key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
-  array_node* val_list_obj(NativeObject_p val, array_node *next);
   expression_node* expr_node(Expression_p expr, expression_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
@@ -227,7 +226,7 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
 
 array_literal:  empty_array
                 | LBRACKET exp_comma_list RBRACKET {
-                    $$ = ArrayClass->create_instance(new Array($2));
+                    $$ = new ArrayLiteral($2);
                 }
                 ;
 
@@ -286,14 +285,6 @@ key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *
   key_val_node *node = new key_val_node;
   node->key = key;
   node->val = val;
-  node->next = next;
-  return node;
-}
-
-array_node* val_list_obj(NativeObject_p val, array_node *next)
-{
-  array_node *node = new array_node;
-  node->value = val;
   node->next = next;
   return node;
 }
