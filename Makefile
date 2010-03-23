@@ -21,3 +21,5 @@ test: all
 	@echo
 	bin/fancy examples/boolean.fnc
 	@echo
+	bin/fancy examples/array.fnc
+	@echo
