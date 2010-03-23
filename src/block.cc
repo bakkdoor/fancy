@@ -99,3 +99,8 @@ void Block::set_creation_scope(Scope *creation_scope)
 {
   this->_creation_scope = creation_scope;
 }
+
+Scope* Block::creation_scope() const
+{
+  return this->_creation_scope;
+}

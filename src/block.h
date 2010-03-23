@@ -15,6 +15,7 @@ public:
   FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   void set_creation_scope(Scope *creation_scope);
+  Scope* creation_scope() const;
 
 private:
   void init_fancy_obj_cache();

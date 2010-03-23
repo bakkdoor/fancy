@@ -4,8 +4,8 @@
 /* prototype of bison-generated parser function */
 int yyparse();
 
-#define STDLIB_FILES {"lib/Object.fnc", "lib/Number.fnc"}
-#define N_STDLIB_FILES 2
+#define STDLIB_FILES {"lib/Object.fnc", "lib/Number.fnc", "lib/Array.fnc"}
+#define N_STDLIB_FILES 3
 
 void parse_file(string &filename)
 {
@@ -46,8 +46,10 @@ int main(int argc, char **argv)
   }
 
   // cout << "heap size: " << GC_get_bytes_since_gc() << endl;
-  GC_gcollect();
+  // GC_gcollect();
   // cout << "heap size after collect: " << GC_get_bytes_since_gc() << endl;
+  // cout << "Completed " << GC_gc_no << " collections" <<endl;
+  // cout << "Heap size is " << GC_get_heap_size() << endl;
 
   return 0;
 }
