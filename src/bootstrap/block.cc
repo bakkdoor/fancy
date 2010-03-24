@@ -6,6 +6,7 @@ void init_block_class()
   BlockClass->def_method("call:", new NativeMethod("call:", method_Block_call_with_arg));
   BlockClass->def_method("while_true:", new NativeMethod("while_true:", method_Block_while_true));
   BlockClass->def_method("if:", new NativeMethod("if:", method_Block_if));
+  BlockClass->def_method("unless:", new NativeMethod("unless:", method_Block_unless));
 }
 
 
@@ -34,8 +35,6 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
     list<FancyObject_p> passed_args;
     if(IS_ARRAY(first_arg)) {
       Array_p args_array = dynamic_cast<Array_p>(first_arg);
-      // eval, so all the values within array are evaluated
-      args_array->eval(scope);
       int array_size = args_array->size();
       for(int i = 0; i < array_size; i++) {
         passed_args.push_back(dynamic_cast<FancyObject_p>(args_array->at(i)));
@@ -66,6 +65,18 @@ FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scop
 {
   FancyObject_p first_arg = args.front();
   if(first_arg != nil) {
+    Block_p block = dynamic_cast<Block_p>(self->native_value());
+    list<FancyObject_p> empty;
+    return block->call(self, empty, scope);
+  } else {
+    return nil;
+  }
+}
+
+FancyObject_p method_Block_unless(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  FancyObject_p first_arg = args.front();
+  if(first_arg == nil) {
     Block_p block = dynamic_cast<Block_p>(self->native_value());
     list<FancyObject_p> empty;
     return block->call(self, empty, scope);

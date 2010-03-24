@@ -3,9 +3,10 @@
 
 /* prototype of bison-generated parser function */
 int yyparse();
+extern int yylineno;
 
-#define STDLIB_FILES {"lib/Object.fnc", "lib/Number.fnc", "lib/Array.fnc"}
-#define N_STDLIB_FILES 3
+#define STDLIB_FILES {"lib/Object.fnc", "lib/TrueClass.fnc", "lib/NilClass.fnc", "lib/Number.fnc", "lib/Array.fnc"}
+#define N_STDLIB_FILES 5
 
 void parse_file(string &filename)
 {
@@ -16,6 +17,7 @@ void parse_file(string &filename)
   }
   
   yyparse();
+  yylineno = 0; // reset yylineno for next file to parse
 }
 
 int main(int argc, char **argv)
