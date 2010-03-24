@@ -53,8 +53,8 @@ Some technical information:
 What's already working?
 ------------------------
 
-  - (Simple) Class definitions
-  - (Simple) Instance method definitions
+  - Class definitions
+  - Instance method definitions
   - String, Integer, Float, Array & Block literals
   - Method & Operator calls
   - Instance & class variable access
