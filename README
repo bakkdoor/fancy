@@ -53,10 +53,11 @@ Some technical information:
 What's already working?
 ------------------------
 
-  - (Simple) Class definitions
-  - (Simple) Instance method definitions
+  - Class definitions
+  - Instance method definitions
   - String, Integer, Float, Array & Block literals
   - Method & Operator calls
+  - Instance & class variable access
   - Simple loops
   - Simple support for closures (it works but there's definately room
     for performance improvements)
@@ -65,7 +66,6 @@ What's already working?
 What's still missing?
 ----------------------
 
-  - Instance & class variable access (this will follow soon)
   - Pattern matching
   - Concurrency stuff (Actor-model based concurrency features as in
     Erlang)
