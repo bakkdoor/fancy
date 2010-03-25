@@ -31,6 +31,8 @@ class Array : public NativeObject
   virtual NativeObject_p equal(const NativeObject_p other) const;
   
   unsigned int size() const;
+  
+  void clear();
 
  private:
   vector<FancyObject_p> values;

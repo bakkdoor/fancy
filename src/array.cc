@@ -134,3 +134,8 @@ unsigned int Array::size() const
 {
   return this->values.size();
 }
+
+void Array::clear()
+{
+  this->values.clear();
+}
