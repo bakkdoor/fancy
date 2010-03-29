@@ -4,8 +4,8 @@
 class Block : public NativeObject, public Callable
 {
 public:
-  Block(ExpressionList_p body);
-  Block(list<Identifier_p> argnames, ExpressionList_p body);
+  Block(ExpressionList_p body, Scope *creation_scope);
+  Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
   virtual ~Block();
 
   virtual FancyObject_p eval(Scope *scope);

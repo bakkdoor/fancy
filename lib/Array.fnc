@@ -5,7 +5,8 @@ def class Array {
     coll = [];
     self each: |x| {
       coll << (block call: [x])
-    }
+    };
+    coll
   };
   
   def select: condition {

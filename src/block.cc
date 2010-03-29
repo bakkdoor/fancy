@@ -1,22 +1,20 @@
 #include "includes.h"
 
-Block::Block(ExpressionList_p body) :
+Block::Block(ExpressionList_p body, Scope *creation_scope) :
   NativeObject(OBJ_BLOCK),
   _body(body),
   _block_fancy_obj(0),
-  _creation_scope(0)
+  _creation_scope(creation_scope)
 {
-  init_fancy_obj_cache();
 }
 
-Block::Block(list<Identifier_p> argnames, ExpressionList_p body) :
+Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope) :
   NativeObject(OBJ_BLOCK),
   _argnames(argnames),
   _body(body),
   _block_fancy_obj(0),
-  _creation_scope(0)
+  _creation_scope(creation_scope)
 {
-  init_fancy_obj_cache();
 }
 
 Block::~Block()
@@ -25,10 +23,6 @@ Block::~Block()
 
 FancyObject_p Block::eval(Scope *scope)
 {
-  if(!this->_creation_scope) {
-    set_creation_scope(scope);
-  }
-
   if(this->_block_fancy_obj) {
     return this->_block_fancy_obj;
   } else {
@@ -49,9 +43,9 @@ string Block::to_s() const
 
 FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(!this->_creation_scope) {
-    set_creation_scope(scope);
-  }
+  // if(!this->_creation_scope) {
+  //   set_creation_scope(scope);
+  // }
 
   // vector with temporary values for block parameter names (original values)
   vector<FancyObject_p> old_values(args.size());

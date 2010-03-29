@@ -45,6 +45,7 @@ using namespace std;
 
 #include "native_method.h"
 #include "block.h"
+#include "block_literal.h"
 #include "module.h"
 #include "class.h"
 #include "class_definition.h"

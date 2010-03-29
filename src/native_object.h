@@ -25,6 +25,7 @@ enum OBJ_TYPE {
   OBJ_CLASSINSTANCE,
   OBJ_CLASSDEFEXPR,
   OBJ_BLOCK,
+  OBJ_BLOCKLITERAL,
   OBJ_FILE
 };
 
@@ -111,6 +112,9 @@ class NativeObject : public Expression
 
 #define IS_BLOCK(obj) \
   obj->type() == OBJ_BLOCK
+
+#define IS_BLOCKLITERAL(obj) \
+  obj->type() == OBJ_BLOCKLITERAL
 
 #define IS_FILE(obj) \
   obj->type() == OBJ_FILE

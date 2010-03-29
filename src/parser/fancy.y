@@ -245,11 +245,11 @@ hash_literal:   LCURLY key_value_list RCURLY { $$ = new HashLiteral($2); }
                 ;
 
 block_literal:  LCURLY method_body RCURLY {
-                  $$ = new Block(new ExpressionList(expression_list));
+                  $$ = new BlockLiteral(new ExpressionList(expression_list));
                   expression_list.clear();
                 }
                 | STAB block_args STAB LCURLY method_body RCURLY {
-                  $$ = new Block(block_args, new ExpressionList(expression_list));
+                  $$ = new BlockLiteral(block_args, new ExpressionList(expression_list));
                   expression_list.clear();
                   block_args.clear();
                 }

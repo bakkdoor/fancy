@@ -7,7 +7,8 @@ bootstrap_files = core_classes object block string number console nil array
 files = native_object true nil hash hash_literal array array_literal	\
 identifier symbol number string native_method scope module class	\
 class_definition fancy_object errors method method_call operator_call	\
-regex assignment method_definition expression_list block utils file
+regex assignment method_definition expression_list block block_literal	\
+utils file
 
 src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
 obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(bootstrap_files), bootstrap/$(file).o) $(foreach file, $(parser_files), $(file).o) main.o
@@ -100,6 +101,9 @@ expression_list.o: expression_list.cc
 
 block.o: block.cc
 	$(cc) $(cc_flags) -c block.cc -o block.o
+
+block_literal.o: block_literal.cc
+	$(cc) $(cc_flags) -c block_literal.cc -o block_literal.o
 
 utils.o: utils.cc
 	$(cc) $(cc_flags) -c utils.cc -o utils.o
