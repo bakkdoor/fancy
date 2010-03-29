@@ -16,6 +16,11 @@ arr each_with_index: |x, i| {
 arr map: |x| { x * x } . println;
 arr select: |x| { x < 4 } . println;
 arr reject: |x| { x < 4 } . println;
-arr take_while: |x| { x < 5 } . println
+arr take_while: |x| { x < 5 } . println;
 
-
+# some other handy methods
+arr size println;
+arr to_s println;
+arr inspect println;
+nil inspect println;
+{ "foo" println } inspect println

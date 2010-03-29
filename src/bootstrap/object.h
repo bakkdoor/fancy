@@ -22,17 +22,27 @@ FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, list<FancyObj
 /**
  * Boolean conjunction.
  */
-FancyObject_p method_ObjectClass_and(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+FancyObject_p method_Object_and(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
 /**
  * Boolean disjunction.
  */
-FancyObject_p method_ObjectClass_or(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+FancyObject_p method_Object_or(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
 /**
  * Boolean negation.
  * In Fancy, everything non-nil is logically true.
  */
-FancyObject_p method_ObjectClass_not(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+FancyObject_p method_Object_not(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Returns string representation of object.
+ */
+FancyObject_p method_Object_to_s(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Returns detailed string representation of object.
+ */
+FancyObject_p method_Object_inspect(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
 #endif /* _BOOTSTRAP_OBJECT_H_ */

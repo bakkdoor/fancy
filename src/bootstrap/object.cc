@@ -5,9 +5,12 @@ void init_object_class()
   ObjectClass->def_class_method("new", new NativeMethod("new", class_method_Object_new));
   ObjectClass->def_class_method("new:", new NativeMethod("new", class_method_Object_new_with_arg));
 
-  ObjectClass->def_method("and:", new NativeMethod("and:", method_ObjectClass_and));
-  ObjectClass->def_method("or:", new NativeMethod("or:", method_ObjectClass_or));
-  ObjectClass->def_method("not", new NativeMethod("not", method_ObjectClass_not));
+  ObjectClass->def_method("and:", new NativeMethod("and:", method_Object_and));
+  ObjectClass->def_method("or:", new NativeMethod("or:", method_Object_or));
+  ObjectClass->def_method("not", new NativeMethod("not", method_Object_not));
+  
+  ObjectClass->def_method("to_s", new NativeMethod("to_s", method_Object_to_s));
+  ObjectClass->def_method("inspect", new NativeMethod("inspect", method_Object_inspect));
 }
 
 /**
@@ -44,7 +47,7 @@ FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, list<FancyObj
   return nil;
 }
 
-FancyObject_p method_ObjectClass_and(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+FancyObject_p method_Object_and(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   if(self == nil || args.front() == nil) {
     return nil;
@@ -53,7 +56,7 @@ FancyObject_p method_ObjectClass_and(FancyObject_p self, list<FancyObject_p> arg
   }
 }
 
-FancyObject_p method_ObjectClass_or(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+FancyObject_p method_Object_or(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   if(self == nil && args.front() == nil) {
     return nil;
@@ -62,11 +65,21 @@ FancyObject_p method_ObjectClass_or(FancyObject_p self, list<FancyObject_p> args
   }
 }
 
-FancyObject_p method_ObjectClass_not(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+FancyObject_p method_Object_not(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   if(self == nil) {
     return t;
   } else {
     return nil;
   }
+}
+
+FancyObject_p method_Object_to_s(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  return StringClass->create_instance(String::from_value(self->to_s()));
+}
+
+FancyObject_p method_Object_inspect(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  return StringClass->create_instance(String::from_value(self->to_s() + " : " + self->get_class()->name()));
 }
