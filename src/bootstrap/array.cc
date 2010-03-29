@@ -6,6 +6,7 @@ void init_array_class()
   ArrayClass->def_method("each_with_index:", new NativeMethod("each_with_index:", method_Array_each_with_index));
   ArrayClass->def_method("<<", new NativeMethod("<<", method_Array_insert));
   ArrayClass->def_method("clear", new NativeMethod("clear", method_Array_clear));
+  ArrayClass->def_method("size", new NativeMethod("size", method_Array_size));
 }
 
 
@@ -66,4 +67,10 @@ FancyObject_p method_Array_clear(FancyObject_p self, list<FancyObject_p> args, S
   Array_p array = dynamic_cast<Array_p>(self->native_value());
   array->clear();
   return self;
+}
+
+FancyObject_p method_Array_size(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  Array_p array = dynamic_cast<Array_p>(self->native_value());
+  return NumberClass->create_instance(Number::from_int(array->size()));
 }
