@@ -5,7 +5,9 @@ OBJS	= bison.o lex.o
 CC	= g++
 CFLAGS	= -g -Wall -ansi -pedantic
 
-all:		$(OBJS)
+sub_dirs = nodes
+
+all:		subdirs $(OBJS)
 
 lex.o:		lex.c
 		$(CC) $(CFLAGS) -c lex.c -o lex.o
@@ -25,6 +27,10 @@ bison.c:	fancy.y
 lex.o yac.o	: includes.h ../includes.h
 lex.o		: tok.h
 
+subdirs:
+	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)
+
 clean:
+	cd nodes && make clean > /dev/null
 	rm -f *.o *~ lex.c lex.yy.c bison.c tok.h fancy.tab.c fancy.tab.h fancy.output
 

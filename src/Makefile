@@ -1,17 +1,23 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
+parser_node_files = array_literal assignment block_literal class_definition hash_literal method_call operator_call method_definition
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object block string number console nil array
 
-files = native_object true nil hash hash_literal array array_literal	\
-identifier symbol number string native_method scope module class	\
-class_definition fancy_object errors method method_call operator_call	\
-regex assignment method_definition expression_list block block_literal	\
-utils file
+files = native_object true nil hash array identifier symbol number	\
+string native_method scope module class fancy_object errors method	\
+regex expression_list block utils file
 
-src_files = $(foreach file, $(files), $(file).cc) $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) $(foreach file, $(parser_files), $(file).c) main.cc
-obj_files = $(foreach file, $(files), $(file).o) $(foreach file, $(bootstrap_files), bootstrap/$(file).o) $(foreach file, $(parser_files), $(file).o) main.o
+src_files = $(foreach file, $(files), $(file).cc) 			\
+$(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
+$(foreach file, $(parser_files), $(file).c) 				\
+$(foreach file, $(parser_node_files), parser/nodes/$(file).cc) main.cc
+
+obj_files = $(foreach file, $(files), $(file).o) 			\
+$(foreach file, $(bootstrap_files), bootstrap/$(file).o) 		\
+$(foreach file, $(parser_files), $(file).o) 				\
+$(foreach file, $(parser_node_files), parser/nodes/$(file).o) main.o
 
 sub_dirs = parser bootstrap
 
@@ -36,14 +42,8 @@ nil.o: nil.cc
 hash.o: hash.cc
 	$(cc) $(cc_flags) -c hash.cc -o hash.o
 
-hash_literal.o: hash_literal.cc
-	$(cc) $(cc_flags) -c hash_literal.cc -o hash_literal.o
-
 array.o: array.cc
 	$(cc) $(cc_flags) -c array.cc -o array.o
-
-array_literal.o: array_literal.cc
-	$(cc) $(cc_flags) -c array_literal.cc -o array_literal.o
 
 regex.o: regex.cc
 	$(cc) $(cc_flags) -c regex.cc -o regex.o
@@ -72,9 +72,6 @@ module.o: module.cc
 class.o: class.cc
 	$(cc) $(cc_flags) -c class.cc -o class.o
 
-class_definition.o: class_definition.cc
-	$(cc) $(cc_flags) -c class_definition.cc -o class_definition.o
-
 fancy_object.o: fancy_object.cc
 	$(cc) $(cc_flags) -c fancy_object.cc -o fancy_object.o
 
@@ -84,26 +81,11 @@ errors.o: errors.cc
 method.o: method.cc
 	$(cc) $(cc_flags) -c method.cc -o method.o
 
-method_call.o: method_call.cc
-	$(cc) $(cc_flags) -c method_call.cc -o method_call.o
-
-operator_call.o: operator_call.cc
-	$(cc) $(cc_flags) -c operator_call.cc -o operator_call.o
-
-assignment.o: assignment.cc
-	$(cc) $(cc_flags) -c assignment.cc -o assignment.o
-
-method_definition.o: method_definition.cc
-	$(cc) $(cc_flags) -c method_definition.cc -o method_definition.o
-
 expression_list.o: expression_list.cc
 	$(cc) $(cc_flags) -c expression_list.cc -o expression_list.o
 
 block.o: block.cc
 	$(cc) $(cc_flags) -c block.cc -o block.o
-
-block_literal.o: block_literal.cc
-	$(cc) $(cc_flags) -c block_literal.cc -o block_literal.o
 
 utils.o: utils.cc
 	$(cc) $(cc_flags) -c utils.cc -o utils.o

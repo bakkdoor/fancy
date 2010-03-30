@@ -30,6 +30,6 @@ NativeObject_p BlockLiteral::equal(const NativeObject_p other) const
 
 string BlockLiteral::to_s() const
 {
-  "<BlockLiteral>";
+  return "<BlockLiteral>";
 }
 
