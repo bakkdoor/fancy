@@ -1,5 +1,7 @@
 %{
   #include "includes.h"
+  
+  string current_file;
 
   int yyerror(char *s);
   int yylex(void);
@@ -62,6 +64,7 @@
 
 
 %type  <object>             empty_array
+%type  <object>             code
 %type  <object>             exp
 %type  <object>             assignment
 %type  <object>             block_literal
@@ -85,12 +88,18 @@
 %%
 
 programm:       /* empty */
-                | exp { Expression_p expr = $1; expr->eval(global_scope); }
-                | programm SEMI exp { Expression_p expr = $3; expr->eval(global_scope); }
+                | code { Expression_p expr = $1; expr->eval(global_scope); }
+                | programm SEMI code { Expression_p expr = $3; expr->eval(global_scope); }
                 ;
 
-exp:            assignment
-                | method_def
+code:           statement
+                | exp
+                ;
+
+statement:      assignment
+                ;
+
+exp:            method_def
                 | class_def
                 | method_call
                 | operator_call
@@ -134,8 +143,8 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
                 }
                 ;
 
-method_body:    exp { expression_list.push_back($1); }
-                | method_body SEMI exp { expression_list.push_back($3); }
+method_body:    code { expression_list.push_back($1); }
+                | method_body SEMI code { expression_list.push_back($3); }
                 ;
 
 method_w_args:  DEF method_args LCURLY method_body RCURLY {
@@ -237,8 +246,8 @@ exp_comma_list: exp { $$ = expr_node($1, 0); }
 empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array()); }
                 ;
 
-exp_list:       exp { $$ = expr_node($1, 0); }
-                | exp_list SEMI exp { $$ = expr_node($3, $1); }
+exp_list:       code { $$ = expr_node($1, 0); }
+                | exp_list SEMI code { $$ = expr_node($3, $1); }
                 ;
 
 hash_literal:   LCURLY key_value_list RCURLY { $$ = new HashLiteral($2); }
@@ -276,7 +285,7 @@ int yyerror(char *s)
   extern int yylineno;
   extern char *yytext;
   
-  fprintf(stderr, "ERROR: %s at symbol %s on line %d\n", s, yytext, yylineno);
+  fprintf(stderr, "ERROR [%s:%d] : %s at symbol %s\n", current_file.c_str(), yylineno, s, yytext);
   exit(1);
 }
 

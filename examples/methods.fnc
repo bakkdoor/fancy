@@ -4,7 +4,7 @@ def class Foo {
   }
 };
 
-f = (Foo new);
+f = Foo new;
 f bar;
 
 def class Foo {

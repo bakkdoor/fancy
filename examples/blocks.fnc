@@ -7,5 +7,5 @@ y call: [2, 3];
 zahl = 0;
 { zahl <= 20 } while_true: {
   Console println: zahl;
-  zahl = (zahl + 1)
+  zahl = zahl + 1
 }

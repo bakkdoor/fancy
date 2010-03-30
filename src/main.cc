@@ -4,6 +4,7 @@
 /* prototype of bison-generated parser function */
 int yyparse();
 extern int yylineno;
+extern string current_file;
 
 #define STDLIB_FILES {"lib/Object.fnc", "lib/TrueClass.fnc", "lib/NilClass.fnc", "lib/Number.fnc", "lib/Array.fnc"}
 #define N_STDLIB_FILES 5
@@ -16,8 +17,10 @@ void parse_file(string &filename)
     exit(1);
   }
   
+  current_file = filename;
+  
   yyparse();
-  yylineno = 0; // reset yylineno for next file to parse
+  yylineno = 1; // reset yylineno for next file to parse
 }
 
 int main(int argc, char **argv)
@@ -42,6 +45,7 @@ int main(int argc, char **argv)
   }
   
   try {
+    current_file = string(argv[1]);
     yyparse();
   } catch(UnknownIdentifierError &ex) {
     cout << "Error:" << endl;

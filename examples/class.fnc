@@ -24,10 +24,10 @@ def class Foo : Bar {
   }
 };
 
-bar = (Bar new);
+bar = Bar new;
 bar say_hello: "Chris";
 
-foo = (Foo new: "Chris from Constructor");
+foo = Foo new: "Chris from Constructor";
 foo say_hello;
 foo on_hello_do: {
   Console println: "Call me when calling on_hello! :)"
