@@ -1,6 +1,12 @@
 #ifndef _ASSIGNMENT_H_
 #define _ASSIGNMENT_H_
 
+/**
+ * Assignment expression class.
+ * Used in the parser. 
+ * When evaluated, sets the value of an identifier within the current
+ * scope.
+ */
 class AssignmentExpr : public NativeObject
 {
  public:

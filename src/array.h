@@ -7,6 +7,10 @@ public:
   array_node *next;
 };
 
+/**
+ * Array class for native values of ArrayClass instances within Fancy.
+ * Internally, a std::vector is used for fast index-based access.
+ */
 class Array : public NativeObject
 {
  public:

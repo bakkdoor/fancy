@@ -1,6 +1,11 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 
+/**
+ * Block class.
+ * A block is (as in Ruby or Smalltalk) an object (instance of
+ * BlockClass) that represents an anonymous method / a closure.
+ */
 class Block : public NativeObject, public Callable
 {
 public:

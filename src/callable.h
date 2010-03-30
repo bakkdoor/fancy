@@ -5,6 +5,10 @@ class Scope;
 class FancyObject;
 class Expression;
 
+/**
+ * Interface for callable objects.
+ * (Native methods, user-defined methods & blocks ...)
+ */
 class Callable
 {
 public:

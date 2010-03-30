@@ -1,6 +1,11 @@
 #ifndef _ARRAY_LITERAL_H_
 #define _ARRAY_LITERAL_H_
 
+/**
+ * ArrayLiteral class for Array literal values.
+ * When evaluated, returns an instance of ArrayClass.
+ * Only used within parser.
+ */
 class ArrayLiteral : public NativeObject
 {
 public:

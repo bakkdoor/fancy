@@ -1,6 +1,10 @@
 #ifndef _BLOCK_LITERAL_H_
 #define _BLOCK_LITERAL_H_
 
+/**
+ * BlockLiteral class used in the parser for literal Block values.
+ * When evaluated, returns an instance of BlockClass.
+ */
 class BlockLiteral : public NativeObject
 {
 public:
