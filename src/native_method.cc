@@ -4,20 +4,20 @@ NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args,
                            bool special) : 
-  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
+  NativeObject(), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
 {
 }
 
 NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
                            unsigned int n_args) :
-  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
+  NativeObject(), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
 {
 }
 
 NativeMethod::NativeMethod(string identifier,
                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope)) :
-  NativeObject(OBJ_NATIVEMETHOD), _identifier(identifier), _func(func), _n_args(0), _special(false)
+  NativeObject(), _identifier(identifier), _func(func), _n_args(0), _special(false)
 {
 }
 
@@ -43,6 +43,11 @@ NativeObject_p NativeMethod::equal(const NativeObject_p other) const
       return nil;
     }
   }
+}
+
+OBJ_TYPE NativeMethod::type() const
+{
+  return OBJ_NATIVEMETHOD;
 }
 
 string NativeMethod::to_s() const

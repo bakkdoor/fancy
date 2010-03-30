@@ -38,3 +38,7 @@ void Module::define_class_method(Identifier_p name, Method_p method)
   this->_class_methods[name] = method;  
 }
 
+OBJ_TYPE Module::type() const
+{
+  return OBJ_MODULE;
+}

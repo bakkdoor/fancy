@@ -1,7 +1,7 @@
 #include "includes.h"
 
 Block::Block(ExpressionList_p body, Scope *creation_scope) :
-  NativeObject(OBJ_BLOCK),
+  NativeObject(),
   _body(body),
   _block_fancy_obj(0),
   _creation_scope(creation_scope)
@@ -9,7 +9,7 @@ Block::Block(ExpressionList_p body, Scope *creation_scope) :
 }
 
 Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope) :
-  NativeObject(OBJ_BLOCK),
+  NativeObject(),
   _argnames(argnames),
   _body(body),
   _block_fancy_obj(0),
@@ -34,6 +34,11 @@ FancyObject_p Block::eval(Scope *scope)
 NativeObject_p Block::equal(const NativeObject_p other) const
 {
   return nil;
+}
+
+OBJ_TYPE Block::type() const
+{
+  return OBJ_BLOCK;
 }
 
 string Block::to_s() const

@@ -19,7 +19,7 @@ void init_object_class()
 
 FancyObject_p class_method_Object_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(self->is_class()) {
+  if(IS_CLASS(self)) {
     Class_p the_class = dynamic_cast<Class_p>(self);
     FancyObject_p new_instance = the_class->create_instance();
     if(new_instance->responds_to("initialize")) {
@@ -34,7 +34,7 @@ FancyObject_p class_method_Object_new(FancyObject_p self, list<FancyObject_p> ar
 
 FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(self->is_class()) {
+  if(IS_CLASS(self)) {
     Class_p the_class = dynamic_cast<Class_p>(self);
     FancyObject_p new_instance = the_class->create_instance();
     if(new_instance->responds_to("initialize:")) {

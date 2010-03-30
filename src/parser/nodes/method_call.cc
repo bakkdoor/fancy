@@ -2,7 +2,7 @@
 
 MethodCall::MethodCall(Expression_p receiver,
                        list< pair<Identifier_p, Expression_p> > method_arg_expr) :
-  NativeObject(OBJ_METHODCALL),
+  NativeObject(),
   receiver(receiver),
   arg_expressions(method_arg_expr)
 {
@@ -10,7 +10,7 @@ MethodCall::MethodCall(Expression_p receiver,
 }
 
 MethodCall::MethodCall(Expression_p receiver, Identifier_p method_ident) :
-  NativeObject(OBJ_METHODCALL),
+  NativeObject(),
   receiver(receiver),
   method_ident(method_ident)
 {
@@ -59,6 +59,11 @@ FancyObject_p MethodCall::eval(Scope *scope)
   
   FancyObject_p receiver_obj = receiver->eval(scope);
   return receiver_obj->call_method(this->method_ident->to_s(), args, scope);
+}
+
+OBJ_TYPE MethodCall::type() const
+{
+  return OBJ_METHODCALL;
 }
 
 string MethodCall::to_s() const

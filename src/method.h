@@ -17,6 +17,7 @@ class Method : public NativeObject, public Callable
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 

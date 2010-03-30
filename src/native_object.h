@@ -36,10 +36,10 @@ typedef NativeObject* NativeObject_p;
 class NativeObject : public Expression
 {
  public:
-  NativeObject(OBJ_TYPE type);
+  NativeObject();
   ~NativeObject();
 
-  OBJ_TYPE type() const;
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
  private:

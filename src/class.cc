@@ -126,6 +126,11 @@ FancyObject_p Class::eval(Scope *scope)
   return this;
 }
 
+OBJ_TYPE Class::type() const
+{
+  return OBJ_CLASS;
+}
+
 string Class::to_s() const
 {
   return "<Class:" + this->_name + ">";
@@ -147,9 +152,4 @@ Callable_p Class::find_method(const string &name)
   }
 
   return 0;
-}
-
-bool Class::is_class() const
-{
-  return true;
 }

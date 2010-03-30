@@ -14,6 +14,8 @@ public:
   void define_method(Identifier_p name, Method_p method);
   void define_class_method(Identifier_p name, Method_p method);
 
+  virtual OBJ_TYPE type() const;
+
 protected:
   map<Identifier_p, Method_p> _methods;
   map<Identifier_p, Method_p> _class_methods;

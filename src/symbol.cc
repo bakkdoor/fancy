@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Symbol::Symbol(const string &name) : NativeObject(OBJ_SYMBOL), _name(name)
+Symbol::Symbol(const string &name) : NativeObject(), _name(name)
 {
 }
 
@@ -22,6 +22,11 @@ NativeObject_p Symbol::equal(const NativeObject_p other) const
 FancyObject_p Symbol::eval(Scope *scope)
 {
   return SymbolClass->create_instance(this);
+}
+
+OBJ_TYPE Symbol::type() const
+{
+  return OBJ_SYMBOL;
 }
 
 string Symbol::to_s() const

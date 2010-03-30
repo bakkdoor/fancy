@@ -15,6 +15,7 @@ class AssignmentExpr : public NativeObject
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual string to_s() const;
+  virtual OBJ_TYPE type() const;
   virtual FancyObject_p eval(Scope *scope);
 
  private:

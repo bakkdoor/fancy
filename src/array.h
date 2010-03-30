@@ -29,6 +29,7 @@ class Array : public NativeObject
   FancyObject_p last() const;
 
   virtual FancyObject_p eval(Scope *scope);
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
   bool operator==(const Array& other) const;

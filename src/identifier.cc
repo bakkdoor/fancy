@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Identifier::Identifier(const string &name) : NativeObject(OBJ_IDENTIFIER), _name(name)
+Identifier::Identifier(const string &name) : NativeObject(), _name(name)
 {
 }
 
@@ -22,6 +22,11 @@ NativeObject_p Identifier::equal(const NativeObject_p other) const
 FancyObject_p Identifier::eval(Scope *scope)
 {
   return scope->get(this->_name);
+}
+
+OBJ_TYPE Identifier::type() const
+{
+  return OBJ_IDENTIFIER;
 }
 
 string Identifier::to_s() const

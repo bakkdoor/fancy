@@ -1,18 +1,23 @@
 #include "includes.h"
 
 MethodDefExpr::MethodDefExpr(Identifier_p method_name, Method_p method) :
-  NativeObject(OBJ_METHODDEFEXPR), method(method), _method_name(method_name)
+  NativeObject(), method(method), _method_name(method_name)
 {
 }
 
 MethodDefExpr::MethodDefExpr(list< pair<Identifier_p, Identifier_p> > args_with_name, Method_p method) :
-  NativeObject(OBJ_METHODDEFEXPR), method_args(args_with_name), method(method), _method_name(0)
+  NativeObject(), method_args(args_with_name), method(method), _method_name(0)
 {
 }
 
 NativeObject_p MethodDefExpr::equal(const NativeObject_p other) const
 {
   return nil;
+}
+
+OBJ_TYPE MethodDefExpr::type() const
+{
+  return OBJ_METHODDEFEXPR;
 }
 
 string MethodDefExpr::to_s() const

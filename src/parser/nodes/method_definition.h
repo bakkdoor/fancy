@@ -8,6 +8,7 @@ class MethodDefExpr : public NativeObject
   MethodDefExpr(list< pair<Identifier_p, Identifier_p> > args_with_name, Method_p method);
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   virtual FancyObject_p eval(Scope *scope);
  

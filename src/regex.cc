@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Regex::Regex(const string &pattern) : NativeObject(OBJ_REGEX), _pattern(pattern)
+Regex::Regex(const string &pattern) : NativeObject(), _pattern(pattern)
 {
 }
 
@@ -22,6 +22,11 @@ NativeObject_p Regex::equal(const NativeObject_p other) const
 FancyObject_p Regex::eval(Scope *scope)
 {
   return RegexClass->create_instance(this);
+}
+
+OBJ_TYPE Regex::type() const
+{
+  return OBJ_REGEX;
 }
 
 string Regex::to_s() const

@@ -1,6 +1,6 @@
 #include "includes.h"
 
-NativeObject::NativeObject(OBJ_TYPE type) : obj_type(type)
+NativeObject::NativeObject()
 {
 }
 

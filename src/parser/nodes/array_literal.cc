@@ -1,7 +1,7 @@
 #include "includes.h"
 
 ArrayLiteral::ArrayLiteral(expression_node *expr_list) :
-  NativeObject(OBJ_ARRAYLITERAL)
+  NativeObject()
 {
   for(expression_node *tmp = expr_list; tmp != NULL; tmp = tmp->next) {
     this->_expressions.push_back(tmp->expression);
@@ -9,7 +9,7 @@ ArrayLiteral::ArrayLiteral(expression_node *expr_list) :
 }
 
 ArrayLiteral::ArrayLiteral(list<Expression_p> expressions) :
-  NativeObject(OBJ_ARRAYLITERAL),
+  NativeObject(),
   _expressions(expressions)
 {
 }
@@ -32,6 +32,11 @@ FancyObject_p ArrayLiteral::eval(Scope *scope)
     values.push_back((*it)->eval(scope));
   }
   return ArrayClass->create_instance(new Array(values));
+}
+
+OBJ_TYPE ArrayLiteral::type() const
+{
+  return OBJ_ARRAYLITERAL;
 }
 
 string ArrayLiteral::to_s() const

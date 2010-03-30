@@ -2,14 +2,14 @@
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
                const Expression_p body) : 
-  NativeObject(OBJ_METHOD), _argnames(argnames), body(body), special(false)
+  NativeObject(), _argnames(argnames), body(body), special(false)
 {
 }
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> >  argnames,
                const Expression_p body,
                bool special) :
-  NativeObject(OBJ_METHOD), _argnames(argnames), body(body), special(special)
+  NativeObject(), _argnames(argnames), body(body), special(special)
 {
 }
 
@@ -68,6 +68,11 @@ FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *
   }
   
   return nil;
+}
+
+OBJ_TYPE Method::type() const
+{
+  return OBJ_METHOD;
 }
 
 string Method::to_s() const

@@ -26,12 +26,12 @@ public:
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
   FancyObject_p call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope);
   NativeObject_p native_value() const;
   void def_singleton_method(const string &name, Callable_p method);
-  virtual bool is_class() const;
   bool responds_to(const string &method_name);
 
 protected:

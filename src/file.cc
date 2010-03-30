@@ -1,7 +1,7 @@
 #include "includes.h"
 
 File::File(const string &filename, const string &mode) :
-  NativeObject(OBJ_FILE),
+  NativeObject(),
   _filename(filename),
   _mode(mode),
   _file_obj_cache(0)
@@ -29,6 +29,11 @@ FancyObject_p File::eval(Scope *scope)
     _file_obj_cache = FileClass->create_instance(this);
   }
   return _file_obj_cache;
+}
+
+OBJ_TYPE File::type() const
+{
+  return OBJ_FILE;
 }
 
 string File::to_s() const

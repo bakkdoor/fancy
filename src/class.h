@@ -37,11 +37,10 @@ public:
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
+  virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
   Callable_p find_method(const string &name);
-
-  virtual bool is_class() const;
 
 private:
   /* map<string, NativeObject_p> _slots; */

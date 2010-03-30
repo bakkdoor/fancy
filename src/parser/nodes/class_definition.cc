@@ -2,7 +2,7 @@
 
 ClassDefExpr::ClassDefExpr(Identifier_p class_name,
                            ExpressionList_p class_body) :
-  NativeObject(OBJ_CLASSDEFEXPR),
+  NativeObject(),
   _superclass(ObjectClass),
   _superclass_name(0),
   _class_name(class_name),
@@ -13,7 +13,7 @@ ClassDefExpr::ClassDefExpr(Identifier_p class_name,
 ClassDefExpr::ClassDefExpr(Identifier_p superclass_name,
                            Identifier_p class_name,
                            ExpressionList_p class_body) :
-  NativeObject(OBJ_CLASSDEFEXPR),
+  NativeObject(),
   _superclass(0),
   _superclass_name(superclass_name),
   _class_name(class_name),
@@ -37,7 +37,7 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
   FancyObject_p class_obj = scope->get(this->_class_name->name());
   // check if class is already defined.
   // if so, don't create a new class
-  if(class_obj->is_class()) {
+  if(IS_CLASS(class_obj)) {
     the_class = dynamic_cast<Class_p>(class_obj);
   } else {
     // if not yet defined, create a new class and define it in the
@@ -45,7 +45,7 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
     Class_p superclass = this->_superclass;
     if(!superclass && this->_superclass_name) {
       FancyObject_p class_obj = scope->get(this->_superclass_name->name());
-      if(class_obj->is_class()) {
+      if(IS_CLASS(class_obj)) {
         superclass = dynamic_cast<Class_p>(class_obj);
       } else {
         error("Superclass identifier does not reference a class: ") 
@@ -65,6 +65,11 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
   class_eval_scope->set_current_class(the_class);
   this->_class_body->eval(class_eval_scope);
   return the_class;
+}
+
+OBJ_TYPE ClassDefExpr::type() const
+{
+  return OBJ_CLASSDEFEXPR;
 }
 
 string ClassDefExpr::to_s() const

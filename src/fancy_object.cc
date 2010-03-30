@@ -1,7 +1,7 @@
 #include "includes.h"
 
 FancyObject::FancyObject(Class_p _class) :
-  NativeObject(OBJ_CLASSINSTANCE),
+  NativeObject(),
   _class(_class),
   _native_value(0)
 {
@@ -10,7 +10,7 @@ FancyObject::FancyObject(Class_p _class) :
 }
 
 FancyObject::FancyObject(Class_p _class, NativeObject_p native_value) :
-  NativeObject(OBJ_CLASSINSTANCE),
+  NativeObject(),
   _class(_class),
   _native_value(native_value)
 {
@@ -95,6 +95,11 @@ FancyObject_p FancyObject::eval(Scope *scope)
   return this;
 }
 
+OBJ_TYPE FancyObject::type() const
+{
+  return OBJ_CLASSINSTANCE;
+}
+
 string FancyObject::to_s() const
 {
   if(this->_native_value) {
@@ -124,11 +129,6 @@ void FancyObject::def_singleton_method(const string &name, Callable_p method)
 {
   assert(method);
   this->_singleton_methods[name] = method;
-}
-
-bool FancyObject::is_class() const
-{
-  return false;
 }
 
 bool FancyObject::responds_to(const string &method_name)

@@ -1,7 +1,7 @@
 #include "includes.h"
 
 HashLiteral::HashLiteral(key_val_node *key_val_list) :
-  NativeObject(OBJ_HASHLITERAL)
+  NativeObject()
 {
   for(key_val_node *tmp = key_val_list; tmp != NULL; tmp = tmp->next) {
     this->_key_val_list.push_back(pair<Expression_p, Expression_p>(tmp->key, tmp->val));
@@ -9,7 +9,7 @@ HashLiteral::HashLiteral(key_val_node *key_val_list) :
 }
 
 HashLiteral::HashLiteral(list< pair<Expression_p, Expression_p> > key_val_list) :
-  NativeObject(OBJ_HASHLITERAL),
+  NativeObject(),
   _key_val_list(key_val_list)
 {
 }
@@ -31,6 +31,11 @@ FancyObject_p HashLiteral::eval(Scope *scope)
     mappings[it->first->eval(scope)] = it->second->eval(scope);
   }
   return HashClass->create_instance(new Hash(mappings));
+}
+
+OBJ_TYPE HashLiteral::type() const
+{
+  return OBJ_HASHLITERAL;
 }
 
 string HashLiteral::to_s() const

@@ -13,6 +13,7 @@ class Identifier : public NativeObject
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
   virtual string to_s() const;
+  virtual OBJ_TYPE type() const;
   string name() const;
 
   static Identifier_p from_string(const string &name);

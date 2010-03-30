@@ -1,7 +1,7 @@
 #include "includes.h"
 
 AssignmentExpr::AssignmentExpr(Identifier_p identifier, NativeObject_p value_expr) :
-  NativeObject(OBJ_ASSIGNEXPR), identifier(identifier), value_expr(value_expr)
+  NativeObject(), identifier(identifier), value_expr(value_expr)
 {
 }
 
@@ -21,6 +21,11 @@ NativeObject_p AssignmentExpr::equal(const NativeObject_p other) const
     return t;
 
   return nil;
+}
+
+OBJ_TYPE AssignmentExpr::type() const
+{
+  return OBJ_ASSIGNEXPR;
 }
 
 string AssignmentExpr::to_s() const

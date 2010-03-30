@@ -1,11 +1,11 @@
 #include "includes.h"
 
-Hash::Hash() : NativeObject(OBJ_HASH)
+Hash::Hash() : NativeObject()
 {
 }
 
 Hash::Hash(map<FancyObject_p, FancyObject_p> map) :
-  NativeObject(OBJ_HASH),
+  NativeObject(),
   mappings(map)
 {
 }
@@ -46,6 +46,11 @@ NativeObject_p Hash::equal(const NativeObject_p other) const
 FancyObject_p Hash::eval(Scope *scope)
 {
   return RegexClass->create_instance(this);
+}
+
+OBJ_TYPE Hash::type() const
+{
+  return OBJ_HASH;
 }
 
 string Hash::to_s() const
