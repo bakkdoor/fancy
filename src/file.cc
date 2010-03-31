@@ -1,9 +1,10 @@
 #include "includes.h"
 
-File::File(const string &filename, const string &mode) :
+File::File(const string &filename, const string &mode, FILE *file) :
   NativeObject(),
   _filename(filename),
   _mode(mode),
+  _file(file),
   _file_obj_cache(0)
 {
 }
@@ -49,4 +50,9 @@ string File::filename() const
 string File::mode() const
 {
   return this->_mode;
+}
+
+FILE* File::file() const
+{
+  return _file;
 }

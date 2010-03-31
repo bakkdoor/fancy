@@ -10,5 +10,6 @@
 #include "console.h"
 #include "nil.h"
 #include "array.h"
+#include "file.h"
 
 #endif /* _BOOTSTRAP_INCLUDES_H_ */
