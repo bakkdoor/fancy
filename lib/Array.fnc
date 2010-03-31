@@ -1,6 +1,15 @@
 # package: Fancy::Collections
 
 def class Array {
+  def any?: condition {
+    self each: |x| {
+      condition call: [x] . if_true: {
+        return: true
+      }
+    };
+    nil
+  };
+
   def map: block {
     coll = [];
     self each: |x| {

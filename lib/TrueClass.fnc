@@ -3,6 +3,10 @@ def class TrueClass {
     then_block call
   };
 
+  def if_true: block {
+    block call
+  };
+
   def if_false: block {
     nil
   };

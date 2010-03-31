@@ -20,6 +20,9 @@ arr reject: |x| { x < 4 } . println;
 arr take_while: |x| { x < 5 } . println;
 arr reduce: |acc, x| { acc * x } with: 1 . println; # same as: 1*1*2*3*4*5*6
 
+"testing any?: " print;
+arr any?: |x| { x > 3 } . println;
+
 # some other handy methods
 arr size println;
 arr to_s println;
