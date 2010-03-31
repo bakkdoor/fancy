@@ -18,6 +18,7 @@ arr map: |x| { x + x } . println;
 arr select: |x| { x < 4 } . println;
 arr reject: |x| { x < 4 } . println;
 arr take_while: |x| { x < 5 } . println;
+arr reduce: |acc, x| { acc * x } with: 1 . println; # same as: 1*1*2*3*4*5*6
 
 # some other handy methods
 arr size println;

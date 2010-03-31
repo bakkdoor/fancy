@@ -55,13 +55,10 @@ def class Array {
   };
 
   def reduce: block with: init_val {
-    @acc = init_val;
+    acc = init_val;
     self each: |x| {
-      @acc println;
-      @acc = (block call: [@acc, x])
-      @acc println;
-      "" println
+      acc = (block call: [acc, x])
     };
-    @acc
+    acc
   }
 }
