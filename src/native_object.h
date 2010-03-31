@@ -1,34 +1,6 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
-enum OBJ_TYPE {
-  OBJ_NIL = 0,
-  OBJ_TRUE,
-  OBJ_INTEGER,
-  OBJ_DOUBLE,
-  OBJ_IDENTIFIER,
-  OBJ_SYMBOL,
-  OBJ_STRING,
-  OBJ_HASH,
-  OBJ_HASHLITERAL,
-  OBJ_REGEX,
-  OBJ_ARRAY,
-  OBJ_ARRAYLITERAL,
-  OBJ_METHOD,
-  OBJ_NATIVEMETHOD,
-  OBJ_METHODCALL,
-  OBJ_OPCALL,
-  OBJ_ASSIGNEXPR,
-  OBJ_METHODDEFEXPR,
-  OBJ_MODULE,
-  OBJ_CLASS,
-  OBJ_CLASSINSTANCE,
-  OBJ_CLASSDEFEXPR,
-  OBJ_BLOCK,
-  OBJ_BLOCKLITERAL,
-  OBJ_FILE
-};
-
 class NativeObject;
 class Hash;
 typedef NativeObject* NativeObject_p;
@@ -97,6 +69,12 @@ class NativeObject : public Expression
 
 #define IS_ASSIGNEXPR(obj) \
   obj->type() == OBJ_ASSIGNEXPR
+
+#define IS_RETURNSTATEMENT(obj) \
+  obj->type() == OBJ_RETURNSTATEMENT
+
+#define IS_EXPRLIST(obj) \
+  obj->type() == OBJ_EXPRLIST
 
 #define IS_METHODDEFEXPR(obj) \
   obj->type() == OBJ_METHODDEFEXPR

@@ -15,6 +15,7 @@ class ExpressionList : public Expression
   
   virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual OBJ_TYPE type() const;
 
   unsigned int size() const;
 

@@ -10,6 +10,7 @@
 #include "method_call.h"
 #include "operator_call.h"
 #include "assignment.h"
+#include "return.h"
 #include "method_definition.h"
 
 #endif /* _PARSER_NODES_INCLUDES_H_ */

@@ -44,6 +44,7 @@
 %token                  COMMA
 %token                  SEMI
 %token                  COLON
+%token                  RETURN
 %token                  CLASS
 %token                  DEF
 %token                  DOT
@@ -70,6 +71,7 @@
 %type  <object>             code
 %type  <object>             exp
 %type  <object>             assignment
+%type  <object>             return_statement
 %type  <object>             block_literal
 %type  <block_arg_list>     block_args
 
@@ -101,6 +103,7 @@ code:           statement
                 ;
 
 statement:      assignment
+                | return_statement
                 ;
 
 exp:            method_def
@@ -114,6 +117,11 @@ exp:            method_def
 
 assignment:     IDENTIFIER EQUALS exp {
                   $$ = new AssignmentExpr($1, $3);
+                }
+                ;
+
+return_statement: RETURN exp {
+                  $$ = new ReturnStatement($2);
                 }
                 ;
 

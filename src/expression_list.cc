@@ -24,6 +24,9 @@ FancyObject_p ExpressionList::eval(Scope *scope)
   list<Expression_p>::iterator it;
   for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
     retval = (*it)->eval(scope);
+    if(IS_RETURNSTATEMENT((*it))) {
+      return retval;
+    }
   }
   return retval;
 }
@@ -31,6 +34,11 @@ FancyObject_p ExpressionList::eval(Scope *scope)
 NativeObject_p ExpressionList::equal(const NativeObject_p other) const
 {
   return nil;
+}
+
+OBJ_TYPE ExpressionList::type() const
+{
+  return OBJ_EXPRLIST;
 }
 
 unsigned int ExpressionList::size() const

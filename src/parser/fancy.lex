@@ -20,6 +20,7 @@ rbracket        "]"
 stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
+return          "return:"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
@@ -60,6 +61,7 @@ comment         #[^\n]*
                   yylval.object = Identifier::from_string(str);
                   return OPERATOR;
                 }
+{return}        { return RETURN; }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
