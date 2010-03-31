@@ -1,12 +1,13 @@
 %{
   #include "includes.h"
-  
+
   string current_file;
 
   int yyerror(char *s);
   int yylex(void);
   key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
   expression_node* expr_node(Expression_p expr, expression_node *next);
+  block_arg_node* blk_arg_node(Identifier_p argname, block_arg_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
   list< pair<Identifier_p, Expression_p> > methodcall_args;
@@ -18,6 +19,7 @@
   key_val_node      *key_val_list;
   array_node        *value_list;
   expression_node   *expr_list;
+  block_arg_node    *block_arg_list;
   /* method_arg_node   *method_args; */
 
   NativeObject  *object;
@@ -69,6 +71,7 @@
 %type  <object>             exp
 %type  <object>             assignment
 %type  <object>             block_literal
+%type  <block_arg_list>     block_args
 
 %type  <expression>         class_def
 %type  <expression>         class_no_super
@@ -252,13 +255,12 @@ block_literal:  LCURLY method_body RCURLY {
                   $$ = new BlockLiteral(new ExpressionList($2));
                 }
                 | STAB block_args STAB LCURLY method_body RCURLY {
-                  $$ = new BlockLiteral(block_args, new ExpressionList($5));
-                  block_args.clear();
+                  $$ = new BlockLiteral($2, new ExpressionList($5));
                 }
                 ;
 
-block_args:     IDENTIFIER { block_args.push_back($1); }
-                | block_args COMMA IDENTIFIER { block_args.push_back($3); }
+block_args:     IDENTIFIER { $$ = blk_arg_node($1, 0); }
+                | block_args COMMA IDENTIFIER { $$ = blk_arg_node($3, $1); }
                 ;
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
@@ -295,6 +297,15 @@ expression_node* expr_node(Expression_p expr, expression_node *next)
 {
   expression_node *node = new expression_node;
   node->expression = expr;
+  node->next = next;
+  return node;
+}
+
+
+block_arg_node* blk_arg_node(Identifier_p argname, block_arg_node *next)
+{
+  block_arg_node *node = new block_arg_node;
+  node->argname = argname;
   node->next = next;
   return node;
 }

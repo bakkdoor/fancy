@@ -13,6 +13,15 @@ BlockLiteral::BlockLiteral(list<Identifier_p> argnames, ExpressionList_p body) :
 {
 }
 
+BlockLiteral::BlockLiteral(block_arg_node *argnames, ExpressionList_p body) :
+  NativeObject(),
+  _body(body)
+{
+  for(block_arg_node *tmp = argnames; tmp != NULL; tmp = tmp->next) {
+    _argnames.push_front(tmp->argname);
+  }
+}
+
 BlockLiteral::~BlockLiteral()
 {
 }
