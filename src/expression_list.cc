@@ -10,7 +10,7 @@ ExpressionList::ExpressionList(expression_node *list)
   expression_node *tmp;
   for(tmp = list; tmp != 0; tmp = tmp->next) {
     if(tmp->expression)
-      this->expressions.push_back(tmp->expression);
+      this->expressions.push_front(tmp->expression);
   }
 }
 
