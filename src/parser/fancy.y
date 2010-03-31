@@ -238,7 +238,7 @@ exp_comma_list: exp { $$ = expr_node($1, 0); }
                 | exp COMMA exp_comma_list { $$ = expr_node($1, $3); }
                 ;
 
-empty_array:    LBRACKET RBRACKET { $$ = ArrayClass->create_instance(new Array()); }
+empty_array:    LBRACKET RBRACKET { $$ = new ArrayLiteral(0); }
                 ;
 
 exp_list:       code { $$ = expr_node($1, 0); }

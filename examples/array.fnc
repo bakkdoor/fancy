@@ -14,6 +14,7 @@ arr each_with_index: |x, i| {
 };
 
 arr map: |x| { x * x } . println;
+arr map: |x| { x + x } . println;
 arr select: |x| { x < 4 } . println;
 arr reject: |x| { x < 4 } . println;
 arr take_while: |x| { x < 5 } . println;
