@@ -25,3 +25,5 @@ test: all
 	@echo
 	bin/fancy examples/methods.fnc
 	@echo
+	bin/fancy examples/numbers.fnc
+	@echo
