@@ -25,6 +25,7 @@ class Method : public NativeObject, public Callable
   list< pair<Identifier_p, Identifier_p> > argnames() const;
 
  protected:
+  string method_ident();
   list< pair<Identifier_p, Identifier_p> > _argnames;
   Expression_p body;
   bool special; /* used for 'special' functions (like macros) */

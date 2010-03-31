@@ -79,3 +79,15 @@ string Method::to_s() const
 {
   return "<method>";
 }
+
+string Method::method_ident()
+{
+  stringstream str;
+  list< pair<Identifier_p, Identifier_p> >::iterator it;
+  for(it = _argnames.begin(); it != _argnames.end(); it++) {
+    str << it->first->to_s();
+    str << ":";
+  }
+
+  return str.str();
+}
