@@ -21,6 +21,8 @@ test: all
 	@echo
 	bin/fancy examples/closures.fnc
 	@echo
+	bin/fancy examples/files.fnc
+	@echo
 	bin/fancy examples/hello-world.fnc
 	@echo
 	bin/fancy examples/methods.fnc
