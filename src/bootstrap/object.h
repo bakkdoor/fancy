@@ -45,4 +45,14 @@ FancyObject_p method_Object_to_s(FancyObject_p self, list<FancyObject_p> args, S
  */
 FancyObject_p method_Object_inspect(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+/**
+ * Returns the class of the object.
+ */
+FancyObject_p method_Object_class(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Defines singleton method on object.
+ */
+FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
 #endif /* _BOOTSTRAP_OBJECT_H_ */

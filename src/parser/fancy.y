@@ -46,7 +46,7 @@
 %token                  SEMI
 %token                  COLON
 %token                  RETURN
-%token                  CLASS
+%token                  DEFCLASS
 %token                  DEF
 %token                  DOT
 %token                  DOLLAR
@@ -131,13 +131,13 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: DEF CLASS IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = new ClassDefExpr($3, new ExpressionList($5));
+class_no_super: DEFCLASS IDENTIFIER LCURLY exp_list RCURLY {
+                  $$ = new ClassDefExpr($2, new ExpressionList($4));
                 }
                 ;
 
-class_super:    DEF CLASS IDENTIFIER COLON IDENTIFIER LCURLY exp_list RCURLY {
-                  $$ = new ClassDefExpr($5, $3, new ExpressionList($7));
+class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY exp_list RCURLY {
+                  $$ = new ClassDefExpr($4, $2, new ExpressionList($6));
                 }
                 ;
 

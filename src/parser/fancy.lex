@@ -28,7 +28,7 @@ comma           ,
 semi            ;
 equals          =
 colon           :
-class           "class"
+def_class       "def"[ \t]+"class"
 def             "def"
 dot             "."
 dollar          "$"
@@ -36,7 +36,7 @@ comment         #[^\n]*
 
 %%
 
-{class}         { return CLASS; }
+{def_class}     { return DEFCLASS; }
 {def}           { return DEF; }
 {int_lit}	{ yylval.object = NumberClass->create_instance(Number::from_int(atoi(yytext))); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = NumberClass->create_instance(Number::from_double(atof(yytext))); return DOUBLE_LITERAL; }
