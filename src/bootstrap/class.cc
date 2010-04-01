@@ -8,7 +8,7 @@ void init_class_class()
 
 
 /**
- * Console instance methods
+ * Class instance methods
  */
 
 FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
