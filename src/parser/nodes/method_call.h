@@ -1,10 +1,17 @@
 #ifndef _FUNCALL_H_
 #define _FUNCALL_H_
 
+struct call_arg_node {
+public:
+  Identifier_p argname;
+  Expression_p argexpr;
+  call_arg_node *next;
+};
+
 class MethodCall : public NativeObject
 {
  public:
-  MethodCall(Expression_p receiver, list< pair<Identifier_p, Expression_p> > method_arg_expr);
+  MethodCall(Expression_p receiver, call_arg_node *method_args);
   MethodCall(Expression_p receiver, Identifier_p method_ident);
   ~MethodCall();
 

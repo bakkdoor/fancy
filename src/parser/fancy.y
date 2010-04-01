@@ -8,9 +8,9 @@
   key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
   expression_node* expr_node(Expression_p expr, expression_node *next);
   block_arg_node* blk_arg_node(Identifier_p argname, block_arg_node *next);
+  call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr, call_arg_node *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
-  list< pair<Identifier_p, Expression_p> > methodcall_args;
   list<Identifier_p> block_args;
   list<Expression_p> expression_list;
 %}
@@ -20,6 +20,7 @@
   array_node        *value_list;
   expression_node   *expr_list;
   block_arg_node    *block_arg_list;
+  call_arg_node     *call_arg_list;
   /* method_arg_node   *method_args; */
 
   NativeObject  *object;
@@ -87,6 +88,7 @@
 
 %type  <expression>         method_call
 %type  <expression>         operator_call
+%type  <call_arg_list>      call_args
 %type  <expression>         receiver
 %type  <expression>         arg_exp
 
@@ -201,8 +203,7 @@ method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
                 /*   methodcall_args.clear(); */
                 /* }  */
                 | receiver call_args {
-                   $$ = new MethodCall($1, methodcall_args);
-                   methodcall_args.clear();
+                   $$ = new MethodCall($1, $2);
                 }
                 ;
 
@@ -219,8 +220,8 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | exp DOT { $$ = $1; }
                 ;
 
-call_args:      IDENTIFIER COLON arg_exp { methodcall_args.push_back(pair<Identifier_p, Expression_p>($1, $3)); }
-                | call_args call_args
+call_args:      IDENTIFIER COLON arg_exp { $$ = mcall_arg_node($1, $3, 0); }
+                | call_args IDENTIFIER COLON arg_exp { $$ = mcall_arg_node($2, $4, $1); }
                 ;
 
 arg_exp:        IDENTIFIER { $$ = $1; }
@@ -314,6 +315,15 @@ block_arg_node* blk_arg_node(Identifier_p argname, block_arg_node *next)
 {
   block_arg_node *node = new block_arg_node;
   node->argname = argname;
+  node->next = next;
+  return node;
+}
+
+call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr, call_arg_node *next)
+{
+  call_arg_node *node = new call_arg_node;
+  node->argname = argname;
+  node->argexpr = argexpr;
   node->next = next;
   return node;
 }

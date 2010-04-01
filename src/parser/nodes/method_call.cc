@@ -1,11 +1,14 @@
 #include "includes.h"
 
 MethodCall::MethodCall(Expression_p receiver,
-                       list< pair<Identifier_p, Expression_p> > method_arg_expr) :
+                       call_arg_node *method_args) :
   NativeObject(),
-  receiver(receiver),
-  arg_expressions(method_arg_expr)
+  receiver(receiver)
 {
+  for(call_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
+    arg_expressions.push_front(pair<Identifier_p, Expression_p>(tmp->argname, tmp->argexpr));
+  }
+
   init_method_ident();
 }
 
