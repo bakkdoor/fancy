@@ -31,7 +31,8 @@ int main(int argc, char **argv)
     "lib/NilClass.fnc",
     "lib/Number.fnc",
     "lib/Array.fnc",
-    "lib/Block.fnc"
+    "lib/Block.fnc",
+    "lib/File.fnc"
   };
 
   vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
