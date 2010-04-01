@@ -6,9 +6,6 @@ int yyparse();
 extern int yylineno;
 extern string current_file;
 
-#define STDLIB_FILES {"lib/Object.fnc", "lib/TrueClass.fnc", "lib/NilClass.fnc", "lib/Number.fnc", "lib/Array.fnc"}
-#define N_STDLIB_FILES 5
-
 void parse_file(string &filename)
 {
   if(freopen(filename.c_str(), "r", stdin) == NULL)
@@ -28,14 +25,23 @@ int main(int argc, char **argv)
   GC_INIT();
 
   int i;
-  string files[] = STDLIB_FILES;
+  string files[] = {
+    "lib/Object.fnc",
+    "lib/TrueClass.fnc",
+    "lib/NilClass.fnc",
+    "lib/Number.fnc",
+    "lib/Array.fnc",
+    "lib/Block.fnc"
+  };
+
+  vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
 
   init_core_classes();
   init_global_objects();
   init_global_scope();
 
-  for(i = 0; i < N_STDLIB_FILES; i++) {
-    parse_file(files[i]);
+  for(i = 0; i < files_vector.size(); i++) {
+    parse_file(files_vector[i]);
   }
   
   if ((argc > 1) && (freopen(argv[1], "r", stdin) == NULL))

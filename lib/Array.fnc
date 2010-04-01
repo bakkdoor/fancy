@@ -2,12 +2,38 @@
 
 def class Array {
   def any?: condition {
-    self each: |x| {
-      condition call: [x] . if_true: {
-        return: true
+    found = false;
+    i = 0;
+    size = self size;
+    { found not and: (i < size) } while_true: {
+      found = condition call: [self at: i];
+      i = i + 1
+    };
+    found
+  };
+
+  def all?: condition {
+    all_match = true;
+    i = 0;
+    size = self size;
+    { all_match and: (i < size) } while_true: {
+      all_match = condition call: [self at: i];
+      i = i + 1
+    };
+    all_match
+  };
+
+  def from: start_idx to: end_idx {
+    arr = [];
+    size = self size;
+    (start_idx >= 0 and: $ start_idx <= end_idx) if_true: {
+      i = start_idx;
+      { i <= end_idx and: $ i < size } while_true: {
+        arr << (self at: i);
+        i = i + 1
       }
     };
-    nil
+    arr
   };
 
   def map: block {

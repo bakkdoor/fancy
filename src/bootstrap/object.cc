@@ -49,19 +49,19 @@ FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, list<FancyObj
 
 FancyObject_p method_Object_and(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(self == nil || args.front() == nil) {
-    return nil;
-  } else {
+  if(self != nil && args.front() != nil) {
     return t;
+  } else {
+    return nil;
   }
 }
 
 FancyObject_p method_Object_or(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(self == nil && args.front() == nil) {
-    return nil;
-  } else {
+  if(self != nil || args.front() != nil) {
     return t;
+  } else {
+    return nil;
   }
 }
 
