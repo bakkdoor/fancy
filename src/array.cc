@@ -1,10 +1,10 @@
 #include "includes.h"
 
-Array::Array() : NativeObject()
+Array::Array() : FancyObject(ArrayClass)
 {
 }
 
-Array::Array(array_node *val_list) : NativeObject()
+Array::Array(array_node *val_list) : FancyObject(ArrayClass)
 {
   for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
     if(tmp->value)
@@ -13,7 +13,7 @@ Array::Array(array_node *val_list) : NativeObject()
 }
 
 Array::Array(vector<FancyObject_p> list) :
-  NativeObject(), values(list)
+  FancyObject(ArrayClass), values(list)
 {
 }
 
@@ -63,7 +63,7 @@ FancyObject_p Array::append(Array_p arr)
   for(it = arr->values.begin(); it < arr->values.end(); it++) {
     this->values.push_back(*it);
   }
-  return ArrayClass->create_instance(this);
+  return this;
 }
 
 FancyObject_p Array::first() const
@@ -82,14 +82,6 @@ FancyObject_p Array::last() const
   } else {
     return nil;
   }
-}
-
-FancyObject_p Array::eval(Scope *scope)
-{
-  if(!this->array_obj_cache) {
-    array_obj_cache = ArrayClass->create_instance(this);
-  }
-  return array_obj_cache;
 }
 
 OBJ_TYPE Array::type() const

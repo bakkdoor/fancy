@@ -31,7 +31,7 @@ FancyObject_p ArrayLiteral::eval(Scope *scope)
       it++) {
     values.push_back((*it)->eval(scope));
   }
-  return ArrayClass->create_instance(new Array(values));
+  return new Array(values);
 }
 
 OBJ_TYPE ArrayLiteral::type() const

@@ -1,6 +1,6 @@
 #include "includes.h"
 
-String::String(const string &value) : NativeObject(), _value(value)
+String::String(const string &value) : FancyObject(StringClass), _value(value)
 {
 }
 
@@ -17,11 +17,6 @@ NativeObject_p String::equal(const NativeObject_p other) const
   if(this->_value == other_string->_value)
     return t;
   return nil;
-}
-
-FancyObject_p String::eval(Scope *scope)
-{
-  return StringClass->create_instance(this);
 }
 
 OBJ_TYPE String::type() const

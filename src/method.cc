@@ -2,14 +2,14 @@
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
                const Expression_p body) : 
-  NativeObject(), _argnames(argnames), body(body), special(false)
+  FancyObject(MethodClass), _argnames(argnames), body(body), special(false)
 {
 }
 
 Method::Method(const list< pair<Identifier_p, Identifier_p> >  argnames,
                const Expression_p body,
                bool special) :
-  NativeObject(), _argnames(argnames), body(body), special(special)
+  FancyObject(MethodClass), _argnames(argnames), body(body), special(special)
 {
 }
 
@@ -31,12 +31,6 @@ NativeObject_p Method::equal(const NativeObject_p other) const
 {
   // can't compare methods with anything else
   return nil;
-}
-
-FancyObject_p Method::eval(Scope *scope)
-{
-  cout << endl << endl << "eval method!" << endl <<endl;
-  return MethodClass->create_instance(this);
 }
 
 FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)

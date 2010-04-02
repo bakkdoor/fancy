@@ -121,11 +121,6 @@ NativeObject_p Class::equal(const NativeObject_p other) const
   return nil;
 }
 
-FancyObject_p Class::eval(Scope *scope)
-{
-  return this;
-}
-
 OBJ_TYPE Class::type() const
 {
   return OBJ_CLASS;

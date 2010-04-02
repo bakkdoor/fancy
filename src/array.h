@@ -11,7 +11,7 @@ public:
  * Array class for native values of ArrayClass instances within Fancy.
  * Internally, a std::vector is used for fast index-based access.
  */
-class Array : public NativeObject
+class Array : public FancyObject
 {
  public:
   Array();
@@ -28,7 +28,6 @@ class Array : public NativeObject
   FancyObject_p first() const;
   FancyObject_p last() const;
 
-  virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
@@ -41,7 +40,6 @@ class Array : public NativeObject
 
  private:
   vector<FancyObject_p> values;
-  FancyObject_p array_obj_cache;
 };
 
 typedef Array* Array_p;

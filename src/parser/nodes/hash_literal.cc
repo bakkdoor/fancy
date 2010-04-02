@@ -30,7 +30,7 @@ FancyObject_p HashLiteral::eval(Scope *scope)
   for(it = _key_val_list.begin(); it != _key_val_list.end(); it++) {
     mappings[it->first->eval(scope)] = it->second->eval(scope);
   }
-  return HashClass->create_instance(new Hash(mappings));
+  return new Hash(mappings);
 }
 
 OBJ_TYPE HashLiteral::type() const

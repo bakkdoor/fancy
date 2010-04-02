@@ -79,12 +79,12 @@ FancyObject_p method_Object_not(FancyObject_p self, list<FancyObject_p> args, Sc
 
 FancyObject_p method_Object_to_s(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  return StringClass->create_instance(String::from_value(self->to_s()));
+  return String::from_value(self->to_s());
 }
 
 FancyObject_p method_Object_inspect(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  return StringClass->create_instance(String::from_value(self->to_s() + " : " + self->get_class()->name()));
+  return String::from_value(self->to_s() + " : " + self->get_class()->name());
 }
 
 FancyObject_p method_Object_class(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
@@ -98,8 +98,8 @@ FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, li
   args.pop_front();
   FancyObject_p arg2 = args.front();
 
-  if(IS_STRING(arg1->native_value()) && IS_BLOCK(arg2->native_value())) {
-    self->def_singleton_method(dynamic_cast<String_p>(arg1->native_value())->value(), dynamic_cast<Block_p>(arg2->native_value()));
+  if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
+    self->def_singleton_method(dynamic_cast<String_p>(arg1)->value(), dynamic_cast<Block_p>(arg2));
     return t;
   } else {
     errorln("Object#define_singleton_method:with: expects String and Block arguments.");

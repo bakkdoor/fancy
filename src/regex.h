@@ -1,14 +1,13 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
-class Regex : public NativeObject
+class Regex : public FancyObject
 {
  public:
   Regex(const string &pattern);
   ~Regex();
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   string pattern() const;

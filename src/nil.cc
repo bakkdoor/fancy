@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Nil::Nil() : NativeObject() {}
+Nil::Nil() : FancyObject(NilClass) {}
 
 Nil::~Nil() {}
 

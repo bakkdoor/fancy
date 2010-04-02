@@ -1,6 +1,6 @@
 #include "includes.h"
 
-True::True() : NativeObject() {}
+True::True() : FancyObject(TrueClass) {}
 
 True::~True() {}
 
@@ -13,7 +13,7 @@ NativeObject_p True::equal(const NativeObject_p other) const
 
 FancyObject_p True::eval(Scope *scope)
 {
-  return global_scope->get("true");
+  return t;
 }
 
 OBJ_TYPE True::type() const

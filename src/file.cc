@@ -1,11 +1,10 @@
 #include "includes.h"
 
 File::File(const string &filename, const string &mode, FILE *file) :
-  NativeObject(),
+  FancyObject(FileClass),
   _filename(filename),
   _mode(mode),
-  _file(file),
-  _file_obj_cache(0)
+  _file(file)
 {
 }
 
@@ -22,14 +21,6 @@ NativeObject_p File::equal(const NativeObject_p other) const
       return t;
   }
   return nil;
-}
-
-FancyObject_p File::eval(Scope *scope)
-{
-  if(!_file_obj_cache) {
-    _file_obj_cache = FileClass->create_instance(this);
-  }
-  return _file_obj_cache;
 }
 
 OBJ_TYPE File::type() const

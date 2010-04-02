@@ -1,7 +1,7 @@
 #ifndef _NIL_H_
 #define _NIL_H_
 
-class Nil : public NativeObject
+class Nil : public FancyObject
 {
  public:
   Nil();

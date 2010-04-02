@@ -1,7 +1,7 @@
 #ifndef _HASH_H_
 #define _HASH_H_
 
-class Hash : public NativeObject
+class Hash : public FancyObject
 {
  public:
   Hash();
@@ -12,7 +12,6 @@ class Hash : public NativeObject
   FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 

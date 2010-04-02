@@ -1,7 +1,7 @@
 #ifndef _TRUE_H_
 #define _TRUE_H_
 
-class True : public NativeObject
+class True : public FancyObject
 {
  public:
   True();

@@ -1,12 +1,12 @@
 #include "includes.h"
 
 Number::Number(double value) :
-  NativeObject(), _intval(0), _doubleval(value), _is_double(true)
+  FancyObject(NumberClass), _intval(0), _doubleval(value), _is_double(true)
 {
 }
 
 Number::Number(int value) :
-  NativeObject(), _intval(value), _doubleval(0), _is_double(false)
+  FancyObject(NumberClass), _intval(value), _doubleval(0), _is_double(false)
 {
 }
 
@@ -20,11 +20,6 @@ NativeObject_p Number::equal(const NativeObject_p other) const
     return nil;
 
   return (NUMVAL(this) == NUMVAL(other)) ? t : nil;
-}
-  
-FancyObject_p Number::eval(Scope *scope)
-{
-  return NumberClass->create_instance(this);
 }
 
 OBJ_TYPE Number::type() const

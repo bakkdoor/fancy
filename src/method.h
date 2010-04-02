@@ -8,7 +8,7 @@ public:
   method_arg_node *next;
 };
 
-class Method : public NativeObject, public Callable
+class Method : public FancyObject, public Callable
 {
  public:
   Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body);
@@ -16,7 +16,6 @@ class Method : public NativeObject, public Callable
   ~Method();
 
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);

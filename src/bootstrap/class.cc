@@ -17,9 +17,9 @@ FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObj
   args.pop_front();
   FancyObject_p arg2 = args.front();
 
-  if(IS_STRING(arg1->native_value()) && IS_BLOCK(arg2->native_value())) {
-    dynamic_cast<Class_p>(self)->def_method(dynamic_cast<String_p>(arg1->native_value())->value(), 
-                                            dynamic_cast<Block_p>(arg2->native_value()));
+  if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
+    dynamic_cast<Class_p>(self)->def_method(dynamic_cast<String_p>(arg1)->value(), 
+                                            dynamic_cast<Block_p>(arg2));
     return t;
   } else {
     errorln("Class#define_method:with: expects String and Block arguments.");
@@ -33,9 +33,9 @@ FancyObject_p method_Class_define_class_method__with(FancyObject_p self, list<Fa
   args.pop_front();
   FancyObject_p arg2 = args.front();
 
-  if(IS_STRING(arg1->native_value()) && IS_BLOCK(arg2->native_value())) {
-    dynamic_cast<Class_p>(self)->def_class_method(dynamic_cast<String_p>(arg1->native_value())->value(),
-                                                  dynamic_cast<Block_p>(arg2->native_value()));
+  if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
+    dynamic_cast<Class_p>(self)->def_class_method(dynamic_cast<String_p>(arg1)->value(),
+                                                  dynamic_cast<Block_p>(arg2));
     return t;
   } else {
     errorln("Class#define_class_method:with: expects String and Block arguments.");

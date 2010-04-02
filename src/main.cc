@@ -24,7 +24,6 @@ int main(int argc, char **argv)
 {
   GC_INIT();
 
-  int i;
   string files[] = {
     "lib/Object.fnc",
     "lib/TrueClass.fnc",
@@ -41,7 +40,7 @@ int main(int argc, char **argv)
   init_global_objects();
   init_global_scope();
 
-  for(i = 0; i < files_vector.size(); i++) {
+  for(unsigned int i = 0; i < files_vector.size(); i++) {
     parse_file(files_vector[i]);
   }
   

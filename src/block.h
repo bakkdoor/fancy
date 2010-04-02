@@ -6,14 +6,13 @@
  * A block is (as in Ruby or Smalltalk) an object (instance of
  * BlockClass) that represents an anonymous method / a closure.
  */
-class Block : public NativeObject, public Callable
+class Block : public FancyObject, public Callable
 {
 public:
   Block(ExpressionList_p body, Scope *creation_scope);
   Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
   virtual ~Block();
 
-  virtual FancyObject_p eval(Scope *scope);
   virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
@@ -24,11 +23,8 @@ public:
   Scope* creation_scope() const;
 
 private:
-  void init_fancy_obj_cache();
-  
   list<Identifier_p> _argnames;
   ExpressionList_p _body;
-  FancyObject_p _block_fancy_obj;
   Scope *_creation_scope;
 };
 

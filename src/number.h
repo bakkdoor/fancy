@@ -4,7 +4,7 @@
 class Number;
 typedef Number* Number_p;
 
-class Number : public NativeObject
+class Number : public FancyObject
 {
  public:
   Number(double value);
@@ -12,7 +12,6 @@ class Number : public NativeObject
   ~Number();
   
   virtual NativeObject_p equal(const NativeObject_p other) const;
-  virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 

@@ -1,6 +1,6 @@
 #include "includes.h"
 
-Regex::Regex(const string &pattern) : NativeObject(), _pattern(pattern)
+Regex::Regex(const string &pattern) : FancyObject(RegexClass), _pattern(pattern)
 {
 }
 
@@ -17,11 +17,6 @@ NativeObject_p Regex::equal(const NativeObject_p other) const
   if(this->_pattern == other_regex->_pattern)
     return t;
   return nil;
-}
-
-FancyObject_p Regex::eval(Scope *scope)
-{
-  return RegexClass->create_instance(this);
 }
 
 OBJ_TYPE Regex::type() const

@@ -28,8 +28,7 @@ BlockLiteral::~BlockLiteral()
 
 FancyObject_p BlockLiteral::eval(Scope *scope)
 {
-  Block_p block = new Block(_argnames, _body, scope);
-  return BlockClass->create_instance(block);
+  return new Block(_argnames, _body, scope);
 }
 
 NativeObject_p BlockLiteral::equal(const NativeObject_p other) const

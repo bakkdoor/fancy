@@ -1,34 +1,22 @@
 #include "includes.h"
 
 Block::Block(ExpressionList_p body, Scope *creation_scope) :
-  NativeObject(),
+  FancyObject(BlockClass),
   _body(body),
-  _block_fancy_obj(0),
   _creation_scope(creation_scope)
 {
 }
 
 Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope) :
-  NativeObject(),
+  FancyObject(BlockClass),
   _argnames(argnames),
   _body(body),
-  _block_fancy_obj(0),
   _creation_scope(creation_scope)
 {
 }
 
 Block::~Block()
 {
-}
-
-FancyObject_p Block::eval(Scope *scope)
-{
-  if(this->_block_fancy_obj) {
-    return this->_block_fancy_obj;
-  } else {
-    init_fancy_obj_cache();
-    return this->_block_fancy_obj;
-  }
 }
 
 NativeObject_p Block::equal(const NativeObject_p other) const
@@ -87,11 +75,6 @@ FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *s
   }
 
   return return_value;
-}
-
-void Block::init_fancy_obj_cache()
-{
-  this->_block_fancy_obj = BlockClass->create_instance(this);
 }
 
 void Block::set_creation_scope(Scope *creation_scope)
