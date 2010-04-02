@@ -6,8 +6,10 @@ fancy:
 clean:
 	cd src && make clean > /dev/null
 	rm -f bin/*
+	rm -rf tmp/
 
 test: all
+	@mkdir -p tmp
 	@clear
 	bin/fancy examples/arithmetic.fnc
 	@echo
