@@ -9,6 +9,7 @@ clean:
 	rm -rf tmp/
 
 test: all
+	@clear
 	bin/fancy tests/array.fnc
 
 example: all
