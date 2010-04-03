@@ -33,6 +33,9 @@ return.o: return.cc
 method_definition.o: method_definition.cc
 	$(cc) $(cc_flags) -c method_definition.cc -o method_definition.o
 
+class_method_definition.o: class_method_definition.cc
+	$(cc) $(cc_flags) -c class_method_definition.cc -o class_method_definition.o
+
 block_literal.o: block_literal.cc
 	$(cc) $(cc_flags) -c block_literal.cc -o block_literal.o
 

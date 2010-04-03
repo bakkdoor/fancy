@@ -185,7 +185,7 @@ class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList($5);
                   Method_p method = new Method(method_args, body);
                   // TODO: set method_args correctly
-                  $$ = new MethodDefExpr(method_args, method);
+                  $$ = new ClassMethodDefExpr($2, method_args, method);
                   method_args.clear();
                 }
                 ;
@@ -195,7 +195,7 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList($5);
                   list< pair<Identifier_p, Identifier_p> > empty_args;
                   Method_p method = new Method(empty_args, body);
-                  $$ = new MethodDefExpr(empty_args, method);
+                  $$ = new ClassMethodDefExpr($2, $3, method);
                 }
                 ;
 

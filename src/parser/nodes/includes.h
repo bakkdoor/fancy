@@ -12,5 +12,6 @@
 #include "assignment.h"
 #include "return.h"
 #include "method_definition.h"
+#include "class_method_definition.h"
 
 #endif /* _PARSER_NODES_INCLUDES_H_ */

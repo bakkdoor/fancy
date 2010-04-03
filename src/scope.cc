@@ -79,7 +79,11 @@ FancyObject_p Scope::get(string identifier)
   // check for instance & class variables
   if(identifier[0] == '@') {
     if(identifier[1] == '@') {
-      return this->_current_class->get_class_slot(identifier);
+      if(IS_CLASS(this->_current_self)) {
+        return dynamic_cast<Class_p>(this->_current_self)->get_class_slot(identifier);
+      } else {
+        return this->_current_class->get_class_slot(identifier);
+      }
     } else {
       return this->_current_self->get_slot(identifier);
     }
@@ -118,7 +122,11 @@ bool Scope::define(string identifier, FancyObject_p value)
   // check for instance & class variables
   if(identifier[0] == '@') {
     if(identifier[1] == '@') {
-      this->_current_class->def_class_slot(identifier, value);
+      if(IS_CLASS(this->_current_self)) {
+        dynamic_cast<Class_p>(this->_current_self)->def_class_slot(identifier, value);
+      } else {
+        this->_current_class->def_class_slot(identifier, value);
+      }
       return true;
     } else {
       this->_current_self->set_slot(identifier, value);

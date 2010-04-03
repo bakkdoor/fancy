@@ -56,8 +56,8 @@ void Class::def_class_slot(const Identifier_p name, const FancyObject_p value)
 FancyObject_p Class::get_class_slot(const string &identifier) const
 {
   map<string, FancyObject_p>::const_iterator it;
-  it = this->slots.find(identifier);
-  if(it != this->slots.end()) {
+  it = this->_class_slots.find(identifier);
+  if(it != this->_class_slots.end()) {
     return it->second;
   } else {
     return nil;
