@@ -9,6 +9,9 @@ clean:
 	rm -rf tmp/
 
 test: all
+	bin/fancy tests/array.fnc
+
+example: all
 	@mkdir -p tmp
 	@clear
 	bin/fancy examples/arithmetic.fnc

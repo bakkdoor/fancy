@@ -1,7 +1,6 @@
-FancySpec describe: Array with: {
-  before each: { @arr = [] };
-  
+FancySpec describe: Array with: |it| {
   it should: "contain three number values after adding them" when: {
+    @arr = [];
     @arr << 1;
     @arr << 2;
     @arr << 3;
