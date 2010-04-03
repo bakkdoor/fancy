@@ -1,13 +1,23 @@
 #include "includes.h"
 
 void init_string_class()
-{  
+{
+  StringClass->def_class_method("new", new NativeMethod("new", class_method_String_new));
+
   StringClass->def_method("downcase", new NativeMethod("downcase", method_String_downcase));
   StringClass->def_method("upcase", new NativeMethod("upcase", method_String_upcase));
   StringClass->def_method("from:to:", new NativeMethod("from:to:", method_String_from__to));
   StringClass->def_method("==", new NativeMethod("==", method_String_eq));
+  StringClass->def_method("+", new NativeMethod("+", method_String_plus));
 }
 
+/**
+ * String class methods
+ */
+FancyObject_p class_method_String_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  return String::from_value("");
+}
 
 /**
  * String instance methods
@@ -57,5 +67,16 @@ FancyObject_p method_String_eq(FancyObject_p self, list<FancyObject_p> args, Sco
       return t;
     }
   }
+  return nil;
+}
+
+FancyObject_p method_String_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  if(String_p arg = dynamic_cast<String_p>(args.front())) {
+    string str1 = dynamic_cast<String_p>(self)->value();
+    string str2 = arg->value();
+    return String::from_value(str1 + str2);
+  }
+  errorln("String#+ expects String argument.");
   return nil;
 }

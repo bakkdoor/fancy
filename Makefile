@@ -11,6 +11,8 @@ clean:
 test: all
 	@clear
 	bin/fancy tests/array.fnc
+	@echo
+	bin/fancy tests/string.fnc
 
 example: all
 	@mkdir -p tmp
