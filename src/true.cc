@@ -4,7 +4,7 @@ True::True() : FancyObject(TrueClass) {}
 
 True::~True() {}
 
-NativeObject_p True::equal(const NativeObject_p other) const
+FancyObject_p True::equal(const FancyObject_p other) const
 {
   if(IS_TRUE(other))
     return t;

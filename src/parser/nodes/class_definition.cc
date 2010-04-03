@@ -2,7 +2,6 @@
 
 ClassDefExpr::ClassDefExpr(Identifier_p class_name,
                            ExpressionList_p class_body) :
-  NativeObject(),
   _superclass(ObjectClass),
   _superclass_name(0),
   _class_name(class_name),
@@ -13,7 +12,6 @@ ClassDefExpr::ClassDefExpr(Identifier_p class_name,
 ClassDefExpr::ClassDefExpr(Identifier_p superclass_name,
                            Identifier_p class_name,
                            ExpressionList_p class_body) :
-  NativeObject(),
   _superclass(0),
   _superclass_name(superclass_name),
   _class_name(class_name),
@@ -23,12 +21,6 @@ ClassDefExpr::ClassDefExpr(Identifier_p superclass_name,
 
 ClassDefExpr::~ClassDefExpr()
 {
-}
-
-NativeObject_p ClassDefExpr::equal(const NativeObject_p other) const
-{
-  // TODO: might need to implement this correctly...
-  return nil;
 }
 
 FancyObject_p ClassDefExpr::eval(Scope *scope)
@@ -70,10 +62,5 @@ FancyObject_p ClassDefExpr::eval(Scope *scope)
 OBJ_TYPE ClassDefExpr::type() const
 {
   return OBJ_CLASSDEFEXPR;
-}
-
-string ClassDefExpr::to_s() const
-{
-  return "<ClassDefinition:" + this->_class_name->to_s()  + ">";
 }
 

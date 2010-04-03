@@ -4,15 +4,13 @@
 class Identifier;
 typedef Identifier* Identifier_p;
 
-class Identifier : public NativeObject
+class Identifier : public Expression
 {
  public:
   Identifier(const string &name);
   ~Identifier();
   
-  virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
-  virtual string to_s() const;
   virtual OBJ_TYPE type() const;
   string name() const;
 

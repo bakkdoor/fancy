@@ -10,7 +10,7 @@ class String : public FancyObject
   String(const string &value);
   ~String();
 
-  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   string value() const;

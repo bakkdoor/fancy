@@ -5,7 +5,7 @@
 
   int yyerror(char *s);
   int yylex(void);
-  key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next);
+  key_val_node* key_val_obj(Expression_p key, Expression_p val, key_val_node *next);
   expression_node* expr_node(Expression_p expr, expression_node *next);
   block_arg_node* blk_arg_node(Identifier_p argname, block_arg_node *next);
   call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr, call_arg_node *next);
@@ -23,11 +23,12 @@
   call_arg_node     *call_arg_list;
   /* method_arg_node   *method_args; */
 
-  NativeObject  *object;
+  FancyObject   *object;
   Identifier    *identifier;
   Number        *number;
   Regex         *regex;
   String        *string;
+  Symbol        *symbol;
   Array         *array;
   Expression    *expression;
 }
@@ -55,26 +56,28 @@
 %token <number>             INTEGER_LITERAL
 %token <number>             DOUBLE_LITERAL
 %token <string>             STRING_LITERAL
-%token <identifier>         SYMBOL_LITERAL
+%token <symbol>             SYMBOL_LITERAL
 %token <regex>              REGEX_LITERAL
 %token <identifier>         IDENTIFIER
 %token <identifier>         OPERATOR
-%type  <object>             literal_value
-%type  <object>             hash_literal
-%type  <object>             array_literal
+
+%type  <expression>         literal_value
+%type  <expression>         block_literal
+%type  <block_arg_list>     block_args
+%type  <expression>         hash_literal
+%type  <expression>         array_literal
+%type  <expression>         empty_array
+
 %type  <key_val_list>       key_value_list
 %type  <expr_list>          exp_list
 %type  <expr_list>          exp_comma_list
 %type  <expr_list>          method_body
 
 
-%type  <object>             empty_array
 %type  <object>             code
 %type  <object>             exp
-%type  <object>             assignment
-%type  <object>             return_statement
-%type  <object>             block_literal
-%type  <block_arg_list>     block_args
+%type  <expression>         assignment
+%type  <expression>         return_statement
 
 %type  <expression>         class_def
 %type  <expression>         class_no_super
@@ -293,7 +296,7 @@ int yyerror(char *s)
   exit(1);
 }
 
-key_val_node* key_val_obj(NativeObject_p key, NativeObject_p val, key_val_node *next)
+key_val_node* key_val_obj(Expression_p key, Expression_p val, key_val_node *next)
 {
   key_val_node *node = new key_val_node;
   node->key = key;

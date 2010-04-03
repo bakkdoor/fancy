@@ -31,7 +31,7 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
     errorln("Block#call: didn't get an argument!");
   } else {
     Block_p block = dynamic_cast<Block_p>(self);
-    NativeObject_p first_arg = args.front();
+    FancyObject_p first_arg = args.front();
     list<FancyObject_p> passed_args;
     if(IS_ARRAY(first_arg)) {
       Array_p args_array = dynamic_cast<Array_p>(first_arg);

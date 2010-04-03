@@ -32,7 +32,7 @@ class Array : public FancyObject
   virtual string to_s() const;
 
   bool operator==(const Array& other) const;
-  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
   
   unsigned int size() const;
   

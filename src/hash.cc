@@ -32,7 +32,7 @@ FancyObject_p Hash::set_value(FancyObject_p key, FancyObject_p value)
   return value;
 }
 
-NativeObject_p Hash::equal(const NativeObject_p other) const
+FancyObject_p Hash::equal(const FancyObject_p other) const
 {
   if(!IS_HASH(other))
     return nil;

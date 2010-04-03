@@ -4,7 +4,7 @@ Nil::Nil() : FancyObject(NilClass) {}
 
 Nil::~Nil() {}
 
-NativeObject_p Nil::equal(const NativeObject_p other) const
+FancyObject_p Nil::equal(const FancyObject_p other) const
 {
   if(IS_NIL(other))
     return t;

@@ -2,8 +2,6 @@
 #define _EXPRESSION_H_
 
 class Scope;
-class NativeObject;
-typedef NativeObject* NativeObject_p;
 class FancyObject;
 
 enum OBJ_TYPE {
@@ -40,7 +38,6 @@ class Expression : public gc_cleanup
 {
  public:
   virtual FancyObject* eval(Scope *scope) = 0;
-  virtual NativeObject_p equal(const NativeObject_p other) const = 0;
   virtual OBJ_TYPE type() const = 0;
 };
 

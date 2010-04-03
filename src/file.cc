@@ -12,7 +12,7 @@ File::~File()
 {
 }
 
-NativeObject_p File::equal(const NativeObject_p other) const
+FancyObject_p File::equal(const FancyObject_p other) const
 {
   if(IS_FILE(other)) {
     File_p other_file = dynamic_cast<File_p>(other);

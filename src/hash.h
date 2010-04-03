@@ -11,7 +11,7 @@ class Hash : public FancyObject
   FancyObject_p operator[](FancyObject_p key) const;
   FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
 
-  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 

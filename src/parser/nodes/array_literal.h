@@ -6,17 +6,15 @@
  * When evaluated, returns an instance of ArrayClass.
  * Only used within parser.
  */
-class ArrayLiteral : public NativeObject
+class ArrayLiteral : public Expression
 {
 public:
   ArrayLiteral(expression_node *expr_list);
   ArrayLiteral(list<Expression_p> expressions);
   virtual ~ArrayLiteral();
 
-  virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
 
 private:
   list<Expression_p> _expressions;

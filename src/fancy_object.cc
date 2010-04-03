@@ -1,18 +1,7 @@
 #include "includes.h"
 
 FancyObject::FancyObject(Class_p _class) :
-  NativeObject(),
-  _class(_class),
-  _native_value(0)
-{
-  init_slots();
-  // native_value = this;
-}
-
-FancyObject::FancyObject(Class_p _class, NativeObject_p native_value) :
-  NativeObject(),
-  _class(_class),
-  _native_value(native_value)
+  _class(_class)
 {
   init_slots();
 }
@@ -75,7 +64,7 @@ void FancyObject::init_slots()
   }
 }
 
-NativeObject_p FancyObject::equal(const NativeObject_p other) const
+FancyObject_p FancyObject::equal(const FancyObject_p other) const
 {
   if(!IS_CLASSINSTANCE(other))
     return nil;
@@ -102,11 +91,7 @@ OBJ_TYPE FancyObject::type() const
 
 string FancyObject::to_s() const
 {
-  if(this->_native_value) {
-    return this->_native_value->to_s();
-  } else {
-    return "<FancyObject>";
-  }
+  return "<Unkown FancyObject>";
 }
 
 FancyObject_p FancyObject::call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope)
@@ -118,11 +103,6 @@ FancyObject_p FancyObject::call_method(const string &method_name, list<FancyObje
     error("Method not defined: '") << method_name << "' for instance of: " << this->_class->name() << endl;
     return nil;
   }
-}
-
-NativeObject_p FancyObject::native_value() const
-{
-  return this->_native_value;
 }
 
 void FancyObject::def_singleton_method(const string &name, Callable_p method)

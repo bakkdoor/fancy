@@ -1,22 +1,12 @@
 #include "includes.h"
 
-Identifier::Identifier(const string &name) : NativeObject(), _name(name)
+Identifier::Identifier(const string &name) :
+  _name(name)
 {
 }
 
 Identifier::~Identifier()
 {
-}
-
-NativeObject_p Identifier::equal(const NativeObject_p other) const
-{
-  if(!IS_IDENT(other))
-    return nil;
-  
-  Identifier_p other_ident = (Identifier_p)other;
-  if(this->_name == other_ident->_name)
-    return t;
-  return nil;
 }
 
 FancyObject_p Identifier::eval(Scope *scope)
@@ -27,11 +17,6 @@ FancyObject_p Identifier::eval(Scope *scope)
 OBJ_TYPE Identifier::type() const
 {
   return OBJ_IDENTIFIER;
-}
-
-string Identifier::to_s() const
-{
-  return this->_name;
 }
 
 string Identifier::name() const

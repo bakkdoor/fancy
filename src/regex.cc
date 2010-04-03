@@ -8,7 +8,7 @@ Regex::~Regex()
 {
 }
 
-NativeObject_p Regex::equal(const NativeObject_p other) const
+FancyObject_p Regex::equal(const FancyObject_p other) const
 {
   if(!IS_REGEX(other))
     return nil;
@@ -34,7 +34,7 @@ string Regex::pattern() const
   return this->_pattern;
 }
 
-NativeObject_p Regex::match(String_p string) const
+FancyObject_p Regex::match(String_p string) const
 {
   // if match -> return t else nil
   // TODO: implement Regex matching! (via boost::regex?)

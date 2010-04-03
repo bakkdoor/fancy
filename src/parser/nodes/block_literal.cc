@@ -1,20 +1,17 @@
 #include "includes.h"
 
 BlockLiteral::BlockLiteral(ExpressionList_p body) :
-  NativeObject(),
   _body(body)
 {
 }
 
 BlockLiteral::BlockLiteral(list<Identifier_p> argnames, ExpressionList_p body) :
-  NativeObject(),
   _argnames(argnames),
   _body(body)
 {
 }
 
 BlockLiteral::BlockLiteral(block_arg_node *argnames, ExpressionList_p body) :
-  NativeObject(),
   _body(body)
 {
   for(block_arg_node *tmp = argnames; tmp != NULL; tmp = tmp->next) {
@@ -31,18 +28,8 @@ FancyObject_p BlockLiteral::eval(Scope *scope)
   return new Block(_argnames, _body, scope);
 }
 
-NativeObject_p BlockLiteral::equal(const NativeObject_p other) const
-{
-  return nil;
-}
-
 OBJ_TYPE BlockLiteral::type() const
 {
   return OBJ_BLOCKLITERAL;
-}
-
-string BlockLiteral::to_s() const
-{
-  return "<BlockLiteral>";
 }
 

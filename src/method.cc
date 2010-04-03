@@ -27,7 +27,7 @@ list< pair<Identifier_p, Identifier_p> > Method::argnames() const
   return this->_argnames;
 }
 
-NativeObject_p Method::equal(const NativeObject_p other) const
+FancyObject_p Method::equal(const FancyObject_p other) const
 {
   // can't compare methods with anything else
   return nil;
@@ -79,7 +79,7 @@ string Method::method_ident()
   stringstream str;
   list< pair<Identifier_p, Identifier_p> >::iterator it;
   for(it = _argnames.begin(); it != _argnames.end(); it++) {
-    str << it->first->to_s();
+    str << it->first->name();
     str << ":";
   }
 

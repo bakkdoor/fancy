@@ -3,7 +3,6 @@
 OperatorCall::OperatorCall(Expression_p receiver,
                          Identifier_p operator_name,
                          Expression_p operand) :
-  NativeObject(),
   receiver(receiver),
   operator_name(operator_name),
   operand(operand)
@@ -15,13 +14,6 @@ OperatorCall::OperatorCall(Expression_p receiver,
 
 OperatorCall::~OperatorCall()
 {
-}
-
-
-NativeObject_p OperatorCall::equal(const NativeObject_p other) const
-{
-  // TODO: implement OperatorCall#equal
-  return nil;
 }
 
 FancyObject_p OperatorCall::eval(Scope *scope)
@@ -37,9 +29,4 @@ FancyObject_p OperatorCall::eval(Scope *scope)
 OBJ_TYPE OperatorCall::type() const
 {
   return OBJ_OPCALL;
-}
-
-string OperatorCall::to_s() const
-{
-  return "<opcall>";
 }

@@ -7,11 +7,11 @@ class Regex : public FancyObject
   Regex(const string &pattern);
   ~Regex();
   
-  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
   string pattern() const;
-  NativeObject_p match(String_p string) const;
+  FancyObject_p match(String_p string) const;
 
  private:
   string _pattern;

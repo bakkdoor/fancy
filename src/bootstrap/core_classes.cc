@@ -68,8 +68,8 @@ void init_core_classes()
 
 void init_global_objects()
 {
-  nil = new FancyObject(NilClass, new Nil());
-  t = new FancyObject(TrueClass, new True());
+  nil = new Nil();
+  t = new True();
 }
 
 void init_global_scope()

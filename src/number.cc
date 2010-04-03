@@ -14,7 +14,7 @@ Number::~Number()
 {
 }
 
-NativeObject_p Number::equal(const NativeObject_p other) const
+FancyObject_p Number::equal(const FancyObject_p other) const
 {
   if(!IS_NUM(other))
     return nil;

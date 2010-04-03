@@ -8,9 +8,9 @@ parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object class block string number	\
 console nil array file
 
-files = native_object true nil hash array identifier symbol number	\
-string native_method scope module class fancy_object errors method	\
-regex expression_list block utils file
+files = fancy_object true nil hash array identifier symbol number	\
+string native_method scope module class errors method regex		\
+expression_list block utils file
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
@@ -33,8 +33,8 @@ all: subdirs ../bin/fancy
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(cc) $(cc_flags) -c main.cc -o main.o
 
-native_object.o: native_object.cc
-	$(cc) $(cc_flags) -c native_object.cc -o native_object.o
+fancy_object.o: fancy_object.cc
+	$(cc) $(cc_flags) -c fancy_object.cc -o fancy_object.o
 
 true.o: true.cc
 	$(cc) $(cc_flags) -c true.cc -o true.o
@@ -74,9 +74,6 @@ module.o: module.cc
 
 class.o: class.cc
 	$(cc) $(cc_flags) -c class.cc -o class.o
-
-fancy_object.o: fancy_object.cc
-	$(cc) $(cc_flags) -c fancy_object.cc -o fancy_object.o
 
 errors.o: errors.cc
 	$(cc) $(cc_flags) -c errors.cc -o errors.o

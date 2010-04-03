@@ -31,11 +31,6 @@ FancyObject_p ExpressionList::eval(Scope *scope)
   return retval;
 }
 
-NativeObject_p ExpressionList::equal(const NativeObject_p other) const
-{
-  return nil;
-}
-
 OBJ_TYPE ExpressionList::type() const
 {
   return OBJ_EXPRLIST;

@@ -19,7 +19,7 @@ Block::~Block()
 {
 }
 
-NativeObject_p Block::equal(const NativeObject_p other) const
+FancyObject_p Block::equal(const FancyObject_p other) const
 {
   return nil;
 }
@@ -36,10 +36,6 @@ string Block::to_s() const
 
 FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  // if(!this->_creation_scope) {
-  //   set_creation_scope(scope);
-  // }
-
   // vector with temporary values for block parameter names (original values)
   vector<FancyObject_p> old_values(args.size());
 

@@ -14,7 +14,6 @@ public:
   string name() const;
 
   FancyObject_p create_instance() const;
-  FancyObject_p create_instance(NativeObject_p native_value) const;
 
   void def_slot(const string &name);
   void def_slot(const Identifier_p name);
@@ -35,14 +34,13 @@ public:
   vector<string> instance_slotnames() const;
   map<string, FancyObject_p> class_slots() const;
 
-  virtual NativeObject_p equal(const NativeObject_p other) const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
 
   Callable_p find_method(const string &name);
 
 private:
-  /* map<string, NativeObject_p> _slots; */
   string _name;
   vector<string> _instance_slotnames;
   map<string, FancyObject_p> _class_slots;

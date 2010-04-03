@@ -30,13 +30,6 @@ FancyObject_p Class::create_instance() const
   return instance;
 }
 
-FancyObject_p Class::create_instance(NativeObject_p native_value) const
-{
-  Class_p klass = const_cast<Class_p>(this);
-  FancyObject_p instance = new FancyObject(klass, native_value);
-  return instance;
-}
-
 void Class::def_slot(const string &name)
 {
   this->_instance_slotnames.push_back(name);
@@ -112,7 +105,7 @@ void Class::def_class_method(const Identifier_p name, const Callable_p method)
   this->def_singleton_method(name->name(), method);
 }
 
-NativeObject_p Class::equal(const NativeObject_p other) const
+FancyObject_p Class::equal(const FancyObject_p other) const
 {
   if(!IS_CLASS(other))
     return nil;

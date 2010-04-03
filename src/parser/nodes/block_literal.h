@@ -11,7 +11,7 @@ public:
  * BlockLiteral class used in the parser for literal Block values.
  * When evaluated, returns an instance of BlockClass.
  */
-class BlockLiteral : public NativeObject
+class BlockLiteral : public Expression
 {
 public:
   BlockLiteral(ExpressionList_p body);
@@ -20,9 +20,7 @@ public:
   virtual ~BlockLiteral();
 
   virtual FancyObject_p eval(Scope *scope);
-  virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
 
 private:
   list<Identifier_p> _argnames;

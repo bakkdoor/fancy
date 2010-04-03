@@ -8,17 +8,15 @@ public:
   key_val_node *next;
 };
 
-class HashLiteral : public NativeObject
+class HashLiteral : public Expression
 {
 public:
   HashLiteral(key_val_node *key_val_list);
   HashLiteral(list< pair<Expression_p, Expression_p> > key_val_list);
   virtual ~HashLiteral();
 
-  virtual NativeObject_p equal(const NativeObject_p other) const;
   virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
 
 private:
   list< pair<Expression_p, Expression_p> > _key_val_list;

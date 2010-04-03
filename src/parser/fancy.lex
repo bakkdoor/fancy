@@ -58,14 +58,14 @@ comment         #[^\n]*
 {special}+      {
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = Identifier::from_string(str);
+                  yylval.expression = Identifier::from_string(str);
                   return OPERATOR;
                 }
 {return}        { return RETURN; }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
-                  yylval.object = Identifier::from_string(str);
+                  yylval.expression = Identifier::from_string(str);
                   return IDENTIFIER;
                 }
 {symbol_lit}    { 

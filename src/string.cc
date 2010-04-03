@@ -1,6 +1,7 @@
 #include "includes.h"
 
-String::String(const string &value) : FancyObject(StringClass), _value(value)
+String::String(const string &value) :
+  FancyObject(StringClass), _value(value)
 {
 }
 
@@ -8,7 +9,7 @@ String::~String()
 {
 }
 
-NativeObject_p String::equal(const NativeObject_p other) const
+FancyObject_p String::equal(const FancyObject_p other) const
 {
   if(!IS_STRING(other))
     return nil;

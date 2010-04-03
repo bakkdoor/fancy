@@ -116,7 +116,7 @@ bool Array::operator==(const Array& other) const
   return true;
 }
 
-NativeObject_p Array::equal(const NativeObject_p other) const
+FancyObject_p Array::equal(const FancyObject_p other) const
 {
   if(other->type() != OBJ_ARRAY)
     return nil;

@@ -1,6 +1,7 @@
 #include "includes.h"
 
-Symbol::Symbol(const string &name) : FancyObject(SymbolClass), _name(name)
+Symbol::Symbol(const string &name) :
+  FancyObject(SymbolClass), _name(name)
 {
 }
 
@@ -8,7 +9,7 @@ Symbol::~Symbol()
 {
 }
 
-NativeObject_p Symbol::equal(const NativeObject_p other) const
+FancyObject_p Symbol::equal(const FancyObject_p other) const
 {
   if(!IS_SYMBOL(other))
     return nil;
