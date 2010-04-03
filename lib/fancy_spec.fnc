@@ -40,6 +40,7 @@ def class SpecTest {
   };
 
   def run {
+    @@failed = 0;
     @block call;
     (@@failed > 0) if_true: {
       " > FAILED: It should " print;
