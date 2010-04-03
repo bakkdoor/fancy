@@ -55,4 +55,14 @@ FancyObject_p method_Object_class(FancyObject_p self, list<FancyObject_p> args, 
  */
 FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+/**
+ * Checks equality of objects.
+ */
+FancyObject_p method_Object_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Checks if an object is an instance of a given Class.
+ */
+FancyObject_p method_Object_is_a(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
 #endif /* _BOOTSTRAP_OBJECT_H_ */

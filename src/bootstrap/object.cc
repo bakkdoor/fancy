@@ -14,6 +14,9 @@ void init_object_class()
 
   ObjectClass->def_method("_class", new NativeMethod("_class", method_Object_class));
   ObjectClass->def_method("define_singleton_method:with:", new NativeMethod("define_singleton_method:with:", method_Object_define_singleton_method__with, 2));
+
+  ObjectClass->def_method("==", new NativeMethod("==", method_Object_eq));
+  ObjectClass->def_method("is_a?:", new NativeMethod("is_a?:", method_Object_is_a, 1));
 }
 
 /**
@@ -105,4 +108,23 @@ FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, li
     errorln("Object#define_singleton_method:with: expects String and Block arguments.");
     return nil;
   }
+}
+
+FancyObject_p method_Object_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  if(self->equal(args.front()))
+    return t;
+  return nil;
+}
+
+FancyObject_p method_Object_is_a(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  Class_p the_class = dynamic_cast<Class_p>(args.front());
+  if(the_class) {
+    if(self->get_class() == the_class)
+      return t;
+  } else {
+    errorln("Object#is_a?: expects Class argument.");
+  }
+  return nil;
 }
