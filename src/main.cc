@@ -25,13 +25,14 @@ int main(int argc, char **argv)
   GC_INIT();
 
   string files[] = {
-    "lib/Object.fnc",
-    "lib/TrueClass.fnc",
-    "lib/NilClass.fnc",
-    "lib/Number.fnc",
-    "lib/Array.fnc",
-    "lib/Block.fnc",
-    "lib/File.fnc"
+    "lib/object.fnc",
+    "lib/true_class.fnc",
+    "lib/nil_class.fnc",
+    "lib/number.fnc",
+    "lib/array.fnc",
+    "lib/block.fnc",
+    "lib/file.fnc",
+    "lib/fancy_spec.fnc"
   };
 
   vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
