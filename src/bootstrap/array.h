@@ -4,6 +4,11 @@
 void init_array_class();
 
 /**
+ * Array class methods
+ */
+FancyObject_p class_method_Array_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
  * Array instance methods
  */
 FancyObject_p method_Array_each(FancyObject_p self, list<FancyObject_p> args, Scope *scope);

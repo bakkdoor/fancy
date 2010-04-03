@@ -1,13 +1,22 @@
 #include "includes.h"
 
 void init_array_class()
-{  
+{
+  ArrayClass->def_class_method("new", new NativeMethod("new", class_method_Array_new));
   ArrayClass->def_method("each:", new NativeMethod("each:", method_Array_each));
   ArrayClass->def_method("each_with_index:", new NativeMethod("each_with_index:", method_Array_each_with_index));
   ArrayClass->def_method("<<", new NativeMethod("<<", method_Array_insert));
   ArrayClass->def_method("clear", new NativeMethod("clear", method_Array_clear));
   ArrayClass->def_method("size", new NativeMethod("size", method_Array_size));
   ArrayClass->def_method("at:", new NativeMethod("at:", method_Array_at));
+}
+
+/**
+ * Array class methods
+ */
+FancyObject_p class_method_Array_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  return new Array();
 }
 
 

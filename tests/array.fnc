@@ -12,5 +12,10 @@ FancySpec describe: Array with: |it| {
     @arr size should_equal: 3;
     @arr clear;
     @arr size should_equal: 0
+  };
+
+  it should: "be an empty array after initialization" when: {
+    @arr = Array new;
+    @arr size should_equal: 0
   }
 }
