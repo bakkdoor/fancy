@@ -9,5 +9,9 @@ FancySpec describe: String with: |it| {
     str2 = "world";
     str3 = "!";
     str1 + str2 + str3 should_equal: "hello world!"
+  };
+
+  it should: "concatenate the arguments string value with a string" when: {
+    "I'm " ++ 21 ++ " years old!" should_equal: "I'm 21 years old!"
   }
 }
