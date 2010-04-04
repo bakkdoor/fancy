@@ -52,10 +52,10 @@ def class SpecTest {
   };
 
   def print_failed {
-    " [" ++ (@@failed size) ++ " unexpected compares]" println;
+    " [" ++ (@@failed size) ++ " unexpected values]" println;
     "Got: " println;
     @@failed each: |f| {
-      "     " ++ (f first) ++ " instead of: " ++ (f second) println
+      "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
     }
   }
 };
@@ -66,6 +66,12 @@ def class Object {
       expected_value = expected_value call
     };
     self check_with_expected: expected_value
+  };
+
+  def should_be: block {
+    (block call: [self]) if_false: {
+      SpecTest failed_test: [self, nil]
+    }
   };
 
   def check_with_expected: expected_value {

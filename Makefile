@@ -13,6 +13,8 @@ test: all
 	bin/fancy tests/array.fnc
 	@echo
 	bin/fancy tests/string.fnc
+	@echo
+	bin/fancy tests/block.fnc
 
 example: all
 	@mkdir -p tmp
