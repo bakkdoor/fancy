@@ -121,7 +121,7 @@ OBJ_TYPE Class::type() const
 
 string Class::to_s() const
 {
-  return "<Class:" + this->_name + ">";
+  return this->_name;
 }
 
 Callable_p Class::find_method(const string &name)
