@@ -47,7 +47,7 @@ FancyObject_p method_String_from__to(FancyObject_p self, list<FancyObject_p> arg
   if(IS_INT(arg1) && IS_INT(arg2)) {
     Number_p idx1 = dynamic_cast<Number_p>(arg1);
     Number_p idx2 = dynamic_cast<Number_p>(arg2);
-    string substr = str.substr(idx1->intval(), idx2->intval() - idx1->intval());
+    string substr = str.substr(idx1->intval(), (idx2->intval() + 1) - idx1->intval());
     return String::from_value(substr);
   } else {
     errorln("String#to:from: expects 2 Integer arguments");

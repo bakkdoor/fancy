@@ -17,11 +17,11 @@ def class FancySpec {
   };
 
   def run {
-    "Running tests for: " print;
-    @test_obj println;
+    "Running tests for: " ++ @test_obj println;
     @spec_tests each: |test| {
       test run
-    }
+    };
+    Console newline
   }
 };
 
@@ -43,20 +43,16 @@ def class SpecTest {
     @@failed = 0;
     @block call;
     (@@failed > 0) if_true: {
-      " > FAILED: It should " print;
-      @info_str print;
+      Console newline;
+      "> FAILED: It should " ++ @info_str print;
       self print_failed
     } else: {
-      " > PASSED: It should " print;
-      @info_str println
+      "." print
     }
   };
 
   def print_failed {
-    " [" print;
-    @@failed print;
-    " unexpected compares" print;
-    "]" println
+    " [" ++ @@failed ++ " unexpected compares]" println
   }
 };
 
