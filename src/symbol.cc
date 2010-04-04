@@ -11,12 +11,16 @@ Symbol::~Symbol()
 
 FancyObject_p Symbol::equal(const FancyObject_p other) const
 {
-  if(!IS_SYMBOL(other))
+  if(!IS_SYMBOL(other)) {
     return nil;
+  }
   
-  Symbol_p other_sym = (Symbol_p)other;
-  if(this->_name == other_sym->_name)
-    return t;
+  Symbol_p other_sym = dynamic_cast<Symbol_p>(other);
+  if(other_sym) {
+    if(this->_name == other_sym->_name) {
+      return t;
+    }
+  }
   return nil;
 }
 
