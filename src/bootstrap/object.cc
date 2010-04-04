@@ -112,9 +112,7 @@ FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, li
 
 FancyObject_p method_Object_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  if(self->equal(args.front()))
-    return t;
-  return nil;
+  return self->equal(args.front());
 }
 
 FancyObject_p method_Object_is_a(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
