@@ -33,7 +33,8 @@ int main(int argc, char **argv)
     "lib/array.fnc",
     "lib/block.fnc",
     "lib/file.fnc",
-    "lib/fancy_spec.fnc"
+    "lib/fancy_spec.fnc",
+    "lib/console.fnc"
   };
 
   vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
