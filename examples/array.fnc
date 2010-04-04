@@ -7,10 +7,7 @@ arr each: |x| {
 };
 
 arr each_with_index: |x, i| {
-  "Index " print;
-  i print;
-  " -> " print;
-  x println
+  "Index " ++ i ++ " -> " ++ x println
 };
 
 arr map: |x| { x * x } . println;
