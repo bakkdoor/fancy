@@ -19,7 +19,7 @@ def class FancySpec {
   def run {
     "Running tests for: " ++ @test_obj println;
     @spec_tests each: |test| {
-      test run
+      test run: @test_obj
     };
     Console newline
   }
@@ -39,12 +39,12 @@ def class SpecTest {
     @block = block
   };
 
-  def run {
+  def run: test_obj {
     @@failed = 0;
     @block call;
     (@@failed > 0) if_true: {
       Console newline;
-      "> FAILED: It should " ++ @info_str print;
+      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed
     } else: {
       "." print

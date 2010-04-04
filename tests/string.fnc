@@ -11,7 +11,7 @@ FancySpec describe: String with: |it| {
     str1 + str2 + str3 should_equal: "hello world!"
   };
 
-  it should: "concatenate the arguments string value with a string" when: {
+  it should: "concatenate the argument's string value with a string" when: {
     "I'm " ++ 21 ++ " years old!" should_equal: "I'm 21 years old!"
   };
 
