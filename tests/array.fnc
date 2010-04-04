@@ -17,5 +17,12 @@ FancySpec describe: Array with: |it| {
   it should: "be an empty array after initialization" when: {
     @arr = Array new;
     @arr size should_equal: 0
+  };
+
+  it should: "return the correct value via index access" when: {
+    @arr = [:a, 10, "hello, world"];
+    @arr at: 2 . should_equal: "hello, world";
+    @arr at: 1 . should_equal: 10;
+    @arr at: 0 . should_equal: :a
   }
 }
