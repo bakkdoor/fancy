@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     "lib/true_class.fnc",
     "lib/nil_class.fnc",
     "lib/number.fnc",
+    "lib/string.fnc",
     "lib/array.fnc",
     "lib/block.fnc",
     "lib/file.fnc",

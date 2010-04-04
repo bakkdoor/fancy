@@ -1,8 +1,10 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-files = hash_literal array_literal class_definition method_call	\
-operator_call assignment return method_definition block_literal
+files = hash_literal array_literal class_definition method_call		\
+operator_call assignment return method_definition			\
+class_method_definition operator_definition class_operator_definition	\
+block_literal
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -35,6 +37,12 @@ method_definition.o: method_definition.cc
 
 class_method_definition.o: class_method_definition.cc
 	$(cc) $(cc_flags) -c class_method_definition.cc -o class_method_definition.o
+
+operator_definition.o: operator_definition.cc
+	$(cc) $(cc_flags) -c operator_definition.cc -o operator_definition.o
+
+class_operator_definition.o: class_operator_definition.cc
+	$(cc) $(cc_flags) -c class_operator_definition.cc -o class_operator_definition.o
 
 block_literal.o: block_literal.cc
 	$(cc) $(cc_flags) -c block_literal.cc -o block_literal.o

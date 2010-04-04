@@ -1,5 +1,11 @@
 #include "includes.h"
 
+Method::Method(Identifier_p op_name, Identifier_p op_argname, const Expression_p body) :
+  FancyObject(MethodClass), body(body), special(false)
+{
+  _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
+}
+
 Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
                const Expression_p body) : 
   FancyObject(MethodClass), _argnames(argnames), body(body), special(false)

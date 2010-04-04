@@ -88,6 +88,8 @@
 %type  <expression>         method_def
 %type  <expression>         method_w_args
 %type  <expression>         method_no_args
+%type  <expression>         operator_def
+%type  <expression>         class_operator_def
 
 %type  <expression>         method_call
 %type  <expression>         operator_call
@@ -148,6 +150,8 @@ method_def:     method_w_args
                 | method_no_args
                 | class_method_w_args
                 | class_method_no_args
+                | operator_def
+                | class_operator_def
                 ;
 
 method_args:    IDENTIFIER COLON IDENTIFIER { 
@@ -199,6 +203,19 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
                 }
                 ;
 
+operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList_p body = new ExpressionList($5);
+                  Method_p method = new Method($2, $3, body);
+                  $$ = new OperatorDefExpr($2, method);
+                }
+                ;
+
+class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList_p body = new ExpressionList($6);
+                  Method_p method = new Method($3, $4, body);
+                  $$ = new ClassOperatorDefExpr($2, $3, method);
+                }
+                ;
 
 method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
                 /* | IDENTIFIER call_args {  */

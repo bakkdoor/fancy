@@ -11,6 +11,7 @@ public:
 class Method : public FancyObject, public Callable
 {
  public:
+  Method(Identifier_p op_name, Identifier_p op_argname, const Expression_p body);
   Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body);
   Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body, bool special);
   ~Method();

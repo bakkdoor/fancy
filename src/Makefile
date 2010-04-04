@@ -3,7 +3,8 @@ cc_flags = -g -Wall -ansi -pedantic
 
 parser_node_files = array_literal assignment return block_literal	\
 class_definition hash_literal method_call operator_call			\
-method_definition class_method_definition
+method_definition class_method_definition operator_definition		\
+class_operator_definition
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object class block string number	\
 console nil array file

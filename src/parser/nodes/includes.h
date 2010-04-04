@@ -13,5 +13,7 @@
 #include "return.h"
 #include "method_definition.h"
 #include "class_method_definition.h"
+#include "operator_definition.h"
+#include "class_operator_definition.h"
 
 #endif /* _PARSER_NODES_INCLUDES_H_ */
