@@ -26,12 +26,12 @@ def class FancySpec {
 };
 
 def class SpecTest {
-  def self failed_test {
-    @@failed = @@failed + 1
+  def self failed_test: actual_and_expected {
+    @@failed << actual_and_expected
   };
 
   def initialize: info_str {
-    { @@failed = 0 } unless: @@failed;
+    { @@failed = [] } unless: @@failed;
     @info_str = info_str
   };
 
@@ -40,9 +40,9 @@ def class SpecTest {
   };
 
   def run: test_obj {
-    @@failed = 0;
+    @@failed = [];
     @block call;
-    (@@failed > 0) if_true: {
+    (@@failed size > 0) if_true: {
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed
@@ -52,7 +52,11 @@ def class SpecTest {
   };
 
   def print_failed {
-    " [" ++ @@failed ++ " unexpected compares]" println
+    " [" ++ (@@failed size) ++ " unexpected compares]" println;
+    "Got: " println;
+    @@failed each: |f| {
+      "     " ++ (f first) ++ " instead of: " ++ (f second) println
+    }
   }
 };
 
@@ -66,7 +70,7 @@ def class Object {
 
   def check_with_expected: expected_value {
     (self == expected_value) if_false: {
-      SpecTest failed_test
+      SpecTest failed_test: [self, expected_value]
     }
   }
 }

@@ -95,5 +95,21 @@ def class Array {
       acc = (block call: [acc, x])
     };
     acc
+  };
+
+  def first {
+    self at: 0
+  };
+
+  def second {
+    self at: 1
+  };
+
+  def third {
+    self at: 2
+  };
+
+  def fourth {
+    self at: 3
   }
 }
