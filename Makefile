@@ -10,13 +10,13 @@ clean:
 
 test: all
 	@clear
-	bin/fancy tests/array.fnc
+	@bin/fancy tests/array.fnc
 	@echo
-	bin/fancy tests/string.fnc
+	@bin/fancy tests/string.fnc
 	@echo
-	bin/fancy tests/block.fnc
+	@bin/fancy tests/block.fnc
 	@echo
-	bin/fancy tests/number.fnc
+	@bin/fancy tests/number.fnc
 
 example: all
 	@mkdir -p tmp
