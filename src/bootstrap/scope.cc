@@ -4,6 +4,7 @@ void init_scope_class()
 {
   ScopeClass->def_method("define:value:", new NativeMethod("define:value:", method_Scope_define__value, 2));
   ScopeClass->def_method("parent", new NativeMethod("parent", method_Scope_parent));
+  ScopeClass->def_method("get:", new NativeMethod("get:", method_Scope_get, 1));
 }
 
 /**
@@ -30,5 +31,19 @@ FancyObject_p method_Scope_parent(FancyObject_p self, list<FancyObject_p> args, 
   if(scope->parent_scope()) {
     return scope->parent_scope();
   }
+  return nil;
+}
+
+FancyObject_p method_Scope_get(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  Scope *sc = dynamic_cast<Scope*>(self);
+  if(sc) {
+    if(IS_STRING(args.front()) || IS_SYMBOL(args.front())) {
+      return sc->get(args.front()->to_s());
+    } else {
+      errorln("Scope#get: expects either String or Symbol value.");
+    }
+  }
+  errorln("Calling Scope#get: on invalid value!");
   return nil;
 }
