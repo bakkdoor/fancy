@@ -12,6 +12,8 @@ void init_number_class()
   NumberClass->def_method(">=", new NativeMethod(">=", method_Number_gt_eq, 1));
   NumberClass->def_method("==", new NativeMethod("==", method_Number_eq, 1));
   NumberClass->def_method("times:", new NativeMethod("times:", method_Number_times, 1));
+  NumberClass->def_method("modulo:", new NativeMethod("modulo:", method_Number_modulo, 1));
+  NumberClass->def_method("%", new NativeMethod("%", method_Number_modulo, 1));
 }
 
 /**
@@ -180,4 +182,16 @@ FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, 
     errorln("Number#times: expects Block object as parameter!");
   }
   return nil;
+}
+
+FancyObject_p method_Number_modulo(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  Number_p num1 = dynamic_cast<Number_p>(self);
+  Number_p num2 = dynamic_cast<Number_p>(args.front());
+  if(num1 && num2) {
+    return Number::from_int(num1->intval() % num2->intval());
+  } else {
+    errorln("Number#modulo: expects Number argument.");
+  }
+  return self;
 }

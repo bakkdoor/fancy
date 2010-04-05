@@ -1,6 +1,21 @@
 # package: Fancy::Collections
 
 def class Array {
+  def == other {
+    self size != (other size) if_true: {
+      nil
+    } else: {
+      same = true;
+      size = self size;
+      i = 0;
+      { same and: (i < size) } while_true: {
+        same = self at: i == (other at: i);
+        i = i + 1
+      };
+      same
+    }
+  };
+
   def any?: condition {
     found = false;
     i = 0;

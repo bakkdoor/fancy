@@ -13,5 +13,9 @@ def class Object {
 
   def print {
     Console print: self
+  };
+
+  def != other {
+    self == other not
   }
 }

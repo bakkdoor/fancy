@@ -15,6 +15,8 @@ test: all
 	bin/fancy tests/string.fnc
 	@echo
 	bin/fancy tests/block.fnc
+	@echo
+	bin/fancy tests/number.fnc
 
 example: all
 	@mkdir -p tmp

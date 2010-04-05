@@ -16,6 +16,7 @@ FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Sco
 FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+FancyObject_p method_Number_modulo(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
 
 #endif /* _BOOTSTRAP_NUMBER_H_ */
