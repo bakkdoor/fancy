@@ -6,6 +6,7 @@ Scope *global_scope;
  *****************************************/
 
 Scope::Scope(FancyObject_p current_self) :
+  FancyObject(ScopeClass),
   parent(0)
 {
   assert(current_self);
@@ -13,6 +14,7 @@ Scope::Scope(FancyObject_p current_self) :
 }
 
 Scope::Scope(FancyObject_p current_self, Scope *parent) :
+  FancyObject(ScopeClass),
   parent(parent)
 {
   assert(current_self);
@@ -139,9 +141,20 @@ bool Scope::define(string identifier, FancyObject_p value)
   return found;
 }
 
+FancyObject_p Scope::equal(const FancyObject_p other) const
+{
+  return nil;
+}
+
+OBJ_TYPE Scope::type() const
+{
+  return OBJ_SCOPE;
+}
+
 string Scope::to_s() const
 {
   stringstream s;
+  s << "Scope:" << endl;
 
   for(map<string, FancyObject_p>::const_iterator iter = this->value_mappings.begin();
       iter != this->value_mappings.end();

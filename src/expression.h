@@ -32,7 +32,8 @@ enum OBJ_TYPE {
   OBJ_CLASSDEFEXPR,
   OBJ_BLOCK,
   OBJ_BLOCKLITERAL,
-  OBJ_FILE
+  OBJ_FILE,
+  OBJ_SCOPE
 };
 
 class Expression : public gc_cleanup

@@ -17,6 +17,7 @@ extern Class *MethodCallClass;
 extern Class *BlockClass;
 extern Class *FileClass;
 extern Class *ConsoleClass;
+extern Class *ScopeClass;
 
 extern FancyObject *nil;
 extern FancyObject *t;

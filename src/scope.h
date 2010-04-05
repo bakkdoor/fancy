@@ -12,7 +12,7 @@
 class Class;
 class FancyObject;
 
-class Scope : public gc_cleanup
+class Scope : public FancyObject
 {
  public:
   Scope(FancyObject *current_self);
@@ -53,7 +53,9 @@ class Scope : public gc_cleanup
   FancyObject_p get(string identifier);
   NativeMethod_p get_native(string identifier);
 
-  string to_s() const;
+  virtual FancyObject_p equal(const FancyObject_p other) const;
+  virtual OBJ_TYPE type() const;
+  virtual string to_s() const;
   int size() const;
 
   FancyObject_p current_self() const;
