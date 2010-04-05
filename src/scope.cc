@@ -78,6 +78,10 @@ FancyObject_p Scope::operator[](string identifier) const
 
 FancyObject_p Scope::get(string identifier)
 {
+  // check for current_scope
+  if(identifier == "__current_scope__")
+    return this;
+
   // check for instance & class variables
   if(identifier[0] == '@') {
     if(identifier[1] == '@') {
@@ -194,4 +198,9 @@ void Scope::set_current_class(Class_p klass)
 {
   if(klass)
     this->_current_class = klass;
+}
+
+Scope* Scope::parent_scope() const
+{
+  return parent;
 }

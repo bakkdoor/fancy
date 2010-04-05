@@ -12,5 +12,6 @@
 #include "nil.h"
 #include "array.h"
 #include "file.h"
+#include "scope.h"
 
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

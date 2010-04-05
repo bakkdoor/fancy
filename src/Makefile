@@ -7,7 +7,7 @@ method_definition class_method_definition operator_definition		\
 class_operator_definition
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object class block string number	\
-console nil array file
+console nil array file scope
 
 files = fancy_object true nil hash array identifier symbol number	\
 string native_method scope module class errors method regex		\

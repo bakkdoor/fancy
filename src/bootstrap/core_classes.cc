@@ -66,6 +66,7 @@ void init_core_classes()
   init_nil_class();
   init_array_class();
   init_file_class();
+  init_scope_class();
 }
 
 void init_global_objects()

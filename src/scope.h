@@ -62,6 +62,8 @@ class Scope : public FancyObject
   Class* current_class() const;
 
   void set_current_class(Class_p klass);
+  
+  Scope* parent_scope() const;
 
  private:
   void set_current_self(FancyObject_p current_self);
