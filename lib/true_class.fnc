@@ -7,14 +7,6 @@ def class TrueClass {
     block call
   };
 
-  def if_false: block {
-    nil
-  };
-
-  def if_nil: block {
-    nil
-  };
-
   def nil? {
     nil
   };

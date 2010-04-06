@@ -17,5 +17,25 @@ def class Object {
 
   def != other {
     self == other not
+  };
+
+  def if_false: block {
+    nil
+  };
+
+  def if_nil: block {
+    nil
+  };
+  
+  def nil? {
+    nil
+  };
+
+  def false? {
+    nil
+  };
+
+  def true? {
+    nil
   }
 }
