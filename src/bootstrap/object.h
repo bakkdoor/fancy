@@ -65,4 +65,14 @@ FancyObject_p method_Object_eq(FancyObject_p self, list<FancyObject_p> args, Sco
  */
 FancyObject_p method_Object_is_a(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+/**
+ * Send a message to an object with no params
+ */
+FancyObject_p method_Object_send(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Send a message to an object with a list of params
+ */
+FancyObject_p method_Object_send__params(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
 #endif /* _BOOTSTRAP_OBJECT_H_ */
