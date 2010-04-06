@@ -35,8 +35,8 @@ class Array : public FancyObject
   virtual FancyObject_p equal(const FancyObject_p other) const;
   
   unsigned int size() const;
-  
   void clear();
+  list<FancyObject_p> to_list() const;
 
  private:
   vector<FancyObject_p> values;
