@@ -27,6 +27,7 @@ FancyObject_p method_Block_call(FancyObject_p self, list<FancyObject_p> args, Sc
 
 FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Block#call:", 1);
   if(args.size() != 1) {
     errorln("Block#call: didn't get an argument!");
   } else {
@@ -47,6 +48,7 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
 
 FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Block#while_true:", 1);
   FancyObject_p first_arg = args.front();
   if(IS_BLOCK(first_arg)) {
     Block_p while_block = dynamic_cast<Block_p>(self);
@@ -63,6 +65,7 @@ FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> ar
 
 FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Block#if:", 1);
   FancyObject_p first_arg = args.front();
   if(first_arg != nil) {
     Block_p block = dynamic_cast<Block_p>(self);
@@ -75,6 +78,7 @@ FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scop
 
 FancyObject_p method_Block_unless(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Block#unless:", 1);
   FancyObject_p first_arg = args.front();
   if(first_arg == nil) {
     Block_p block = dynamic_cast<Block_p>(self);

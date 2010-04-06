@@ -26,6 +26,7 @@ FancyObject_p class_method_Array_new(FancyObject_p self, list<FancyObject_p> arg
 
 FancyObject_p method_Array_each(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Array#each:", 1);
   if(IS_BLOCK(args.front())) {
     Array_p array = dynamic_cast<Array_p>(self);
     Block_p block = dynamic_cast<Block_p>(args.front());
@@ -45,6 +46,7 @@ FancyObject_p method_Array_each(FancyObject_p self, list<FancyObject_p> args, Sc
 
 FancyObject_p method_Array_each_with_index(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Array#each_with_index:", 1);
   if(IS_BLOCK(args.front())) {
     Array_p array = dynamic_cast<Array_p>(self);
     Block_p block = dynamic_cast<Block_p>(args.front());
@@ -67,6 +69,7 @@ FancyObject_p method_Array_each_with_index(FancyObject_p self, list<FancyObject_
 
 FancyObject_p method_Array_insert(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Array#insert:", 1);
   Array_p array = dynamic_cast<Array_p>(self);
   array->insert(args.front());
   return self;
@@ -87,6 +90,7 @@ FancyObject_p method_Array_size(FancyObject_p self, list<FancyObject_p> args, Sc
 
 FancyObject_p method_Array_at(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Array#at:", 1);
   Array_p array = dynamic_cast<Array_p>(self);
   if(IS_NUM(args.front())) {
     Number_p index = dynamic_cast<Number_p>(args.front());

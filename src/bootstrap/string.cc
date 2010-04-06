@@ -39,6 +39,7 @@ FancyObject_p method_String_upcase(FancyObject_p self, list<FancyObject_p> args,
 
 FancyObject_p method_String_from__to(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("String#from:to:", 2);
   string str = dynamic_cast<String_p>(self)->value();
   FancyObject_p arg1 = args.front();
   args.pop_front();
@@ -59,6 +60,7 @@ FancyObject_p method_String_from__to(FancyObject_p self, list<FancyObject_p> arg
 
 FancyObject_p method_String_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("String#eq:", 1);
   FancyObject_p arg = args.front();
   if(IS_STRING(arg)) {
     string str1 = dynamic_cast<String_p>(self)->value();
@@ -72,6 +74,7 @@ FancyObject_p method_String_eq(FancyObject_p self, list<FancyObject_p> args, Sco
 
 FancyObject_p method_String_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("String#+", 1);
   if(String_p arg = dynamic_cast<String_p>(args.front())) {
     string str1 = dynamic_cast<String_p>(self)->value();
     string str2 = arg->value();

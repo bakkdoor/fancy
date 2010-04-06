@@ -14,6 +14,7 @@ void init_file_class()
 
 FancyObject_p class_method_File_open__mode__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("File##open:mode:with:", 3);
   FancyObject_p arg1 = args.front();
   args.pop_front();
   FancyObject_p arg2 = args.front();
@@ -47,6 +48,7 @@ FancyObject_p class_method_File_open__mode__with(FancyObject_p self, list<FancyO
  */
 FancyObject_p method_File_write(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("File#write:", 1);
   File_p file = dynamic_cast<File_p>(self);
   if(file) {
     fprintf(file->file(), "%s", args.front()->to_s().c_str());

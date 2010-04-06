@@ -14,4 +14,11 @@
 #include "file.h"
 #include "scope.h"
 
+#define EXPECT_ARGS(method_name, amount)                                    \
+  if(args.size() != amount) {                                               \
+    error(method_name) << " expects " << amount << " arguments." << endl;   \
+    return nil;                                                             \
+  }                                                                     
+
+
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

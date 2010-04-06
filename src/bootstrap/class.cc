@@ -13,6 +13,7 @@ void init_class_class()
 
 FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Class#define_method:with:", 2);
   FancyObject_p arg1 = args.front();
   args.pop_front();
   FancyObject_p arg2 = args.front();
@@ -29,6 +30,7 @@ FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObj
 
 FancyObject_p method_Class_define_class_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
+  EXPECT_ARGS("Class#define_class_method:with:", 2);
   FancyObject_p arg1 = args.front();
   args.pop_front();
   FancyObject_p arg2 = args.front();
