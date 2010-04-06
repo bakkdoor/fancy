@@ -12,11 +12,15 @@ test: all
 	@clear
 	@bin/fancy tests/array.fnc
 	@echo
-	@bin/fancy tests/string.fnc
-	@echo
 	@bin/fancy tests/block.fnc
 	@echo
 	@bin/fancy tests/number.fnc
+	@echo
+	@bin/fancy tests/object.fnc
+	@echo
+	@bin/fancy tests/scope.fnc
+	@echo
+	@bin/fancy tests/string.fnc
 
 example: all
 	@mkdir -p tmp
