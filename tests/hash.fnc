@@ -38,5 +38,10 @@ FancySpec describe: Hash with: |it| {
   it should: "return all keys" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
     hash keys should_be: |x| { x === [:foo, :bar, :foobar] }
+  };
+
+  it should: "return all values" when: {
+    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    hash values should_be: |x| { x === ["bar", "baz", 112.21] }
   }
 }
