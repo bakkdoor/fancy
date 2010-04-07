@@ -40,7 +40,7 @@ FancySpec describe: Array with: |it| {
     @arr include?: :a . should_equal: true
   };
 
-  it should: "NOT find the value" when: {
+  it should: "find the value" when: {
     @arr = [:foo, "bar", :baz, 1234];
 
     @arr find: "bar" . should_equal: "bar";
@@ -52,5 +52,36 @@ FancySpec describe: Array with: |it| {
     } . should_equal: "bar";
     
     @arr find: "foo" . should_equal: nil
+  };
+
+  it should: "NOT find the value" when: {
+    @arr = [:foo, "bar", :baz, 1234];
+
+    @arr find: "ba" . should_equal: nil;
+
+    @arr find: |x| {
+      x is_a?: String . if_true: {
+        x from: 0 to: 1 == "aa"
+      }
+    } . should_equal: nil;
+    
+    @arr find: "foobar" . should_equal: nil
+  };
+
+  it should: "return the last element" when: {
+    @arr = [1, 2, 3, :foo, "bar"];
+    @arr last should_equal: "bar";
+    (@arr last == :foo) should_equal: nil
+  };
+
+  it should: "return the last n element" when: {
+    @arr = [1, 2, 3, :foo, "bar"];
+    @arr last: 1 . should_equal: [@arr last];
+    @arr last: 2 . should_equal: [:foo, "bar"];
+    @arr last: 3 . should_equal: [3, :foo, "bar"];
+    @arr last: 4 . should_equal: [2, 3, :foo, "bar"];
+    @arr last: 5 . should_equal: [1, 2, 3, :foo, "bar"];
+    @arr last: (@arr size) . should_equal: @arr;
+    @arr last: (@arr size + 1) . should_equal: []
   }
 }

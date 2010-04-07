@@ -41,5 +41,13 @@ def class Number {
       tmp = tmp - 1
     };
     coll
+  };
+
+  def upto: val do_each: block {
+    tmp = self;
+    { tmp <= val } while_true: {
+      block call: tmp;
+      tmp = tmp + 1
+    }
   }
 }

@@ -167,5 +167,24 @@ def class Array {
 
   def fourth {
     self at: 3
+  };
+
+  def last {
+    (self size > 0) . if_true: {
+      self at: (self size - 1)
+    }
+  };
+
+  def last: amount {
+    (amount <= (self size)) . if_true: {
+      start_idx = self size - amount;
+      arr = [];
+      start_idx upto: (self size - 1) do_each: |i| {
+        arr << (self at: i)
+      };
+      arr
+    } else: {
+      []
+    }
   }
 }
