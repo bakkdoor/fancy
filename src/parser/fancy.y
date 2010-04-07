@@ -41,6 +41,8 @@
 %token                  RCURLY
 %token                  LBRACKET
 %token                  RBRACKET
+%token                  LHASH
+%token                  RHASH
 %token                  STAB
 %token                  ARROW
 %token                  COMMA
@@ -162,7 +164,8 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
                 }
                 ;
 
-method_body:    code { $$ = expr_node($1, 0); }
+method_body:    /* empty */ { $$ = expr_node(0, 0); }
+                | code { $$ = expr_node($1, 0); }
                 | method_body SEMI code { $$ = expr_node($3, $1); }
                 ;
 
@@ -273,11 +276,13 @@ exp_comma_list: exp { $$ = expr_node($1, 0); }
 empty_array:    LBRACKET RBRACKET { $$ = new ArrayLiteral(0); }
                 ;
 
-exp_list:       code { $$ = expr_node($1, 0); }
+exp_list:       /* empty */ { $$ = expr_node(0, 0); }
+                | code { $$ = expr_node($1, 0); }
                 | exp_list SEMI code { $$ = expr_node($3, $1); }
                 ;
 
-hash_literal:   LCURLY key_value_list RCURLY { $$ = new HashLiteral($2); }
+hash_literal:   LHASH key_value_list RHASH { $$ = new HashLiteral($2); }
+                | LHASH RHASH { $$ = new HashLiteral(0); }
                 ;
 
 block_literal:  LCURLY method_body RCURLY {

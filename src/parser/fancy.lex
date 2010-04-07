@@ -17,6 +17,8 @@ lcurly          "{"
 rcurly          "}"
 lbracket        "["
 rbracket        "]"
+lhash           "<["
+rhash           "]>"
 stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
@@ -52,6 +54,8 @@ comment         #[^\n]*
 {rcurly}        { return RCURLY; }
 {lbracket}      { return LBRACKET; }
 {rbracket}      { return RBRACKET; }
+{lhash}         { return LHASH; }
+{rhash}         { return RHASH; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
 {equals}        { return EQUALS; }

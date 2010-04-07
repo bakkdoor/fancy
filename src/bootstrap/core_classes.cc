@@ -63,6 +63,7 @@ void init_core_classes()
   init_array_class();
   init_file_class();
   init_scope_class();
+  init_hash_class();
 }
 
 void init_global_objects()

@@ -13,6 +13,7 @@
 #include "array.h"
 #include "file.h"
 #include "scope.h"
+#include "hash.h"
 
 #define EXPECT_ARGS(method_name, amount)                                    \
   if(args.size() != amount) {                                               \
