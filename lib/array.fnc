@@ -16,6 +16,47 @@ def class Array {
     }
   };
 
+  def include?: item {
+    self any?: |x| { item == x }
+  };
+
+  def index: item {
+    found_idx = nil;
+    i = 0;
+    size = self size;
+    { found_idx not and: (i < size) } while_true: {
+      item == (self at: i) if_true: {
+        found_idx = i
+      };
+      i = i + 1
+    };
+    found_idx
+  };
+
+  def find: item {
+    item is_a?: Block . if_true: {
+      self find_by: item
+    } else: {
+      self index: item . if_do: |idx| {
+        self at: idx
+      }
+    }
+  };
+
+  def find_by: block {
+    found = nil;
+    i = 0;
+    size = self size;
+    { found not and: (i < size) } while_true: {
+      item = block call: (self at: i);
+      item nil? if_false: {
+        found = self at: i
+      };
+      i = i + 1
+    };
+    found
+  };
+
   def any?: condition {
     found = false;
     i = 0;

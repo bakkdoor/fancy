@@ -37,5 +37,31 @@ def class Object {
 
   def true? {
     nil
+  };
+
+  def if_do: block {
+    self nil? if_true: {
+      nil
+    } else: {
+      block call: self
+    }
+  };
+
+  def if_do: then_block else: else_block {
+    self nil? if_true: {
+      else_block call
+    } else: {
+      then_block call: self
+    }
+  };
+
+  def or_take: other {
+    self nil? if_true: {
+      other nil? if_false: {
+        other
+      }
+    } else: {
+      self
+    }
   }
 }
