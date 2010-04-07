@@ -186,5 +186,30 @@ def class Array {
     } else: {
       []
     }
+  };
+
+  def values_at: idx_arr {
+    values = [];
+    idx_arr each: |idx| {
+      self at: idx . if_do: |val| {
+        values << val
+      }
+    };
+    values
+  };
+
+  def uniq {
+    uniq_vals = [];
+    self each: |x| {
+      uniq_vals include?: x . if_false: {
+        uniq_vals << x
+      }
+    };
+    uniq_vals
+  };
+
+  def >> other_arr {
+    arr = self clone;
+    arr append: other_arr
   }
 }

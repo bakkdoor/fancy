@@ -83,5 +83,21 @@ FancySpec describe: Array with: |it| {
     @arr last: 5 . should_equal: [1, 2, 3, :foo, "bar"];
     @arr last: (@arr size) . should_equal: @arr;
     @arr last: (@arr size + 1) . should_equal: []
+  };
+  
+  it should: "return an array containing the values at the given indices" when: {
+    @arr = [1, 2, 3, :foo, "bar"];
+    @arr values_at: [1, 3, 4] . should_equal: [2, :foo, "bar"]
+  };
+
+  it should: "return unique values only" when: {
+    @arr = [:foo, :bar, "baz", :foo, "baz", "hello", 1, 0, 0, 1, :bar, :foo, "hello"];
+    @arr uniq should_equal: [:foo, :bar, "baz", "hello", 1, 0]
+  };
+
+  it should: "prepend self to another array" when: {
+    arr1 = [:foo, :bar, :baz];
+    arr2 = [1, 2, 3];
+    (arr1 >> arr2) should_equal: [:foo, :bar, :baz, 1, 2, 3]
   }
 }
