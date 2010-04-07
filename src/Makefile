@@ -10,7 +10,7 @@ bootstrap_files = core_classes object class block string number	\
 console nil array file scope
 
 files = fancy_object true nil hash array identifier symbol number	\
-string native_method scope module class errors method regex		\
+string native_method scope class errors method regex		\
 expression_list block utils file
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
@@ -69,9 +69,6 @@ native_method.o: native_method.cc
 
 scope.o: scope.cc
 	$(cc) $(cc_flags) -c scope.cc -o scope.o
-
-module.o: module.cc
-	$(cc) $(cc_flags) -c module.cc -o module.o
 
 class.o: class.cc
 	$(cc) $(cc_flags) -c class.cc -o class.o

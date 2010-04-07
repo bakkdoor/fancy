@@ -1,14 +1,14 @@
 #include "includes.h"
 
 Class::Class(const string &name) :
-  Module(ClassClass),
+  FancyObject(ClassClass),
   _name(name)
 {
   this->_superclass = 0;
 }
 
 Class::Class(const string &name, Class_p superclass) : 
-  Module(ClassClass),
+  FancyObject(ClassClass),
   _name(name),
   _superclass(superclass)
 {
@@ -64,10 +64,10 @@ FancyObject_p Class::get_class_slot(const string &identifier) const
   }
 }
 
-void Class::include(const Module_p module)
+void Class::include(const Class_p klass)
 {
-  assert(module);
-  this->_included_modules.push_back(module);
+  assert(klass);
+  // this->_included_modules.push_back(module);
 }
 
 vector<string> Class::instance_slotnames() const

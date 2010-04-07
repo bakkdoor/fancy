@@ -42,7 +42,6 @@ using namespace std;
 
 #include "native_method.h"
 #include "block.h"
-#include "module.h"
 #include "class.h"
 #include "scope.h"
 #include "bootstrap/core_classes.h"

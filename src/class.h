@@ -4,7 +4,7 @@
 class Class;
 typedef Class* Class_p;
 
-class Class : public Module
+class Class : public FancyObject
 {
 public:
   Class(const string &name);
@@ -29,7 +29,7 @@ public:
   void def_class_method(const string &name, const Callable_p method);
   void def_class_method(const Identifier_p name, const Callable_p method);
 
-  void include(const Module_p module);
+  void include(const Class_p klass);
 
   vector<string> instance_slotnames() const;
   map<string, FancyObject_p> class_slots() const;
@@ -45,7 +45,7 @@ private:
   vector<string> _instance_slotnames;
   map<string, FancyObject_p> _class_slots;
   Class_p _superclass;
-  vector<Module_p> _included_modules;
+  /* vector<Module_p> _included_modules; */
 
   map<string, Callable_p> _instance_methods;
 };

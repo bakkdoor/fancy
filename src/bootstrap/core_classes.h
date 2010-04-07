@@ -2,7 +2,6 @@
 #define _CORE_METHODS_H_
 
 extern Class *ClassClass;
-extern Class *ModuleClass;
 extern Class *ObjectClass;
 extern Class *NilClass;
 extern Class *TrueClass;

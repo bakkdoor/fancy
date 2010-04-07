@@ -4,7 +4,6 @@
  * Core Classes
  */
 Class_p ClassClass = 0;
-Class_p ModuleClass;
 Class_p ObjectClass;
 Class_p NilClass;
 Class_p TrueClass;
@@ -38,9 +37,6 @@ void init_core_classes()
   ClassClass = new Class("Class", ObjectClass);
   ClassClass->set_class(ClassClass);
   ObjectClass->set_class(ClassClass);
-
-  ModuleClass = new Class("Module", ObjectClass);
-  ModuleClass->set_class(ModuleClass);
 
   NilClass = new Class("NilClass", ObjectClass);
   TrueClass = new Class("TrueClass", ObjectClass);
@@ -84,7 +80,6 @@ void init_global_scope()
 
   /* define classes */
   global_scope->define("Class", ClassClass);
-  global_scope->define("Module", ModuleClass);
   global_scope->define("Object", ObjectClass);
   global_scope->define("NilClass", NilClass);
   global_scope->define("TrueClass", TrueClass);
