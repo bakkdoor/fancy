@@ -103,6 +103,20 @@ string Array::to_s() const
   return s.str();
 }
 
+string Array::inspect() const
+{
+  stringstream s;
+  s << "[";
+  for(unsigned int i = 0; i < this->values.size(); i++) {
+    s << this->values[i]->inspect();
+    if(i != (this->values.size() - 1)) {
+      s << ", ";
+    }
+  }
+  s << "]";
+  return s.str();
+}
+
 bool Array::operator==(const Array& other) const
 {
   if(this->values.size() != other.values.size())

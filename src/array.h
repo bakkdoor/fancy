@@ -30,6 +30,7 @@ class Array : public FancyObject
 
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
+  virtual string inspect() const;
 
   bool operator==(const Array& other) const;
   virtual FancyObject_p equal(const FancyObject_p other) const;

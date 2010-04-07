@@ -10,10 +10,14 @@ class Hash : public FancyObject
 
   FancyObject_p operator[](FancyObject_p key) const;
   FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
+  FancyObject_p get_value(FancyObject_p key);
 
   virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
+
+  vector<FancyObject_p> keys();
+  vector<FancyObject_p> values();
 
   bool operator==(const Hash& other) const;
   

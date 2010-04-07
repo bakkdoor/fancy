@@ -32,6 +32,11 @@ FancyObject_p Hash::set_value(FancyObject_p key, FancyObject_p value)
   return value;
 }
 
+FancyObject_p Hash::get_value(FancyObject_p key)
+{
+  return (*this)[key];
+}
+
 FancyObject_p Hash::equal(const FancyObject_p other) const
 {
   if(!IS_HASH(other))
@@ -62,6 +67,32 @@ string Hash::to_s() const
 
   s << "}";
   return s.str();
+}
+
+vector<FancyObject_p> Hash::keys()
+{
+  vector<FancyObject_p> keys(this->mappings.size(), nil);
+  int i = 0;
+  for(map<FancyObject_p, FancyObject_p>::iterator it = this->mappings.begin();
+      it != this->mappings.end();
+      it++) {
+    keys[i] = it->first;
+    i++;
+  }
+  return keys;
+}
+
+vector<FancyObject_p> Hash::values()
+{
+  vector<FancyObject_p> values(this->mappings.size(), nil);
+  int i = 0;
+  for(map<FancyObject_p, FancyObject_p>::iterator it = this->mappings.begin();
+      it != this->mappings.end();
+      it++) {
+    values[i] = it->second;
+    i++;
+  }
+  return values;
 }
 
 bool Hash::operator==(const Hash& other) const

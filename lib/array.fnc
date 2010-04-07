@@ -3,6 +3,8 @@
 def class Array {
   self include: Enumerable;
 
+  # Array equality where order matters
+  # e.g. [1,2,3] == [2,1,3] should not be true
   def == other {
     self size != (other size) if_true: {
       nil
@@ -15,6 +17,16 @@ def class Array {
         i = i + 1
       };
       same
+    }
+  };
+
+  # Array equality in a 'has the same elements, but possibly in
+  # different order' way
+  def === other {
+    self size != (other size) if_true: {
+      nil
+    } else: {
+      self all?: |x| { other include?: x }
     }
   };
 

@@ -30,6 +30,11 @@ string String::to_s() const
   return this->_value;
 }
 
+string String::inspect() const
+{
+  return "\"" + this->_value + "\"";
+}
+
 string String::value() const
 {
   return this->_value;

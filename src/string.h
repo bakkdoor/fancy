@@ -13,6 +13,7 @@ class String : public FancyObject
   virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
+  virtual string inspect() const;
   string value() const;
 
   static String_p from_value(const string &value);
