@@ -299,11 +299,11 @@ block_args:     IDENTIFIER { $$ = blk_arg_node($1, 0); }
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
                 | SYMBOL_LITERAL ARROW literal_value { $$ = key_val_obj($1, $3, NULL); }
-                | SYMBOL_LITERAL ARROW exp key_value_list { 
-                  $$ = key_val_obj($1, $3, $4); 
+                | key_value_list COMMA SYMBOL_LITERAL ARROW exp  { 
+                  $$ = key_val_obj($3, $5, $1); 
                 }
-                | SYMBOL_LITERAL ARROW literal_value key_value_list { 
-                  $$ = key_val_obj($1, $3, $4);
+                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value { 
+                  $$ = key_val_obj($3, $5, $1);
                 }
                 ;
 
