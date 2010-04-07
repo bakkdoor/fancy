@@ -22,6 +22,9 @@ public:
   void set_creation_scope(Scope *creation_scope);
   Scope* creation_scope() const;
 
+  vector<FancyObject_p> args();
+  unsigned int argcount() const;
+
 private:
   list<Identifier_p> _argnames;
   ExpressionList_p _body;
