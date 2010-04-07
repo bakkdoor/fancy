@@ -40,6 +40,8 @@ FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p>
       for(int i = 0; i < array_size; i++) {
         passed_args.push_back(args_array->at(i));
       }
+    } else {
+      passed_args.push_back(first_arg);
     }
     return block->call(self, passed_args, scope);
   }
