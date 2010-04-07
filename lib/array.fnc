@@ -1,6 +1,8 @@
 # package: Fancy::Collections
 
 def class Array {
+  self include: Enumerable;
+
   def == other {
     self size != (other size) if_true: {
       nil
@@ -14,10 +16,6 @@ def class Array {
       };
       same
     }
-  };
-
-  def include?: item {
-    self any?: |x| { item == x }
   };
 
   def index: item {
@@ -92,67 +90,6 @@ def class Array {
     arr
   };
 
-  def map: block {
-    coll = [];
-    self each: |x| {
-      coll << (block call: [x])
-    };
-    coll
-  };
-  
-  def select: condition {
-    coll = [];
-    self each: |x| {
-      { coll << x } if: $ condition call: [x]
-    };
-    coll
-  };
-  
-  def reject: condition {
-    coll = [];
-    self each: |x| {
-      { coll << x } unless: $ condition call: [x]
-    };
-    coll
-  };
-
-  
-  def take_while: condition {
-    coll = [];
-    stop = false;
-    self each: |x| {
-      stop if_false: {
-        condition call: [x] . if_true: {
-          coll << x
-        } else: {
-          stop = true
-        }
-      }
-    };
-    coll
-  };
-
-  def drop_while: condition {
-    coll = [];
-    drop = false;
-    self each: |x| {
-      drop if_true: {
-        drop = condition call: [x]
-      } else: {
-        coll << x
-      }
-    };
-    coll
-  };
-
-  def reduce: block with: init_val {
-    acc = init_val;
-    self each: |x| {
-      acc = (block call: [acc, x])
-    };
-    acc
-  };
-
   def first {
     self at: 0
   };
@@ -196,16 +133,6 @@ def class Array {
       }
     };
     values
-  };
-
-  def uniq {
-    uniq_vals = [];
-    self each: |x| {
-      uniq_vals include?: x . if_false: {
-        uniq_vals << x
-      }
-    };
-    uniq_vals
   };
 
   def >> other_arr {

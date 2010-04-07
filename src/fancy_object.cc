@@ -94,6 +94,11 @@ string FancyObject::to_s() const
   return "<Unkown FancyObject>";
 }
 
+string FancyObject::inspect() const
+{
+  return this->to_s();
+}
+
 FancyObject_p FancyObject::call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope)
 {
   Callable_p method = this->get_method(method_name);

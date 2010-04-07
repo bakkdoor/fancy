@@ -13,6 +13,7 @@ class Symbol : public FancyObject
   virtual FancyObject_p equal(const FancyObject_p other) const;
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
+  virtual string inspect() const;
   string name() const;
 
   static Symbol_p from_string(const string &name);

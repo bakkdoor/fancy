@@ -67,7 +67,7 @@ FancyObject_p Class::get_class_slot(const string &identifier) const
 void Class::include(const Class_p klass)
 {
   assert(klass);
-  // this->_included_modules.push_back(module);
+  this->_included_classes.insert(klass);
 }
 
 vector<string> Class::instance_slotnames() const
@@ -134,7 +134,15 @@ Callable_p Class::find_method(const string &name)
   if(this->_singleton_methods.find(name) != this->_singleton_methods.end()) {
     return this->_singleton_methods[name];
   }
-  // then, try getting method from superclass (if there is any)
+  // then, try methods in included classes
+  for(set<Class_p>::iterator it = this->_included_classes.begin();
+      it != this->_included_classes.end();
+      it++) {
+    if(Callable_p method = (*it)->find_method(name)) {
+      return method;
+    }
+  }
+  // finally, try getting method from superclass (if there is any)
   if(this->_superclass) {
     return this->_superclass->find_method(name);
   }

@@ -75,4 +75,9 @@ FancyObject_p method_Object_send(FancyObject_p self, list<FancyObject_p> args, S
  */
 FancyObject_p method_Object_send__params(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+/**
+ * Indicates, if an object responds to a given method name
+ */
+FancyObject_p method_Object_responds_to(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
 #endif /* _BOOTSTRAP_OBJECT_H_ */

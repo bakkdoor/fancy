@@ -31,6 +31,11 @@ OBJ_TYPE Symbol::type() const
 
 string Symbol::to_s() const
 {
+  return this->_name.substr(1, this->_name.size() - 1);
+}
+
+string Symbol::inspect() const
+{
   return this->_name;
 }
 

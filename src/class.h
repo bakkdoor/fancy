@@ -45,7 +45,7 @@ private:
   vector<string> _instance_slotnames;
   map<string, FancyObject_p> _class_slots;
   Class_p _superclass;
-  /* vector<Module_p> _included_modules; */
+  set<Class_p> _included_classes;
 
   map<string, Callable_p> _instance_methods;
 };

@@ -20,6 +20,8 @@ void init_object_class()
 
   ObjectClass->def_method("send:", new NativeMethod("send:", method_Object_send, 1));
   ObjectClass->def_method("send:params:", new NativeMethod("send:params:", method_Object_send__params, 2));
+
+  ObjectClass->def_method("responds_to?:", new NativeMethod("responds_to?:", method_Object_responds_to, 1));
 }
 
 /**
@@ -93,7 +95,7 @@ FancyObject_p method_Object_to_s(FancyObject_p self, list<FancyObject_p> args, S
 
 FancyObject_p method_Object_inspect(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
-  return String::from_value(self->to_s() + " : " + self->get_class()->name());
+  return String::from_value(self->inspect() + " : " + self->get_class()->name());
 }
 
 FancyObject_p method_Object_class(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
@@ -153,6 +155,16 @@ FancyObject_p method_Object_send__params(FancyObject_p self, list<FancyObject_p>
     return self->call_method(method_name, arg_list, scope);
   } else {
     errorln("Object#send:params: expects Array as second argument.");
+  }
+  return nil;
+}
+
+FancyObject_p method_Object_responds_to(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  EXPECT_ARGS("Object#responds_to?:", 1);
+  string method_name = args.front()->to_s();
+  if(self->responds_to(method_name)) {
+    return t;
   }
   return nil;
 }

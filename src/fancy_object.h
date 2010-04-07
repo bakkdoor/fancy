@@ -27,6 +27,7 @@ public:
   virtual FancyObject_p eval(Scope *scope);
   virtual OBJ_TYPE type() const;
   virtual string to_s() const;
+  virtual string inspect() const;
 
   FancyObject_p call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope);
   void def_singleton_method(const string &name, Callable_p method);
