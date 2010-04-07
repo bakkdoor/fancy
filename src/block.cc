@@ -82,3 +82,21 @@ Scope* Block::creation_scope() const
 {
   return this->_creation_scope;
 }
+
+vector<FancyObject_p> Block::args()
+{
+  vector<FancyObject_p> args(_argnames.size(), nil);
+  int i = 0;
+  for(list<Identifier_p>::iterator it = _argnames.begin();
+      it != _argnames.end();
+      it++) {
+    args[i] = Symbol::from_string(":" + (*it)->name());
+    i++;
+  }
+  return args;
+}
+
+unsigned int Block::argcount() const
+{
+  return _argnames.size();
+}
