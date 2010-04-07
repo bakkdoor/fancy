@@ -55,6 +55,15 @@ int main(int argc, char **argv)
   try {  
     if (argc > 1) {
       string filename = string(argv[1]);
+
+      // set command line arguments in global ARGV variable as Array
+      Array_p args_arr = new Array();
+      for(int i = 1; i < argc; i++) {
+        string arg(argv[i]);
+        args_arr->insert(String::from_value(arg));
+      }
+      global_scope->define("ARGV", args_arr);
+
       parse_file(filename);
     } else {
       yyrestart(stdin);
