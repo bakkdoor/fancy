@@ -5,7 +5,7 @@ fancy:
 
 clean:
 	cd src && make clean > /dev/null
-	rm -f bin/*
+	rm -f bin/fancy
 	rm -rf tmp/
 
 test: all
