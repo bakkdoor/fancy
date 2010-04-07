@@ -137,6 +137,11 @@ void Array::clear()
   this->values.clear();
 }
 
+Array_p Array::clone() const
+{
+  return new Array(this->values);
+}
+
 list<FancyObject_p> Array::to_list() const
 {
   return list<FancyObject_p>(values.begin(), values.end());

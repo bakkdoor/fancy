@@ -36,6 +36,7 @@ class Array : public FancyObject
   
   unsigned int size() const;
   void clear();
+  Array* clone() const;
   list<FancyObject_p> to_list() const;
 
  private:

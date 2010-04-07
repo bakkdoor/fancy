@@ -9,6 +9,8 @@ void init_array_class()
   ArrayClass->def_method("clear", new NativeMethod("clear", method_Array_clear));
   ArrayClass->def_method("size", new NativeMethod("size", method_Array_size));
   ArrayClass->def_method("at:", new NativeMethod("at:", method_Array_at));
+  ArrayClass->def_method("append:", new NativeMethod("append:", method_Array_append, 1));
+  ArrayClass->def_method("clone", new NativeMethod("clone", method_Array_clone));
 }
 
 /**
@@ -100,4 +102,23 @@ FancyObject_p method_Array_at(FancyObject_p self, list<FancyObject_p> args, Scop
     errorln("Array#at: expects Integer value.");
     return nil;
   }
+}
+
+FancyObject_p method_Array_append(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  EXPECT_ARGS("Array#append:", 1);
+  Array_p array = dynamic_cast<Array_p>(self);
+  Array_p other_array = dynamic_cast<Array_p>(args.front());
+  if(other_array) {
+    return array->append(other_array);
+  } else {
+    errorln("Array#append: expects Array argument.");
+    return nil;
+  }
+}
+
+FancyObject_p method_Array_clone(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  Array_p array = dynamic_cast<Array_p>(self);
+  return array->clone();
 }
