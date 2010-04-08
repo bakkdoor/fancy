@@ -14,7 +14,7 @@ def class ClassWithNoMixin {
   self read_slots: [:foo, :bar, :baz];
   self write_slots: [:hello, :world];
   self read_write_slots: [:oh, :noes];
-  
+
   def normal_method {
     :new_normal_found
   }
