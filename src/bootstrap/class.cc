@@ -18,9 +18,8 @@ FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObj
   FancyObject_p arg1 = args.front();
   args.pop_front();
   FancyObject_p arg2 = args.front();
-
-  if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
-    dynamic_cast<Class_p>(self)->def_method(dynamic_cast<String_p>(arg1)->value(), 
+  if(IS_BLOCK(arg2)) {
+    dynamic_cast<Class_p>(self)->def_method(arg1->to_s(),
                                             dynamic_cast<Block_p>(arg2));
     return t;
   } else {
@@ -36,8 +35,8 @@ FancyObject_p method_Class_define_class_method__with(FancyObject_p self, list<Fa
   args.pop_front();
   FancyObject_p arg2 = args.front();
 
-  if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
-    dynamic_cast<Class_p>(self)->def_class_method(dynamic_cast<String_p>(arg1)->value(),
+  if(IS_BLOCK(arg2)) {
+    dynamic_cast<Class_p>(self)->def_class_method(arg1->to_s(),
                                                   dynamic_cast<Block_p>(arg2));
     return t;
   } else {

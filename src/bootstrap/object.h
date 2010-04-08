@@ -80,4 +80,14 @@ FancyObject_p method_Object_send__params(FancyObject_p self, list<FancyObject_p>
  */
 FancyObject_p method_Object_responds_to(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+/**
+ * Returns value of slot
+ */
+FancyObject_p method_Object_get_slot(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+/**
+ * Sets value of slot
+ */
+FancyObject_p method_Object_set_slot__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
 #endif /* _BOOTSTRAP_OBJECT_H_ */

@@ -22,6 +22,9 @@ void init_object_class()
   ObjectClass->def_method("send:params:", new NativeMethod("send:params:", method_Object_send__params, 2));
 
   ObjectClass->def_method("responds_to?:", new NativeMethod("responds_to?:", method_Object_responds_to, 1));
+
+  ObjectClass->def_method("get_slot:", new NativeMethod("get_slot:", method_Object_get_slot, 1));
+  ObjectClass->def_method("set_slot:with:", new NativeMethod("set_slot:with::", method_Object_set_slot__with, 2));
 }
 
 /**
@@ -166,5 +169,22 @@ FancyObject_p method_Object_responds_to(FancyObject_p self, list<FancyObject_p> 
   if(self->responds_to(method_name)) {
     return t;
   }
+  return nil;
+}
+
+FancyObject_p method_Object_get_slot(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  EXPECT_ARGS("Object#get_slot:", 1);
+  string slot_name = args.front()->to_s();
+  return self->get_slot(slot_name);
+}
+
+FancyObject_p method_Object_set_slot__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+{
+  EXPECT_ARGS("Object#set_slot:with:", 2);
+  string slot_name = args.front()->to_s();
+  args.pop_front();
+  FancyObject_p value = args.front();
+  self->set_slot(slot_name, value);
   return nil;
 }

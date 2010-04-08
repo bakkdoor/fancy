@@ -29,6 +29,7 @@ int main(int argc, char **argv)
 
   string files[] = {
     "lib/object.fnc",
+    "lib/class.fnc",
     "lib/true_class.fnc",
     "lib/nil_class.fnc",
     "lib/number.fnc",
