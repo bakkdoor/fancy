@@ -33,9 +33,9 @@ public:
   void def_singleton_method(const string &name, Callable_p method);
   bool responds_to(const string &method_name);
 
+  Callable_p get_method(const string &method_name);
 protected:
   void init_slots();
-  Callable_p get_method(const string &method_name);
   Class *_class;
   map<string, FancyObject_p> slots;
   map<string, Callable_p> _singleton_methods;

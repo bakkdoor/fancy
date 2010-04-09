@@ -175,16 +175,17 @@ FancyObject_p method_Object_responds_to(FancyObject_p self, list<FancyObject_p> 
 FancyObject_p method_Object_get_slot(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   EXPECT_ARGS("Object#get_slot:", 1);
-  string slot_name = args.front()->to_s();
-  return self->get_slot(slot_name);
+  string slot_name = "@" + args.front()->to_s();
+  FancyObject_p slot = self->get_slot(slot_name);
+  return slot;
 }
 
 FancyObject_p method_Object_set_slot__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   EXPECT_ARGS("Object#set_slot:with:", 2);
-  string slot_name = args.front()->to_s();
+  string slot_name = "@" + args.front()->to_s();
   args.pop_front();
   FancyObject_p value = args.front();
   self->set_slot(slot_name, value);
-  return nil;
+  return self;
 }

@@ -15,14 +15,14 @@ void init_console_class()
 FancyObject_p class_method_Console_print(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   EXPECT_ARGS("Console##print:", 1);
-  cout << args.front()->to_s();
+  cout << args.front()->call_method("to_s", list<FancyObject_p>(), scope)->to_s();
   return nil;
 }
 
 FancyObject_p class_method_Console_println(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
 {
   EXPECT_ARGS("Console##println:", 1);
-  cout << args.front()->to_s() << "\n";
+  cout << args.front()->call_method("to_s", list<FancyObject_p>(), scope)->to_s() << "\n";
   return nil;
 }
 
