@@ -51,3 +51,7 @@ example: all
 	@echo
 	bin/fancy examples/numbers.fnc
 	@echo
+	bin/fancy examples/person.fnc
+	@echo
+	bin/fancy examples/scope.fnc
+	@echo
