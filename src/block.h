@@ -25,10 +25,13 @@ public:
   vector<FancyObject_p> args();
   unsigned int argcount() const;
 
+  void override_self(bool do_it);
+
 private:
   list<Identifier_p> _argnames;
   ExpressionList_p _body;
   Scope *_creation_scope;
+  bool _override_self;
 };
 
 typedef Block* Block_p;

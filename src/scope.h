@@ -58,6 +58,7 @@ class Scope : public FancyObject
   virtual string to_s() const;
   int size() const;
 
+  void set_current_self(FancyObject_p current_self);
   FancyObject_p current_self() const;
   Class* current_class() const;
 
@@ -66,8 +67,6 @@ class Scope : public FancyObject
   Scope* parent_scope() const;
 
  private:
-  void set_current_self(FancyObject_p current_self);
-
   map<string, NativeMethod_p> builtin_mappings;
   map<string, FancyObject_p> value_mappings;
   Scope *parent;

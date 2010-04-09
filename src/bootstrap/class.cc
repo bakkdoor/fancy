@@ -18,9 +18,9 @@ FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObj
   FancyObject_p arg1 = args.front();
   args.pop_front();
   FancyObject_p arg2 = args.front();
-  if(IS_BLOCK(arg2)) {
-    dynamic_cast<Class_p>(self)->def_method(arg1->to_s(),
-                                            dynamic_cast<Block_p>(arg2));
+  if(Block_p method_block = dynamic_cast<Block_p>(arg2)) {
+    method_block->override_self(true);
+    dynamic_cast<Class_p>(self)->def_method(arg1->to_s(), method_block);
     return t;
   } else {
     errorln("Class#define_method:with: expects String and Block arguments.");

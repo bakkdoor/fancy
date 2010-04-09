@@ -3,7 +3,8 @@
 Block::Block(ExpressionList_p body, Scope *creation_scope) :
   FancyObject(BlockClass),
   _body(body),
-  _creation_scope(creation_scope)
+  _creation_scope(creation_scope),
+  _override_self(false)
 {
 }
 
@@ -11,7 +12,8 @@ Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation
   FancyObject(BlockClass),
   _argnames(argnames),
   _body(body),
-  _creation_scope(creation_scope)
+  _creation_scope(creation_scope),
+  _override_self(false)
 {
 }
 
@@ -54,9 +56,19 @@ FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *s
       i++;
     }
   }
-  
+
+  FancyObject_p old_self = _creation_scope->current_self();
+  if(_override_self) {
+    _creation_scope->set_current_self(self);
+  }
+
   // finally, eval the blocks body expression
   FancyObject_p return_value = this->_body->eval(_creation_scope);
+
+  // restore old self if _override_self
+  if(_override_self) {
+    _creation_scope->set_current_self(old_self);
+  }
   
   // reset old values for param names in creation_scope (if any args given)
   if(args.size() > 0) {
@@ -99,4 +111,9 @@ vector<FancyObject_p> Block::args()
 unsigned int Block::argcount() const
 {
   return _argnames.size();
+}
+
+void Block::override_self(bool do_it)
+{
+  _override_self = do_it;
 }
