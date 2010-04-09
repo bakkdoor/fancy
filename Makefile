@@ -1,7 +1,7 @@
 all: fancy
 
 fancy:
-	cd src && make
+	cd src && make -j 4; make
 
 clean:
 	cd src && make clean > /dev/null
