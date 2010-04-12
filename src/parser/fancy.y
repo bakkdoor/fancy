@@ -49,6 +49,7 @@
 %token                  SEMI
 %token                  COLON
 %token                  RETURN
+%token                  REQUIRE
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -80,6 +81,7 @@
 %type  <object>             exp
 %type  <expression>         assignment
 %type  <expression>         return_statement
+%type  <expression>         require_statement
 
 %type  <expression>         class_def
 %type  <expression>         class_no_super
@@ -113,6 +115,7 @@ code:           statement
 
 statement:      assignment
                 | return_statement
+                | require_statement
                 ;
 
 exp:            method_def
@@ -131,6 +134,11 @@ assignment:     IDENTIFIER EQUALS exp {
 
 return_statement: RETURN exp {
                   $$ = new ReturnStatement($2);
+                }
+                ;
+
+require_statement: REQUIRE STRING_LITERAL {
+                  $$ = new RequireStatement($2);
                 }
                 ;
 

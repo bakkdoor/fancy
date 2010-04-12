@@ -23,6 +23,7 @@ stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
 return          "return:"
+require         "require:"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
@@ -66,6 +67,7 @@ comment         #[^\n]*
                   return OPERATOR;
                 }
 {return}        { return RETURN; }
+{require}       { return REQUIRE; }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);
