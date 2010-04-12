@@ -1,4 +1,4 @@
-package: Fancy::Math
+#package: Fancy::Math
 
 def class Number {
   def even? {
@@ -6,23 +6,23 @@ def class Number {
   }
 
   def odd? {
-    not: $ self even?
+    self even? not
   }
 
   def upto: val {
-    coll = []
-    tmp = self
+    coll = [];
+    tmp = self;
     { tmp <= val } while_true: {
-      coll << tmp
+      coll << tmp;
       tmp = tmp + 1
     }
   }
 
   def downto: val {
-    coll = []
-    tmp = self
+    coll = [];
+    tmp = self;
     { tmp >= val } while_true: {
-      coll << tmp
+      coll << tmp;
       tmp = tmp - 1
     }
   }
@@ -38,9 +38,9 @@ def class Number {
   def complex? {
     self is_a?: Complex
   }
-}
+};
 
-def trait Enumerable {
+def class Enumerable {
   def sum {
     self reduce: |x y| { x + y } with: 0
   }

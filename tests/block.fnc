@@ -21,12 +21,12 @@ FancySpec describe: Block with: |it| {
   it should: "return its arguments as an array of strings" when: {
     { } arguments . should_equal: [];
     |x| { } arguments . should_equal: [:x];
-    |x, y, z| { } arguments . should_equal: [:x, :y, :z]
+    |x y z| { } arguments . should_equal: [:x, :y, :z]
   };
 
   it should: "return the argument count" when: {
     { } argcount . should_equal: 0;
     |x| { } argcount . should_equal: 1;
-    |x,y,z| { } argcount . should_equal: 3
+    |x y z| { } argcount . should_equal: 3
   }
 }

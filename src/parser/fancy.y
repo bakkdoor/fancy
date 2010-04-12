@@ -300,7 +300,7 @@ block_literal:  LCURLY method_body RCURLY {
                 ;
 
 block_args:     IDENTIFIER { $$ = blk_arg_node($1, 0); }
-                | block_args COMMA IDENTIFIER { $$ = blk_arg_node($3, $1); }
+                | block_args IDENTIFIER { $$ = blk_arg_node($2, $1); }
                 ;
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
