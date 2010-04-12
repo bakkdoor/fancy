@@ -1,7 +1,7 @@
 def class Number {
   def squared {
     self * self
-  };
+  }
 
   def abs {
     self < 0 if_true: {
@@ -9,19 +9,19 @@ def class Number {
     } else: {
       self
     }
-  };
+  }
 
   def negate {
     self * -1
-  };
+  }
 
   def even? {
     self modulo: 2 . == 0
-  };
+  }
 
   def odd? {
     self even? not
-  };
+  }
 
   def upto: val {
     coll = [];
@@ -31,7 +31,7 @@ def class Number {
       tmp = tmp + 1
     };
     coll
-  };
+  }
 
   def downto: val {
     coll = [];
@@ -41,7 +41,7 @@ def class Number {
       tmp = tmp - 1
     };
     coll
-  };
+  }
 
   def upto: val do_each: block {
     tmp = self;

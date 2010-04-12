@@ -31,7 +31,7 @@ FancySpec describe: Class with: |it| {
   it should: "find the method when mixed-in" when: {
     # => include Mixin into ClassWithMixin
     def class ClassWithMixin {
-      self include: Mixin
+      self include: Mixin;
     };
     
     instance = ClassWithMixin new;

@@ -3,7 +3,7 @@
 def class Enumerable {
   def include?: item {
     self any?: |x| { item == x }
-  };
+  }
 
   def any?: item {
     found = nil;
@@ -13,7 +13,7 @@ def class Enumerable {
       }
     };
     found
-  };
+  }
 
   def all?: item {
     all = true;
@@ -23,7 +23,7 @@ def class Enumerable {
       }
     };
     all
-  };
+  }
 
   def find: item {
     item is_a?: Block . if_true: {
@@ -37,7 +37,7 @@ def class Enumerable {
       };
       found
     }
-  };
+  }
 
   def find_by: block {
     found = nil;
@@ -86,7 +86,7 @@ def class Enumerable {
       }
     };
     coll
-  };
+  }
 
   def drop_while: condition {
     coll = [];
@@ -99,7 +99,7 @@ def class Enumerable {
       }
     };
     coll
-  };
+  }
 
   def reduce: block with: init_val {
     acc = init_val;
@@ -107,7 +107,7 @@ def class Enumerable {
       acc = (block call: [acc, x])
     };
     acc
-  };
+  }
 
   def uniq {
     uniq_vals = [];
@@ -117,7 +117,7 @@ def class Enumerable {
       }
     };
     uniq_vals
-  };
+  }
 
   def size {
     i = 0;
@@ -125,7 +125,7 @@ def class Enumerable {
       i = i + 1
     };
     i
-  };
+  }
 
   def last {
     item = nil;

@@ -18,7 +18,7 @@ def class Array {
       };
       same
     }
-  };
+  }
 
   # Array equality in a 'has the same elements, but possibly in
   # different order' way
@@ -28,7 +28,7 @@ def class Array {
     } else: {
       self all?: |x| { other include?: x }
     }
-  };
+  }
 
   def index: item {
     found_idx = nil;
@@ -41,7 +41,7 @@ def class Array {
       i = i + 1
     };
     found_idx
-  };
+  }
 
   def find: item {
     item is_a?: Block . if_true: {
@@ -51,7 +51,7 @@ def class Array {
         self at: idx
       }
     }
-  };
+  }
 
   def find_by: block {
     found = nil;
@@ -65,7 +65,7 @@ def class Array {
       i = i + 1
     };
     found
-  };
+  }
 
   def any?: condition {
     found = false;
@@ -76,7 +76,7 @@ def class Array {
       i = i + 1
     };
     found
-  };
+  }
 
   def all?: condition {
     all_match = true;
@@ -100,29 +100,29 @@ def class Array {
       }
     };
     arr
-  };
+  }
 
   def first {
     self at: 0
-  };
+  }
 
   def second {
     self at: 1
-  };
+  }
 
   def third {
     self at: 2
-  };
+  }
 
   def fourth {
     self at: 3
-  };
+  }
 
   def last {
     (self size > 0) . if_true: {
       self at: (self size - 1)
     }
-  };
+  }
 
   def last: amount {
     (amount <= (self size)) . if_true: {
@@ -135,7 +135,7 @@ def class Array {
     } else: {
       []
     }
-  };
+  }
 
   def values_at: idx_arr {
     values = [];
@@ -145,7 +145,7 @@ def class Array {
       }
     };
     values
-  };
+  }
 
   def >> other_arr {
     arr = self clone;

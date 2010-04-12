@@ -81,6 +81,7 @@
 %type  <expression>         assignment
 %type  <expression>         return_statement
 
+%type  <expr_list>          class_body
 %type  <expression>         class_def
 %type  <expression>         class_no_super
 %type  <expression>         class_super
@@ -138,14 +139,19 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: DEFCLASS IDENTIFIER LCURLY exp_list RCURLY {
+class_no_super: DEFCLASS IDENTIFIER LCURLY class_body RCURLY {
                   $$ = new ClassDefExpr($2, new ExpressionList($4));
                 }
                 ;
 
-class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY exp_list RCURLY {
+class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY class_body RCURLY {
                   $$ = new ClassDefExpr($4, $2, new ExpressionList($6));
                 }
+                ;
+
+class_body:     /* empty */ { $$ = expr_node(0, 0); }
+                | class_body code SEMI { $$ = expr_node($2, $1); }
+                | class_body method_def { $$ = expr_node($2, $1); }
                 ;
 
 method_def:     method_w_args
