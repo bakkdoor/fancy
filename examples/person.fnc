@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# the fancy language spec
 # (C) 2010 Christopher Bertels <chris@fancy-lang.org>
 
 def class City {
