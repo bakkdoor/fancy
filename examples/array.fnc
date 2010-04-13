@@ -6,7 +6,7 @@ arr each: |x| {
   x squared println
 };
 
-arr each_with_index: |x, i| {
+arr each_with_index: |x i| {
   "Index " ++ i ++ " -> " ++ x println
 };
 
@@ -17,7 +17,7 @@ arr reject: |x| { x < 4 } . println;
 arr take_while: |x| { x < 5 } . println;
 
 "testing reduce:with: " print;
-arr reduce: |acc, x| { acc * x } with: 1 . println; # same as: 1*1*2*3*4*5*6
+arr reduce: |acc x| { acc * x } with: 1 . println; # same as: 1*1*2*3*4*5*6
 
 "testing any?: " print;
 arr any?: |x| { x > 3 } . println;
