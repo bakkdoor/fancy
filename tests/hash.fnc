@@ -43,5 +43,12 @@ FancySpec describe: Hash with: |it| {
   it should: "return all values" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
     hash values should_be: |x| { x === ["bar", "baz", 112.21] }
+  };
+
+  it should: "return value by the []-operator" when: {
+    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    hash[:foo] should_equal: "bar";
+    hash[:bar] should_equal: "baz";
+    hash[:foobar] should_equal: 112.21
   }
 }
