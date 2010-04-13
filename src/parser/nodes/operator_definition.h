@@ -1,17 +1,25 @@
 #ifndef _OPERATOR_DEFINITION_H_
 #define _OPERATOR_DEFINITION_H_
 
-class OperatorDefExpr : public Expression
-{
- public:
-  OperatorDefExpr(Identifier_p op_name, Method_p method);
+namespace fancy {
+  namespace parser {
+    namespace nodes {
 
-  virtual OBJ_TYPE type() const;
-  virtual FancyObject_p eval(Scope *scope);
+      class OperatorDefExpr : public Expression
+      {
+      public:
+        OperatorDefExpr(Identifier_p op_name, Method_p method);
+
+        virtual OBJ_TYPE type() const;
+        virtual FancyObject_p eval(Scope *scope);
  
-private:
-  Identifier_p _op_name;
-  Method_p _method;
-};
+      private:
+        Identifier_p _op_name;
+        Method_p _method;
+      };
+
+    }
+  }
+}
 
 #endif /* _OPERATOR_DEFINITION_H_ */

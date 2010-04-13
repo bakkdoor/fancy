@@ -1,10 +1,15 @@
 #include "includes.h"
 
-void init_nil_class()
-{  
+namespace fancy {
+  namespace bootstrap {
+
+    void init_nil_class()
+    {  
+    }
+
+    /**
+     * NilClass instance methods
+     */
+
+  }
 }
-
-
-/**
- * NilClass instance methods
- */

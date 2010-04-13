@@ -1,26 +1,30 @@
 #ifndef _FILE_H_
 #define _FILE_H_
 
-class File : public FancyObject
-{
-public:
-  File(const string &filename, const string &mode, FILE *file);
-  virtual ~File();
+namespace fancy {
 
-  virtual FancyObject_p equal(const FancyObject_p other) const;
-  virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
+  class File : public FancyObject
+  {
+  public:
+    File(const string &filename, const string &mode, FILE *file);
+    virtual ~File();
 
-  string filename() const;
-  string mode() const;
-  FILE* file() const;
+    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual OBJ_TYPE type() const;
+    virtual string to_s() const;
 
-private:
-  string _filename;
-  string _mode;
-  FILE *_file;
-};
+    string filename() const;
+    string mode() const;
+    FILE* file() const;
 
-typedef File* File_p;
+  private:
+    string _filename;
+    string _mode;
+    FILE *_file;
+  };
+
+  typedef File* File_p;
+
+}
 
 #endif /* _FILE_H_ */

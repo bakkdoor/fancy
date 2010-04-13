@@ -6,4 +6,6 @@
 
 #define YY_NO_UNPUT
 
+using namespace fancy;
+
 #endif /* _PARSER_INCLUDES_H_ */

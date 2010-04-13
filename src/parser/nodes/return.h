@@ -1,17 +1,25 @@
 #ifndef _PARSER_NODES_RETURN_H_
 #define _PARSER_NODES_RETURN_H_
 
-class ReturnStatement : public Expression
-{
-public:
-  ReturnStatement(Expression_p return_expr);
-  virtual ~ReturnStatement();
+namespace fancy {
+  namespace parser {
+    namespace nodes {
 
-  virtual OBJ_TYPE type() const;
-  virtual FancyObject* eval(Scope *scope);
+      class ReturnStatement : public Expression
+      {
+      public:
+        ReturnStatement(Expression_p return_expr);
+        virtual ~ReturnStatement();
 
-private:
-  Expression_p _return_expr;
-};
+        virtual OBJ_TYPE type() const;
+        virtual FancyObject* eval(Scope *scope);
+
+      private:
+        Expression_p _return_expr;
+      };
+
+    }
+  }
+}
 
 #endif /* _PARSER_NODES_RETURN_H_ */

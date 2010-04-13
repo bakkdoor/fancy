@@ -1,39 +1,43 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 
-/**
- * Block class.
- * A block is (as in Ruby or Smalltalk) an object (instance of
- * BlockClass) that represents an anonymous method / a closure.
- */
-class Block : public FancyObject, public Callable
-{
-public:
-  Block(ExpressionList_p body, Scope *creation_scope);
-  Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
-  virtual ~Block();
+namespace fancy {
 
-  virtual FancyObject_p equal(const FancyObject_p other) const;
-  virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
+  /**
+   * Block class.
+   * A block is (as in Ruby or Smalltalk) an object (instance of
+   * BlockClass) that represents an anonymous method / a closure.
+   */
+  class Block : public FancyObject, public Callable
+  {
+  public:
+    Block(ExpressionList_p body, Scope *creation_scope);
+    Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
+    virtual ~Block();
 
-  FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual OBJ_TYPE type() const;
+    virtual string to_s() const;
 
-  void set_creation_scope(Scope *creation_scope);
-  Scope* creation_scope() const;
+    FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
-  vector<FancyObject_p> args();
-  unsigned int argcount() const;
+    void set_creation_scope(Scope *creation_scope);
+    Scope* creation_scope() const;
 
-  void override_self(bool do_it);
+    vector<FancyObject_p> args();
+    unsigned int argcount() const;
 
-private:
-  list<Identifier_p> _argnames;
-  ExpressionList_p _body;
-  Scope *_creation_scope;
-  bool _override_self;
-};
+    void override_self(bool do_it);
 
-typedef Block* Block_p;
+  private:
+    list<Identifier_p> _argnames;
+    ExpressionList_p _body;
+    Scope *_creation_scope;
+    bool _override_self;
+  };
+
+  typedef Block* Block_p;
+
+}
 
 #endif /* _BLOCK_H_ */

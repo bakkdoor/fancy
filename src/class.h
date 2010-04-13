@@ -1,53 +1,57 @@
 #ifndef _CLASS_H_
 #define _CLASS_H_
 
-class Class;
-typedef Class* Class_p;
+namespace fancy {
 
-class Class : public FancyObject
-{
-public:
-  Class(const string &name);
-  Class(const string &name, Class_p superclass);
-  virtual ~Class();
+  class Class;
+  typedef Class* Class_p;
 
-  string name() const;
+  class Class : public FancyObject
+  {
+  public:
+    Class(const string &name);
+    Class(const string &name, Class_p superclass);
+    virtual ~Class();
 
-  FancyObject_p create_instance() const;
+    string name() const;
 
-  void def_slot(const string &name);
-  void def_slot(const Identifier_p name);
+    FancyObject_p create_instance() const;
 
-  void def_class_slot(const string &name, const FancyObject_p value);
-  void def_class_slot(const Identifier_p name, FancyObject_p value);
+    void def_slot(const string &name);
+    void def_slot(const Identifier_p name);
 
-  FancyObject_p get_class_slot(const string &identifier) const;
+    void def_class_slot(const string &name, const FancyObject_p value);
+    void def_class_slot(const Identifier_p name, FancyObject_p value);
 
-  void def_method(const string &name, const Callable_p method);
-  void def_method(const Identifier_p, const Callable_p method);
+    FancyObject_p get_class_slot(const string &identifier) const;
 
-  void def_class_method(const string &name, const Callable_p method);
-  void def_class_method(const Identifier_p name, const Callable_p method);
+    void def_method(const string &name, const Callable_p method);
+    void def_method(const Identifier_p, const Callable_p method);
 
-  void include(const Class_p klass);
+    void def_class_method(const string &name, const Callable_p method);
+    void def_class_method(const Identifier_p name, const Callable_p method);
 
-  vector<string> instance_slotnames() const;
-  map<string, FancyObject_p> class_slots() const;
+    void include(const Class_p klass);
 
-  virtual FancyObject_p equal(const FancyObject_p other) const;
-  virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
+    vector<string> instance_slotnames() const;
+    map<string, FancyObject_p> class_slots() const;
 
-  Callable_p find_method(const string &name);
+    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual OBJ_TYPE type() const;
+    virtual string to_s() const;
 
-private:
-  string _name;
-  vector<string> _instance_slotnames;
-  map<string, FancyObject_p> _class_slots;
-  Class_p _superclass;
-  set<Class_p> _included_classes;
+    Callable_p find_method(const string &name);
 
-  map<string, Callable_p> _instance_methods;
-};
+  private:
+    string _name;
+    vector<string> _instance_slotnames;
+    map<string, FancyObject_p> _class_slots;
+    Class_p _superclass;
+    set<Class_p> _included_classes;
+
+    map<string, Callable_p> _instance_methods;
+  };
+
+}
 
 #endif /* _CLASS_H_ */

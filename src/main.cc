@@ -45,9 +45,9 @@ int main(int argc, char **argv)
 
   vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
 
-  init_core_classes();
-  init_global_objects();
-  init_global_scope();
+  fancy::bootstrap::init_core_classes();
+  fancy::bootstrap::init_global_objects();
+  fancy::bootstrap::init_global_scope();
 
   for(unsigned int i = 0; i < files_vector.size(); i++) {
     parse_file(files_vector[i]);

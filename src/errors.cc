@@ -1,12 +1,15 @@
 #include "includes.h"
 
-UnknownIdentifierError::UnknownIdentifierError(const string &ident) : 
-  _identifier(ident) {}
+namespace fancy {
 
-UnknownIdentifierError::~UnknownIdentifierError() {}
+  UnknownIdentifierError::UnknownIdentifierError(const string &ident) : 
+    _identifier(ident) {}
 
-string UnknownIdentifierError::identifier() const
-{
-  return this->_identifier;
+  UnknownIdentifierError::~UnknownIdentifierError() {}
+
+  string UnknownIdentifierError::identifier() const
+  {
+    return this->_identifier;
+  }
+
 }
-

@@ -1,32 +1,36 @@
 #ifndef _HASH_H_
 #define _HASH_H_
 
-class Hash : public FancyObject
-{
- public:
-  Hash();
-  Hash(map<FancyObject_p, FancyObject_p> mappings);
-  ~Hash();
+namespace fancy {
 
-  FancyObject_p operator[](FancyObject_p key) const;
-  FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
-  FancyObject_p get_value(FancyObject_p key);
+  class Hash : public FancyObject
+  {
+  public:
+    Hash();
+    Hash(map<FancyObject_p, FancyObject_p> mappings);
+    ~Hash();
 
-  virtual FancyObject_p equal(const FancyObject_p other) const;
-  virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
+    FancyObject_p operator[](FancyObject_p key) const;
+    FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
+    FancyObject_p get_value(FancyObject_p key);
 
-  vector<FancyObject_p> keys();
-  vector<FancyObject_p> values();
+    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual OBJ_TYPE type() const;
+    virtual string to_s() const;
 
-  bool operator==(const Hash& other) const;
+    vector<FancyObject_p> keys();
+    vector<FancyObject_p> values();
+
+    bool operator==(const Hash& other) const;
   
-  int size() const;
+    int size() const;
 
- private:
-  map<FancyObject_p, FancyObject_p> mappings;
-};
+  private:
+    map<FancyObject_p, FancyObject_p> mappings;
+  };
 
-typedef Hash* Hash_p;
+  typedef Hash* Hash_p;
+
+}
 
 #endif /* _HASH_H_ */

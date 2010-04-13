@@ -1,27 +1,31 @@
 #include "includes.h"
 
-Nil::Nil() : FancyObject(NilClass) {}
+namespace fancy {
 
-Nil::~Nil() {}
+  Nil::Nil() : FancyObject(NilClass) {}
 
-FancyObject_p Nil::equal(const FancyObject_p other) const
-{
-  if(IS_NIL(other))
-    return t;
-  return nil;
-}
+  Nil::~Nil() {}
 
-FancyObject_p Nil::eval(Scope *scope)
-{
-  return nil;
-}
+  FancyObject_p Nil::equal(const FancyObject_p other) const
+  {
+    if(IS_NIL(other))
+      return t;
+    return nil;
+  }
 
-OBJ_TYPE Nil::type() const
-{
-  return OBJ_NIL;
-}
+  FancyObject_p Nil::eval(Scope *scope)
+  {
+    return nil;
+  }
 
-string Nil::to_s() const
-{
-  return "nil";
+  OBJ_TYPE Nil::type() const
+  {
+    return OBJ_NIL;
+  }
+
+  string Nil::to_s() const
+  {
+    return "nil";
+  }
+
 }

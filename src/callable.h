@@ -1,20 +1,24 @@
 #ifndef _CALLABLE_H_
 #define _CALLABLE_H_
 
-class Scope;
-class FancyObject;
-class Expression;
+namespace fancy {
 
-/**
- * Interface for callable objects.
- * (Native methods, user-defined methods & blocks ...)
- */
-class Callable
-{
-public:
-  virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
-};
+  class Scope;
+  class FancyObject;
+  class Expression;
 
-typedef Callable* Callable_p;
+  /**
+   * Interface for callable objects.
+   * (Native methods, user-defined methods & blocks ...)
+   */
+  class Callable
+  {
+  public:
+    virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
+  };
+
+  typedef Callable* Callable_p;
+
+}
 
 #endif /* _CALLABLE_H_ */

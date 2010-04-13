@@ -1,22 +1,29 @@
 #include "includes.h"
 
-ReturnStatement::ReturnStatement(Expression_p return_expr) :
-  _return_expr(return_expr)
-{
-}
+namespace fancy {
+  namespace parser {
+    namespace nodes {
 
-ReturnStatement::~ReturnStatement()
-{
-}
+      ReturnStatement::ReturnStatement(Expression_p return_expr) :
+        _return_expr(return_expr)
+      {
+      }
 
-OBJ_TYPE ReturnStatement::type() const
-{
-  return OBJ_RETURNSTATEMENT;
-}
+      ReturnStatement::~ReturnStatement()
+      {
+      }
 
-FancyObject* ReturnStatement::eval(Scope *scope)
-{
-  FancyObject_p retval = _return_expr->eval(scope);
-  return retval;
-}
+      OBJ_TYPE ReturnStatement::type() const
+      {
+        return OBJ_RETURNSTATEMENT;
+      }
 
+      FancyObject* ReturnStatement::eval(Scope *scope)
+      {
+        FancyObject_p retval = _return_expr->eval(scope);
+        return retval;
+      }
+
+    }
+  }
+}

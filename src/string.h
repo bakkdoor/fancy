@@ -1,27 +1,31 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-class String;
-typedef String* String_p;
+namespace fancy {
 
-class String : public FancyObject
-{
- public:
-  String(const string &value);
-  ~String();
+  class String;
+  typedef String* String_p;
 
-  virtual FancyObject_p equal(const FancyObject_p other) const;
-  virtual OBJ_TYPE type() const;
-  virtual string to_s() const;
-  virtual string inspect() const;
-  string value() const;
+  class String : public FancyObject
+  {
+  public:
+    String(const string &value);
+    ~String();
 
-  static String_p from_value(const string &value);
+    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual OBJ_TYPE type() const;
+    virtual string to_s() const;
+    virtual string inspect() const;
+    string value() const;
 
- private:
-  string _value;
+    static String_p from_value(const string &value);
 
-  static map<string, String_p> value_cache;
-};
+  private:
+    string _value;
+
+    static map<string, String_p> value_cache;
+  };
+
+}
 
 #endif /* _STRING_H_ */
