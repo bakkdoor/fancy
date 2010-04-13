@@ -3,6 +3,10 @@
 def class Array {
   self include: Enumerable;
 
+  def [] index {
+    self at: index
+  }
+
   # Array equality where order matters
   # e.g. [1,2,3] == [2,1,3] should not be true
   def == other {

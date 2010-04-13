@@ -99,5 +99,12 @@ FancySpec describe: Array with: |it| {
     arr1 = [:foo, :bar, :baz];
     arr2 = [1, 2, 3];
     (arr1 >> arr2) should_equal: [:foo, :bar, :baz, 1, 2, 3]
+  };
+  
+  it should: "get an element by the []-operator" when: {
+    arr1 = [:foo, :bar, :baz];
+    arr1[0] should_equal: :foo;
+    arr1[1] should_equal: :bar;
+    arr1[2] should_equal: :baz
   }
 }

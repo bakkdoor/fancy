@@ -217,12 +217,22 @@ operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
                   Method_p method = new Method($2, $3, body);
                   $$ = new OperatorDefExpr($2, method);
                 }
+                | DEF LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList_p body = new ExpressionList($6);
+                  Method_p method = new Method(Identifier::from_string("[]"), $4, body);
+                  $$ = new OperatorDefExpr(Identifier::from_string("[]"), method);
+                }
                 ;
 
 class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList($6);
                   Method_p method = new Method($3, $4, body);
                   $$ = new ClassOperatorDefExpr($2, $3, method);
+                }
+                | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList_p body = new ExpressionList($7);
+                  Method_p method = new Method(Identifier::from_string("[]"), $5, body);
+                  $$ = new ClassOperatorDefExpr($2, Identifier::from_string("[]"), method);
                 }
                 ;
 
@@ -239,6 +249,9 @@ method_call:    receiver IDENTIFIER { $$ = new MethodCall($1, $2);  }
 
 operator_call:  receiver OPERATOR exp {
                   $$ = new OperatorCall($1, $2, $3);
+                }
+                | receiver LBRACKET exp RBRACKET {
+                  $$ = new OperatorCall($1, Identifier::from_string("[]"), $3);
                 }
                 ;
 
