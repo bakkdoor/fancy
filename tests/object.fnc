@@ -14,5 +14,13 @@ FancySpec describe: Object with: |it| {
     obj get_slot: :foo . should_equal: nil;
     obj set_slot: :foo with: "hello, world";
     obj get_slot: :foo . should_equal: "hello, world"
+  };
+
+  it should: "return its class" when: {
+    nil _class should_equal: NilClass;
+    true _class should_equal: TrueClass;
+    "foo" _class should_equal: String;
+    :bar _class should_equal: Symbol;
+    { :a_block } _class should_equal: Block
   }
 }

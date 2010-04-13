@@ -112,6 +112,9 @@ namespace fancy {
     if(!IS_CLASS(other))
       return nil;
 
+    if(this == other)
+      return t;
+
     // TODO: compare slotnames, class_slots, superclass etc.
     return nil;
   }
