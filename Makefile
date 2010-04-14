@@ -18,6 +18,7 @@ test: all
 	@echo
 	@bin/fancy tests/class.fnc
 	@echo
+	@mkdir -p tmp
 	@bin/fancy tests/file.fnc
 	@echo
 	@bin/fancy tests/hash.fnc
