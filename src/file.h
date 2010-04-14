@@ -6,7 +6,7 @@ namespace fancy {
   class File : public FancyObject
   {
   public:
-    File(const string &filename, ios_base::openmode mode);
+    File(const string &filename, Array_p modes);
     virtual ~File();
 
     virtual FancyObject_p equal(const FancyObject_p other) const;
@@ -14,7 +14,8 @@ namespace fancy {
     virtual string to_s() const;
 
     string filename() const;
-    ios_base::openmode mode() const;
+    Array_p modes() const;
+    ios_base::openmode openmode() const;
     fstream& file();
 
     void open();
@@ -24,8 +25,10 @@ namespace fancy {
     bool good() const;
 
   private:
+    void init_openmode(Array_p modes);
     string _filename;
-    ios_base::openmode _mode;
+    Array_p _modes;
+    ios_base::openmode _openmode;
     fstream _file;
   };
 

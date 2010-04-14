@@ -2,11 +2,11 @@
 
 namespace fancy {
 
-  File::File(const string &filename, ios_base::openmode mode) :
+  File::File(const string &filename, Array_p modes) :
     FancyObject(FileClass),
-    _filename(filename),
-    _mode(mode)
+    _filename(filename)
   {
+    init_openmode(modes);
   }
 
   File::~File()
@@ -18,7 +18,7 @@ namespace fancy {
     if(IS_FILE(other)) {
       File_p other_file = dynamic_cast<File_p>(other);
       if(this->_filename == other_file->_filename
-         && this->_mode == other_file->_mode)
+         && this->_openmode == other_file->_openmode)
         return t;
     }
     return nil;
@@ -39,9 +39,14 @@ namespace fancy {
     return this->_filename;
   }
 
-  ios_base::openmode File::mode() const
+  Array_p File::modes() const
   {
-    return this->_mode;
+    return this->_modes;
+  }
+
+  ios_base::openmode File::openmode() const
+  {
+    return this->_openmode;
   }
 
   fstream& File::file()
@@ -51,7 +56,7 @@ namespace fancy {
 
   void File::open()
   {
-    _file.open(_filename.c_str(), _mode);
+    _file.open(_filename.c_str(), _openmode);
   }
 
   bool File::is_open()
@@ -76,6 +81,34 @@ namespace fancy {
   bool File::good() const
   {
     return _file.good();
+  }
+
+  void File::init_openmode(Array_p modes)
+  {
+    for(unsigned int i = 0; i < modes->size(); i++) {
+      if(IS_SYMBOL(modes->at(i))) {
+        Symbol_p sym = dynamic_cast<Symbol_p>(modes->at(i));
+        // check different cases
+        if(sym == Symbol::from_string(":append")) {
+          _openmode = _openmode | fstream::app;
+        }
+        if(sym == Symbol::from_string(":read")) {
+          _openmode = _openmode | fstream::in;
+        }
+        if(sym == Symbol::from_string(":write")) {
+          _openmode = _openmode | fstream::out;
+        }
+        if(sym == Symbol::from_string(":binary")) {
+          _openmode = _openmode | fstream::binary;
+        }
+        if(sym == Symbol::from_string(":at_end")) {
+          _openmode = _openmode | fstream::ate;
+        }
+        if(sym == Symbol::from_string(":truncate")) {
+          _openmode = _openmode | fstream::trunc;
+        }
+      }
+    }
   }
 
 }
