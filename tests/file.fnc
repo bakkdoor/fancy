@@ -1,6 +1,6 @@
 FancySpec describe: File with: |it| {
   it should: "be open after opening it and closed after closing" when: {
-    file = File open: "README" mode: "r";
+    file = File open: "README" mode: :read;
     file open? should_equal: true;
     file close;
     file open? should_equal: nil
@@ -14,12 +14,12 @@ FancySpec describe: File with: |it| {
   };
 
   it should: "write and read from a file correctly" when: {
-    file = File open: "tmp/read_write_test.txt" mode: "w";
+    file = File open: "tmp/read_write_test.txt" mode: :write;
     file writeln: "hello, world!";
     file writeln: "line number two";
     file close;
 
-    file = File open: "tmp/read_write_test.txt" mode: "r";
+    file = File open: "tmp/read_write_test.txt" mode: :read;
     lines = [];
     2 times: {
       lines << (file readln)

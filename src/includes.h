@@ -22,6 +22,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cctype>
+#include <fstream>
 
 using namespace std;
 

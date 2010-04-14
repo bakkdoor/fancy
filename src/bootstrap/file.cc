@@ -37,20 +37,21 @@ namespace fancy {
       string filename = dynamic_cast<String_p>(arg1)->value();
       string mode = dynamic_cast<String_p>(arg2)->value();
       Block_p block = dynamic_cast<Block_p>(arg3);  
-      FILE *f = fopen(filename.c_str(), mode.c_str());
+      // FILE *f = fopen(filename.c_str(), mode.c_str());
+      File_p file = new File(filename, fstream::in | fstream::out); 
+      file->open();
 
-      if(!f) {
-        error("Could not open file: ")
-          << filename
-          << " with mode: "
-          << mode
-          << endl;
-        return nil;
-      }
+      // if(!file->good()) {
+      //   error("Could not open file: ")
+      //     << filename
+      //     << " with mode: "
+      //     << mode
+      //     << endl;
+      //   return nil;
+      // }
   
-      File_p file = new File(filename, mode, f); 
       block->call(self, list<FancyObject_p>(1, file), scope);
-      fclose(f);
+      file->close();
       return nil;
     }
 
@@ -68,18 +69,20 @@ namespace fancy {
 
       string filename = dynamic_cast<String_p>(arg1)->value();
       string mode = dynamic_cast<String_p>(arg2)->value();
-      FILE *f = fopen(filename.c_str(), mode.c_str());
+      // FILE *f = fopen(filename.c_str(), mode.c_str());
+      File_p file = new File(filename, fstream::in | fstream::out);
+      file->open();
 
-      if(!f) {
-        error("Could not open file: ")
-          << filename
-          << " with mode: "
-          << mode
-          << endl;
-        return nil;
-      }
+      // if(!file->good()) {
+      //   error("Could not open file: ")
+      //     << filename
+      //     << " with mode: "
+      //     << mode
+      //     << endl;
+      //   return nil;
+      // }
   
-      return new File(filename, mode, f);
+      return file;
     }
 
 
@@ -92,7 +95,9 @@ namespace fancy {
       EXPECT_ARGS("File#write:", 1);
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
-        fprintf(file->file(), "%s", args.front()->to_s().c_str());
+        // fprintf(file->file(), "%s", args.front()->to_s().c_str())
+        fstream fs = file->file();
+        fs << args.front()->to_s();
       }
       return self;
     }
@@ -101,7 +106,8 @@ namespace fancy {
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
-        fprintf(file->file(), "\n");
+        // fprintf(file->file(), "\n");
+        file->file() << endl;
       }
       return self;
     }
@@ -138,8 +144,9 @@ namespace fancy {
     FancyObject_p method_File_readln(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
-      if(file) {
-        file->close();
+      if(file && file->is_open()) {
+        string line;
+        getline(file->file(), line);
       }
       return nil;
     }

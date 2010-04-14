@@ -2,19 +2,10 @@
 
 namespace fancy {
 
-  File::File(const string &filename, const string &mode, FILE *file) :
+  File::File(const string &filename, ios_base::openmode mode) :
     FancyObject(FileClass),
     _filename(filename),
-    _mode(mode),
-    _file(file)
-  {
-  }
-
-  File::File(const string &filename, const string &mode) :
-    FancyObject(FileClass),
-    _filename(filename),
-    _mode(mode),
-    _file(0)
+    _mode(mode)
   {
   }
 
@@ -40,7 +31,7 @@ namespace fancy {
 
   string File::to_s() const
   {
-    return "<File:" + this->_filename + " [" + this->_mode + "]>";
+    return "<File:" + this->_filename + ">";; // + " [" + this->_mode + "]>";
   }
 
   string File::filename() const
@@ -48,41 +39,43 @@ namespace fancy {
     return this->_filename;
   }
 
-  string File::mode() const
+  ios_base::openmode File::mode() const
   {
     return this->_mode;
   }
 
-  FILE* File::file() const
+  fstream& File::file()
   {
     return _file;
   }
 
   void File::open()
   {
-    if(!_file) {
-      _file = fopen(_filename.c_str(), _mode.c_str());
-    }
+    _file.open(_filename.c_str(), _mode);
   }
 
   bool File::is_open()
   {
-    if(!_file)
-      return false;
-    return true;
+    return _file.is_open();
   }
 
   bool File::eof()
   {
-    return feof(_file);
+    return _file.eof();
   }
 
   void File::close()
   {
-    if(_file) {
-      fclose(_file);
-      _file = 0;
-    }
+    // if(_file) {
+    //   fclose(_file);
+    //   _file = 0;
+    // }
+    _file.close();
+  }
+
+  bool File::good() const
+  {
+    return _file.good();
   }
 
 }
