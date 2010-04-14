@@ -5,8 +5,8 @@ namespace fancy {
 
     void init_file_class()
     {
-      FileClass->def_class_method("open:mode:with:", new NativeMethod("open:mode:with:", class_method_File_open__mode__with, 3));
-      FileClass->def_class_method("open:mode:", new NativeMethod("open:mode:", class_method_File_open__mode, 2));
+      FileClass->def_class_method("open:modes:with:", new NativeMethod("open:modes:with:", class_method_File_open__modes__with, 3));
+      FileClass->def_class_method("open:modes:", new NativeMethod("open:modes:", class_method_File_open__modes, 2));
       FileClass->def_method("write:", new NativeMethod("write:", method_File_write, 1));
       FileClass->def_method("newline", new NativeMethod("newline", method_File_newline, 0));
       FileClass->def_method("open?", new NativeMethod("open?", method_File_is_open, 0));
@@ -20,67 +20,66 @@ namespace fancy {
      * File class methods
      */
 
-    FancyObject_p class_method_File_open__mode__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_File_open__modes__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
-      EXPECT_ARGS("File##open:mode:with:", 3);
+      EXPECT_ARGS("File##open:modes:with:", 3);
       FancyObject_p arg1 = args.front();
       args.pop_front();
       FancyObject_p arg2 = args.front();
       args.pop_front();
       FancyObject_p arg3 = args.front();
 
-      if(!(IS_STRING(arg1) && IS_STRING(arg2) && IS_BLOCK(arg3))) {
-        errorln("File##open:mode:with: expects String, String and Block value");
+      if(!(IS_STRING(arg1) && IS_ARRAY(arg2) && IS_BLOCK(arg3))) {
+        errorln("File##open:modes:with: expects String, Array and Block value");
         return nil;
       }
   
       string filename = dynamic_cast<String_p>(arg1)->value();
-      string mode = dynamic_cast<String_p>(arg2)->value();
+      Array_p modes = dynamic_cast<Array_p>(arg2);
       Block_p block = dynamic_cast<Block_p>(arg3);  
-      // FILE *f = fopen(filename.c_str(), mode.c_str());
-      File_p file = new File(filename, fstream::in | fstream::out); 
+      File_p file = new File(filename, modes); 
       file->open();
 
-      // if(!file->good()) {
-      //   error("Could not open file: ")
-      //     << filename
-      //     << " with mode: "
-      //     << mode
-      //     << endl;
-      //   return nil;
-      // }
+      if(!file->good()) {
+        error("Could not open file: ")
+          << filename
+          << " with modes: "
+          << modes->to_s()
+          << endl;
+        return nil;
+      }
   
       block->call(self, list<FancyObject_p>(1, file), scope);
       file->close();
       return nil;
     }
 
-    FancyObject_p class_method_File_open__mode(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_File_open__modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
-      EXPECT_ARGS("File##open:mode:", 2);
+      EXPECT_ARGS("File##open:modes:", 2);
       FancyObject_p arg1 = args.front();
       args.pop_front();
       FancyObject_p arg2 = args.front();
   
-      if(!(IS_STRING(arg1) && IS_STRING(arg2))) {
-        errorln("File##open:mode: expects String and String value");
+      if(!(IS_STRING(arg1) && IS_ARRAY(arg2))) {
+        errorln("File##open:modes: expects String and Array value");
         return nil;
       }
 
       string filename = dynamic_cast<String_p>(arg1)->value();
-      string mode = dynamic_cast<String_p>(arg2)->value();
+      Array_p modes = dynamic_cast<Array_p>(arg2);
       // FILE *f = fopen(filename.c_str(), mode.c_str());
-      File_p file = new File(filename, fstream::in | fstream::out);
+      File_p file = new File(filename, modes);
       file->open();
 
-      // if(!file->good()) {
-      //   error("Could not open file: ")
-      //     << filename
-      //     << " with mode: "
-      //     << mode
-      //     << endl;
-      //   return nil;
-      // }
+      if(!file->good()) {
+        error("Could not open file: ")
+          << filename
+          // << " with mode: "
+          // << mode
+          << endl;
+        return nil;
+      }
   
       return file;
     }
@@ -96,8 +95,9 @@ namespace fancy {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
         // fprintf(file->file(), "%s", args.front()->to_s().c_str())
-        fstream fs = file->file();
-        fs << args.front()->to_s();
+        // fstream fs = file->file();
+        file->file() << args.front()->to_s();
+        file->file().flush();
       }
       return self;
     }
@@ -147,6 +147,7 @@ namespace fancy {
       if(file && file->is_open()) {
         string line;
         getline(file->file(), line);
+        return new String(line);
       }
       return nil;
     }

@@ -9,8 +9,8 @@ namespace fancy {
     /**
      * File class methods
      */
-    FancyObject_p class_method_File_open__mode__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p class_method_File_open__mode(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p class_method_File_open__modes__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p class_method_File_open__modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
     /**
      * File instance methods
