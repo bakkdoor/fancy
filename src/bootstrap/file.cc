@@ -11,6 +11,8 @@ namespace fancy {
       FileClass->def_method("newline", new NativeMethod("newline", method_File_newline, 0));
       FileClass->def_method("open?", new NativeMethod("open?", method_File_is_open, 0));
       FileClass->def_method("close", new NativeMethod("close", method_File_close, 0));
+      FileClass->def_method("eof?", new NativeMethod("eof?", method_File_eof, 0));
+      FileClass->def_method("readln", new NativeMethod("readln", method_File_readln, 0));
     }
 
 
@@ -38,7 +40,7 @@ namespace fancy {
       FILE *f = fopen(filename.c_str(), mode.c_str());
 
       if(!f) {
-        errorln("Could not open file: ")
+        error("Could not open file: ")
           << filename
           << " with mode: "
           << mode
@@ -69,7 +71,7 @@ namespace fancy {
       FILE *f = fopen(filename.c_str(), mode.c_str());
 
       if(!f) {
-        errorln("Could not open file: ")
+        error("Could not open file: ")
           << filename
           << " with mode: "
           << mode
@@ -116,6 +118,24 @@ namespace fancy {
     }
 
     FancyObject_p method_File_close(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      File_p file = dynamic_cast<File_p>(self);
+      if(file) {
+        file->close();
+      }
+      return nil;
+    }
+
+    FancyObject_p method_File_eof(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      File_p file = dynamic_cast<File_p>(self);
+      if(file && file->eof()) {
+          return t;
+      }
+      return nil;
+    }
+
+    FancyObject_p method_File_readln(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
