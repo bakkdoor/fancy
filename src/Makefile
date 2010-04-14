@@ -16,11 +16,13 @@ expression_list block utils file
 src_files = $(foreach file, $(files), $(file).cc) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
 $(foreach file, $(parser_files), $(file).c) 				\
+parser/parser.cc							\
 $(foreach file, $(parser_node_files), parser/nodes/$(file).cc) main.cc
 
 obj_files = $(foreach file, $(files), $(file).o) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).o) 		\
 $(foreach file, $(parser_files), $(file).o) 				\
+parser/parser.o								\
 $(foreach file, $(parser_node_files), parser/nodes/$(file).o) main.o
 
 sub_dirs = parser bootstrap

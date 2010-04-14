@@ -1,27 +1,8 @@
 #include "includes.h"
 #include "parser/includes.h"
 
-/* prototype of bison-generated parser function */
-int yyparse();
-int yyrestart(FILE*);
-extern int yylineno;
-extern string current_file;
-
-void parse_file(string &filename)
-{
-  FILE *file = fopen(filename.c_str(), "r");
-  if(file == NULL)
-  {
-    fprintf(stderr, "File %s cannot be opened.\n", filename.c_str());
-    exit(1);
-  }
-  
-  current_file = filename;
-  yyrestart(file);
-  yyparse();
-  yylineno = 1; // reset yylineno for next file to parse
-  fclose(file);
-}
+extern int yyparse();
+extern void yyrestart(FILE*);
 
 int main(int argc, char **argv)
 {
@@ -50,7 +31,7 @@ int main(int argc, char **argv)
   fancy::bootstrap::init_global_scope();
 
   for(unsigned int i = 0; i < files_vector.size(); i++) {
-    parse_file(files_vector[i]);
+    fancy::parser::parse_file(files_vector[i]);
   }
 
   try {  
@@ -65,7 +46,7 @@ int main(int argc, char **argv)
       }
       global_scope->define("ARGV", args_arr);
 
-      parse_file(filename);
+      fancy::parser::parse_file(filename);
     } else {
       yyrestart(stdin);
       yyparse();

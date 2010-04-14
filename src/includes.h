@@ -19,6 +19,7 @@
 #include <list>
 #include <vector>
 #include <set>
+#include <stack>
 #include <iostream>
 #include <algorithm>
 #include <cctype>

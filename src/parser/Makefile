@@ -1,6 +1,6 @@
 # Makefile
 
-OBJS	= bison.o lex.o
+OBJS	= bison.o lex.o parser.o
 
 CC	= g++
 CFLAGS	= -g -Wall -ansi -pedantic
@@ -26,6 +26,9 @@ bison.c:	fancy.y
 
 lex.o yac.o	: includes.h ../includes.h
 lex.o		: tok.h
+
+parser.o 	: parser.cc
+		$(CC) $(CFLAGS) -c parser.cc -o parser.o
 
 subdirs:
 	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)

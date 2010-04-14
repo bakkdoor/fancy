@@ -3,6 +3,7 @@
 
 #include "../includes.h"
 #include "nodes/includes.h"
+#include "parser.h"
 
 #define YY_NO_UNPUT
 
