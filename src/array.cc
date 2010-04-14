@@ -10,12 +10,12 @@ namespace fancy {
   {
     for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
       if(tmp->value)
-        this->values.push_back(tmp->value);
+        this->_values.push_back(tmp->value);
     }
   }
 
   Array::Array(vector<FancyObject_p> list) :
-    FancyObject(ArrayClass), values(list)
+    FancyObject(ArrayClass), _values(list)
   {
   }
 
@@ -30,8 +30,8 @@ namespace fancy {
 
   FancyObject_p Array::at(unsigned int index) const
   {
-    if(index < this->values.size()) {
-      return this->values[index];
+    if(index < this->_values.size()) {
+      return this->_values[index];
     } else {
       return nil;
     }
@@ -39,8 +39,8 @@ namespace fancy {
 
   FancyObject_p Array::set_value(unsigned int index, FancyObject_p value)
   {
-    if(index < this->values.size()) {
-      this->values[index] = value;
+    if(index < this->_values.size()) {
+      this->_values[index] = value;
       return value;
     } else {
       return nil;
@@ -49,7 +49,7 @@ namespace fancy {
 
   FancyObject_p Array::insert(FancyObject_p value)
   {
-    this->values.push_back(value);
+    this->_values.push_back(value);
     return value;
   }
 
@@ -62,16 +62,16 @@ namespace fancy {
   FancyObject_p Array::append(Array_p arr)
   {
     vector<FancyObject_p>::iterator it;
-    for(it = arr->values.begin(); it < arr->values.end(); it++) {
-      this->values.push_back(*it);
+    for(it = arr->_values.begin(); it < arr->_values.end(); it++) {
+      this->_values.push_back(*it);
     }
     return this;
   }
 
   FancyObject_p Array::first() const
   {
-    if(this->values.size() > 0) {
-      return this->values.front();
+    if(this->_values.size() > 0) {
+      return this->_values.front();
     } else {
       return nil;
     }
@@ -79,8 +79,8 @@ namespace fancy {
 
   FancyObject_p Array::last() const
   {
-    if(this->values.size() > 0) {
-      return this->values.back();
+    if(this->_values.size() > 0) {
+      return this->_values.back();
     } else {
       return nil;
     }
@@ -95,9 +95,9 @@ namespace fancy {
   {
     stringstream s;
     s << "[";
-    for(unsigned int i = 0; i < this->values.size(); i++) {
-      s << this->values[i]->to_s();
-      if(i != (this->values.size() - 1)) {
+    for(unsigned int i = 0; i < this->_values.size(); i++) {
+      s << this->_values[i]->to_s();
+      if(i != (this->_values.size() - 1)) {
         s << ", ";
       }
     }
@@ -109,9 +109,9 @@ namespace fancy {
   {
     stringstream s;
     s << "[";
-    for(unsigned int i = 0; i < this->values.size(); i++) {
-      s << this->values[i]->inspect();
-      if(i != (this->values.size() - 1)) {
+    for(unsigned int i = 0; i < this->_values.size(); i++) {
+      s << this->_values[i]->inspect();
+      if(i != (this->_values.size() - 1)) {
         s << ", ";
       }
     }
@@ -121,11 +121,11 @@ namespace fancy {
 
   bool Array::operator==(const Array& other) const
   {
-    if(this->values.size() != other.values.size())
+    if(this->_values.size() != other._values.size())
       return false;
 
-    for(unsigned int i = 0; i < this->values.size(); i++) {
-      if(this->values[i]->equal(other.values[i]) == nil) {
+    for(unsigned int i = 0; i < this->_values.size(); i++) {
+      if(this->_values[i]->equal(other._values[i]) == nil) {
         return false;
       }
     }
@@ -145,22 +145,27 @@ namespace fancy {
 
   unsigned int Array::size() const
   {
-    return this->values.size();
+    return this->_values.size();
   }
 
   void Array::clear()
   {
-    this->values.clear();
+    this->_values.clear();
   }
 
   Array_p Array::clone() const
   {
-    return new Array(this->values);
+    return new Array(this->_values);
   }
 
   list<FancyObject_p> Array::to_list() const
   {
-    return list<FancyObject_p>(values.begin(), values.end());
+    return list<FancyObject_p>(_values.begin(), _values.end());
+  }
+
+  vector<FancyObject_p> Array::values() const
+  {
+    return _values;
   }
 
 }

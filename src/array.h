@@ -41,9 +41,10 @@ namespace fancy {
     void clear();
     Array* clone() const;
     list<FancyObject_p> to_list() const;
+    vector<FancyObject_p> values() const;
 
   private:
-    vector<FancyObject_p> values;
+    vector<FancyObject_p> _values;
   };
 
   typedef Array* Array_p;
