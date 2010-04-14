@@ -21,7 +21,7 @@ namespace fancy {
     extern stack<parser_buffer> parse_buffers;
 
     void parse_file(string &filename);
-    void push_buffer(string &filename);
+    bool push_buffer(string &filename);
     void pop_buffer();
 
   }

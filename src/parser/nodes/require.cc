@@ -1,22 +1,30 @@
 #include "includes.h"
 
-RequireStatement::RequireStatement(String_p filename)
-{
-  assert(filename);
-  this->_filename = filename->value();
-}
+namespace fancy {
+  namespace parser {
+    namespace nodes {
 
-RequireStatement::~RequireStatement()
-{
-}
+      RequireStatement::RequireStatement(String_p filename)
+      {
+        assert(filename);
+        this->_filename = filename->value();
+      }
 
-OBJ_TYPE RequireStatement::type() const
-{
-  return OBJ_REQUIRESTATEMENT;
-}
+      RequireStatement::~RequireStatement()
+      {
+      }
 
-FancyObject* RequireStatement::eval(Scope *scope)
-{
+      OBJ_TYPE RequireStatement::type() const
+      {
+        return OBJ_REQUIRESTATEMENT;
+      }
 
-  return nil;
+      FancyObject* RequireStatement::eval(Scope *scope)
+      {
+        parse_file(_filename);
+        return nil;
+      }
+
+    }
+  }
 }

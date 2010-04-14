@@ -1,17 +1,25 @@
 #ifndef _PARSER_NODES_REQUIRE_H_
 #define _PARSER_NODES_REQUIRE_H_
 
-class RequireStatement : public Expression
-{
-public:
-  RequireStatement(String_p filename);
-  virtual ~RequireStatement();
+namespace fancy {
+  namespace parser {
+    namespace nodes {
 
-  virtual OBJ_TYPE type() const;
-  virtual FancyObject* eval(Scope *scope);
+      class RequireStatement : public Expression
+      {
+      public:
+        RequireStatement(String_p filename);
+        virtual ~RequireStatement();
 
-private:
-  string _filename;
-};
+        virtual OBJ_TYPE type() const;
+        virtual FancyObject* eval(Scope *scope);
+
+      private:
+        string _filename;
+      };
+
+    }
+  }
+}
 
 #endif /* _PARSER_NODES_REQUIRE_H_ */

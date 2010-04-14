@@ -142,7 +142,7 @@ return_statement: RETURN exp {
                 ;
 
 require_statement: REQUIRE STRING_LITERAL {
-                  $$ = new RequireStatement($2);
+                  $$ = new nodes::RequireStatement($2);
                 }
                 ;
 

@@ -14,25 +14,20 @@ namespace fancy {
 
     void parse_file(string &filename)
     {
-      FILE *file = fopen(filename.c_str(), "r");
-      if(file == NULL) {
-        fprintf(stderr, "File %s cannot be opened.\n", filename.c_str());
-        exit(1);
+      if(push_buffer(filename)) {
+        yyparse();
+        pop_buffer();
       }
-  
-      current_file = filename;
-      yyrestart(file);
-      yyparse();
-      yylineno = 1; // reset yylineno for next file to parse
-      fclose(file);
     }
 
-    void push_buffer(string &filename)
+    bool push_buffer(string &filename)
     {
       parser_buffer buf;
       FILE *f = fopen(filename.c_str(), "r");
       if(!f) {
-        perror(filename.c_str()); return;
+        error("");
+        perror(filename.c_str());
+        return false;
       }  
       buf.buffstate = yy_create_buffer(f, YY_BUF_SIZE);
       buf.file = f;
@@ -40,7 +35,11 @@ namespace fancy {
       buf.lineno = yylineno;
       parse_buffers.push(buf);
       
+      current_file = filename;
+      yylineno = 1;
+      
       yy_switch_to_buffer(buf.buffstate);
+      return true;
     }
 
     void pop_buffer()
