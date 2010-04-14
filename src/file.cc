@@ -72,6 +72,11 @@ namespace fancy {
     return true;
   }
 
+  bool File::eof()
+  {
+    return feof(_file);
+  }
+
   void File::close()
   {
     if(_file) {

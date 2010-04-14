@@ -20,6 +20,7 @@ namespace fancy {
 
     void open();
     bool is_open();
+    bool eof();
     void close();
 
   private:
