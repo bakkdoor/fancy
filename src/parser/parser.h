@@ -3,7 +3,6 @@
 
 struct yy_buffer_state;
 extern int yylineno;
-extern string current_file;
 
 /* Size of default input buffer. */
 #define YY_BUF_SIZE 16384
@@ -18,12 +17,18 @@ namespace fancy {
       FILE *file;
     };
 
+    extern string current_file;
     extern stack<parser_buffer> parse_buffers;
+    extern list<string> load_path;
 
     void parse_file(string &filename);
-    bool push_buffer(string &filename);
+    bool push_buffer(const string &filename);
     void pop_buffer();
 
+    FILE* find_open_file(const string &filename);
+    string dirname_for_path(const string &path);
+    string filename_for_path(const string &path);
+    bool is_whitespace(const string &str);
   }
 }
 

@@ -4,10 +4,43 @@
 extern int yyparse();
 extern void yyrestart(FILE*);
 
+string get_load_path(int argc, char **argv)
+{
+  for(int i = 1; i < argc; i++) {
+    if(strcmp(argv[i], "-I") == 0) {
+      return string(argv[i+1]);
+    }
+  }
+  return "";
+}
+
+void prepare_argv(int argc, char **argv)
+{
+  // set command line arguments in global ARGV variable as Array
+  Array_p args_arr = new Array();
+  for(int i = 1; i < argc; i++) {
+    string arg(argv[i]);
+    // skip -I + root loadpath arg
+    if(arg == "-I") {
+      i++;
+      continue;
+    }
+    args_arr->insert(String::from_value(arg));
+  }
+  global_scope->define("ARGV", args_arr);
+}
+
+void exec_from_stdin()
+{
+  yyrestart(stdin);
+  yyparse();
+}
+
 int main(int argc, char **argv)
 {
   GC_INIT();
 
+  fancy::parser::load_path.push_back(get_load_path(argc, argv));
   string files[] = {
     "lib/object.fnc",
     "lib/class.fnc",
@@ -24,7 +57,7 @@ int main(int argc, char **argv)
     "lib/hash.fnc"
   };
 
-  vector<string> files_vector (files, files + sizeof(files) / sizeof(string) );
+  vector<string> files_vector(files, files + sizeof(files) / sizeof(string));
 
   fancy::bootstrap::init_core_classes();
   fancy::bootstrap::init_global_objects();
@@ -34,22 +67,22 @@ int main(int argc, char **argv)
     fancy::parser::parse_file(files_vector[i]);
   }
 
-  try {  
+  try {
     if (argc > 1) {
+      prepare_argv(argc, argv);
       string filename = string(argv[1]);
-
-      // set command line arguments in global ARGV variable as Array
-      Array_p args_arr = new Array();
-      for(int i = 1; i < argc; i++) {
-        string arg(argv[i]);
-        args_arr->insert(String::from_value(arg));
+      if(filename == "-I") {
+        if(argc > 3) {
+          filename = string(argv[3]);
+          fancy::parser::parse_file(filename);
+        } else {
+          exec_from_stdin();
+        }
+      } else {
+        fancy::parser::parse_file(filename);
       }
-      global_scope->define("ARGV", args_arr);
-
-      fancy::parser::parse_file(filename);
     } else {
-      yyrestart(stdin);
-      yyparse();
+      exec_from_stdin();
     }
   } catch(UnknownIdentifierError &ex) {
     cout << "Error:" << endl;

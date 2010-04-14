@@ -4,8 +4,6 @@
   using namespace parser;
   /* using namespace fancy::parser::nodes; */
 
-  string current_file;
-
   int yyerror(char *s);
   int yylex(void);
   nodes::key_val_node* key_val_obj(Expression_p key, Expression_p val, nodes::key_val_node *next);
