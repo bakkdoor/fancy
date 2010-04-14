@@ -68,6 +68,13 @@ def class Object {
     self check_with_expected: expected_value
   }
 
+  def should_not_equal: unexpected_value {
+    unexpected_value is_a?: Block . if_true: {
+      unexpected_value = unexpected_value call
+    };
+    self check_with_unexpected: unexpected_value
+  }
+  
   def should_be: block {
     (block call: [self]) if_false: {
       SpecTest failed_test: [self, nil]
@@ -77,6 +84,12 @@ def class Object {
   def check_with_expected: expected_value {
     (self == expected_value) if_false: {
       SpecTest failed_test: [self, expected_value]
+    }
+  }
+
+  def check_with_unexpected: unexpected_value {
+    (self != unexpected_value) if_false: {
+      SpecTest failed_test: [self, unexpected_value]
     }
   }
 }

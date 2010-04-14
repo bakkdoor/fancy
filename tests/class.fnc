@@ -62,5 +62,45 @@ FancySpec describe: Class with: |it| {
     instance responds_to?: "oh" . should_equal: true;
     instance responds_to?: :noes . should_equal: true;
     instance responds_to?: "noes:" . should_equal: true
+  };
+
+  it should: "find the instance variable correctly" when: {
+    def class AClass {
+      def initialize: foo {
+        @foo = foo
+      }
+      def foo {
+        @foo
+      }
+    };
+
+    str = "instance value";
+    instance = AClass new: str;
+    instance foo should_equal: str;
+    AClass new foo should_not_equal: str
+  };
+  
+  it should: "find the class variable correctly" when: {
+    def class AClass {
+      def foo: foo {
+        @@foo = foo
+      }
+      def foo {
+        @@foo
+      }
+    };
+
+    instance1 = AClass new;
+    instance2 = AClass new;
+    str = "class value";
+    instance1 foo: str;
+    instance1 foo should_equal: str;
+    instance2 foo should_equal: str;
+    instance2 foo should_equal: $ instance1 foo;
+
+    str2 = "another value";
+    instance2 foo: str2;
+    instance2 foo should_equal: str2;
+    instance1 foo should_equal: str2
   }
 }
