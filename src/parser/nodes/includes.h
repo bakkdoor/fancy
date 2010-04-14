@@ -11,6 +11,7 @@
 #include "operator_call.h"
 #include "assignment.h"
 #include "return.h"
+#include "require.h"
 #include "method_definition.h"
 #include "class_method_definition.h"
 #include "operator_definition.h"
