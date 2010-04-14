@@ -18,6 +18,8 @@ test: all
 	@echo
 	@bin/fancy tests/class.fnc
 	@echo
+	@bin/fancy tests/file.fnc
+	@echo
 	@bin/fancy tests/hash.fnc
 	@echo
 	@bin/fancy tests/number.fnc
