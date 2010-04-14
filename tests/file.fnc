@@ -1,4 +1,10 @@
 FancySpec describe: File with: |it| {
+  it should: "return an array with the openmodes symbols" when: {
+    file = File open: "README" modes: [:read];
+    file modes should_equal: [:read];
+    file close
+  };
+
   it should: "be open after opening it and closed after closing" when: {
     file = File open: "README" modes: [:read];
     file open? should_equal: true;

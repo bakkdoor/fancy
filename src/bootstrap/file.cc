@@ -12,6 +12,7 @@ namespace fancy {
       FileClass->def_method("open?", new NativeMethod("open?", method_File_is_open, 0));
       FileClass->def_method("close", new NativeMethod("close", method_File_close, 0));
       FileClass->def_method("eof?", new NativeMethod("eof?", method_File_eof, 0));
+      FileClass->def_method("modes", new NativeMethod("modes", method_File_modes, 0));
       FileClass->def_method("readln", new NativeMethod("readln", method_File_readln, 0));
     }
 
@@ -139,6 +140,15 @@ namespace fancy {
           return t;
       }
       return nil;
+    }
+
+    FancyObject_p method_File_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      File_p file = dynamic_cast<File_p>(self);
+      if(file) {
+        return file->modes();
+      }
+      return new Array();
     }
 
     FancyObject_p method_File_readln(FancyObject_p self, list<FancyObject_p> args, Scope *scope)

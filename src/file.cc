@@ -4,7 +4,8 @@ namespace fancy {
 
   File::File(const string &filename, Array_p modes) :
     FancyObject(FileClass),
-    _filename(filename)
+    _filename(filename),
+    _modes(modes)
   {
     init_openmode(modes);
   }

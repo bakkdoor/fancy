@@ -20,6 +20,7 @@ namespace fancy {
     FancyObject_p method_File_is_open(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_File_close(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_File_eof(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p method_File_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_File_readln(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   }
