@@ -7,6 +7,7 @@ namespace fancy {
   {
   public:
     File(const string &filename, const string &mode, FILE *file);
+    File(const string &filename, const string &mode);
     virtual ~File();
 
     virtual FancyObject_p equal(const FancyObject_p other) const;
@@ -16,6 +17,10 @@ namespace fancy {
     string filename() const;
     string mode() const;
     FILE* file() const;
+
+    void open();
+    bool is_open();
+    void close();
 
   private:
     string _filename;

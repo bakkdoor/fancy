@@ -10,6 +10,14 @@ namespace fancy {
   {
   }
 
+  File::File(const string &filename, const string &mode) :
+    FancyObject(FileClass),
+    _filename(filename),
+    _mode(mode),
+    _file(0)
+  {
+  }
+
   File::~File()
   {
   }
@@ -48,6 +56,28 @@ namespace fancy {
   FILE* File::file() const
   {
     return _file;
+  }
+
+  void File::open()
+  {
+    if(!_file) {
+      _file = fopen(_filename.c_str(), _mode.c_str());
+    }
+  }
+
+  bool File::is_open()
+  {
+    if(!_file)
+      return false;
+    return true;
+  }
+
+  void File::close()
+  {
+    if(_file) {
+      fclose(_file);
+      _file = 0;
+    }
   }
 
 }
