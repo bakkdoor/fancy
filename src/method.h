@@ -32,6 +32,7 @@ namespace fancy {
     list< pair<Identifier_p, Identifier_p> > _argnames;
     ExpressionList_p _body;
     bool _special; /* used for 'special' functions (like macros) */
+    bool _is_operator;
   };
 
   typedef Method* Method_p;

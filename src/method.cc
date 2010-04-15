@@ -5,7 +5,8 @@ namespace fancy {
   Method::Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body) :
     FancyObject(MethodClass),
     _body(body),
-    _special(false)
+    _special(false),
+    _is_operator(true)
   {
     _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
     init_docstring();
@@ -16,7 +17,8 @@ namespace fancy {
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
-    _special(false)
+    _special(false),
+    _is_operator(false)
   {
     init_docstring();
   }
@@ -27,7 +29,8 @@ namespace fancy {
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
-    _special(special)
+    _special(special),
+    _is_operator(false)
   {
     init_docstring();
   }
@@ -99,7 +102,9 @@ namespace fancy {
     list< pair<Identifier_p, Identifier_p> >::iterator it;
     for(it = _argnames.begin(); it != _argnames.end(); it++) {
       str << it->first->name();
-      str << ":";
+      if(!_is_operator) {
+        str << ":";
+      }
     }
 
     return str.str();
@@ -108,7 +113,7 @@ namespace fancy {
 
   void Method::init_docstring()
   {
-    this->_docstring = this->_body->docstring();
+    this->_docstring = "[DOC] " + this->method_ident() + "\n\t" + this->_body->docstring();
   }
 
 }
