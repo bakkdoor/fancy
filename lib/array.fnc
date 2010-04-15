@@ -7,9 +7,10 @@ def class Array {
     self at: index
   }
 
-  # Array equality where order matters
-  # e.g. [1,2,3] == [2,1,3] should not be true
   def == other {
+    ""Compares two Arrays where order matters.
+      e.g. [1,2,3] == [2,1,3] should not be true"";
+    
     self size != (other size) if_true: {
       nil
     } else: {
@@ -24,9 +25,9 @@ def class Array {
     }
   }
 
-  # Array equality in a 'has the same elements, but possibly in
-  # different order' way
   def === other {
+    "Compares two Arrays where order does not matter";
+    
     self size != (other size) if_true: {
       nil
     } else: {
