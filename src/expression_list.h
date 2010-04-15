@@ -19,6 +19,7 @@ namespace fancy {
     virtual OBJ_TYPE type() const;
 
     unsigned int size() const;
+    string docstring() const;
 
   private:
     list<Expression_p> expressions;

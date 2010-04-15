@@ -25,7 +25,11 @@ namespace fancy {
       }
 
       if(push_buffer(filename)) {
-        yyparse();
+        try {
+          yyparse();
+        } catch(FancyException_p ex) {
+          errorln("UNCAUGHT EXCEPTION: " + ex->to_s());
+        }
         pop_buffer();
       }
     }

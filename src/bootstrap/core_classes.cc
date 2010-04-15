@@ -76,6 +76,7 @@ namespace fancy {
       init_scope_class();
       init_hash_class();
       init_exception_classes();
+      init_method_class();
     }
 
     void init_global_objects()

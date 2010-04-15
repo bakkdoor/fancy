@@ -20,6 +20,7 @@ namespace fancy {
     virtual string to_s() const;
 
     FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    string docstring() const;
 
     void set_creation_scope(Scope *creation_scope);
     Scope* creation_scope() const;

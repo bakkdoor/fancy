@@ -15,6 +15,7 @@ namespace fancy {
   {
   public:
     virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
+    virtual string docstring() const = 0;
   };
 
   typedef Callable* Callable_p;

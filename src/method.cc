@@ -2,23 +2,34 @@
 
 namespace fancy {
 
-  Method::Method(Identifier_p op_name, Identifier_p op_argname, const Expression_p body) :
-    FancyObject(MethodClass), body(body), special(false)
+  Method::Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body) :
+    FancyObject(MethodClass),
+    _body(body),
+    _special(false)
   {
     _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
+    init_docstring();
   }
 
   Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
-                 const Expression_p body) : 
-    FancyObject(MethodClass), _argnames(argnames), body(body), special(false)
+                 const ExpressionList_p body) : 
+    FancyObject(MethodClass),
+    _argnames(argnames),
+    _body(body),
+    _special(false)
   {
+    init_docstring();
   }
 
   Method::Method(const list< pair<Identifier_p, Identifier_p> >  argnames,
-                 const Expression_p body,
+                 const ExpressionList_p body,
                  bool special) :
-    FancyObject(MethodClass), _argnames(argnames), body(body), special(special)
+    FancyObject(MethodClass),
+    _argnames(argnames),
+    _body(body),
+    _special(special)
   {
+    init_docstring();
   }
 
   Method::~Method()
@@ -66,7 +77,7 @@ namespace fancy {
       }
     
       // finally, eval the methods body expression
-      return this->body->eval(call_scope);
+      return this->_body->eval(call_scope);
     }
   
     return nil;
@@ -82,6 +93,11 @@ namespace fancy {
     return "<method>";
   }
 
+  string Method::docstring() const
+  {
+    return this->_docstring;
+  }
+
   string Method::method_ident()
   {
     stringstream str;
@@ -92,6 +108,12 @@ namespace fancy {
     }
 
     return str.str();
+  }
+
+
+  void Method::init_docstring()
+  {
+    this->_docstring = this->_body->docstring();
   }
 
 }

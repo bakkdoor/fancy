@@ -62,4 +62,14 @@ namespace fancy {
     return this->_func(self, args, scope);
   }
 
+  string NativeMethod::docstring() const
+  {
+    return this->_docstring;
+  }
+
+  void NativeMethod::set_docstring(string docstring)
+  {
+    this->_docstring = docstring;
+  }
+
 }

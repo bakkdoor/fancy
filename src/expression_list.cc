@@ -43,4 +43,11 @@ namespace fancy {
     return this->expressions.size();
   }
 
+  string ExpressionList::docstring() const
+  {
+    if(String_p str = dynamic_cast<String_p>(this->expressions.front())) {
+      return str->value();
+    }
+    return "";
+  }
 }

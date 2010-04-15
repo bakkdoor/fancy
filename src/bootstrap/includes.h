@@ -15,6 +15,7 @@
 #include "scope.h"
 #include "hash.h"
 #include "exception.h"
+#include "method.h"
 
 #define EXPECT_ARGS(method_name, amount)                                    \
   if(args.size() != amount) {                                               \

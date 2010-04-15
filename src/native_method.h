@@ -31,11 +31,15 @@ namespace fancy {
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
     virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+    virtual string docstring() const;
+    void set_docstring(string docstring);
   
     string _identifier;
     FancyObject_p (&_func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     unsigned int _n_args;
     bool _special;
+    string _docstring;
   };
 
   typedef NativeMethod* NativeMethod_p;

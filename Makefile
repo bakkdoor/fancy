@@ -25,6 +25,8 @@ test: all
 	@echo
 	@bin/fancy tests/hash.fnc
 	@echo
+	@bin/fancy tests/method.fnc
+	@echo
 	@bin/fancy tests/number.fnc
 	@echo
 	@bin/fancy tests/object.fnc

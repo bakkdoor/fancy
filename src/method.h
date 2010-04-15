@@ -13,9 +13,9 @@ namespace fancy {
   class Method : public FancyObject, public Callable
   {
   public:
-    Method(Identifier_p op_name, Identifier_p op_argname, const Expression_p body);
-    Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body);
-    Method(const list< pair<Identifier_p, Identifier_p> > argnames, const Expression_p body, bool special);
+    Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body);
+    Method(const list< pair<Identifier_p, Identifier_p> > argnames, const ExpressionList_p body);
+    Method(const list< pair<Identifier_p, Identifier_p> > argnames, const ExpressionList_p body, bool special);
     ~Method();
 
     virtual FancyObject_p equal(const FancyObject_p other) const;
@@ -25,12 +25,16 @@ namespace fancy {
 
     unsigned int argcount() const;
     list< pair<Identifier_p, Identifier_p> > argnames() const;
+    string docstring() const;
+    void set_docstring(string docstring);
 
   protected:
     string method_ident();
+    void init_docstring();
     list< pair<Identifier_p, Identifier_p> > _argnames;
-    Expression_p body;
-    bool special; /* used for 'special' functions (like macros) */
+    ExpressionList_p _body;
+    bool _special; /* used for 'special' functions (like macros) */
+    string _docstring;
   };
 
   typedef Method* Method_p;
