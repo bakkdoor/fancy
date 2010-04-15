@@ -18,6 +18,7 @@ namespace fancy {
   {
   public:
     Scope(FancyObject *current_self);
+    Scope(Scope *parent);
 
     /**
      * Creates a new scope with a given parent scope.

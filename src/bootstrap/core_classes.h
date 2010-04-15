@@ -19,6 +19,7 @@ namespace fancy {
   extern Class *FileClass;
   extern Class *ConsoleClass;
   extern Class *ScopeClass;
+  extern Class *ExceptionClass;
 
   extern FancyObject *nil;
   extern FancyObject *t;

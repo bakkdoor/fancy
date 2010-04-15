@@ -42,11 +42,11 @@ using namespace std;
 #include "hash.h"
 #include "regex.h"
 #include "file.h"
-
 #include "native_method.h"
 #include "block.h"
 #include "class.h"
 #include "scope.h"
+#include "fancy_exception.h"
 #include "bootstrap/core_classes.h"
 #include "errors.h"
 #include "utils.h"

@@ -15,6 +15,16 @@ namespace fancy {
     set_current_self(current_self);
   }
 
+  Scope::Scope(Scope *parent) :
+    FancyObject(ScopeClass),
+    parent(parent)
+  {
+    if(parent) {
+      assert(parent->_current_self);
+      set_current_self(parent->_current_self);
+    }
+  }
+
   Scope::Scope(FancyObject_p current_self, Scope *parent) :
     FancyObject(ScopeClass),
     parent(parent)

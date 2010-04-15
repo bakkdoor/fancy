@@ -50,5 +50,8 @@ class_operator_definition.o: class_operator_definition.cc
 block_literal.o: block_literal.cc
 	$(cc) $(cc_flags) -c block_literal.cc -o block_literal.o
 
+try_rescue_block.o: try_rescue_block.cc
+	$(cc) $(cc_flags) -c try_rescue_block.cc -o try_rescue_block.o
+
 clean:
 	rm -f *.o > /dev/null

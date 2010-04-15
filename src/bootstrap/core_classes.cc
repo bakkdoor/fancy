@@ -21,6 +21,7 @@ namespace fancy {
     Class_p FileClass;
     Class_p ConsoleClass;
     Class_p ScopeClass;
+    Class_p ExceptionClass;
 
     /**
      * Global Singleton Objects
@@ -55,6 +56,7 @@ namespace fancy {
       FileClass = new Class("File", ObjectClass);
       ConsoleClass = new Class("Console", ObjectClass);
       ScopeClass = new Class("Scope", ObjectClass);
+      ExceptionClass = new Class("Exception", ObjectClass);
 
       init_object_class();
       init_class_class();
@@ -67,6 +69,7 @@ namespace fancy {
       init_file_class();
       init_scope_class();
       init_hash_class();
+      init_exception_class();
     }
 
     void init_global_objects()
@@ -99,6 +102,7 @@ namespace fancy {
       global_scope->define("File", FileClass);
       global_scope->define("Console", ConsoleClass);
       global_scope->define("Scope", ScopeClass);
+      global_scope->define("Exception", ExceptionClass);
   
       /* define singleton objects */
       global_scope->define("nil", nil);

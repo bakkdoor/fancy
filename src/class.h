@@ -42,6 +42,8 @@ namespace fancy {
 
     Callable_p find_method(const string &name);
 
+    bool subclass_of(Class_p klass);
+
   private:
     string _name;
     vector<string> _instance_slotnames;

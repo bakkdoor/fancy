@@ -18,6 +18,8 @@ test: all
 	@echo
 	@bin/fancy tests/class.fnc
 	@echo
+	@bin/fancy tests/exception.fnc
+	@echo
 	@mkdir -p tmp
 	@bin/fancy tests/file.fnc
 	@echo

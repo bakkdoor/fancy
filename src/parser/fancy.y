@@ -6,10 +6,25 @@
 
   int yyerror(char *s);
   int yylex(void);
-  nodes::key_val_node* key_val_obj(Expression_p key, Expression_p val, nodes::key_val_node *next);
-  expression_node* expr_node(Expression_p expr, expression_node *next);
-  nodes::block_arg_node* blk_arg_node(Identifier_p argname, nodes::block_arg_node *next);
-  nodes::call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr, nodes::call_arg_node *next);
+
+  nodes::key_val_node* key_val_obj(Expression_p key,
+                                   Expression_p val,
+                                   nodes::key_val_node *next);
+
+  expression_node* expr_node(Expression_p expr,
+                             expression_node *next);
+
+  nodes::block_arg_node* blk_arg_node(Identifier_p argname,
+                                      nodes::block_arg_node *next);
+
+  nodes::call_arg_node* mcall_arg_node(Identifier_p argname,
+                                       Expression_p argexpr,
+                                       nodes::call_arg_node *next);
+
+  nodes::except_handler_list* except_handler_node(Identifier_p classname,
+                                                  Identifier_p localname,
+                                                  ExpressionList_p body,
+                                                  nodes::except_handler_list *next);
 
   list< pair<Identifier_p, Identifier_p> > method_args;
   list<Identifier_p> block_args;
@@ -22,6 +37,7 @@
   expression_node          *expr_list;
   fancy::parser::nodes::block_arg_node    *block_arg_list;
   fancy::parser::nodes::call_arg_node     *call_arg_list;
+  fancy::parser::nodes::except_handler_list *except_handler_list;
   /* method_arg_node   *method_args; */
 
   FancyObject   *object;
@@ -51,6 +67,8 @@
 %token                  COLON
 %token                  RETURN
 %token                  REQUIRE
+%token                  TRY
+%token                  RESCUE
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -103,6 +121,8 @@
 %type  <expression>         receiver
 %type  <expression>         arg_exp
 
+%type  <expression>         begin_rescue_block
+%type  <except_handler_list> rescue_blocks
 
 %%
 
@@ -124,6 +144,7 @@ exp:            method_def
                 | class_def
                 | method_call
                 | operator_call
+                | begin_rescue_block
                 | literal_value
                 | IDENTIFIER
                 | LPAREN exp RPAREN { $$ = $2; }
@@ -281,6 +302,27 @@ arg_exp:        IDENTIFIER { $$ = $1; }
                 | DOLLAR exp { $$ = $2; }
                 ;
 
+begin_rescue_block: TRY LCURLY method_body RCURLY rescue_blocks {
+                  ExpressionList_p body = new ExpressionList($3);
+                  $$ = new nodes::TryRescueBlock(body, $5);
+                }
+                ;
+
+rescue_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
+                | RESCUE LCURLY method_body RCURLY { 
+                  ExpressionList_p body = new ExpressionList($3);
+                  $$ = except_handler_node(Identifier::from_string("Exception"), Identifier::from_string(""), body, 0);
+                }
+                | RESCUE IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY { 
+                  ExpressionList_p body = new ExpressionList($6);
+                  $$ = except_handler_node($2, $4, body, 0);
+                }
+                | rescue_blocks RESCUE IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList_p body = new ExpressionList($7);
+                  $$ = except_handler_node($3, $5, body, $1);
+                }
+                ;
+
 literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 | DOUBLE_LITERAL { $$ = $1; }
                 | STRING_LITERAL { $$ = $1; }
@@ -377,6 +419,16 @@ nodes::call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr,
   nodes::call_arg_node *node = new nodes::call_arg_node;
   node->argname = argname;
   node->argexpr = argexpr;
+  node->next = next;
+  return node;
+}
+
+nodes::except_handler_list* 
+except_handler_node(Identifier_p classname, Identifier_p localname, ExpressionList_p body, nodes::except_handler_list *next)
+{
+  nodes::except_handler_list *node = new nodes::except_handler_list;
+  nodes::ExceptionHandler *handler = new nodes::ExceptionHandler(classname, localname, body);
+  node->handler = handler;
   node->next = next;
   return node;
 }

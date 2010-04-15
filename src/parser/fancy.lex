@@ -24,6 +24,8 @@ arrow           "=>"
 delimiter       [ \n\r\t\(\)]
 return          "return:"
 require         "require:"
+try             "try"
+rescue          "rescue"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
@@ -68,6 +70,8 @@ comment         #[^\n]*
                 }
 {return}        { return RETURN; }
 {require}       { return REQUIRE; }
+{try}           { return TRY; }
+{rescue}        { return RESCUE; }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);

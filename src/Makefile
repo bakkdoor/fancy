@@ -4,14 +4,14 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_node_files = array_literal assignment return require		\
 block_literal class_definition hash_literal method_call operator_call	\
 method_definition class_method_definition operator_definition		\
-class_operator_definition
+class_operator_definition try_rescue_block
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object class block string number	\
-console nil array file scope hash
+console nil array file scope hash exception
 
 files = fancy_object true nil hash array identifier symbol number	\
 string native_method scope class errors method regex		\
-expression_list block utils file
+expression_list block utils file fancy_exception
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
@@ -92,6 +92,9 @@ utils.o: utils.cc
 
 file.o: file.cc
 	$(cc) $(cc_flags) -c file.cc -o file.o
+
+fancy_exception.o: fancy_exception.cc
+	$(cc) $(cc_flags) -c fancy_exception.cc -o fancy_exception.o
 
 subdirs:
 	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)

@@ -36,7 +36,9 @@ namespace fancy {
     OBJ_BLOCK,
     OBJ_BLOCKLITERAL,
     OBJ_FILE,
-    OBJ_SCOPE
+    OBJ_SCOPE,
+    OBJ_EXCEPTION,
+    OBJ_BEGINRESCUEBLOCK
   };
 
   class Expression : public gc_cleanup
