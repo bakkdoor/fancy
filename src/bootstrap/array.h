@@ -10,6 +10,8 @@ namespace fancy {
      * Array class methods
      */
     FancyObject_p class_method_Array_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p class_method_Array_new__with_size(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p class_method_Array_new__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
     /**
      * Array instance methods

@@ -17,6 +17,8 @@ namespace fancy {
   {
   public:
     Array();
+    Array(int initial_size);
+    Array(int initial_size, FancyObject_p initial_value);
     Array(array_node *val_list);
     Array(vector<FancyObject_p> list);
     ~Array();

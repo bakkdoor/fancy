@@ -6,6 +6,16 @@ namespace fancy {
   {
   }
 
+  Array::Array(int initial_size) : FancyObject(ArrayClass)
+  {
+    this->_values.resize(initial_size, nil);
+  }
+
+  Array::Array(int initial_size, FancyObject_p initial_value) : FancyObject(ArrayClass)
+  {
+    this->_values.resize(initial_size, initial_value);
+  }
+
   Array::Array(array_node *val_list) : FancyObject(ArrayClass)
   {
     for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
