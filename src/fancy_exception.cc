@@ -2,15 +2,27 @@
 
 namespace fancy {
   
-  FancyException::FancyException() :
-    FancyObject(ExceptionClass),
-    _exception_value(0)
+  FancyException::FancyException(Class_p exception_class) :
+    FancyObject(exception_class),
+    _exception_value(0),
+    _exception_class(exception_class)
   {
+    assert(exception_class);
+  }
+  
+  FancyException::FancyException(const string &message, Class_p exception_class) :
+    FancyObject(exception_class),
+    _exception_value(0),
+    _exception_class(exception_class),
+    _message(message)
+  {
+    assert(exception_class);
   }
 
   FancyException::FancyException(const string &message) :
     FancyObject(ExceptionClass),
     _exception_value(0),
+    _exception_class(0),
     _message(message)
   {
   }
@@ -18,6 +30,7 @@ namespace fancy {
   FancyException::FancyException(FancyObject_p exception_value, const string &message) :
     FancyObject(exception_value->get_class()),
     _exception_value(exception_value),
+    _exception_class(0),
     _message(message)
   {
   }
@@ -56,8 +69,12 @@ namespace fancy {
 
   Class_p FancyException::exception_class() const
   {
+    if(_exception_class)
+      return _exception_class;
+
     if(_exception_value)
       return _exception_value->get_class();
+
     return ExceptionClass;
   }
 

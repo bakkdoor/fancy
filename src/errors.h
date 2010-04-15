@@ -3,7 +3,7 @@
 
 namespace fancy {
 
-  class UnknownIdentifierError
+  class UnknownIdentifierError : public FancyException
   {
   public:
     UnknownIdentifierError(const string &ident);
@@ -14,6 +14,22 @@ namespace fancy {
   private:
     string _identifier;
   };
+
+  class MethodNotFoundError : public FancyException
+  {
+  public:
+    MethodNotFoundError(const string &method_name, Class_p klass);
+    ~MethodNotFoundError();
+  
+    string method_name() const;
+    Class_p get_class() const;
+  
+  private:
+    string _method_name;
+    Class_p _class;
+  };
+
+  typedef MethodNotFoundError* MethodNotFoundError_p;
 
 }
 

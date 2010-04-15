@@ -19,7 +19,10 @@ namespace fancy {
   extern Class *FileClass;
   extern Class *ConsoleClass;
   extern Class *ScopeClass;
+
   extern Class *ExceptionClass;
+  extern Class *UnknownIdentifierErrorClass;
+  extern Class *MethodNotFoundErrorClass;
 
   extern FancyObject *nil;
   extern FancyObject *t;

@@ -107,7 +107,8 @@ namespace fancy {
     if(method) {
       return method->call(this, arguments, scope);
     } else {
-      error("Method not defined: '") << method_name << "' for instance of: " << this->_class->name() << endl;
+      FancyException_p except = new MethodNotFoundError(method_name, this->_class);
+      throw except;
       return nil;
     }
   }

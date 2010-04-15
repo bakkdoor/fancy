@@ -2,32 +2,35 @@
 
 namespace fancy {
 
-    /**
-     * Core Classes
-     */
-    Class_p ClassClass = 0;
-    Class_p ObjectClass;
-    Class_p NilClass;
-    Class_p TrueClass;
-    Class_p StringClass;
-    Class_p SymbolClass;
-    Class_p NumberClass;
-    Class_p RegexClass;
-    Class_p ArrayClass;
-    Class_p HashClass;
-    Class_p MethodClass;
-    Class_p MethodCallClass;
-    Class_p BlockClass;
-    Class_p FileClass;
-    Class_p ConsoleClass;
-    Class_p ScopeClass;
-    Class_p ExceptionClass;
+  /**
+   * Core Classes
+   */
+  Class_p ClassClass = 0;
+  Class_p ObjectClass;
+  Class_p NilClass;
+  Class_p TrueClass;
+  Class_p StringClass;
+  Class_p SymbolClass;
+  Class_p NumberClass;
+  Class_p RegexClass;
+  Class_p ArrayClass;
+  Class_p HashClass;
+  Class_p MethodClass;
+  Class_p MethodCallClass;
+  Class_p BlockClass;
+  Class_p FileClass;
+  Class_p ConsoleClass;
+  Class_p ScopeClass;
 
-    /**
-     * Global Singleton Objects
-     */
-    FancyObject_p nil;
-    FancyObject_p t;
+  Class_p ExceptionClass;
+  Class_p UnknownIdentifierErrorClass;
+  Class_p MethodNotFoundErrorClass;
+
+  /**
+   * Global Singleton Objects
+   */
+  FancyObject_p nil;
+  FancyObject_p t;
 
   namespace bootstrap {
 
@@ -56,7 +59,10 @@ namespace fancy {
       FileClass = new Class("File", ObjectClass);
       ConsoleClass = new Class("Console", ObjectClass);
       ScopeClass = new Class("Scope", ObjectClass);
+
       ExceptionClass = new Class("Exception", ObjectClass);
+      UnknownIdentifierErrorClass = new Class("UnknownIdentifierError", ExceptionClass);
+      MethodNotFoundErrorClass = new Class("MethodNotFoundError", ExceptionClass);
 
       init_object_class();
       init_class_class();
@@ -69,7 +75,7 @@ namespace fancy {
       init_file_class();
       init_scope_class();
       init_hash_class();
-      init_exception_class();
+      init_exception_classes();
     }
 
     void init_global_objects()
@@ -102,7 +108,10 @@ namespace fancy {
       global_scope->define("File", FileClass);
       global_scope->define("Console", ConsoleClass);
       global_scope->define("Scope", ScopeClass);
+
       global_scope->define("Exception", ExceptionClass);
+      global_scope->define("UnknownIdentifierError", UnknownIdentifierErrorClass);
+      global_scope->define("MethodNotFoundError", MethodNotFoundErrorClass);
   
       /* define singleton objects */
       global_scope->define("nil", nil);

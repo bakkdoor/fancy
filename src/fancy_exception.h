@@ -6,7 +6,8 @@ namespace fancy {
   class FancyException : public FancyObject
   {
   public:
-    FancyException();
+    FancyException(Class_p Exception_class);
+    FancyException(const string &message, Class_p Exception_class);
     FancyException(const string &message);
     FancyException(FancyObject_p exception_value, const string &message);
 
@@ -22,6 +23,7 @@ namespace fancy {
 
   private:
     FancyObject_p _exception_value;
+    Class_p _exception_class;
     string _message;
   };
 
