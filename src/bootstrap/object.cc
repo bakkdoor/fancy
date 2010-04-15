@@ -27,7 +27,10 @@ namespace fancy {
       ObjectClass->def_method("responds_to?:", new NativeMethod("responds_to?:", method_Object_responds_to, 1));
 
       ObjectClass->def_method("get_slot:", new NativeMethod("get_slot:", method_Object_get_slot, 1));
-      ObjectClass->def_method("set_slot:with:", new NativeMethod("set_slot:with::", method_Object_set_slot__with, 2));
+      ObjectClass->def_method("set_slot:with:", new NativeMethod("set_slot:with:", method_Object_set_slot__with, 2));
+
+      ObjectClass->def_method("docstring:", new NativeMethod("docstring:", method_Object_docstring_set, 1));
+      ObjectClass->def_method("docstring", new NativeMethod("docstring", method_Object_docstring_get));
     }
 
     /**
@@ -193,5 +196,16 @@ namespace fancy {
       return self;
     }
 
+    FancyObject_p method_Object_docstring_set(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      EXPECT_ARGS("Object#docstring:", 1);
+      self->set_docstring(args.front()->to_s());
+      return t;
+    }
+
+    FancyObject_p method_Object_docstring_get(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      return String::from_value(self->docstring());
+    }
   }
 }

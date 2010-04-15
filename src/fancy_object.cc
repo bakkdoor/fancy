@@ -137,4 +137,13 @@ namespace fancy {
     return this->_class->find_method(method_name);
   }
 
+  string FancyObject::docstring() const
+  {
+    return _docstring;
+  }
+
+  void FancyObject::set_docstring(const string &docstring)
+  {
+    _docstring = docstring;
+  }
 }

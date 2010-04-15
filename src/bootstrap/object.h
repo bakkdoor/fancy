@@ -93,6 +93,16 @@ namespace fancy {
      */
     FancyObject_p method_Object_set_slot__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+    /**
+     * Sets docstring of object
+     */
+    FancyObject_p method_Object_docstring_set(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
+    /**
+     * Returns docstring of object
+     */
+    FancyObject_p method_Object_docstring_get(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
   }
 }
 

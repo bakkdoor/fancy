@@ -9,7 +9,6 @@ namespace fancy {
     /**
      * Method instance methods
      */
-    FancyObject_p method_Method_docstring(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   }
 }

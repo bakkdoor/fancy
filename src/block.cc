@@ -8,6 +8,7 @@ namespace fancy {
     _creation_scope(creation_scope),
     _override_self(false)
   {
+    this->_docstring = "<BLOCK>";
   }
 
   Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope) :
@@ -17,6 +18,7 @@ namespace fancy {
     _creation_scope(creation_scope),
     _override_self(false)
   {
+    this->_docstring = "<BLOCK>";
   }
 
   Block::~Block()
@@ -87,10 +89,6 @@ namespace fancy {
     return return_value;
   }
 
-  string Block::docstring() const
-  {
-    return "<BLOCK>";
-  }
   void Block::set_creation_scope(Scope *creation_scope)
   {
     this->_creation_scope = creation_scope;

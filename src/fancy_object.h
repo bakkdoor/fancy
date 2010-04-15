@@ -36,11 +36,15 @@ namespace fancy {
     bool responds_to(const string &method_name);
 
     Callable_p get_method(const string &method_name);
+
+    string docstring() const;
+    void set_docstring(const string &docstring);
   protected:
     void init_slots();
     Class *_class;
     map<string, FancyObject_p> slots;
     map<string, Callable_p> _singleton_methods;
+    string _docstring;
   };
 
 }

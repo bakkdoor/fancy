@@ -25,8 +25,6 @@ namespace fancy {
 
     unsigned int argcount() const;
     list< pair<Identifier_p, Identifier_p> > argnames() const;
-    string docstring() const;
-    void set_docstring(string docstring);
 
   protected:
     string method_ident();
@@ -34,7 +32,6 @@ namespace fancy {
     list< pair<Identifier_p, Identifier_p> > _argnames;
     ExpressionList_p _body;
     bool _special; /* used for 'special' functions (like macros) */
-    string _docstring;
   };
 
   typedef Method* Method_p;

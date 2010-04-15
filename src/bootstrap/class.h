@@ -13,8 +13,6 @@ namespace fancy {
     FancyObject_p method_Class_define_class_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_Class_include(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_Class_method(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Class_doc_for(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Class_docstring__for_method(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
   }
 }

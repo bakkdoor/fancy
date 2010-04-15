@@ -9,8 +9,6 @@ namespace fancy {
       ClassClass->def_method("define_class_method:with:", new NativeMethod("define_method:with:", method_Class_define_class_method__with, 2));
       ClassClass->def_method("include:", new NativeMethod("include:", method_Class_include, 1));
       ClassClass->def_method("method:", new NativeMethod("method:", method_Class_method, 1));
-      ClassClass->def_method("doc_for:", new NativeMethod("doc_for:", method_Class_doc_for, 1));
-      ClassClass->def_method("docstring:for_method:", new NativeMethod("docstring:for_method:", method_Class_docstring__for_method, 2));
     }
 
 
@@ -68,44 +66,15 @@ namespace fancy {
     {
       EXPECT_ARGS("Class#method:", 1);
 
-      // if(Class_p the_klass = dynamic_cast<Class_p>(self)) {
-        // TODO: implement this
+      if(Class_p the_klass = dynamic_cast<Class_p>(self)) {
+        if(Method_p meth = dynamic_cast<Method_p>(the_klass->find_method(args.front()->to_s()))) {
+          return meth;
+        }
+        if(NativeMethod_p native_meth = dynamic_cast<NativeMethod_p>(the_klass->find_method(args.front()->to_s()))) {
+          return native_meth;
+        }
         return nil;
-      // }
-    }
-
-    FancyObject_p method_Class_doc_for(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
-    {
-      EXPECT_ARGS("Class#doc_for:", 1);
-
-      if(Class_p the_klass = dynamic_cast<Class_p>(self)) {
-        if(Callable_p c = the_klass->find_method(args.front()->to_s())) {
-          return String::from_value(c->docstring());
-        }
       }
-      return String::from_value("Undefined method: " + args.front()->to_s());
-    }
-
-    FancyObject_p method_Class_docstring__for_method(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
-    {
-      EXPECT_ARGS("Class#docstring:for:", 2);
-
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
-
-      if(Class_p the_klass = dynamic_cast<Class_p>(self)) {
-        if(Callable_p c = the_klass->find_method(arg2->to_s())) {
-          if(Method_p m = dynamic_cast<Method_p>(c)) {
-            m->set_docstring(arg1->to_s());
-            return t;
-          } else if(NativeMethod_p native_m = dynamic_cast<NativeMethod_p>(c)) {
-            native_m->set_docstring(arg1->to_s());
-            return t;
-          }
-        }
-      }
-      return nil;
     }
 
   }
