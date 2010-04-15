@@ -98,6 +98,11 @@ namespace fancy {
     return this->_docstring;
   }
 
+  void Method::set_docstring(string docstring)
+  {
+    this->_docstring = docstring;
+  }
+
   string Method::method_ident()
   {
     stringstream str;
