@@ -11,6 +11,7 @@ special         [-+?!_=*/^><%]
 int_lit 	-?{digit}+
 double_lit      {int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
+doc_string      \"\"[^\"]*\"\"
 lparen          \(
 rparen          \)
 lcurly          "{"
@@ -48,6 +49,12 @@ comment         #[^\n]*
 {string_lit}	{ 
                   char *str = (char*)malloc(strlen(yytext) - 2); 
                   strncpy(str, yytext + 1, strlen(yytext) - 2);
+                  yylval.object = String::from_value(str);
+                  return STRING_LITERAL;
+                }
+{doc_string}	{ 
+                  char *str = (char*)malloc(strlen(yytext) - 3); 
+                  strncpy(str, yytext + 2, strlen(yytext) - 4);
                   yylval.object = String::from_value(str);
                   return STRING_LITERAL;
                 }
