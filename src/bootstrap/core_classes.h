@@ -23,6 +23,7 @@ namespace fancy {
   extern Class *ExceptionClass;
   extern Class *UnknownIdentifierErrorClass;
   extern Class *MethodNotFoundErrorClass;
+  extern Class *IOErrorClass;
 
   extern FancyObject *nil;
   extern FancyObject *t;

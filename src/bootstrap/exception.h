@@ -23,6 +23,12 @@ namespace fancy {
     FancyObject_p method_MethodNotFoundError_method_name(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
     FancyObject_p method_MethodNotFoundError_class(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+    /**
+     * IOError instance methods
+     */
+    FancyObject_p method_IOError_filename(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p method_IOError_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+
   }
 }
 

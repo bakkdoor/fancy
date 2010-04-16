@@ -42,12 +42,7 @@ namespace fancy {
       file->open();
 
       if(!file->good()) {
-        error("Could not open file: ")
-          << filename
-          << " with modes: "
-          << modes->to_s()
-          << endl;
-        return nil;
+        throw new IOError("Could not open file: ", filename, modes);
       }
   
       block->call(self, list<FancyObject_p>(1, file), scope);
@@ -74,12 +69,7 @@ namespace fancy {
       file->open();
 
       if(!file->good()) {
-        error("Could not open file: ")
-          << filename
-          // << " with mode: "
-          // << mode
-          << endl;
-        return nil;
+        throw new IOError("Could not open file: ", filename, modes);
       }
   
       return file;

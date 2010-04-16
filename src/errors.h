@@ -15,6 +15,8 @@ namespace fancy {
     string _identifier;
   };
 
+  typedef UnknownIdentifierError* UnknownIdentifierError_p;
+
   class MethodNotFoundError : public FancyException
   {
   public:
@@ -30,6 +32,23 @@ namespace fancy {
   };
 
   typedef MethodNotFoundError* MethodNotFoundError_p;
+
+  class IOError : public FancyException
+  {
+  public:
+    IOError(const string &message, const string &filename);
+    IOError(const string &message, const string &filename, Array_p modes);
+    ~IOError();
+  
+    string filename() const;
+    Array_p modes() const;
+  
+  private:
+    string _filename;
+    Array_p _modes;
+  };
+
+  typedef IOError* IOError_p;
 
 }
 

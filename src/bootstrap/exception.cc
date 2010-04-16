@@ -13,6 +13,9 @@ namespace fancy {
                                            new NativeMethod("method_name", method_MethodNotFoundError_method_name));
       MethodNotFoundErrorClass->def_method("_class",
                                            new NativeMethod("_class", method_MethodNotFoundError_class));
+
+      IOErrorClass->def_method("filename", new NativeMethod("filename", method_IOError_filename));
+      IOErrorClass->def_method("modes", new NativeMethod("modes", method_IOError_modes));
     }
 
     /**
@@ -71,6 +74,30 @@ namespace fancy {
         return except->get_class();
       } else {
         errorln("Not a MethodNotFoundError!");
+        return nil;
+      }
+    }
+
+    /**
+     * IOError instance methods
+     */
+
+    FancyObject_p method_IOError_filename(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      if(IOError_p except = dynamic_cast<IOError_p>(self)) {
+        return String::from_value(except->filename());
+      } else {
+        errorln("Not an IOError!");
+        return nil;
+      }
+    }
+
+    FancyObject_p method_IOError_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    {
+      if(IOError_p except = dynamic_cast<IOError_p>(self)) {
+        return except->modes();
+      } else {
+        errorln("Not an IOError!");
         return nil;
       }
     }

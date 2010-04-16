@@ -33,5 +33,15 @@ FancySpec describe: File with: |it| {
     lines[0] should_equal: "hello, world!";
     lines[1] should_equal: "line number two";
     lines should_equal: ["hello, world!", "line number two"]
+  };
+
+  it should: "raise an IOError exception when trying to open an invalid file" when: {
+    try {
+      file = File open: "/foo/bar/baz" modes: [:read];
+      nil should_equal: true # this shouldn't execute
+    } rescue IOError => e {
+      e filename should_equal: "/foo/bar/baz";
+      e modes should_equal: [:read]
+    }
   }
 }
