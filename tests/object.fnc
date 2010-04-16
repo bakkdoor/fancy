@@ -22,5 +22,16 @@ FancySpec describe: Object with: |it| {
     "foo" _class should_equal: String;
     :bar _class should_equal: Symbol;
     { :a_block } _class should_equal: Block
+  };
+
+  it should: "call unkown_message:with_params: when calling an undefined method" when: {
+    def class UnkownMessage {
+      def unknown_message: message with_params: params {
+        "Got: " ++ message ++ " " ++ params
+      }
+    };
+
+    obj = UnkownMessage new;
+    obj this_is_not_defined: "It's true!" . should_equal: "Got: this_is_not_defined: [It's true!]"
   }
 }

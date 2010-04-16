@@ -107,6 +107,15 @@ namespace fancy {
     if(method) {
       return method->call(this, arguments, scope);
     } else {
+      // handle unkown messages, if unkown_message:with_params is defined
+      if(Callable_p unkown_message_method = this->get_method("unknown_message:with_params:")) {
+        list<FancyObject_p> new_args;
+        new_args.push_back(String::from_value(method_name));
+        new_args.push_back(new Array(vector<FancyObject_p>(arguments.begin(), arguments.end())));
+        return unkown_message_method->call(this, new_args, scope);
+      }
+      
+      // in this case no method is found and we raise a MethodNotFoundError
       FancyException_p except = new MethodNotFoundError(method_name, this->_class);
       throw except;
       return nil;
