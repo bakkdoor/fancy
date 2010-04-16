@@ -6,6 +6,9 @@ namespace fancy {
   class Scope;
   class FancyObject;
 
+  /**
+   * Enum holding all possible types of objects/expressions in Fancy.
+   */
   enum OBJ_TYPE {
     OBJ_NIL = 0,
     OBJ_TRUE,
@@ -41,6 +44,12 @@ namespace fancy {
     OBJ_BEGINRESCUEBLOCK
   };
 
+  /**
+   * Interface for everything that can evaluate into a FancyObject
+   * instance.  
+   * This includes parser nodes (see src/parser/nodes/) as * well as
+   * FancyObjects (they evaluate to themself)
+   */
   class Expression : public gc_cleanup
   {
   public:
