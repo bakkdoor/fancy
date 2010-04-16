@@ -54,13 +54,17 @@ What's already working?
 ------------------------
 
   - Class definitions
-  - Instance method definitions
-  - String, Integer, Float, Array & Block literals
+  - Instance & class method definitions
+  - String, Integer, Float, Array, Hash (HashMap) & Block literals
   - Method & Operator calls
   - Instance & class variable access
-  - Simple loops
-  - Simple support for closures (it works but there's definately room
-    for performance improvements)
+  - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
+  - Loops
+  - Support for closures (it works but there's definately room for
+    performance improvements)
+  - File reading and writing
+  - Class-Mixins (including methods of one class into another)
+  - Exception handling
 
 
 What's still missing?
@@ -85,9 +89,9 @@ How is it implemented?
 
   - Currently the lexer & parser are built with flex & bison.
 
-  - I'm planning to add a compiler later on, maybe even written in the
-    language itself. Possible targets include beam (Erlang VM), LLVM,
-    JVM, ... ?
+  - I'm planning to add a compiler later on, written in the language
+    itself. Possible targets include beam (Erlang VM), LLVM, JVM, ...?
+
     I'd prefer not writing my own vm from scratch. Erlang would seem a
     nice fit considering its concurrency model & vm support. Multiple
     targets would obviously rock even more ;)
