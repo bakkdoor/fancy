@@ -11,22 +11,71 @@ namespace fancy {
   class Block : public FancyObject, public Callable
   {
   public:
+    /**
+     * Initializes Block with a given body and the scope in which it
+     * was created.
+     * @param body Body of the block (code).
+     * @param creation_scope Scope in which Block was created (used
+     * for closures).
+     */
     Block(ExpressionList_p body, Scope *creation_scope);
+
+    /**
+     * Initializes Block with a list of argument names, a body and the
+     * scope in which it was created.
+     * @param argnames List of argument names
+     * @param body Body of the block (code).
+     * @param creation_scope Scope in which Block was created (used
+     * for closures).
+     */
     Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
+
     virtual ~Block();
 
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
 
+    /**
+     * Calls the Block (see Callable).
+     * @return Return value from calling the Block.
+     */
     FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
+    /**
+     * Sets the creation_scope of the Block.
+     * @param creation_scope The creation_scope of the Block.
+     */
     void set_creation_scope(Scope *creation_scope);
+
+    /**
+     * Return the creation_scope of the Block.
+     * @return The creation_scope of the Block.
+     */
     Scope* creation_scope() const;
 
+    /**
+     * Returns vector of String objects of the argument names.
+     * @return Vector of String objects of the argument names.
+     */
     vector<FancyObject_p> args();
+
+    /**
+     * Returns the amount of arguments for the Block.
+     * @return Amount of arguments the Block expects.
+     */
     unsigned int argcount() const;
 
+    /**
+     * Sets the override_self flag, that indicates if the block should
+     * override the current_self value before calling its body.
+
+     * This is needed in some special cases like:
+     * Class##define_method:with:
+
+     * @param do_it Boolean value that indicates, if override_self
+     * should be set or not.
+     */
     void override_self(bool do_it);
 
   private:

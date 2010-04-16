@@ -14,6 +14,13 @@ namespace fancy {
   class Callable
   {
   public:
+    /**
+     * Calls the Callable and returns the return value of the call.
+     * @param self The self value within the call (the FancyObject on
+     * which the Callable is called).
+     * @param args List of arguments to the call.
+     * @param scope The calling scope.
+     */
     virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
   };
 
