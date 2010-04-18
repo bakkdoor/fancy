@@ -9,12 +9,6 @@ namespace fancy {
       {
       }
 
-      BlockLiteral::BlockLiteral(list<Identifier_p> argnames, ExpressionList_p body) :
-        _argnames(argnames),
-        _body(body)
-      {
-      }
-
       BlockLiteral::BlockLiteral(block_arg_node *argnames, ExpressionList_p body) :
         _body(body)
       {

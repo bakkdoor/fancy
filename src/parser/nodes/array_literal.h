@@ -14,7 +14,6 @@ namespace fancy {
       {
       public:
         ArrayLiteral(expression_node *expr_list);
-        ArrayLiteral(list<Expression_p> expressions);
         virtual ~ArrayLiteral();
 
         virtual FancyObject_p eval(Scope *scope);

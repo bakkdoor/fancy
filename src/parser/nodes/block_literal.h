@@ -19,7 +19,6 @@ namespace fancy {
       {
       public:
         BlockLiteral(ExpressionList_p body);
-        BlockLiteral(list<Identifier_p> argnames, ExpressionList_p body);
         BlockLiteral(block_arg_node *argnames, ExpressionList_p body);
         virtual ~BlockLiteral();
 

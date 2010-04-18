@@ -21,7 +21,7 @@ namespace fancy {
         virtual FancyObject_p eval(Scope *scope);
 
       private:
-        Identifier_p    identifier;
+        Identifier_p  identifier;
         Expression_p  value_expr;
       };
 

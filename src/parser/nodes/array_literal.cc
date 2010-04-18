@@ -11,11 +11,6 @@ namespace fancy {
         }
       }
 
-      ArrayLiteral::ArrayLiteral(list<Expression_p> expressions) :
-        _expressions(expressions)
-      {
-      }
-
       ArrayLiteral::~ArrayLiteral()
       {
       }

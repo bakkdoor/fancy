@@ -11,11 +11,6 @@ namespace fancy {
         }
       }
 
-      HashLiteral::HashLiteral(list< pair<Expression_p, Expression_p> > key_val_list) :
-        _key_val_list(key_val_list)
-      {
-      }
-
       HashLiteral::~HashLiteral()
       {
       }

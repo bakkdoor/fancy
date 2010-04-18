@@ -16,7 +16,6 @@ namespace fancy {
       {
       public:
         HashLiteral(key_val_node *key_val_list);
-        HashLiteral(list< pair<Expression_p, Expression_p> > key_val_list);
         virtual ~HashLiteral();
 
         virtual FancyObject_p eval(Scope *scope);

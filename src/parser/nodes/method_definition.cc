@@ -34,11 +34,10 @@ namespace fancy {
           for(it = this->method_args.begin(); it != this->method_args.end(); it++) {
             s << it->first->name() << ":";
           }
-    
-          return s.str();
-        } else {
-          return _method_name->name();
+          _method_name = Identifier::from_string(s.str());
         }
+
+        return _method_name->name();
       }
 
     }
