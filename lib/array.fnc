@@ -4,6 +4,7 @@ def class Array {
   self include: Enumerable;
 
   def [] index {
+    "Returns element at a given index.";
     self at: index
   }
 
@@ -40,6 +41,8 @@ def class Array {
   }
 
   def index: item {
+    "Returns the index of an item (or nil, if it isn't in the Array)";
+
     found_idx = nil;
     i = 0;
     size = self size;
@@ -53,6 +56,8 @@ def class Array {
   }
 
   def find: item {
+    "Returns the item, if it's in the Array or nil (if not found).";
+
     item is_a?: Block . if_true: {
       self find_by: item
     } else: {
@@ -63,6 +68,8 @@ def class Array {
   }
 
   def find_by: block {
+    "Like find: but takes a block that gets called with each element to find it.";
+
     found = nil;
     i = 0;
     size = self size;
@@ -77,6 +84,8 @@ def class Array {
   }
 
   def any?: condition {
+    "Takes condition-block and returns true if any element meets it.";
+    
     found = false;
     i = 0;
     size = self size;
@@ -88,6 +97,8 @@ def class Array {
   }
 
   def all?: condition {
+    "Takes condition-block and returns true if all elements meet it.";
+
     all_match = true;
     i = 0;
     size = self size;
@@ -99,6 +110,8 @@ def class Array {
   };
 
   def from: start_idx to: end_idx {
+    "Returns sub-array starting at from: and going to to:";
+
     arr = [];
     size = self size;
     (start_idx >= 0 and: $ start_idx <= end_idx) if_true: {
@@ -134,6 +147,8 @@ def class Array {
   }
 
   def last: amount {
+    "Returns new Array with last n elements specified.";
+
     (amount <= (self size)) . if_true: {
       start_idx = self size - amount;
       arr = [];
@@ -147,6 +162,8 @@ def class Array {
   }
 
   def values_at: idx_arr {
+    "Returns new Array with elements at given indices";
+
     values = [];
     idx_arr each: |idx| {
       self at: idx . if_do: |val| {
@@ -157,6 +174,8 @@ def class Array {
   }
 
   def >> other_arr {
+    "Returns new Array with elements of other_arr appended to these.";
+
     arr = self clone;
     arr append: other_arr
   }
