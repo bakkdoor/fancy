@@ -113,7 +113,7 @@ namespace fancy {
 
   void Method::init_docstring()
   {
-    this->_docstring = "[DOC] " + this->method_ident() + "\n\t" + this->_body->docstring();
+    this->_docstring = this->_body->docstring();
   }
 
 }

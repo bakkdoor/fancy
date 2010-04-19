@@ -22,7 +22,7 @@ namespace fancy {
       FancyObject_p MethodDefExpr::eval(Scope *scope)
       {
         scope->current_class()->def_method(method_name(), this->method);
-        return nil;
+        return this->method;
       }
 
       string MethodDefExpr::method_name()

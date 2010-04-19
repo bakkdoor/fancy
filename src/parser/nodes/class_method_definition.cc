@@ -27,7 +27,7 @@ namespace fancy {
       FancyObject_p ClassMethodDefExpr::eval(Scope *scope)
       {
         scope->get(this->_class_name->name())->def_singleton_method(method_name(), this->_method);
-        return nil;
+        return this->_method;
       }
 
       string ClassMethodDefExpr::method_name()

@@ -60,6 +60,8 @@ namespace fancy {
         Scope *class_eval_scope = new Scope(the_class, scope);
         class_eval_scope->set_current_class(the_class);
         this->_class_body->eval(class_eval_scope);
+        // set documentation string
+        the_class->set_docstring(this->_class_body->docstring());
         return the_class;
       }
 
