@@ -22,6 +22,15 @@ namespace fancy {
      * @param scope The calling scope.
      */
     virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
+
+    /**
+     * Calls the Callable (with no arguments) and returns the return
+     * value of the call.
+     * @param self The self value within the call (the FancyObject on
+     * which the Callable is called).
+     * @param scope The calling scope.
+     */
+    virtual FancyObject* call(FancyObject *self, Scope *scope) = 0;
   };
 
   typedef Callable* Callable_p;

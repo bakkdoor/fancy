@@ -86,6 +86,12 @@ namespace fancy {
     return nil;
   }
 
+  FancyObject_p Method::call(FancyObject_p self, Scope *scope)
+  {
+    Scope *call_scope = new Scope(self, scope);
+    return this->_body->eval(call_scope);
+  }
+
   OBJ_TYPE Method::type() const
   {
     return OBJ_METHOD;

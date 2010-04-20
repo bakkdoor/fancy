@@ -31,6 +31,7 @@ namespace fancy {
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
     virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    virtual FancyObject_p call(FancyObject_p self, Scope *scope);
   
     string _identifier;
     FancyObject_p (&_func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope);

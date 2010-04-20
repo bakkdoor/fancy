@@ -43,6 +43,12 @@ namespace fancy {
     FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
 
     /**
+     * Calls the Block with no arguments (see Callable).
+     * @return Return value from calling the Block.
+     */
+    FancyObject_p call(FancyObject_p self, Scope *scope);
+
+    /**
      * Sets the creation_scope of the Block.
      * @param creation_scope The creation_scope of the Block.
      */

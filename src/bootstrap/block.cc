@@ -25,7 +25,7 @@ namespace fancy {
         errorln("Block#call got more than 0 arguments!");
       } else {
         Block_p block = dynamic_cast<Block_p>(self);
-        return block->call(self, args, scope);
+        return block->call(self, scope);
       }
       return nil;
     }
@@ -33,24 +33,14 @@ namespace fancy {
     FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
       EXPECT_ARGS("Block#call:", 1);
-      if(args.size() != 1) {
-        errorln("Block#call: didn't get an argument!");
+      Block_p block = dynamic_cast<Block_p>(self);
+      FancyObject_p first_arg = args.front();
+      if(IS_ARRAY(first_arg)) {
+        Array_p args_array = dynamic_cast<Array_p>(first_arg);
+        return block->call(self, args_array->to_list(), scope);
       } else {
-        Block_p block = dynamic_cast<Block_p>(self);
-        FancyObject_p first_arg = args.front();
-        list<FancyObject_p> passed_args;
-        if(IS_ARRAY(first_arg)) {
-          Array_p args_array = dynamic_cast<Array_p>(first_arg);
-          int array_size = args_array->size();
-          for(int i = 0; i < array_size; i++) {
-            passed_args.push_back(args_array->at(i));
-          }
-        } else {
-          passed_args.push_back(first_arg);
-        }
-        return block->call(self, passed_args, scope);
+        return block->call(self, list<FancyObject_p>(1, first_arg), scope);
       }
-      return nil;
     }
 
     FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
@@ -60,9 +50,8 @@ namespace fancy {
       if(IS_BLOCK(first_arg)) {
         Block_p while_block = dynamic_cast<Block_p>(self);
         Block_p then_block = dynamic_cast<Block_p>(first_arg);
-        list<FancyObject_p> empty;
-        while(while_block->call(self, empty, scope) != nil) {
-          then_block->call(self, empty, scope);
+        while(while_block->call(self, scope) != nil) {
+          then_block->call(self, scope);
         }
         return nil;
       } else {
@@ -76,8 +65,7 @@ namespace fancy {
       FancyObject_p first_arg = args.front();
       if(first_arg != nil) {
         Block_p block = dynamic_cast<Block_p>(self);
-        list<FancyObject_p> empty;
-        return block->call(self, empty, scope);
+        return block->call(self, scope);
       } else {
         return nil;
       }
@@ -89,8 +77,7 @@ namespace fancy {
       FancyObject_p first_arg = args.front();
       if(first_arg == nil) {
         Block_p block = dynamic_cast<Block_p>(self);
-        list<FancyObject_p> empty;
-        return block->call(self, empty, scope);
+        return block->call(self, scope);
       } else {
         return nil;
       }

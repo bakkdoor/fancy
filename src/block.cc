@@ -61,6 +61,25 @@ namespace fancy {
       }
     }
 
+    FancyObject_p return_value = this->call(self, scope);
+
+    // reset old values for param names in creation_scope (if any args given)
+    if(args.size() > 0) {
+      list<Identifier_p>::iterator name_it = _argnames.begin();
+      unsigned int i = 0;
+      while(name_it != _argnames.end() && i < args.size()) {
+        string name = (*name_it)->name();
+        _creation_scope->define(name, old_values[i]);
+        i++;
+        name_it++;
+      }
+    }
+
+    return return_value;
+  }
+
+  FancyObject_p Block::call(FancyObject_p self, Scope *scope)
+  {
     FancyObject_p old_self = _creation_scope->current_self();
     if(_override_self) {
       _creation_scope->set_current_self(self);
@@ -74,18 +93,6 @@ namespace fancy {
       _creation_scope->set_current_self(old_self);
     }
   
-    // reset old values for param names in creation_scope (if any args given)
-    if(args.size() > 0) {
-      list<Identifier_p>::iterator name_it = _argnames.begin();
-      unsigned int i = 0;
-      while(name_it != _argnames.end() && i < args.size()) {
-        string name = (*name_it)->name();
-        _creation_scope->define(name, old_values[i]);
-        i++;
-        name_it++;
-      }
-    }
-
     return return_value;
   }
 

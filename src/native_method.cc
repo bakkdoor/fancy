@@ -62,4 +62,9 @@ namespace fancy {
     return this->_func(self, args, scope);
   }
 
+  FancyObject_p NativeMethod::call(FancyObject_p self, Scope *scope)
+  {
+    return this->_func(self, list<FancyObject_p>(), scope);
+  }
+
 }
