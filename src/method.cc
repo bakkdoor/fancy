@@ -64,7 +64,7 @@ namespace fancy {
     Scope *call_scope = new Scope(self, scope);
 
     // check amount of given arguments
-    if(_argnames.size() != argc) {
+    if(_argnames.size() != (unsigned int)argc) {
       error("Given amount of arguments (")
         << argc
         << ") doesn't match expected amount ("
