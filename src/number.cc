@@ -63,11 +63,16 @@ namespace fancy {
     }
   }
 
-  map<int, Number_p> Number::int_cache;
+  Number_p* Number::int_cache;
   Number_p Number::from_int(int value)
   {
-    if(int_cache.find(value) != int_cache.end()) {
-      return int_cache[value];
+    // only cache numbers up to INT_CACHE_SIZE
+    if(value >= INT_CACHE_SIZE) {
+      return new Number(value);
+    }
+
+    if(Number_p num = int_cache[value]) {
+      return num;
     } else {
       // insert new value into int_cache & return new number value
       Number_p new_num = new Number(value);
@@ -76,16 +81,16 @@ namespace fancy {
     }
   }
 
-  map<double, Number_p> Number::double_cache;
   Number_p Number::from_double(double value)
   {
-    if(double_cache.find(value) != double_cache.end()) {
-      return double_cache[value];
-    } else {
-      // insert new value into double_cache & return new number value
-      Number_p new_num = new Number(value);
-      double_cache[value] = new_num;
-      return new_num;
+    return new Number(value);
+  }
+
+  void Number::init_cache()
+  {
+    int_cache = new Number_p[INT_CACHE_SIZE];
+    for(int i = 0; i < INT_CACHE_SIZE; i++) {
+      int_cache[i] = new Number(i);
     }
   }
 

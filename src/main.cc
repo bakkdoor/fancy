@@ -62,6 +62,7 @@ int main(int argc, char **argv)
   fancy::bootstrap::init_core_classes();
   fancy::bootstrap::init_global_objects();
   fancy::bootstrap::init_global_scope();
+  fancy::Number::init_cache();
 
   for(unsigned int i = 0; i < files_vector.size(); i++) {
     fancy::parser::parse_file(files_vector[i]);

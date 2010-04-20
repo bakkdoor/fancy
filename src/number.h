@@ -6,6 +6,8 @@ namespace fancy {
   class Number;
   typedef Number* Number_p;
 
+  #define INT_CACHE_SIZE 1000
+
   class Number : public FancyObject
   {
   public:
@@ -24,13 +26,14 @@ namespace fancy {
     static Number_p from_int(int value);
     static Number_p from_double(double value);
 
+    static void init_cache();
+
   private:
     int _intval;
     double _doubleval;
     bool _is_double;
 
-    static map<int, Number_p> int_cache;
-    static map<double, Number_p> double_cache;
+    static Number_p* int_cache;
   };
 
 }
