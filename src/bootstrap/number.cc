@@ -178,8 +178,14 @@ namespace fancy {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Block_p block = dynamic_cast<Block_p>(arg);
         int val = num1->intval();
-        for(int i = 0; i < val; i++) {
-          block->call(self, list<FancyObject_p>(1, Number::from_int(i)), scope);
+        if(block->argcount() > 0) {
+          for(int i = 0; i < val; i++) {
+            block->call(self, list<FancyObject_p>(1, Number::from_int(i)), scope);
+          }
+        } else {
+          for(int i = 0; i < val; i++) {
+            block->call(self, scope);
+          }
         }
       } else {
         errorln("Number#times: expects Block object as parameter!");

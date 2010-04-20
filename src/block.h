@@ -89,6 +89,7 @@ namespace fancy {
     ExpressionList_p _body;
     Scope *_creation_scope;
     bool _override_self;
+    int _argcount;
   };
 
   typedef Block* Block_p;

@@ -6,7 +6,8 @@ namespace fancy {
     FancyObject(BlockClass),
     _body(body),
     _creation_scope(creation_scope),
-    _override_self(false)
+    _override_self(false),
+    _argcount(0)
   {
     this->_docstring = "<BLOCK>";
   }
@@ -19,6 +20,7 @@ namespace fancy {
     _override_self(false)
   {
     this->_docstring = "<BLOCK>";
+    this->_argcount = argnames.size();
   }
 
   Block::~Block()
@@ -121,7 +123,7 @@ namespace fancy {
 
   unsigned int Block::argcount() const
   {
-    return _argnames.size();
+    return _argcount;
   }
 
   void Block::override_self(bool do_it)
