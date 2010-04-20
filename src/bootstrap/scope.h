@@ -9,9 +9,9 @@ namespace fancy {
     /**
      * Scope instance methods
      */
-    FancyObject_p method_Scope_define__value(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Scope_parent(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Scope_get(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p method_Scope_define__value(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Scope_parent(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Scope_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
   }
 }

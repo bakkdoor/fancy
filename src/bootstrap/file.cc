@@ -21,14 +21,12 @@ namespace fancy {
      * File class methods
      */
 
-    FancyObject_p class_method_File_open__modes__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_File_open__modes__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("File##open:modes:with:", 3);
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
-      args.pop_front();
-      FancyObject_p arg3 = args.front();
+      FancyObject_p arg1 = args[0];
+      FancyObject_p arg2 = args[1];
+      FancyObject_p arg3 = args[3];
 
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2) && IS_BLOCK(arg3))) {
         errorln("File##open:modes:with: expects String, Array and Block value");
@@ -44,18 +42,17 @@ namespace fancy {
       if(!file->good()) {
         throw new IOError("Could not open file: ", filename, modes);
       }
-  
-      block->call(self, list<FancyObject_p>(1, file), scope);
+      FancyObject_p call_args[1] = { file };
+      block->call(self, call_args, 1, scope);
       file->close();
       return nil;
     }
 
-    FancyObject_p class_method_File_open__modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_File_open__modes(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("File##open:modes:", 2);
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
+      FancyObject_p arg1 = args[0];
+      FancyObject_p arg2 = args[1];
   
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2))) {
         errorln("File##open:modes: expects String and Array value");
@@ -80,20 +77,20 @@ namespace fancy {
      * File instance methods
      */
 
-    FancyObject_p method_File_write(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_write(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("File#write:", 1);
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
         // fprintf(file->file(), "%s", args.front()->to_s().c_str())
         // fstream fs = file->file();
-        file->file() << args.front()->to_s();
+        file->file() << args[0]->to_s();
         file->file().flush();
       }
       return self;
     }
 
-    FancyObject_p method_File_newline(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_newline(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -103,7 +100,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_File_is_open(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_is_open(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -114,7 +111,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_File_close(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_close(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -123,7 +120,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_File_eof(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_eof(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file && file->eof()) {
@@ -132,7 +129,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_File_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_modes(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -141,7 +138,7 @@ namespace fancy {
       return new Array();
     }
 
-    FancyObject_p method_File_readln(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_File_readln(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file && file->is_open()) {

@@ -34,7 +34,7 @@ namespace fancy {
     virtual string to_s() const;
     virtual string inspect() const;
 
-    FancyObject_p call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope);
+    FancyObject_p call_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
     void def_singleton_method(const string &name, Callable_p method);
     bool responds_to(const string &method_name);
 

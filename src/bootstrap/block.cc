@@ -19,9 +19,9 @@ namespace fancy {
      * Block instance methods
      */
 
-    FancyObject_p method_Block_call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
-      if(args.size() != 0) {
+      if(argc != 0) {
         errorln("Block#call got more than 0 arguments!");
       } else {
         Block_p block = dynamic_cast<Block_p>(self);
@@ -30,23 +30,31 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_call_with_arg(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Block#call:", 1);
       Block_p block = dynamic_cast<Block_p>(self);
-      FancyObject_p first_arg = args.front();
+      FancyObject_p first_arg = args[0];
       if(IS_ARRAY(first_arg)) {
         Array_p args_array = dynamic_cast<Array_p>(first_arg);
-        return block->call(self, args_array->to_list(), scope);
+        int size = args_array->size();
+        FancyObject_p *args_array_arr = new FancyObject_p[size];
+        for(int i = 0; i < size; i++) {
+          args_array_arr[i] = args_array->at(i);
+        }
+        FancyObject_p retval =  block->call(self, args_array_arr, size, scope);
+        delete[] args_array_arr; // cleanup  before leave
+        return retval;
       } else {
-        return block->call(self, list<FancyObject_p>(1, first_arg), scope);
+        FancyObject_p call_args[1] = { first_arg };
+        return block->call(self, call_args, 1, scope);
       }
     }
 
-    FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_while_true(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Block#while_true:", 1);
-      FancyObject_p first_arg = args.front();
+      FancyObject_p first_arg = args[0];
       if(IS_BLOCK(first_arg)) {
         Block_p while_block = dynamic_cast<Block_p>(self);
         Block_p then_block = dynamic_cast<Block_p>(first_arg);
@@ -59,10 +67,10 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_if(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Block#if:", 1);
-      FancyObject_p first_arg = args.front();
+      FancyObject_p first_arg = args[0];
       if(first_arg != nil) {
         Block_p block = dynamic_cast<Block_p>(self);
         return block->call(self, scope);
@@ -71,10 +79,10 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_unless(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_unless(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Block#unless:", 1);
-      FancyObject_p first_arg = args.front();
+      FancyObject_p first_arg = args[0];
       if(first_arg == nil) {
         Block_p block = dynamic_cast<Block_p>(self);
         return block->call(self, scope);
@@ -83,13 +91,13 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_arguments(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_arguments(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       Block_p block = dynamic_cast<Block_p>(self);
       return new Array(block->args());
     }
 
-    FancyObject_p method_Block_argcount(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Block_argcount(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       Block_p block = dynamic_cast<Block_p>(self);
       return Number::from_int(block->argcount());

@@ -13,12 +13,11 @@ namespace fancy {
     /**
      * Scope instance methods
      */
-    FancyObject_p method_Scope_define__value(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Scope_define__value(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Scope#define:value:", 2);
-      FancyObject_p name = args.front();
-      args.pop_front();
-      FancyObject_p value = args.front();
+      FancyObject_p name = args[0];
+      FancyObject_p value = args[1];
       Scope* scope_obj = dynamic_cast<Scope*>(self);
 
       if(IS_STRING(name) || IS_SYMBOL(name)) {
@@ -30,7 +29,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Scope_parent(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Scope_parent(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(scope->parent_scope()) {
         return scope->parent_scope();
@@ -38,13 +37,13 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Scope_get(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Scope_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Scope#get:", 1);
       Scope *sc = dynamic_cast<Scope*>(self);
       if(sc) {
-        if(IS_STRING(args.front()) || IS_SYMBOL(args.front())) {
-          return sc->get(args.front()->to_s());
+        if(IS_STRING(args[0]) || IS_SYMBOL(args[0])) {
+          return sc->get(args[0]->to_s());
         } else {
           errorln("Scope#get: expects either String or Symbol value.");
         }

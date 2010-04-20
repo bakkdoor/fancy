@@ -3,7 +3,7 @@
 namespace fancy {
 
   NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
+                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope),
                              unsigned int n_args,
                              bool special) : 
     FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
@@ -11,14 +11,14 @@ namespace fancy {
   }
 
   NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope),
+                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope),
                              unsigned int n_args) :
     FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
   {
   }
 
   NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *scope)) :
+                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
     FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(0), _special(false)
   {
   }
@@ -57,14 +57,14 @@ namespace fancy {
     return "<NativeMethod:" + this->_identifier +">";
   }
 
-  FancyObject_p NativeMethod::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+  FancyObject_p NativeMethod::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
-    return this->_func(self, args, scope);
+    return this->_func(self, args, argc, scope);
   }
 
   FancyObject_p NativeMethod::call(FancyObject_p self, Scope *scope)
   {
-    return this->_func(self, list<FancyObject_p>(), scope);
+    return this->_func(self, 0, 0, scope);
   }
 
 }

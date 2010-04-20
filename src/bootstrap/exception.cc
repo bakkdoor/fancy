@@ -21,10 +21,10 @@ namespace fancy {
     /**
      * Exception class methods
      */
-    FancyObject_p class_method_Exception_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_Exception_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Exception##new:", 1);
-      string message = args.front()->to_s();
+      string message = args[0]->to_s();
       return new FancyException(message);
     }
 
@@ -33,7 +33,7 @@ namespace fancy {
      * Exception instance methods
      */
 
-    FancyObject_p method_Exception_raise(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Exception_raise(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
         throw except;
@@ -43,7 +43,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Exception_message(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Exception_message(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
         return String::from_value(except->message());
@@ -58,7 +58,7 @@ namespace fancy {
      * MethodNotFoundError instance methods
      */
 
-    FancyObject_p method_MethodNotFoundError_method_name(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_MethodNotFoundError_method_name(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
         return String::from_value(except->method_name());
@@ -68,7 +68,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_MethodNotFoundError_class(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_MethodNotFoundError_class(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
         return except->get_class();
@@ -82,7 +82,7 @@ namespace fancy {
      * IOError instance methods
      */
 
-    FancyObject_p method_IOError_filename(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_IOError_filename(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(IOError_p except = dynamic_cast<IOError_p>(self)) {
         return String::from_value(except->filename());
@@ -92,7 +92,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_IOError_modes(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_IOError_modes(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       if(IOError_p except = dynamic_cast<IOError_p>(self)) {
         return except->modes();

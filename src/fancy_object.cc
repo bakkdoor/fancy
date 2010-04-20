@@ -100,18 +100,18 @@ namespace fancy {
     return this->to_s();
   }
 
-  FancyObject_p FancyObject::call_method(const string &method_name, list<FancyObject_p> arguments, Scope *scope)
+  FancyObject_p FancyObject::call_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope)
   {
     Callable_p method = this->get_method(method_name);
     if(method) {
-      return method->call(this, arguments, scope);
+      return method->call(this, arguments, argc, scope);
     } else {
       // handle unkown messages, if unkown_message:with_params is defined
       if(Callable_p unkown_message_method = this->get_method("unknown_message:with_params:")) {
-        list<FancyObject_p> new_args;
-        new_args.push_back(String::from_value(method_name));
-        new_args.push_back(new Array(vector<FancyObject_p>(arguments.begin(), arguments.end())));
-        return unkown_message_method->call(this, new_args, scope);
+        int size = sizeof(arguments) / sizeof(arguments[0]);
+        vector<FancyObject_p> arr_vec(arguments, &arguments[size]);
+        FancyObject_p new_args[2] = { String::from_value(method_name), new Array(arr_vec) };
+        return unkown_message_method->call(this, new_args, 2, scope);
       }
       
       // in this case no method is found and we raise a MethodNotFoundError

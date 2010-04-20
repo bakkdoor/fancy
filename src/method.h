@@ -21,7 +21,7 @@ namespace fancy {
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
-    virtual FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    virtual FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
     virtual FancyObject_p call(FancyObject_p self, Scope *scope);
 
     unsigned int argcount() const;

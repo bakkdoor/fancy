@@ -44,15 +44,15 @@ namespace fancy {
     bool define(string identifier, FancyObject_p value);
 
     void def_native(string identifier,
-                    FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                    FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                     unsigned int n_args);
 
     void def_native(Identifier_p identifier,
-                    FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                    FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                     unsigned int n_args);
 
     void def_native_special(string identifier,
-                            FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                            FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                             unsigned int n_args);
   
     FancyObject_p get(string identifier);

@@ -16,12 +16,11 @@ namespace fancy {
      * Class instance methods
      */
 
-    FancyObject_p method_Class_define_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Class_define_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Class#define_method:with:", 2);
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
+      FancyObject_p arg1 = args[0];
+      FancyObject_p arg2 = args[1];
       if(Block_p method_block = dynamic_cast<Block_p>(arg2)) {
         method_block->override_self(true);
         dynamic_cast<Class_p>(self)->def_method(arg1->to_s(), method_block);
@@ -32,12 +31,11 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Class_define_class_method__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Class_define_class_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Class#define_class_method:with:", 2);
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
+      FancyObject_p arg1 = args[0];
+      FancyObject_p arg2 = args[1];
 
       if(IS_BLOCK(arg2)) {
         dynamic_cast<Class_p>(self)->def_class_method(arg1->to_s(),
@@ -49,11 +47,11 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Class_include(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Class_include(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Class#include:", 1);
 
-      if(Class_p the_klass = dynamic_cast<Class_p>(args.front())) {
+      if(Class_p the_klass = dynamic_cast<Class_p>(args[0])) {
         dynamic_cast<Class_p>(self)->include(the_klass);
         return t;
       } else {
@@ -62,19 +60,19 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Class_method(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Class_method(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Class#method:", 1);
 
       if(Class_p the_klass = dynamic_cast<Class_p>(self)) {
-        if(Method_p meth = dynamic_cast<Method_p>(the_klass->find_method(args.front()->to_s()))) {
+        if(Method_p meth = dynamic_cast<Method_p>(the_klass->find_method(args[0]->to_s()))) {
           return meth;
         }
-        if(NativeMethod_p native_meth = dynamic_cast<NativeMethod_p>(the_klass->find_method(args.front()->to_s()))) {
+        if(NativeMethod_p native_meth = dynamic_cast<NativeMethod_p>(the_klass->find_method(args[0]->to_s()))) {
           return native_meth;
         }
-        return nil;
       }
+      return nil;
     }
 
   }

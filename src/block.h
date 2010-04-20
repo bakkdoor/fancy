@@ -40,7 +40,7 @@ namespace fancy {
      * Calls the Block (see Callable).
      * @return Return value from calling the Block.
      */
-    FancyObject_p call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
     /**
      * Calls the Block with no arguments (see Callable).

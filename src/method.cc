@@ -55,7 +55,7 @@ namespace fancy {
     return nil;
   }
 
-  FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+  FancyObject_p Method::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
     // check if method is empty
     if(this->_body->size() == 0)
@@ -64,23 +64,24 @@ namespace fancy {
     Scope *call_scope = new Scope(self, scope);
 
     // check amount of given arguments
-    if(_argnames.size() != args.size()) {
+    if(_argnames.size() != argc) {
       error("Given amount of arguments (")
-        << args.size()
+        << argc
         << ") doesn't match expected amount ("
         << _argnames.size()
         << ")";
     } else {
       // if amount ok, set the parameters to the given arguments
       list< pair<Identifier_p, Identifier_p> >::iterator name_it = _argnames.begin();
-      list<FancyObject_p>::iterator arg_it = args.begin();
+      // list<FancyObject_p>::iterator arg_it = args.begin();
+      int i = 0;
     
-      while(name_it != _argnames.end() && arg_it != args.end()) {
+      while(name_it != _argnames.end() && i < argc) {
         // name_it->second holds the name of the actual param name 
         // (the first is part of the method name)
-        call_scope->define(name_it->second->name(), (*arg_it));
+        call_scope->define(name_it->second->name(), args[i]);
         name_it++;
-        arg_it++;
+        i++;
       }
     
       // finally, eval the methods body expression

@@ -42,27 +42,25 @@ namespace fancy {
     return "<Block>";
   }
 
-  FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+  FancyObject_p Block::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
     // check if block is empty
     if(this->_body->size() == 0)
       return nil;
 
-    // vector with temporary values for block parameter names (original values)
-    vector<FancyObject_p> old_values(args.size());
+    // array with temporary values for block parameter names (original values)
+    FancyObject_p *old_values = new FancyObject_p[argc];
 
-    if(args.size() > 0) {
+    if(argc > 0) {
       list<Identifier_p>::iterator name_it = _argnames.begin();
-      list<FancyObject_p>::iterator args_it = args.begin();
       int i = 0;
-      while(name_it != _argnames.end() && args_it != args.end()) {
+      while(name_it != _argnames.end() && i < argc) {
         string name = (*name_it)->name();
         // save old value for name in old_values
         old_values[i] = _creation_scope->get(name);
         // set new value (argument)
-        _creation_scope->define(name, (*args_it));
+        _creation_scope->define(name, args[i]);
         name_it++;
-        args_it++;
         i++;
       }
     }
@@ -70,16 +68,19 @@ namespace fancy {
     FancyObject_p return_value = this->call(self, scope);
 
     // reset old values for param names in creation_scope (if any args given)
-    if(args.size() > 0) {
+    if(argc > 0) {
       list<Identifier_p>::iterator name_it = _argnames.begin();
-      unsigned int i = 0;
-      while(name_it != _argnames.end() && i < args.size()) {
+      int i = 0;
+      while(name_it != _argnames.end() && i < argc) {
         string name = (*name_it)->name();
         _creation_scope->define(name, old_values[i]);
         i++;
         name_it++;
       }
     }
+
+    // delete old_values array
+    delete[] old_values;
 
     return return_value;
   }

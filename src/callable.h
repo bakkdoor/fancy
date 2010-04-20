@@ -21,7 +21,7 @@ namespace fancy {
      * @param args List of arguments to the call.
      * @param scope The calling scope.
      */
-    virtual FancyObject* call(FancyObject *self, list<FancyObject*> args, Scope *scope) = 0;
+    virtual FancyObject* call(FancyObject *self, FancyObject** args, int argc, Scope *scope) = 0;
 
     /**
      * Calls the Callable (with no arguments) and returns the return

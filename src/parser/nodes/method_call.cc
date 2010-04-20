@@ -27,15 +27,19 @@ namespace fancy {
 
       FancyObject_p MethodCall::eval(Scope *scope)
       {
+        int size = arg_expressions.size();
+        FancyObject_p *args = new FancyObject_p[size];
+        int i = 0;
         list< pair<Identifier_p, Expression_p> >::iterator it;
-        list<FancyObject_p> args;
-        for(it = arg_expressions.begin(); it != arg_expressions.end(); it++) {
-          Expression_p exp = (*it).second;
-          args.push_back(exp->eval(scope));
+        for(it = arg_expressions.begin(); it != arg_expressions.end() && i < size; it++) {
+          args[i] = it->second->eval(scope);
+          i++;
         }  
   
         FancyObject_p receiver_obj = receiver->eval(scope);
-        return receiver_obj->call_method(this->method_ident->name(), args, scope);
+        FancyObject_p retval = receiver_obj->call_method(this->method_ident->name(), args, size, scope);
+        delete[] args;
+        return retval;
       }
 
       OBJ_TYPE MethodCall::type() const

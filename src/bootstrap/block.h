@@ -9,13 +9,13 @@ namespace fancy {
     /**
      * Block instance methods
      */
-    FancyObject_p method_Block_call(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_call_with_arg(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_while_true(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_if(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_unless(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_arguments(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
-    FancyObject_p method_Block_argcount(FancyObject_p self, list<FancyObject_p> args, Scope *scope);
+    FancyObject_p method_Block_call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_call_with_arg(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_while_true(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_if(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_unless(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_arguments(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Block_argcount(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
   }
 }

@@ -22,10 +22,10 @@ namespace fancy {
     /**
      * Number instance methods
      */
-    FancyObject_p method_Number_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#+", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -40,10 +40,10 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_minus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_minus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#-", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -58,10 +58,10 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_multiply(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_multiply(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#*", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -76,10 +76,10 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_divide(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_divide(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#/", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -91,10 +91,10 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_lt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_lt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#<", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -109,10 +109,10 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_lt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_lt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#<=", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -128,10 +128,10 @@ namespace fancy {
     }
 
 
-    FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_gt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#>", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -146,10 +146,10 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_gt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#>=", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -164,10 +164,10 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#==", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Number_p num2 = dynamic_cast<Number_p>(arg);
@@ -180,10 +180,10 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_times(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#times:", 1);
-      FancyObject_p arg = args.front();
+      FancyObject_p arg = args[0];
       if(IS_BLOCK(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Block_p block = dynamic_cast<Block_p>(arg);
@@ -195,8 +195,10 @@ namespace fancy {
 
         int val = num1->intval();
         if(block->argcount() > 0) {
+          FancyObject_p arg[1];
           for(int i = 0; i < val; i++) {
-            block->call(self, list<FancyObject_p>(1, Number::from_int(i)), scope);
+            arg[0] = Number::from_int(i);
+            block->call(self, arg, 1, scope);
           }
         } else {
           for(int i = 0; i < val; i++) {
@@ -209,11 +211,11 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_modulo(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Number_modulo(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Number#modulo:", 1);
       Number_p num1 = dynamic_cast<Number_p>(self);
-      Number_p num2 = dynamic_cast<Number_p>(args.front());
+      Number_p num2 = dynamic_cast<Number_p>(args[0]);
       if(num1 && num2) {
         return Number::from_int(num1->intval() % num2->intval());
       } else {

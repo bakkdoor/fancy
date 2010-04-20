@@ -18,7 +18,7 @@
 #include "method.h"
 
 #define EXPECT_ARGS(method_name, amount)                                    \
-  if(args.size() != amount) {                                               \
+  if(argc != amount) {                                               \
     error(method_name) << " expects " << amount << " arguments." << endl;   \
     return nil;                                                             \
   }                                                                     

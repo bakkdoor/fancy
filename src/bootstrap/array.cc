@@ -22,27 +22,26 @@ namespace fancy {
     /**
      * Array class methods
      */
-    FancyObject_p class_method_Array_new(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_Array_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       return new Array();
     }
 
-    FancyObject_p class_method_Array_new__with_size(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_Array_new__with_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array##new:", 1);
-      if(Number_p num = dynamic_cast<Number_p>(args.front())) {
+      if(Number_p num = dynamic_cast<Number_p>(args[0])) {
         return new Array(num->intval());
       } else {
         return new Array();
       }
     }
 
-    FancyObject_p class_method_Array_new__with(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p class_method_Array_new__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array##new:with:", 2);
-      FancyObject_p arg1 = args.front();
-      args.pop_front();
-      FancyObject_p arg2 = args.front();
+      FancyObject_p arg1 = args[0];
+      FancyObject_p arg2 = args[1];
 
       if(Number_p num = dynamic_cast<Number_p>(arg1)) {
         return new Array(num->intval(), arg2);
@@ -55,18 +54,19 @@ namespace fancy {
      * Array instance methods
      */
 
-    FancyObject_p method_Array_each(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_each(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array#each:", 1);
-      if(IS_BLOCK(args.front())) {
+      if(IS_BLOCK(args[0])) {
         Array_p array = dynamic_cast<Array_p>(self);
-        Block_p block = dynamic_cast<Block_p>(args.front());
+        Block_p block = dynamic_cast<Block_p>(args[0]);
         FancyObject_p retval = nil;
         array->eval(scope);
         int size = array->size();
         // TODO: fix this to start from and increment ...
         for(int i = 0; i < size; i++) {
-          retval = block->call(self, list<FancyObject_p>(1, array->at(i)), scope);
+          FancyObject_p arr[1] = { array->at(i) };
+          retval = block->call(self, arr, 1, scope);
         }
         return retval;
       } else { 
@@ -75,21 +75,19 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Array_each_with_index(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_each_with_index(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array#each_with_index:", 1);
-      if(IS_BLOCK(args.front())) {
+      if(IS_BLOCK(args[0])) {
         Array_p array = dynamic_cast<Array_p>(self);
-        Block_p block = dynamic_cast<Block_p>(args.front());
+        Block_p block = dynamic_cast<Block_p>(args[0]);
         FancyObject_p retval = nil;
         array->eval(scope);
         int size = array->size();
         // TODO: fix this to start from and increment ...
         for(int i = 0; i < size; i++) {
-          list<FancyObject_p> block_args;
-          block_args.push_back(array->at(i));
-          block_args.push_back(Number::from_int(i));
-          retval = block->call(self, block_args, scope);
+          FancyObject_p block_args[2] = { array->at(i), Number::from_int(i) };
+          retval = block->call(self, block_args, 2, scope);
         }
         return retval;
       } else { 
@@ -98,33 +96,33 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Array_insert(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_insert(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array#insert:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
-      array->insert(args.front());
+      array->insert(args[0]);
       return self;
     }
 
-    FancyObject_p method_Array_clear(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_clear(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       array->clear();
       return self;
     }
 
-    FancyObject_p method_Array_size(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       return Number::from_int(array->size());
     }
 
-    FancyObject_p method_Array_at(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array#at:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
-      if(IS_NUM(args.front())) {
-        Number_p index = dynamic_cast<Number_p>(args.front());
+      if(IS_NUM(args[0])) {
+        Number_p index = dynamic_cast<Number_p>(args[0]);
         assert(index);
         return array->at(index->intval());
       } else {
@@ -133,11 +131,11 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Array_append(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_append(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       EXPECT_ARGS("Array#append:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
-      Array_p other_array = dynamic_cast<Array_p>(args.front());
+      Array_p other_array = dynamic_cast<Array_p>(args[0]);
       if(other_array) {
         return array->append(other_array);
       } else {
@@ -146,7 +144,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Array_clone(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
+    FancyObject_p method_Array_clone(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       return array->clone();

@@ -39,7 +39,7 @@ namespace fancy {
 
 
   void Scope::def_native(string ident,
-                         FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                         FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                          unsigned int n_args)
   {
     NativeMethod_p new_builtin(new NativeMethod(ident,
@@ -50,7 +50,7 @@ namespace fancy {
   }
 
   void Scope::def_native(Identifier_p identifier,
-                         FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                         FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                          unsigned int n_args)
   {
     NativeMethod_p new_builtin(new NativeMethod(identifier->name(),
@@ -62,7 +62,7 @@ namespace fancy {
 
 
   void Scope::def_native_special(string ident,
-                                 FancyObject_p (&func)(FancyObject_p self, list<FancyObject_p> args, Scope *sc),
+                                 FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
                                  unsigned int n_args)
   {
     NativeMethod_p new_builtin(new NativeMethod(ident,
