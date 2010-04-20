@@ -24,6 +24,7 @@ namespace fancy {
      */
     FancyObject_p method_Number_plus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#+", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -41,6 +42,7 @@ namespace fancy {
 
     FancyObject_p method_Number_minus(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#-", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -58,6 +60,7 @@ namespace fancy {
 
     FancyObject_p method_Number_multiply(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#*", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -75,6 +78,7 @@ namespace fancy {
 
     FancyObject_p method_Number_divide(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#/", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -89,6 +93,7 @@ namespace fancy {
 
     FancyObject_p method_Number_lt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#<", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -106,6 +111,7 @@ namespace fancy {
 
     FancyObject_p method_Number_lt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#<=", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -124,6 +130,7 @@ namespace fancy {
 
     FancyObject_p method_Number_gt(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#>", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -141,6 +148,7 @@ namespace fancy {
 
     FancyObject_p method_Number_gt_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#>=", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -158,6 +166,7 @@ namespace fancy {
 
     FancyObject_p method_Number_eq(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#==", 1);
       FancyObject_p arg = args.front();
       if(IS_NUM(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
@@ -173,10 +182,17 @@ namespace fancy {
 
     FancyObject_p method_Number_times(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#times:", 1);
       FancyObject_p arg = args.front();
       if(IS_BLOCK(arg)) {
         Number_p num1 = dynamic_cast<Number_p>(self);
         Block_p block = dynamic_cast<Block_p>(arg);
+
+        // if block is empty (nothing in the blocks body) simply
+        // return nil and don't bother wasting any precious time here...
+        if(block->is_empty())
+          return nil;
+
         int val = num1->intval();
         if(block->argcount() > 0) {
           for(int i = 0; i < val; i++) {
@@ -195,6 +211,7 @@ namespace fancy {
 
     FancyObject_p method_Number_modulo(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
     {
+      EXPECT_ARGS("Number#modulo:", 1);
       Number_p num1 = dynamic_cast<Number_p>(self);
       Number_p num2 = dynamic_cast<Number_p>(args.front());
       if(num1 && num2) {

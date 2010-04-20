@@ -44,6 +44,10 @@ namespace fancy {
 
   FancyObject_p Block::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
   {
+    // check if block is empty
+    if(this->_body->size() == 0)
+      return nil;
+
     // vector with temporary values for block parameter names (original values)
     vector<FancyObject_p> old_values(args.size());
 
@@ -82,6 +86,11 @@ namespace fancy {
 
   FancyObject_p Block::call(FancyObject_p self, Scope *scope)
   {
+    // check if block is empty
+    if(this->_body->size() == 0) {
+      return nil;
+    }
+
     FancyObject_p old_self = _creation_scope->current_self();
     if(_override_self) {
       _creation_scope->set_current_self(self);
@@ -131,4 +140,8 @@ namespace fancy {
     _override_self = do_it;
   }
 
+  bool Block::is_empty() const
+  {
+    return this->_body->size() == 0;
+  }
 }

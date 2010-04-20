@@ -57,6 +57,10 @@ namespace fancy {
 
   FancyObject_p Method::call(FancyObject_p self, list<FancyObject_p> args, Scope *scope)
   {
+    // check if method is empty
+    if(this->_body->size() == 0)
+      return nil;
+
     Scope *call_scope = new Scope(self, scope);
 
     // check amount of given arguments
@@ -88,6 +92,10 @@ namespace fancy {
 
   FancyObject_p Method::call(FancyObject_p self, Scope *scope)
   {
+    // check if method is empty
+    if(this->_body->size() == 0)
+      return nil;
+
     Scope *call_scope = new Scope(self, scope);
     return this->_body->eval(call_scope);
   }

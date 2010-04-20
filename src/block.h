@@ -84,6 +84,12 @@ namespace fancy {
      */
     void override_self(bool do_it);
 
+    /**
+     * Indicates, if the body of the block is empty.
+     * @return true if the body's block is empty.
+     */
+    bool is_empty() const;
+
   private:
     list<Identifier_p> _argnames;
     ExpressionList_p _body;
