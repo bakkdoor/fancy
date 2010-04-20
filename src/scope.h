@@ -14,6 +14,8 @@ namespace fancy {
   class Class;
   class FancyObject;
 
+  typedef map<string, FancyObject_p> object_map;
+
   class Scope : public FancyObject
   {
   public:

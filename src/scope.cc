@@ -74,7 +74,7 @@ namespace fancy {
 
   FancyObject_p Scope::operator[](string identifier) const
   {
-    map<string, FancyObject_p>::const_iterator citer = this->value_mappings.find(identifier);
+    object_map::const_iterator citer = this->value_mappings.find(identifier);
   
     if (citer == this->value_mappings.end()) {
       if(this->parent) {
@@ -85,7 +85,7 @@ namespace fancy {
       }
     }
   
-    return (*citer).second;
+    return citer->second;
   }
 
   FancyObject_p Scope::get(string identifier)
@@ -107,8 +107,9 @@ namespace fancy {
       }
     }
 
-    if(this->value_mappings.find(identifier) != this->value_mappings.end()) {
-      return this->value_mappings[identifier];
+    object_map::const_iterator it = this->value_mappings.find(identifier);
+    if(it != this->value_mappings.end()) {
+      return it->second;
     } else {
       // try to look in current_self & current_class
       // current_self
@@ -123,8 +124,9 @@ namespace fancy {
 
   NativeMethod_p Scope::get_native(string identifier)
   {
-    if(this->builtin_mappings.find(identifier) != this->builtin_mappings.end()) {
-      return this->builtin_mappings[identifier];
+    map<string, NativeMethod_p>::const_iterator it = this->builtin_mappings.find(identifier);
+    if(it != this->builtin_mappings.end()) {
+      return it->second;
     } else {
       if(this->parent) {
         return this->parent->get_native(identifier);

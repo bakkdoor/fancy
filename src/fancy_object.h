@@ -10,6 +10,9 @@ namespace fancy {
   class Identifier;
   class Method;
 
+  typedef map<string, FancyObject_p> object_map;
+  typedef map<string, Callable_p> method_map;
+
   class FancyObject : public Expression
   {
   public:

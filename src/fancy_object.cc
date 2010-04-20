@@ -27,8 +27,7 @@ namespace fancy {
 
   FancyObject_p FancyObject::get_slot(const string &slotname) const
   {
-    map<string, FancyObject_p>::const_iterator it;
-    it = this->slots.find(slotname);
+    object_map::const_iterator it = this->slots.find(slotname);
     if(it != this->slots.end()) {
       return it->second;
     } else {
@@ -140,10 +139,12 @@ namespace fancy {
   Callable_p FancyObject::get_method(const string &method_name)
   {
     // first of all, check singleton methods
-    if(this->_singleton_methods.find(method_name) != this->_singleton_methods.end()) {
-      return this->_singleton_methods[method_name];
+    method_map::const_iterator it = this->_singleton_methods.find(method_name);
+    if(it != this->_singleton_methods.end()) {
+      return it->second;
+    } else {
+      return this->_class->find_method(method_name);
     }
-    return this->_class->find_method(method_name);
   }
 
   string FancyObject::docstring() const
