@@ -67,18 +67,11 @@ namespace fancy {
   Number_p Number::from_int(int value)
   {
     // only cache numbers up to INT_CACHE_SIZE
-    if(value >= INT_CACHE_SIZE) {
+    if((value < 0) || (value >= INT_CACHE_SIZE)) {
       return new Number(value);
     }
 
-    if(Number_p num = int_cache[value]) {
-      return num;
-    } else {
-      // insert new value into int_cache & return new number value
-      Number_p new_num = new Number(value);
-      int_cache[value] = new_num;
-      return new_num;
-    }
+    return int_cache[value];
   }
 
   Number_p Number::from_double(double value)
