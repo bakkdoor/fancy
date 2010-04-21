@@ -91,11 +91,14 @@ namespace fancy {
     bool is_empty() const;
 
   private:
+    void init_orig_block_arg_values();
+
     list<Identifier_p> _argnames;
     ExpressionList_p _body;
     Scope *_creation_scope;
     bool _override_self;
     int _argcount;
+    list<FancyObject_p> _block_arg_orig_values;
   };
 
   typedef Block* Block_p;

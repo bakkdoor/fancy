@@ -10,6 +10,7 @@ namespace fancy {
     _argcount(0)
   {
     this->_docstring = "<BLOCK>";
+    init_orig_block_arg_values();
   }
 
   Block::Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope) :
@@ -21,6 +22,7 @@ namespace fancy {
   {
     this->_docstring = "<BLOCK>";
     this->_argcount = argnames.size();
+    init_orig_block_arg_values();
   }
 
   Block::~Block()
@@ -48,16 +50,11 @@ namespace fancy {
     if(this->_body->size() == 0)
       return nil;
 
-    // array with temporary values for block parameter names (original values)
-    FancyObject_p *old_values = new FancyObject_p[argc];
-
     if(argc > 0) {
       list<Identifier_p>::iterator name_it = _argnames.begin();
       int i = 0;
       while(name_it != _argnames.end() && i < argc) {
         string name = (*name_it)->name();
-        // save old value for name in old_values
-        old_values[i] = _creation_scope->get(name);
         // set new value (argument)
         _creation_scope->define(name, args[i]);
         name_it++;
@@ -70,17 +67,14 @@ namespace fancy {
     // reset old values for param names in creation_scope (if any args given)
     if(argc > 0) {
       list<Identifier_p>::iterator name_it = _argnames.begin();
-      int i = 0;
-      while(name_it != _argnames.end() && i < argc) {
+      list<FancyObject_p>::iterator val_it = _block_arg_orig_values.begin();
+      while(name_it != _argnames.end() && val_it != _block_arg_orig_values.end()) {
         string name = (*name_it)->name();
-        _creation_scope->define(name, old_values[i]);
-        i++;
+        _creation_scope->define(name, (*val_it));
         name_it++;
+        val_it++;
       }
     }
-
-    // delete old_values array
-    delete[] old_values;
 
     return return_value;
   }
@@ -144,5 +138,17 @@ namespace fancy {
   bool Block::is_empty() const
   {
     return this->_body->size() == 0;
+  }
+
+  void Block::init_orig_block_arg_values()
+  {
+    if(_argnames.size() > 0) {
+      list<Identifier_p>::iterator name_it = _argnames.begin();
+      while(name_it != _argnames.end()) {
+        // save old value for name in _block_arg_orig_values;
+        _block_arg_orig_values.push_back(_creation_scope->get((*name_it)->name()));
+        name_it++;
+      }
+    }
   }
 }
