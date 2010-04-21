@@ -26,7 +26,7 @@ namespace fancy {
       EXPECT_ARGS("File##open:modes:with:", 3);
       FancyObject_p arg1 = args[0];
       FancyObject_p arg2 = args[1];
-      FancyObject_p arg3 = args[3];
+      FancyObject_p arg3 = args[2];
 
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2) && IS_BLOCK(arg3))) {
         errorln("File##open:modes:with: expects String, Array and Block value");
