@@ -26,9 +26,9 @@ namespace fancy {
     list<Expression_p>::iterator it;
     for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
       retval = (*it)->eval(scope);
-      if(IS_RETURNSTATEMENT((*it))) {
-        return retval;
-      }
+      // if(IS_RETURNSTATEMENT((*it))) {
+      //   return retval;
+      // }
     }
     return retval;
   }
