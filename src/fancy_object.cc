@@ -104,6 +104,9 @@ namespace fancy {
   {
     Callable_p method = this->get_method(method_name);
     if(method) {
+      if(argc == 0) {
+        return method->call(this, scope);
+      }
       return method->call(this, arguments, argc, scope);
     } else {
       // handle unkown messages, if unkown_message:with_params is defined
