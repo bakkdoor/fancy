@@ -37,57 +37,6 @@ namespace fancy {
   {
   }
 
-
-  void Scope::def_native(string ident,
-                         FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                         unsigned int n_args)
-  {
-    NativeMethod_p new_builtin(new NativeMethod(ident,
-                                                func,
-                                                n_args,
-                                                false));
-    this->builtin_mappings[ident] = new_builtin;
-  }
-
-  void Scope::def_native(Identifier_p identifier,
-                         FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                         unsigned int n_args)
-  {
-    NativeMethod_p new_builtin(new NativeMethod(identifier->name(),
-                                                func,
-                                                n_args,
-                                                false));
-    this->builtin_mappings[identifier->name()] = new_builtin;
-  }
-
-
-  void Scope::def_native_special(string ident,
-                                 FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                                 unsigned int n_args)
-  {
-    NativeMethod_p new_builtin(new NativeMethod(ident,
-                                                func,
-                                                n_args,
-                                                true));
-    this->builtin_mappings[ident] = new_builtin;
-  }
-
-  FancyObject_p Scope::operator[](string identifier) const
-  {
-    object_map::const_iterator citer = this->value_mappings.find(identifier);
-  
-    if (citer == this->value_mappings.end()) {
-      if(this->parent) {
-        return (*this->parent)[identifier];
-      } else {
-        // throw UnknownIdentifierError(identifier);
-        return nil;
-      }
-    }
-  
-    return citer->second;
-  }
-
   FancyObject_p Scope::get(string identifier)
   {
     // check for current_scope
@@ -118,21 +67,6 @@ namespace fancy {
       } else {
         // throw UnknownIdentifierError(identifier);
         return nil;
-      }
-    }
-  }
-
-  NativeMethod_p Scope::get_native(string identifier)
-  {
-    map<string, NativeMethod_p>::const_iterator it = this->builtin_mappings.find(identifier);
-    if(it != this->builtin_mappings.end()) {
-      return it->second;
-    } else {
-      if(this->parent) {
-        return this->parent->get_native(identifier);
-      } else {
-        // throw UnknownIdentifierError(identifier);
-        return 0;
       }
     }
   }
@@ -184,11 +118,6 @@ namespace fancy {
     }
 
     return s.str();
-  }
-
-  int Scope::size() const
-  {
-    return this->value_mappings.size() + this->builtin_mappings.size();
   }
 
   FancyObject_p Scope::current_self() const

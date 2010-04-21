@@ -33,46 +33,28 @@ namespace fancy {
     ~Scope();
 
     /**
-     * Looks for an identifier and returns the corresponding object, if in
-     * scope (or in parent scope, if a parent is set).
+     * Looks for an identifier and returns the corresponding object,
+     * if in scope (or in parent scope, if a parent is set).
      * @param identifier The identifier string.
-     * @return The (value) object represented by the identifier within the
-     * scope
+     * @return The (value) object represented by the identifier within
+     * the scope
      */
-    FancyObject_p operator[](string identifier) const;
-
-    bool define(string identifier, FancyObject_p value);
-
-    void def_native(string identifier,
-                    FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                    unsigned int n_args);
-
-    void def_native(Identifier_p identifier,
-                    FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                    unsigned int n_args);
-
-    void def_native_special(string identifier,
-                            FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *sc),
-                            unsigned int n_args);
-  
     FancyObject_p get(string identifier);
-    NativeMethod_p get_native(string identifier);
+    bool define(string identifier, FancyObject_p value);
 
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
-    int size() const;
 
     void set_current_self(FancyObject_p current_self);
     FancyObject_p current_self() const;
-    Class* current_class() const;
 
+    Class* current_class() const;
     void set_current_class(Class_p klass);
-  
+
     Scope* parent_scope() const;
 
   private:
-    map<string, NativeMethod_p> builtin_mappings;
     map<string, FancyObject_p> value_mappings;
     Scope *parent;
     FancyObject *_current_self;
