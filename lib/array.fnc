@@ -179,4 +179,16 @@ def class Array {
     arr = self clone;
     arr append: other_arr
   }
+
+  def join: join_str {
+    str = "";
+    max_idx = self size - 1;
+    self each_with_index: |x i| {
+      str = str ++ x;
+      (i < max_idx) if_true: {
+        str = str ++ join_str
+      }
+    };
+    str
+  }
 }
