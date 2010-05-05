@@ -141,7 +141,7 @@ def class Array {
   }
 
   def last {
-    (self size > 0) . if_true: {
+    (self size > 0) if_true: {
       self at: (self size - 1)
     }
   }
@@ -149,7 +149,7 @@ def class Array {
   def last: amount {
     "Returns new Array with last n elements specified.";
 
-    (amount <= (self size)) . if_true: {
+    (amount <= (self size)) if_true: {
       start_idx = self size - amount;
       arr = [];
       start_idx upto: (self size - 1) do_each: |i| {

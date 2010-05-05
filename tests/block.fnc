@@ -28,5 +28,28 @@ FancySpec describe: Block with: |it| {
     { } argcount . should_equal: 0;
     |x| { } argcount . should_equal: 1;
     |x y z| { } argcount . should_equal: 3
+  };
+
+  it should: "call a block while another is true" when: {
+    i = 0;
+    {i < 10} while_true: {
+      i = i + 1
+    };
+    i should_be: { i >= 10 }
+  };
+
+  it should: "call a block while another is not true" when: {
+    i = 0;
+    {i == 10} while_false: {
+      i = i + 1
+    };
+    i should_equal: 10;
+
+    # again for while_nil
+    i = 0;
+    {i == 10} while_nil: {
+      i = i + 1
+    };
+    i should_equal: 10
   }
 }
