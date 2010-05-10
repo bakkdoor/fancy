@@ -28,8 +28,11 @@ namespace fancy {
         try {
           yyparse();
         } catch(FancyException_p ex) {
-          errorln("UNCAUGHT EXCEPTION: " + ex->to_s());
+          errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
+          errorln(ex->to_s());
+          exit(1);
         }
+
         pop_buffer();
       }
     }

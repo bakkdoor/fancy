@@ -33,7 +33,13 @@ void prepare_argv(int argc, char **argv)
 void exec_from_stdin()
 {
   yyrestart(stdin);
-  yyparse();
+  try {
+    yyparse();
+  } catch(FancyException *ex) {
+    errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
+    errorln(ex->to_s());
+    exit(1);
+  }
 }
 
 int main(int argc, char **argv)
