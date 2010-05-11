@@ -102,5 +102,21 @@ FancySpec describe: Class with: |it| {
     instance2 foo: str2;
     instance2 foo should_equal: str2;
     instance1 foo should_equal: str2
+  };
+
+  it should: "have correct method overloading for method names with and without an argument" when: {
+    def class AClass {
+      def foo {
+        self foo: "None!"
+      }
+
+      def foo: bar {
+        "In AClass#foo: with bar = " ++ bar
+      }
+    };
+
+    instance = AClass new;
+    instance foo should_equal: "In AClass#foo: with bar = None!";
+    instance foo: "Test!" . should_equal: "In AClass#foo: with bar = Test!"
   }
 }

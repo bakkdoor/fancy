@@ -191,4 +191,10 @@ def class Array {
     };
     str
   }
+
+  def join {
+    # TODO: this is a hack, somehow it doesn't work with a literal string
+    self join: (String new)
+  }
+
 }

@@ -111,5 +111,10 @@ FancySpec describe: Array with: |it| {
   it should: "join all elements with a string to a new string" when: {
     arr = [:foo, :bar, :baz];
     arr join: "," . should_equal: "foo,bar,baz"
+  };
+
+  it should: "join all elements with the empty string to a new string" when: {
+    arr = [:foo, :bar, :baz];
+    arr join should_equal: "foobarbaz"
   }
 }
