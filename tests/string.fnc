@@ -29,5 +29,19 @@ FancySpec describe: String with: |it| {
 
   it should: "return the same string by down- and upcasing in a row" when: {
     "HELLO, WORLD" downcase upcase should_equal: "HELLO, WORLD"
+  };
+
+  it should: "iterate over each character in a string" when: {
+    str = "Hello, World!";
+    i = 0;
+    str each: |char| {
+      char should_equal: $ str[i];
+      i = i + 1
+    }
+  };
+
+  it should: "behave like a collection/sequence via each:" when: {
+    str = "Hello, World!";
+    str uniq join: "" . should_equal: "Helo, Wrd!"
   }
 }
