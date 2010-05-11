@@ -43,5 +43,14 @@ FancySpec describe: String with: |it| {
   it should: "behave like a collection/sequence via each:" when: {
     str = "Hello, World!";
     str uniq join: "" . should_equal: "Helo, Wrd!"
+  };
+
+  it should: "have all its characters as instances of String class" when: {
+    str = "foo bar baz";
+    str all?: |c| { c is_a?: String } . should_equal: true
+  };
+
+  it should: "drop all characters upto a whitespace" when: {
+    "hello world" drop_while: |c| { c != " " } . join: "" . should_equal: "world"
   }
 }

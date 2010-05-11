@@ -5,21 +5,21 @@ def class Enumerable {
     self any?: |x| { item == x }
   }
 
-  def any?: item {
+  def any?: condition {
     found = nil;
     self each: |x| {
-      (x == item) if_true: {
+      (condition call: x) if_true: {
         found = true
       }
     };
     found
   }
 
-  def all?: item {
+  def all?: condition {
     all = true;
     self each: |x| {
-      (x == item) if_false: {
-        all = false
+      (condition call: x) if_false: {
+        all = nil
       }
     };
     all
@@ -75,7 +75,7 @@ def class Enumerable {
   
   def take_while: condition {
     coll = [];
-    stop = false;
+    stop = nil;
     self each: |x| {
       stop if_false: {
         condition call: [x] . if_true: {
@@ -90,10 +90,12 @@ def class Enumerable {
 
   def drop_while: condition {
     coll = [];
-    drop = false;
+    drop = nil;
+    first_check = true;
     self each: |x| {
-      drop if_true: {
-        drop = condition call: [x]
+      (drop or: first_check) if_true: {
+        drop = condition call: [x];
+        first_check = nil
       } else: {
         coll << x
       }
