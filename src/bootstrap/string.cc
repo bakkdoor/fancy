@@ -12,6 +12,8 @@ namespace fancy {
       StringClass->def_method("from:to:", new NativeMethod("from:to:", method_String_from__to));
       StringClass->def_method("==", new NativeMethod("==", method_String_eq));
       StringClass->def_method("+", new NativeMethod("+", method_String_plus));
+      StringClass->def_method("each:", new NativeMethod("each:", method_String_each));
+      StringClass->def_method("at:", new NativeMethod("at:", method_String_at));
     }
 
     /**
@@ -83,6 +85,35 @@ namespace fancy {
         return String::from_value(str1 + str2);
       }
       errorln("String#+ expects String argument.");
+      return nil;
+    }
+
+    FancyObject_p method_String_each(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    {
+      EXPECT_ARGS("String#each:", 1);
+      if(Block_p block = dynamic_cast<Block_p>(args[0])) {
+        string str = self->to_s();
+        FancyObject_p retval = nil;
+        for(string::iterator it = str.begin(); it != str.end(); it++) {
+          string str(&(*it), 1);
+          FancyObject_p block_args[1] = { String::from_value(str) };
+          retval = block->call(self, block_args, 1, scope);
+        }
+        return retval;
+      }
+      errorln("String#each: expects Block argument.");
+      return nil;
+    }
+
+    FancyObject_p method_String_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    {
+      EXPECT_ARGS("String#at:", 1);
+      if(Number_p index = dynamic_cast<Number_p>(args[0])) {
+        string str = self->to_s();
+        string char_str = string(&str.at(index->intval()), 1);
+        return String::from_value(char_str);
+      }
+      errorln("String#at: expects Number argument.");
       return nil;
     }
 

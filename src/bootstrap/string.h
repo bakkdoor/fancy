@@ -19,6 +19,8 @@ namespace fancy {
     FancyObject_p method_String_from__to(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
     FancyObject_p method_String_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
     FancyObject_p method_String_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_String_each(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_String_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
   }
 }
