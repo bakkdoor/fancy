@@ -13,34 +13,118 @@ namespace fancy {
   typedef map<string, FancyObject_p> object_map;
   typedef map<string, Callable_p> method_map;
 
+  /**
+   * Base class for all built-in object types in Fancy.
+   */
   class FancyObject : public Expression
   {
   public:
+    /**
+     * Constructor that takes the Class object for the FancyObject.
+     * @param _class The Class object that represents the Class of the Object.
+     */
     FancyObject(Class *_class);
     virtual ~FancyObject();
   
+    /**
+     * Returns the Class of the object.
+     * @return Class object of the object.
+     */
     Class* get_class() const;
+
+    /**
+     * Sets the Class object of the object.
+     * @param klass Class object of the object.
+     */
     void set_class(Class *klass);
 
+    /**
+     * Returns the value of a slot or nil, if not defined.
+     * @param slotname The name (identifier) of the slot to get the
+     * value from.
+     * @return The slotvalue for a given slotname or nil, if not
+     * defined.
+     */
     FancyObject_p get_slot(const string &slotname) const;
     FancyObject_p get_slot(Identifier *slotname) const;
 
+    /**
+     * Sets the slot for a given name with a given value.
+     * @param slotname The name (idenfitier) of the slot.
+     * @param value The value to be set for the slot.
+     */
     void set_slot(const string &slotname, const FancyObject_p value);
     void set_slot(Identifier *slotname, const FancyObject_p value);
 
+    /**
+     * Indicates, if two objects are equal.
+     * @param other The other object to compare this one to.
+     * @return true, if they are equal, nil otherwise.
+     */
     virtual FancyObject_p equal(const FancyObject_p other) const;
+
+    /**
+     * Inherited from Expression.
+     */
     virtual FancyObject_p eval(Scope *scope);
     virtual OBJ_TYPE type() const;
+
+    /**
+     * Returns a C++ string representation of the object (for ouput
+     * purposes).
+     * @return C++ string representation of the object.
+     */
     virtual string to_s() const;
+
+    /**
+     * Returns a C++ string representation with additional information
+     * (e.g. Class of the object).
+     * @return C++ stirng representation with additional information.
+     */
     virtual string inspect() const;
 
+    /**
+     * Calls a method with arguments in a given scope.
+     * @param method_name Name of the method (e.g. "is_a?:")
+     * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
+     * @param argc Amount of arguments passed.
+     * @param scope Scope in which the methodcall should evaluate.
+     * @return The (return) value of the methodcall.
+     */
     FancyObject_p call_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
+
+    /**
+     * Define a singleton method on a FancyObject.
+     * @param name Name of the singleton method.
+     * @param method A Callable that holds the method's body.
+     */
     void def_singleton_method(const string &name, Callable_p method);
+
+    /**
+     * Indicates, if a FancyObject responds to a given methodname (has
+     * a method definition for it).
+     * @param method_name Name of the method to check.
+     * @return true, if this is the case, false otherwise.
+     */
     bool responds_to(const string &method_name);
 
+    /**
+     * Returns a Callable representing the method for a given methodname, if defined.
+     * @param method_name Name of the method to get.
+     * @return Callable representing the method or NULL, if not defined.
+     */
     Callable_p get_method(const string &method_name);
 
+    /**
+     * Returns a C++ string holding the documentation string for the FancyObject.
+     * return C++ string with documentation string.
+     */
     string docstring() const;
+
+    /**
+     * Sets the docstring for the FancyObject.
+     * @param docstring The documentation string to be set.
+     */
     void set_docstring(const string &docstring);
   protected:
     void init_slots();
