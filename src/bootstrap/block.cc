@@ -6,10 +6,10 @@ namespace fancy {
     void init_block_class()
     {  
       BlockClass->def_method("call", new NativeMethod("call", method_Block_call));
-      BlockClass->def_method("call:", new NativeMethod("call:", method_Block_call_with_arg, 1));
-      BlockClass->def_method("while_true:", new NativeMethod("while_true:", method_Block_while_true, 1));
-      BlockClass->def_method("if:", new NativeMethod("if:", method_Block_if, 1));
-      BlockClass->def_method("unless:", new NativeMethod("unless:", method_Block_unless, 1));
+      BlockClass->def_method("call:", new NativeMethod("call:", method_Block_call_with_arg));
+      BlockClass->def_method("while_true:", new NativeMethod("while_true:", method_Block_while_true));
+      BlockClass->def_method("if:", new NativeMethod("if:", method_Block_if));
+      BlockClass->def_method("unless:", new NativeMethod("unless:", method_Block_unless));
       BlockClass->def_method("arguments", new NativeMethod("arguments", method_Block_arguments));
       BlockClass->def_method("argcount", new NativeMethod("argcount", method_Block_argcount));
     }

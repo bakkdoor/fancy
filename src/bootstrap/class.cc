@@ -5,10 +5,10 @@ namespace fancy {
 
     void init_class_class()
     {
-      ClassClass->def_method("define_method:with:", new NativeMethod("define_method:with:", method_Class_define_method__with, 2));
-      ClassClass->def_method("define_class_method:with:", new NativeMethod("define_method:with:", method_Class_define_class_method__with, 2));
-      ClassClass->def_method("include:", new NativeMethod("include:", method_Class_include, 1));
-      ClassClass->def_method("method:", new NativeMethod("method:", method_Class_method, 1));
+      ClassClass->def_method("define_method:with:", new NativeMethod("define_method:with:", method_Class_define_method__with));
+      ClassClass->def_method("define_class_method:with:", new NativeMethod("define_method:with:", method_Class_define_class_method__with));
+      ClassClass->def_method("include:", new NativeMethod("include:", method_Class_include));
+      ClassClass->def_method("method:", new NativeMethod("method:", method_Class_method));
     }
 
 

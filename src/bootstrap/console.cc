@@ -5,8 +5,8 @@ namespace fancy {
 
     void init_console_class()
     {
-      ConsoleClass->def_class_method("print:", new NativeMethod("print:", class_method_Console_print, 1)); 
-      ConsoleClass->def_class_method("println:", new NativeMethod("println:", class_method_Console_println, 1)); 
+      ConsoleClass->def_class_method("print:", new NativeMethod("print:", class_method_Console_print)); 
+      ConsoleClass->def_class_method("println:", new NativeMethod("println:", class_method_Console_println)); 
       ConsoleClass->def_class_method("readln", new NativeMethod("readln", class_method_Console_readln)); 
     }
 

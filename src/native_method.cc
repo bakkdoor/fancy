@@ -3,23 +3,8 @@
 namespace fancy {
 
   NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope),
-                             unsigned int n_args,
-                             bool special) : 
-    FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(n_args), _special(special)
-  {
-  }
-
-  NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope),
-                             unsigned int n_args) :
-    FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(n_args), _special(false)
-  {
-  }
-
-  NativeMethod::NativeMethod(string identifier,
                              FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
-    FancyObject(MethodClass), _identifier(identifier), _func(func), _n_args(0), _special(false)
+    FancyObject(MethodClass), _identifier(identifier), _func(func)
   {
   }
 

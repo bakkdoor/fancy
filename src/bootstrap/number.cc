@@ -5,18 +5,18 @@ namespace fancy {
 
     void init_number_class()
     {
-      NumberClass->def_method("+", new NativeMethod("+", method_Number_plus, 1));
-      NumberClass->def_method("-", new NativeMethod("-", method_Number_minus, 1));
-      NumberClass->def_method("*", new NativeMethod("*", method_Number_multiply, 1));
-      NumberClass->def_method("/", new NativeMethod("/", method_Number_divide, 1));
-      NumberClass->def_method("<", new NativeMethod("<", method_Number_lt, 1));
-      NumberClass->def_method("<=", new NativeMethod("<=", method_Number_lt_eq, 1));
-      NumberClass->def_method(">", new NativeMethod(">", method_Number_gt, 1));
-      NumberClass->def_method(">=", new NativeMethod(">=", method_Number_gt_eq, 1));
-      NumberClass->def_method("==", new NativeMethod("==", method_Number_eq, 1));
-      NumberClass->def_method("times:", new NativeMethod("times:", method_Number_times, 1));
-      NumberClass->def_method("modulo:", new NativeMethod("modulo:", method_Number_modulo, 1));
-      NumberClass->def_method("%", new NativeMethod("%", method_Number_modulo, 1));
+      NumberClass->def_method("+", new NativeMethod("+", method_Number_plus));
+      NumberClass->def_method("-", new NativeMethod("-", method_Number_minus));
+      NumberClass->def_method("*", new NativeMethod("*", method_Number_multiply));
+      NumberClass->def_method("/", new NativeMethod("/", method_Number_divide));
+      NumberClass->def_method("<", new NativeMethod("<", method_Number_lt));
+      NumberClass->def_method("<=", new NativeMethod("<=", method_Number_lt_eq));
+      NumberClass->def_method(">", new NativeMethod(">", method_Number_gt));
+      NumberClass->def_method(">=", new NativeMethod(">=", method_Number_gt_eq));
+      NumberClass->def_method("==", new NativeMethod("==", method_Number_eq));
+      NumberClass->def_method("times:", new NativeMethod("times:", method_Number_times));
+      NumberClass->def_method("modulo:", new NativeMethod("modulo:", method_Number_modulo));
+      NumberClass->def_method("%", new NativeMethod("%", method_Number_modulo));
     }
 
     /**

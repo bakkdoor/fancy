@@ -7,8 +7,8 @@ namespace fancy {
     {
       HashClass->def_class_method("new", new NativeMethod("new", class_method_Hash_new));
       HashClass->def_method("size", new NativeMethod("size", method_Hash_size));
-      HashClass->def_method("at:put:", new NativeMethod("at:put:", method_Hash_at__put, 2));
-      HashClass->def_method("at:", new NativeMethod("at", method_Hash_at, 1));
+      HashClass->def_method("at:put:", new NativeMethod("at:put:", method_Hash_at__put));
+      HashClass->def_method("at:", new NativeMethod("at", method_Hash_at));
       HashClass->def_method("keys", new NativeMethod("keys", method_Hash_keys));
       HashClass->def_method("values", new NativeMethod("values", method_Hash_values));
     }

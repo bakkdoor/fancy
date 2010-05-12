@@ -16,20 +16,20 @@ namespace fancy {
       ObjectClass->def_method("inspect", new NativeMethod("inspect", method_Object_inspect));
 
       ObjectClass->def_method("_class", new NativeMethod("_class", method_Object_class));
-      ObjectClass->def_method("define_singleton_method:with:", new NativeMethod("define_singleton_method:with:", method_Object_define_singleton_method__with, 2));
+      ObjectClass->def_method("define_singleton_method:with:", new NativeMethod("define_singleton_method:with:", method_Object_define_singleton_method__with));
 
       ObjectClass->def_method("==", new NativeMethod("==", method_Object_eq));
-      ObjectClass->def_method("is_a?:", new NativeMethod("is_a?:", method_Object_is_a, 1));
+      ObjectClass->def_method("is_a?:", new NativeMethod("is_a?:", method_Object_is_a));
 
-      ObjectClass->def_method("send:", new NativeMethod("send:", method_Object_send, 1));
-      ObjectClass->def_method("send:params:", new NativeMethod("send:params:", method_Object_send__params, 2));
+      ObjectClass->def_method("send:", new NativeMethod("send:", method_Object_send));
+      ObjectClass->def_method("send:params:", new NativeMethod("send:params:", method_Object_send__params));
 
-      ObjectClass->def_method("responds_to?:", new NativeMethod("responds_to?:", method_Object_responds_to, 1));
+      ObjectClass->def_method("responds_to?:", new NativeMethod("responds_to?:", method_Object_responds_to));
 
-      ObjectClass->def_method("get_slot:", new NativeMethod("get_slot:", method_Object_get_slot, 1));
-      ObjectClass->def_method("set_slot:with:", new NativeMethod("set_slot:with:", method_Object_set_slot__with, 2));
+      ObjectClass->def_method("get_slot:", new NativeMethod("get_slot:", method_Object_get_slot));
+      ObjectClass->def_method("set_slot:with:", new NativeMethod("set_slot:with:", method_Object_set_slot__with));
 
-      ObjectClass->def_method("docstring:", new NativeMethod("docstring:", method_Object_docstring_set, 1));
+      ObjectClass->def_method("docstring:", new NativeMethod("docstring:", method_Object_docstring_set));
       ObjectClass->def_method("docstring", new NativeMethod("docstring", method_Object_docstring_get));
     }
 

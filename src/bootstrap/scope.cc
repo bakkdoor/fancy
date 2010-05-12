@@ -5,9 +5,9 @@ namespace fancy {
 
     void init_scope_class()
     {
-      ScopeClass->def_method("define:value:", new NativeMethod("define:value:", method_Scope_define__value, 2));
+      ScopeClass->def_method("define:value:", new NativeMethod("define:value:", method_Scope_define__value));
       ScopeClass->def_method("parent", new NativeMethod("parent", method_Scope_parent));
-      ScopeClass->def_method("get:", new NativeMethod("get:", method_Scope_get, 1));
+      ScopeClass->def_method("get:", new NativeMethod("get:", method_Scope_get));
     }
 
     /**

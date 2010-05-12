@@ -5,7 +5,7 @@ namespace fancy {
 
     void init_exception_classes()
     {
-      ExceptionClass->def_class_method("new:", new NativeMethod("new:", class_method_Exception_new, 1));
+      ExceptionClass->def_class_method("new:", new NativeMethod("new:", class_method_Exception_new));
       ExceptionClass->def_method("raise!", new NativeMethod("raise!", method_Exception_raise));
       ExceptionClass->def_method("message", new NativeMethod("message", method_Exception_message));
 
