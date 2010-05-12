@@ -5,20 +5,22 @@ def class Foo {
 };
 
 f = Foo new;
-f bar;
+f bar; # prints: version 1
 
+# redefine Foo#bar
 def class Foo {
   def bar {
     Console println: "version 2"
   }
 };
 
-f bar;
+f bar; # prints: version 2
 
+# redefine Foo#bar again
 def class Foo {
   def bar {
     Console println: "version 3"
   }
 };
 
-f bar
+f bar # prints: version 3

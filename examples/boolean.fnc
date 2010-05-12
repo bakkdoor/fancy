@@ -1,25 +1,21 @@
 # some boolean expressions & logicial operations
 
-def class Object {
-  def print {
-    Console println: self
-  }
-};
+true and: true . println; # true
+true and: false . println; # nil
+false and: false . println; # nil
+true and: nil . println; # nil
+nil and: nil . println; # nil
+false and: nil . println; # nil
 
-true and: true . print;
-true and: false . print;
-false and: false . print;
-true and: nil . print;
-nil and: nil . print;
-false and: nil . print;
+"--------------" println;
 
-"--------------" print;
-
+# won't print string
 nil if_true: {
-  "this should _not_ be displayed" print
+  "this should _not_ be displayed" println
 };
 
+# will print string
 nil if_false: {
-  "this _should_ be displayed" print
+  "this _should_ be displayed" println
 }
 

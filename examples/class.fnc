@@ -34,7 +34,7 @@ foo on_hello_do: {
 };
 foo say_hello;
 
-foo _class println;
+foo _class println; # print the class of foo
 
 # define a singleton method on foo object
 foo define_singleton_method: "foo!" with: {
