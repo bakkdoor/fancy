@@ -52,7 +52,7 @@ namespace fancy {
     virtual FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
     /**
-     * Similar to the other call() method but doesn't take any arguments.
+     * Inherited from Callable. Calls the method with no arguments.
      * @param self The self object, also known as the receiver of the method.
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
