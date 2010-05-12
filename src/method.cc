@@ -5,7 +5,6 @@ namespace fancy {
   Method::Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body) :
     FancyObject(MethodClass),
     _body(body),
-    _special(false),
     _is_operator(true)
   {
     _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
@@ -17,19 +16,6 @@ namespace fancy {
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
-    _special(false),
-    _is_operator(false)
-  {
-    init_docstring();
-  }
-
-  Method::Method(const list< pair<Identifier_p, Identifier_p> >  argnames,
-                 const ExpressionList_p body,
-                 bool special) :
-    FancyObject(MethodClass),
-    _argnames(argnames),
-    _body(body),
-    _special(special),
     _is_operator(false)
   {
     init_docstring();
