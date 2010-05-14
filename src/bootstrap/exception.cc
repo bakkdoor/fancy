@@ -6,16 +6,36 @@ namespace fancy {
     void init_exception_classes()
     {
       ExceptionClass->def_class_method("new:", new NativeMethod("new:", class_method_Exception_new));
-      ExceptionClass->def_method("raise!", new NativeMethod("raise!", method_Exception_raise));
-      ExceptionClass->def_method("message", new NativeMethod("message", method_Exception_message));
+
+      ExceptionClass->def_method("raise!",
+                                 new NativeMethod("raise!",
+                                                  "Raises (throws) the Exception up the execution stack, in order to be caught.",
+                                                  method_Exception_raise));
+
+      ExceptionClass->def_method("message",
+                                 new NativeMethod("message",
+                                                  "Returns the message (should be a String) of the Exception",
+                                                  method_Exception_message));
 
       MethodNotFoundErrorClass->def_method("method_name",
-                                           new NativeMethod("method_name", method_MethodNotFoundError_method_name));
-      MethodNotFoundErrorClass->def_method("_class",
-                                           new NativeMethod("_class", method_MethodNotFoundError_class));
+                                           new NativeMethod("method_name",
+                                                            "Returns the name of the Method, that was not found.",
+                                                            method_MethodNotFoundError_method_name));
 
-      IOErrorClass->def_method("filename", new NativeMethod("filename", method_IOError_filename));
-      IOErrorClass->def_method("modes", new NativeMethod("modes", method_IOError_modes));
+      MethodNotFoundErrorClass->def_method("_class",
+                                           new NativeMethod("_class",
+                                                            "Returns the Class for which the Method wasn not found.",
+                                                            method_MethodNotFoundError_class));
+
+      IOErrorClass->def_method("filename",
+                               new NativeMethod("filename",
+                                                "Returns the filename for which an IOError occured.",
+                                                method_IOError_filename));
+
+      IOErrorClass->def_method("modes",
+                               new NativeMethod("modes",
+                                                "Returns the modes Array of the IOError.",
+                                                method_IOError_modes));
     }
 
     /**

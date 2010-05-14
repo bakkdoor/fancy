@@ -5,9 +5,20 @@ namespace fancy {
 
     void init_console_class()
     {
-      ConsoleClass->def_class_method("print:", new NativeMethod("print:", class_method_Console_print)); 
-      ConsoleClass->def_class_method("println:", new NativeMethod("println:", class_method_Console_println)); 
-      ConsoleClass->def_class_method("readln", new NativeMethod("readln", class_method_Console_readln)); 
+      ConsoleClass->def_class_method("print:",
+                                     new NativeMethod("print:",
+                                                      "Prints a given object on STDOUT.",
+                                                      class_method_Console_print));
+
+      ConsoleClass->def_class_method("println:",
+                                     new NativeMethod("println:",
+                                                      "Prints a given object on STDOUT, followed by a newline.",
+                                                      class_method_Console_println));
+
+      ConsoleClass->def_class_method("readln",
+                                     new NativeMethod("readln",
+                                                      "Reads a line from STDIN and returns it as a String.",
+                                                      class_method_Console_readln));
     }
 
 

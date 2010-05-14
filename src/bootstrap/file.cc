@@ -5,15 +5,56 @@ namespace fancy {
 
     void init_file_class()
     {
-      FileClass->def_class_method("open:modes:with:", new NativeMethod("open:modes:with:", class_method_File_open__modes__with));
-      FileClass->def_class_method("open:modes:", new NativeMethod("open:modes:", class_method_File_open__modes));
-      FileClass->def_method("write:", new NativeMethod("write:", method_File_write));
-      FileClass->def_method("newline", new NativeMethod("newline", method_File_newline));
-      FileClass->def_method("open?", new NativeMethod("open?", method_File_is_open));
-      FileClass->def_method("close", new NativeMethod("close", method_File_close));
-      FileClass->def_method("eof?", new NativeMethod("eof?", method_File_eof));
-      FileClass->def_method("modes", new NativeMethod("modes", method_File_modes));
-      FileClass->def_method("readln", new NativeMethod("readln", method_File_readln));
+      FileClass->def_class_method("open:modes:with:",
+                                  new NativeMethod("open:modes:with:",
+                                                   "Opens a File with a given filename, a modes Array and a block.\n\
+E.g. to open a File with read access and read all lines and print them to STDOUT:\n\
+File open: \"foo.txt\" modes: [:read] with: |f| {\n\
+  { f eof? } while_false: {\n\
+    f readln println\n\
+  }\n\
+}",
+                                                   class_method_File_open__modes__with));
+
+      FileClass->def_class_method("open:modes:",
+                                  new NativeMethod("open:modes:",
+                                                   "Opens a File with a given filename and modes Array.",
+                                                   class_method_File_open__modes));
+
+      FileClass->def_method("write:",
+                            new NativeMethod("write:",
+                                             "Writes an object to the File by calling its to_s method.",
+                                             method_File_write));
+
+      FileClass->def_method("newline",
+                            new NativeMethod("newline",
+                                             "Writes a newline to the File.",
+                                             method_File_newline));
+
+      FileClass->def_method("open?",
+                            new NativeMethod("open?",
+                                             "Returns true, if the File is correctly opened and nil otherwise.",
+                                             method_File_is_open));
+
+      FileClass->def_method("close",
+                            new NativeMethod("close",
+                                             "Closes the File.",
+                                             method_File_close));
+
+      FileClass->def_method("eof?",
+                            new NativeMethod("eof?",
+                                             "Returns true, if the File is at its end (EOF) and nil otherwise.",
+                                             method_File_eof));
+
+      FileClass->def_method("modes",
+                            new NativeMethod("modes",
+                                             "Returns the modes Array with which the File is opened.",
+                                             method_File_modes));
+
+      FileClass->def_method("readln",
+                            new NativeMethod("readln",
+                                             "Reads a line from the File and returns it as a String.",
+                                             method_File_readln));
     }
 
 
