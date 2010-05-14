@@ -16,10 +16,14 @@ def class Person {
   # creates getters & setters for slots
   self read_write_slots: [:name, :age, :city];
 
-  # Person constructor
-  def initialize: name {
-    @name = name
-  };
+  # Person class method for creating a new person with a name, age and city
+  def Person name: name age: age city: city {
+    p = Person new;
+    p name: name;
+    p age: age;
+    p city: city;
+    p
+  }
 
   def go_to: city {
     # The .-operator (dot) manages left associativity and treats
@@ -47,10 +51,7 @@ def class Person {
 
 # usage example:
 osna = City new: "Osnabrück";
-p = Person new: "Christopher";
-p age: 23;
-p city: osna;
-
+p = Person name: "Christopher" age: 23 city: osna;
 p println;
 
 berlin = City new: "Berlin";
