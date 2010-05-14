@@ -5,10 +5,27 @@ namespace fancy {
 
     void init_class_class()
     {
-      ClassClass->def_method("define_method:with:", new NativeMethod("define_method:with:", method_Class_define_method__with));
-      ClassClass->def_method("define_class_method:with:", new NativeMethod("define_method:with:", method_Class_define_class_method__with));
-      ClassClass->def_method("include:", new NativeMethod("include:", method_Class_include));
-      ClassClass->def_method("method:", new NativeMethod("method:", method_Class_method));
+      ClassClass->def_method("define_method:with:",
+                             new NativeMethod("define_method:with:",
+                                              "Define a method on a Class, taking a Block as the \
+second argument to serve as the method's body.",
+                                              method_Class_define_method__with));
+
+      ClassClass->def_method("define_class_method:with:",
+                             new NativeMethod("define_class_method:with:",
+                                              "Define a class method, taking a Block as the \
+second argument to serve as the method's body.",
+                                              method_Class_define_class_method__with));
+
+      ClassClass->def_method("include:",
+                             new NativeMethod("include:",
+                                              "Include another Class into this one (to serve as a mix-in).",
+                                              method_Class_include));
+
+      ClassClass->def_method("method:",
+                             new NativeMethod("method:",
+                                              "Returns the Method object with a given name (or nil, if method not defined).",
+                                              method_Class_method));
     }
 
 
