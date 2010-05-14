@@ -8,6 +8,14 @@ namespace fancy {
   {
   }
 
+  NativeMethod::NativeMethod(string identifier,
+                             string docstring,
+                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
+    FancyObject(MethodClass), _identifier(identifier), _func(func)
+  {
+    set_docstring(docstring);
+  }
+
   NativeMethod::~NativeMethod()
   {
   }
@@ -39,7 +47,7 @@ namespace fancy {
 
   string NativeMethod::to_s() const
   {
-    return "<NativeMethod:" + this->_identifier +">";
+    return "<NativeMethod:'" + this->_identifier +"' Doc:'" + _docstring  + "'>";
   }
 
   FancyObject_p NativeMethod::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)

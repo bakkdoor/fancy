@@ -5,13 +5,40 @@ namespace fancy {
 
     void init_block_class()
     {  
-      BlockClass->def_method("call", new NativeMethod("call", method_Block_call));
-      BlockClass->def_method("call:", new NativeMethod("call:", method_Block_call_with_arg));
-      BlockClass->def_method("while_true:", new NativeMethod("while_true:", method_Block_while_true));
-      BlockClass->def_method("if:", new NativeMethod("if:", method_Block_if));
-      BlockClass->def_method("unless:", new NativeMethod("unless:", method_Block_unless));
-      BlockClass->def_method("arguments", new NativeMethod("arguments", method_Block_arguments));
-      BlockClass->def_method("argcount", new NativeMethod("argcount", method_Block_argcount));
+      BlockClass->def_method("call",
+                             new NativeMethod("call",
+                                              "Calls (evaluates) the Block with no arguments.",
+                                              method_Block_call));
+
+      BlockClass->def_method("call:",
+                             new NativeMethod("call:",
+                                              "Calls (evaluates) the Block with the given arguments (single value or Array).",
+                                              method_Block_call_with_arg));
+
+      BlockClass->def_method("while_true:",
+                             new NativeMethod("while_true:",
+                                              "Calls the given Block while this one evaluates to non-nil.",
+                                              method_Block_while_true));
+
+      BlockClass->def_method("if:",
+                             new NativeMethod("if:",
+                                              "Evaluates the Block if the given argument is non-nil.",
+                                              method_Block_if));
+
+      BlockClass->def_method("unless:",
+                             new NativeMethod("unless:",
+                                              "Evaluates the Block if the given argument is nil.",
+                                              method_Block_unless));
+
+      BlockClass->def_method("arguments",
+                             new NativeMethod("arguments",
+                                              "Returns an Array of the argument names.",
+                                              method_Block_arguments));
+
+      BlockClass->def_method("argcount",
+                             new NativeMethod("argcount",
+                                              "Returns the amount of arguments, the Block expects to be called with.",
+                                              method_Block_argcount));
     }
 
 

@@ -8,15 +8,51 @@ namespace fancy {
     {
       ArrayClass->def_class_method("new", new NativeMethod("new", class_method_Array_new));
       ArrayClass->def_class_method("new:", new NativeMethod("new:", class_method_Array_new__with_size));
-      ArrayClass->def_class_method("new:with:", new NativeMethod("new:with:", class_method_Array_new__with));
-      ArrayClass->def_method("each:", new NativeMethod("each:", method_Array_each));
-      ArrayClass->def_method("each_with_index:", new NativeMethod("each_with_index:", method_Array_each_with_index));
-      ArrayClass->def_method("<<", new NativeMethod("<<", method_Array_insert));
-      ArrayClass->def_method("clear", new NativeMethod("clear", method_Array_clear));
-      ArrayClass->def_method("size", new NativeMethod("size", method_Array_size));
-      ArrayClass->def_method("at:", new NativeMethod("at:", method_Array_at));
-      ArrayClass->def_method("append:", new NativeMethod("append:", method_Array_append));
-      ArrayClass->def_method("clone", new NativeMethod("clone", method_Array_clone));
+      
+      ArrayClass->def_class_method("new:with:",
+                                   new NativeMethod("new:with:",
+                                                    "Create a new Array with a given size and default-value.",
+                                                    class_method_Array_new__with));
+
+      ArrayClass->def_method("each:",
+                             new NativeMethod("each:",
+                                              "Iterate over all elements in Array. Calls a given Block with each element.",
+                                              method_Array_each));
+
+      ArrayClass->def_method("each_with_index:",
+                             new NativeMethod("each_with_index:",
+                                              "Iterate over all elements in Array. Calls a given Block with each element and its index.",
+                                              method_Array_each_with_index));
+
+      ArrayClass->def_method("<<",
+                             new NativeMethod("<<",
+                                              "Insert a value into Array.",
+                                              method_Array_insert));
+
+      ArrayClass->def_method("clear",
+                             new NativeMethod("clear",
+                                              "Clear the Array. Deletes all elements in Array.",
+                                              method_Array_clear));
+
+      ArrayClass->def_method("size",
+                             new NativeMethod("size",
+                                              "Returns the size of the Array.",
+                                              method_Array_size));
+
+      ArrayClass->def_method("at:",
+                             new NativeMethod("at:",
+                                              "Returns the value at a given index or nil, if index not valid.",
+                                              method_Array_at));
+
+      ArrayClass->def_method("append:",
+                             new NativeMethod("append:",
+                                              "Appends another Array onto this one.",
+                                              method_Array_append));
+
+      ArrayClass->def_method("clone",
+                             new NativeMethod("clone",
+                                              "Clones (shallow copy) the Array.",
+                                              method_Array_clone));
     }
 
     /**

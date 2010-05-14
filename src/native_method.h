@@ -17,6 +17,16 @@ namespace fancy {
     NativeMethod(string identifier,
                  FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope));
 
+    /**
+     * NativeMethod constructor.
+     * @param identifier Name of the NativeMethod.
+     * @param docstring Documentation string for NativeMethod.
+     * @param func C++ function pointer that contains the code for the methods body.
+     */
+    NativeMethod(string identifier,
+                 string docstring,
+                 FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope));
+
     ~NativeMethod();
 
     /**
