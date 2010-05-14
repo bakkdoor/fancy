@@ -81,10 +81,19 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       file->open();
 
       if(!file->good()) {
+        file->close();
         throw new IOError("Could not open file: ", filename, modes);
       }
+
+      // handle exceptions that get raised within the block and make
+      // sure, the file gets closed at all times to avoid resource leaks.
       FancyObject_p call_args[1] = { file };
-      block->call(self, call_args, 1, scope);
+      try {
+        block->call(self, call_args, 1, scope);
+      } catch(FancyException_p ex) {
+        file->close();
+        throw ex;
+      }
       file->close();
       return nil;
     }
@@ -107,6 +116,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       file->open();
 
       if(!file->good()) {
+        file->close();
         throw new IOError("Could not open file: ", filename, modes);
       }
   
@@ -164,10 +174,10 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
     FancyObject_p method_File_eof(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       File_p file = dynamic_cast<File_p>(self);
-      if(file && file->eof()) {
-          return t;
+      if(file && !file->eof()) {
+          return nil;
       }
-      return nil;
+      return t;
     }
 
     FancyObject_p method_File_modes(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)

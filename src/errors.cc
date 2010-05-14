@@ -49,7 +49,7 @@ namespace fancy {
   }
 
   IOError::IOError(const string &message, const string &filename, Array_p modes) :
-    FancyException(message + filename + " with modes: " + modes->inspect(),
+    FancyException(message + "\"" + filename + "\"" + " with modes: " + modes->inspect(),
                    IOErrorClass),
     _filename(filename),
     _modes(modes)

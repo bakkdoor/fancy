@@ -72,10 +72,6 @@ namespace fancy {
 
   void File::close()
   {
-    // if(_file) {
-    //   fclose(_file);
-    //   _file = 0;
-    // }
     _file.close();
   }
 
