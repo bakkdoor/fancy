@@ -37,6 +37,15 @@ FancySpec describe: Exception with: |it| {
       err _class should_equal: Symbol;
       err method_name should_equal: "this_method_doesnt_exist!"
     }
+  };
+
+  it should: "have access to variables in exception handlers defined in the surrounding scope" when: {
+    var = 1234;
+    try {
+      var wont_work!
+    } rescue MethodNotFoundError => err {
+      var should_equal: 1234
+    }
   }
   
 }
