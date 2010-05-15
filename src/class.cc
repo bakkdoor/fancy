@@ -169,4 +169,9 @@ namespace fancy {
     }
     return false;
   }
+
+  Class_p Class::superclass() const
+  {
+    return this->_superclass;
+  }
 }

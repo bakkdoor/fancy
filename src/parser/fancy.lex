@@ -27,6 +27,7 @@ return          "return:"
 require         "require:"
 try             "try"
 catch           "catch"
+super           "super"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regex_lit       "/"[^\/]*"/"
@@ -79,6 +80,7 @@ comment         #[^\n]*
 {require}       { return REQUIRE; }
 {try}           { return TRY; }
 {catch}         { return CATCH; }
+{super}         { return SUPER; }
 {identifier}    { 
                   char *str = (char*)malloc(strlen(yytext));
                   strcpy(str, yytext);

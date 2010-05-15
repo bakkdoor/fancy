@@ -69,6 +69,7 @@
 %token                  REQUIRE
 %token                  TRY
 %token                  CATCH
+%token                  SUPER
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -289,6 +290,7 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | LPAREN exp RPAREN { $$ = $2; }
                 | exp { $$ = $1; }
                 | IDENTIFIER { $$ = $1; }
+                | SUPER { $$ = new nodes::Super(); }
                 | exp DOT { $$ = $1; }
                 ;
 

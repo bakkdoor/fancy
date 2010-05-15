@@ -17,5 +17,6 @@
 #include "operator_definition.h"
 #include "class_operator_definition.h"
 #include "try_catch_block.h"
+#include "super.h"
 
 #endif /* _PARSER_NODES_INCLUDES_H_ */

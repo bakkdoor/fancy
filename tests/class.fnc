@@ -118,5 +118,26 @@ FancySpec describe: Class with: |it| {
     instance = AClass new;
     instance foo should_equal: "In AClass#foo: with bar = None!";
     instance foo: "Test!" . should_equal: "In AClass#foo: with bar = Test!"
+  };
+
+  it should: "call superclass method by calling super" when: {
+    def class SuperClass {
+      self read_slots: [:name];
+      def initialize: name {
+        @name = name
+      }
+    };
+    def class SubClass : SuperClass {
+      self read_slots: [:age];
+
+      def initialize: age {
+        super initialize: "SubClass";
+        @age = age
+      }
+    };
+
+    sub = SubClass new: 42;
+    sub name should_equal: "SubClass";
+    sub age should_equal: 42
   }
 }

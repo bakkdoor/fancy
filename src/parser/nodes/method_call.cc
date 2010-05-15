@@ -36,8 +36,16 @@ namespace fancy {
           i++;
         }  
   
-        FancyObject_p receiver_obj = receiver->eval(scope);
-        FancyObject_p retval = receiver_obj->call_method(this->method_ident->name(), args, size, scope);
+        FancyObject_p retval = nil;
+
+        // check for super call
+        if(receiver->type() == OBJ_SUPER) {
+          retval = scope->current_self()->call_super_method(this->method_ident->name(), args, size, scope);
+        } else {
+          // if no super call, do normal method call
+          FancyObject_p receiver_obj = receiver->eval(scope);
+          retval = receiver_obj->call_method(this->method_ident->name(), args, size, scope);
+        }
         delete[] args;
         return retval;
       }

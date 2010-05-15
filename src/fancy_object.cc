@@ -124,6 +124,36 @@ namespace fancy {
     }
   }
 
+  FancyObject_p FancyObject::call_super_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope)
+  {
+    if(Class_p superclass = this->_class->superclass()) {
+      Callable_p method = superclass->find_method(method_name);
+      if(method) {
+        if(argc == 0) {
+          return method->call(this, scope);
+        }
+        return method->call(this, arguments, argc, scope);
+      } else {
+        // handle unkown messages, if unkown_message:with_params is defined
+        if(Callable_p unkown_message_method = this->_class->superclass()->find_method("unknown_message:with_params:")) {
+          int size = sizeof(arguments) / sizeof(arguments[0]);
+          vector<FancyObject_p> arr_vec(arguments, &arguments[size]);
+          FancyObject_p new_args[2] = { String::from_value(method_name), new Array(arr_vec) };
+          return unkown_message_method->call(this, new_args, 2, scope);
+        }
+      
+        // in this case no method is found and we raise a MethodNotFoundError
+        FancyException_p except = new MethodNotFoundError(method_name, this->_class->superclass());
+        throw except;
+        return nil;
+      }
+    } else {
+      // TODO: create a UndefinedSuperClass exception class or so...
+      error("No superclass defined for: ") << this->_class->to_s() << endl;
+      return nil;
+    }
+  }
+
   void FancyObject::def_singleton_method(const string &name, Callable_p method)
   {
     assert(method);

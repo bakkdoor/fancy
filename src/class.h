@@ -117,6 +117,8 @@ namespace fancy {
      */
     bool subclass_of(Class_p klass);
 
+    Class_p superclass() const;
+
   private:
     string _name;
     vector<string> _instance_slotnames;

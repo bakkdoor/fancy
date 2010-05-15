@@ -94,6 +94,16 @@ namespace fancy {
     FancyObject_p call_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
 
     /**
+     * Calls a method on its superclass with arguments in a given scope.
+     * @param method_name Name of the method (e.g. "is_a?:")
+     * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
+     * @param argc Amount of arguments passed.
+     * @param scope Scope in which the methodcall should evaluate.
+     * @return The (return) value of the methodcall.
+     */
+    FancyObject_p call_super_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
+
+    /**
      * Define a singleton method on a FancyObject.
      * @param name Name of the singleton method.
      * @param method A Callable that holds the method's body.
