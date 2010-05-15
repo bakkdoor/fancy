@@ -7,7 +7,7 @@
 # Find the sum of all the even-valued terms in the sequence which do
 # not exceed four million.
 
-fibs = [0, 1];
+fibs = [1, 2];
 
 # insert into fibs as long as the sum of the last two numbers doesn't
 # exceed 4000000 
@@ -16,4 +16,7 @@ fibs = [0, 1];
 };
 
 "fibonacci sequence:" println;
-fibs inspect println
+fibs inspect println;
+
+"sum: " print;
+fibs select: |x| { x even? } . sum println
