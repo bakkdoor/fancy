@@ -50,4 +50,15 @@ def class Number {
       tmp = tmp + 1
     }
   }
+};
+
+def class Enumerable {
+  def sum {
+    self reduce: |x y| { x + y } with: 0
+  }
+
+  def product {
+    self reduce: |x y| { x * y } with: 1
+  }
 }
+
