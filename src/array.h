@@ -62,7 +62,7 @@ namespace fancy {
     /**
      * Same as operator[].
      */
-    FancyObject_p at(unsigned int index) const;
+    FancyObject_p at(int index) const;
 
     /**
      * Sets a value at a given index.

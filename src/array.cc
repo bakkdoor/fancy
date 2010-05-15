@@ -38,12 +38,22 @@ namespace fancy {
     return this->at(index);
   }
 
-  FancyObject_p Array::at(unsigned int index) const
+  FancyObject_p Array::at(int index) const
   {
-    if(index < this->_values.size()) {
-      return this->_values[index];
+    // allow negative indexes
+    if(index < 0) {
+      int idx = this->_values.size() + index;
+      if(idx >= 0) {
+        return this->_values[idx];
+      } else {
+        return nil;
+      }
     } else {
-      return nil;
+      if(index < this->_values.size()) {
+        return this->_values[index];
+      } else {
+        return nil;
+      }
     }
   }
 
