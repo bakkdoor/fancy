@@ -30,16 +30,16 @@ namespace fancy {
 
       FancyObject_p ExceptionHandler::handle(FancyException_p exception, Scope *scope)
       {
-        Scope *rescue_scope = new Scope(scope);
+        Scope *catch_scope = new Scope(scope);
         if(_local_name->name() != "") {
           scope->define(_local_name->name(), exception);
         }
-        return _body->eval(rescue_scope);
+        return _body->eval(catch_scope);
       }
 
-      // BeginRescueBlock
+      // TryCatchBlock
 
-      TryRescueBlock::TryRescueBlock(ExpressionList_p body,
+      TryCatchBlock::TryCatchBlock(ExpressionList_p body,
                                      except_handler_list *except_handlers) :
         _body(body)
       {
@@ -48,23 +48,23 @@ namespace fancy {
         }
       }
 
-      TryRescueBlock::TryRescueBlock(ExpressionList_p body,
+      TryCatchBlock::TryCatchBlock(ExpressionList_p body,
                                      list<ExceptionHandler*> except_handlers) :
         _body(body),
         _except_handlers(except_handlers)
       {
       }
 
-      TryRescueBlock::~TryRescueBlock()
+      TryCatchBlock::~TryCatchBlock()
       {
       }
 
-      OBJ_TYPE TryRescueBlock::type() const
+      OBJ_TYPE TryCatchBlock::type() const
       {
-        return OBJ_BEGINRESCUEBLOCK;
+        return OBJ_TRYCATCHBLOCK;
       }
 
-      FancyObject_p TryRescueBlock::eval(Scope *scope)
+      FancyObject_p TryCatchBlock::eval(Scope *scope)
       {
         try {
           return _body->eval(scope);

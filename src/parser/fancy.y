@@ -68,7 +68,7 @@
 %token                  RETURN
 %token                  REQUIRE
 %token                  TRY
-%token                  RESCUE
+%token                  CATCH
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -121,8 +121,8 @@
 %type  <expression>         receiver
 %type  <expression>         arg_exp
 
-%type  <expression>         begin_rescue_block
-%type  <except_handler_list> rescue_blocks
+%type  <expression>         try_catch_block
+%type  <except_handler_list> catch_blocks
 
 %%
 
@@ -144,7 +144,7 @@ exp:            method_def
                 | class_def
                 | method_call
                 | operator_call
-                | begin_rescue_block
+                | try_catch_block
                 | literal_value
                 | IDENTIFIER
                 | LPAREN exp RPAREN { $$ = $2; }
@@ -302,22 +302,22 @@ arg_exp:        IDENTIFIER { $$ = $1; }
                 | DOLLAR exp { $$ = $2; }
                 ;
 
-begin_rescue_block: TRY LCURLY method_body RCURLY rescue_blocks {
+try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                   ExpressionList_p body = new ExpressionList($3);
-                  $$ = new nodes::TryRescueBlock(body, $5);
+                  $$ = new nodes::TryCatchBlock(body, $5);
                 }
                 ;
 
-rescue_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
-                | RESCUE LCURLY method_body RCURLY { 
+catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
+                | CATCH LCURLY method_body RCURLY { 
                   ExpressionList_p body = new ExpressionList($3);
                   $$ = except_handler_node(Identifier::from_string("Exception"), Identifier::from_string(""), body, 0);
                 }
-                | RESCUE IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY { 
+                | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY { 
                   ExpressionList_p body = new ExpressionList($6);
                   $$ = except_handler_node($2, $4, body, 0);
                 }
-                | rescue_blocks RESCUE IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
+                | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList_p body = new ExpressionList($7);
                   $$ = except_handler_node($3, $5, body, $1);
                 }

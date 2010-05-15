@@ -39,7 +39,7 @@ FancySpec describe: File with: |it| {
     try {
       file = File open: "/foo/bar/baz" modes: [:read];
       nil should_equal: true # this shouldn't execute
-    } rescue IOError => e {
+    } catch IOError => e {
       e filename should_equal: "/foo/bar/baz";
       e modes should_equal: [:read]
     }

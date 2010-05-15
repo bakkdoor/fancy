@@ -7,7 +7,7 @@ ARGV[1] if_do: |filename| {
         f readln println
       }
     }
-  } rescue IOError => e {
+  } catch IOError => e {
     "[ERROR] " ++ (e message) println
   }
 } else: {

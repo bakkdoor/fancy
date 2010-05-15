@@ -41,7 +41,7 @@ namespace fancy {
     OBJ_FILE,
     OBJ_SCOPE,
     OBJ_EXCEPTION,
-    OBJ_BEGINRESCUEBLOCK
+    OBJ_TRYCATCHBLOCK
   };
 
   /**

@@ -1,5 +1,5 @@
-#ifndef _PARSER_NODES_TRY_RESCUE_BLOCK_H_
-#define _PARSER_NODES_TRY_RESCUE_BLOCK_H_
+#ifndef _PARSER_NODES_TRY_CATCH_BLOCK_H_
+#define _PARSER_NODES_TRY_CATCH_BLOCK_H_
 
 namespace fancy {
   namespace parser {
@@ -28,12 +28,12 @@ namespace fancy {
         Expression_p _body;
       };
 
-      class TryRescueBlock : public Expression
+      class TryCatchBlock : public Expression
       {
       public:
-        TryRescueBlock(ExpressionList_p body, except_handler_list *except_handlers);
-        TryRescueBlock(ExpressionList_p body, list<ExceptionHandler*> except_handlers);
-        virtual ~TryRescueBlock();
+        TryCatchBlock(ExpressionList_p body, except_handler_list *except_handlers);
+        TryCatchBlock(ExpressionList_p body, list<ExceptionHandler*> except_handlers);
+        virtual ~TryCatchBlock();
 
         virtual OBJ_TYPE type() const;
         virtual FancyObject_p eval(Scope *scope);
