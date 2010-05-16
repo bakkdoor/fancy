@@ -197,4 +197,24 @@ def class Array {
     self join: (String new)
   }
 
+  def select_with_index: condition {
+    coll = [];
+    self each_with_index: |x i| {
+      { coll << [x, i] } if: $ condition call: [x, i]
+    };
+    coll
+  };
+
+  def compact! {
+    count = 0;
+    entries = self select_with_index: |x i| { x nil? };
+    entries each: |e| {
+      self remove_at: (e[1] - count);
+      # increment counter since with each removal the indexes
+      # decrease
+      count = count + 1
+    };
+    self
+  }
+
 }

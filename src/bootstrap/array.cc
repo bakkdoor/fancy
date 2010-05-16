@@ -53,6 +53,11 @@ namespace fancy {
                              new NativeMethod("clone",
                                               "Clones (shallow copy) the Array.",
                                               method_Array_clone));
+
+      ArrayClass->def_method("remove_at:",
+                             new NativeMethod("remove_at:",
+                                              "Removes an element at a given index.",
+                                              method_Array_remove_at));
     }
 
     /**
@@ -184,6 +189,18 @@ namespace fancy {
     {
       Array_p array = dynamic_cast<Array_p>(self);
       return array->clone();
+    }
+
+    FancyObject_p method_Array_remove_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    {
+      EXPECT_ARGS("Array#remove_at:", 1);      
+      Array_p array = dynamic_cast<Array_p>(self);
+      if(Number_p index = dynamic_cast<Number_p>(args[0])) {
+        return array->remove_at(index->intval());
+      } else {
+        errorln("Array#remove_at: expects Number argument.");
+        return nil;
+      }
     }
 
   }

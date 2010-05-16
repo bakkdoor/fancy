@@ -79,6 +79,26 @@ namespace fancy {
     return value;
   }
 
+  FancyObject_p Array::remove_at(int index)
+  {
+    // ignore this case and simply return
+    if(index > this->size()) {
+      return nil;
+    }
+
+    int idx = index;
+    FancyObject_p value = this->at(index);
+    // check for negative indexes
+    if(index < 0) {
+      idx = this->size() + index;
+      if(idx < 0) {
+        return nil; // somethings wrong here
+      }
+    }
+    this->_values.erase(this->_values.begin() + idx);
+    return value;
+  }
+
   FancyObject_p Array::append(Array_p arr)
   {
     vector<FancyObject_p>::iterator it;

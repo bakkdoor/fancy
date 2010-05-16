@@ -47,7 +47,7 @@ def class Enumerable {
       }
     };
     found
-  };
+  }
   
   def map: block {
     coll = [];
@@ -71,7 +71,7 @@ def class Enumerable {
       { coll << x } unless: $ condition call: [x]
     };
     coll
-  };
+  }
   
   def take_while: condition {
     coll = [];
@@ -135,6 +135,10 @@ def class Enumerable {
       item = x
     };
     item
+  }
+
+  def compact {
+    self reject: |x| { x nil? }
   }
   
   # alias: <[:map => :collect, :select => :filter]>

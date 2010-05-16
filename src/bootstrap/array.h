@@ -24,6 +24,7 @@ namespace fancy {
     FancyObject_p method_Array_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
     FancyObject_p method_Array_append(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
     FancyObject_p method_Array_clone(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Array_remove_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
   }
 }

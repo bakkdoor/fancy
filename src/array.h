@@ -86,6 +86,13 @@ namespace fancy {
     FancyObject_p insert_at(unsigned int index, FancyObject_p value);
 
     /**
+     * Removes (deletes) an entry at the given index.
+     * @param index The index where to delete the value at.
+     * @return The deleted value.
+     */
+    FancyObject_p remove_at(int index);
+
+    /**
      * Appends another Array to this one.
      * @param arr Then Array to append.
      * @return Itself, including the appended elements.

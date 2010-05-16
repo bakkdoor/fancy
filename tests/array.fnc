@@ -116,5 +116,21 @@ FancySpec describe: Array with: |it| {
   it should: "join all elements with the empty string to a new string" when: {
     arr = [:foo, :bar, :baz];
     arr join should_equal: "foobarbaz"
+  };
+
+  it should: "remove all nil-value entries when calling compact" when: {
+    [:foo, nil, :bar, nil, :baz] compact should_equal: [:foo, :bar, :baz];
+    [] compact should_equal: [];
+    [nil] compact should_equal: [];
+    [:foo] compact should_equal: [:foo]
+  };
+
+  it should: "remove all nil-value entries in place when calling compact!" when: {
+    arr = [:foo, nil, :bar, nil, :baz];
+    arr compact! should_equal: [:foo, :bar, :baz];
+    arr should_equal: [:foo, :bar, :baz];
+    [] compact! should_equal: [];
+    [nil] compact! should_equal: [];
+    [:foo] compact! should_equal: [:foo]
   }
 }
