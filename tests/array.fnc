@@ -118,6 +118,22 @@ FancySpec describe: Array with: |it| {
     arr join should_equal: "foobarbaz"
   };
 
+  it should: "remove an element at a given index" when: {
+    arr = [1, :foo, 2, :bar, 3, :baz];
+    # remove_at: returns the removed element
+    arr remove_at: 1 . should_equal: :foo;
+    arr should_equal: [1, 2, :bar, 3, :baz];
+    arr remove_at: 3;
+    arr should_equal: [1, 2, :bar, :baz];
+    arr remove_at: [2, 3];
+    arr should_equal: [1, 2];
+    arr = [1, :hello, 2, :world];
+    # remove_at: returns the removed elements as an array
+    # if it was passed an array of indexes
+    arr remove_at: [0, 2, 3] . should_equal: [1, 2, :world];
+    arr should_equal: [:hello]
+  };
+
   it should: "remove all nil-value entries when calling compact" when: {
     [:foo, nil, :bar, nil, :baz] compact should_equal: [:foo, :bar, :baz];
     [] compact should_equal: [];
@@ -132,5 +148,19 @@ FancySpec describe: Array with: |it| {
     [] compact! should_equal: [];
     [nil] compact! should_equal: [];
     [:foo] compact! should_equal: [:foo]
+  };
+
+  it should: "remove all values that meet a condition" when: {
+    arr = [:foo, :bar, 1, 2, :baz, "hello"];
+    arr reject!: |x| { x is_a?: String } . should_equal: [:foo, :bar, 1, 2, :baz];
+    arr should_equal: [:foo, :bar, 1, 2, :baz];
+    arr reject!: |x| { x is_a?: Number };
+    arr should_equal: [:foo, :bar, :baz]
+  };
+
+  it should: "remove all values that don't meet a condition" when: {
+    arr = [:foo, :bar, 1, 2, :baz, "hello"];
+    arr select!: |x| { x is_a?: Number };
+    arr should_equal: [1, 2]
   }
 }

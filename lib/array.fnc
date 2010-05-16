@@ -198,6 +198,8 @@ def class Array {
   }
 
   def select_with_index: condition {
+    "Same as select, just gets also called with an additional argument for each element's index value.";
+    
     coll = [];
     self each_with_index: |x i| {
       { coll << [x, i] } if: $ condition call: [x, i]
@@ -205,16 +207,24 @@ def class Array {
     coll
   };
 
-  def compact! {
-    count = 0;
-    entries = self select_with_index: |x i| { x nil? };
-    entries each: |e| {
-      self remove_at: (e[1] - count);
-      # increment counter since with each removal the indexes
-      # decrease
-      count = count + 1
-    };
+  def reject!: condition {
+    "Removes all elements in place, that meet the condition";
+    
+    entries = self select_with_index: |x i| { condition call: x };
+    self remove_at: $ entries map: |e| { e second };
     self
+  }
+
+  def select!: condition {
+    "Removes all elements in place, that don't meet the condition";
+    
+    self reject!: |x| { condition call: x . not }
+  }
+
+  def compact! {
+    "Removes all nil-value elements in place.";
+    
+    self reject!: |x| { x nil? }
   }
 
 }

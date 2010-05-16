@@ -197,6 +197,20 @@ namespace fancy {
       Array_p array = dynamic_cast<Array_p>(self);
       if(Number_p index = dynamic_cast<Number_p>(args[0])) {
         return array->remove_at(index->intval());
+      } else if(Array_p index_arr = dynamic_cast<Array_p>(args[0])) {
+        // handle array of index values for removing at several indexes
+        vector<FancyObject_p> removed_values;
+        int count = 0;
+        for(unsigned int i = 0; i < index_arr->size(); i++) {
+          if(Number_p idx = dynamic_cast<Number_p>(index_arr->at(i))) {
+            removed_values.push_back(array->remove_at(idx->intval() - count));
+            count++;
+          } else {
+            errorln("Array#remove_at: expects Array of Numbers.");
+            return nil;
+          }
+        }
+        return new Array(removed_values);
       } else {
         errorln("Array#remove_at: expects Number argument.");
         return nil;
