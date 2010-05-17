@@ -80,6 +80,12 @@ def class Object {
       SpecTest failed_test: [self, nil]
     }
   }
+  
+  def should_not_be: block {
+    (block call: [self]) if_true: {
+      SpecTest failed_test: [self, nil]
+    }
+  }
 
   def check_with_expected: expected_value {
     (self == expected_value) if_false: {

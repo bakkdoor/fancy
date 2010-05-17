@@ -21,5 +21,9 @@ FancySpec describe: "DocStrings" with: |it| {
       "bar!"
     };
     method docstring should_equal: "bar!"
+  };
+
+  it should: "have a documentation string for a method" when: {
+    Array method: "[]" . docstring should_not_be: |s| { s empty? }
   }
 }
