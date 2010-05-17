@@ -1,4 +1,10 @@
 def class NilClass {
+  def NilClass new {
+    # always return nil singleton object when trying to create a new
+    # NilClass instance
+    nil
+  }
+  
   def if_true: then_block else: else_block {
     else_block call
   }
