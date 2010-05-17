@@ -6,11 +6,11 @@ block_literal class_definition hash_literal method_call operator_call	\
 method_definition class_method_definition operator_definition		\
 class_operator_definition try_catch_block super
 parser_files = parser/lex parser/bison
-bootstrap_files = core_classes object class block string number	\
-console nil array file scope hash exception method
+bootstrap_files = core_classes object class block string number		\
+console array file scope hash exception method
 
 files = fancy_object true nil hash array identifier symbol number	\
-string native_method scope class errors method regex		\
+string native_method scope class errors method regex			\
 expression_list block utils file fancy_exception
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
