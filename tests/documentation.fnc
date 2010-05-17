@@ -24,6 +24,6 @@ FancySpec describe: "DocStrings" with: |it| {
   };
 
   it should: "have a documentation string for a method" when: {
-    Array method: "[]" . docstring should_not_be: |s| { s empty? }
+    Array method: "first" . docstring should_not_be: |s| { s empty? }
   }
 }

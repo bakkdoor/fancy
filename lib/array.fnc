@@ -125,22 +125,32 @@ def class Array {
   }
 
   def first {
+    "Returns the first element in the Array";
+
     self at: 0
   }
 
   def second {
+    "Returns the second element in the Array";
+
     self at: 1
   }
 
   def third {
+    "Returns the third element in the Array";
+
     self at: 2
   }
 
   def fourth {
+    "Returns the fourth element in the Array";
+
     self at: 3
   }
 
   def last {
+    "Returns the last element in the Array";
+
     (self size > 0) if_true: {
       self at: (self size - 1)
     }

@@ -30,7 +30,14 @@ namespace fancy {
 
   namespace bootstrap {
 
+    /**
+     * Initializes Fancy's core classes.
+     */
     void init_core_classes();
+
+    /**
+     * Initializes global singleton objects (nil & true).
+     */
     void init_global_objects();
 
     /**

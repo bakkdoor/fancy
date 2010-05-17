@@ -73,12 +73,21 @@ namespace fancy {
      */
     list< pair<Identifier_p, Identifier_p> > argnames() const;
 
+    /**
+     * Returns the name of the Method.
+     * @return Name of the Method.
+     */
+    string name() const;
+
+    void set_name(const string &method_name);
+
   protected:
-    string method_ident();
+    void init_method_ident();
     void init_docstring();
     list< pair<Identifier_p, Identifier_p> > _argnames;
     ExpressionList_p _body;
     bool _is_operator;
+    string _method_ident;
   };
 
   typedef Method* Method_p;

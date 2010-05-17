@@ -8,6 +8,7 @@ namespace fancy {
     _is_operator(true)
   {
     _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
+    init_method_ident();
     init_docstring();
   }
 
@@ -18,6 +19,7 @@ namespace fancy {
     _body(body),
     _is_operator(false)
   {
+    init_method_ident();
     init_docstring();
   }
 
@@ -94,10 +96,10 @@ namespace fancy {
 
   string Method::to_s() const
   {
-    return "<method>";
+    return "<Method : '" + _method_ident + "' Doc:'" + _docstring + "'>";
   }
 
-  string Method::method_ident()
+  void Method::init_method_ident()
   {
     stringstream str;
     list< pair<Identifier_p, Identifier_p> >::iterator it;
@@ -107,14 +109,23 @@ namespace fancy {
         str << ":";
       }
     }
-
-    return str.str();
+    _method_ident = str.str();
   }
 
 
   void Method::init_docstring()
   {
     this->_docstring = this->_body->docstring();
+  }
+
+  string Method::name() const
+  {
+    return _method_ident;
+  }
+
+  void Method::set_name(const string &method_name)
+  {
+    this->_method_ident = method_name;
   }
 
 }
