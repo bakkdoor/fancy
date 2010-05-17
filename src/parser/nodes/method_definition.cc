@@ -21,6 +21,9 @@ namespace fancy {
 
       FancyObject_p MethodDefExpr::eval(Scope *scope)
       {
+        // set method name explicitly (somehow method names aren't set
+        // correctly so this is necessary)
+        this->method->set_name(method_name());
         scope->current_class()->def_method(method_name(), this->method);
         return this->method;
       }
