@@ -52,5 +52,20 @@ FancySpec describe: String with: |it| {
 
   it should: "drop all characters upto a whitespace" when: {
     "hello world" drop_while: |c| { c != " " } . join: "" . should_equal: "world"
+  };
+
+  it should: "be empty" when: {
+    "" empty? should_equal: true;
+    " " empty? should_equal: nil;
+    String new empty? should_equal: true
+  };
+
+  it should: "be blank" when: {
+    "" blank? should_equal: true;
+    " " blank? should_equal: true;
+    "-" blank? should_equal: nil;
+    "       " blank? should_equal: true;
+    "hello world" blank? should_equal: nil;
+    "hello world" at: 5 . blank? should_equal: true
   }
 }
