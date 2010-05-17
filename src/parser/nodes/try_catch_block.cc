@@ -76,6 +76,7 @@ namespace fancy {
               return (*it)->handle(ex, scope);
             }
           }
+          throw ex; // no handler defined
         }
       }
       

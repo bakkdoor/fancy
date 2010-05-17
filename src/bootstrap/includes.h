@@ -9,7 +9,6 @@
 #include "string.h"
 #include "number.h"
 #include "console.h"
-#include "nil.h"
 #include "array.h"
 #include "file.h"
 #include "scope.h"

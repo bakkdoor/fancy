@@ -72,7 +72,6 @@ namespace fancy {
       init_string_class();
       init_number_class();
       init_console_class();
-      init_nil_class();
       init_array_class();
       init_file_class();
       init_scope_class();

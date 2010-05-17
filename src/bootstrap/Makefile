@@ -1,8 +1,8 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-files = core_classes object class block string number console nil	\
-array file scope hash exception method
+files = core_classes object class block string number console array	\
+file scope hash exception method
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -31,9 +31,6 @@ number.o: number.cc
 
 console.o: console.cc
 	$(cc) $(cc_flags) -c console.cc -o console.o
-
-nil.o: nil.cc
-	$(cc) $(cc_flags) -c nil.cc -o nil.o
 
 array.o: array.cc
 	$(cc) $(cc_flags) -c array.cc -o array.o
