@@ -12,7 +12,7 @@ namespace fancy {
   Class_p StringClass;
   Class_p SymbolClass;
   Class_p NumberClass;
-  Class_p RegexClass;
+  Class_p RegexpClass;
   Class_p ArrayClass;
   Class_p HashClass;
   Class_p MethodClass;
@@ -51,7 +51,7 @@ namespace fancy {
       StringClass = new Class("String", ObjectClass);
       SymbolClass = new Class("Symbol", ObjectClass);
       NumberClass = new Class("Number", ObjectClass);
-      RegexClass = new Class("Regex", ObjectClass);
+      RegexpClass = new Class("Regexp", ObjectClass);
       ArrayClass = new Class("Array", ObjectClass);
       HashClass = new Class("Hash", ObjectClass);
       MethodClass = new Class("Method", ObjectClass);
@@ -101,7 +101,7 @@ namespace fancy {
       global_scope->define("String", StringClass);
       global_scope->define("Symbol", SymbolClass);
       global_scope->define("Number", NumberClass);
-      global_scope->define("Regex", RegexClass);
+      global_scope->define("Regexp", RegexpClass);
       global_scope->define("Array", ArrayClass);
       global_scope->define("Hash", HashClass);
       global_scope->define("Method", MethodClass);

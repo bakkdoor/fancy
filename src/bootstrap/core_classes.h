@@ -10,7 +10,7 @@ namespace fancy {
   extern Class *StringClass;
   extern Class *SymbolClass;
   extern Class *NumberClass;
-  extern Class *RegexClass;
+  extern Class *RegexpClass;
   extern Class *ArrayClass;
   extern Class *HashClass;
   extern Class *MethodClass;

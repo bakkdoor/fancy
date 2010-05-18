@@ -4,17 +4,17 @@
 namespace fancy {
 
   /**
-   * Regexp class representing Regular Expression Objects in Fancy.
+   * Regexpp class representing Regular Expression Objects in Fancy.
    */
-  class Regex : public FancyObject
+  class Regexp : public FancyObject
   {
   public:
     /**
-     * Regex constructor.
+     * Regexp constructor.
      * @param pattern A C++ string that is the regexp pattern.
      */
-    Regex(const string &pattern);
-    ~Regex();
+    Regexp(const string &pattern);
+    ~Regexp();
 
     /**
      * See FancyObject for these methods.
@@ -42,7 +42,7 @@ namespace fancy {
     string _pattern;
   };
 
-  typedef Regex* Regex_p;
+  typedef Regexp* Regexp_p;
 
 }
 

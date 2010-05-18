@@ -40,7 +40,7 @@ using namespace std;
 #include "string.h"
 #include "number.h"
 #include "hash.h"
-#include "regex.h"
+#include "regexp.h"
 #include "file.h"
 #include "native_method.h"
 #include "block.h"

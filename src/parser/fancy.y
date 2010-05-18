@@ -43,7 +43,7 @@
   FancyObject   *object;
   Identifier    *identifier;
   Number        *number;
-  Regex         *regex;
+  Regexp        *regexp;
   String        *string;
   Symbol        *symbol;
   Array         *array;
@@ -80,7 +80,7 @@
 %token <number>             DOUBLE_LITERAL
 %token <string>             STRING_LITERAL
 %token <symbol>             SYMBOL_LITERAL
-%token <regex>              REGEX_LITERAL
+%token <regexp>             REGEXP_LITERAL
 %token <identifier>         IDENTIFIER
 %token <identifier>         OPERATOR
 
@@ -327,7 +327,7 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 | SYMBOL_LITERAL { $$ = $1; }
                 | hash_literal { $$ = $1; }
                 | array_literal { $$ = $1; }
-                | REGEX_LITERAL { $$ = $1; }
+                | REGEXP_LITERAL { $$ = $1; }
                 | block_literal { $$ = $1; }
                 ;
 

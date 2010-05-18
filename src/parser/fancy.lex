@@ -30,7 +30,7 @@ catch           "catch"
 super           "super"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
-regex_lit       "/"[^\/]*"/"
+regexp_lit      "/"[^\/]*"/"
 comma           ,
 semi            ;
 equals          =
@@ -88,10 +88,10 @@ comment         #[^\n]*
                   yylval.object = Symbol::from_string(str);
                   return SYMBOL_LITERAL;
                 }
-{regex_lit}     {
+{regexp_lit}    {
                   string str(yytext);
-                  yylval.object = new Regex(str.substr(1, str.length() - 2));
-                  return REGEX_LITERAL;
+                  yylval.object = new Regexp(str.substr(1, str.length() - 2));
+                  return REGEXP_LITERAL;
                 }
 {comma}         { return COMMA; }
 {semi}          { return SEMI; }
