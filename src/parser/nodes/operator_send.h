@@ -15,9 +15,9 @@ namespace fancy {
         virtual OBJ_TYPE type() const;
 
       private:
-        Expression_p receiver;
-        Identifier_p operator_name;
-        Expression_p operand;
+        Expression_p _receiver;
+        Identifier_p _operator_name;
+        Expression_p _operand;
       };
 
     }

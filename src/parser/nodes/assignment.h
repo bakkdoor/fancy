@@ -21,8 +21,8 @@ namespace fancy {
         virtual FancyObject_p eval(Scope *scope);
 
       private:
-        Identifier_p  identifier;
-        Expression_p  value_expr;
+        Identifier_p  _identifier;
+        Expression_p  _value_expr;
       };
 
       typedef AssignmentExpr* AssignmentExpr_p;

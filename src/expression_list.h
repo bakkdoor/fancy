@@ -59,7 +59,7 @@ namespace fancy {
     string docstring() const;
 
   private:
-    list<Expression_p> expressions;
+    list<Expression_p> _expressions;
   };
 
   typedef ExpressionList* ExpressionList_p;

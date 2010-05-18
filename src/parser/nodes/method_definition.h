@@ -16,8 +16,8 @@ namespace fancy {
  
       private:
         string method_name();
-        list< pair<Identifier_p, Identifier_p> > method_args;
-        Method_p method;
+        list< pair<Identifier_p, Identifier_p> > _method_args;
+        Method_p _method;
         Identifier_p _method_name;
       };
 

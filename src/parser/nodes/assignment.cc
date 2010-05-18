@@ -5,7 +5,7 @@ namespace fancy {
     namespace nodes {
 
       AssignmentExpr::AssignmentExpr(Identifier_p identifier, Expression_p value_expr) :
-        identifier(identifier), value_expr(value_expr)
+        _identifier(identifier), _value_expr(value_expr)
       {
       }
 
@@ -20,8 +20,8 @@ namespace fancy {
 
       FancyObject_p AssignmentExpr::eval(Scope *scope)
       {
-        FancyObject_p value = this->value_expr->eval(scope);
-        scope->define(this->identifier->name(), value);
+        FancyObject_p value = this->_value_expr->eval(scope);
+        scope->define(this->_identifier->name(), value);
         return value;
       }
 

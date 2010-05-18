@@ -25,9 +25,9 @@ namespace fancy {
       private:
         void init_method_ident();
 
-        Expression_p receiver;
-        Identifier_p method_ident;
-        list< pair<Identifier_p, Expression_p> > arg_expressions;
+        Expression_p _receiver;
+        Identifier_p _method_ident;
+        list< pair<Identifier_p, Expression_p> > _arg_expressions;
       };
 
       typedef MessageSend* MessageSend_p;

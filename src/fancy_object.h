@@ -146,7 +146,7 @@ namespace fancy {
   protected:
     void init_slots();
     Class *_class;
-    map<string, FancyObject_p> slots;
+    map<string, FancyObject_p> _slots;
     map<string, Callable_p> _singleton_methods;
     string _docstring;
   };

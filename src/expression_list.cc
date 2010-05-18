@@ -3,7 +3,7 @@
 namespace fancy {
 
   ExpressionList::ExpressionList(list<Expression_p> expressions) :
-    expressions(expressions)
+    _expressions(expressions)
   {
   }
 
@@ -12,7 +12,7 @@ namespace fancy {
     expression_node *tmp;
     for(tmp = list; tmp != 0; tmp = tmp->next) {
       if(tmp->expression)
-        this->expressions.push_front(tmp->expression);
+        this->_expressions.push_front(tmp->expression);
     }
   }
 
@@ -24,7 +24,7 @@ namespace fancy {
   {
     FancyObject_p retval = nil;
     list<Expression_p>::iterator it;
-    for(it = this->expressions.begin(); it != this->expressions.end(); it++) {
+    for(it = this->_expressions.begin(); it != this->_expressions.end(); it++) {
       retval = (*it)->eval(scope);
       // if(IS_RETURNSTATEMENT((*it))) {
       //   return retval;
@@ -40,12 +40,12 @@ namespace fancy {
 
   unsigned int ExpressionList::size() const
   {
-    return this->expressions.size();
+    return this->_expressions.size();
   }
 
   string ExpressionList::docstring() const
   {
-    if(String_p str = dynamic_cast<String_p>(this->expressions.front())) {
+    if(String_p str = dynamic_cast<String_p>(this->_expressions.front())) {
       return str->value();
     }
     return "";

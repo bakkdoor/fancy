@@ -55,8 +55,8 @@ namespace fancy {
     Scope* parent_scope() const;
 
   private:
-    map<string, FancyObject_p> value_mappings;
-    Scope *parent;
+    map<string, FancyObject_p> _value_mappings;
+    Scope *_parent;
     FancyObject *_current_self;
     Class *_current_class;
   };

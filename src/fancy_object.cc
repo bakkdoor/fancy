@@ -27,8 +27,8 @@ namespace fancy {
 
   FancyObject_p FancyObject::get_slot(const string &slotname) const
   {
-    object_map::const_iterator it = this->slots.find(slotname);
-    if(it != this->slots.end()) {
+    object_map::const_iterator it = this->_slots.find(slotname);
+    if(it != this->_slots.end()) {
       return it->second;
     } else {
       return nil;
@@ -44,7 +44,7 @@ namespace fancy {
   void FancyObject::set_slot(const string &slotname, const FancyObject_p value)
   {
     assert(value);
-    this->slots[slotname] = value;
+    this->_slots[slotname] = value;
   }
 
   void FancyObject::set_slot(const Identifier_p slotname, const FancyObject_p value)
@@ -60,7 +60,7 @@ namespace fancy {
       for(it = this->_class->instance_slotnames().begin(); 
           it != this->_class->instance_slotnames().end();
           it++){
-        this->slots[*it] = nil;
+        this->_slots[*it] = nil;
       }
     }
   }

@@ -9,7 +9,7 @@ namespace fancy {
 
   Scope::Scope(FancyObject_p current_self) :
     FancyObject(ScopeClass),
-    parent(0)
+    _parent(0)
   {
     assert(current_self);
     set_current_self(current_self);
@@ -17,7 +17,7 @@ namespace fancy {
 
   Scope::Scope(Scope *parent) :
     FancyObject(ScopeClass),
-    parent(parent)
+    _parent(parent)
   {
     if(parent) {
       assert(parent->_current_self);
@@ -27,7 +27,7 @@ namespace fancy {
 
   Scope::Scope(FancyObject_p current_self, Scope *parent) :
     FancyObject(ScopeClass),
-    parent(parent)
+    _parent(parent)
   {
     assert(current_self);
     set_current_self(current_self);
@@ -56,14 +56,14 @@ namespace fancy {
       }
     }
 
-    object_map::const_iterator it = this->value_mappings.find(identifier);
-    if(it != this->value_mappings.end()) {
+    object_map::const_iterator it = this->_value_mappings.find(identifier);
+    if(it != this->_value_mappings.end()) {
       return it->second;
     } else {
       // try to look in current_self & current_class
       // current_self
-      if(this->parent) {
-        return this->parent->get(identifier);
+      if(this->_parent) {
+        return this->_parent->get(identifier);
       } else {
         // throw UnknownIdentifierError(identifier);
         return nil;
@@ -88,8 +88,8 @@ namespace fancy {
       }
     }
 
-    bool found = this->value_mappings.find(identifier) != this->value_mappings.end();
-    this->value_mappings[identifier] = value;
+    bool found = this->_value_mappings.find(identifier) != this->_value_mappings.end();
+    this->_value_mappings[identifier] = value;
     return found;
   }
 
@@ -108,8 +108,8 @@ namespace fancy {
     stringstream s;
     s << "Scope:" << endl;
 
-    for(map<string, FancyObject_p>::const_iterator iter = this->value_mappings.begin();
-        iter != this->value_mappings.end();
+    for(map<string, FancyObject_p>::const_iterator iter = this->_value_mappings.begin();
+        iter != this->_value_mappings.end();
         iter++) {
       s << iter->first;
       s << ": ";
@@ -145,7 +145,7 @@ namespace fancy {
 
   Scope* Scope::parent_scope() const
   {
-    return parent;
+    return _parent;
   }
 
 }

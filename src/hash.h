@@ -69,7 +69,7 @@ namespace fancy {
     int size() const;
 
   private:
-    map<FancyObject_p, FancyObject_p> mappings;
+    map<FancyObject_p, FancyObject_p> _mappings;
   };
 
   typedef Hash* Hash_p;
