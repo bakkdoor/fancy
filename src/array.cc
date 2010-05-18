@@ -49,7 +49,7 @@ namespace fancy {
         return nil;
       }
     } else {
-      if(index < this->_values.size()) {
+      if(index < (int)this->_values.size()) {
         return this->_values[index];
       } else {
         return nil;
@@ -82,7 +82,7 @@ namespace fancy {
   FancyObject_p Array::remove_at(int index)
   {
     // ignore this case and simply return
-    if(index > this->size()) {
+    if(index > (int)this->size()) {
       return nil;
     }
 
