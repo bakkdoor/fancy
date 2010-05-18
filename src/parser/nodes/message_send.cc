@@ -4,28 +4,28 @@ namespace fancy {
   namespace parser {
     namespace nodes {
 
-      MethodCall::MethodCall(Expression_p receiver,
-                             call_arg_node *method_args) :
+      MessageSend::MessageSend(Expression_p receiver,
+                               send_arg_node *method_args) :
         receiver(receiver)
       {
-        for(call_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
+        for(send_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
           arg_expressions.push_front(pair<Identifier_p, Expression_p>(tmp->argname, tmp->argexpr));
         }
 
         init_method_ident();
       }
 
-      MethodCall::MethodCall(Expression_p receiver, Identifier_p method_ident) :
+      MessageSend::MessageSend(Expression_p receiver, Identifier_p method_ident) :
         receiver(receiver),
         method_ident(method_ident)
       {
       }
 
-      MethodCall::~MethodCall()
+      MessageSend::~MessageSend()
       {
       }
 
-      FancyObject_p MethodCall::eval(Scope *scope)
+      FancyObject_p MessageSend::eval(Scope *scope)
       {
         int size = arg_expressions.size();
         FancyObject_p *args = new FancyObject_p[size];
@@ -50,12 +50,12 @@ namespace fancy {
         return retval;
       }
 
-      OBJ_TYPE MethodCall::type() const
+      OBJ_TYPE MessageSend::type() const
       {
         return OBJ_METHODCALL;
       }
 
-      void MethodCall::init_method_ident()
+      void MessageSend::init_method_ident()
       {
         stringstream str;
         list< pair<Identifier_p, Expression_p> >::iterator it;

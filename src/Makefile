@@ -2,7 +2,7 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 parser_node_files = array_literal assignment return require		\
-block_literal class_definition hash_literal method_call operator_call	\
+block_literal class_definition hash_literal message_send operator_send	\
 method_definition class_method_definition operator_definition		\
 class_operator_definition try_catch_block super
 parser_files = parser/lex parser/bison

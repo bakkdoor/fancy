@@ -4,7 +4,7 @@ namespace fancy {
   namespace parser {
     namespace nodes {
 
-      OperatorCall::OperatorCall(Expression_p receiver,
+      OperatorSend::OperatorSend(Expression_p receiver,
                                  Identifier_p operator_name,
                                  Expression_p operand) :
         receiver(receiver),
@@ -16,11 +16,11 @@ namespace fancy {
         assert(operand);
       }
 
-      OperatorCall::~OperatorCall()
+      OperatorSend::~OperatorSend()
       {
       }
 
-      FancyObject_p OperatorCall::eval(Scope *scope)
+      FancyObject_p OperatorSend::eval(Scope *scope)
       {
         // FancyObject_p self = scope->current_self();
         FancyObject_p args[1] = { this->operand->eval(scope) };
@@ -28,7 +28,7 @@ namespace fancy {
         return receiver_obj->call_method(this->operator_name->name(), args, 1, scope);
       }
 
-      OBJ_TYPE OperatorCall::type() const
+      OBJ_TYPE OperatorSend::type() const
       {
         return OBJ_OPCALL;
       }

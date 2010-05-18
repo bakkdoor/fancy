@@ -17,9 +17,9 @@
   nodes::block_arg_node* blk_arg_node(Identifier_p argname,
                                       nodes::block_arg_node *next);
 
-  nodes::call_arg_node* mcall_arg_node(Identifier_p argname,
+  nodes::send_arg_node* msend_arg_node(Identifier_p argname,
                                        Expression_p argexpr,
-                                       nodes::call_arg_node *next);
+                                       nodes::send_arg_node *next);
 
   nodes::except_handler_list* except_handler_node(Identifier_p classname,
                                                   Identifier_p localname,
@@ -36,7 +36,7 @@
   array_node               *value_list;
   expression_node          *expr_list;
   fancy::parser::nodes::block_arg_node    *block_arg_list;
-  fancy::parser::nodes::call_arg_node     *call_arg_list;
+  fancy::parser::nodes::send_arg_node     *send_arg_list;
   fancy::parser::nodes::except_handler_list *except_handler_list;
   /* method_arg_node   *method_args; */
 
@@ -116,9 +116,9 @@
 %type  <expression>         operator_def
 %type  <expression>         class_operator_def
 
-%type  <expression>         method_call
-%type  <expression>         operator_call
-%type  <call_arg_list>      call_args
+%type  <expression>         message_send
+%type  <expression>         operator_send
+%type  <send_arg_list>      send_args
 %type  <expression>         receiver
 %type  <expression>         arg_exp
 
@@ -143,8 +143,8 @@ statement:      assignment
 
 exp:            method_def
                 | class_def
-                | method_call
-                | operator_call
+                | message_send
+                | operator_send
                 | try_catch_block
                 | literal_value
                 | IDENTIFIER
@@ -267,22 +267,18 @@ class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY
                 }
                 ;
 
-method_call:    receiver IDENTIFIER { $$ = new nodes::MethodCall($1, $2);  }
-                /* | IDENTIFIER call_args {  */
-                /*   $$ = new MethodCall($1, methodcall_args); */
-                /*   methodcall_args.clear(); */
-                /* }  */
-                | receiver call_args {
-                   $$ = new nodes::MethodCall($1, $2);
+message_send:   receiver IDENTIFIER { $$ = new nodes::MessageSend($1, $2); }
+                | receiver send_args {
+                   $$ = new nodes::MessageSend($1, $2);
                 }
                 ;
 
 
-operator_call:  receiver OPERATOR exp {
-                  $$ = new nodes::OperatorCall($1, $2, $3);
+operator_send:  receiver OPERATOR exp {
+                  $$ = new nodes::OperatorSend($1, $2, $3);
                 }
                 | receiver LBRACKET exp RBRACKET {
-                  $$ = new nodes::OperatorCall($1, Identifier::from_string("[]"), $3);
+                  $$ = new nodes::OperatorSend($1, Identifier::from_string("[]"), $3);
                 }
                 ;
 
@@ -294,8 +290,8 @@ receiver:       | /* empty */ { $$ = Identifier::from_string("self"); }
                 | exp DOT { $$ = $1; }
                 ;
 
-call_args:      IDENTIFIER COLON arg_exp { $$ = mcall_arg_node($1, $3, 0); }
-                | call_args IDENTIFIER COLON arg_exp { $$ = mcall_arg_node($2, $4, $1); }
+send_args:      IDENTIFIER COLON arg_exp { $$ = msend_arg_node($1, $3, 0); }
+                | send_args IDENTIFIER COLON arg_exp { $$ = msend_arg_node($2, $4, $1); }
                 ;
 
 arg_exp:        IDENTIFIER { $$ = $1; }
@@ -416,9 +412,9 @@ nodes::block_arg_node* blk_arg_node(Identifier_p argname, nodes::block_arg_node 
   return node;
 }
 
-nodes::call_arg_node* mcall_arg_node(Identifier_p argname, Expression_p argexpr, nodes::call_arg_node *next)
+nodes::send_arg_node* msend_arg_node(Identifier_p argname, Expression_p argexpr, nodes::send_arg_node *next)
 {
-  nodes::call_arg_node *node = new nodes::call_arg_node;
+  nodes::send_arg_node *node = new nodes::send_arg_node;
   node->argname = argname;
   node->argexpr = argexpr;
   node->next = next;

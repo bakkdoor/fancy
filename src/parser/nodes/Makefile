@@ -1,8 +1,8 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-files = hash_literal array_literal class_definition method_call		\
-operator_call assignment return require method_definition		\
+files = hash_literal array_literal class_definition message_send	\
+operator_send assignment return require method_definition		\
 class_method_definition operator_definition class_operator_definition	\
 block_literal try_catch_block super
 
@@ -20,11 +20,11 @@ array_literal.o: array_literal.cc
 class_definition.o: class_definition.cc
 	$(cc) $(cc_flags) -c class_definition.cc -o class_definition.o
 
-method_call.o: method_call.cc
-	$(cc) $(cc_flags) -c method_call.cc -o method_call.o
+message_send.o: message_send.cc
+	$(cc) $(cc_flags) -c message_send.cc -o message_send.o
 
-operator_call.o: operator_call.cc
-	$(cc) $(cc_flags) -c operator_call.cc -o operator_call.o
+operator_send.o: operator_send.cc
+	$(cc) $(cc_flags) -c operator_send.cc -o operator_send.o
 
 assignment.o: assignment.cc
 	$(cc) $(cc_flags) -c assignment.cc -o assignment.o

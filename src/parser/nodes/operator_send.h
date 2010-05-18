@@ -1,15 +1,15 @@
-#ifndef _OPERATOR_CALL_H_
-#define _OPERATOR_CALL_H_
+#ifndef _OPERATOR_SEND_H_
+#define _OPERATOR_SEND_H_
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      class OperatorCall : public Expression
+      class OperatorSend : public Expression
       {
       public:
-        OperatorCall(Expression_p receiver, Identifier_p operator_name, Expression_p operand);
-        virtual ~OperatorCall();
+        OperatorSend(Expression_p receiver, Identifier_p operator_name, Expression_p operand);
+        virtual ~OperatorSend();
 
         virtual FancyObject_p eval(Scope *scope);
         virtual OBJ_TYPE type() const;
@@ -24,4 +24,4 @@ namespace fancy {
   }
 }
 
-#endif /* _OPERATOR_CALL_H_ */
+#endif /* _OPERATOR_SEND_H_ */
