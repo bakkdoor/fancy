@@ -38,7 +38,8 @@ void exec_from_stdin()
   } catch(FancyException *ex) {
     errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
     errorln(ex->to_s());
-    exit(1);
+    // keep it running!
+    exec_from_stdin();
   }
 }
 
