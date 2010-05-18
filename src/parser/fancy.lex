@@ -48,15 +48,13 @@ comment         #[^\n]*
 {int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
 {string_lit}	{ 
-                  char *str = (char*)malloc(strlen(yytext) - 2); 
-                  strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = String::from_value(str);
+                  string str(yytext);
+                  yylval.object = String::from_value(str.substr(1, str.length() - 2));
                   return STRING_LITERAL;
                 }
-{doc_string}	{ 
-                  char *str = (char*)malloc(strlen(yytext) - 3); 
-                  strncpy(str, yytext + 2, strlen(yytext) - 4);
-                  yylval.object = String::from_value(str);
+{doc_string}	{
+                  string str(yytext);
+                  yylval.object = String::from_value(str.substr(2, str.length() - 4));
                   return STRING_LITERAL;
                 }
 {lparen}        { return LPAREN; }
@@ -71,8 +69,7 @@ comment         #[^\n]*
 {arrow}         { return ARROW; }
 {equals}        { return EQUALS; }
 {special}+      {
-                  char *str = (char*)malloc(strlen(yytext));
-                  strcpy(str, yytext);
+                  string str(yytext);
                   yylval.expression = Identifier::from_string(str);
                   return OPERATOR;
                 }
@@ -82,21 +79,18 @@ comment         #[^\n]*
 {catch}         { return CATCH; }
 {super}         { return SUPER; }
 {identifier}    { 
-                  char *str = (char*)malloc(strlen(yytext));
-                  strcpy(str, yytext);
+                  string str(yytext);
                   yylval.expression = Identifier::from_string(str);
                   return IDENTIFIER;
                 }
 {symbol_lit}    { 
-                  char *str = (char*)malloc(strlen(yytext));
-                  strcpy(str, yytext);
+                  string str(yytext);
                   yylval.object = Symbol::from_string(str);
                   return SYMBOL_LITERAL;
                 }
-{regex_lit}    { 
-                  char *str = (char*)malloc(strlen(yytext) - 2);
-                  strncpy(str, yytext + 1, strlen(yytext) - 2);
-                  yylval.object = new Regex(str);
+{regex_lit}     {
+                  string str(yytext);
+                  yylval.object = new Regex(str.substr(1, str.length() - 2));
                   return REGEX_LITERAL;
                 }
 {comma}         { return COMMA; }
