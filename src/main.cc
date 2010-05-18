@@ -47,32 +47,13 @@ int main(int argc, char **argv)
   GC_INIT();
 
   fancy::parser::load_path.push_back(get_load_path(argc, argv));
-  string files[] = {
-    "lib/object.fnc",
-    "lib/class.fnc",
-    "lib/true_class.fnc",
-    "lib/nil_class.fnc",
-    "lib/number.fnc",
-    "lib/enumerable.fnc",
-    "lib/string.fnc",
-    "lib/array.fnc",
-    "lib/block.fnc",
-    "lib/file.fnc",
-    "lib/fancy_spec.fnc",
-    "lib/console.fnc",
-    "lib/hash.fnc"
-  };
-
-  vector<string> files_vector(files, files + sizeof(files) / sizeof(string));
-
   fancy::bootstrap::init_core_classes();
   fancy::bootstrap::init_global_objects();
   fancy::bootstrap::init_global_scope();
   fancy::Number::init_cache();
 
-  for(unsigned int i = 0; i < files_vector.size(); i++) {
-    fancy::parser::parse_file(files_vector[i]);
-  }
+  string boot_file = "lib/boot.fnc";
+  fancy::parser::parse_file(boot_file);
 
   try {
     if (argc > 1) {
