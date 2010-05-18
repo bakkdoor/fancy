@@ -1,4 +1,6 @@
 def class NilClass {
+  "NilClass. The class of the singleton nil value.";
+
   def NilClass new {
     # always return nil singleton object when trying to create a new
     # NilClass instance

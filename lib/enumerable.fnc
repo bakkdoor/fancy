@@ -1,11 +1,17 @@
 # package: Fancy::Collections
 
 def class Enumerable {
+  "Mixin-Class with useful methods for collections that implement an 'each:' method.";
+
   def include?: item {
+    "Indicates, if a collection includes a given element.";
+
     self any?: |x| { item == x }
   }
 
   def any?: condition {
+    "Indicates, if any element meets the condition.";
+
     found = nil;
     self each: |x| {
       (condition call: x) if_true: {
@@ -16,6 +22,8 @@ def class Enumerable {
   }
 
   def all?: condition {
+    "Indicates, if all elements meet the condition.";
+
     all = true;
     self each: |x| {
       (condition call: x) if_false: {
@@ -26,6 +34,8 @@ def class Enumerable {
   }
 
   def find: item {
+    "Returns nil, if the given object isn't found, or the object, if it is found.";
+
     item is_a?: Block . if_true: {
       self find_by: item
     } else: {
@@ -40,6 +50,8 @@ def class Enumerable {
   }
 
   def find_by: block {
+    "Similar to 'find:' but takes a block that is called for each element to find it.";
+
     found = nil;
     self each: |x| {
       block call: x . if_do: |item| {

@@ -191,6 +191,9 @@ def class Array {
   }
 
   def join: join_str {
+    ""Joins all elements in the Array by a given String.
+      E.g.: [1,2,3] join: ', ' # => '1,2,3'"";
+
     str = "";
     max_idx = self size - 1;
     self each_with_index: |x i| {
@@ -203,6 +206,7 @@ def class Array {
   }
 
   def join {
+    "Joins all elements with the empty String.";
     # TODO: this is a hack, somehow it doesn't work with a literal string
     self join: (String new)
   }
