@@ -17,7 +17,7 @@ namespace fancy {
 
       FancyObject_p OperatorDefExpr::eval(Scope *scope)
       {
-        scope->current_class()->def_method(_op_name, this->_method);
+        scope->current_class()->def_method(_op_name, _method);
         return nil;
       }
 

@@ -20,8 +20,8 @@ namespace fancy {
 
       FancyObject_p AssignmentExpr::eval(Scope *scope)
       {
-        FancyObject_p value = this->_value_expr->eval(scope);
-        scope->define(this->_identifier->name(), value);
+        FancyObject_p value = _value_expr->eval(scope);
+        scope->define(_identifier->name(), value);
         return value;
       }
 

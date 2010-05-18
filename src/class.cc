@@ -6,7 +6,7 @@ namespace fancy {
     FancyObject(ClassClass),
     _name(name)
   {
-    this->_superclass = 0;
+    _superclass = 0;
   }
 
   Class::Class(const string &name, Class_p superclass) : 
@@ -34,7 +34,7 @@ namespace fancy {
 
   void Class::def_slot(const string &name)
   {
-    this->_instance_slotnames.push_back(name);
+    _instance_slotnames.push_back(name);
   }
 
   void Class::def_slot(const Identifier_p name)
@@ -46,7 +46,7 @@ namespace fancy {
   void Class::def_class_slot(const string &name, const FancyObject_p value)
   {
     assert(value);
-    this->_class_slots[name] = value;
+    _class_slots[name] = value;
   }
 
   void Class::def_class_slot(const Identifier_p name, const FancyObject_p value)
@@ -58,8 +58,8 @@ namespace fancy {
   FancyObject_p Class::get_class_slot(const string &identifier) const
   {
     map<string, FancyObject_p>::const_iterator it;
-    it = this->_class_slots.find(identifier);
-    if(it != this->_class_slots.end()) {
+    it = _class_slots.find(identifier);
+    if(it != _class_slots.end()) {
       return it->second;
     } else {
       return nil;
@@ -69,23 +69,23 @@ namespace fancy {
   void Class::include(const Class_p klass)
   {
     assert(klass);
-    this->_included_classes.insert(klass);
+    _included_classes.insert(klass);
   }
 
   vector<string> Class::instance_slotnames() const
   {
-    return this->_instance_slotnames;
+    return _instance_slotnames;
   }
 
   map<string, FancyObject_p> Class::class_slots() const
   {
-    return this->_class_slots;
+    return _class_slots;
   }
 
   void Class::def_method(const string &name, const Callable_p method)
   {
     assert(method);
-    this->_instance_methods[name] = method;
+    _instance_methods[name] = method;
   }
 
   void Class::def_method(const Identifier_p name, const Callable_p method)
@@ -126,30 +126,30 @@ namespace fancy {
 
   string Class::to_s() const
   {
-    return this->_name;
+    return _name;
   }
 
   Callable_p Class::find_method(const string &name)
   {
     // first, try instance methods
-    if(this->_instance_methods.find(name) != this->_instance_methods.end()) {
-      return this->_instance_methods[name];
+    if(_instance_methods.find(name) != _instance_methods.end()) {
+      return _instance_methods[name];
     }
     // then, try singleton methods (class methods)
-    if(this->_singleton_methods.find(name) != this->_singleton_methods.end()) {
-      return this->_singleton_methods[name];
+    if(_singleton_methods.find(name) != _singleton_methods.end()) {
+      return _singleton_methods[name];
     }
     // then, try methods in included classes
-    for(set<Class_p>::iterator it = this->_included_classes.begin();
-        it != this->_included_classes.end();
+    for(set<Class_p>::iterator it = _included_classes.begin();
+        it != _included_classes.end();
         it++) {
       if(Callable_p method = (*it)->find_method(name)) {
         return method;
       }
     }
     // finally, try getting method from superclass (if there is any)
-    if(this->_superclass) {
-      return this->_superclass->find_method(name);
+    if(_superclass) {
+      return _superclass->find_method(name);
     }
 
     return 0;
@@ -172,7 +172,7 @@ namespace fancy {
 
   Class_p Class::superclass() const
   {
-    return this->_superclass;
+    return _superclass;
   }
 
   Array_p Class::instance_methods() const

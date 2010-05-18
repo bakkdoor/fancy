@@ -45,8 +45,8 @@ namespace fancy {
     if(!other_except)
       return nil;
 
-    if(this->_exception_value && other_except->_exception_value) {
-      return this->_exception_value->equal(other_except->_exception_value);
+    if(_exception_value && other_except->_exception_value) {
+      return _exception_value->equal(other_except->_exception_value);
     }
 
     return nil;
@@ -59,7 +59,7 @@ namespace fancy {
 
   string FancyException::to_s() const
   {
-    return this->exception_class()->to_s() + ": " + this->message();
+    return exception_class()->to_s() + ": " + message();
   }
 
   string FancyException::message() const

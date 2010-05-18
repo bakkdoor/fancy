@@ -36,30 +36,30 @@ namespace fancy {
   string Number::to_s() const
   {
     stringstream s;
-    s << (this->is_double() ? this->_doubleval : this->_intval);
+    s << (is_double() ? _doubleval : _intval);
     return s.str();
   }
 
   bool Number::is_double() const
   {
-    return this->_is_double;
+    return _is_double;
   }
 
   double Number::doubleval() const
   {
     if(is_double()) {
-      return this->_doubleval;
+      return _doubleval;
     } else {
-      return (double)this->_intval;
+      return (double)_intval;
     }
   }
 
   int Number::intval() const
   {
-    if(this->is_double()) {
-      return (int)this->_doubleval;
+    if(is_double()) {
+      return (int)_doubleval;
     } else {
-      return this->_intval;
+      return _intval;
     }
   }
 

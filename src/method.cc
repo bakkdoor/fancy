@@ -29,12 +29,12 @@ namespace fancy {
 
   unsigned int Method::argcount() const
   {
-    return this->_argnames.size();
+    return _argnames.size();
   }
 
   list< pair<Identifier_p, Identifier_p> > Method::argnames() const
   {
-    return this->_argnames;
+    return _argnames;
   }
 
   FancyObject_p Method::equal(const FancyObject_p other) const
@@ -46,7 +46,7 @@ namespace fancy {
   FancyObject_p Method::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
     // check if method is empty
-    if(this->_body->size() == 0)
+    if(_body->size() == 0)
       return nil;
 
     Scope *call_scope = new Scope(self, scope);
@@ -73,7 +73,7 @@ namespace fancy {
       }
     
       // finally, eval the methods body expression
-      return this->_body->eval(call_scope);
+      return _body->eval(call_scope);
     }
   
     return nil;
@@ -82,11 +82,11 @@ namespace fancy {
   FancyObject_p Method::call(FancyObject_p self, Scope *scope)
   {
     // check if method is empty
-    if(this->_body->size() == 0)
+    if(_body->size() == 0)
       return nil;
 
     Scope *call_scope = new Scope(self, scope);
-    return this->_body->eval(call_scope);
+    return _body->eval(call_scope);
   }
 
   OBJ_TYPE Method::type() const
@@ -115,7 +115,7 @@ namespace fancy {
 
   void Method::init_docstring()
   {
-    this->_docstring = this->_body->docstring();
+    _docstring = _body->docstring();
   }
 
   string Method::name() const
@@ -125,7 +125,7 @@ namespace fancy {
 
   void Method::set_name(const string &method_name)
   {
-    this->_method_ident = method_name;
+    _method_ident = method_name;
   }
 
 }

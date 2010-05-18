@@ -18,8 +18,8 @@ namespace fancy {
   {
     if(IS_FILE(other)) {
       File_p other_file = dynamic_cast<File_p>(other);
-      if(this->_filename == other_file->_filename
-         && this->_openmode == other_file->_openmode)
+      if(_filename == other_file->_filename
+         && _openmode == other_file->_openmode)
         return t;
     }
     return nil;
@@ -32,22 +32,22 @@ namespace fancy {
 
   string File::to_s() const
   {
-    return "<File:" + this->_filename + ">";; // + " [" + this->_mode + "]>";
+    return "<File:" + _filename + ">";; // + " [" + _mode + "]>";
   }
 
   string File::filename() const
   {
-    return this->_filename;
+    return _filename;
   }
 
   Array_p File::modes() const
   {
-    return this->_modes;
+    return _modes;
   }
 
   ios_base::openmode File::openmode() const
   {
-    return this->_openmode;
+    return _openmode;
   }
 
   fstream& File::file()

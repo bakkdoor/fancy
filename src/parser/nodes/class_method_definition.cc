@@ -26,9 +26,9 @@ namespace fancy {
 
       FancyObject_p ClassMethodDefExpr::eval(Scope *scope)
       {
-        this->_method->set_name(method_name());
-        scope->get(this->_class_name->name())->def_singleton_method(method_name(), this->_method);
-        return this->_method;
+        _method->set_name(method_name());
+        scope->get(_class_name->name())->def_singleton_method(method_name(), _method);
+        return _method;
       }
 
       string ClassMethodDefExpr::method_name()
@@ -37,7 +37,7 @@ namespace fancy {
           stringstream s;
           list< pair<Identifier_p, Identifier_p> >::iterator it;
     
-          for(it = this->_method_args.begin(); it != this->_method_args.end(); it++) {
+          for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";
           }
     

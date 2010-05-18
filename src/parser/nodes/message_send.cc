@@ -40,11 +40,11 @@ namespace fancy {
 
         // check for super call
         if(_receiver->type() == OBJ_SUPER) {
-          retval = scope->current_self()->call_super_method(this->_method_ident->name(), args, size, scope);
+          retval = scope->current_self()->call_super_method(_method_ident->name(), args, size, scope);
         } else {
           // if no super call, do normal method call
           FancyObject_p receiver_obj = _receiver->eval(scope);
-          retval = receiver_obj->call_method(this->_method_ident->name(), args, size, scope);
+          retval = receiver_obj->call_method(_method_ident->name(), args, size, scope);
         }
         delete[] args;
         return retval;
@@ -59,12 +59,12 @@ namespace fancy {
       {
         stringstream str;
         list< pair<Identifier_p, Expression_p> >::iterator it;
-        for(it = this->_arg_expressions.begin(); it != this->_arg_expressions.end(); it++) {
+        for(it = _arg_expressions.begin(); it != _arg_expressions.end(); it++) {
           str << it->first->name();
           str << ":";
         }
 
-        this->_method_ident = Identifier::from_string(str.str());
+        _method_ident = Identifier::from_string(str.str());
       }
 
     }

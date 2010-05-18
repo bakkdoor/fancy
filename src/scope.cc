@@ -46,24 +46,24 @@ namespace fancy {
     // check for instance & class variables
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
-        if(IS_CLASS(this->_current_self)) {
-          return dynamic_cast<Class_p>(this->_current_self)->get_class_slot(identifier);
+        if(IS_CLASS(_current_self)) {
+          return dynamic_cast<Class_p>(_current_self)->get_class_slot(identifier);
         } else {
-          return this->_current_class->get_class_slot(identifier);
+          return _current_class->get_class_slot(identifier);
         }
       } else {
-        return this->_current_self->get_slot(identifier);
+        return _current_self->get_slot(identifier);
       }
     }
 
-    object_map::const_iterator it = this->_value_mappings.find(identifier);
-    if(it != this->_value_mappings.end()) {
+    object_map::const_iterator it = _value_mappings.find(identifier);
+    if(it != _value_mappings.end()) {
       return it->second;
     } else {
       // try to look in current_self & current_class
       // current_self
-      if(this->_parent) {
-        return this->_parent->get(identifier);
+      if(_parent) {
+        return _parent->get(identifier);
       } else {
         // throw UnknownIdentifierError(identifier);
         return nil;
@@ -76,20 +76,20 @@ namespace fancy {
     // check for instance & class variables
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
-        if(IS_CLASS(this->_current_self)) {
-          dynamic_cast<Class_p>(this->_current_self)->def_class_slot(identifier, value);
+        if(IS_CLASS(_current_self)) {
+          dynamic_cast<Class_p>(_current_self)->def_class_slot(identifier, value);
         } else {
-          this->_current_class->def_class_slot(identifier, value);
+          _current_class->def_class_slot(identifier, value);
         }
         return true;
       } else {
-        this->_current_self->set_slot(identifier, value);
+        _current_self->set_slot(identifier, value);
         return true;
       }
     }
 
-    bool found = this->_value_mappings.find(identifier) != this->_value_mappings.end();
-    this->_value_mappings[identifier] = value;
+    bool found = _value_mappings.find(identifier) != _value_mappings.end();
+    _value_mappings[identifier] = value;
     return found;
   }
 
@@ -108,8 +108,8 @@ namespace fancy {
     stringstream s;
     s << "Scope:" << endl;
 
-    for(map<string, FancyObject_p>::const_iterator iter = this->_value_mappings.begin();
-        iter != this->_value_mappings.end();
+    for(map<string, FancyObject_p>::const_iterator iter = _value_mappings.begin();
+        iter != _value_mappings.end();
         iter++) {
       s << iter->first;
       s << ": ";
@@ -122,25 +122,25 @@ namespace fancy {
 
   FancyObject_p Scope::current_self() const
   {
-    return this->_current_self;
+    return _current_self;
   }
 
   Class* Scope::current_class() const
   {
-    return this->_current_class;
+    return _current_class;
   }
 
   void Scope::set_current_self(FancyObject_p current_self)
   {
-    this->_current_self = current_self;
-    this->_current_class = current_self->get_class();
-    this->define("self", current_self);
+    _current_self = current_self;
+    _current_class = current_self->get_class();
+    define("self", current_self);
   }
 
   void Scope::set_current_class(Class_p klass)
   {
     if(klass)
-      this->_current_class = klass;
+      _current_class = klass;
   }
 
   Scope* Scope::parent_scope() const

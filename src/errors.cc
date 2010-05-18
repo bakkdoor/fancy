@@ -12,7 +12,7 @@ namespace fancy {
 
   string UnknownIdentifierError::identifier() const
   {
-    return this->_identifier;
+    return _identifier;
   }
 
   // NoMethodError

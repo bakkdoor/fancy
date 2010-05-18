@@ -32,7 +32,7 @@ namespace fancy {
       return nil;
     } else {
       NativeMethod_p other_bif = (NativeMethod_p)other;
-      if(this->_identifier == other_bif->_identifier) {
+      if(_identifier == other_bif->_identifier) {
         return t;
       } else {
         return nil;
@@ -47,17 +47,17 @@ namespace fancy {
 
   string NativeMethod::to_s() const
   {
-    return "<NativeMethod:'" + this->_identifier + "' Doc:'" + _docstring + "'>";
+    return "<NativeMethod:'" + _identifier + "' Doc:'" + _docstring + "'>";
   }
 
   FancyObject_p NativeMethod::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
-    return this->_func(self, args, argc, scope);
+    return _func(self, args, argc, scope);
   }
 
   FancyObject_p NativeMethod::call(FancyObject_p self, Scope *scope)
   {
-    return this->_func(self, 0, 0, scope);
+    return _func(self, 0, 0, scope);
   }
 
 }

@@ -13,7 +13,7 @@ namespace fancy {
 
   FancyObject_p Identifier::eval(Scope *scope)
   {
-    return scope->get(this->_name);
+    return scope->get(_name);
   }
 
   OBJ_TYPE Identifier::type() const
@@ -23,7 +23,7 @@ namespace fancy {
 
   string Identifier::name() const
   {
-    return this->_name;
+    return _name;
   }
 
   map<string, Identifier_p> Identifier::ident_cache;

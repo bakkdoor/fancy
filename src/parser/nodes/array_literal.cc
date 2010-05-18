@@ -7,7 +7,7 @@ namespace fancy {
       ArrayLiteral::ArrayLiteral(expression_node *expr_list)
       {
         for(expression_node *tmp = expr_list; tmp != NULL; tmp = tmp->next) {
-          this->_expressions.push_back(tmp->expression);
+          _expressions.push_back(tmp->expression);
         }
       }
 
@@ -18,8 +18,8 @@ namespace fancy {
       FancyObject_p ArrayLiteral::eval(Scope *scope)
       {
         vector<FancyObject_p> values;
-        for(list<Expression_p>::iterator it = this->_expressions.begin();
-            it != this->_expressions.end();
+        for(list<Expression_p>::iterator it = _expressions.begin();
+            it != _expressions.end();
             it++) {
           values.push_back((*it)->eval(scope));
         }

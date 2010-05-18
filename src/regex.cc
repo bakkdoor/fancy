@@ -16,7 +16,7 @@ namespace fancy {
       return nil;
   
     Regex_p other_regex = (Regex_p)other;
-    if(this->_pattern == other_regex->_pattern)
+    if(_pattern == other_regex->_pattern)
       return t;
     return nil;
   }
@@ -28,12 +28,12 @@ namespace fancy {
 
   string Regex::to_s() const
   {
-    return "/" + this->_pattern + "/";
+    return "/" + _pattern + "/";
   }
 
   string Regex::pattern() const
   {
-    return this->_pattern;
+    return _pattern;
   }
 
   FancyObject_p Regex::match(String_p string) const

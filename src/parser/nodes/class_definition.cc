@@ -30,7 +30,7 @@ namespace fancy {
       FancyObject_p ClassDefExpr::eval(Scope *scope)
       {
         Class_p the_class = 0;
-        FancyObject_p class_obj = scope->get(this->_class_name->name());
+        FancyObject_p class_obj = scope->get(_class_name->name());
         // check if class is already defined.
         // if so, don't create a new class
         if(IS_CLASS(class_obj)) {
@@ -38,30 +38,30 @@ namespace fancy {
         } else {
           // if not yet defined, create a new class and define it in the
           // current scope
-          Class_p superclass = this->_superclass;
-          if(!superclass && this->_superclass_name) {
-            FancyObject_p class_obj = scope->get(this->_superclass_name->name());
+          Class_p superclass = _superclass;
+          if(!superclass && _superclass_name) {
+            FancyObject_p class_obj = scope->get(_superclass_name->name());
             if(IS_CLASS(class_obj)) {
               superclass = dynamic_cast<Class_p>(class_obj);
             } else {
               error("Superclass identifier does not reference a class: ") 
-                << this->_superclass_name->name() 
+                << _superclass_name->name() 
                 << "(" << class_obj->type() << ")"
                 << endl;
               return nil;
             }
           }
 
-          the_class = new Class(this->_class_name->name(), superclass);
-          scope->define(this->_class_name->name(), the_class);
+          the_class = new Class(_class_name->name(), superclass);
+          scope->define(_class_name->name(), the_class);
         }
         // create new scope with current_self set to new class
         // and eval the body of the class definition
         Scope *class_eval_scope = new Scope(the_class, scope);
         class_eval_scope->set_current_class(the_class);
-        this->_class_body->eval(class_eval_scope);
+        _class_body->eval(class_eval_scope);
         // set documentation string
-        the_class->set_docstring(this->_class_body->docstring());
+        the_class->set_docstring(_class_body->docstring());
         return the_class;
       }
 

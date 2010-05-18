@@ -23,9 +23,9 @@ namespace fancy {
       {
         // set method name explicitly (somehow method names aren't set
         // correctly so this is necessary)
-        this->_method->set_name(method_name());
-        scope->current_class()->def_method(method_name(), this->_method);
-        return this->_method;
+        _method->set_name(method_name());
+        scope->current_class()->def_method(method_name(), _method);
+        return _method;
       }
 
       string MethodDefExpr::method_name()
@@ -34,7 +34,7 @@ namespace fancy {
           stringstream s;
           list< pair<Identifier_p, Identifier_p> >::iterator it;
     
-          for(it = this->_method_args.begin(); it != this->_method_args.end(); it++) {
+          for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";
           }
           _method_name = Identifier::from_string(s.str());

@@ -8,19 +8,19 @@ namespace fancy {
 
   Array::Array(int initial_size) : FancyObject(ArrayClass)
   {
-    this->_values.resize(initial_size, nil);
+    _values.resize(initial_size, nil);
   }
 
   Array::Array(int initial_size, FancyObject_p initial_value) : FancyObject(ArrayClass)
   {
-    this->_values.resize(initial_size, initial_value);
+    _values.resize(initial_size, initial_value);
   }
 
   Array::Array(array_node *val_list) : FancyObject(ArrayClass)
   {
     for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
       if(tmp->value)
-        this->_values.push_back(tmp->value);
+        _values.push_back(tmp->value);
     }
   }
 
@@ -35,22 +35,22 @@ namespace fancy {
 
   FancyObject_p Array::operator[](int index) const
   {
-    return this->at(index);
+    return at(index);
   }
 
   FancyObject_p Array::at(int index) const
   {
     // allow negative indexes
     if(index < 0) {
-      int idx = this->_values.size() + index;
+      int idx = _values.size() + index;
       if(idx >= 0) {
-        return this->_values[idx];
+        return _values[idx];
       } else {
         return nil;
       }
     } else {
-      if(index < (int)this->_values.size()) {
-        return this->_values[index];
+      if(index < (int)_values.size()) {
+        return _values[index];
       } else {
         return nil;
       }
@@ -59,8 +59,8 @@ namespace fancy {
 
   FancyObject_p Array::set_value(unsigned int index, FancyObject_p value)
   {
-    if(index < this->_values.size()) {
-      this->_values[index] = value;
+    if(index < _values.size()) {
+      _values[index] = value;
       return value;
     } else {
       return nil;
@@ -69,33 +69,33 @@ namespace fancy {
 
   FancyObject_p Array::insert(FancyObject_p value)
   {
-    this->_values.push_back(value);
+    _values.push_back(value);
     return value;
   }
 
   FancyObject_p Array::insert_at(unsigned int index, FancyObject_p value)
   {
-    this->set_value(index, value);
+    set_value(index, value);
     return value;
   }
 
   FancyObject_p Array::remove_at(int index)
   {
     // ignore this case and simply return
-    if(index > (int)this->size()) {
+    if(index > (int)size()) {
       return nil;
     }
 
     int idx = index;
-    FancyObject_p value = this->at(index);
+    FancyObject_p value = at(index);
     // check for negative indexes
     if(index < 0) {
-      idx = this->size() + index;
+      idx = size() + index;
       if(idx < 0) {
         return nil; // somethings wrong here
       }
     }
-    this->_values.erase(this->_values.begin() + idx);
+    _values.erase(_values.begin() + idx);
     return value;
   }
 
@@ -103,15 +103,15 @@ namespace fancy {
   {
     vector<FancyObject_p>::iterator it;
     for(it = arr->_values.begin(); it < arr->_values.end(); it++) {
-      this->_values.push_back(*it);
+      _values.push_back(*it);
     }
     return this;
   }
 
   FancyObject_p Array::first() const
   {
-    if(this->_values.size() > 0) {
-      return this->_values.front();
+    if(_values.size() > 0) {
+      return _values.front();
     } else {
       return nil;
     }
@@ -119,8 +119,8 @@ namespace fancy {
 
   FancyObject_p Array::last() const
   {
-    if(this->_values.size() > 0) {
-      return this->_values.back();
+    if(_values.size() > 0) {
+      return _values.back();
     } else {
       return nil;
     }
@@ -135,9 +135,9 @@ namespace fancy {
   {
     stringstream s;
     s << "[";
-    for(unsigned int i = 0; i < this->_values.size(); i++) {
-      s << this->_values[i]->to_s();
-      if(i != (this->_values.size() - 1)) {
+    for(unsigned int i = 0; i < _values.size(); i++) {
+      s << _values[i]->to_s();
+      if(i != (_values.size() - 1)) {
         s << ", ";
       }
     }
@@ -149,9 +149,9 @@ namespace fancy {
   {
     stringstream s;
     s << "[";
-    for(unsigned int i = 0; i < this->_values.size(); i++) {
-      s << this->_values[i]->inspect();
-      if(i != (this->_values.size() - 1)) {
+    for(unsigned int i = 0; i < _values.size(); i++) {
+      s << _values[i]->inspect();
+      if(i != (_values.size() - 1)) {
         s << ", ";
       }
     }
@@ -161,11 +161,11 @@ namespace fancy {
 
   bool Array::operator==(const Array& other) const
   {
-    if(this->_values.size() != other._values.size())
+    if(_values.size() != other._values.size())
       return false;
 
-    for(unsigned int i = 0; i < this->_values.size(); i++) {
-      if(this->_values[i]->equal(other._values[i]) == nil) {
+    for(unsigned int i = 0; i < _values.size(); i++) {
+      if(_values[i]->equal(other._values[i]) == nil) {
         return false;
       }
     }
@@ -185,17 +185,17 @@ namespace fancy {
 
   unsigned int Array::size() const
   {
-    return this->_values.size();
+    return _values.size();
   }
 
   void Array::clear()
   {
-    this->_values.clear();
+    _values.clear();
   }
 
   Array_p Array::clone() const
   {
-    return new Array(this->_values);
+    return new Array(_values);
   }
 
   list<FancyObject_p> Array::to_list() const

@@ -9,7 +9,7 @@ namespace fancy {
     _override_self(false),
     _argcount(0)
   {
-    this->_docstring = "<BLOCK>";
+    _docstring = "<BLOCK>";
     init_orig_block_arg_values();
   }
 
@@ -20,8 +20,8 @@ namespace fancy {
     _creation_scope(creation_scope),
     _override_self(false)
   {
-    this->_docstring = "<BLOCK>";
-    this->_argcount = argnames.size();
+    _docstring = "<BLOCK>";
+    _argcount = argnames.size();
     init_orig_block_arg_values();
   }
 
@@ -47,7 +47,7 @@ namespace fancy {
   FancyObject_p Block::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
   {
     // check if block is empty
-    if(this->_body->size() == 0)
+    if(_body->size() == 0)
       return nil;
 
     if(argc > 0) {
@@ -62,7 +62,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p return_value = this->call(self, scope);
+    FancyObject_p return_value = call(self, scope);
 
     // reset old values for param names in creation_scope (if any args given)
     if(argc > 0) {
@@ -82,7 +82,7 @@ namespace fancy {
   FancyObject_p Block::call(FancyObject_p self, Scope *scope)
   {
     // check if block is empty
-    if(this->_body->size() == 0) {
+    if(_body->size() == 0) {
       return nil;
     }
 
@@ -92,7 +92,7 @@ namespace fancy {
     }
 
     // finally, eval the blocks body expression
-    FancyObject_p return_value = this->_body->eval(_creation_scope);
+    FancyObject_p return_value = _body->eval(_creation_scope);
 
     // restore old self if _override_self
     if(_override_self) {
@@ -104,12 +104,12 @@ namespace fancy {
 
   void Block::set_creation_scope(Scope *creation_scope)
   {
-    this->_creation_scope = creation_scope;
+    _creation_scope = creation_scope;
   }
 
   Scope* Block::creation_scope() const
   {
-    return this->_creation_scope;
+    return _creation_scope;
   }
 
   vector<FancyObject_p> Block::args()
@@ -137,7 +137,7 @@ namespace fancy {
 
   bool Block::is_empty() const
   {
-    return this->_body->size() == 0;
+    return _body->size() == 0;
   }
 
   void Block::init_orig_block_arg_values()

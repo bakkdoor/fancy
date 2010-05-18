@@ -19,7 +19,7 @@ namespace fancy {
   
     Symbol_p other_sym = dynamic_cast<Symbol_p>(other);
     if(other_sym) {
-      if(this->_name == other_sym->_name) {
+      if(_name == other_sym->_name) {
         return t;
       }
     }
@@ -33,17 +33,17 @@ namespace fancy {
 
   string Symbol::to_s() const
   {
-    return this->_name.substr(1, this->_name.size() - 1);
+    return _name.substr(1, _name.size() - 1);
   }
 
   string Symbol::inspect() const
   {
-    return this->_name;
+    return _name;
   }
 
   string Symbol::name() const
   {
-    return this->_name;
+    return _name;
   }
 
   map<string, Symbol_p> Symbol::sym_cache;

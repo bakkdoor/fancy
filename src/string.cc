@@ -17,7 +17,7 @@ namespace fancy {
       return nil;
 
     String_p other_string = (String_p)other;
-    if(this->_value == other_string->_value)
+    if(_value == other_string->_value)
       return t;
     return nil;
   }
@@ -29,17 +29,17 @@ namespace fancy {
 
   string String::to_s() const
   {
-    return this->_value;
+    return _value;
   }
 
   string String::inspect() const
   {
-    return "\"" + this->_value + "\"";
+    return "\"" + _value + "\"";
   }
 
   string String::value() const
   {
-    return this->_value;
+    return _value;
   }
 
   map<string, String_p> String::value_cache;

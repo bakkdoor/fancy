@@ -7,7 +7,7 @@ namespace fancy {
       RequireStatement::RequireStatement(String_p filename)
       {
         assert(filename);
-        this->_filename = filename->value();
+        _filename = filename->value();
       }
 
       RequireStatement::~RequireStatement()

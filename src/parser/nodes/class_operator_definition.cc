@@ -18,7 +18,7 @@ namespace fancy {
 
       FancyObject_p ClassOperatorDefExpr::eval(Scope *scope)
       {
-        scope->get(this->_class_name->name())->def_singleton_method(this->_op_name->name(), this->_method);
+        scope->get(_class_name->name())->def_singleton_method(_op_name->name(), _method);
         return nil;
       }
 
