@@ -174,4 +174,28 @@ namespace fancy {
   {
     return this->_superclass;
   }
+
+  Array_p Class::instance_methods() const
+  {
+    vector<FancyObject_p> methods;
+
+    if(_superclass) {
+      vector<FancyObject_p> super_methods = _superclass->instance_methods()->values();
+      methods.insert(methods.end(), super_methods.begin(), super_methods.end());
+    }
+    
+    for(map<string, Callable_p>::const_iterator it = _instance_methods.begin();
+        it != _instance_methods.end();
+        it++) {
+      if(Method_p method = dynamic_cast<Method_p>(it->second)) {
+        methods.push_back(method);
+      } else if(NativeMethod_p method = dynamic_cast<NativeMethod_p>(it->second)) {
+        methods.push_back(method);
+      } else if(Block_p method = dynamic_cast<Block_p>(it->second)) {
+        methods.push_back(method);
+      }
+    }
+
+    return new Array(methods);
+  }
 }

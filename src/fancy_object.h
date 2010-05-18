@@ -9,6 +9,7 @@ namespace fancy {
   class Class;
   class Identifier;
   class Method;
+  class Array;
 
   typedef map<string, FancyObject_p> object_map;
   typedef map<string, Callable_p> method_map;
@@ -136,6 +137,12 @@ namespace fancy {
      * @param docstring The documentation string to be set.
      */
     void set_docstring(const string &docstring);
+
+    /**
+     * Returns all methods of this FancyObject in an Array.
+     * @return Array with all methods of the FancyObject.
+     */
+    Array* methods() const;
   protected:
     void init_slots();
     Class *_class;

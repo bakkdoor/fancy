@@ -119,6 +119,8 @@ namespace fancy {
 
     Class_p superclass() const;
 
+    Array_p instance_methods() const;
+
   private:
     string _name;
     vector<string> _instance_slotnames;

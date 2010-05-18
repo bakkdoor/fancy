@@ -103,6 +103,11 @@ namespace fancy {
      */
     FancyObject_p method_Object_docstring_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
 
+    /**
+     * Returns all methods in an Array of object
+     */
+    FancyObject_p method_Object_methods(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+
   }
 }
 

@@ -31,6 +31,8 @@ namespace fancy {
 
       ObjectClass->def_method("docstring:", new NativeMethod("docstring:", method_Object_docstring_set));
       ObjectClass->def_method("docstring", new NativeMethod("docstring", method_Object_docstring_get));
+
+      ObjectClass->def_method("methods", new NativeMethod("methods", method_Object_methods));
     }
 
     /**
@@ -209,6 +211,11 @@ namespace fancy {
     FancyObject_p method_Object_docstring_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
     {
       return String::from_value(self->docstring());
+    }
+
+    FancyObject_p method_Object_methods(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    {
+      return self->methods();
     }
   }
 }

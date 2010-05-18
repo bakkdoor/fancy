@@ -189,4 +189,24 @@ namespace fancy {
   {
     _docstring = docstring;
   }
+
+  Array_p FancyObject::methods() const
+  {
+    vector<FancyObject_p> methods;
+    
+    for(map<string, Callable_p>::const_iterator it = _singleton_methods.begin();
+        it != _singleton_methods.end();
+        it++) {
+      if(Method_p method = dynamic_cast<Method_p>(it->second)) {
+        methods.push_back(method);
+      } else if(NativeMethod_p method = dynamic_cast<NativeMethod_p>(it->second)) {
+        methods.push_back(method);
+      } else if(Block_p method = dynamic_cast<Block_p>(it->second)) {
+        methods.push_back(method);
+      }
+    }
+    vector<FancyObject_p> class_instance_methods = _class->instance_methods()->values();
+    methods.insert(methods.end(), class_instance_methods.begin(), class_instance_methods.end());
+    return new Array(methods);
+  }
 }
