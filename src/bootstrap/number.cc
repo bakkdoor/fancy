@@ -6,38 +6,38 @@ namespace fancy {
     /**
      * Number instance methods
      */
-    METHOD(method_Number_plus);
-    METHOD(method_Number_minus);
-    METHOD(method_Number_multiply);
-    METHOD(method_Number_divide);
-    METHOD(method_Number_lt);
-    METHOD(method_Number_lt_eq);
-    METHOD(method_Number_gt);
-    METHOD(method_Number_gt_eq);
-    METHOD(method_Number_eq);
-    METHOD(method_Number_times);
-    METHOD(method_Number_modulo);
+    METHOD(Number__plus);
+    METHOD(Number__minus);
+    METHOD(Number__multiply);
+    METHOD(Number__divide);
+    METHOD(Number__lt);
+    METHOD(Number__lt_eq);
+    METHOD(Number__gt);
+    METHOD(Number__gt_eq);
+    METHOD(Number__eq);
+    METHOD(Number__times);
+    METHOD(Number__modulo);
 
     void init_number_class()
     {
-      NumberClass->def_method("+", new NativeMethod("+", method_Number_plus));
-      NumberClass->def_method("-", new NativeMethod("-", method_Number_minus));
-      NumberClass->def_method("*", new NativeMethod("*", method_Number_multiply));
-      NumberClass->def_method("/", new NativeMethod("/", method_Number_divide));
-      NumberClass->def_method("<", new NativeMethod("<", method_Number_lt));
-      NumberClass->def_method("<=", new NativeMethod("<=", method_Number_lt_eq));
-      NumberClass->def_method(">", new NativeMethod(">", method_Number_gt));
-      NumberClass->def_method(">=", new NativeMethod(">=", method_Number_gt_eq));
-      NumberClass->def_method("==", new NativeMethod("==", method_Number_eq));
-      NumberClass->def_method("times:", new NativeMethod("times:", method_Number_times));
-      NumberClass->def_method("modulo:", new NativeMethod("modulo:", method_Number_modulo));
-      NumberClass->def_method("%", new NativeMethod("%", method_Number_modulo));
+      NumberClass->def_method("+", new NativeMethod("+", Number__plus));
+      NumberClass->def_method("-", new NativeMethod("-", Number__minus));
+      NumberClass->def_method("*", new NativeMethod("*", Number__multiply));
+      NumberClass->def_method("/", new NativeMethod("/", Number__divide));
+      NumberClass->def_method("<", new NativeMethod("<", Number__lt));
+      NumberClass->def_method("<=", new NativeMethod("<=", Number__lt_eq));
+      NumberClass->def_method(">", new NativeMethod(">", Number__gt));
+      NumberClass->def_method(">=", new NativeMethod(">=", Number__gt_eq));
+      NumberClass->def_method("==", new NativeMethod("==", Number__eq));
+      NumberClass->def_method("times:", new NativeMethod("times:", Number__times));
+      NumberClass->def_method("modulo:", new NativeMethod("modulo:", Number__modulo));
+      NumberClass->def_method("%", new NativeMethod("%", Number__modulo));
     }
 
     /**
      * Number instance methods
      */
-    FancyObject_p method_Number_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__plus)
     {
       EXPECT_ARGS("Number#+", 1);
       FancyObject_p arg = args[0];
@@ -55,7 +55,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_minus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__minus)
     {
       EXPECT_ARGS("Number#-", 1);
       FancyObject_p arg = args[0];
@@ -73,7 +73,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_multiply(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__multiply)
     {
       EXPECT_ARGS("Number#*", 1);
       FancyObject_p arg = args[0];
@@ -91,7 +91,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_divide(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__divide)
     {
       EXPECT_ARGS("Number#/", 1);
       FancyObject_p arg = args[0];
@@ -106,7 +106,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Number_lt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__lt)
     {
       EXPECT_ARGS("Number#<", 1);
       FancyObject_p arg = args[0];
@@ -124,7 +124,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_lt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__lt_eq)
     {
       EXPECT_ARGS("Number#<=", 1);
       FancyObject_p arg = args[0];
@@ -143,7 +143,7 @@ namespace fancy {
     }
 
 
-    FancyObject_p method_Number_gt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__gt)
     {
       EXPECT_ARGS("Number#>", 1);
       FancyObject_p arg = args[0];
@@ -161,7 +161,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_gt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__gt_eq)
     {
       EXPECT_ARGS("Number#>=", 1);
       FancyObject_p arg = args[0];
@@ -179,7 +179,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__eq)
     {
       EXPECT_ARGS("Number#==", 1);
       FancyObject_p arg = args[0];
@@ -195,7 +195,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_times(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__times)
     {
       EXPECT_ARGS("Number#times:", 1);
       FancyObject_p arg = args[0];
@@ -226,7 +226,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Number_modulo(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Number__modulo)
     {
       EXPECT_ARGS("Number#modulo:", 1);
       Number_p num1 = dynamic_cast<Number_p>(self);

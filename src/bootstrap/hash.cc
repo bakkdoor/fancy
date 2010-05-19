@@ -6,32 +6,32 @@ namespace fancy {
     /**
      * Hash class methods
      */
-    METHOD(class_method_Hash_new);
+    METHOD(Hash_class__new);
 
     /**
      * Hash instance methods
      */
 
-    METHOD(method_Hash_size);
-    METHOD(method_Hash_at__put);
-    METHOD(method_Hash_at);
-    METHOD(method_Hash_keys);
-    METHOD(method_Hash_values);
+    METHOD(Hash__size);
+    METHOD(Hash__at__put);
+    METHOD(Hash__at);
+    METHOD(Hash__keys);
+    METHOD(Hash__values);
 
     void init_hash_class()
     {
-      HashClass->def_class_method("new", new NativeMethod("new", class_method_Hash_new));
-      HashClass->def_method("size", new NativeMethod("size", method_Hash_size));
-      HashClass->def_method("at:put:", new NativeMethod("at:put:", method_Hash_at__put));
-      HashClass->def_method("at:", new NativeMethod("at", method_Hash_at));
-      HashClass->def_method("keys", new NativeMethod("keys", method_Hash_keys));
-      HashClass->def_method("values", new NativeMethod("values", method_Hash_values));
+      HashClass->def_class_method("new", new NativeMethod("new", Hash_class__new));
+      HashClass->def_method("size", new NativeMethod("size", Hash__size));
+      HashClass->def_method("at:put:", new NativeMethod("at:put:", Hash__at__put));
+      HashClass->def_method("at:", new NativeMethod("at", Hash__at));
+      HashClass->def_method("keys", new NativeMethod("keys", Hash__keys));
+      HashClass->def_method("values", new NativeMethod("values", Hash__values));
     }
 
     /**
      * Hash class methods
      */
-    FancyObject_p class_method_Hash_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash_class__new)
     {
       return new Hash();
     }
@@ -40,13 +40,13 @@ namespace fancy {
      * Hash instance methods
      */
 
-    FancyObject_p method_Hash_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash__size)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return Number::from_int(hash->size());
     }
 
-    FancyObject_p method_Hash_at__put(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash__at__put)
     {
       EXPECT_ARGS("Hash#at:put", 2);
       Hash_p hash = dynamic_cast<Hash_p>(self);
@@ -56,7 +56,7 @@ namespace fancy {
       return self;
     }
 
-    FancyObject_p method_Hash_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash__at)
     {
       EXPECT_ARGS("Hash#at:", 1);
       Hash_p hash = dynamic_cast<Hash_p>(self);
@@ -64,13 +64,13 @@ namespace fancy {
       return hash->get_value(key);
     }
 
-    FancyObject_p method_Hash_keys(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash__keys)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return new Array(hash->keys());
     }
 
-    FancyObject_p method_Hash_values(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Hash__values)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return new Array(hash->values());

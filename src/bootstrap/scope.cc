@@ -6,21 +6,21 @@ namespace fancy {
     /**
      * Scope instance methods
      */
-    METHOD(method_Scope_define__value);
-    METHOD(method_Scope_parent);
-    METHOD(method_Scope_get);
+    METHOD(Scope__define__value);
+    METHOD(Scope__parent);
+    METHOD(Scope__get);
 
     void init_scope_class()
     {
-      ScopeClass->def_method("define:value:", new NativeMethod("define:value:", method_Scope_define__value));
-      ScopeClass->def_method("parent", new NativeMethod("parent", method_Scope_parent));
-      ScopeClass->def_method("get:", new NativeMethod("get:", method_Scope_get));
+      ScopeClass->def_method("define:value:", new NativeMethod("define:value:", Scope__define__value));
+      ScopeClass->def_method("parent", new NativeMethod("parent", Scope__parent));
+      ScopeClass->def_method("get:", new NativeMethod("get:", Scope__get));
     }
 
     /**
      * Scope instance methods
      */
-    FancyObject_p method_Scope_define__value(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Scope__define__value)
     {
       EXPECT_ARGS("Scope#define:value:", 2);
       FancyObject_p name = args[0];
@@ -36,7 +36,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Scope_parent(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Scope__parent)
     {
       if(scope->parent_scope()) {
         return scope->parent_scope();
@@ -44,7 +44,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Scope_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Scope__get)
     {
       EXPECT_ARGS("Scope#get:", 1);
       Scope *sc = dynamic_cast<Scope*>(self);

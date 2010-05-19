@@ -6,29 +6,29 @@ namespace fancy {
     /**
      * Object class methods
      */
-    METHOD(class_method_Object_new);
-    METHOD(class_method_Object_new_with_arg);
+    METHOD(Object_class__new);
+    METHOD(Object_class__new_with_arg);
 
     /**
      * Object instance methods
      */
-    METHOD(method_Object_and);
-    METHOD(method_Object_or);
-    METHOD(method_Object_not);
-    METHOD(method_Object_to_s);
-    METHOD(method_Object_inspect);
-    METHOD(method_Object_class);
-    METHOD(method_Object_define_singleton_method__with);
-    METHOD(method_Object_eq);
-    METHOD(method_Object_is_a);
-    METHOD(method_Object_send);
-    METHOD(method_Object_send__params);
-    METHOD(method_Object_responds_to);
-    METHOD(method_Object_get_slot);
-    METHOD(method_Object_set_slot__with);
-    METHOD(method_Object_docstring_set);
-    METHOD(method_Object_docstring_get);
-    METHOD(method_Object_methods);
+    METHOD(Object__and);
+    METHOD(Object__or);
+    METHOD(Object__not);
+    METHOD(Object__to_s);
+    METHOD(Object__inspect);
+    METHOD(Object__class);
+    METHOD(Object__define_singleton_method__with);
+    METHOD(Object__eq);
+    METHOD(Object__is_a);
+    METHOD(Object__send);
+    METHOD(Object__send__params);
+    METHOD(Object__responds_to);
+    METHOD(Object__get_slot);
+    METHOD(Object__set_slot__with);
+    METHOD(Object__docstring_set);
+    METHOD(Object__docstring_get);
+    METHOD(Object__methods);
 
     void init_object_class()
     {  
@@ -36,104 +36,104 @@ namespace fancy {
                                     new NativeMethod("new",
                                                      "New method for creating new instances of classes.\
 It is expected, that self (the receiver) is a class object.",
-                                                     class_method_Object_new));
+                                                     Object_class__new));
 
       ObjectClass->def_class_method("new:",
                                     new NativeMethod("new",
                                                      "Same as Object#new, but also expecting arguments\
 and passing them on to the initialize: method of the class.",
-                                                     class_method_Object_new_with_arg));
+                                                     Object_class__new_with_arg));
 
       ObjectClass->def_method("and:",
                               new NativeMethod("and:",
                                                "Boolean conjunction.",
-                                               method_Object_and));
+                                               Object__and));
 
       ObjectClass->def_method("or:",
                               new NativeMethod("or:",
                                                "Boolean disjunction.",
-                                               method_Object_or));
+                                               Object__or));
 
       ObjectClass->def_method("not",
                               new NativeMethod("not",
                                                "Boolean negation. In Fancy, everything non-nil is logically true.",
-                                               method_Object_not));
+                                               Object__not));
   
       ObjectClass->def_method("to_s",
                               new NativeMethod("to_s",
                                                "Returns string representation of object.",
-                                               method_Object_to_s));
+                                               Object__to_s));
 
       ObjectClass->def_method("inspect",
                               new NativeMethod("inspect",
                                                "Returns detailed string representation of object.",
-                                               method_Object_inspect));
+                                               Object__inspect));
 
       ObjectClass->def_method("_class",
                               new NativeMethod("_class",
                                                "Returns the class of the object.",
-                                               method_Object_class));
+                                               Object__class));
 
       ObjectClass->def_method("define_singleton_method:with:",
                               new NativeMethod("define_singleton_method:with:",
                                                "Defines singleton method on object.",
-                                               method_Object_define_singleton_method__with));
+                                               Object__define_singleton_method__with));
 
       ObjectClass->def_method("==",
                               new NativeMethod("==",
                                                "Índicates, if two objects are equal.",
-                                               method_Object_eq));
+                                               Object__eq));
 
       ObjectClass->def_method("is_a?:",
                               new NativeMethod("is_a?:",
                                                "Indicates, if an object is an instance of a given Class.",
-                                               method_Object_is_a));
+                                               Object__is_a));
 
       ObjectClass->def_method("send:",
                               new NativeMethod("send:",
                                                "Sends a message to an object with no arguments.",
-                                               method_Object_send));
+                                               Object__send));
 
       ObjectClass->def_method("send:params:",
                               new NativeMethod("send:params:",
                                                "Sends a message to an object with an Array of arguments.",
-                                               method_Object_send__params));
+                                               Object__send__params));
 
       ObjectClass->def_method("responds_to?:",
                               new NativeMethod("responds_to?:",
                                                "Indicates, if an object responds to a given method name.",
-                                               method_Object_responds_to));
+                                               Object__responds_to));
 
       ObjectClass->def_method("get_slot:",
                               new NativeMethod("get_slot:",
                                                "Returns the value of slot.",
-                                               method_Object_get_slot));
+                                               Object__get_slot));
 
       ObjectClass->def_method("set_slot:with:",
                               new NativeMethod("set_slot:with:",
                                                "Sets the value of slot.",
-                                               method_Object_set_slot__with));
+                                               Object__set_slot__with));
 
       ObjectClass->def_method("docstring:",
                               new NativeMethod("docstring:",
                                                "Sets the docstring for an object.",
-                                               method_Object_docstring_set));
+                                               Object__docstring_set));
       ObjectClass->def_method("docstring",
                               new NativeMethod("docstring",
                                                "Returns the docstring for an object.",
-                                               method_Object_docstring_get));
+                                               Object__docstring_get));
 
       ObjectClass->def_method("methods",
                               new NativeMethod("methods",
                                                "Returns all methods of an object in an Array.",
-                                               method_Object_methods));
+                                               Object__methods));
     }
 
     /**
      * Object class methods
      */
 
-    FancyObject_p class_method_Object_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object_class__new)
     {
       if(IS_CLASS(self)) {
         Class_p the_class = dynamic_cast<Class_p>(self);
@@ -148,7 +148,7 @@ and passing them on to the initialize: method of the class.",
       return nil;
     }
 
-    FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object_class__new_with_arg)
     {
       EXPECT_ARGS("Object##new:", 1);
       if(IS_CLASS(self)) {
@@ -164,7 +164,11 @@ and passing them on to the initialize: method of the class.",
       return nil;
     }
 
-    FancyObject_p method_Object_and(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    /**
+     * Object instance methods
+     */
+
+    METHOD(Object__and)
     {
       EXPECT_ARGS("Object#and:", 1);
       if(self != nil && args[0] != nil) {
@@ -174,7 +178,7 @@ and passing them on to the initialize: method of the class.",
       }
     }
 
-    FancyObject_p method_Object_or(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__or)
     {
       EXPECT_ARGS("Object#or:", 1);
       if(self != nil || args[0] != nil) {
@@ -184,7 +188,7 @@ and passing them on to the initialize: method of the class.",
       }
     }
 
-    FancyObject_p method_Object_not(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__not)
     {
       if(self == nil) {
         return t;
@@ -193,22 +197,22 @@ and passing them on to the initialize: method of the class.",
       }
     }
 
-    FancyObject_p method_Object_to_s(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__to_s)
     {
       return String::from_value(self->to_s());
     }
 
-    FancyObject_p method_Object_inspect(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__inspect)
     {
       return String::from_value(self->inspect() + " : " + self->get_class()->name());
     }
 
-    FancyObject_p method_Object_class(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__class)
     {
       return self->get_class();
     }
 
-    FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__define_singleton_method__with)
     {
       EXPECT_ARGS("Object#define_singleton_method:with:", 2);
       FancyObject_p arg1 = args[0];
@@ -223,13 +227,13 @@ and passing them on to the initialize: method of the class.",
       }
     }
 
-    FancyObject_p method_Object_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__eq)
     {
       EXPECT_ARGS("Object#==", 1);
       return self->equal(args[0]);
     }
 
-    FancyObject_p method_Object_is_a(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__is_a)
     {
       EXPECT_ARGS("Object#is_a?:", 1);
       Class_p the_class = dynamic_cast<Class_p>(args[0]);
@@ -242,14 +246,14 @@ and passing them on to the initialize: method of the class.",
       return nil;
     }
 
-    FancyObject_p method_Object_send(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__send)
     {
       EXPECT_ARGS("Object#send:", 1);
       string method_name = args[0]->to_s();
       return self->call_method(method_name, 0, 0, scope);
     }
 
-    FancyObject_p method_Object_send__params(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__send__params)
     {
       EXPECT_ARGS("Object#send:params:", 2);
       string method_name = args[0]->to_s();
@@ -268,7 +272,7 @@ and passing them on to the initialize: method of the class.",
       return nil;
     }
 
-    FancyObject_p method_Object_responds_to(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__responds_to)
     {
       EXPECT_ARGS("Object#responds_to?:", 1);
       string method_name = args[0]->to_s();
@@ -278,7 +282,7 @@ and passing them on to the initialize: method of the class.",
       return nil;
     }
 
-    FancyObject_p method_Object_get_slot(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__get_slot)
     {
       EXPECT_ARGS("Object#get_slot:", 1);
       string slot_name = "@" + args[0]->to_s();
@@ -286,7 +290,7 @@ and passing them on to the initialize: method of the class.",
       return slot;
     }
 
-    FancyObject_p method_Object_set_slot__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__set_slot__with)
     {
       EXPECT_ARGS("Object#set_slot:with:", 2);
       string slot_name = "@" + args[0]->to_s();
@@ -295,19 +299,19 @@ and passing them on to the initialize: method of the class.",
       return self;
     }
 
-    FancyObject_p method_Object_docstring_set(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__docstring_set)
     {
       EXPECT_ARGS("Object#docstring:", 1);
       self->set_docstring(args[0]->to_s());
       return t;
     }
 
-    FancyObject_p method_Object_docstring_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__docstring_get)
     {
       return String::from_value(self->docstring());
     }
 
-    FancyObject_p method_Object_methods(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Object__methods)
     {
       return self->methods();
     }

@@ -6,50 +6,50 @@ namespace fancy {
     /**
      * Block instance methods
      */
-    METHOD(method_Block_call);
-    METHOD(method_Block_call_with_arg);
-    METHOD(method_Block_while_true);
-    METHOD(method_Block_if);
-    METHOD(method_Block_unless);
-    METHOD(method_Block_arguments);
-    METHOD(method_Block_argcount);
+    METHOD(Block__call);
+    METHOD(Block__call_with_arg);
+    METHOD(Block__while_true);
+    METHOD(Block__if);
+    METHOD(Block__unless);
+    METHOD(Block__arguments);
+    METHOD(Block__argcount);
 
     void init_block_class()
     {  
       BlockClass->def_method("call",
                              new NativeMethod("call",
                                               "Calls (evaluates) the Block with no arguments.",
-                                              method_Block_call));
+                                              Block__call));
 
       BlockClass->def_method("call:",
                              new NativeMethod("call:",
                                               "Calls (evaluates) the Block with the given arguments (single value or Array).",
-                                              method_Block_call_with_arg));
+                                              Block__call_with_arg));
 
       BlockClass->def_method("while_true:",
                              new NativeMethod("while_true:",
                                               "Calls the given Block while this one evaluates to non-nil.",
-                                              method_Block_while_true));
+                                              Block__while_true));
 
       BlockClass->def_method("if:",
                              new NativeMethod("if:",
                                               "Evaluates the Block if the given argument is non-nil.",
-                                              method_Block_if));
+                                              Block__if));
 
       BlockClass->def_method("unless:",
                              new NativeMethod("unless:",
                                               "Evaluates the Block if the given argument is nil.",
-                                              method_Block_unless));
+                                              Block__unless));
 
       BlockClass->def_method("arguments",
                              new NativeMethod("arguments",
                                               "Returns an Array of the argument names.",
-                                              method_Block_arguments));
+                                              Block__arguments));
 
       BlockClass->def_method("argcount",
                              new NativeMethod("argcount",
                                               "Returns the amount of arguments, the Block expects to be called with.",
-                                              method_Block_argcount));
+                                              Block__argcount));
     }
 
 
@@ -57,7 +57,7 @@ namespace fancy {
      * Block instance methods
      */
 
-    FancyObject_p method_Block_call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__call)
     {
       if(argc != 0) {
         errorln("Block#call got more than 0 arguments!");
@@ -68,7 +68,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_Block_call_with_arg(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__call_with_arg)
     {
       EXPECT_ARGS("Block#call:", 1);
       Block_p block = dynamic_cast<Block_p>(self);
@@ -89,7 +89,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_while_true(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__while_true)
     {
       EXPECT_ARGS("Block#while_true:", 1);
       FancyObject_p first_arg = args[0];
@@ -105,7 +105,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_if(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__if)
     {
       EXPECT_ARGS("Block#if:", 1);
       FancyObject_p first_arg = args[0];
@@ -117,7 +117,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_unless(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__unless)
     {
       EXPECT_ARGS("Block#unless:", 1);
       FancyObject_p first_arg = args[0];
@@ -129,13 +129,13 @@ namespace fancy {
       }
     }
 
-    FancyObject_p method_Block_arguments(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__arguments)
     {
       Block_p block = dynamic_cast<Block_p>(self);
       return new Array(block->args());
     }
 
-    FancyObject_p method_Block_argcount(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Block__argcount)
     {
       Block_p block = dynamic_cast<Block_p>(self);
       return Number::from_int(block->argcount());

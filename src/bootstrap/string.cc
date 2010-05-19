@@ -6,36 +6,36 @@ namespace fancy {
     /**
      * String class methods
      */
-    METHOD(class_method_String_new);
+    METHOD(String_class__new);
 
     /**
      * String instance methods
      */
-    METHOD(method_String_downcase);
-    METHOD(method_String_upcase);
-    METHOD(method_String_from__to);
-    METHOD(method_String_eq);
-    METHOD(method_String_plus);
-    METHOD(method_String_each);
-    METHOD(method_String_at);
+    METHOD(String__downcase);
+    METHOD(String__upcase);
+    METHOD(String__from__to);
+    METHOD(String__eq);
+    METHOD(String__plus);
+    METHOD(String__each);
+    METHOD(String__at);
 
     void init_string_class()
     {
-      StringClass->def_class_method("new", new NativeMethod("new", class_method_String_new));
+      StringClass->def_class_method("new", new NativeMethod("new", String_class__new));
 
-      StringClass->def_method("downcase", new NativeMethod("downcase", method_String_downcase));
-      StringClass->def_method("upcase", new NativeMethod("upcase", method_String_upcase));
-      StringClass->def_method("from:to:", new NativeMethod("from:to:", method_String_from__to));
-      StringClass->def_method("==", new NativeMethod("==", method_String_eq));
-      StringClass->def_method("+", new NativeMethod("+", method_String_plus));
-      StringClass->def_method("each:", new NativeMethod("each:", method_String_each));
-      StringClass->def_method("at:", new NativeMethod("at:", method_String_at));
+      StringClass->def_method("downcase", new NativeMethod("downcase", String__downcase));
+      StringClass->def_method("upcase", new NativeMethod("upcase", String__upcase));
+      StringClass->def_method("from:to:", new NativeMethod("from:to:", String__from__to));
+      StringClass->def_method("==", new NativeMethod("==", String__eq));
+      StringClass->def_method("+", new NativeMethod("+", String__plus));
+      StringClass->def_method("each:", new NativeMethod("each:", String__each));
+      StringClass->def_method("at:", new NativeMethod("at:", String__at));
     }
 
     /**
      * String class methods
      */
-    FancyObject_p class_method_String_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String_class__new)
     {
       return String::from_value("");
     }
@@ -44,21 +44,21 @@ namespace fancy {
      * String instance methods
      */
 
-    FancyObject_p method_String_downcase(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__downcase)
     {
       string str = dynamic_cast<String_p>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::tolower);
       return String::from_value(str);
     }
 
-    FancyObject_p method_String_upcase(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__upcase)
     {
       string str = dynamic_cast<String_p>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::toupper);
       return String::from_value(str);
     }
 
-    FancyObject_p method_String_from__to(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__from__to)
     {
       EXPECT_ARGS("String#from:to:", 2);
       string str = dynamic_cast<String_p>(self)->value();
@@ -84,7 +84,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_String_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__eq)
     {
       EXPECT_ARGS("String#eq:", 1);
       FancyObject_p arg = args[0];
@@ -98,7 +98,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_String_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__plus)
     {
       EXPECT_ARGS("String#+", 1);
       if(String_p arg = dynamic_cast<String_p>(args[0])) {
@@ -110,7 +110,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_String_each(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__each)
     {
       EXPECT_ARGS("String#each:", 1);
       if(Block_p block = dynamic_cast<Block_p>(args[0])) {
@@ -127,7 +127,7 @@ namespace fancy {
       return nil;
     }
 
-    FancyObject_p method_String_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(String__at)
     {
       EXPECT_ARGS("String#at:", 1);
       if(Number_p index = dynamic_cast<Number_p>(args[0])) {

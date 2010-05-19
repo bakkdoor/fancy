@@ -6,10 +6,10 @@ namespace fancy {
     /**
      * Class instance methods
      */
-    METHOD(method_Class_define_method__with);
-    METHOD(method_Class_define_class_method__with);
-    METHOD(method_Class_include);
-    METHOD(method_Class_method);
+    METHOD(Class__define_method__with);
+    METHOD(Class__define_class_method__with);
+    METHOD(Class__include);
+    METHOD(Class__method);
 
     void init_class_class()
     {
@@ -17,23 +17,23 @@ namespace fancy {
                              new NativeMethod("define_method:with:",
                                               "Define a method on a Class, taking a Block as the \
 second argument to serve as the method's body.",
-                                              method_Class_define_method__with));
+                                              Class__define_method__with));
 
       ClassClass->def_method("define_class_method:with:",
                              new NativeMethod("define_class_method:with:",
                                               "Define a class method, taking a Block as the \
 second argument to serve as the method's body.",
-                                              method_Class_define_class_method__with));
+                                              Class__define_class_method__with));
 
       ClassClass->def_method("include:",
                              new NativeMethod("include:",
                                               "Include another Class into this one (to serve as a mix-in).",
-                                              method_Class_include));
+                                              Class__include));
 
       ClassClass->def_method("method:",
                              new NativeMethod("method:",
                                               "Returns the Method object with a given name (or nil, if method not defined).",
-                                              method_Class_method));
+                                              Class__method));
     }
 
 
@@ -41,7 +41,7 @@ second argument to serve as the method's body.",
      * Class instance methods
      */
 
-    FancyObject_p method_Class_define_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Class__define_method__with)
     {
       EXPECT_ARGS("Class#define_method:with:", 2);
       FancyObject_p arg1 = args[0];
@@ -56,7 +56,7 @@ second argument to serve as the method's body.",
       }
     }
 
-    FancyObject_p method_Class_define_class_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Class__define_class_method__with)
     {
       EXPECT_ARGS("Class#define_class_method:with:", 2);
       FancyObject_p arg1 = args[0];
@@ -72,7 +72,7 @@ second argument to serve as the method's body.",
       }
     }
 
-    FancyObject_p method_Class_include(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Class__include)
     {
       EXPECT_ARGS("Class#include:", 1);
 
@@ -85,7 +85,7 @@ second argument to serve as the method's body.",
       }
     }
 
-    FancyObject_p method_Class_method(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+    METHOD(Class__method)
     {
       EXPECT_ARGS("Class#method:", 1);
 
