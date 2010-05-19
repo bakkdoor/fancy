@@ -48,5 +48,16 @@ FancySpec describe: Number with: |it| {
 
   it should: "return an array from 10 downto 0" when: {
     10 downto: 0 . should_equal: [10,9,8,7,6,5,4,3,2,1,0]
+  };
+
+  it should: "calculate the given power of itself" when: {
+    2 ** 3 should_equal: 8;
+    2 ** 0 should_equal: 1;
+    2 ** 1 should_equal: 2;
+    0 upto: 10 do_each: |i| {
+      i ** 0 should_equal: 1;
+      i ** 1 should_equal: i;
+      i ** 2 should_equal: (i squared)
+    }
   }
 }

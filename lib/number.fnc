@@ -78,6 +78,16 @@ def class Number {
       tmp = tmp - 1
     }
   }
+
+  def ** power {
+    "Calculates the given power of a Number.";
+
+    val = 1;
+    power times: {
+      val = val * self
+    };
+    val
+  }
 };
 
 def class Enumerable {
