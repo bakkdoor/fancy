@@ -3,6 +3,21 @@
 namespace fancy {
   namespace bootstrap {
 
+    /**
+     * Number instance methods
+     */
+    FancyObject_p method_Number_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_minus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_multiply(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_divide(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_lt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_lt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_gt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_gt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_times(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Number_modulo(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+
     void init_number_class()
     {
       NumberClass->def_method("+", new NativeMethod("+", method_Number_plus));

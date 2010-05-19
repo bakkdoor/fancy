@@ -3,6 +3,13 @@
 namespace fancy {
   namespace bootstrap {
 
+    /**
+     * Scope instance methods
+     */
+    FancyObject_p method_Scope_define__value(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Scope_parent(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject_p method_Scope_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+
     void init_scope_class()
     {
       ScopeClass->def_method("define:value:", new NativeMethod("define:value:", method_Scope_define__value));

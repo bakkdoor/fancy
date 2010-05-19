@@ -45,6 +45,22 @@ namespace fancy {
      */
     void init_global_scope();
 
+
+    /**
+     * Initialization functions for Fancy's core classes.
+     */
+    void init_array_class();
+    void init_block_class();
+    void init_class_class();
+    void init_console_class();
+    void init_exception_classes();
+    void init_file_class();
+    void init_hash_class();
+    void init_method_class();
+    void init_number_class();
+    void init_object_class();
+    void init_scope_class();
+    void init_string_class();
   }
 }
 

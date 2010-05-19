@@ -3,18 +3,7 @@
 
 #include "../includes.h"
 
-#include "object.h"
-#include "class.h"
-#include "block.h"
-#include "string.h"
-#include "number.h"
-#include "console.h"
-#include "array.h"
-#include "file.h"
-#include "scope.h"
-#include "hash.h"
-#include "exception.h"
-#include "method.h"
+#include "core_classes.h"
 
 #define EXPECT_ARGS(method_name, amount)                                    \
   if(argc != amount) {                                               \
