@@ -79,6 +79,10 @@ namespace fancy {
      */
     string name() const;
 
+    /**
+     * Sets the name of a Method.
+     * @param method_name Name of the Method.
+     */
     void set_name(const string &method_name);
 
   protected:
