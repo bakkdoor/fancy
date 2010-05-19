@@ -16,7 +16,8 @@ FancySpec describe: String with: |it| {
   };
 
   it should: "return the correct substring" when: {
-    "hello, world" from: 2 to: 5 . should_equal: "llo,"
+    "hello, world" from: 2 to: 5 . should_equal: "llo,";
+    "hello, world"[[2,5]] . should_equal: "llo,"
   };
 
   it should: "return the upcased string" when: {
