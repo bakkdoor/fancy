@@ -6,10 +6,10 @@ namespace fancy {
     /**
      * Class instance methods
      */
-    FancyObject_p method_Class_define_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Class_define_class_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Class_include(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Class_method(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Class_define_method__with);
+    METHOD(method_Class_define_class_method__with);
+    METHOD(method_Class_include);
+    METHOD(method_Class_method);
 
     void init_class_class()
     {

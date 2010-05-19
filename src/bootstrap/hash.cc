@@ -6,17 +6,17 @@ namespace fancy {
     /**
      * Hash class methods
      */
-    FancyObject_p class_method_Hash_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(class_method_Hash_new);
 
     /**
      * Hash instance methods
      */
 
-    FancyObject_p method_Hash_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Hash_at__put(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Hash_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Hash_keys(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Hash_values(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Hash_size);
+    METHOD(method_Hash_at__put);
+    METHOD(method_Hash_at);
+    METHOD(method_Hash_keys);
+    METHOD(method_Hash_values);
 
     void init_hash_class()
     {

@@ -7,22 +7,22 @@ namespace fancy {
     /**
      * Array class methods
      */
-    FancyObject_p class_method_Array_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p class_method_Array_new__with_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p class_method_Array_new__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(class_method_Array_new);
+    METHOD(class_method_Array_new__with_size);
+    METHOD(class_method_Array_new__with);
 
     /**
      * Array instance methods
      */
-    FancyObject_p method_Array_each(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_each_with_index(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_insert(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_clear(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_size(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_append(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_clone(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Array_remove_at(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Array_each);
+    METHOD(method_Array_each_with_index);
+    METHOD(method_Array_insert);
+    METHOD(method_Array_clear);
+    METHOD(method_Array_size);
+    METHOD(method_Array_at);
+    METHOD(method_Array_append);
+    METHOD(method_Array_clone);
+    METHOD(method_Array_remove_at);
 
 
     void init_array_class()

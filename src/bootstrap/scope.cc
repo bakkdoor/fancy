@@ -6,9 +6,9 @@ namespace fancy {
     /**
      * Scope instance methods
      */
-    FancyObject_p method_Scope_define__value(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Scope_parent(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Scope_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Scope_define__value);
+    METHOD(method_Scope_parent);
+    METHOD(method_Scope_get);
 
     void init_scope_class()
     {

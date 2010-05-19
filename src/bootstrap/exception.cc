@@ -6,25 +6,25 @@ namespace fancy {
     /**
      * Exception class methods
      */
-    FancyObject_p class_method_Exception_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(class_method_Exception_new);
 
     /**
      * Exception instance methods
      */
-    FancyObject_p method_Exception_raise(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Exception_message(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Exception_raise);
+    METHOD(method_Exception_message);
 
     /**
      * MethodNotFoundError instance methods
      */
-    FancyObject_p method_MethodNotFoundError_method_name(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_MethodNotFoundError_class(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_MethodNotFoundError_method_name);
+    METHOD(method_MethodNotFoundError_class);
 
     /**
      * IOError instance methods
      */
-    FancyObject_p method_IOError_filename(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_IOError_modes(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_IOError_filename);
+    METHOD(method_IOError_modes);
 
     void init_exception_classes()
     {

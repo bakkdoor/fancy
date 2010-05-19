@@ -6,30 +6,29 @@ namespace fancy {
     /**
      * Object class methods
      */
-
-    FancyObject_p class_method_Object_new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p class_method_Object_new_with_arg(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(class_method_Object_new);
+    METHOD(class_method_Object_new_with_arg);
 
     /**
      * Object instance methods
      */
-    FancyObject_p method_Object_and(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_or(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_not(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_to_s(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_inspect(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_class(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_define_singleton_method__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_is_a(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_send(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_send__params(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_responds_to(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_get_slot(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_set_slot__with(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_docstring_set(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_docstring_get(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Object_methods(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Object_and);
+    METHOD(method_Object_or);
+    METHOD(method_Object_not);
+    METHOD(method_Object_to_s);
+    METHOD(method_Object_inspect);
+    METHOD(method_Object_class);
+    METHOD(method_Object_define_singleton_method__with);
+    METHOD(method_Object_eq);
+    METHOD(method_Object_is_a);
+    METHOD(method_Object_send);
+    METHOD(method_Object_send__params);
+    METHOD(method_Object_responds_to);
+    METHOD(method_Object_get_slot);
+    METHOD(method_Object_set_slot__with);
+    METHOD(method_Object_docstring_set);
+    METHOD(method_Object_docstring_get);
+    METHOD(method_Object_methods);
 
     void init_object_class()
     {  

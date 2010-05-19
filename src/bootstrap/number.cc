@@ -6,17 +6,17 @@ namespace fancy {
     /**
      * Number instance methods
      */
-    FancyObject_p method_Number_plus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_minus(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_multiply(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_divide(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_lt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_lt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_gt(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_gt_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_eq(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_times(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
-    FancyObject_p method_Number_modulo(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    METHOD(method_Number_plus);
+    METHOD(method_Number_minus);
+    METHOD(method_Number_multiply);
+    METHOD(method_Number_divide);
+    METHOD(method_Number_lt);
+    METHOD(method_Number_lt_eq);
+    METHOD(method_Number_gt);
+    METHOD(method_Number_gt_eq);
+    METHOD(method_Number_eq);
+    METHOD(method_Number_times);
+    METHOD(method_Number_modulo);
 
     void init_number_class()
     {
