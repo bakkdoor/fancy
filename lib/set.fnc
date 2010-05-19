@@ -2,6 +2,7 @@ def class Set {
   "A simple Set data structure class.";
 
   self include: Enumerable;
+  self read_slots: [:values];
 
   def initialize: arr {
     "Initialize a new Set with a given Array of values.";
@@ -11,6 +12,13 @@ def class Set {
   def initialize {
     "Initialize a new empty Set.";
     @values = []
+  }
+
+  def == other {
+    "Indicates, if two Sets are equal.";
+    other is_a?: Set . if_true: {
+      @values == (other values)
+    }
   }
 
   def Set [] arr {

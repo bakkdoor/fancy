@@ -35,6 +35,8 @@ test: all
 	@echo
 	@bin/fancy tests/scope.fnc
 	@echo
+	@bin/fancy tests/set.fnc
+	@echo
 	@bin/fancy tests/string.fnc
 
 example: all
