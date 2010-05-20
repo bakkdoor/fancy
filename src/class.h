@@ -117,8 +117,16 @@ namespace fancy {
      */
     bool subclass_of(Class_p klass);
 
+    /**
+     * Returns the Superclass of this Class (if there is one).
+     * @return The Superclass of this Class (or NULL).
+     */
     Class_p superclass() const;
 
+    /**
+     * Returns an Array with all instance methods defined for this Class.
+     * @return Array with all instance methods defined for this Class.
+     */
     Array_p instance_methods() const;
 
   private:
