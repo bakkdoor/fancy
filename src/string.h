@@ -6,18 +6,41 @@ namespace fancy {
   class String;
   typedef String* String_p;
 
+  /**
+   * String class representing String objects within Fancy.
+   */
   class String : public FancyObject
   {
   public:
+    /**
+     * String constructor.
+     * @param value C++ string containing the actual string.
+     */
     String(const string &value);
     ~String();
 
+    /**
+     * See FancyObject for these methods.
+     */
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;
+
+    /**
+     * Returns the C++ string value.
+     * @return The C++ string value.
+     */
     string value() const;
 
+    /**
+     * Returns a String object with a given C++ string value.
+     * Strings in Fancy get cached, since they're immutable.
+     * Multiple occurances of the same String in Fancy use the same
+     * String object.
+     * @param value C++ string value.
+     * @return A String object with a given C++ string value.
+     */
     static String_p from_value(const string &value);
 
   private:
