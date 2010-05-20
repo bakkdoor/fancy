@@ -11,7 +11,7 @@ string get_load_path(int argc, char **argv)
       return string(argv[i+1]);
     }
   }
-  return "";
+  return "."; // current dir
 }
 
 void prepare_argv(int argc, char **argv)
@@ -53,7 +53,9 @@ int main(int argc, char **argv)
   fancy::bootstrap::init_global_scope();
   fancy::Number::init_cache();
 
-  string boot_file = "lib/boot.fnc";
+  string boot_file = "boot.fnc";
+  string stdlib_path = get_load_path(argc, argv) + "/lib";
+  fancy::parser::load_path.push_back(stdlib_path);
   fancy::parser::parse_file(boot_file);
 
   try {
