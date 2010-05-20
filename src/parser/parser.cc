@@ -84,7 +84,7 @@ namespace fancy {
       // try direct filename first
       f = fopen(filename.c_str(), "r");
 
-      // if that failed, try with each path in load_path prependet to
+      // if that failed, try with each path in load_path prepended to
       // the filename until we succeed
       if(!f) {
         for(list<string>::iterator it = load_path.begin();
