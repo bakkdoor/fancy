@@ -37,22 +37,10 @@ namespace fancy {
     _instance_slotnames.push_back(name);
   }
 
-  void Class::def_slot(const Identifier_p name)
-  {
-    assert(name);
-    this->def_slot(name->name());
-  }
-
   void Class::def_class_slot(const string &name, const FancyObject_p value)
   {
     assert(value);
     _class_slots[name] = value;
-  }
-
-  void Class::def_class_slot(const Identifier_p name, const FancyObject_p value)
-  {
-    assert(name);
-    this->def_class_slot(name->name(), value);
   }
 
   FancyObject_p Class::get_class_slot(const string &identifier) const
@@ -88,23 +76,11 @@ namespace fancy {
     _instance_methods[name] = method;
   }
 
-  void Class::def_method(const Identifier_p name, const Callable_p method)
-  {
-    assert(name);
-    this->def_method(name->name(), method);
-  }
-
   void Class::def_class_method(const string &name, const Callable_p method)
   {
     assert(method);
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
-  }
-
-  void Class::def_class_method(const Identifier_p name, const Callable_p method)
-  {
-    assert(name);
-    this->def_singleton_method(name->name(), method);
   }
 
   FancyObject_p Class::equal(const FancyObject_p other) const

@@ -35,22 +35,10 @@ namespace fancy {
     }
   }
 
-  FancyObject_p FancyObject::get_slot(const Identifier_p slotname) const
-  {
-    assert(slotname);
-    return get_slot(slotname->name());
-  }
-
   void FancyObject::set_slot(const string &slotname, const FancyObject_p value)
   {
     assert(value);
     _slots[slotname] = value;
-  }
-
-  void FancyObject::set_slot(const Identifier_p slotname, const FancyObject_p value)
-  {
-    assert(slotname);
-    set_slot(slotname->name(), value);
   }
 
   void FancyObject::init_slots()

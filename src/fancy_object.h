@@ -47,7 +47,6 @@ namespace fancy {
      * defined.
      */
     FancyObject_p get_slot(const string &slotname) const;
-    FancyObject_p get_slot(Identifier *slotname) const;
 
     /**
      * Sets the slot for a given name with a given value.
@@ -55,7 +54,6 @@ namespace fancy {
      * @param value The value to be set for the slot.
      */
     void set_slot(const string &slotname, const FancyObject_p value);
-    void set_slot(Identifier *slotname, const FancyObject_p value);
 
     /**
      * Indicates, if two objects are equal.

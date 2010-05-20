@@ -46,7 +46,6 @@ namespace fancy {
      * @param name Name of the slot.
      */
     void def_slot(const string &name);
-    void def_slot(const Identifier_p name);
 
     /**
      * Defines a class slot for the class with a given value.
@@ -54,7 +53,6 @@ namespace fancy {
      * @param value The value for the class slot.
      */
     void def_class_slot(const string &name, const FancyObject_p value);
-    void def_class_slot(const Identifier_p name, FancyObject_p value);
 
     /**
      * Returns the value of a class slot.
@@ -69,7 +67,6 @@ namespace fancy {
      * @param method The instance method object.
      */
     void def_method(const string &name, const Callable_p method);
-    void def_method(const Identifier_p, const Callable_p method);
 
     /**
      * Defines a class method for the Class.
@@ -79,7 +76,6 @@ namespace fancy {
      * @param method The class method object.
      */
     void def_class_method(const string &name, const Callable_p method);
-    void def_class_method(const Identifier_p name, const Callable_p method);
 
     /**
      * Includes (Mixin) another the methods of another Class into this one.
