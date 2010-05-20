@@ -40,18 +40,54 @@ namespace fancy {
      * the scope
      */
     FancyObject_p get(string identifier);
+
+    /**
+     * Defines an identifier with a value (or overwrites it, if already
+     * defined).
+     * @param identifier Identifier name
+     * @param value Value for the identifier within the Scope.
+     * @return True, if identifier was already defined (and thus, its
+     * value overwritten).
+     */
     bool define(string identifier, FancyObject_p value);
 
+    /**
+     * See FancyObject for these methods.
+     */
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;
 
+    /**
+     * Sets the current_self value (reference to the 'self' value
+     * within the Scope).
+     * @param current_self New current_self value.
+     */
     void set_current_self(FancyObject_p current_self);
+
+    /**
+     * Returns the current_self value for the Scope.
+     * @return The current_self value for the Scope.
+     */
     FancyObject_p current_self() const;
 
+    /**
+     * Returns the current_class value for the Scope.
+     * @return The current_class value for the Scope.
+     */
     Class* current_class() const;
+
+    /**
+     * Sets the current_class value (reference to the current class
+     * within the Scope).
+     * @param klass New current_class value.
+     */
     void set_current_class(Class_p klass);
 
+    /**
+     * Returns the Scope's parent scope or NULL, if not defined.
+     * @return The Scope's parent scope or NULL.
+     */
     Scope* parent_scope() const;
 
   private:
