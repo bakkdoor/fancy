@@ -17,13 +17,13 @@ namespace fancy {
   ostream& error(string message)
   {
     cerr << "[ERROR] " << message;
-    return cout;
+    return cerr;
   }
 
   ostream& errorln(string message)
   {
     cerr << "[ERROR] " << message << endl;
-    return cout;
+    return cerr;
   }
 
 }
