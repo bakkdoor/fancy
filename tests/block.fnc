@@ -51,5 +51,23 @@ FancySpec describe: Block with: |it| {
       i = i + 1
     };
     i should_equal: 10
+  };
+
+  it should: "call itself only when the argument is nil" when: {
+    try {
+      { Exception new: "got_run!" . raise! } unless: nil;
+      Exception new: "didnt_run!" . raise!
+    } catch Exception => e {
+      e message should_equal: "got_run!"
+    }
+  };
+
+  it should: "call itself only when the argument is true" when: {
+    try {
+      { Exception new: "got_run!" . raise! } if: true;
+      Exception new: "didnt_run!" . raise!
+    } catch Exception => e {
+      e message should_equal: "got_run!"
+    }
   }
 }
