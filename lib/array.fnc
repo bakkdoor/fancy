@@ -241,4 +241,10 @@ def class Array {
     self reject!: |x| { x nil? }
   }
 
+  def println {
+    self each: |x| {
+      x println
+    }
+  }
+
 }
