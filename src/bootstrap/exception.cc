@@ -3,68 +3,62 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * Exception class methods
-     */
-    METHOD(Exception_class__new);
-
-    /**
-     * Exception instance methods
-     */
-    METHOD(Exception__raise);
-    METHOD(Exception__message);
-
-    /**
-     * MethodNotFoundError instance methods
-     */
-    METHOD(MethodNotFoundError__method_name);
-    METHOD(MethodNotFoundError__class);
-
-    /**
-     * IOError instance methods
-     */
-    METHOD(IOError__filename);
-    METHOD(IOError__modes);
-
     void init_exception_classes()
     {
-      ExceptionClass->def_class_method("new:", new NativeMethod("new:", Exception_class__new));
+      /**
+       * Exception class
+       */
 
-      ExceptionClass->def_method("raise!",
-                                 new NativeMethod("raise!",
-                                                  "Raises (throws) the Exception up the execution stack, in order to be caught.",
-                                                  Exception__raise));
+      DEF_CLASSMETHOD(ExceptionClass,
+                      "new:",
+                      "Exception constructor.",
+                      new);
 
-      ExceptionClass->def_method("message",
-                                 new NativeMethod("message",
-                                                  "Returns the message (should be a String) of the Exception",
-                                                  Exception__message));
+      DEF_METHOD(ExceptionClass,
+                 "raise!",
+                 "Raises (throws) the Exception up the execution stack, in order to be caught.",
+                 raise);
 
-      MethodNotFoundErrorClass->def_method("method_name",
-                                           new NativeMethod("method_name",
-                                                            "Returns the name of the Method, that was not found.",
-                                                            MethodNotFoundError__method_name));
+      DEF_METHOD(ExceptionClass,
+                 "message",
+                 "Returns the message (should be a String) of the Exception",
+                 message);
 
-      MethodNotFoundErrorClass->def_method("_class",
-                                           new NativeMethod("_class",
-                                                            "Returns the Class for which the Method wasn not found.",
-                                                            MethodNotFoundError__class));
+      /**
+       * MethodNotFoundError class
+       */
 
-      IOErrorClass->def_method("filename",
-                               new NativeMethod("filename",
-                                                "Returns the filename for which an IOError occured.",
-                                                IOError__filename));
+      DEF_METHOD(MethodNotFoundErrorClass,
+                 "method_name",
+                 "Returns the name of the Method, that was not found.",
+                 method_name);
 
-      IOErrorClass->def_method("modes",
-                               new NativeMethod("modes",
-                                                "Returns the modes Array of the IOError.",
-                                                IOError__modes));
+      DEF_METHOD(MethodNotFoundErrorClass,
+                 "_class",
+                 "Returns the Class for which the Method wasn not found.",
+                 _class);
+                 
+                 
+      /**
+       * IOError class
+       */
+      
+      DEF_METHOD(IOErrorClass,
+                 "filename",
+                 "Returns the filename for which an IOError occured.",
+                 filename);
+
+      DEF_METHOD(IOErrorClass,
+                 "modes",
+                 "Returns the modes Array of the IOError.",
+                 modes);
     }
 
     /**
      * Exception class methods
      */
-    METHOD(Exception_class__new)
+
+    CLASSMETHOD(ExceptionClass, new)
     {
       EXPECT_ARGS("Exception##new:", 1);
       string message = args[0]->to_s();
@@ -76,7 +70,7 @@ namespace fancy {
      * Exception instance methods
      */
 
-    METHOD(Exception__raise)
+    METHOD(ExceptionClass, raise)
     {
       if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
         throw except;
@@ -86,7 +80,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Exception__message)
+    METHOD(ExceptionClass, message)
     {
       if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
         return String::from_value(except->message());
@@ -101,7 +95,7 @@ namespace fancy {
      * MethodNotFoundError instance methods
      */
 
-    METHOD(MethodNotFoundError__method_name)
+    METHOD(MethodNotFoundErrorClass, method_name)
     {
       if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
         return String::from_value(except->method_name());
@@ -111,7 +105,7 @@ namespace fancy {
       }
     }
 
-    METHOD(MethodNotFoundError__class)
+    METHOD(MethodNotFoundErrorClass, _class)
     {
       if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
         return except->get_class();
@@ -125,7 +119,7 @@ namespace fancy {
      * IOError instance methods
      */
 
-    METHOD(IOError__filename)
+    METHOD(IOErrorClass, filename)
     {
       if(IOError_p except = dynamic_cast<IOError_p>(self)) {
         return String::from_value(except->filename());
@@ -135,7 +129,7 @@ namespace fancy {
       }
     }
 
-    METHOD(IOError__modes)
+    METHOD(IOErrorClass, modes)
     {
       if(IOError_p except = dynamic_cast<IOError_p>(self)) {
         return except->modes();

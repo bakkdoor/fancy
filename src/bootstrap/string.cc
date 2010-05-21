@@ -3,39 +3,53 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * String class methods
-     */
-    METHOD(String_class__new);
-
-    /**
-     * String instance methods
-     */
-    METHOD(String__downcase);
-    METHOD(String__upcase);
-    METHOD(String__from__to);
-    METHOD(String__eq);
-    METHOD(String__plus);
-    METHOD(String__each);
-    METHOD(String__at);
-
     void init_string_class()
     {
-      StringClass->def_class_method("new", new NativeMethod("new", String_class__new));
+      DEF_CLASSMETHOD(StringClass,
+                      "new",
+                      "String constructor.",
+                      new);
 
-      StringClass->def_method("downcase", new NativeMethod("downcase", String__downcase));
-      StringClass->def_method("upcase", new NativeMethod("upcase", String__upcase));
-      StringClass->def_method("from:to:", new NativeMethod("from:to:", String__from__to));
-      StringClass->def_method("==", new NativeMethod("==", String__eq));
-      StringClass->def_method("+", new NativeMethod("+", String__plus));
-      StringClass->def_method("each:", new NativeMethod("each:", String__each));
-      StringClass->def_method("at:", new NativeMethod("at:", String__at));
+      DEF_METHOD(StringClass,
+                 "downcase",
+                 "Returns the downcased version of self.",
+                 downcase);
+
+      DEF_METHOD(StringClass,
+                 "upcase",
+                 "Returns the upcased version of self.",
+                 upcase);
+
+      DEF_METHOD(StringClass,
+                 "from:to:",
+                 "Returns a substring of self starting at index from: till to:.",
+                 from__to);
+
+      DEF_METHOD(StringClass,
+                 "==",
+                 "String comparison.",
+                 eq);
+
+      DEF_METHOD(StringClass,
+                 "+",
+                 "String concatenation.",
+                 plus);
+
+      DEF_METHOD(StringClass,
+                 "each:",
+                 "Calls the given Block with each character in self",
+                 each);
+
+      DEF_METHOD(StringClass,
+                 "at:",
+                 "Returns the character at the given index.",
+                 at);
     }
 
     /**
      * String class methods
      */
-    METHOD(String_class__new)
+    CLASSMETHOD(StringClass, new)
     {
       return String::from_value("");
     }
@@ -44,21 +58,21 @@ namespace fancy {
      * String instance methods
      */
 
-    METHOD(String__downcase)
+    METHOD(StringClass, downcase)
     {
       string str = dynamic_cast<String_p>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::tolower);
       return String::from_value(str);
     }
 
-    METHOD(String__upcase)
+    METHOD(StringClass, upcase)
     {
       string str = dynamic_cast<String_p>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::toupper);
       return String::from_value(str);
     }
 
-    METHOD(String__from__to)
+    METHOD(StringClass, from__to)
     {
       EXPECT_ARGS("String#from:to:", 2);
       string str = dynamic_cast<String_p>(self)->value();
@@ -84,7 +98,7 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(String__eq)
+    METHOD(StringClass, eq)
     {
       EXPECT_ARGS("String#eq:", 1);
       FancyObject_p arg = args[0];
@@ -98,7 +112,7 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(String__plus)
+    METHOD(StringClass, plus)
     {
       EXPECT_ARGS("String#+", 1);
       if(String_p arg = dynamic_cast<String_p>(args[0])) {
@@ -110,7 +124,7 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(String__each)
+    METHOD(StringClass, each)
     {
       EXPECT_ARGS("String#each:", 1);
       if(Block_p block = dynamic_cast<Block_p>(args[0])) {
@@ -127,7 +141,7 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(String__at)
+    METHOD(StringClass, at)
     {
       EXPECT_ARGS("String#at:", 1);
       if(Number_p index = dynamic_cast<Number_p>(args[0])) {

@@ -3,35 +3,43 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * Hash class methods
-     */
-    METHOD(Hash_class__new);
-
-    /**
-     * Hash instance methods
-     */
-
-    METHOD(Hash__size);
-    METHOD(Hash__at__put);
-    METHOD(Hash__at);
-    METHOD(Hash__keys);
-    METHOD(Hash__values);
-
     void init_hash_class()
     {
-      HashClass->def_class_method("new", new NativeMethod("new", Hash_class__new));
-      HashClass->def_method("size", new NativeMethod("size", Hash__size));
-      HashClass->def_method("at:put:", new NativeMethod("at:put:", Hash__at__put));
-      HashClass->def_method("at:", new NativeMethod("at", Hash__at));
-      HashClass->def_method("keys", new NativeMethod("keys", Hash__keys));
-      HashClass->def_method("values", new NativeMethod("values", Hash__values));
+      DEF_CLASSMETHOD(HashClass,
+                      "new",
+                      "Hash constructor.",
+                      new);
+
+      DEF_METHOD(HashClass,
+                 "size",
+                 "Returns the size (amount of key-value pairs) of the Hash.",
+                 size);
+
+      DEF_METHOD(HashClass,
+                 "at:put:",
+                 "Sets the value for a key in the Hash.",
+                 at__put);
+
+      DEF_METHOD(HashClass,
+                 "at:",
+                 "Returns the value for a given key (or nil, if not defined).",
+                 at);
+
+      DEF_METHOD(HashClass,
+                 "keys",
+                 "Returns an Array with all keys defined in the Hash.",
+                 keys);
+
+      DEF_METHOD(HashClass,
+                 "values",
+                 "Returns an Array with all values defined in the Hash.",
+                 values);
     }
 
     /**
      * Hash class methods
      */
-    METHOD(Hash_class__new)
+    CLASSMETHOD(HashClass, new)
     {
       return new Hash();
     }
@@ -40,13 +48,13 @@ namespace fancy {
      * Hash instance methods
      */
 
-    METHOD(Hash__size)
+    METHOD(HashClass, size)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return Number::from_int(hash->size());
     }
 
-    METHOD(Hash__at__put)
+    METHOD(HashClass, at__put)
     {
       EXPECT_ARGS("Hash#at:put", 2);
       Hash_p hash = dynamic_cast<Hash_p>(self);
@@ -56,7 +64,7 @@ namespace fancy {
       return self;
     }
 
-    METHOD(Hash__at)
+    METHOD(HashClass, at)
     {
       EXPECT_ARGS("Hash#at:", 1);
       Hash_p hash = dynamic_cast<Hash_p>(self);
@@ -64,13 +72,13 @@ namespace fancy {
       return hash->get_value(key);
     }
 
-    METHOD(Hash__keys)
+    METHOD(HashClass, keys)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return new Array(hash->keys());
     }
 
-    METHOD(Hash__values)
+    METHOD(HashClass, values)
     {
       Hash_p hash = dynamic_cast<Hash_p>(self);
       return new Array(hash->values());

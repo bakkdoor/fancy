@@ -3,20 +3,15 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * Method instance methods
-     */
-    METHOD(Method__name);
-
     void init_method_class()
     {
-      MethodClass->def_method("name",
-                              new NativeMethod("name",
-                                               "Returns the name of a Method as a String.",
-                                               Method__name));
+      DEF_METHOD(MethodClass,
+                 "name",
+                 "Returns the name of a Method as a String.",
+                 name);
     }
 
-    METHOD(Method__name)
+    METHOD(MethodClass, name)
     {
       if(Method_p method = dynamic_cast<Method_p>(self)) {
         return String::from_value(method->name());

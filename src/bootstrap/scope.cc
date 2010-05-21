@@ -3,24 +3,28 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * Scope instance methods
-     */
-    METHOD(Scope__define__value);
-    METHOD(Scope__parent);
-    METHOD(Scope__get);
-
     void init_scope_class()
     {
-      ScopeClass->def_method("define:value:", new NativeMethod("define:value:", Scope__define__value));
-      ScopeClass->def_method("parent", new NativeMethod("parent", Scope__parent));
-      ScopeClass->def_method("get:", new NativeMethod("get:", Scope__get));
+      DEF_METHOD(ScopeClass,
+                 "define:value:",
+                 "Defines an Identifier with a given value in the Scope.",
+                 define__value);
+
+      DEF_METHOD(ScopeClass,
+                 "parent",
+                 "Returns the parent scope (or nil, if not defined).",
+                 parent);
+
+      DEF_METHOD(ScopeClass,
+                 "get:",
+                 "Returns the value for a given Identifier.",
+                 get);
     }
 
     /**
      * Scope instance methods
      */
-    METHOD(Scope__define__value)
+    METHOD(ScopeClass, define__value)
     {
       EXPECT_ARGS("Scope#define:value:", 2);
       FancyObject_p name = args[0];
@@ -36,7 +40,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Scope__parent)
+    METHOD(ScopeClass, parent)
     {
       if(scope->parent_scope()) {
         return scope->parent_scope();
@@ -44,7 +48,7 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(Scope__get)
+    METHOD(ScopeClass, get)
     {
       EXPECT_ARGS("Scope#get:", 1);
       Scope *sc = dynamic_cast<Scope*>(self);

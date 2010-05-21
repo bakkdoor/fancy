@@ -4,92 +4,85 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * Array class methods
-     */
-    METHOD(Array_class__new);
-    METHOD(Array_class__new__with_size);
-    METHOD(Array_class__new__with);
-
-    /**
-     * Array instance methods
-     */
-    METHOD(Array__each);
-    METHOD(Array__each_with_index);
-    METHOD(Array__insert);
-    METHOD(Array__clear);
-    METHOD(Array__size);
-    METHOD(Array__at);
-    METHOD(Array__append);
-    METHOD(Array__clone);
-    METHOD(Array__remove_at);
-
-
     void init_array_class()
     {
-      ArrayClass->def_class_method("new", new NativeMethod("new", Array_class__new));
-      ArrayClass->def_class_method("new:", new NativeMethod("new:", Array_class__new__with_size));
+
+      /**
+       * Array class methods
+       */
+      DEF_CLASSMETHOD(ArrayClass,
+                      "new",
+                      "Array constructor method.",
+                      new);
+
+      DEF_CLASSMETHOD(ArrayClass,
+                      "new:",
+                      "Array constructor method that takes the initial size of the Array.",
+                      new__with_size);
+
+      DEF_CLASSMETHOD(ArrayClass,
+                      "new:with:",
+                      "Create a new Array with a given size and default-value.",
+                      new__with);
       
-      ArrayClass->def_class_method("new:with:",
-                                   new NativeMethod("new:with:",
-                                                    "Create a new Array with a given size and default-value.",
-                                                    Array_class__new__with));
+      /**
+       * Array instance methods
+       */
+      DEF_METHOD(ArrayClass,
+                 "each:",
+                 "Iterate over all elements in Array. Calls a given Block with each element.",
+                 each);
 
-      ArrayClass->def_method("each:",
-                             new NativeMethod("each:",
-                                              "Iterate over all elements in Array. Calls a given Block with each element.",
-                                              Array__each));
+      DEF_METHOD(ArrayClass,
+                 "each_with_index:",
+                 "Iterate over all elements in Array. Calls a given Block with each element and its index.",
+                 each_with_index);
 
-      ArrayClass->def_method("each_with_index:",
-                             new NativeMethod("each_with_index:",
-                                              "Iterate over all elements in Array. Calls a given Block with each element and its index.",
-                                              Array__each_with_index));
+      DEF_METHOD(ArrayClass,
+                 "<<",
+                 "Insert a value into Array.",
+                 insert);
 
-      ArrayClass->def_method("<<",
-                             new NativeMethod("<<",
-                                              "Insert a value into Array.",
-                                              Array__insert));
+      DEF_METHOD(ArrayClass,
+                 "clear",
+                 "Clear the Array. Deletes all elements in Array.",
+                 clear);
 
-      ArrayClass->def_method("clear",
-                             new NativeMethod("clear",
-                                              "Clear the Array. Deletes all elements in Array.",
-                                              Array__clear));
+      DEF_METHOD(ArrayClass,
+                 "size",
+                 "Returns the size of the Array.",
+                 size);
 
-      ArrayClass->def_method("size",
-                             new NativeMethod("size",
-                                              "Returns the size of the Array.",
-                                              Array__size));
+      DEF_METHOD(ArrayClass,
+                 "at:",
+                 "Returns the value at a given index or nil, if index not valid.",
+                 at);
 
-      ArrayClass->def_method("at:",
-                             new NativeMethod("at:",
-                                              "Returns the value at a given index or nil, if index not valid.",
-                                              Array__at));
+      DEF_METHOD(ArrayClass,
+                 "append:",
+                 "Appends another Array onto this one.",
+                 append);
 
-      ArrayClass->def_method("append:",
-                             new NativeMethod("append:",
-                                              "Appends another Array onto this one.",
-                                              Array__append));
+      DEF_METHOD(ArrayClass,
+                 "clone",
+                 "Clones (shallow copy) the Array.",
+                 clone);
 
-      ArrayClass->def_method("clone",
-                             new NativeMethod("clone",
-                                              "Clones (shallow copy) the Array.",
-                                              Array__clone));
-
-      ArrayClass->def_method("remove_at:",
-                             new NativeMethod("remove_at:",
-                                              "Removes an element at a given index.",
-                                              Array__remove_at));
+      DEF_METHOD(ArrayClass,
+                 "remove_at:",
+                 "Removes an element at a given index.",
+                 remove_at);
     }
 
     /**
      * Array class methods
      */
-    METHOD(Array_class__new)
+    CLASSMETHOD(ArrayClass, new)
     {
       return new Array();
     }
 
-    METHOD(Array_class__new__with_size)
+    CLASSMETHOD(ArrayClass, new__with_size)
     {
       EXPECT_ARGS("Array##new:", 1);
       if(Number_p num = dynamic_cast<Number_p>(args[0])) {
@@ -99,7 +92,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Array_class__new__with)
+    CLASSMETHOD(ArrayClass, new__with)
     {
       EXPECT_ARGS("Array##new:with:", 2);
       FancyObject_p arg1 = args[0];
@@ -116,7 +109,7 @@ namespace fancy {
      * Array instance methods
      */
 
-    METHOD(Array__each)
+    METHOD(ArrayClass, each)
     {
       EXPECT_ARGS("Array#each:", 1);
       if(IS_BLOCK(args[0])) {
@@ -137,7 +130,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Array__each_with_index)
+    METHOD(ArrayClass, each_with_index)
     {
       EXPECT_ARGS("Array#each_with_index:", 1);
       if(IS_BLOCK(args[0])) {
@@ -158,7 +151,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Array__insert)
+    METHOD(ArrayClass, insert)
     {
       EXPECT_ARGS("Array#insert:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
@@ -166,20 +159,20 @@ namespace fancy {
       return self;
     }
 
-    METHOD(Array__clear)
+    METHOD(ArrayClass, clear)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       array->clear();
       return self;
     }
 
-    METHOD(Array__size)
+    METHOD(ArrayClass, size)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       return Number::from_int(array->size());
     }
 
-    METHOD(Array__at)
+    METHOD(ArrayClass, at)
     {
       EXPECT_ARGS("Array#at:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
@@ -193,7 +186,7 @@ namespace fancy {
       }
     }
 
-    METHOD(Array__append)
+    METHOD(ArrayClass, append)
     {
       EXPECT_ARGS("Array#append:", 1);
       Array_p array = dynamic_cast<Array_p>(self);
@@ -206,13 +199,13 @@ namespace fancy {
       }
     }
 
-    METHOD(Array__clone)
+    METHOD(ArrayClass, clone)
     {
       Array_p array = dynamic_cast<Array_p>(self);
       return array->clone();
     }
 
-    METHOD(Array__remove_at)
+    METHOD(ArrayClass, remove_at)
     {
       EXPECT_ARGS("Array#remove_at:", 1);      
       Array_p array = dynamic_cast<Array_p>(self);

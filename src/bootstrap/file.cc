@@ -3,75 +3,58 @@
 namespace fancy {
   namespace bootstrap {
 
-    /**
-     * File class methods
-     */
-    METHOD(File_class__open__modes__with);
-    METHOD(File_class__open__modes);
-
-    /**
-     * File instance methods
-     */
-    METHOD(File__write);
-    METHOD(File__newline);
-    METHOD(File__is_open);
-    METHOD(File__close);
-    METHOD(File__eof);
-    METHOD(File__modes);
-    METHOD(File__readln);
-
     void init_file_class()
     {
-      FileClass->def_class_method("open:modes:with:",
-                                  new NativeMethod("open:modes:with:",
-                                                   "Opens a File with a given filename, a modes Array and a block.\n\
+      DEF_CLASSMETHOD(FileClass,
+                      "open:modes:with:",
+                      "Opens a File with a given filename, a modes Array and a block.\n\
 E.g. to open a File with read access and read all lines and print them to STDOUT:\n\
 File open: \"foo.txt\" modes: [:read] with: |f| {\n\
   { f eof? } while_false: {\n\
     f readln println\n\
   }\n\
 }",
-                                                   File_class__open__modes__with));
+                      open__modes__with);
 
-      FileClass->def_class_method("open:modes:",
-                                  new NativeMethod("open:modes:",
-                                                   "Opens a File with a given filename and modes Array.",
-                                                   File_class__open__modes));
+      DEF_CLASSMETHOD(FileClass,
+                      "open:modes:",
+                      "Opens a File with a given filename and modes Array.",
+                      open__modes);
 
-      FileClass->def_method("write:",
-                            new NativeMethod("write:",
-                                             "Writes an object to the File by calling its to_s method.",
-                                             File__write));
+      DEF_METHOD(FileClass,
+                 "write:",
+                 "Writes an object to the File by calling its to_s method.",
+                 write);
 
-      FileClass->def_method("newline",
-                            new NativeMethod("newline",
-                                             "Writes a newline to the File.",
-                                             File__newline));
+      DEF_METHOD(FileClass,
+                 "newline",
+                 "Writes a newline to the File.",
+                 newline);
 
-      FileClass->def_method("open?",
-                            new NativeMethod("open?",
-                                             "Returns true, if the File is correctly opened and nil otherwise.",
-                                             File__is_open));
+      DEF_METHOD(FileClass,
+                 "open?",
+                 "Returns true, if the File is correctly opened and nil otherwise.",
+                 is_open);
 
-      FileClass->def_method("close",
-                            new NativeMethod("close",
-                                             "Closes the File.",
-                                             File__close));
+      DEF_METHOD(FileClass,
+                 "close",
+                 "Closes the File.",
+                 close);
 
-      FileClass->def_method("eof?",
-                            new NativeMethod("eof?",
-                                             "Returns true, if the File is at its end (EOF) and nil otherwise.",
-                                             File__eof));
+      DEF_METHOD(FileClass,
+                 "eof?",
+                 "Returns true, if the File is at its end (EOF) and nil otherwise.",
+                 is_eof);
 
-      FileClass->def_method("modes",
-                            new NativeMethod("modes",
-                                             "Returns the modes Array with which the File is opened.",
-                                             File__modes));
+      DEF_METHOD(FileClass,
+                 "modes",
+                 "Returns the modes Array with which the File is opened.",
+                 modes);
 
-      FileClass->def_method("readln",
-                            new NativeMethod("readln",
-                                             "Reads a line from the File and returns it as a String.",
-                                             File__readln));
+      DEF_METHOD(FileClass,
+                 "readln",
+                 "Reads a line from the File and returns it as a String.",
+                 readln);
     }
 
 
@@ -79,7 +62,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
      * File class methods
      */
 
-    METHOD(File_class__open__modes__with)
+    CLASSMETHOD(FileClass, open__modes__with)
     {
       EXPECT_ARGS("File##open:modes:with:", 3);
       FancyObject_p arg1 = args[0];
@@ -115,7 +98,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return nil;
     }
 
-    METHOD(File_class__open__modes)
+    CLASSMETHOD(FileClass, open__modes)
     {
       EXPECT_ARGS("File##open:modes:", 2);
       FancyObject_p arg1 = args[0];
@@ -145,7 +128,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
      * File instance methods
      */
 
-    METHOD(File__write)
+    METHOD(FileClass, write)
     {
       EXPECT_ARGS("File#write:", 1);
       File_p file = dynamic_cast<File_p>(self);
@@ -158,7 +141,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return self;
     }
 
-    METHOD(File__newline)
+    METHOD(FileClass, newline)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -168,7 +151,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return self;
     }
 
-    METHOD(File__is_open)
+    METHOD(FileClass, is_open)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -179,7 +162,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return nil;
     }
 
-    METHOD(File__close)
+    METHOD(FileClass, close)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -188,7 +171,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return nil;
     }
 
-    METHOD(File__eof)
+    METHOD(FileClass, is_eof)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file && !file->eof()) {
@@ -197,7 +180,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return t;
     }
 
-    METHOD(File__modes)
+    METHOD(FileClass, modes)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file) {
@@ -206,7 +189,7 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return new Array();
     }
 
-    METHOD(File__readln)
+    METHOD(FileClass, readln)
     {
       File_p file = dynamic_cast<File_p>(self);
       if(file && file->is_open()) {
