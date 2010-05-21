@@ -32,6 +32,12 @@ namespace fancy {
      * @param body ExpressionList that is the methods body.
      */
     Method(const list< pair<Identifier_p, Identifier_p> > argnames, const ExpressionList_p body);
+
+    /**
+     * Empty Method constructor. Used by subclasses (e.g. NativeMethod).
+     */
+    Method();
+
     ~Method();
 
     /**

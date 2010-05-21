@@ -6,7 +6,7 @@ namespace fancy {
   /**
    * NativeMethod class representing native methods defined for Fancy.
    */
-  class NativeMethod : public FancyObject, public Callable
+  class NativeMethod : public Method
   {
   public:
     /**
@@ -32,7 +32,6 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p eval(Scope *scope);
     virtual FancyObject_p equal(const FancyObject_p other) const;
     virtual OBJ_TYPE type() const;
     virtual string to_s() const;

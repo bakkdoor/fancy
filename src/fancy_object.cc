@@ -187,8 +187,6 @@ namespace fancy {
         it++) {
       if(Method_p method = dynamic_cast<Method_p>(it->second)) {
         methods.push_back(method);
-      } else if(NativeMethod_p method = dynamic_cast<NativeMethod_p>(it->second)) {
-        methods.push_back(method);
       } else if(Block_p method = dynamic_cast<Block_p>(it->second)) {
         methods.push_back(method);
       }

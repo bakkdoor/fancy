@@ -23,6 +23,12 @@ namespace fancy {
     init_docstring();
   }
 
+  Method::Method() :
+    FancyObject(MethodClass),
+    _is_operator(false)
+  {
+  }
+
   Method::~Method()
   {
   }

@@ -4,14 +4,14 @@ namespace fancy {
 
   NativeMethod::NativeMethod(string identifier,
                              FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
-    FancyObject(MethodClass), _identifier(identifier), _func(func)
+    Method(), _identifier(identifier), _func(func)
   {
   }
 
   NativeMethod::NativeMethod(string identifier,
                              string docstring,
                              FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
-    FancyObject(MethodClass), _identifier(identifier), _func(func)
+    Method(), _identifier(identifier), _func(func)
   {
     set_docstring(docstring);
   }
@@ -20,23 +20,18 @@ namespace fancy {
   {
   }
 
-  FancyObject_p NativeMethod::eval(Scope *scope)
-  {
-    errorln("calling eval() on NativeMethod .. ");
-    return nil;
-  }
-
   FancyObject_p NativeMethod::equal(const FancyObject_p other) const
   {
     if(!IS_NATIVEMETHOD(other)) {
       return nil;
     } else {
-      NativeMethod_p other_bif = (NativeMethod_p)other;
-      if(_identifier == other_bif->_identifier) {
-        return t;
-      } else {
-        return nil;
+      if(NativeMethod_p other_method = dynamic_cast<NativeMethod_p>(other)) {
+        if(_identifier == other_method->_identifier
+           && _func == other_method->_func) {
+          return t;
+        }
       }
+      return nil;
     }
   }
 
