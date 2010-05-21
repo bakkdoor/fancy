@@ -10,7 +10,7 @@ namespace fancy {
 
   ostream& warnln(string message)
   {
-    cout << "[WARNING] " << message << endl;
+    warn(message) << endl;
     return cout;
   }
 
@@ -22,7 +22,7 @@ namespace fancy {
 
   ostream& errorln(string message)
   {
-    cerr << "[ERROR] " << message << endl;
+    error(message) << endl;
     return cerr;
   }
 
