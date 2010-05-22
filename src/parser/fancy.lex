@@ -70,7 +70,7 @@ comment         #[^\n]*
 {equals}        { return EQUALS; }
 {special}+      {
                   string str(yytext);
-                  yylval.expression = Identifier::from_string(str);
+                  yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return OPERATOR;
                 }
 {return}        { return RETURN; }
@@ -80,7 +80,7 @@ comment         #[^\n]*
 {super}         { return SUPER; }
 {identifier}    { 
                   string str(yytext);
-                  yylval.expression = Identifier::from_string(str);
+                  yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return IDENTIFIER;
                 }
 {symbol_lit}    { 

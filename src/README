@@ -14,7 +14,6 @@ This directory consists of the following:
 
   - remaining source files, including:
     - Wrapper classes for Fancy's built-in classes.
-    - Identifier class (represents a name in Fancy code)
     - main.cc containing Fancy's entry point
     - utils.cc containing utility functions (for warning & error output)
     - errors.cc containing Fancy's built-in Exception classes

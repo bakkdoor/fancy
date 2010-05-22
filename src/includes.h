@@ -34,7 +34,6 @@ using namespace std;
 #include "array.h"
 #include "nil.h"
 #include "true.h"
-#include "identifier.h"
 #include "symbol.h"
 #include "method.h"
 #include "string.h"

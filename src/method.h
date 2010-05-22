@@ -1,7 +1,12 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
+#include "parser/nodes/identifier.h"
+
 namespace fancy {
+
+  // needed for Identifier class
+  using namespace parser::nodes;
 
   struct method_arg_node {
   public:
