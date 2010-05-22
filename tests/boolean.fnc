@@ -57,6 +57,13 @@ FancySpec describe: "Boolean value" with: |it| {
     :foo false? should_equal: nil;
     "hello, world" false? should_equal: nil
   };
+
+  it should: "only be true for true" when: {
+    true true? should_equal: true;
+    :foo true? should_equal: nil;
+    "hello, world" true? should_equal: nil;
+    nil true? should_equal: nil
+  };
   
   it should: "be false for nil values" when: {
     nil false? should_equal: true
