@@ -10,7 +10,7 @@ This directory consists of the following:
     - Fancy's GNU Flex tokenizer input file
 
   - parser.h & parser.cc:
-    - Some parser-related helper functions for stuff like parser
+    - Some parser-related helper functions for stuff like parsing
       multiple files & dealing with the load path
 
   - nodes/ directory

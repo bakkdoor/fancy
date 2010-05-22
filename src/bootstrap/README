@@ -11,5 +11,5 @@ This directory consists of the following:
 
   - remaining source files:
     - Each source file deals with one built-in class (except for
-      exceptions.cc, which handles all built-in Exception classes)
+      exception.cc, which handles all built-in Exception classes)
     - Initialize all class & instance methods for the built-in classes

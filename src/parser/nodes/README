@@ -4,5 +4,5 @@ Fancy src/parser/nodes directory
 This directory consists of the following:
 
   - Here you'll find all classes for the parser nodes
-    These should only be modified, if the syntax or basic language
+    These should only be modified if the syntax or basic language
     semantics have been changed or optimized
