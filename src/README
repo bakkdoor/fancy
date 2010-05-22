@@ -1,0 +1,21 @@
+Fancy src/ directory
+---------------------
+
+This directory consists of the following:
+
+  - bootstrap/ directory:
+    Containing all the built-in classes & methods.
+    The code in there gets run during interpreter initialization.
+
+  - parser/ directory:
+    Contains all parser-related code, including:
+      - GNU Bison & Flex input files (fancy.y & fancy.lex)
+      - parser node classes (that form the AST) in parser/nodes/
+
+  - remaining source files, including:
+    - Wrapper classes for Fancy's built-in classes.
+    - Identifier class (represents a name in Fancy code)
+    - main.cc containing Fancy's entry point
+    - utils.cc containing utility functions (for warning & error output)
+    - errors.cc containing Fancy's built-in Exception classes
+    - Scope class (used by the AST to get the values for identifiers)

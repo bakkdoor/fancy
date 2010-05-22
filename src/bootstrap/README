@@ -1,0 +1,15 @@
+Fancy src/bootstrap directory
+------------------------------
+
+This directory consists of the following:
+
+  - core_classes.cc:
+    - Defines all built-in classes and singleton objects (true & nil)
+      in the root scope (called 'global_scope')
+    - Calls the remaining initialize functions for all built-in
+      classes (found in the remaining source files)
+
+  - remaining source files:
+    - Each source file deals with one built-in class (except for
+      exceptions.cc, which handles all built-in Exception classes)
+    - Initialize all class & instance methods for the built-in classes
