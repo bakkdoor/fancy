@@ -89,9 +89,9 @@ and passing them on to the initialize: method of the class.",
                  get_slot);
 
       DEF_METHOD(ObjectClass,
-                 "set_slot:with:",
+                 "set_slot:value:",
                  "Sets the value of slot.",
-                 set_slot__with);
+                 set_slot__value);
   
       DEF_METHOD(ObjectClass,
                  "docstring:",
@@ -270,9 +270,9 @@ and passing them on to the initialize: method of the class.",
       return slot;
     }
 
-    METHOD(ObjectClass, set_slot__with)
+    METHOD(ObjectClass, set_slot__value)
     {
-      EXPECT_ARGS("Object#set_slot:with:", 2);
+      EXPECT_ARGS("Object#set_slot:value:", 2);
       string slot_name = "@" + args[0]->to_s();
       FancyObject_p value = args[1];
       self->set_slot(slot_name, value);

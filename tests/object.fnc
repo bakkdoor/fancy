@@ -12,7 +12,7 @@ FancySpec describe: Object with: |it| {
   it should: "dynamically define slotvalues" when: {
     obj = Object new;
     obj get_slot: :foo . should_equal: nil;
-    obj set_slot: :foo with: "hello, world";
+    obj set_slot: :foo value: "hello, world";
     obj get_slot: :foo . should_equal: "hello, world"
   };
 
