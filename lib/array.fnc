@@ -242,6 +242,8 @@ def class Array {
   }
 
   def println {
+    "Prints each element on a seperate line.";
+
     self each: |x| {
       x println
     }

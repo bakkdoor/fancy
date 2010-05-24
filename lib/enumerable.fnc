@@ -62,6 +62,8 @@ def class Enumerable {
   }
   
   def map: block {
+    "Returns a new Array with the results of calling a given block for every element";
+
     coll = [];
     self each: |x| {
       coll << (block call: [x])
@@ -70,6 +72,8 @@ def class Enumerable {
   };
   
   def select: condition {
+    "Returns a new Array with all elements that meet the given condition block.";
+
     coll = [];
     self each: |x| {
       { coll << x } if: $ condition call: [x]
@@ -78,6 +82,8 @@ def class Enumerable {
   };
   
   def reject: condition {
+    "Returns a new Array with all elements that don't meet the given condition block.";
+
     coll = [];
     self each: |x| {
       { coll << x } unless: $ condition call: [x]
@@ -86,6 +92,8 @@ def class Enumerable {
   }
   
   def take_while: condition {
+    "Returns a new Array by taking elements from the beginning as long as they meet the given condition block.";
+
     coll = [];
     stop = nil;
     self each: |x| {
@@ -101,6 +109,8 @@ def class Enumerable {
   }
 
   def drop_while: condition {
+    "Returns a new Array by skipping elements from the beginning as long as they meet the given condition block.";
+
     coll = [];
     drop = nil;
     first_check = true;
@@ -116,6 +126,8 @@ def class Enumerable {
   }
 
   def reduce: block with: init_val {
+    "Calculates a value based on a given block to be called on an accumulator value and an initial value.";
+
     acc = init_val;
     self each: |x| {
       acc = (block call: [acc, x])
@@ -124,6 +136,8 @@ def class Enumerable {
   }
 
   def uniq {
+    "Returns a new Array with all unique values (double entries are skipped).";
+
     uniq_vals = [];
     self each: |x| {
       uniq_vals include?: x . if_false: {
@@ -134,6 +148,8 @@ def class Enumerable {
   }
 
   def size {
+    "Returns the size of an Enumerable.";
+
     i = 0;
     self each: |x| {
       i = i + 1
@@ -142,6 +158,8 @@ def class Enumerable {
   }
 
   def last {
+    "Returns the last element in an Enumerable.";
+
     item = nil;
     self each: |x| {
       item = x
@@ -150,6 +168,8 @@ def class Enumerable {
   }
 
   def compact {
+    "Returns a new Array with all values removed that are nil (return true on nil?).";
+
     self reject: |x| { x nil? }
   }
   
