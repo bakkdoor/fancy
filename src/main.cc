@@ -57,13 +57,12 @@ int main(int argc, char **argv)
   string stdlib_path = get_load_path(argc, argv) + "/lib";
   fancy::parser::load_path.push_back(stdlib_path);
 
+  prepare_argv(argc, argv);
+  // now, load boot.fnc
+  fancy::parser::parse_file(boot_file);
+
   try {
     if (argc > 1) {
-      prepare_argv(argc, argv);
-
-      // now, load boot.fnc
-      fancy::parser::parse_file(boot_file);
-
       string filename = string(argv[1]);
       if(filename[0] != '-') {
         if(filename == "-I") {
