@@ -56,21 +56,26 @@ int main(int argc, char **argv)
   string boot_file = "boot.fnc";
   string stdlib_path = get_load_path(argc, argv) + "/lib";
   fancy::parser::load_path.push_back(stdlib_path);
-  fancy::parser::parse_file(boot_file);
 
   try {
     if (argc > 1) {
       prepare_argv(argc, argv);
+
+      // now, load boot.fnc
+      fancy::parser::parse_file(boot_file);
+
       string filename = string(argv[1]);
-      if(filename == "-I") {
-        if(argc > 3) {
-          filename = string(argv[3]);
-          fancy::parser::parse_file(filename);
+      if(filename[0] != '-') {
+        if(filename == "-I") {
+          if(argc > 3) {
+            filename = string(argv[3]);
+            fancy::parser::parse_file(filename);
+          } else {
+            exec_from_stdin();
+          }
         } else {
-          exec_from_stdin();
+          fancy::parser::parse_file(filename);
         }
-      } else {
-        fancy::parser::parse_file(filename);
       }
     } else {
       exec_from_stdin();

@@ -20,4 +20,33 @@ require: "file.fnc";
 require: "fancy_spec.fnc";
 require: "console.fnc";
 require: "hash.fnc";
-require: "set.fnc"
+require: "set.fnc";
+
+# version.fnc holds fancy's version number
+require: "version.fnc";
+
+
+# handle ARGV special cases
+
+def ARGV option?: opt {
+  opt is_a?: Array . if_true: {
+    opt any?: |o| { ARGV include?: o }
+  } else: {
+    ARGV include?: opt
+  }
+};
+
+ARGV option?: ["-v", "--version"] .
+  if_true: {
+  "fancy " ++ FANCY_VERSION println;
+  "(C) 2010 Christopher Bertels <chris@fancy-lang.org>" println
+};
+
+ARGV option?: ["--help", "-h"] .
+  if_true: {
+  ["Usage: fancy [option] [programfile] [arguments]",
+   "  --help        Print this output",
+   "  --version     Print Fancy's version number",
+   "  -v            Print Fancy's version number",
+   "  -I directory  Add directory to Fancy's LOAD_PATH"] println
+}
