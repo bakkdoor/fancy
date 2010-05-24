@@ -128,8 +128,8 @@
 %%
 
 programm:       /* empty */
-                | code { Expression_p expr = $1; expr->eval(global_scope); }
-                | programm SEMI code { Expression_p expr = $3; expr->eval(global_scope); }
+                | code { Expression_p expr = $1; last_value = expr->eval(global_scope); }
+                | programm SEMI code { Expression_p expr = $3; last_value = expr->eval(global_scope); }
                 ;
 
 code:           statement

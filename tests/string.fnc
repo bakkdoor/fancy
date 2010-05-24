@@ -68,5 +68,13 @@ FancySpec describe: String with: |it| {
     "       " blank? should_equal: true;
     "hello world" blank? should_equal: nil;
     "hello world" at: 5 . blank? should_equal: true
+  };
+
+  it should: "be evaled as fancy code and return the correct value" when: {
+    x = ":foo" eval;
+    x should_equal: :foo;
+    "3 + 4" eval should_equal: 7;
+    ":foo to_s upcase" eval should_equal: "FOO";
+    "33.33" eval should_equal: 33.33
   }
 }

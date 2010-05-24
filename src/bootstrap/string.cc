@@ -1,5 +1,8 @@
 #include "includes.h"
 
+// used for parse_string() in String#eval
+#include "../parser/parser.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -44,6 +47,11 @@ namespace fancy {
                  "at:",
                  "Returns the character at the given index.",
                  at);
+
+      DEF_METHOD(StringClass,
+                 "eval",
+                 "Interprets the String as Fancy code and tries to run it.",
+                 eval);
     }
 
     /**
@@ -151,6 +159,12 @@ namespace fancy {
       }
       errorln("String#at: expects Number argument.");
       return nil;
+    }
+
+    METHOD(StringClass, eval)
+    {
+      string code = self->to_s();
+      return parser::parse_string(code);
     }
 
   }

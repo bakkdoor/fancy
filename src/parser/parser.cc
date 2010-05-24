@@ -4,6 +4,7 @@
 extern int yyparse();
 extern void yyrestart(FILE*);
 extern yy_buffer_state* yy_create_buffer(FILE*, int);
+extern yy_buffer_state* yy_scan_string(const char*);
 extern int yy_switch_to_buffer(yy_buffer_state*);
 extern int yy_delete_buffer(yy_buffer_state*);
 
@@ -13,6 +14,7 @@ namespace fancy {
     string current_file;
     stack<parser_buffer> parse_buffers;
     list<string> load_path;
+    FancyObject_p last_value = nil;
 
     void parse_file(string &filename)
     {
@@ -35,6 +37,40 @@ namespace fancy {
 
         pop_buffer();
       }
+    }
+
+    FancyObject_p parse_string(const string &code)
+    {
+      parser_buffer buf;
+      buf.buffstate = yy_scan_string(code.c_str());
+      buf.lineno = yylineno;
+      buf.file = NULL;
+      buf.filename = "";
+
+      yylineno = 1;
+      yy_switch_to_buffer(buf.buffstate);
+
+      try {
+        yyparse();
+      } catch(FancyException_p ex) {
+        errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
+        errorln(ex->to_s());
+        exit(1);
+      }
+
+      // delete string buffer
+      yy_delete_buffer(buf.buffstate);
+
+      // reset to what we had before
+      if(!parse_buffers.empty()) {
+        parser_buffer prev = parse_buffers.top();
+        yy_switch_to_buffer(prev.buffstate);
+        yylineno = prev.lineno;
+        current_file = prev.filename;
+      }
+
+      // finally, return the last evaluated value
+      return last_value;
     }
 
     bool push_buffer(const string &filename)
@@ -68,7 +104,7 @@ namespace fancy {
         fclose(buf.file);
         yy_delete_buffer(buf.buffstate);
 
-        if(!parse_buffers.empty()) {        
+        if(!parse_buffers.empty()) {
           parser_buffer prev = parse_buffers.top();
           yy_switch_to_buffer(prev.buffstate);
           yylineno = prev.lineno;

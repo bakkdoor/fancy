@@ -20,8 +20,10 @@ namespace fancy {
     extern string current_file;
     extern stack<parser_buffer> parse_buffers;
     extern list<string> load_path;
+    extern FancyObject_p last_value;
 
     void parse_file(string &filename);
+    FancyObject_p parse_string(const string &code);
     bool push_buffer(const string &filename);
     void pop_buffer();
 
