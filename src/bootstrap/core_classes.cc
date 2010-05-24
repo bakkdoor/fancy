@@ -27,6 +27,8 @@ namespace fancy {
   Class_p MethodNotFoundErrorClass;
   Class_p IOErrorClass;
 
+  Class_p SystemClass;
+
   /**
    * Global Singleton Objects
    */
@@ -66,6 +68,8 @@ namespace fancy {
       MethodNotFoundErrorClass = new Class("MethodNotFoundError", ExceptionClass);
       IOErrorClass = new Class("IOError", ExceptionClass);
 
+      SystemClass = new Class("System", ObjectClass);
+
       init_object_class();
       init_class_class();
       init_block_class();
@@ -78,6 +82,7 @@ namespace fancy {
       init_hash_class();
       init_exception_classes();
       init_method_class();
+      init_system_class();
     }
 
     void init_global_objects()
@@ -115,6 +120,8 @@ namespace fancy {
       global_scope->define("UnknownIdentifierError", UnknownIdentifierErrorClass);
       global_scope->define("MethodNotFoundError", MethodNotFoundErrorClass);
       global_scope->define("IOError", IOErrorClass);
+
+      global_scope->define("System", SystemClass);
   
       /* define singleton objects */
       global_scope->define("nil", nil);

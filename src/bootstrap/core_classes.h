@@ -25,6 +25,8 @@ namespace fancy {
   extern Class *MethodNotFoundErrorClass;
   extern Class *IOErrorClass;
 
+  extern Class *SystemClass;
+
   extern FancyObject *nil;
   extern FancyObject *t;
 
@@ -61,6 +63,7 @@ namespace fancy {
     void init_object_class();
     void init_scope_class();
     void init_string_class();
+    void init_system_class();
   }
 }
 

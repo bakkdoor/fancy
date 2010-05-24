@@ -1,17 +1,17 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-parser_node_files = identifier array_literal assignment return require		\
+parser_node_files = identifier array_literal assignment return require	\
 block_literal class_definition hash_literal message_send operator_send	\
 method_definition class_method_definition operator_definition		\
 class_operator_definition try_catch_block super
 parser_files = parser/lex parser/bison
 bootstrap_files = core_classes object class block string number		\
-console array file scope hash exception method
+console array file scope hash exception method system
 
-files = fancy_object true nil hash array symbol number	\
-string native_method scope class errors method regexp			\
-expression_list block utils file fancy_exception
+files = fancy_object true nil hash array symbol number string		\
+native_method scope class errors method regexp expression_list block	\
+utils file fancy_exception
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
