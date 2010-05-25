@@ -10,7 +10,7 @@ def class Console {
   def self println: obj {
     "Prints a given object on STDOUT, followed by a newline.";
 
-    Console print: (obj ++ "\n")
+    Console print: (obj to_s ++ "\n")
   }
 
   def self readln: message {
