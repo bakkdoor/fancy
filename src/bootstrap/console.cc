@@ -11,7 +11,7 @@ namespace fancy {
                       print);
 
       DEF_CLASSMETHOD(ConsoleClass,
-                      "readln:",
+                      "readln",
                       "Reads a line from STDIN and returns it as a String.",
                       readln);
     }
