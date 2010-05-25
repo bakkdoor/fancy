@@ -4,8 +4,15 @@ def class Array {
   self include: Enumerable;
 
   def [] index {
-    "Returns element at a given index.";
-    self at: index
+    ""Given an Array of 2 Numbers, it returns the sub-array between the given indices.
+      If given a Number, returns the element at that index."";
+
+    # if given an Array, interpret it as a from:to: range substring
+    index is_a?: Array . if_true: {
+      self from: (index[0]) to: (index[1])
+    } else: {
+      self at: index
+    }    
   }
 
   def == other {
