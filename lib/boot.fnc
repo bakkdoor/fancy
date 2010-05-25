@@ -21,6 +21,7 @@ require: "fancy_spec.fnc";
 require: "console.fnc";
 require: "hash.fnc";
 require: "set.fnc";
+require: "symbol.fnc";
 
 # version.fnc holds fancy's version number
 require: "version.fnc";

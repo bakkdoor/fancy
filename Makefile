@@ -38,6 +38,8 @@ test: all
 	@bin/fancy tests/set.fnc
 	@echo
 	@bin/fancy tests/string.fnc
+	@echo
+	@bin/fancy tests/symbol.fnc
 
 example: all
 	@mkdir -p tmp
