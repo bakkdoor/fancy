@@ -2,9 +2,17 @@
 
 namespace fancy {
 
+  static string __fake_newline = "\\n";
+  static string __fake_tab = "\\t";
+  static string __newline = "\n";
+  static string __tab =  "\t";
+
   String::String(const string &value) :
     FancyObject(StringClass), _value(value)
   {
+    // do replacements of escape-characters
+    replace(__fake_newline, __newline);
+    replace(__fake_tab, __tab);
   }
 
   String::~String()
@@ -40,6 +48,16 @@ namespace fancy {
   string String::value() const
   {
     return _value;
+  }
+
+  void String::replace(string &what, string &with)
+  {
+    string::size_type next;
+
+    for(next = _value.find(what); next != string::npos; next = _value.find(what, next)) {
+      _value.replace(next, what.length(), with);
+      next += with.length();
+    }
   }
 
   map<string, String_p> String::value_cache;

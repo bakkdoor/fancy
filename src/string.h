@@ -34,6 +34,13 @@ namespace fancy {
     string value() const;
 
     /**
+     * Replaces all occurences of what in the String with with.
+     * @param what String to find and replace.
+     * @param with String to replace all occurrances of what with.
+     */
+    void replace(string &what, string &with);
+
+    /**
      * Returns a String object with a given C++ string value.
      * Strings in Fancy get cached, since they're immutable.
      * Multiple occurances of the same String in Fancy use the same

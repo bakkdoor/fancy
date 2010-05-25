@@ -11,11 +11,6 @@ namespace fancy {
                       print);
 
       DEF_CLASSMETHOD(ConsoleClass,
-                      "println:",
-                      "Prints a given object on STDOUT, followed by a newline.",
-                      println);
-
-      DEF_CLASSMETHOD(ConsoleClass,
                       "readln:",
                       "Reads a line from STDIN and returns it as a String.",
                       readln);
@@ -30,13 +25,6 @@ namespace fancy {
     {
       EXPECT_ARGS("Console##print:", 1);
       cout << args[0]->call_method("to_s", 0, 0, scope)->to_s();
-      return nil;
-    }
-
-    CLASSMETHOD(ConsoleClass, println)
-    {
-      EXPECT_ARGS("Console##println:", 1);
-      cout << args[0]->call_method("to_s", 0, 0, scope)->to_s() << "\n";
       return nil;
     }
 
