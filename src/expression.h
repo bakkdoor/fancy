@@ -39,6 +39,7 @@ namespace fancy {
     OBJ_BLOCK,
     OBJ_BLOCKLITERAL,
     OBJ_FILE,
+    OBJ_DIRECTORY,
     OBJ_SCOPE,
     OBJ_EXCEPTION,
     OBJ_TRYCATCHBLOCK,

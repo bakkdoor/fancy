@@ -25,6 +25,10 @@
 #include <cctype>
 #include <fstream>
 
+#include<sys/stat.h>
+#include<sys/types.h>
+
+
 using namespace std;
 
 #include "callable.h"
@@ -41,6 +45,7 @@ using namespace std;
 #include "hash.h"
 #include "regexp.h"
 #include "file.h"
+#include "directory.h"
 #include "native_method.h"
 #include "block.h"
 #include "class.h"

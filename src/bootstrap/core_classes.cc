@@ -19,6 +19,7 @@ namespace fancy {
   Class_p MethodCallClass;
   Class_p BlockClass;
   Class_p FileClass;
+  Class_p DirectoryClass;
   Class_p ConsoleClass;
   Class_p ScopeClass;
 
@@ -60,6 +61,7 @@ namespace fancy {
       MethodCallClass = new Class("MethodCall", ObjectClass);
       BlockClass = new Class("Block", ObjectClass);
       FileClass = new Class("File", ObjectClass);
+      DirectoryClass = new Class("Directory", ObjectClass);
       ConsoleClass = new Class("Console", ObjectClass);
       ScopeClass = new Class("Scope", ObjectClass);
 
@@ -78,6 +80,7 @@ namespace fancy {
       init_console_class();
       init_array_class();
       init_file_class();
+      init_directory_class();
       init_scope_class();
       init_hash_class();
       init_exception_classes();
@@ -113,6 +116,7 @@ namespace fancy {
       global_scope->define("MethodCall", MethodClass);
       global_scope->define("Block", BlockClass);
       global_scope->define("File", FileClass);
+      global_scope->define("Directory", DirectoryClass);
       global_scope->define("Console", ConsoleClass);
       global_scope->define("Scope", ScopeClass);
 

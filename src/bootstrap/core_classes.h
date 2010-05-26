@@ -17,6 +17,7 @@ namespace fancy {
   extern Class *MethodCallClass;
   extern Class *BlockClass;
   extern Class *FileClass;
+  extern Class *DirectoryClass;
   extern Class *ConsoleClass;
   extern Class *ScopeClass;
 
@@ -57,6 +58,7 @@ namespace fancy {
     void init_console_class();
     void init_exception_classes();
     void init_file_class();
+    void init_directory_class();
     void init_hash_class();
     void init_method_class();
     void init_number_class();
