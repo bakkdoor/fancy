@@ -17,7 +17,7 @@ def class FancySpec {
   }
 
   def run {
-    "Running tests for: " ++ @test_obj println;
+    "Running tests for: " ++ @test_obj ++ ": " print;
     @spec_tests each: |test| {
       test run: @test_obj
     };
