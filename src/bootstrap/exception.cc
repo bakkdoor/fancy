@@ -42,7 +42,12 @@ namespace fancy {
       /**
        * IOError class
        */
-      
+
+      DEF_CLASSMETHOD(IOErrorClass,
+                      "message:filename:",
+                      "Creates a new IOError Exception with a given message and filename.",
+                      message__filename);
+
       DEF_METHOD(IOErrorClass,
                  "filename",
                  "Returns the filename for which an IOError occured.",
@@ -76,6 +81,7 @@ namespace fancy {
         throw except;
       } else {
         cout << "DIDNT raise!" <<endl;
+        cout << "except is: " << self->to_s() << endl;
         return nil;
       }
     }
@@ -137,6 +143,12 @@ namespace fancy {
         errorln("Not an IOError!");
         return nil;
       }
+    }
+
+    CLASSMETHOD(IOErrorClass, message__filename)
+    {
+      EXPECT_ARGS("IOError##message:filename::", 2);      
+      return new IOError(args[0]->to_s(), args[1]->to_s());
     }
 
   }

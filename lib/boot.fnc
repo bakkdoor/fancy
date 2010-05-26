@@ -17,6 +17,7 @@ require: "string.fnc";
 require: "array.fnc";
 require: "block.fnc";
 require: "file.fnc";
+require: "directory.fnc";
 require: "fancy_spec.fnc";
 require: "console.fnc";
 require: "hash.fnc";
