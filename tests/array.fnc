@@ -40,6 +40,31 @@ FancySpec describe: Array with: |it| {
     arr include?: :a . should_equal: true
   };
 
+  it should: "return the correct index (or nil) for an element" when: {
+    arr = [1, 2, :a, 3, 4];
+    arr index: 1 . should_equal: 0;
+    arr index: 2 . should_equal: 1;
+    arr index: :a . should_equal: 2;
+    arr index: 3 . should_equal: 3;
+    arr index: 4 . should_equal: 4;
+    arr index: :foo . should_equal: nil
+  };
+
+  it should: "return an Array of all its indices" when : {
+    [:foo, :bar, :baz] indices should_equal: [0,1,2];
+    [] indices should_equal: [];
+    [:foo] indices should_equal: [0]
+  };
+
+  it should: "return all indices for an element as an Array" when: {
+    arr = [1, 2, :a, 3, 2, :a];
+    arr indices: 1 . should_equal: [0];
+    arr indices: 2 . should_equal: [1, 4];
+    arr indices: :a . should_equal: [2, 5];
+    arr indices: 3. should_equal: [3];
+    arr indices: :foo . should_equal: []
+  };
+  
   it should: "find the value" when: {
     arr = [:foo, "bar", :baz, 1234];
 
@@ -142,6 +167,26 @@ FancySpec describe: Array with: |it| {
     # if it was passed an array of indexes
     arr remove_at: [0, 2, 3] . should_equal: [1, 2, :world];
     arr should_equal: [:hello]
+  };
+
+  it should: "remove all occurances of a given object in-place" when: {
+    arr = [1, 2, :foo, 3, :foo, 2, 4];
+    arr remove: 2;
+    arr should_equal: [1, :foo, 3, :foo, 4];
+    arr remove: :foo;
+    arr should_equal: [1, 3, 4]
+  };
+
+  it should: "remove all elements with the given Array of indices" when: {
+    arr = [1, 2, :foo, 3, :foo, 2, 4];
+    arr remove_with_indices: [0, 2, 4];
+    arr should_equal: [2, 3, 2, 4]
+  };
+
+  it should: "remove all elements that meet a given condition block" when: {
+    arr = [1, 2, 3, 2, 5, 4];
+    arr remove_if: |x| { x < 3 };
+    arr should_equal: [3, 5, 4]
   };
 
   it should: "remove all nil-value entries when calling compact" when: {

@@ -62,6 +62,23 @@ def class Array {
     found_idx
   }
 
+  def indices: item {
+    "Returns an Array of all indexes of this item.";
+
+    indices = [];
+    self each_with_index: |x i| {
+      (x == item) if_true: {
+        indices << i
+      }
+    };
+    indices
+  }
+
+  def indices {
+    "Returns an Array of all indices in the Array.";
+
+    0 upto: (self size - 1)
+  }
   def find: item {
     "Returns the item, if it's in the Array or nil (if not found).";
 
@@ -246,6 +263,31 @@ def class Array {
     "Removes all nil-value elements in place.";
     
     self reject!: |x| { x nil? }
+  }
+
+  def remove: obj {
+    "Removes all occurances of obj in the Array.";
+
+    self remove_with_indices: (self indices: obj)
+  }
+
+  def remove_with_indices: indices {
+    "Removes all elements with the given indices (an Array of indices).";
+
+    total = 0;
+    indices each: |i| {
+      self remove_at: (i - total);
+      total = total + 1
+    };
+    self
+  }
+
+  def remove_if: condition {
+    "Removes all elements that meet the given condition block.";
+
+    self remove_with_indices:
+      (self select_with_index: |x| { condition call: x }
+         . map: :second)
   }
 
   def println {
