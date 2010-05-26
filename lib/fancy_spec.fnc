@@ -41,7 +41,12 @@ def class SpecTest {
 
   def run: test_obj {
     @@failed = [];
-    @block call;
+    try {
+      @block call
+    } catch IOError => e {
+      SpecTest failed_test: [e, "UNKNOWN"]
+    };
+
     (@@failed size > 0) if_true: {
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
