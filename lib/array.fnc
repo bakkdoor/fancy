@@ -268,24 +268,13 @@ def class Array {
   def remove: obj {
     "Removes all occurances of obj in the Array.";
 
-    self remove_with_indices: (self indices: obj)
-  }
-
-  def remove_with_indices: indices {
-    "Removes all elements with the given indices (an Array of indices).";
-
-    total = 0;
-    indices each: |i| {
-      self remove_at: (i - total);
-      total = total + 1
-    };
-    self
+    self remove_at: (self indices: obj)
   }
 
   def remove_if: condition {
     "Removes all elements that meet the given condition block.";
 
-    self remove_with_indices:
+    self remove_at:
       (self select_with_index: |x| { condition call: x }
          . map: :second)
   }
@@ -298,4 +287,8 @@ def class Array {
     }
   }
 
+  def empty? {
+    "Indicates, if the Array is empty (has no elements).";
+    self size == 0
+  }
 }

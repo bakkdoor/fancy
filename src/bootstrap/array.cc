@@ -70,7 +70,8 @@ namespace fancy {
 
       DEF_METHOD(ArrayClass,
                  "remove_at:",
-                 "Removes an element at a given index.",
+                 "Removes an element at a given index. \
+If given an Array of indices, removes all the elements with these indices.",
                  remove_at);
     }
 

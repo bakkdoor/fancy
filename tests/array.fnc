@@ -14,6 +14,13 @@ FancySpec describe: Array with: |it| {
     arr size should_equal: 0
   };
 
+  it should: "be true for empty? when it's empty" when: {
+    [] empty? should_equal: true;
+    [1] empty? should_equal: nil;
+    [1,2] empty? should_equal: nil;
+    [1,2,3] empty? should_equal: nil
+  };
+
   it should: "be an empty array after initialization" when: {
     arr = Array new;
     arr size should_equal: 0
@@ -179,7 +186,7 @@ FancySpec describe: Array with: |it| {
 
   it should: "remove all elements with the given Array of indices" when: {
     arr = [1, 2, :foo, 3, :foo, 2, 4];
-    arr remove_with_indices: [0, 2, 4];
+    arr remove_at: [0, 2, 4];
     arr should_equal: [2, 3, 2, 4]
   };
 
