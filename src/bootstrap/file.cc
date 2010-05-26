@@ -21,6 +21,27 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
                       "Opens a File with a given filename and modes Array.",
                       open__modes);
 
+      DEF_CLASSMETHOD(FileClass,
+                      "delete:",
+                      "Deletes a File with a given filename if it exists. \
+If given an Array of filenames, deletes all Files with the given filenames. \
+Raises an IOError if any File to be deleted does not exist.",
+                      delete);
+
+      DEF_CLASSMETHOD(FileClass,
+                      "rename:to:",
+                      "Renames a file with a given filename to another filename.",
+                      rename__to);
+
+      DEF_CLASSMETHOD(FileClass,
+                      "directory?:",
+                      "Indicates, if the given filename refers to a Directory.",
+                      is_directory);
+
+      /**
+       * File instance methods
+       */
+
       DEF_METHOD(FileClass,
                  "write:",
                  "Writes an object to the File by calling its to_s method.",
@@ -123,6 +144,61 @@ File open: \"foo.txt\" modes: [:read] with: |f| {\n\
       return file;
     }
 
+    CLASSMETHOD(FileClass, delete)
+    {
+      EXPECT_ARGS("File##delete:", 1);
+      FancyObject_p arg = args[0];
+  
+      if(!(IS_STRING(arg) || IS_ARRAY(arg))) {
+        errorln("File##delete: expects String or Array value");
+        return nil;
+      }
+
+      // single filename
+      if(String_p filename = dynamic_cast<String_p>(arg)) {
+        if(remove(filename->value().c_str()) == 0) {
+          return t;
+        } else {
+          throw new IOError(string("Could not delete file: "), filename->value());
+        }
+      } else if(Array_p filenames = dynamic_cast<Array_p>(arg)) {
+        // Array of filenames
+        for(int i = 0; i < filenames->size(); i++) {
+          string filename = filenames->at(i)->to_s();
+          if(remove(filename.c_str()) == 0) {
+            return t;
+          } else {
+            throw new IOError(string("Could not delete file: "), filename);
+          }
+        }
+      }
+    }
+
+    CLASSMETHOD(FileClass, rename__to)
+    {
+      EXPECT_ARGS("File##rename:to:", 2);
+      string oldname = args[0]->to_s();
+      string newname = args[1]->to_s();
+      if(rename(oldname.c_str(), newname.c_str()) == 0) {
+        return t;
+      } else {
+        throw new IOError(string("Could not rename file: "), oldname);
+      }
+    }
+
+    CLASSMETHOD(FileClass, is_directory)
+    {
+      EXPECT_ARGS("File##directory?:", 1);
+      string filename = args[0]->to_s();
+      // check the status of the filename
+      struct stat st_buf;
+      if(stat(filename.c_str(), &st_buf) == 0) {
+        if (S_ISDIR (st_buf.st_mode)) {
+          return t;
+        }
+      }
+      return nil;
+    }
 
     /**
      * File instance methods
