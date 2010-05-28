@@ -1,0 +1,17 @@
+Source: fancy
+Section: interpreters
+Priority: extra
+Maintainer: Christopher Bertels <chris@fancy-lang.org>
+Build-Depends: debhelper (>= 7), bison (>= 2.4), flex, make, g++
+Standards-Version: 3.8.3
+Homepage: http://www.fancy-lang.org
+
+Package: fancy
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The Fancy Programming Language
+ Fancy is a dynamic, object-oriented programming language heavily
+ inspired by Smalltalk, Ruby and Erlang. It will support dynamic code
+ evaluation (as in Ruby & Smalltalk), concurrency via the actor-model
+ and many more features yet to be implemented.
+ For more information see: http://www.fancy-lang.org
