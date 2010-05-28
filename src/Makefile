@@ -29,11 +29,13 @@ $(foreach file, $(parser_node_files), parser/nodes/$(file).o) main.o
 
 sub_dirs = parser bootstrap
 
+GCLIB = ../vendor/gc/.libs/libgccpp.a ../vendor/gc/.libs/libgc.a
+
 all: subdirs ../bin/fancy
 
 ../bin/fancy: $(obj_files)
 	@mkdir -p ../bin/
-	$(cc) $(cc_flags) $(obj_files) -o ../bin/fancy -lfl -lgc -lgccpp
+	$(cc) $(cc_flags) $(obj_files) $(GCLIB) -o ../bin/fancy -lfl
 
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(cc) $(cc_flags) -c main.cc -o main.o

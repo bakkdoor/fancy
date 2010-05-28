@@ -17,13 +17,10 @@ interpreter written in C++.
 For some example code (that can be successfully executed), have a look
 at the examples/ directory.
 
-Note however, that the parser is far from done and I'm actually
-considering rewriting it in peg/leg as that might turn out to be a
-better option. If you want to see what the syntax is supposed to look
-like (e.g. without all those silly semicolons you'll find in the
-example files), have a look at the spec/ directory. There you'll find
-some sample code, showing how I'd like the language to look & feel
-some time in the future.
+There's also lots of test coverage code. Have a look at the tests/
+directory for these. The tests are written in FancySpec, a simple
+testing library (somewhat similar to Ruby's RSpec). FancySpec's
+implementation can be viewed in lib/fancy_spec.fnc.
 
 ----------------------------------------------------------------------
 
@@ -36,12 +33,13 @@ libraries/programms in order to build the sources:
   - GNU Make
   - Bison
   - Flex
-  - libgc ( BoehmGC - you can also get it here:
+  - libgc ( BoehmGC - It's included in the vendor/ directory
+            but you can also get it here:
             http://www.hpl.hp.com/personal/Hans_Boehm/gc/ )
 
 For example, to build on Ubuntu Linux, run:
   $ cd <fancy_source_path>
-  $ sudo apt-get install make bison flex libgc-dev
+  $ sudo apt-get install g++ make bison flex
   $ make && make test
 
 
@@ -92,11 +90,17 @@ How is it implemented?
   - I'm planning to add a compiler later on, written in the language
     itself. Possible targets include beam (Erlang VM), LLVM, JVM, ...?
 
-    I'd prefer not writing my own vm from scratch. Erlang would seem a
-    nice fit considering its concurrency model & vm support. Multiple
-    targets would obviously rock even more ;)
+    I'd prefer not writing my own vm from scratch. Rubinius' or
+    Erlang's VM would seem a nice fit.
 
 ----------------------------------------------------------------------
+
+Copyright:
+-----------
+
+vendor/gc: GC Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
+           For more information see the vendor/gc directory.
+
 
 Fancy is licensed under the terms of the GNU LGPL v3. For more
 information on licensing issues have a look at the LICENSE file.

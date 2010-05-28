@@ -1,12 +1,23 @@
+GCLIB = vendor/gc/.libs/libgccpp.a
+
 all: fancy
 
-fancy:
+fancy: ${GCLIB}
 	cd src && make -j 4; make
+
+gc: ${GCLIB}
+
+${GCLIB}:
+	@echo "compiling GC"
+	@cd vendor/gc && ./configure --enable-cplusplus --disable-threads -q && make -s
 
 clean:
 	cd src && make clean > /dev/null
 	rm -f bin/fancy
 	rm -rf tmp/
+
+all-clean: clean
+	@cd vendor/gc && make clean
 
 test: all
 	@clear

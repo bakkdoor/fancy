@@ -1,9 +1,9 @@
 #ifndef _INCLUDES_H_
 #define _INCLUDES_H_
 
-#include <gc/gc.h>
-#include <gc/gc_cpp.h>
-#include <gc/gc_allocator.h>
+#include "../vendor/gc/include/gc.h"
+#include "../vendor/gc/include/gc_cpp.h"
+#include "../vendor/gc/include/gc_allocator.h"
 
 
 #define PRINT_DEBUG 0
