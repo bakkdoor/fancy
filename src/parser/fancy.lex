@@ -2,8 +2,9 @@
 #include "includes.h"
 #include "tok.h"
 int yyerror(char *s);
-/* int yylineno = 1; */
 %}
+
+%option yylineno
 
 digit		[0-9]
 letter          [A-Za-z]
