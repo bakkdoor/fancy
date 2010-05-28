@@ -2,10 +2,11 @@
 #define _FUNCTION_H_
 
 #include "parser/nodes/identifier.h"
+#include "parser/nodes/expression_list.h"
 
 namespace fancy {
 
-  // needed for Identifier class
+  // needed for Identifier & ExpressionList class
   using namespace parser::nodes;
 
   struct method_arg_node {

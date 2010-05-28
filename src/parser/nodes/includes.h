@@ -4,6 +4,7 @@
 #include "../includes.h"
 
 #include "identifier.h"
+#include "expression_list.h"
 #include "array_literal.h"
 #include "hash_literal.h"
 #include "block_literal.h"

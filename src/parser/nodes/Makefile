@@ -1,10 +1,10 @@
 cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
-files = identifier hash_literal array_literal class_definition message_send	\
-operator_send assignment return require method_definition		\
-class_method_definition operator_definition class_operator_definition	\
-block_literal try_catch_block super
+files = identifier expression_list hash_literal array_literal		\
+class_definition message_send operator_send assignment return require	\
+method_definition class_method_definition operator_definition		\
+class_operator_definition block_literal try_catch_block super
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -13,6 +13,9 @@ all: $(obj_files)
 
 identifier.o: identifier.cc
 	$(cc) $(cc_flags) -c identifier.cc -o identifier.o
+
+expression_list.o: expression_list.cc
+	$(cc) $(cc_flags) -c expression_list.cc -o expression_list.o
 
 hash_literal.o: hash_literal.cc
 	$(cc) $(cc_flags) -c hash_literal.cc -o hash_literal.o
