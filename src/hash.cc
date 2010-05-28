@@ -50,9 +50,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Hash::type() const
+  EXP_TYPE Hash::type() const
   {
-    return OBJ_HASH;
+    return EXP_HASH;
   }
 
   string Hash::to_s() const

@@ -11,7 +11,7 @@ namespace fancy {
         ReturnStatement(Expression_p return_expr);
         virtual ~ReturnStatement();
 
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
 
       private:

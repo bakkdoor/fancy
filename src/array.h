@@ -111,7 +111,7 @@ namespace fancy {
      */
     FancyObject_p last() const;
 
-    virtual OBJ_TYPE type() const;
+    virtual EXP_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;
 

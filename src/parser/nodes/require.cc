@@ -14,9 +14,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE RequireStatement::type() const
+      EXP_TYPE RequireStatement::type() const
       {
-        return OBJ_REQUIRESTATEMENT;
+        return EXP_REQUIRESTATEMENT;
       }
 
       FancyObject* RequireStatement::eval(Scope *scope)

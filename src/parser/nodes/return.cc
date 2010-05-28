@@ -13,9 +13,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE ReturnStatement::type() const
+      EXP_TYPE ReturnStatement::type() const
       {
-        return OBJ_RETURNSTATEMENT;
+        return EXP_RETURNSTATEMENT;
       }
 
       FancyObject* ReturnStatement::eval(Scope *scope)

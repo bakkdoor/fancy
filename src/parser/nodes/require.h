@@ -11,7 +11,7 @@ namespace fancy {
         RequireStatement(String_p filename);
         virtual ~RequireStatement();
 
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
 
       private:

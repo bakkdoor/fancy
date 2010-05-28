@@ -30,9 +30,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE String::type() const
+  EXP_TYPE String::type() const
   {
-    return OBJ_STRING;
+    return EXP_STRING;
   }
 
   string String::to_s() const

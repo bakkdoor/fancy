@@ -13,9 +13,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE AssignmentExpr::type() const
+      EXP_TYPE AssignmentExpr::type() const
       {
-        return OBJ_ASSIGNEXPR;
+        return EXP_ASSIGNEXPR;
       }
 
       FancyObject_p AssignmentExpr::eval(Scope *scope)

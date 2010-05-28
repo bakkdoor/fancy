@@ -35,7 +35,7 @@ namespace fancy {
         TryCatchBlock(ExpressionList_p body, list<ExceptionHandler*> except_handlers);
         virtual ~TryCatchBlock();
 
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject_p eval(Scope *scope);
 
       private:

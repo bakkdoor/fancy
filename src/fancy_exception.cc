@@ -52,9 +52,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE FancyException::type() const
+  EXP_TYPE FancyException::type() const
   {
-    return OBJ_EXCEPTION;
+    return EXP_EXCEPTION;
   }
 
   string FancyException::to_s() const

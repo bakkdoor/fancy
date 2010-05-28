@@ -22,9 +22,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Directory::type() const
+  EXP_TYPE Directory::type() const
   {
-    return OBJ_DIRECTORY;
+    return EXP_DIRECTORY;
   }
 
   string Directory::to_s() const

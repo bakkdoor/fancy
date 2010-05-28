@@ -25,9 +25,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE File::type() const
+  EXP_TYPE File::type() const
   {
-    return OBJ_FILE;
+    return EXP_FILE;
   }
 
   string File::to_s() const

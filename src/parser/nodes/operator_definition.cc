@@ -10,9 +10,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE OperatorDefExpr::type() const
+      EXP_TYPE OperatorDefExpr::type() const
       {
-        return OBJ_OPERATORDEFEXPR;
+        return EXP_OPERATORDEFEXPR;
       }
 
       FancyObject_p OperatorDefExpr::eval(Scope *scope)

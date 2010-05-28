@@ -98,9 +98,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Scope::type() const
+  EXP_TYPE Scope::type() const
   {
-    return OBJ_SCOPE;
+    return EXP_SCOPE;
   }
 
   string Scope::to_s() const

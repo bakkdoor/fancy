@@ -34,9 +34,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Block::type() const
+  EXP_TYPE Block::type() const
   {
-    return OBJ_BLOCK;
+    return EXP_BLOCK;
   }
 
   string Block::to_s() const

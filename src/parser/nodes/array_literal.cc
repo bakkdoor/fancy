@@ -26,9 +26,9 @@ namespace fancy {
         return new Array(values);
       }
 
-      OBJ_TYPE ArrayLiteral::type() const
+      EXP_TYPE ArrayLiteral::type() const
       {
-        return OBJ_ARRAYLITERAL;
+        return EXP_ARRAYLITERAL;
       }
 
     }

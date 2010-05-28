@@ -35,9 +35,9 @@ namespace fancy {
     }
   }
 
-  OBJ_TYPE NativeMethod::type() const
+  EXP_TYPE NativeMethod::type() const
   {
-    return OBJ_NATIVEMETHOD;
+    return EXP_NATIVEMETHOD;
   }
 
   string NativeMethod::to_s() const

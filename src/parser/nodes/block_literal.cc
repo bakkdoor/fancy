@@ -26,9 +26,9 @@ namespace fancy {
         return new Block(_argnames, _body, scope);
       }
 
-      OBJ_TYPE BlockLiteral::type() const
+      EXP_TYPE BlockLiteral::type() const
       {
-        return OBJ_BLOCKLITERAL;
+        return EXP_BLOCKLITERAL;
       }
 
     }

@@ -18,9 +18,9 @@ namespace fancy {
     return t;
   }
 
-  OBJ_TYPE True::type() const
+  EXP_TYPE True::type() const
   {
-    return OBJ_TRUE;
+    return EXP_TRUE;
   }
 
   string True::to_s() const

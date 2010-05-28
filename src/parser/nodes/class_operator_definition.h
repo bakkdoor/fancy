@@ -10,7 +10,7 @@ namespace fancy {
       public:
         ClassOperatorDefExpr(Identifier_p class_name, Identifier_p op_name, Method_p method);
 
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject_p eval(Scope *scope);
  
       private:

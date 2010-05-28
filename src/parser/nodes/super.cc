@@ -19,9 +19,9 @@ namespace fancy {
         return nil;
       }
 
-      OBJ_TYPE Super::type() const
+      EXP_TYPE Super::type() const
       {
-        return OBJ_SUPER;
+        return EXP_SUPER;
       }
 
     }

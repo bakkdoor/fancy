@@ -11,7 +11,7 @@ namespace fancy {
         MethodDefExpr(Identifier_p name, Method_p method); // method takes no arguments
         MethodDefExpr(list< pair<Identifier_p, Identifier_p> > args_with_name, Method_p method);
 
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject_p eval(Scope *scope);
  
       private:

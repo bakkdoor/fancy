@@ -40,7 +40,7 @@ namespace fancy {
      * ExpressionList.
      */  
     virtual FancyObject_p eval(Scope *scope);
-    virtual OBJ_TYPE type() const;
+    virtual EXP_TYPE type() const;
 
     /**
      * Returns the size (amount of top-level Expressions) in the

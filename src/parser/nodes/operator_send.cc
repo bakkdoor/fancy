@@ -28,9 +28,9 @@ namespace fancy {
         return receiver_obj->call_method(_operator_name->name(), args, 1, scope);
       }
 
-      OBJ_TYPE OperatorSend::type() const
+      EXP_TYPE OperatorSend::type() const
       {
-        return OBJ_OPCALL;
+        return EXP_OPCALL;
       }
 
     }

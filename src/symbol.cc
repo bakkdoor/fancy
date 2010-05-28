@@ -26,9 +26,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Symbol::type() const
+  EXP_TYPE Symbol::type() const
   {
-    return OBJ_SYMBOL;
+    return EXP_SYMBOL;
   }
 
   string Symbol::to_s() const

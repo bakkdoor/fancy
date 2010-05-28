@@ -24,12 +24,12 @@ namespace fancy {
     return (NUMVAL(this) == NUMVAL(other)) ? t : nil;
   }
 
-  OBJ_TYPE Number::type() const
+  EXP_TYPE Number::type() const
   {
     if(_is_double) {
-      return OBJ_DOUBLE;
+      return EXP_DOUBLE;
     } else {
-      return OBJ_INTEGER;
+      return EXP_INTEGER;
     }
   }
 

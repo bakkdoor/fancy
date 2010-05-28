@@ -18,9 +18,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Nil::type() const
+  EXP_TYPE Nil::type() const
   {
-    return OBJ_NIL;
+    return EXP_NIL;
   }
 
   string Nil::to_s() const

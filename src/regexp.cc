@@ -21,9 +21,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Regexp::type() const
+  EXP_TYPE Regexp::type() const
   {
-    return OBJ_REGEX;
+    return EXP_REGEX;
   }
 
   string Regexp::to_s() const

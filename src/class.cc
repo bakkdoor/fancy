@@ -95,9 +95,9 @@ namespace fancy {
     return nil;
   }
 
-  OBJ_TYPE Class::type() const
+  EXP_TYPE Class::type() const
   {
-    return OBJ_CLASS;
+    return EXP_CLASS;
   }
 
   string Class::to_s() const

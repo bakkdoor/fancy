@@ -17,7 +17,7 @@ namespace fancy {
         AssignmentExpr(Identifier_p identifier, Expression_p value_expr);
         ~AssignmentExpr();
   
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
         virtual FancyObject_p eval(Scope *scope);
 
       private:

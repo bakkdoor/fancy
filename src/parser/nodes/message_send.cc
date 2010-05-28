@@ -39,7 +39,7 @@ namespace fancy {
         FancyObject_p retval = nil;
 
         // check for super call
-        if(_receiver->type() == OBJ_SUPER) {
+        if(_receiver->type() == EXP_SUPER) {
           retval = scope->current_self()->call_super_method(_method_ident->name(), args, size, scope);
         } else {
           // if no super call, do normal method call
@@ -50,9 +50,9 @@ namespace fancy {
         return retval;
       }
 
-      OBJ_TYPE MessageSend::type() const
+      EXP_TYPE MessageSend::type() const
       {
-        return OBJ_METHODCALL;
+        return EXP_METHODCALL;
       }
 
       void MessageSend::init_method_ident()

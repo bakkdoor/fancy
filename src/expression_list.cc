@@ -33,9 +33,9 @@ namespace fancy {
     return retval;
   }
 
-  OBJ_TYPE ExpressionList::type() const
+  EXP_TYPE ExpressionList::type() const
   {
-    return OBJ_EXPRLIST;
+    return EXP_EXPRLIST;
   }
 
   unsigned int ExpressionList::size() const

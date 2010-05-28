@@ -59,9 +59,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE TryCatchBlock::type() const
+      EXP_TYPE TryCatchBlock::type() const
       {
-        return OBJ_TRYCATCHBLOCK;
+        return EXP_TRYCATCHBLOCK;
       }
 
       FancyObject_p TryCatchBlock::eval(Scope *scope)

@@ -73,9 +73,9 @@ namespace fancy {
     return this;
   }
 
-  OBJ_TYPE FancyObject::type() const
+  EXP_TYPE FancyObject::type() const
   {
-    return OBJ_CLASSINSTANCE;
+    return EXP_CLASSINSTANCE;
   }
 
   string FancyObject::to_s() const

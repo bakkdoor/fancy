@@ -95,9 +95,9 @@ namespace fancy {
     return _body->eval(call_scope);
   }
 
-  OBJ_TYPE Method::type() const
+  EXP_TYPE Method::type() const
   {
-    return OBJ_METHOD;
+    return EXP_METHOD;
   }
 
   string Method::to_s() const

@@ -20,7 +20,7 @@ namespace fancy {
         ~MessageSend();
 
         virtual FancyObject_p eval(Scope *scope);
-        virtual OBJ_TYPE type() const;
+        virtual EXP_TYPE type() const;
 
       private:
         void init_method_ident();

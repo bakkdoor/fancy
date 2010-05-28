@@ -66,7 +66,7 @@ namespace fancy {
      * Inherited from Expression.
      */
     virtual FancyObject_p eval(Scope *scope);
-    virtual OBJ_TYPE type() const;
+    virtual EXP_TYPE type() const;
 
     /**
      * Returns a C++ string representation of the object (for ouput
@@ -156,16 +156,16 @@ namespace fancy {
  */
 
 #define IS_NIL(obj) \
-  obj->type() == OBJ_NIL
+  obj->type() == EXP_NIL
 
 #define IS_TRUE(obj) \
-  obj->type() == OBJ_TRUE
+  obj->type() == EXP_TRUE
 
 #define IS_INT(obj) \
-  obj->type() == OBJ_INTEGER
+  obj->type() == EXP_INTEGER
 
 #define IS_DOUBLE(obj) \
-  obj->type() == OBJ_DOUBLE
+  obj->type() == EXP_DOUBLE
 
 #define IS_NUM(obj) \
   (IS_INT(obj) || IS_DOUBLE(obj))
@@ -174,60 +174,60 @@ namespace fancy {
   IS_NUM(obj) ? (IS_INT(obj) ? ((Number_p)obj)->intval() : ((Number_p)obj)->doubleval()) : 0
 
 #define IS_IDENT(obj) \
-  obj->type() == OBJ_IDENTIFIER
+  obj->type() == EXP_IDENTIFIER
 
 #define IS_SYMBOL(obj) \
-  obj->type() == OBJ_SYMBOL
+  obj->type() == EXP_SYMBOL
 
 #define IS_STRING(obj) \
-  obj->type() == OBJ_STRING
+  obj->type() == EXP_STRING
 
 #define IS_HASH(obj) \
-  obj->type() == OBJ_HASH
+  obj->type() == EXP_HASH
 
 #define IS_ARRAY(obj) \
-  obj->type() == OBJ_ARRAY
+  obj->type() == EXP_ARRAY
 
 #define IS_REGEX(obj) \
-  obj->type() == OBJ_REGEX
+  obj->type() == EXP_REGEX
 
 #define IS_METHOD(obj) \
-  obj->type() == OBJ_METHOD
+  obj->type() == EXP_METHOD
 
 #define IS_NATIVEMETHOD(obj) \
-  obj->type() == OBJ_NATIVEMETHOD
+  obj->type() == EXP_NATIVEMETHOD
 
 #define IS_METHODCALL(obj) \
-  obj->type() == OBJ_METHODCALL
+  obj->type() == EXP_METHODCALL
 
 #define IS_ASSIGNEXPR(obj) \
-  obj->type() == OBJ_ASSIGNEXPR
+  obj->type() == EXP_ASSIGNEXPR
 
 #define IS_RETURNSTATEMENT(obj) \
-  obj->type() == OBJ_RETURNSTATEMENT
+  obj->type() == EXP_RETURNSTATEMENT
 
 #define IS_EXPRLIST(obj) \
-  obj->type() == OBJ_EXPRLIST
+  obj->type() == EXP_EXPRLIST
 
 #define IS_METHODDEFEXPR(obj) \
-  obj->type() == OBJ_METHODDEFEXPR
+  obj->type() == EXP_METHODDEFEXPR
 
 #define IS_MODULE(obj) \
-  obj->type() == OBJ_MODULE
+  obj->type() == EXP_MODULE
 
 #define IS_CLASS(obj) \
-  obj->type() == OBJ_CLASS
+  obj->type() == EXP_CLASS
 
 #define IS_CLASSINSTANCE(obj) \
-  obj->type() == OBJ_CLASSINSTANCE
+  obj->type() == EXP_CLASSINSTANCE
 
 #define IS_BLOCK(obj) \
-  obj->type() == OBJ_BLOCK
+  obj->type() == EXP_BLOCK
 
 #define IS_BLOCKLITERAL(obj) \
-  obj->type() == OBJ_BLOCKLITERAL
+  obj->type() == EXP_BLOCKLITERAL
 
 #define IS_FILE(obj) \
-  obj->type() == OBJ_FILE
+  obj->type() == EXP_FILE
 
 #endif /* _CLASS_INSTANCE_H_ */

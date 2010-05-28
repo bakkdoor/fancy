@@ -126,9 +126,9 @@ namespace fancy {
     }
   }
 
-  OBJ_TYPE Array::type() const
+  EXP_TYPE Array::type() const
   {
-    return OBJ_ARRAY;
+    return EXP_ARRAY;
   }
 
   string Array::to_s() const
@@ -174,7 +174,7 @@ namespace fancy {
 
   FancyObject_p Array::equal(const FancyObject_p other) const
   {
-    if(other->type() != OBJ_ARRAY)
+    if(other->type() != EXP_ARRAY)
       return nil;
 
     Array_p other_array = (Array_p)other;

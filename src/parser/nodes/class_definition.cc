@@ -65,9 +65,9 @@ namespace fancy {
         return the_class;
       }
 
-      OBJ_TYPE ClassDefExpr::type() const
+      EXP_TYPE ClassDefExpr::type() const
       {
-        return OBJ_CLASSDEFEXPR;
+        return EXP_CLASSDEFEXPR;
       }
 
     }

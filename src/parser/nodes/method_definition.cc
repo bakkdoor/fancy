@@ -14,9 +14,9 @@ namespace fancy {
       {
       }
 
-      OBJ_TYPE MethodDefExpr::type() const
+      EXP_TYPE MethodDefExpr::type() const
       {
-        return OBJ_METHODDEFEXPR;
+        return EXP_METHODDEFEXPR;
       }
 
       FancyObject_p MethodDefExpr::eval(Scope *scope)

@@ -18,9 +18,9 @@ namespace fancy {
         return scope->get(_name);
       }
 
-      OBJ_TYPE Identifier::type() const
+      EXP_TYPE Identifier::type() const
       {
-        return OBJ_IDENTIFIER;
+        return EXP_IDENTIFIER;
       }
 
       string Identifier::name() const

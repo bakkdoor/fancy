@@ -25,9 +25,9 @@ namespace fancy {
         return new Hash(mappings);
       }
 
-      OBJ_TYPE HashLiteral::type() const
+      EXP_TYPE HashLiteral::type() const
       {
-        return OBJ_HASHLITERAL;
+        return EXP_HASHLITERAL;
       }
 
     }
