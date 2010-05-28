@@ -13,7 +13,7 @@ def class Class {
     "Defines a slot writer method with a given name.";
 
     self define_method: (slotname to_s + ":") with: |val| {
-      self set_slot: slotname with: val
+      self set_slot: slotname value: val
     }
   }
   
