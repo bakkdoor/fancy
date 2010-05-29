@@ -93,7 +93,7 @@ namespace fancy {
     METHOD(ExceptionClass, message)
     {
       if(FancyException* except = dynamic_cast<FancyException*>(self)) {
-        return String::from_value(except->message());
+        return FancyString::from_value(except->message());
       } else {
         errorln("Not a Exception!");
         return nil;
@@ -108,7 +108,7 @@ namespace fancy {
     METHOD(MethodNotFoundErrorClass, method_name)
     {
       if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
-        return String::from_value(except->method_name());
+        return FancyString::from_value(except->method_name());
       } else {
         errorln("Not a MethodNotFoundError!");
         return nil;
@@ -132,7 +132,7 @@ namespace fancy {
     METHOD(IOErrorClass, filename)
     {
       if(IOError* except = dynamic_cast<IOError*>(self)) {
-        return String::from_value(except->filename());
+        return FancyString::from_value(except->filename());
       } else {
         errorln("Not an IOError!");
         return nil;

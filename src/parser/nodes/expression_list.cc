@@ -49,7 +49,7 @@ namespace fancy {
 
       string ExpressionList::docstring() const
       {
-        if(String* str = dynamic_cast<String*>(_expressions.front())) {
+        if(FancyString* str = dynamic_cast<FancyString*>(_expressions.front())) {
           return str->value();
         }
         return "";

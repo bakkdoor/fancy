@@ -51,7 +51,7 @@ namespace fancy {
           line << c;
         }
         if(c != EOF) {
-          lines.push_back(new String(line.str()));
+          lines.push_back(FancyString::from_value(line.str()));
         }
       }
       return new Array(lines);

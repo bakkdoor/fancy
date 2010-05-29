@@ -8,7 +8,7 @@ namespace fancy {
   namespace parser {
     namespace nodes {
 
-      RequireStatement::RequireStatement(String* filename)
+      RequireStatement::RequireStatement(FancyString* filename)
       {
         assert(filename);
         _filename = filename->value();

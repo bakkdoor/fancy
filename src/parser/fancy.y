@@ -46,7 +46,7 @@
   fancy::parser::nodes::Identifier     *identifier;
   Number                *number;
   Regexp                *regexp;
-  String                *string;
+  FancyString           *string;
   Symbol                *symbol;
   Array                 *array;
   Expression            *expression;

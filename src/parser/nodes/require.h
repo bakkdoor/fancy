@@ -16,7 +16,7 @@ namespace fancy {
       class RequireStatement : public Expression
       {
       public:
-        RequireStatement(String* filename);
+        RequireStatement(FancyString* filename);
         virtual ~RequireStatement();
 
         virtual EXP_TYPE type() const;

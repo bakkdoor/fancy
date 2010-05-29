@@ -37,7 +37,7 @@ namespace fancy {
     return _pattern;
   }
 
-  FancyObject* Regexp::match(String* string) const
+  FancyObject* Regexp::match(FancyString* string) const
   {
     // if match -> return t else nil
     // TODO: implement Regexp matching! (via boost::regex?)

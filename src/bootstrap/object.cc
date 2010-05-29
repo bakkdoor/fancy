@@ -184,12 +184,12 @@ and passing them on to the initialize: method of the class.",
 
     METHOD(ObjectClass, to_s)
     {
-      return String::from_value(self->to_s());
+      return FancyString::from_value(self->to_s());
     }
 
     METHOD(ObjectClass, inspect)
     {
-      return String::from_value(self->inspect() + " : " + self->get_class()->name());
+      return FancyString::from_value(self->inspect() + " : " + self->get_class()->name());
     }
 
     METHOD(ObjectClass, class)
@@ -204,7 +204,7 @@ and passing them on to the initialize: method of the class.",
       FancyObject* arg2 = args[1];
 
       if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
-        self->def_singleton_method(dynamic_cast<String*>(arg1)->value(), dynamic_cast<Block*>(arg2));
+        self->def_singleton_method(dynamic_cast<FancyString*>(arg1)->value(), dynamic_cast<Block*>(arg2));
         return t;
       } else {
         errorln("Object#define_singleton_method:with: expects String and Block arguments.");
@@ -293,7 +293,7 @@ and passing them on to the initialize: method of the class.",
 
     METHOD(ObjectClass, docstring_get)
     {
-      return String::from_value(self->docstring());
+      return FancyString::from_value(self->docstring());
     }
 
     METHOD(ObjectClass, methods)

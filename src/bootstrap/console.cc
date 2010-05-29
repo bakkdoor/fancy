@@ -35,7 +35,7 @@ namespace fancy {
     {
       string input;
       getline(cin, input);
-      return String::from_value(input);
+      return FancyString::from_value(input);
     }
 
   }

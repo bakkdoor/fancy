@@ -49,7 +49,7 @@ void prepare_argv(int argc, char **argv)
       i++;
       continue;
     }
-    args_arr->insert(String::from_value(arg));
+    args_arr->insert(FancyString::from_value(arg));
   }
   global_scope->define("ARGV", args_arr);
 }

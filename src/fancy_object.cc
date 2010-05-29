@@ -113,7 +113,7 @@ namespace fancy {
       if(Callable* unkown_message_method = get_method("unknown_message:with_params:")) {
         int size = sizeof(arguments) / sizeof(arguments[0]);
         vector<FancyObject*> arr_vec(arguments, &arguments[size]);
-        FancyObject* new_args[2] = { String::from_value(method_name), new Array(arr_vec) };
+        FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
         return unkown_message_method->call(this, new_args, 2, scope);
       }
       
@@ -138,7 +138,7 @@ namespace fancy {
         if(Callable* unkown_message_method = _class->superclass()->find_method("unknown_message:with_params:")) {
           int size = sizeof(arguments) / sizeof(arguments[0]);
           vector<FancyObject*> arr_vec(arguments, &arguments[size]);
-          FancyObject* new_args[2] = { String::from_value(method_name), new Array(arr_vec) };
+          FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
           return unkown_message_method->call(this, new_args, 2, scope);
         }
       

@@ -18,9 +18,9 @@ namespace fancy {
     METHOD(MethodClass, name)
     {
       if(Method* method = dynamic_cast<Method*>(self)) {
-        return String::from_value(method->name());
+        return FancyString::from_value(method->name());
       } else if(NativeMethod* method = dynamic_cast<NativeMethod*>(self)) {
-        return String::from_value(method->_identifier);
+        return FancyString::from_value(method->_identifier);
       } else {
         return nil;
       }

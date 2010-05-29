@@ -39,7 +39,7 @@ namespace fancy {
      * @return The match value (e.g. nil, if none match or the array
      * with matches).
      */
-    FancyObject* match(String* string) const;
+    FancyObject* match(FancyString* string) const;
 
   private:
     string _pattern;

@@ -50,12 +50,12 @@ comment         #[^\n]*
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
 {string_lit}	{ 
                   string str(yytext);
-                  yylval.object = String::from_value(str.substr(1, str.length() - 2));
+                  yylval.object = FancyString::from_value(str.substr(1, str.length() - 2));
                   return STRING_LITERAL;
                 }
 {doc_string}	{
                   string str(yytext);
-                  yylval.object = String::from_value(str.substr(2, str.length() - 4));
+                  yylval.object = FancyString::from_value(str.substr(2, str.length() - 4));
                   return STRING_LITERAL;
                 }
 {lparen}        { return LPAREN; }

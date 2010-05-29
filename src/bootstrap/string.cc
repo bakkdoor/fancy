@@ -63,7 +63,7 @@ namespace fancy {
      */
     CLASSMETHOD(StringClass, new)
     {
-      return String::from_value("");
+      return FancyString::from_value("");
     }
 
     /**
@@ -72,22 +72,22 @@ namespace fancy {
 
     METHOD(StringClass, downcase)
     {
-      string str = dynamic_cast<String*>(self)->value();
+      string str = dynamic_cast<FancyString*>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-      return String::from_value(str);
+      return FancyString::from_value(str);
     }
 
     METHOD(StringClass, upcase)
     {
-      string str = dynamic_cast<String*>(self)->value();
+      string str = dynamic_cast<FancyString*>(self)->value();
       std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-      return String::from_value(str);
+      return FancyString::from_value(str);
     }
 
     METHOD(StringClass, from__to)
     {
       EXPECT_ARGS("String#from:to:", 2);
-      string str = dynamic_cast<String*>(self)->value();
+      string str = dynamic_cast<FancyString*>(self)->value();
       FancyObject* arg1 = args[0];
       FancyObject* arg2 = args[1];
   
@@ -101,7 +101,7 @@ namespace fancy {
         } else {
           substr = str.substr(idx1->intval(), (idx2->intval() + 1) - idx1->intval());
         }
-        return String::from_value(substr);
+        return FancyString::from_value(substr);
       } else {
         errorln("String#to:from: expects 2 Integer arguments");
         return self;
@@ -115,8 +115,8 @@ namespace fancy {
       EXPECT_ARGS("String#eq:", 1);
       FancyObject* arg = args[0];
       if(IS_STRING(arg)) {
-        string str1 = dynamic_cast<String*>(self)->value();
-        string str2 = dynamic_cast<String*>(arg)->value();
+        string str1 = dynamic_cast<FancyString*>(self)->value();
+        string str2 = dynamic_cast<FancyString*>(arg)->value();
         if(str1 == str2) {
           return t;
         }
@@ -127,10 +127,10 @@ namespace fancy {
     METHOD(StringClass, plus)
     {
       EXPECT_ARGS("String#+", 1);
-      if(String* arg = dynamic_cast<String*>(args[0])) {
-        string str1 = dynamic_cast<String*>(self)->value();
+      if(FancyString* arg = dynamic_cast<FancyString*>(args[0])) {
+        string str1 = dynamic_cast<FancyString*>(self)->value();
         string str2 = arg->value();
-        return String::from_value(str1 + str2);
+        return FancyString::from_value(str1 + str2);
       }
       errorln("String#+ expects String argument.");
       return nil;
@@ -144,7 +144,7 @@ namespace fancy {
         FancyObject* retval = nil;
         for(string::iterator it = str.begin(); it != str.end(); it++) {
           string str(&(*it), 1);
-          FancyObject* block_args[1] = { String::from_value(str) };
+          FancyObject* block_args[1] = { FancyString::from_value(str) };
           retval = block->call(self, block_args, 1, scope);
         }
         return retval;
@@ -159,7 +159,7 @@ namespace fancy {
       if(Number* index = dynamic_cast<Number*>(args[0])) {
         string str = self->to_s();
         string char_str = string(&str.at(index->intval()), 1);
-        return String::from_value(char_str);
+        return FancyString::from_value(char_str);
       }
       errorln("String#at: expects Number argument.");
       return nil;

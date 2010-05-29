@@ -1,5 +1,5 @@
-#ifndef _STRING_H_
-#define _STRING_H_
+#ifndef _FANCY_STRING_H_
+#define _FANCY_STRING_H_
 
 #include "fancy_object.h"
 
@@ -9,15 +9,15 @@ namespace fancy {
   /**
    * String class representing String objects within Fancy.
    */
-  class String : public FancyObject
+  class FancyString : public FancyObject
   {
   public:
     /**
-     * String constructor.
+     * FancyString constructor.
      * @param value C++ string containing the actual string.
      */
-    String(const string &value);
-    ~String();
+    FancyString(const string &value);
+    ~FancyString();
 
     /**
      * See FancyObject for these methods.
@@ -34,28 +34,28 @@ namespace fancy {
     string value() const;
 
     /**
-     * Replaces all occurences of what in the String with with.
-     * @param what String to find and replace.
-     * @param with String to replace all occurrances of what with.
+     * Replaces all occurences of what in the FancyString with with.
+     * @param what FancyString to find and replace.
+     * @param with FancyString to replace all occurrances of what with.
      */
     void replace(string &what, string &with);
 
     /**
-     * Returns a String object with a given C++ string value.
-     * Strings in Fancy get cached, since they're immutable.
-     * Multiple occurances of the same String in Fancy use the same
-     * String object.
+     * Returns a FancyString object with a given C++ string value.
+     * FancyStrings in Fancy get cached, since they're immutable.
+     * Multiple occurances of the same FancyString in Fancy use the same
+     * FancyString object.
      * @param value C++ string value.
-     * @return A String object with a given C++ string value.
+     * @return A FancyString object with a given C++ string value.
      */
-    static String* from_value(const string &value);
+    static FancyString* from_value(const string &value);
 
   private:
     string _value;
 
-    static map<string, String*> value_cache;
+    static map<string, FancyString*> value_cache;
   };
 
 }
 
-#endif /* _STRING_H_ */
+#endif /* _FANCY_STRING_H_ */

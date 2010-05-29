@@ -102,7 +102,7 @@ Raises an IOError if any File to be deleted does not exist.",
         return nil;
       }
   
-      string filename = dynamic_cast<String*>(arg1)->value();
+      string filename = dynamic_cast<FancyString*>(arg1)->value();
       Array* modes = dynamic_cast<Array*>(arg2);
       Block* block = dynamic_cast<Block*>(arg3);  
       File* file = new File(filename, modes); 
@@ -137,7 +137,7 @@ Raises an IOError if any File to be deleted does not exist.",
         return nil;
       }
 
-      string filename = dynamic_cast<String*>(arg1)->value();
+      string filename = dynamic_cast<FancyString*>(arg1)->value();
       Array* modes = dynamic_cast<Array*>(arg2);
       // FILE *f = fopen(filename.c_str(), mode.c_str());
       File* file = new File(filename, modes);
@@ -162,7 +162,7 @@ Raises an IOError if any File to be deleted does not exist.",
       }
 
       // single filename
-      if(String* filename = dynamic_cast<String*>(arg)) {
+      if(FancyString* filename = dynamic_cast<FancyString*>(arg)) {
         if(remove(filename->value().c_str()) == 0) {
           return t;
         } else {
@@ -279,7 +279,7 @@ Raises an IOError if any File to be deleted does not exist.",
       if(file && file->is_open()) {
         string line;
         getline(file->file(), line);
-        return new String(line);
+        return FancyString::from_value(line);
       }
       return nil;
     }
