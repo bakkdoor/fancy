@@ -1,4 +1,6 @@
-#include "includes.h"
+#include "errors.h"
+#include "array.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -17,7 +19,7 @@ namespace fancy {
 
   // NoMethodError
 
-  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class_p klass) :
+  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class* klass) :
     FancyException("Method not found: '" + method_name + "' for class: " + klass->name(),
                    MethodNotFoundErrorClass),
     _method_name(method_name),
@@ -34,7 +36,7 @@ namespace fancy {
     return _method_name;
   }
 
-  Class_p MethodNotFoundError::get_class() const
+  Class* MethodNotFoundError::get_class() const
   {
     return _class;
   }
@@ -48,7 +50,7 @@ namespace fancy {
   {
   }
 
-  IOError::IOError(const string &message, const string &filename, Array_p modes) :
+  IOError::IOError(const string &message, const string &filename, Array* modes) :
     FancyException(message + "\"" + filename + "\"" + " with modes: " + modes->inspect(),
                    IOErrorClass),
     _filename(filename),
@@ -65,7 +67,7 @@ namespace fancy {
     return _filename;
   }
 
-  Array_p IOError::modes() const
+  Array* IOError::modes() const
   {
     return _modes;
   }

@@ -1,6 +1,8 @@
 #ifndef _CORE_METHODS_H_
 #define _CORE_METHODS_H_
 
+#include "../class.h"
+
 namespace fancy {
 
   extern Class *ClassClass;

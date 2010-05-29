@@ -1,6 +1,13 @@
 #ifndef _EXPRESSION_LIST_H_
 #define _EXPRESSION_LIST_H_
 
+#include <list>
+#include <string>
+
+#include "../../expression.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -10,8 +17,8 @@ namespace fancy {
        * Used in the parser.
        */
       struct expression_node {
-        Expression_p     expression;
-        expression_node *next;
+        Expression*         expression;
+        expression_node*    next;
       };
 
       /**
@@ -26,7 +33,7 @@ namespace fancy {
          * Initializes an ExpressionList with a list of Expressions.
          * @param expressions List of Expressions.
          */
-        ExpressionList(list<Expression_p> expressions);
+        ExpressionList(list<Expression*> expressions);
 
         /**
          * Initializes an ExpressionList with a expression_node
@@ -41,7 +48,7 @@ namespace fancy {
          * @return The value of the last evaluated Expression in the
          * ExpressionList.
          */  
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
         /**
@@ -61,10 +68,8 @@ namespace fancy {
         string docstring() const;
 
       private:
-        list<Expression_p> _expressions;
+        list<Expression*> _expressions;
       };
-
-      typedef ExpressionList* ExpressionList_p;
 
     }
   }

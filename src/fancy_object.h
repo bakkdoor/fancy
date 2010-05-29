@@ -1,18 +1,23 @@
 #ifndef _CLASS_INSTANCE_H_
 #define _CLASS_INSTANCE_H_
 
+#include <map>
+#include <string>
+
+#include "expression.h"
+#include "callable.h"
+
+using namespace std;
+
 namespace fancy {
 
-  class FancyObject;
-  typedef FancyObject* FancyObject_p;
-
   class Class;
-  class Identifier;
   class Method;
   class Array;
+  class Scope;
 
-  typedef map<string, FancyObject_p> object_map;
-  typedef map<string, Callable_p> method_map;
+  typedef map<string, FancyObject*> object_map;
+  typedef map<string, Callable*> method_map;
 
   /**
    * Base class for all built-in object types in Fancy.
@@ -46,26 +51,26 @@ namespace fancy {
      * @return The slotvalue for a given slotname or nil, if not
      * defined.
      */
-    FancyObject_p get_slot(const string &slotname) const;
+    FancyObject* get_slot(const string &slotname) const;
 
     /**
      * Sets the slot for a given name with a given value.
      * @param slotname The name (idenfitier) of the slot.
      * @param value The value to be set for the slot.
      */
-    void set_slot(const string &slotname, const FancyObject_p value);
+    void set_slot(const string &slotname, const FancyObject* value);
 
     /**
      * Indicates, if two objects are equal.
      * @param other The other object to compare this one to.
      * @return true, if they are equal, nil otherwise.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
 
     /**
      * Inherited from Expression.
      */
-    virtual FancyObject_p eval(Scope *scope);
+    virtual FancyObject* eval(Scope *scope);
     virtual EXP_TYPE type() const;
 
     /**
@@ -90,7 +95,7 @@ namespace fancy {
      * @param scope Scope in which the methodcall should evaluate.
      * @return The (return) value of the methodcall.
      */
-    FancyObject_p call_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
+    FancyObject* call_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope);
 
     /**
      * Calls a method on its superclass with arguments in a given scope.
@@ -100,14 +105,14 @@ namespace fancy {
      * @param scope Scope in which the methodcall should evaluate.
      * @return The (return) value of the methodcall.
      */
-    FancyObject_p call_super_method(const string &method_name, FancyObject_p *arguments, int argc, Scope *scope);
+    FancyObject* call_super_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope);
 
     /**
      * Define a singleton method on a FancyObject.
      * @param name Name of the singleton method.
      * @param method A Callable that holds the method's body.
      */
-    void def_singleton_method(const string &name, Callable_p method);
+    void def_singleton_method(const string &name, Callable* method);
 
     /**
      * Indicates, if a FancyObject responds to a given methodname (has
@@ -122,7 +127,7 @@ namespace fancy {
      * @param method_name Name of the method to get.
      * @return Callable representing the method or NULL, if not defined.
      */
-    Callable_p get_method(const string &method_name);
+    Callable* get_method(const string &method_name);
 
     /**
      * Returns a C++ string holding the documentation string for the FancyObject.
@@ -144,8 +149,8 @@ namespace fancy {
   protected:
     void init_slots();
     Class *_class;
-    map<string, FancyObject_p> _slots;
-    map<string, Callable_p> _singleton_methods;
+    map<string, FancyObject*> _slots;
+    map<string, Callable*> _singleton_methods;
     string _docstring;
   };
 
@@ -171,7 +176,7 @@ namespace fancy {
   (IS_INT(obj) || IS_DOUBLE(obj))
 
 #define NUMVAL(obj) \
-  IS_NUM(obj) ? (IS_INT(obj) ? ((Number_p)obj)->intval() : ((Number_p)obj)->doubleval()) : 0
+  IS_NUM(obj) ? (IS_INT(obj) ? ((Number*)obj)->intval() : ((Number*)obj)->doubleval()) : 0
 
 #define IS_IDENT(obj) \
   obj->type() == EXP_IDENTIFIER

@@ -1,6 +1,12 @@
 #ifndef _DIRECTORY_H_
 #define _DIRECTORY_H_
 
+#include <string>
+
+#include "fancy_object.h"
+
+using namespace std;
+
 namespace fancy {
 
   class Directory : public FancyObject
@@ -12,7 +18,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -27,7 +33,6 @@ namespace fancy {
 
   };
 
-  typedef Directory* Directory_p;
 }
 
 #endif /* _DIRECTORY_H_ */

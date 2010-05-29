@@ -1,6 +1,15 @@
 #ifndef _PARSER_PARSER_H_
 #define _PARSER_PARSER_H_
 
+#include <list>
+#include <stack>
+#include <string>
+
+#include "../fancy_object.h"
+
+
+using namespace std;
+
 struct yy_buffer_state;
 extern int yylineno;
 
@@ -20,10 +29,10 @@ namespace fancy {
     extern string current_file;
     extern stack<parser_buffer> parse_buffers;
     extern list<string> load_path;
-    extern FancyObject_p last_value;
+    extern FancyObject* last_value;
 
     void parse_file(string &filename);
-    FancyObject_p parse_string(const string &code);
+    FancyObject* parse_string(const string &code);
     bool push_buffer(const string &filename);
     void pop_buffer();
 

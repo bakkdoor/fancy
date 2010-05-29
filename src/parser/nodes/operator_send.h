@@ -1,6 +1,10 @@
 #ifndef _OPERATOR_SEND_H_
 #define _OPERATOR_SEND_H_
 
+#include "../../expression.h"
+#include "../../fancy_object.h"
+#include "identifier.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -8,16 +12,16 @@ namespace fancy {
       class OperatorSend : public Expression
       {
       public:
-        OperatorSend(Expression_p receiver, Identifier_p operator_name, Expression_p operand);
+        OperatorSend(Expression* receiver, Identifier* operator_name, Expression* operand);
         virtual ~OperatorSend();
 
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
       private:
-        Expression_p _receiver;
-        Identifier_p _operator_name;
-        Expression_p _operand;
+        Expression* _receiver;
+        Identifier* _operator_name;
+        Expression* _operand;
       };
 
     }

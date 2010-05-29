@@ -1,12 +1,13 @@
-#include "includes.h"
+#include <cassert>
+#include "operator_send.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      OperatorSend::OperatorSend(Expression_p receiver,
-                                 Identifier_p operator_name,
-                                 Expression_p operand) :
+      OperatorSend::OperatorSend(Expression* receiver,
+                                 Identifier* operator_name,
+                                 Expression* operand) :
         _receiver(receiver),
         _operator_name(operator_name),
         _operand(operand)
@@ -20,11 +21,11 @@ namespace fancy {
       {
       }
 
-      FancyObject_p OperatorSend::eval(Scope *scope)
+      FancyObject* OperatorSend::eval(Scope *scope)
       {
-        // FancyObject_p self = scope->current_self();
-        FancyObject_p args[1] = { _operand->eval(scope) };
-        FancyObject_p receiver_obj = _receiver->eval(scope);
+        // FancyObject* self = scope->current_self();
+        FancyObject* args[1] = { _operand->eval(scope) };
+        FancyObject* receiver_obj = _receiver->eval(scope);
         return receiver_obj->call_method(_operator_name->name(), args, 1, scope);
       }
 

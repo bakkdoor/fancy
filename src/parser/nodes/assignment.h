@@ -1,6 +1,10 @@
 #ifndef _ASSIGNMENT_H_
 #define _ASSIGNMENT_H_
 
+#include "../../expression.h"
+#include "expression_list.h"
+#include "identifier.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -14,18 +18,16 @@ namespace fancy {
       class AssignmentExpr : public Expression
       {
       public:
-        AssignmentExpr(Identifier_p identifier, Expression_p value_expr);
+        AssignmentExpr(Identifier* identifier, Expression* value_expr);
         ~AssignmentExpr();
   
         virtual EXP_TYPE type() const;
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
 
       private:
-        Identifier_p  _identifier;
-        Expression_p  _value_expr;
+        Identifier*  _identifier;
+        Expression*  _value_expr;
       };
-
-      typedef AssignmentExpr* AssignmentExpr_p;
 
     }
   }

@@ -33,8 +33,6 @@ namespace fancy {
     virtual FancyObject* call(FancyObject *self, Scope *scope) = 0;
   };
 
-  typedef Callable* Callable_p;
-
 }
 
 #endif /* _CALLABLE_H_ */

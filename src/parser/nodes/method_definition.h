@@ -1,6 +1,14 @@
 #ifndef _METHOD_DEFINITION_H_
 #define _METHOD_DEFINITION_H_
 
+#include <string>
+
+#include "../../expression.h"
+#include "../../method.h"
+#include "identifier.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -8,17 +16,17 @@ namespace fancy {
       class MethodDefExpr : public Expression
       {
       public:
-        MethodDefExpr(Identifier_p name, Method_p method); // method takes no arguments
-        MethodDefExpr(list< pair<Identifier_p, Identifier_p> > args_with_name, Method_p method);
+        MethodDefExpr(Identifier* name, Method* method); // method takes no arguments
+        MethodDefExpr(list< pair<Identifier*, Identifier*> > args_with_name, Method* method);
 
         virtual EXP_TYPE type() const;
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
  
       private:
         string method_name();
-        list< pair<Identifier_p, Identifier_p> > _method_args;
-        Method_p _method;
-        Identifier_p _method_name;
+        list< pair<Identifier*, Identifier*> > _method_args;
+        Method* _method;
+        Identifier* _method_name;
       };
 
     }

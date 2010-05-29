@@ -1,6 +1,12 @@
 #ifndef _SCOPE_H_
 #define _SCOPE_H_
 
+#include <string>
+
+#include "fancy_object.h"
+
+using namespace std;
+
 namespace fancy {
 
   /**
@@ -14,7 +20,7 @@ namespace fancy {
   class Class;
   class FancyObject;
 
-  typedef map<string, FancyObject_p> object_map;
+  typedef map<string, FancyObject*> object_map;
 
   class Scope : public FancyObject
   {
@@ -39,7 +45,7 @@ namespace fancy {
      * @return The (value) object represented by the identifier within
      * the scope
      */
-    FancyObject_p get(string identifier);
+    FancyObject* get(string identifier);
 
     /**
      * Defines an identifier with a value (or overwrites it, if already
@@ -49,12 +55,12 @@ namespace fancy {
      * @return True, if identifier was already defined (and thus, its
      * value overwritten).
      */
-    bool define(string identifier, FancyObject_p value);
+    bool define(string identifier, FancyObject* value);
 
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -63,13 +69,13 @@ namespace fancy {
      * within the Scope).
      * @param current_self New current_self value.
      */
-    void set_current_self(FancyObject_p current_self);
+    void set_current_self(FancyObject* current_self);
 
     /**
      * Returns the current_self value for the Scope.
      * @return The current_self value for the Scope.
      */
-    FancyObject_p current_self() const;
+    FancyObject* current_self() const;
 
     /**
      * Returns the current_class value for the Scope.
@@ -82,7 +88,7 @@ namespace fancy {
      * within the Scope).
      * @param klass New current_class value.
      */
-    void set_current_class(Class_p klass);
+    void set_current_class(Class* klass);
 
     /**
      * Returns the Scope's parent scope or NULL, if not defined.
@@ -91,7 +97,7 @@ namespace fancy {
     Scope* parent_scope() const;
 
   private:
-    map<string, FancyObject_p> _value_mappings;
+    map<string, FancyObject*> _value_mappings;
     Scope *_parent;
     FancyObject *_current_self;
     Class *_current_class;

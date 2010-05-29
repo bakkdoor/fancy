@@ -1,5 +1,12 @@
 #include "includes.h"
 
+#include "../file.h"
+#include "../array.h"
+#include "../block.h"
+#include "../string.h"
+#include "../fancy_exception.h"
+#include "../errors.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -86,19 +93,19 @@ Raises an IOError if any File to be deleted does not exist.",
     CLASSMETHOD(FileClass, open__modes__with)
     {
       EXPECT_ARGS("File##open:modes:with:", 3);
-      FancyObject_p arg1 = args[0];
-      FancyObject_p arg2 = args[1];
-      FancyObject_p arg3 = args[2];
+      FancyObject* arg1 = args[0];
+      FancyObject* arg2 = args[1];
+      FancyObject* arg3 = args[2];
 
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2) && IS_BLOCK(arg3))) {
         errorln("File##open:modes:with: expects String, Array and Block value");
         return nil;
       }
   
-      string filename = dynamic_cast<String_p>(arg1)->value();
-      Array_p modes = dynamic_cast<Array_p>(arg2);
-      Block_p block = dynamic_cast<Block_p>(arg3);  
-      File_p file = new File(filename, modes); 
+      string filename = dynamic_cast<String*>(arg1)->value();
+      Array* modes = dynamic_cast<Array*>(arg2);
+      Block* block = dynamic_cast<Block*>(arg3);  
+      File* file = new File(filename, modes); 
       file->open();
 
       if(!file->good()) {
@@ -108,10 +115,10 @@ Raises an IOError if any File to be deleted does not exist.",
 
       // handle exceptions that get raised within the block and make
       // sure, the file gets closed at all times to avoid resource leaks.
-      FancyObject_p call_args[1] = { file };
+      FancyObject* call_args[1] = { file };
       try {
         block->call(self, call_args, 1, scope);
-      } catch(FancyException_p ex) {
+      } catch(FancyException* ex) {
         file->close();
         throw ex;
       }
@@ -122,18 +129,18 @@ Raises an IOError if any File to be deleted does not exist.",
     CLASSMETHOD(FileClass, open__modes)
     {
       EXPECT_ARGS("File##open:modes:", 2);
-      FancyObject_p arg1 = args[0];
-      FancyObject_p arg2 = args[1];
+      FancyObject* arg1 = args[0];
+      FancyObject* arg2 = args[1];
   
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2))) {
         errorln("File##open:modes: expects String and Array value");
         return nil;
       }
 
-      string filename = dynamic_cast<String_p>(arg1)->value();
-      Array_p modes = dynamic_cast<Array_p>(arg2);
+      string filename = dynamic_cast<String*>(arg1)->value();
+      Array* modes = dynamic_cast<Array*>(arg2);
       // FILE *f = fopen(filename.c_str(), mode.c_str());
-      File_p file = new File(filename, modes);
+      File* file = new File(filename, modes);
       file->open();
 
       if(!file->good()) {
@@ -147,7 +154,7 @@ Raises an IOError if any File to be deleted does not exist.",
     CLASSMETHOD(FileClass, delete)
     {
       EXPECT_ARGS("File##delete:", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
   
       if(!(IS_STRING(arg) || IS_ARRAY(arg))) {
         errorln("File##delete: expects String or Array value");
@@ -155,15 +162,15 @@ Raises an IOError if any File to be deleted does not exist.",
       }
 
       // single filename
-      if(String_p filename = dynamic_cast<String_p>(arg)) {
+      if(String* filename = dynamic_cast<String*>(arg)) {
         if(remove(filename->value().c_str()) == 0) {
           return t;
         } else {
           throw new IOError(string("Could not delete file: "), filename->value());
         }
-      } else if(Array_p filenames = dynamic_cast<Array_p>(arg)) {
+      } else if(Array* filenames = dynamic_cast<Array*>(arg)) {
         // Array of filenames
-        for(int i = 0; i < filenames->size(); i++) {
+        for(unsigned int i = 0; i < filenames->size(); i++) {
           string filename = filenames->at(i)->to_s();
           if(remove(filename.c_str()) == 0) {
             return t;
@@ -172,6 +179,7 @@ Raises an IOError if any File to be deleted does not exist.",
           }
         }
       }
+      return t;
     }
 
     CLASSMETHOD(FileClass, rename__to)
@@ -207,7 +215,7 @@ Raises an IOError if any File to be deleted does not exist.",
     METHOD(FileClass, write)
     {
       EXPECT_ARGS("File#write:", 1);
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file) {
         // fprintf(file->file(), "%s", args.front()->to_s().c_str())
         // fstream fs = file->file();
@@ -219,7 +227,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, newline)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file) {
         // fprintf(file->file(), "\n");
         file->file() << endl;
@@ -229,7 +237,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, is_open)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file) {
         if(file->is_open())
           return t;
@@ -240,7 +248,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, close)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file) {
         file->close();
       }
@@ -249,7 +257,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, is_eof)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file && !file->eof()) {
           return nil;
       }
@@ -258,7 +266,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, modes)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file) {
         return file->modes();
       }
@@ -267,7 +275,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
     METHOD(FileClass, readln)
     {
-      File_p file = dynamic_cast<File_p>(self);
+      File* file = dynamic_cast<File*>(self);
       if(file && file->is_open()) {
         string line;
         getline(file->file(), line);

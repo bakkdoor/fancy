@@ -1,6 +1,14 @@
 #ifndef _PARSER_NODES_REQUIRE_H_
 #define _PARSER_NODES_REQUIRE_H_
 
+#include <string>
+
+#include "../../expression.h"
+#include "../../string.h"
+#include "identifier.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -8,7 +16,7 @@ namespace fancy {
       class RequireStatement : public Expression
       {
       public:
-        RequireStatement(String_p filename);
+        RequireStatement(String* filename);
         virtual ~RequireStatement();
 
         virtual EXP_TYPE type() const;

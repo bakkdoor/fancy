@@ -1,6 +1,10 @@
 #ifndef _ARRAY_LITERAL_H_
 #define _ARRAY_LITERAL_H_
 
+#include "../../expression.h"
+#include "../../array.h"
+#include "expression_list.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -16,11 +20,11 @@ namespace fancy {
         ArrayLiteral(expression_node *expr_list);
         virtual ~ArrayLiteral();
 
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
       private:
-        list<Expression_p> _expressions;
+        list<Expression*> _expressions;
       };
 
     }

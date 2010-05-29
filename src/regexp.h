@@ -1,6 +1,9 @@
 #ifndef _REGEX_H_
 #define _REGEX_H_
 
+#include "fancy_object.h"
+#include "string.h"
+
 namespace fancy {
 
   /**
@@ -19,7 +22,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */  
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -36,13 +39,11 @@ namespace fancy {
      * @return The match value (e.g. nil, if none match or the array
      * with matches).
      */
-    FancyObject_p match(String_p string) const;
+    FancyObject* match(String* string) const;
 
   private:
     string _pattern;
   };
-
-  typedef Regexp* Regexp_p;
 
 }
 

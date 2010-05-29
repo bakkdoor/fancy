@@ -1,5 +1,8 @@
 #include "includes.h"
 
+#include "../array.h"
+#include "../string.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -40,7 +43,7 @@ namespace fancy {
 
       EXPECT_ARGS("System##pipe:", 1);
       FILE *f = popen(args[0]->to_s().c_str(), "r");
-      vector<FancyObject_p> lines;
+      vector<FancyObject*> lines;
       while(!feof(f)) {
         stringstream line;
         char c;

@@ -1,6 +1,8 @@
 #ifndef _PARSER_NODES_RETURN_H_
 #define _PARSER_NODES_RETURN_H_
 
+#include "../../expression.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -8,14 +10,14 @@ namespace fancy {
       class ReturnStatement : public Expression
       {
       public:
-        ReturnStatement(Expression_p return_expr);
+        ReturnStatement(Expression* return_expr);
         virtual ~ReturnStatement();
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
 
       private:
-        Expression_p _return_expr;
+        Expression* _return_expr;
       };
 
     }

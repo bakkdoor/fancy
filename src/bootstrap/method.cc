@@ -1,5 +1,9 @@
 #include "includes.h"
 
+#include "../method.h"
+#include "../native_method.h"
+#include "../string.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -13,9 +17,9 @@ namespace fancy {
 
     METHOD(MethodClass, name)
     {
-      if(Method_p method = dynamic_cast<Method_p>(self)) {
+      if(Method* method = dynamic_cast<Method*>(self)) {
         return String::from_value(method->name());
-      } else if(NativeMethod_p method = dynamic_cast<NativeMethod_p>(self)) {
+      } else if(NativeMethod* method = dynamic_cast<NativeMethod*>(self)) {
         return String::from_value(method->_identifier);
       } else {
         return nil;

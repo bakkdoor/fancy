@@ -1,15 +1,18 @@
-#include "includes.h"
+#include <sstream>
+
+#include "method_definition.h"
+#include "../../class.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      MethodDefExpr::MethodDefExpr(Identifier_p method_name, Method_p method) :
+      MethodDefExpr::MethodDefExpr(Identifier* method_name, Method* method) :
         _method(method), _method_name(method_name)
       {
       }
 
-      MethodDefExpr::MethodDefExpr(list< pair<Identifier_p, Identifier_p> > args_with_name, Method_p method) :
+      MethodDefExpr::MethodDefExpr(list< pair<Identifier*, Identifier*> > args_with_name, Method* method) :
         _method_args(args_with_name), _method(method), _method_name(0)
       {
       }
@@ -19,7 +22,7 @@ namespace fancy {
         return EXP_METHODDEFEXPR;
       }
 
-      FancyObject_p MethodDefExpr::eval(Scope *scope)
+      FancyObject* MethodDefExpr::eval(Scope *scope)
       {
         // set method name explicitly (somehow method names aren't set
         // correctly so this is necessary)
@@ -32,7 +35,7 @@ namespace fancy {
       {
         if(!_method_name) {
           stringstream s;
-          list< pair<Identifier_p, Identifier_p> >::iterator it;
+          list< pair<Identifier*, Identifier*> >::iterator it;
     
           for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";

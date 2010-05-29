@@ -1,9 +1,34 @@
 #ifndef _BOOTSTRAP_INCLUDES_H_
 #define _BOOTSTRAP_INCLUDES_H_
 
-#include "../includes.h"
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cassert>
+#include <string>
+#include <sstream>
+#include <map>
+#include <list>
+#include <vector>
+#include <set>
+#include <stack>
+#include <iostream>
+#include <algorithm>
+#include <cctype>
+#include <fstream>
+
+#include<sys/stat.h>
+#include<sys/types.h>
 
 #include "core_classes.h"
+
+#include "../fancy_object.h"
+#include "../native_method.h"
+#include "../scope.h"
+#include "../utils.h"
+
+using namespace std;
 
 #define EXPECT_ARGS(method_name, amount)                                \
   if(argc != amount) {                                                  \
@@ -32,7 +57,7 @@
  * -> FancyObject_p ObjectClass__to_s(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
  */
 #define METHOD(class, method_name)                                       \
-  FancyObject_p METHOD_FUNC(class, method_name)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+  FancyObject* METHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
 
 /**
  * Macro, that generates a NativeMethod (class method) function
@@ -41,7 +66,7 @@
  * -> FancyObject_p ObjectClass__new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
  */
 #define CLASSMETHOD(class, method_name)                                       \
-  FancyObject_p CLASSMETHOD_FUNC(class, method_name)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+  FancyObject* CLASSMETHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
 
 /**
  * Generates the NativeMethod (instance method) prototype declaration,

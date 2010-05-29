@@ -24,7 +24,7 @@ bison.c:	fancy.y
 		cp fancy.tab.c bison.c
 		cmp -s fancy.tab.h tok.h || cp fancy.tab.h tok.h
 
-lex.o yac.o	: includes.h ../includes.h
+lex.o yac.o	: includes.h
 lex.o		: tok.h
 
 parser.o 	: parser.cc

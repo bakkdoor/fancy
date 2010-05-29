@@ -1,18 +1,20 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
+#include "fancy_object.h"
+#include "callable.h"
+#include "scope.h"
 #include "parser/nodes/identifier.h"
 #include "parser/nodes/expression_list.h"
 
-namespace fancy {
+using namespace fancy::parser::nodes;
 
-  // needed for Identifier & ExpressionList class
-  using namespace parser::nodes;
+namespace fancy {
 
   struct method_arg_node {
   public:
-    Identifier_p name;
-    Identifier_p identifier;
+    Identifier* name;
+    Identifier* identifier;
     method_arg_node *next;
   };
 
@@ -29,7 +31,7 @@ namespace fancy {
      * operator method (used in the body of the method)
      * @param body ExpressionList that is the methods body.
      */
-    Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body);
+    Method(Identifier* op_name, Identifier* op_argname, ExpressionList* body);
 
     /**
      * Method constructor for 'normal' methods.
@@ -37,7 +39,7 @@ namespace fancy {
      * key and variable name (used in the methods body).
      * @param body ExpressionList that is the methods body.
      */
-    Method(const list< pair<Identifier_p, Identifier_p> > argnames, const ExpressionList_p body);
+    Method(const list< pair<Identifier*, Identifier*> > argnames, ExpressionList* body);
 
     /**
      * Empty Method constructor. Used by subclasses (e.g. NativeMethod).
@@ -49,7 +51,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -61,7 +63,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
 
     /**
      * Inherited from Callable. Calls the method with no arguments.
@@ -69,7 +71,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject_p call(FancyObject_p self, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, Scope *scope);
 
     /**
      * Returns the amount of arguments this method expects.
@@ -83,7 +85,7 @@ namespace fancy {
      * @return List of pairs of Identifiers with argument key and
      * variable name.
      */
-    list< pair<Identifier_p, Identifier_p> > argnames() const;
+    list< pair<Identifier*, Identifier*> > argnames() const;
 
     /**
      * Returns the name of the Method.
@@ -100,13 +102,11 @@ namespace fancy {
   protected:
     void init_method_ident();
     void init_docstring();
-    list< pair<Identifier_p, Identifier_p> > _argnames;
-    ExpressionList_p _body;
+    list< pair<Identifier*, Identifier*> > _argnames;
+    ExpressionList* _body;
     bool _is_operator;
     string _method_ident;
   };
-
-  typedef Method* Method_p;
 
 }
 

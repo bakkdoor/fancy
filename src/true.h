@@ -1,6 +1,8 @@
 #ifndef _TRUE_H_
 #define _TRUE_H_
 
+#include "fancy_object.h"
+
 namespace fancy {
 
   /**
@@ -18,13 +20,11 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
-    virtual FancyObject_p eval(Scope *scope);
+    virtual FancyObject* equal(FancyObject* other) const;
+    virtual FancyObject* eval(Scope *scope);
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
   };
-
-  typedef True* True_p;
 
 }
 

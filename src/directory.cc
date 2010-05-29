@@ -1,4 +1,5 @@
-#include "includes.h"
+#include "directory.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -12,9 +13,9 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Directory::equal(const FancyObject_p other) const
+  FancyObject* Directory::equal(FancyObject* other) const
   {
-    if(Directory_p other_dir = dynamic_cast<Directory_p>(other)) {
+    if(Directory* other_dir = dynamic_cast<Directory*>(other)) {
       if(_dirname == other_dir->_dirname) {
         return t;
       }

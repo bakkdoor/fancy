@@ -1,10 +1,14 @@
-#include "includes.h"
+#include <cassert>
+
+#include "require.h"
+#include "../../bootstrap/core_classes.h"
+#include "../parser.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      RequireStatement::RequireStatement(String_p filename)
+      RequireStatement::RequireStatement(String* filename)
       {
         assert(filename);
         _filename = filename->value();

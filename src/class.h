@@ -1,10 +1,17 @@
 #ifndef _CLASS_H_
 #define _CLASS_H_
 
-namespace fancy {
+#include <vector>
+#include <set>
+#include <map>
+#include <string>
 
-  class Class;
-  typedef Class* Class_p;
+#include "fancy_object.h"
+
+using namespace std;
+
+
+namespace fancy {
 
   /**
    * Represents Classes within Fancy.
@@ -25,7 +32,7 @@ namespace fancy {
      * @param name Name of the class.
      * @param superclass Superclass of the Class.
      */
-    Class(const string &name, Class_p superclass);
+    Class(const string &name, Class* superclass);
 
     virtual ~Class();
 
@@ -39,7 +46,7 @@ namespace fancy {
      * Creates an instance of the Class.
      * @return New instance of the Class.
      */
-    FancyObject_p create_instance() const;
+    FancyObject* create_instance() const;
 
     /**
      * Defines an instance slot for a class.
@@ -52,21 +59,21 @@ namespace fancy {
      * @param name The name of the class slot.
      * @param value The value for the class slot.
      */
-    void def_class_slot(const string &name, const FancyObject_p value);
+    void def_class_slot(const string &name, FancyObject* value);
 
     /**
      * Returns the value of a class slot.
      * @param identifier Name of the class slot.
      * @return The value of the class slot (or nil, if not defined).
      */
-    FancyObject_p get_class_slot(const string &identifier) const;
+    FancyObject* get_class_slot(const string &identifier) const;
 
     /**
      * Defines an instance method for the class.
      * @param name the name of the instance method.
      * @param method The instance method object.
      */
-    void def_method(const string &name, const Callable_p method);
+    void def_method(const string &name, Callable* method);
 
     /**
      * Defines a class method for the Class.
@@ -75,13 +82,13 @@ namespace fancy {
      * @param name Name of the class method.
      * @param method The class method object.
      */
-    void def_class_method(const string &name, const Callable_p method);
+    void def_class_method(const string &name, Callable* method);
 
     /**
      * Includes (Mixin) another the methods of another Class into this one.
      * @param klass The other class to mix-in.
      */
-    void include(const Class_p klass);
+    void include(Class* klass);
 
     /**
      * Returns a vector of the names of the instance slots.
@@ -93,9 +100,9 @@ namespace fancy {
      * Returns a map of the names and values of the class slots.
      * @return Map of the names and values of the class slots.
      */
-    map<string, FancyObject_p> class_slots() const;
+    map<string, FancyObject*> class_slots() const;
 
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -104,35 +111,35 @@ namespace fancy {
      * @param name Name of the method to find.
      * @return A Callable representing the method or NULL, if method isn't found.
      */
-    Callable_p find_method(const string &name);
+    Callable* find_method(const string &name);
 
     /**
      * Indicates, if a Class is a subclass of a given Class (or the same).
      * @param klass The class to check.
      * @return true, if this Class is a subclass of the given class, false otherwise.
      */
-    bool subclass_of(Class_p klass);
+    bool subclass_of(Class* klass);
 
     /**
      * Returns the Superclass of this Class (if there is one).
      * @return The Superclass of this Class (or NULL).
      */
-    Class_p superclass() const;
+    Class* superclass() const;
 
     /**
      * Returns an Array with all instance methods defined for this Class.
      * @return Array with all instance methods defined for this Class.
      */
-    Array_p instance_methods() const;
+    Array* instance_methods() const;
 
   private:
     string _name;
     vector<string> _instance_slotnames;
-    map<string, FancyObject_p> _class_slots;
-    Class_p _superclass;
-    set<Class_p> _included_classes;
+    map<string, FancyObject*> _class_slots;
+    Class* _superclass;
+    set<Class*> _included_classes;
 
-    map<string, Callable_p> _instance_methods;
+    map<string, Callable*> _instance_methods;
   };
 
 }

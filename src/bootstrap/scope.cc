@@ -1,5 +1,6 @@
 #include "includes.h"
 
+
 namespace fancy {
   namespace bootstrap {
 
@@ -27,8 +28,8 @@ namespace fancy {
     METHOD(ScopeClass, define__value)
     {
       EXPECT_ARGS("Scope#define:value:", 2);
-      FancyObject_p name = args[0];
-      FancyObject_p value = args[1];
+      FancyObject* name = args[0];
+      FancyObject* value = args[1];
       Scope* scope_obj = dynamic_cast<Scope*>(self);
 
       if(IS_STRING(name) || IS_SYMBOL(name)) {

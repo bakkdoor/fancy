@@ -1,6 +1,15 @@
 #ifndef _BLOCK_LITERAL_H_
 #define _BLOCK_LITERAL_H_
 
+#include <list>
+
+#include "../../expression.h"
+#include "../../array.h"
+#include "expression_list.h"
+#include "identifier.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -18,16 +27,16 @@ namespace fancy {
       class BlockLiteral : public Expression
       {
       public:
-        BlockLiteral(ExpressionList_p body);
-        BlockLiteral(block_arg_node *argnames, ExpressionList_p body);
+        BlockLiteral(ExpressionList* body);
+        BlockLiteral(block_arg_node *argnames, ExpressionList* body);
         virtual ~BlockLiteral();
 
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
       private:
-        list<Identifier_p> _argnames;
-        ExpressionList_p _body;
+        list<Identifier*> _argnames;
+        ExpressionList* _body;
       };
 
     }

@@ -1,8 +1,11 @@
-#include "includes.h"
+#include "file.h"
+#include "array.h"
+#include "symbol.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
-  File::File(const string &filename, Array_p modes) :
+  File::File(const string &filename, Array* modes) :
     FancyObject(FileClass),
     _filename(filename),
     _modes(modes)
@@ -14,10 +17,10 @@ namespace fancy {
   {
   }
 
-  FancyObject_p File::equal(const FancyObject_p other) const
+  FancyObject* File::equal(FancyObject* other) const
   {
     if(IS_FILE(other)) {
-      File_p other_file = dynamic_cast<File_p>(other);
+      File* other_file = dynamic_cast<File*>(other);
       if(_filename == other_file->_filename
          && _openmode == other_file->_openmode)
         return t;
@@ -40,7 +43,7 @@ namespace fancy {
     return _filename;
   }
 
-  Array_p File::modes() const
+  Array* File::modes() const
   {
     return _modes;
   }
@@ -80,11 +83,11 @@ namespace fancy {
     return _file.good();
   }
 
-  void File::init_openmode(Array_p modes)
+  void File::init_openmode(Array* modes)
   {
     for(unsigned int i = 0; i < modes->size(); i++) {
       if(IS_SYMBOL(modes->at(i))) {
-        Symbol_p sym = dynamic_cast<Symbol_p>(modes->at(i));
+        Symbol* sym = dynamic_cast<Symbol*>(modes->at(i));
         // check different cases
         if(sym == Symbol::from_string(":append")) {
           _openmode = _openmode | fstream::app;

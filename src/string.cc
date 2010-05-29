@@ -1,4 +1,5 @@
-#include "includes.h"
+#include "string.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -19,12 +20,12 @@ namespace fancy {
   {
   }
 
-  FancyObject_p String::equal(const FancyObject_p other) const
+  FancyObject* String::equal(FancyObject* other) const
   {
     if(!IS_STRING(other))
       return nil;
 
-    String_p other_string = (String_p)other;
+    String* other_string = (String*)other;
     if(_value == other_string->_value)
       return t;
     return nil;
@@ -60,14 +61,14 @@ namespace fancy {
     }
   }
 
-  map<string, String_p> String::value_cache;
-  String_p String::from_value(const string &value)
+  map<string, String*> String::value_cache;
+  String* String::from_value(const string &value)
   {
     if(value_cache.find(value) != value_cache.end()) {
       return value_cache[value];
     } else {
       // insert new value into value_cache & return new number value
-      String_p new_string = new String(value);
+      String* new_string = new String(value);
       value_cache[value] = new_string;
       return new_string;
     }

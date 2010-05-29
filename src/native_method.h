@@ -1,6 +1,8 @@
 #ifndef _NATIVE_METHOD_H_
 #define _NATIVE_METHOD_H_
 
+#include "method.h"
+
 namespace fancy {
 
   /**
@@ -15,7 +17,7 @@ namespace fancy {
      * @param func C++ function pointer that contains the code for the methods body.
      */
     NativeMethod(string identifier,
-                 FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope));
+                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope));
 
     /**
      * NativeMethod constructor.
@@ -25,14 +27,14 @@ namespace fancy {
      */
     NativeMethod(string identifier,
                  string docstring,
-                 FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope));
+                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope));
 
     ~NativeMethod();
 
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -44,7 +46,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
 
     /**
      * Inherited from Callable. Calls the NativeMethod without any arguments.
@@ -52,7 +54,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject_p call(FancyObject_p self, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, Scope *scope);
   
     /**
      * The identifier (name) of the NativeMethod.
@@ -62,10 +64,8 @@ namespace fancy {
     /**
      * The C++ function pointer for the NativeMethod's body code.
      */
-    FancyObject_p (&_func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject* (&_func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
   };
-
-  typedef NativeMethod* NativeMethod_p;
 
 }
 

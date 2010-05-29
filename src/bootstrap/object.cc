@@ -1,5 +1,10 @@
 #include "includes.h"
 
+#include "../array.h"
+#include "../block.h"
+#include "../string.h"
+
+
 namespace fancy {
   namespace bootstrap {
 
@@ -116,8 +121,8 @@ and passing them on to the initialize: method of the class.",
     CLASSMETHOD(ObjectClass, new)
     {
       if(IS_CLASS(self)) {
-        Class_p the_class = dynamic_cast<Class_p>(self);
-        FancyObject_p new_instance = the_class->create_instance();
+        Class* the_class = dynamic_cast<Class*>(self);
+        FancyObject* new_instance = the_class->create_instance();
         if(new_instance->responds_to("initialize")) {
           new_instance->call_method("initialize", args, argc, scope);
         }
@@ -132,8 +137,8 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object##new:", 1);
       if(IS_CLASS(self)) {
-        Class_p the_class = dynamic_cast<Class_p>(self);
-        FancyObject_p new_instance = the_class->create_instance();
+        Class* the_class = dynamic_cast<Class*>(self);
+        FancyObject* new_instance = the_class->create_instance();
         if(new_instance->responds_to("initialize:")) {
           new_instance->call_method("initialize:", args, argc, scope);
         }
@@ -195,11 +200,11 @@ and passing them on to the initialize: method of the class.",
     METHOD(ObjectClass, define_singleton_method__with)
     {
       EXPECT_ARGS("Object#define_singleton_method:with:", 2);
-      FancyObject_p arg1 = args[0];
-      FancyObject_p arg2 = args[1];
+      FancyObject* arg1 = args[0];
+      FancyObject* arg2 = args[1];
 
       if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
-        self->def_singleton_method(dynamic_cast<String_p>(arg1)->value(), dynamic_cast<Block_p>(arg2));
+        self->def_singleton_method(dynamic_cast<String*>(arg1)->value(), dynamic_cast<Block*>(arg2));
         return t;
       } else {
         errorln("Object#define_singleton_method:with: expects String and Block arguments.");
@@ -216,7 +221,7 @@ and passing them on to the initialize: method of the class.",
     METHOD(ObjectClass, is_a)
     {
       EXPECT_ARGS("Object#is_a?:", 1);
-      Class_p the_class = dynamic_cast<Class_p>(args[0]);
+      Class* the_class = dynamic_cast<Class*>(args[0]);
       if(the_class) {
         if(self->get_class() == the_class)
           return t;
@@ -237,13 +242,13 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object#send:params:", 2);
       string method_name = args[0]->to_s();
-      if(Array_p arr = dynamic_cast<Array_p>(args[1])) {
+      if(Array* arr = dynamic_cast<Array*>(args[1])) {
         int size = arr->size();
-        FancyObject_p *arg_array = new FancyObject_p[size];
+        FancyObject* *arg_array = new FancyObject*[size];
         for(int i = 0; i < size; i++) {
           arg_array[i] = arr->at(i);
         }
-        FancyObject_p retval = self->call_method(method_name, arg_array, size, scope);
+        FancyObject* retval = self->call_method(method_name, arg_array, size, scope);
         delete[] arg_array; // cleanup
         return retval;
       } else {
@@ -266,7 +271,7 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object#get_slot:", 1);
       string slot_name = "@" + args[0]->to_s();
-      FancyObject_p slot = self->get_slot(slot_name);
+      FancyObject* slot = self->get_slot(slot_name);
       return slot;
     }
 
@@ -274,7 +279,7 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object#set_slot:value:", 2);
       string slot_name = "@" + args[0]->to_s();
-      FancyObject_p value = args[1];
+      FancyObject* value = args[1];
       self->set_slot(slot_name, value);
       return self;
     }

@@ -1,4 +1,10 @@
-#include "includes.h"
+#include <cassert>
+#include <sstream>
+#include <string>
+
+#include "scope.h"
+#include "class.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -7,7 +13,7 @@ namespace fancy {
   /*****************************************
    *****************************************/
 
-  Scope::Scope(FancyObject_p current_self) :
+  Scope::Scope(FancyObject* current_self) :
     FancyObject(ScopeClass),
     _parent(0)
   {
@@ -25,7 +31,7 @@ namespace fancy {
     }
   }
 
-  Scope::Scope(FancyObject_p current_self, Scope *parent) :
+  Scope::Scope(FancyObject* current_self, Scope *parent) :
     FancyObject(ScopeClass),
     _parent(parent)
   {
@@ -37,7 +43,7 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Scope::get(string identifier)
+  FancyObject* Scope::get(string identifier)
   {
     // check for current_scope
     if(identifier == "__current_scope__")
@@ -47,7 +53,7 @@ namespace fancy {
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
         if(IS_CLASS(_current_self)) {
-          return dynamic_cast<Class_p>(_current_self)->get_class_slot(identifier);
+          return dynamic_cast<Class*>(_current_self)->get_class_slot(identifier);
         } else {
           return _current_class->get_class_slot(identifier);
         }
@@ -71,13 +77,13 @@ namespace fancy {
     }
   }
 
-  bool Scope::define(string identifier, FancyObject_p value)
+  bool Scope::define(string identifier, FancyObject* value)
   {
     // check for instance & class variables
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
         if(IS_CLASS(_current_self)) {
-          dynamic_cast<Class_p>(_current_self)->def_class_slot(identifier, value);
+          dynamic_cast<Class*>(_current_self)->def_class_slot(identifier, value);
         } else {
           _current_class->def_class_slot(identifier, value);
         }
@@ -93,7 +99,7 @@ namespace fancy {
     return found;
   }
 
-  FancyObject_p Scope::equal(const FancyObject_p other) const
+  FancyObject* Scope::equal(FancyObject* other) const
   {
     return nil;
   }
@@ -108,7 +114,7 @@ namespace fancy {
     stringstream s;
     s << "Scope:" << endl;
 
-    for(map<string, FancyObject_p>::const_iterator iter = _value_mappings.begin();
+    for(map<string, FancyObject*>::const_iterator iter = _value_mappings.begin();
         iter != _value_mappings.end();
         iter++) {
       s << iter->first;
@@ -120,7 +126,7 @@ namespace fancy {
     return s.str();
   }
 
-  FancyObject_p Scope::current_self() const
+  FancyObject* Scope::current_self() const
   {
     return _current_self;
   }
@@ -130,14 +136,14 @@ namespace fancy {
     return _current_class;
   }
 
-  void Scope::set_current_self(FancyObject_p current_self)
+  void Scope::set_current_self(FancyObject* current_self)
   {
     _current_self = current_self;
     _current_class = current_self->get_class();
     define("self", current_self);
   }
 
-  void Scope::set_current_class(Class_p klass)
+  void Scope::set_current_class(Class* klass)
   {
     if(klass)
       _current_class = klass;

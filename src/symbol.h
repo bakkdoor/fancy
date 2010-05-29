@@ -1,10 +1,9 @@
 #ifndef _SYMBOL_H_
 #define _SYMBOL_H_
 
-namespace fancy {
+#include "fancy_object.h"
 
-  class Symbol;
-  typedef Symbol* Symbol_p;
+namespace fancy {
 
   /**
    * Symbol class representing Symbol objects in Fancy.
@@ -24,7 +23,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;
@@ -43,12 +42,12 @@ namespace fancy {
      * @param value C++ string for the name.
      * @return A Symbol object with a given name.
      */
-    static Symbol_p from_string(const string &name);
+    static Symbol* from_string(const string &name);
 
   private:
     string _name;
 
-    static map<string, Symbol_p> sym_cache;
+    static map<string, Symbol*> sym_cache;
   };
 
 }

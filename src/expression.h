@@ -1,6 +1,10 @@
 #ifndef _EXPRESSION_H_
 #define _EXPRESSION_H_
 
+#include "../vendor/gc/include/gc.h"
+#include "../vendor/gc/include/gc_cpp.h"
+#include "../vendor/gc/include/gc_allocator.h"
+
 namespace fancy {
 
   class Scope;
@@ -58,8 +62,6 @@ namespace fancy {
     virtual FancyObject* eval(Scope *scope) = 0;
     virtual EXP_TYPE type() const = 0;
   };
-
-  typedef Expression* Expression_p;
 
 }
 

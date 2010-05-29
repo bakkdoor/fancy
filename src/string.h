@@ -1,10 +1,10 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-namespace fancy {
+#include "fancy_object.h"
 
-  class String;
-  typedef String* String_p;
+
+namespace fancy {
 
   /**
    * String class representing String objects within Fancy.
@@ -22,7 +22,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;
@@ -48,12 +48,12 @@ namespace fancy {
      * @param value C++ string value.
      * @return A String object with a given C++ string value.
      */
-    static String_p from_value(const string &value);
+    static String* from_value(const string &value);
 
   private:
     string _value;
 
-    static map<string, String_p> value_cache;
+    static map<string, String*> value_cache;
   };
 
 }

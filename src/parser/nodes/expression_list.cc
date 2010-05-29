@@ -1,10 +1,12 @@
-#include "includes.h"
+#include "expression_list.h"
+#include "../../string.h"
+#include "../../bootstrap/core_classes.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      ExpressionList::ExpressionList(list<Expression_p> expressions) :
+      ExpressionList::ExpressionList(list<Expression*> expressions) :
         _expressions(expressions)
       {
       }
@@ -22,10 +24,10 @@ namespace fancy {
       {
       }
 
-      FancyObject_p ExpressionList::eval(Scope *scope)
+      FancyObject* ExpressionList::eval(Scope *scope)
       {
-        FancyObject_p retval = nil;
-        list<Expression_p>::iterator it;
+        FancyObject* retval = nil;
+        list<Expression*>::iterator it;
         for(it = _expressions.begin(); it != _expressions.end(); it++) {
           retval = (*it)->eval(scope);
           // if(IS_RETURNSTATEMENT((*it))) {
@@ -47,7 +49,7 @@ namespace fancy {
 
       string ExpressionList::docstring() const
       {
-        if(String_p str = dynamic_cast<String_p>(_expressions.front())) {
+        if(String* str = dynamic_cast<String*>(_expressions.front())) {
           return str->value();
         }
         return "";

@@ -1,6 +1,14 @@
 #ifndef _ARRAY_H_
 #define _ARRAY_H_
 
+#include <list>
+#include <vector>
+
+#include "fancy_object.h"
+#include "scope.h"
+
+using namespace std;
+
 namespace fancy {
 
   /**
@@ -8,8 +16,8 @@ namespace fancy {
    */
   struct array_node {
   public:
-    FancyObject_p value;
-    array_node *next;
+    FancyObject* value;
+    array_node* next;
   };
 
   /**
@@ -35,20 +43,20 @@ namespace fancy {
      * @param initial_size Initial size of the Array.
      * @param initial_value Initial value for all elements in the Array.
      */
-    Array(int initial_size, FancyObject_p initial_value);
+    Array(int initial_size, FancyObject* initial_value);
 
     /**
      * Initializes an Array via a array_node* linked list.
      * It gets used in the parser.
      * @param val_list array_node* linked list containing the values for the Array.
      */
-    Array(array_node *val_list);
+    Array(array_node* val_list);
 
     /**
      * Initializes an Array with a given vector of values.
      * @param list Vector of values to take as the Arrays entries.
      */
-    Array(vector<FancyObject_p> list);
+    Array(vector<FancyObject*> list);
 
     ~Array();
 
@@ -57,12 +65,12 @@ namespace fancy {
      * @param index The index
      * @return The value at the given or nil, if index invalid.
      */
-    FancyObject_p operator[](int index) const;
+    FancyObject* operator[](int index) const;
 
     /**
      * Same as operator[].
      */
-    FancyObject_p at(int index) const;
+    FancyObject* at(int index) const;
 
     /**
      * Sets a value at a given index.
@@ -70,46 +78,46 @@ namespace fancy {
      * @param value The value to set
      * @return The inserted value, if index is valid, nil otherwise.
      */
-    FancyObject_p set_value(unsigned int index, FancyObject_p value);
+    FancyObject* set_value(unsigned int index, FancyObject* value);
 
     /**
      * Inserts a value at the end of the Array.
      * @param value The value to add.
      * @return The inserted value.
      */
-    FancyObject_p insert(FancyObject_p value);
+    FancyObject* insert(FancyObject* value);
 
     /**
      * Same as set_value.
      * @return The inserted value.
      */
-    FancyObject_p insert_at(unsigned int index, FancyObject_p value);
+    FancyObject* insert_at(unsigned int index, FancyObject* value);
 
     /**
      * Removes (deletes) an entry at the given index.
      * @param index The index where to delete the value at.
      * @return The deleted value.
      */
-    FancyObject_p remove_at(int index);
+    FancyObject* remove_at(int index);
 
     /**
      * Appends another Array to this one.
      * @param arr Then Array to append.
      * @return Itself, including the appended elements.
      */
-    FancyObject_p append(Array *arr);
+    FancyObject* append(Array *arr);
 
     /**
      * Returns the first element in the Array.
      * @return First element in Array.
      */
-    FancyObject_p first() const;
+    FancyObject* first() const;
 
     /**
      * Returns the last element in the Array.
      * @return Last element in Array.
      */
-    FancyObject_p last() const;
+    FancyObject* last() const;
 
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
@@ -121,7 +129,7 @@ namespace fancy {
      * @return true, if equal, false otherwise
      */
     bool operator==(const Array& other) const;
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
   
     /**
      * Returns size of Array.
@@ -144,19 +152,17 @@ namespace fancy {
      * Returns list of elements in Array.
      * @return List of elements in Array.
      */
-    list<FancyObject_p> to_list() const;
+    list<FancyObject*> to_list() const;
 
     /**
      * Returns vector of elements in Array.
      * @return Vector of elements in Array.
      */
-    vector<FancyObject_p> values() const;
+    vector<FancyObject*> values() const;
 
   private:
-    vector<FancyObject_p> _values;
+    vector<FancyObject*> _values;
   };
-
-  typedef Array* Array_p;
 
 }
 

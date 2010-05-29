@@ -1,4 +1,5 @@
-#include "includes.h"
+#include "true.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -6,14 +7,14 @@ namespace fancy {
 
   True::~True() {}
 
-  FancyObject_p True::equal(const FancyObject_p other) const
+  FancyObject* True::equal(FancyObject* other) const
   {
     if(IS_TRUE(other))
       return t;
     return nil;
   }
 
-  FancyObject_p True::eval(Scope *scope)
+  FancyObject* True::eval(Scope *scope)
   {
     return t;
   }

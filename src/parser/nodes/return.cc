@@ -1,10 +1,10 @@
-#include "includes.h"
+#include "return.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      ReturnStatement::ReturnStatement(Expression_p return_expr) :
+      ReturnStatement::ReturnStatement(Expression* return_expr) :
         _return_expr(return_expr)
       {
       }
@@ -20,7 +20,7 @@ namespace fancy {
 
       FancyObject* ReturnStatement::eval(Scope *scope)
       {
-        FancyObject_p retval = _return_expr->eval(scope);
+        FancyObject* retval = _return_expr->eval(scope);
         return retval;
       }
 

@@ -1,10 +1,10 @@
 #ifndef _NUMBER_H_
 #define _NUMBER_H_
 
-namespace fancy {
+#include "fancy_object.h"
 
-  class Number;
-  typedef Number* Number_p;
+
+namespace fancy {
 
   #define INT_CACHE_SIZE 1000
 
@@ -31,7 +31,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */  
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -58,14 +58,14 @@ namespace fancy {
      * @param value Integer value for the Number object.
      * @return Number object with the given value.
      */
-    static Number_p from_int(int value);
+    static Number* from_int(int value);
 
     /**
      * Returns Number object with the given double value.
      * @param value Double value for the Number object.
      * @return Number object with the given value.
      */
-    static Number_p from_double(double value);
+    static Number* from_double(double value);
 
     /**
      * Initializes the number cache with the first INT_CACHE_SIZE integer Numbers.
@@ -77,7 +77,7 @@ namespace fancy {
     double _doubleval;
     bool _is_double;
 
-    static Number_p* int_cache;
+    static Number** int_cache;
   };
 
 }

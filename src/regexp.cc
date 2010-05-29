@@ -1,4 +1,5 @@
-#include "includes.h"
+#include "regexp.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -10,12 +11,12 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Regexp::equal(const FancyObject_p other) const
+  FancyObject* Regexp::equal(FancyObject* other) const
   {
     if(!IS_REGEX(other))
       return nil;
   
-    Regexp_p other_regex = (Regexp_p)other;
+    Regexp* other_regex = (Regexp*)other;
     if(_pattern == other_regex->_pattern)
       return t;
     return nil;
@@ -36,7 +37,7 @@ namespace fancy {
     return _pattern;
   }
 
-  FancyObject_p Regexp::match(String_p string) const
+  FancyObject* Regexp::match(String* string) const
   {
     // if match -> return t else nil
     // TODO: implement Regexp matching! (via boost::regex?)

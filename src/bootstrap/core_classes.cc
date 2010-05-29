@@ -1,40 +1,43 @@
 #include "includes.h"
 
+#include "../nil.h"
+#include "../true.h"
+
 namespace fancy {
 
   /**
    * Core Classes
    */
-  Class_p ClassClass = 0;
-  Class_p ObjectClass;
-  Class_p NilClass;
-  Class_p TrueClass;
-  Class_p StringClass;
-  Class_p SymbolClass;
-  Class_p NumberClass;
-  Class_p RegexpClass;
-  Class_p ArrayClass;
-  Class_p HashClass;
-  Class_p MethodClass;
-  Class_p MethodCallClass;
-  Class_p BlockClass;
-  Class_p FileClass;
-  Class_p DirectoryClass;
-  Class_p ConsoleClass;
-  Class_p ScopeClass;
+  Class* ClassClass = 0;
+  Class* ObjectClass;
+  Class* NilClass;
+  Class* TrueClass;
+  Class* StringClass;
+  Class* SymbolClass;
+  Class* NumberClass;
+  Class* RegexpClass;
+  Class* ArrayClass;
+  Class* HashClass;
+  Class* MethodClass;
+  Class* MethodCallClass;
+  Class* BlockClass;
+  Class* FileClass;
+  Class* DirectoryClass;
+  Class* ConsoleClass;
+  Class* ScopeClass;
 
-  Class_p ExceptionClass;
-  Class_p UnknownIdentifierErrorClass;
-  Class_p MethodNotFoundErrorClass;
-  Class_p IOErrorClass;
+  Class* ExceptionClass;
+  Class* UnknownIdentifierErrorClass;
+  Class* MethodNotFoundErrorClass;
+  Class* IOErrorClass;
 
-  Class_p SystemClass;
+  Class* SystemClass;
 
   /**
    * Global Singleton Objects
    */
-  FancyObject_p nil;
-  FancyObject_p t;
+  FancyObject* nil;
+  FancyObject* t;
 
   namespace bootstrap {
 

@@ -1,4 +1,5 @@
-#include "includes.h"
+#include "nil.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -6,14 +7,14 @@ namespace fancy {
 
   Nil::~Nil() {}
 
-  FancyObject_p Nil::equal(const FancyObject_p other) const
+  FancyObject* Nil::equal(FancyObject* other) const
   {
     if(IS_NIL(other))
       return t;
     return nil;
   }
 
-  FancyObject_p Nil::eval(Scope *scope)
+  FancyObject* Nil::eval(Scope *scope)
   {
     return nil;
   }

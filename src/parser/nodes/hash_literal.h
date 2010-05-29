@@ -1,14 +1,22 @@
 #ifndef _HASH_LITERAL_H_
 #define _HASH_LITERAL_H_
 
+#include <list>
+
+#include "../../expression.h"
+#include "expression_list.h"
+#include "identifier.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
 
       struct key_val_node {
       public:
-        Expression_p key;
-        Expression_p val;
+        Expression* key;
+        Expression* val;
         key_val_node *next;
       };
 
@@ -18,11 +26,11 @@ namespace fancy {
         HashLiteral(key_val_node *key_val_list);
         virtual ~HashLiteral();
 
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
       private:
-        list< pair<Expression_p, Expression_p> > _key_val_list;
+        list< pair<Expression*, Expression*> > _key_val_list;
       };
 
     }

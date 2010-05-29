@@ -1,16 +1,17 @@
-#include "includes.h"
+#include "native_method.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
   NativeMethod::NativeMethod(string identifier,
-                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
+                             FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)) :
     Method(), _identifier(identifier), _func(func)
   {
   }
 
   NativeMethod::NativeMethod(string identifier,
                              string docstring,
-                             FancyObject_p (&func)(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)) :
+                             FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)) :
     Method(), _identifier(identifier), _func(func)
   {
     set_docstring(docstring);
@@ -20,12 +21,12 @@ namespace fancy {
   {
   }
 
-  FancyObject_p NativeMethod::equal(const FancyObject_p other) const
+  FancyObject* NativeMethod::equal(FancyObject* other) const
   {
     if(!IS_NATIVEMETHOD(other)) {
       return nil;
     } else {
-      if(NativeMethod_p other_method = dynamic_cast<NativeMethod_p>(other)) {
+      if(NativeMethod* other_method = dynamic_cast<NativeMethod*>(other)) {
         if(_identifier == other_method->_identifier
            && _func == other_method->_func) {
           return t;
@@ -45,12 +46,12 @@ namespace fancy {
     return "<NativeMethod:'" + _identifier + "' Doc:'" + _docstring + "'>";
   }
 
-  FancyObject_p NativeMethod::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+  FancyObject* NativeMethod::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
   {
     return _func(self, args, argc, scope);
   }
 
-  FancyObject_p NativeMethod::call(FancyObject_p self, Scope *scope)
+  FancyObject* NativeMethod::call(FancyObject* self, Scope *scope)
   {
     return _func(self, 0, 0, scope);
   }

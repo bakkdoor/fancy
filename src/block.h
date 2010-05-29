@@ -1,6 +1,18 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 
+#include <list>
+#include <vector>
+
+#include "fancy_object.h"
+#include "scope.h"
+#include "callable.h"
+#include "parser/nodes/identifier.h"
+#include "parser/nodes/expression_list.h"
+
+using namespace std;
+using namespace fancy::parser::nodes;
+
 namespace fancy {
 
   /**
@@ -18,7 +30,7 @@ namespace fancy {
      * @param creation_scope Scope in which Block was created (used
      * for closures).
      */
-    Block(ExpressionList_p body, Scope *creation_scope);
+    Block(parser::nodes::ExpressionList* body, Scope *creation_scope);
 
     /**
      * Initializes Block with a list of argument names, a body and the
@@ -28,11 +40,11 @@ namespace fancy {
      * @param creation_scope Scope in which Block was created (used
      * for closures).
      */
-    Block(list<Identifier_p> argnames, ExpressionList_p body, Scope *creation_scope);
+    Block(list<parser::nodes::Identifier*> argnames, parser::nodes::ExpressionList* body, Scope *creation_scope);
 
     virtual ~Block();
 
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -40,13 +52,13 @@ namespace fancy {
      * Calls the Block (see Callable).
      * @return Return value from calling the Block.
      */
-    FancyObject_p call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope);
+    FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
 
     /**
      * Calls the Block with no arguments (see Callable).
      * @return Return value from calling the Block.
      */
-    FancyObject_p call(FancyObject_p self, Scope *scope);
+    FancyObject* call(FancyObject* self, Scope *scope);
 
     /**
      * Sets the creation_scope of the Block.
@@ -64,7 +76,7 @@ namespace fancy {
      * Returns vector of String objects of the argument names.
      * @return Vector of String objects of the argument names.
      */
-    vector<FancyObject_p> args();
+    vector<FancyObject*> args();
 
     /**
      * Returns the amount of arguments for the Block.
@@ -93,15 +105,13 @@ namespace fancy {
   private:
     void init_orig_block_arg_values();
 
-    list<Identifier_p> _argnames;
-    ExpressionList_p _body;
+    list<parser::nodes::Identifier*> _argnames;
+    parser::nodes::ExpressionList* _body;
     Scope *_creation_scope;
     bool _override_self;
     int _argcount;
-    list<FancyObject_p> _block_arg_orig_values;
+    list<FancyObject*> _block_arg_orig_values;
   };
-
-  typedef Block* Block_p;
 
 }
 

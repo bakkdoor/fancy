@@ -1,4 +1,7 @@
-#include "includes.h"
+#include <string>
+
+#include "symbol.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -11,13 +14,13 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Symbol::equal(const FancyObject_p other) const
+  FancyObject* Symbol::equal(FancyObject* other) const
   {
     if(!IS_SYMBOL(other)) {
       return nil;
     }
   
-    Symbol_p other_sym = dynamic_cast<Symbol_p>(other);
+    Symbol* other_sym = dynamic_cast<Symbol*>(other);
     if(other_sym) {
       if(_name == other_sym->_name) {
         return t;
@@ -46,14 +49,14 @@ namespace fancy {
     return _name;
   }
 
-  map<string, Symbol_p> Symbol::sym_cache;
-  Symbol_p Symbol::from_string(const string &name)
+  map<string, Symbol*> Symbol::sym_cache;
+  Symbol* Symbol::from_string(const string &name)
   {
     if(sym_cache.find(name) != sym_cache.end()) {
       return sym_cache[name];
     } else {
       // insert new name into sym_cache & return new number name
-      Symbol_p new_sym = new Symbol(name);
+      Symbol* new_sym = new Symbol(name);
       sym_cache[name] = new_sym;
       return new_sym;
     }

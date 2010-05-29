@@ -1,4 +1,10 @@
-#include "includes.h"
+#include <cstdlib>
+#include <cstdio>
+
+#include "parser.h"
+#include "../fancy_exception.h"
+#include "../utils.h"
+#include "../bootstrap/core_classes.h"
 
 /* prototype of bison-generated parser function */
 extern int yyparse();
@@ -14,7 +20,7 @@ namespace fancy {
     string current_file;
     stack<parser_buffer> parse_buffers;
     list<string> load_path;
-    FancyObject_p last_value = nil;
+    FancyObject* last_value = nil;
 
     void parse_file(string &filename)
     {
@@ -29,7 +35,7 @@ namespace fancy {
       if(push_buffer(filename)) {
         try {
           yyparse();
-        } catch(FancyException_p ex) {
+        } catch(FancyException* ex) {
           errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
           errorln(ex->to_s());
           exit(1);
@@ -39,7 +45,7 @@ namespace fancy {
       }
     }
 
-    FancyObject_p parse_string(const string &code)
+    FancyObject* parse_string(const string &code)
     {
       parser_buffer buf;
       buf.buffstate = yy_scan_string(code.c_str());
@@ -52,7 +58,7 @@ namespace fancy {
 
       try {
         yyparse();
-      } catch(FancyException_p ex) {
+      } catch(FancyException* ex) {
         errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
         errorln(ex->to_s());
         exit(1);

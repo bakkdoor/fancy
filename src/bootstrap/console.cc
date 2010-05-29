@@ -1,5 +1,8 @@
 #include "includes.h"
 
+#include "../string.h"
+
+
 namespace fancy {
   namespace bootstrap {
 

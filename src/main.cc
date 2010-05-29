@@ -1,5 +1,29 @@
-#include "includes.h"
-#include "parser/includes.h"
+#include "../vendor/gc/include/gc.h"
+#include "../vendor/gc/include/gc_cpp.h"
+#include "../vendor/gc/include/gc_allocator.h"
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <string>
+#include <iostream>
+
+#include<sys/stat.h>
+#include<sys/types.h>
+
+#include "array.h"
+#include "string.h"
+#include "fancy_exception.h"
+#include "number.h"
+#include "errors.h"
+#include "utils.h"
+#include "parser/parser.h"
+#include "bootstrap/includes.h"
+#include "bootstrap/core_classes.h"
+
+using namespace std;
+using namespace fancy;
 
 extern int yyparse();
 extern void yyrestart(FILE*);
@@ -17,7 +41,7 @@ string get_load_path(int argc, char **argv)
 void prepare_argv(int argc, char **argv)
 {
   // set command line arguments in global ARGV variable as Array
-  Array_p args_arr = new Array();
+  Array* args_arr = new Array();
   for(int i = 1; i < argc; i++) {
     string arg(argv[i]);
     // skip -I + root loadpath arg

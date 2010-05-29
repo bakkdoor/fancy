@@ -1,4 +1,4 @@
-#include "includes.h"
+#include "array_literal.h"
 
 namespace fancy {
   namespace parser {
@@ -15,10 +15,10 @@ namespace fancy {
       {
       }
 
-      FancyObject_p ArrayLiteral::eval(Scope *scope)
+      FancyObject* ArrayLiteral::eval(Scope *scope)
       {
-        vector<FancyObject_p> values;
-        for(list<Expression_p>::iterator it = _expressions.begin();
+        vector<FancyObject*> values;
+        for(list<Expression*>::iterator it = _expressions.begin();
             it != _expressions.end();
             it++) {
           values.push_back((*it)->eval(scope));

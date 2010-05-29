@@ -1,4 +1,6 @@
-#include "includes.h"
+#include <sstream>
+#include "array.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -11,20 +13,20 @@ namespace fancy {
     _values.resize(initial_size, nil);
   }
 
-  Array::Array(int initial_size, FancyObject_p initial_value) : FancyObject(ArrayClass)
+  Array::Array(int initial_size, FancyObject* initial_value) : FancyObject(ArrayClass)
   {
     _values.resize(initial_size, initial_value);
   }
 
-  Array::Array(array_node *val_list) : FancyObject(ArrayClass)
+  Array::Array(array_node* val_list) : FancyObject(ArrayClass)
   {
-    for(array_node *tmp = val_list; tmp; tmp = tmp->next) {
+    for(array_node* tmp = val_list; tmp; tmp = tmp->next) {
       if(tmp->value)
         _values.push_back(tmp->value);
     }
   }
 
-  Array::Array(vector<FancyObject_p> list) :
+  Array::Array(vector<FancyObject*> list) :
     FancyObject(ArrayClass), _values(list)
   {
   }
@@ -33,12 +35,12 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Array::operator[](int index) const
+  FancyObject* Array::operator[](int index) const
   {
     return at(index);
   }
 
-  FancyObject_p Array::at(int index) const
+  FancyObject* Array::at(int index) const
   {
     // allow negative indexes
     if(index < 0) {
@@ -57,7 +59,7 @@ namespace fancy {
     }
   }
 
-  FancyObject_p Array::set_value(unsigned int index, FancyObject_p value)
+  FancyObject* Array::set_value(unsigned int index, FancyObject* value)
   {
     if(index < _values.size()) {
       _values[index] = value;
@@ -67,19 +69,19 @@ namespace fancy {
     }
   }
 
-  FancyObject_p Array::insert(FancyObject_p value)
+  FancyObject* Array::insert(FancyObject* value)
   {
     _values.push_back(value);
     return value;
   }
 
-  FancyObject_p Array::insert_at(unsigned int index, FancyObject_p value)
+  FancyObject* Array::insert_at(unsigned int index, FancyObject* value)
   {
     set_value(index, value);
     return value;
   }
 
-  FancyObject_p Array::remove_at(int index)
+  FancyObject* Array::remove_at(int index)
   {
     // ignore this case and simply return
     if(index > (int)size()) {
@@ -87,7 +89,7 @@ namespace fancy {
     }
 
     int idx = index;
-    FancyObject_p value = at(index);
+    FancyObject* value = at(index);
     // check for negative indexes
     if(index < 0) {
       idx = size() + index;
@@ -99,16 +101,16 @@ namespace fancy {
     return value;
   }
 
-  FancyObject_p Array::append(Array_p arr)
+  FancyObject* Array::append(Array* arr)
   {
-    vector<FancyObject_p>::iterator it;
+    vector<FancyObject*>::iterator it;
     for(it = arr->_values.begin(); it < arr->_values.end(); it++) {
       _values.push_back(*it);
     }
     return this;
   }
 
-  FancyObject_p Array::first() const
+  FancyObject* Array::first() const
   {
     if(_values.size() > 0) {
       return _values.front();
@@ -117,7 +119,7 @@ namespace fancy {
     }
   }
 
-  FancyObject_p Array::last() const
+  FancyObject* Array::last() const
   {
     if(_values.size() > 0) {
       return _values.back();
@@ -172,12 +174,12 @@ namespace fancy {
     return true;
   }
 
-  FancyObject_p Array::equal(const FancyObject_p other) const
+  FancyObject* Array::equal(FancyObject* other) const
   {
     if(other->type() != EXP_ARRAY)
       return nil;
 
-    Array_p other_array = (Array_p)other;
+    Array* other_array = (Array*)other;
     if((*this) == (*other_array))
       return t;
     return nil;
@@ -193,17 +195,17 @@ namespace fancy {
     _values.clear();
   }
 
-  Array_p Array::clone() const
+  Array* Array::clone() const
   {
     return new Array(_values);
   }
 
-  list<FancyObject_p> Array::to_list() const
+  list<FancyObject*> Array::to_list() const
   {
-    return list<FancyObject_p>(_values.begin(), _values.end());
+    return list<FancyObject*>(_values.begin(), _values.end());
   }
 
-  vector<FancyObject_p> Array::values() const
+  vector<FancyObject*> Array::values() const
   {
     return _values;
   }

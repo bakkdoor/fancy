@@ -1,4 +1,12 @@
-#include "includes.h"
+#include <cassert>
+#include <vector>
+
+#include "class.h"
+#include "array.h"
+#include "block.h"
+#include "method.h"
+#include "native_method.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -9,7 +17,7 @@ namespace fancy {
     _superclass = 0;
   }
 
-  Class::Class(const string &name, Class_p superclass) : 
+  Class::Class(const string &name, Class* superclass) : 
     FancyObject(ClassClass),
     _name(name),
     _superclass(superclass)
@@ -25,10 +33,10 @@ namespace fancy {
     return _name;
   }
 
-  FancyObject_p Class::create_instance() const
+  FancyObject* Class::create_instance() const
   {
-    Class_p klass = const_cast<Class_p>(this);
-    FancyObject_p instance = new FancyObject(klass);
+    Class* klass = const_cast<Class*>(this);
+    FancyObject* instance = new FancyObject(klass);
     return instance;
   }
 
@@ -37,15 +45,15 @@ namespace fancy {
     _instance_slotnames.push_back(name);
   }
 
-  void Class::def_class_slot(const string &name, const FancyObject_p value)
+  void Class::def_class_slot(const string &name, FancyObject* value)
   {
     assert(value);
     _class_slots[name] = value;
   }
 
-  FancyObject_p Class::get_class_slot(const string &identifier) const
+  FancyObject* Class::get_class_slot(const string &identifier) const
   {
-    map<string, FancyObject_p>::const_iterator it;
+    map<string, FancyObject*>::const_iterator it;
     it = _class_slots.find(identifier);
     if(it != _class_slots.end()) {
       return it->second;
@@ -54,7 +62,7 @@ namespace fancy {
     }
   }
 
-  void Class::include(const Class_p klass)
+  void Class::include(Class* klass)
   {
     assert(klass);
     _included_classes.insert(klass);
@@ -65,25 +73,25 @@ namespace fancy {
     return _instance_slotnames;
   }
 
-  map<string, FancyObject_p> Class::class_slots() const
+  map<string, FancyObject*> Class::class_slots() const
   {
     return _class_slots;
   }
 
-  void Class::def_method(const string &name, const Callable_p method)
+  void Class::def_method(const string &name, Callable* method)
   {
     assert(method);
     _instance_methods[name] = method;
   }
 
-  void Class::def_class_method(const string &name, const Callable_p method)
+  void Class::def_class_method(const string &name, Callable* method)
   {
     assert(method);
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
   }
 
-  FancyObject_p Class::equal(const FancyObject_p other) const
+  FancyObject* Class::equal(FancyObject* other) const
   {
     if(!IS_CLASS(other))
       return nil;
@@ -105,7 +113,7 @@ namespace fancy {
     return _name;
   }
 
-  Callable_p Class::find_method(const string &name)
+  Callable* Class::find_method(const string &name)
   {
     // first, try instance methods
     if(_instance_methods.find(name) != _instance_methods.end()) {
@@ -116,10 +124,10 @@ namespace fancy {
       return _singleton_methods[name];
     }
     // then, try methods in included classes
-    for(set<Class_p>::iterator it = _included_classes.begin();
+    for(set<Class*>::iterator it = _included_classes.begin();
         it != _included_classes.end();
         it++) {
-      if(Callable_p method = (*it)->find_method(name)) {
+      if(Callable* method = (*it)->find_method(name)) {
         return method;
       }
     }
@@ -131,7 +139,7 @@ namespace fancy {
     return 0;
   }
 
-  bool Class::subclass_of(Class_p klass)
+  bool Class::subclass_of(Class* klass)
   {
     if(this == klass)
       return true;
@@ -146,28 +154,28 @@ namespace fancy {
     return false;
   }
 
-  Class_p Class::superclass() const
+  Class* Class::superclass() const
   {
     return _superclass;
   }
 
-  Array_p Class::instance_methods() const
+  Array* Class::instance_methods() const
   {
-    vector<FancyObject_p> methods;
+    vector<FancyObject*> methods;
 
     if(_superclass) {
-      vector<FancyObject_p> super_methods = _superclass->instance_methods()->values();
+      vector<FancyObject*> super_methods = _superclass->instance_methods()->values();
       methods.insert(methods.end(), super_methods.begin(), super_methods.end());
     }
     
-    for(map<string, Callable_p>::const_iterator it = _instance_methods.begin();
+    for(map<string, Callable*>::const_iterator it = _instance_methods.begin();
         it != _instance_methods.end();
         it++) {
-      if(Method_p method = dynamic_cast<Method_p>(it->second)) {
+      if(Method* method = dynamic_cast<Method*>(it->second)) {
         methods.push_back(method);
-      } else if(NativeMethod_p method = dynamic_cast<NativeMethod_p>(it->second)) {
+      } else if(NativeMethod* method = dynamic_cast<NativeMethod*>(it->second)) {
         methods.push_back(method);
-      } else if(Block_p method = dynamic_cast<Block_p>(it->second)) {
+      } else if(Block* method = dynamic_cast<Block*>(it->second)) {
         methods.push_back(method);
       }
     }

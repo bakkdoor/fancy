@@ -1,12 +1,16 @@
 #ifndef _IDENTIFIER_H_
 #define _IDENTIFIER_H_
 
+#include <string>
+#include <map>
+
+#include "../../expression.h"
+
+using namespace std;
+
 namespace fancy {
   namespace parser {
     namespace nodes {
-
-      class Identifier;
-      typedef Identifier* Identifier_p;
 
       /**
        * Identifier class representing identifiers in Fancy.
@@ -26,7 +30,7 @@ namespace fancy {
         /**
          * Inherited from Expression.
          */
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
 
         /**
@@ -41,12 +45,12 @@ namespace fancy {
          * @return Identifier with the given name (might have been created
          * before, so the actual object is shared)
          */
-        static Identifier_p from_string(const string &name);
+        static Identifier* from_string(const string &name);
 
       private:
         string _name;
 
-        static map<string, Identifier_p> ident_cache;
+        static map<string, Identifier*> ident_cache;
       };
 
     }

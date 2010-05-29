@@ -1,5 +1,9 @@
 #include "includes.h"
 
+#include "../directory.h"
+#include "../errors.h"
+
+
 namespace fancy {
   namespace bootstrap {
 

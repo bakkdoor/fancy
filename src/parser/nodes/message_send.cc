@@ -1,21 +1,25 @@
-#include "includes.h"
+#include <sstream>
+
+#include "message_send.h"
+#include "../../scope.h"
+#include "../../bootstrap/core_classes.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      MessageSend::MessageSend(Expression_p receiver,
+      MessageSend::MessageSend(Expression* receiver,
                                send_arg_node *method_args) :
         _receiver(receiver)
       {
         for(send_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
-          _arg_expressions.push_front(pair<Identifier_p, Expression_p>(tmp->argname, tmp->argexpr));
+          _arg_expressions.push_front(pair<Identifier*, Expression*>(tmp->argname, tmp->argexpr));
         }
 
         init_method_ident();
       }
 
-      MessageSend::MessageSend(Expression_p receiver, Identifier_p method_ident) :
+      MessageSend::MessageSend(Expression* receiver, Identifier* method_ident) :
         _receiver(receiver),
         _method_ident(method_ident)
       {
@@ -25,25 +29,25 @@ namespace fancy {
       {
       }
 
-      FancyObject_p MessageSend::eval(Scope *scope)
+      FancyObject* MessageSend::eval(Scope *scope)
       {
         int size = _arg_expressions.size();
-        FancyObject_p *args = new FancyObject_p[size];
+        FancyObject* *args = new FancyObject*[size];
         int i = 0;
-        list< pair<Identifier_p, Expression_p> >::iterator it;
+        list< pair<Identifier*, Expression*> >::iterator it;
         for(it = _arg_expressions.begin(); it != _arg_expressions.end() && i < size; it++) {
           args[i] = it->second->eval(scope);
           i++;
         }  
   
-        FancyObject_p retval = nil;
+        FancyObject* retval = nil;
 
         // check for super call
         if(_receiver->type() == EXP_SUPER) {
           retval = scope->current_self()->call_super_method(_method_ident->name(), args, size, scope);
         } else {
           // if no super call, do normal method call
-          FancyObject_p receiver_obj = _receiver->eval(scope);
+          FancyObject* receiver_obj = _receiver->eval(scope);
           retval = receiver_obj->call_method(_method_ident->name(), args, size, scope);
         }
         delete[] args;
@@ -58,7 +62,7 @@ namespace fancy {
       void MessageSend::init_method_ident()
       {
         stringstream str;
-        list< pair<Identifier_p, Expression_p> >::iterator it;
+        list< pair<Identifier*, Expression*> >::iterator it;
         for(it = _arg_expressions.begin(); it != _arg_expressions.end(); it++) {
           str << it->first->name();
           str << ":";

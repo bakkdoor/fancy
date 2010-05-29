@@ -1,5 +1,9 @@
 #include "includes.h"
 
+#include "../number.h"
+#include "../block.h"
+
+
 namespace fancy {
   namespace bootstrap {
 
@@ -72,10 +76,10 @@ namespace fancy {
     METHOD(NumberClass, plus)
     {
       EXPECT_ARGS("Number#+", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->is_double() || num2->is_double()) {
           return Number::from_double(num1->doubleval() + num2->doubleval());
         } else {
@@ -90,10 +94,10 @@ namespace fancy {
     METHOD(NumberClass, minus)
     {
       EXPECT_ARGS("Number#-", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->is_double() || num2->is_double()) {
           return Number::from_double(num1->doubleval() - num2->doubleval());
         } else {
@@ -108,10 +112,10 @@ namespace fancy {
     METHOD(NumberClass, multiply)
     {
       EXPECT_ARGS("Number#*", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->is_double() || num2->is_double()) {
           return Number::from_double(num1->doubleval() * num2->doubleval());
         } else {
@@ -126,10 +130,10 @@ namespace fancy {
     METHOD(NumberClass, divide)
     {
       EXPECT_ARGS("Number#/", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         // always return double number for division
         return Number::from_double(num1->doubleval() / num2->doubleval());
       } else {
@@ -141,10 +145,10 @@ namespace fancy {
     METHOD(NumberClass, lt)
     {
       EXPECT_ARGS("Number#<", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->doubleval() < num2->doubleval()) {
           return t;
         } else {
@@ -159,10 +163,10 @@ namespace fancy {
     METHOD(NumberClass, lt_eq)
     {
       EXPECT_ARGS("Number#<=", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->doubleval() <= num2->doubleval()) {
           return t;
         } else {
@@ -178,10 +182,10 @@ namespace fancy {
     METHOD(NumberClass, gt)
     {
       EXPECT_ARGS("Number#>", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->doubleval() > num2->doubleval()) {
           return t;
         } else {
@@ -196,10 +200,10 @@ namespace fancy {
     METHOD(NumberClass, gt_eq)
     {
       EXPECT_ARGS("Number#>=", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->doubleval() >= num2->doubleval()) {
           return t;
         } else {
@@ -214,10 +218,10 @@ namespace fancy {
     METHOD(NumberClass, eq)
     {
       EXPECT_ARGS("Number#==", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_NUM(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Number_p num2 = dynamic_cast<Number_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Number* num2 = dynamic_cast<Number*>(arg);
         if(num1->doubleval() == num2->doubleval()) {
           return t;
         } else {
@@ -230,10 +234,10 @@ namespace fancy {
     METHOD(NumberClass, times)
     {
       EXPECT_ARGS("Number#times:", 1);
-      FancyObject_p arg = args[0];
+      FancyObject* arg = args[0];
       if(IS_BLOCK(arg)) {
-        Number_p num1 = dynamic_cast<Number_p>(self);
-        Block_p block = dynamic_cast<Block_p>(arg);
+        Number* num1 = dynamic_cast<Number*>(self);
+        Block* block = dynamic_cast<Block*>(arg);
 
         // if block is empty (nothing in the blocks body) simply
         // return nil and don't bother wasting any precious time here...
@@ -242,7 +246,7 @@ namespace fancy {
 
         int val = num1->intval();
         if(block->argcount() > 0) {
-          FancyObject_p arg[1];
+          FancyObject* arg[1];
           for(int i = 0; i < val; i++) {
             arg[0] = Number::from_int(i);
             block->call(self, arg, 1, scope);
@@ -261,8 +265,8 @@ namespace fancy {
     METHOD(NumberClass, modulo)
     {
       EXPECT_ARGS("Number#modulo:", 1);
-      Number_p num1 = dynamic_cast<Number_p>(self);
-      Number_p num2 = dynamic_cast<Number_p>(args[0]);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
       if(num1 && num2) {
         return Number::from_int(num1->intval() % num2->intval());
       } else {

@@ -1,10 +1,13 @@
-#include "includes.h"
+#include <map>
+
+#include "assignment.h"
+#include "../../scope.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      AssignmentExpr::AssignmentExpr(Identifier_p identifier, Expression_p value_expr) :
+      AssignmentExpr::AssignmentExpr(Identifier* identifier, Expression* value_expr) :
         _identifier(identifier), _value_expr(value_expr)
       {
       }
@@ -18,9 +21,9 @@ namespace fancy {
         return EXP_ASSIGNEXPR;
       }
 
-      FancyObject_p AssignmentExpr::eval(Scope *scope)
+      FancyObject* AssignmentExpr::eval(Scope *scope)
       {
-        FancyObject_p value = _value_expr->eval(scope);
+        FancyObject* value = _value_expr->eval(scope);
         scope->define(_identifier->name(), value);
         return value;
       }

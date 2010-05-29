@@ -1,6 +1,13 @@
 #ifndef _HASH_H_
 #define _HASH_H_
 
+#include <vector>
+#include <map>
+
+#include "fancy_object.h"
+
+using namespace std;
+
 namespace fancy {
 
   /**
@@ -18,7 +25,7 @@ namespace fancy {
      * Hash constructor. Creates Hash object from a given C++ map.
      * @param mappings C++ map containing key-value pairs for the Hash object to contain.
      */
-    Hash(map<FancyObject_p, FancyObject_p> mappings);
+    Hash(map<FancyObject*, FancyObject*> mappings);
     ~Hash();
 
     /**
@@ -26,8 +33,8 @@ namespace fancy {
      * @param key The FancyObject used as the key for an entry in the Hash.
      * @return The value for the given key, or nil if key not in Hash.
      */
-    FancyObject_p operator[](FancyObject_p key) const;
-    FancyObject_p get_value(FancyObject_p key);
+    FancyObject* operator[](FancyObject* key) const;
+    FancyObject* get_value(FancyObject* key);
 
     /**
      * Sets the value for a given key in the Hash.
@@ -35,12 +42,12 @@ namespace fancy {
      * @param value The value for the given key.
      * @return Returns the value passed in.
      */
-    FancyObject_p set_value(FancyObject_p key, FancyObject_p value);
+    FancyObject* set_value(FancyObject* key, FancyObject* value);
 
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -48,13 +55,13 @@ namespace fancy {
      * Returns a C++ vector of all the keys in the Hash.
      * @return C++ vector of all the keys in the Hash.
      */
-    vector<FancyObject_p> keys();
+    vector<FancyObject*> keys();
 
     /**
      * Returns a C++ vector of all the values in the Hash.
      * @return C++ vector of all the values in the Hash.
      */
-    vector<FancyObject_p> values();
+    vector<FancyObject*> values();
 
     /**
      * Indicates, if two Hashes are equal.
@@ -69,10 +76,8 @@ namespace fancy {
     int size() const;
 
   private:
-    map<FancyObject_p, FancyObject_p> _mappings;
+    map<FancyObject*, FancyObject*> _mappings;
   };
-
-  typedef Hash* Hash_p;
 
 }
 

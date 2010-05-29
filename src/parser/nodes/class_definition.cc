@@ -1,11 +1,14 @@
-#include "includes.h"
+#include "class_definition.h"
+#include "../../class.h"
+#include "../../utils.h"
+#include "../../bootstrap/core_classes.h"
 
 namespace fancy {
   namespace parser {
     namespace nodes {
 
-      ClassDefExpr::ClassDefExpr(Identifier_p class_name,
-                                 ExpressionList_p class_body) :
+      ClassDefExpr::ClassDefExpr(Identifier* class_name,
+                                 ExpressionList* class_body) :
         _superclass(ObjectClass),
         _superclass_name(0),
         _class_name(class_name),
@@ -13,9 +16,9 @@ namespace fancy {
       {
       }
 
-      ClassDefExpr::ClassDefExpr(Identifier_p superclass_name,
-                                 Identifier_p class_name,
-                                 ExpressionList_p class_body) :
+      ClassDefExpr::ClassDefExpr(Identifier* superclass_name,
+                                 Identifier* class_name,
+                                 ExpressionList* class_body) :
         _superclass(0),
         _superclass_name(superclass_name),
         _class_name(class_name),
@@ -27,22 +30,22 @@ namespace fancy {
       {
       }
 
-      FancyObject_p ClassDefExpr::eval(Scope *scope)
+      FancyObject* ClassDefExpr::eval(Scope *scope)
       {
-        Class_p the_class = 0;
-        FancyObject_p class_obj = scope->get(_class_name->name());
+        Class* the_class = 0;
+        FancyObject* class_obj = scope->get(_class_name->name());
         // check if class is already defined.
         // if so, don't create a new class
         if(IS_CLASS(class_obj)) {
-          the_class = dynamic_cast<Class_p>(class_obj);
+          the_class = dynamic_cast<Class*>(class_obj);
         } else {
           // if not yet defined, create a new class and define it in the
           // current scope
-          Class_p superclass = _superclass;
+          Class* superclass = _superclass;
           if(!superclass && _superclass_name) {
-            FancyObject_p class_obj = scope->get(_superclass_name->name());
+            FancyObject* class_obj = scope->get(_superclass_name->name());
             if(IS_CLASS(class_obj)) {
-              superclass = dynamic_cast<Class_p>(class_obj);
+              superclass = dynamic_cast<Class*>(class_obj);
             } else {
               error("Superclass identifier does not reference a class: ") 
                 << _superclass_name->name() 

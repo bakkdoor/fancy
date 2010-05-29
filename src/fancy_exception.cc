@@ -1,8 +1,11 @@
-#include "includes.h"
+#include <cassert>
+
+#include "fancy_exception.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
   
-  FancyException::FancyException(Class_p exception_class) :
+  FancyException::FancyException(Class* exception_class) :
     FancyObject(exception_class),
     _exception_value(0),
     _exception_class(exception_class)
@@ -10,7 +13,7 @@ namespace fancy {
     assert(exception_class);
   }
   
-  FancyException::FancyException(const string &message, Class_p exception_class) :
+  FancyException::FancyException(const string &message, Class* exception_class) :
     FancyObject(exception_class),
     _exception_value(0),
     _exception_class(exception_class),
@@ -27,7 +30,7 @@ namespace fancy {
   {
   }
 
-  FancyException::FancyException(FancyObject_p exception_value, const string &message) :
+  FancyException::FancyException(FancyObject* exception_value, const string &message) :
     FancyObject(exception_value->get_class()),
     _exception_value(exception_value),
     _exception_class(0),
@@ -39,9 +42,9 @@ namespace fancy {
   {
   }
 
-  FancyObject_p FancyException::equal(const FancyObject_p other) const
+  FancyObject* FancyException::equal(FancyObject* other) const
   {
-    FancyException_p other_except = dynamic_cast<FancyException_p>(other);
+    FancyException* other_except = dynamic_cast<FancyException*>(other);
     if(!other_except)
       return nil;
 
@@ -67,7 +70,7 @@ namespace fancy {
     return _message;
   }
 
-  Class_p FancyException::exception_class() const
+  Class* FancyException::exception_class() const
   {
     if(_exception_class)
       return _exception_class;
@@ -78,7 +81,7 @@ namespace fancy {
     return ExceptionClass;
   }
 
-  FancyObject_p FancyException::exception_value()
+  FancyObject* FancyException::exception_value()
   {
     if(_exception_value)
       return _exception_value;

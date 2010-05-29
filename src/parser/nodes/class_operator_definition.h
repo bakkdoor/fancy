@@ -1,6 +1,10 @@
 #ifndef _CLASS_OPERATOR_DEFINITION_H_
 #define _CLASS_OPERATOR_DEFINITION_H_
 
+#include "../../expression.h"
+#include "../../method.h"
+#include "identifier.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -8,15 +12,15 @@ namespace fancy {
       class ClassOperatorDefExpr : public Expression
       {
       public:
-        ClassOperatorDefExpr(Identifier_p class_name, Identifier_p op_name, Method_p method);
+        ClassOperatorDefExpr(Identifier* class_name, Identifier* op_name, Method* method);
 
         virtual EXP_TYPE type() const;
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
  
       private:
-        Identifier_p _class_name;
-        Identifier_p _op_name;
-        Method_p _method;
+        Identifier* _class_name;
+        Identifier* _op_name;
+        Method* _method;
       };
 
     }

@@ -1,5 +1,7 @@
 %{
+
   #include "includes.h"
+
   using namespace fancy;
   using namespace parser;
   /* using namespace fancy::parser::nodes; */
@@ -7,28 +9,28 @@
   int yyerror(char *s);
   int yylex(void);
 
-  nodes::key_val_node* key_val_obj(Expression_p key,
-                                   Expression_p val,
+  nodes::key_val_node* key_val_obj(Expression* key,
+                                   Expression* val,
                                    nodes::key_val_node *next);
 
-  expression_node* expr_node(Expression_p expr,
+  expression_node* expr_node(Expression* expr,
                              expression_node *next);
 
-  nodes::block_arg_node* blk_arg_node(nodes::Identifier_p argname,
+  nodes::block_arg_node* blk_arg_node(nodes::Identifier* argname,
                                       nodes::block_arg_node *next);
 
-  nodes::send_arg_node* msend_arg_node(nodes::Identifier_p argname,
-                                       Expression_p argexpr,
+  nodes::send_arg_node* msend_arg_node(nodes::Identifier* argname,
+                                       Expression* argexpr,
                                        nodes::send_arg_node *next);
 
-  nodes::except_handler_list* except_handler_node(nodes::Identifier_p classname,
-                                                  nodes::Identifier_p localname,
-                                                  ExpressionList_p body,
+  nodes::except_handler_list* except_handler_node(nodes::Identifier* classname,
+                                                  nodes::Identifier* localname,
+                                                  ExpressionList* body,
                                                   nodes::except_handler_list *next);
 
-  list< pair<nodes::Identifier_p, nodes::Identifier_p> > method_args;
-  list<nodes::Identifier_p> block_args;
-  list<Expression_p> expression_list;
+  list< pair<nodes::Identifier*, nodes::Identifier*> > method_args;
+  list<nodes::Identifier*> block_args;
+  list<Expression*> expression_list;
 %}
 
 %union{
@@ -128,8 +130,8 @@
 %%
 
 programm:       /* empty */
-                | code { Expression_p expr = $1; last_value = expr->eval(global_scope); }
-                | programm SEMI code { Expression_p expr = $3; last_value = expr->eval(global_scope); }
+                | code { Expression* expr = $1; last_value = expr->eval(global_scope); }
+                | programm SEMI code { Expression* expr = $3; last_value = expr->eval(global_scope); }
                 ;
 
 code:           statement
@@ -194,10 +196,10 @@ method_def:     method_w_args
                 ;
 
 method_args:    IDENTIFIER COLON IDENTIFIER { 
-                  method_args.push_back(pair<nodes::Identifier_p, nodes::Identifier_p>($1, $3));
+                  method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($1, $3));
                 }
                 | method_args IDENTIFIER COLON IDENTIFIER {
-                  method_args.push_back(pair<nodes::Identifier_p, nodes::Identifier_p>($2, $4));
+                  method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($2, $4));
                 }
                 ;
 
@@ -207,8 +209,8 @@ method_body:    /* empty */ { $$ = expr_node(0, 0); }
                 ;
 
 method_w_args:  DEF method_args LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($4);
-                  Method_p method = new Method(method_args, body);
+                  ExpressionList* body = new ExpressionList($4);
+                  Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::MethodDefExpr(method_args, method);
                   method_args.clear();
@@ -217,17 +219,17 @@ method_w_args:  DEF method_args LCURLY method_body RCURLY {
 
 
 method_no_args: DEF IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($4);
-                  list< pair<nodes::Identifier_p, nodes::Identifier_p> > empty_args;
-                  Method_p method = new Method(empty_args, body);
+                  ExpressionList* body = new ExpressionList($4);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
                   $$ = new nodes::MethodDefExpr($2, method);
                 }
                 ;
 
 class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList_p body = new ExpressionList($5);
-                  Method_p method = new Method(method_args, body);
+                  ExpressionList* body = new ExpressionList($5);
+                  Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::ClassMethodDefExpr($2, method_args, method);
                   method_args.clear();
@@ -236,33 +238,33 @@ class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
 
 class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList_p body = new ExpressionList($5);
-                  list< pair<nodes::Identifier_p, nodes::Identifier_p> > empty_args;
-                  Method_p method = new Method(empty_args, body);
+                  ExpressionList* body = new ExpressionList($5);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
                   $$ = new nodes::ClassMethodDefExpr($2, $3, method);
                 }
                 ;
 
 operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($5);
-                  Method_p method = new Method($2, $3, body);
+                  ExpressionList* body = new ExpressionList($5);
+                  Method* method = new Method($2, $3, body);
                   $$ = new nodes::OperatorDefExpr($2, method);
                 }
                 | DEF LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($6);
-                  Method_p method = new Method(nodes::Identifier::from_string("[]"), $4, body);
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $4, body);
                   $$ = new nodes::OperatorDefExpr(nodes::Identifier::from_string("[]"), method);
                 }
                 ;
 
 class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($6);
-                  Method_p method = new Method($3, $4, body);
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method($3, $4, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, $3, method);
                 }
                 | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($7);
-                  Method_p method = new Method(nodes::Identifier::from_string("[]"), $5, body);
+                  ExpressionList* body = new ExpressionList($7);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, nodes::Identifier::from_string("[]"), method);
                 }
                 ;
@@ -301,22 +303,22 @@ arg_exp:        IDENTIFIER { $$ = $1; }
                 ;
 
 try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
-                  ExpressionList_p body = new ExpressionList($3);
+                  ExpressionList* body = new ExpressionList($3);
                   $$ = new nodes::TryCatchBlock(body, $5);
                 }
                 ;
 
 catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
                 | CATCH LCURLY method_body RCURLY { 
-                  ExpressionList_p body = new ExpressionList($3);
+                  ExpressionList* body = new ExpressionList($3);
                   $$ = except_handler_node(nodes::Identifier::from_string("Exception"), nodes::Identifier::from_string(""), body, 0);
                 }
                 | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY { 
-                  ExpressionList_p body = new ExpressionList($6);
+                  ExpressionList* body = new ExpressionList($6);
                   $$ = except_handler_node($2, $4, body, 0);
                 }
                 | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList_p body = new ExpressionList($7);
+                  ExpressionList* body = new ExpressionList($7);
                   $$ = except_handler_node($3, $5, body, $1);
                 }
                 ;
@@ -386,7 +388,7 @@ int yyerror(char *s)
   exit(1);
 }
 
-nodes::key_val_node* key_val_obj(Expression_p key, Expression_p val, nodes::key_val_node *next)
+nodes::key_val_node* key_val_obj(Expression* key, Expression* val, nodes::key_val_node *next)
 {
   nodes::key_val_node *node = new nodes::key_val_node;
   node->key = key;
@@ -395,7 +397,7 @@ nodes::key_val_node* key_val_obj(Expression_p key, Expression_p val, nodes::key_
   return node;
 }
 
-expression_node* expr_node(Expression_p expr, expression_node *next)
+expression_node* expr_node(Expression* expr, expression_node *next)
 {
   expression_node *node = new expression_node;
   node->expression = expr;
@@ -404,7 +406,7 @@ expression_node* expr_node(Expression_p expr, expression_node *next)
 }
 
 
-nodes::block_arg_node* blk_arg_node(nodes::Identifier_p argname, nodes::block_arg_node *next)
+nodes::block_arg_node* blk_arg_node(nodes::Identifier* argname, nodes::block_arg_node *next)
 {
   nodes::block_arg_node *node = new nodes::block_arg_node;
   node->argname = argname;
@@ -412,7 +414,7 @@ nodes::block_arg_node* blk_arg_node(nodes::Identifier_p argname, nodes::block_ar
   return node;
 }
 
-nodes::send_arg_node* msend_arg_node(nodes::Identifier_p argname, Expression_p argexpr, nodes::send_arg_node *next)
+nodes::send_arg_node* msend_arg_node(nodes::Identifier* argname, Expression* argexpr, nodes::send_arg_node *next)
 {
   nodes::send_arg_node *node = new nodes::send_arg_node;
   node->argname = argname;
@@ -422,7 +424,7 @@ nodes::send_arg_node* msend_arg_node(nodes::Identifier_p argname, Expression_p a
 }
 
 nodes::except_handler_list* 
-except_handler_node(nodes::Identifier_p classname, nodes::Identifier_p localname, ExpressionList_p body, nodes::except_handler_list *next)
+except_handler_node(nodes::Identifier* classname, nodes::Identifier* localname, ExpressionList* body, nodes::except_handler_list *next)
 {
   nodes::except_handler_list *node = new nodes::except_handler_list;
   nodes::ExceptionHandler *handler = new nodes::ExceptionHandler(classname, localname, body);

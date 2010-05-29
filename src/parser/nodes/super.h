@@ -1,6 +1,8 @@
 #ifndef _PARSER_NODES_SUPER_H_
 #define _PARSER_NODES_SUPER_H_
 
+#include "../../expression.h"
+
 namespace fancy {
   namespace parser {
     namespace nodes {
@@ -11,7 +13,7 @@ namespace fancy {
         Super();
         virtual ~Super();
 
-        virtual FancyObject_p eval(Scope *scope);
+        virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
       };
 

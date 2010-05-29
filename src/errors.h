@@ -1,6 +1,13 @@
 #ifndef _ERRORS_H_
 #define _ERRORS_H_
 
+#include <string>
+
+#include "fancy_exception.h"
+#include "class.h"
+
+using namespace std;
+
 namespace fancy {
 
   class UnknownIdentifierError : public FancyException
@@ -15,40 +22,34 @@ namespace fancy {
     string _identifier;
   };
 
-  typedef UnknownIdentifierError* UnknownIdentifierError_p;
-
   class MethodNotFoundError : public FancyException
   {
   public:
-    MethodNotFoundError(const string &method_name, Class_p klass);
+    MethodNotFoundError(const string &method_name, Class* klass);
     ~MethodNotFoundError();
   
     string method_name() const;
-    Class_p get_class() const;
+    Class* get_class() const;
   
   private:
     string _method_name;
-    Class_p _class;
+    Class* _class;
   };
-
-  typedef MethodNotFoundError* MethodNotFoundError_p;
 
   class IOError : public FancyException
   {
   public:
     IOError(const string &message, const string &filename);
-    IOError(const string &message, const string &filename, Array_p modes);
+    IOError(const string &message, const string &filename, Array* modes);
     ~IOError();
   
     string filename() const;
-    Array_p modes() const;
+    Array* modes() const;
   
   private:
     string _filename;
-    Array_p _modes;
+    Array* _modes;
   };
-
-  typedef IOError* IOError_p;
 
 }
 

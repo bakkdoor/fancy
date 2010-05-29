@@ -1,5 +1,9 @@
 #include "includes.h"
 
+#include "../hash.h"
+#include "../array.h"
+#include "../number.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -50,16 +54,16 @@ namespace fancy {
 
     METHOD(HashClass, size)
     {
-      Hash_p hash = dynamic_cast<Hash_p>(self);
+      Hash* hash = dynamic_cast<Hash*>(self);
       return Number::from_int(hash->size());
     }
 
     METHOD(HashClass, at__put)
     {
       EXPECT_ARGS("Hash#at:put", 2);
-      Hash_p hash = dynamic_cast<Hash_p>(self);
-      FancyObject_p key = args[0];
-      FancyObject_p value = args[1];
+      Hash* hash = dynamic_cast<Hash*>(self);
+      FancyObject* key = args[0];
+      FancyObject* value = args[1];
       hash->set_value(key, value);
       return self;
     }
@@ -67,20 +71,20 @@ namespace fancy {
     METHOD(HashClass, at)
     {
       EXPECT_ARGS("Hash#at:", 1);
-      Hash_p hash = dynamic_cast<Hash_p>(self);
-      FancyObject_p key = args[0];
+      Hash* hash = dynamic_cast<Hash*>(self);
+      FancyObject* key = args[0];
       return hash->get_value(key);
     }
 
     METHOD(HashClass, keys)
     {
-      Hash_p hash = dynamic_cast<Hash_p>(self);
+      Hash* hash = dynamic_cast<Hash*>(self);
       return new Array(hash->keys());
     }
 
     METHOD(HashClass, values)
     {
-      Hash_p hash = dynamic_cast<Hash_p>(self);
+      Hash* hash = dynamic_cast<Hash*>(self);
       return new Array(hash->values());
     }
 

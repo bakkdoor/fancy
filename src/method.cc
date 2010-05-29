@@ -1,19 +1,23 @@
-#include "includes.h"
+#include <sstream>
+
+#include "method.h"
+#include "utils.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
-  Method::Method(Identifier_p op_name, Identifier_p op_argname, const ExpressionList_p body) :
+  Method::Method(Identifier* op_name, Identifier* op_argname, ExpressionList* body) :
     FancyObject(MethodClass),
     _body(body),
     _is_operator(true)
   {
-    _argnames.push_back(pair<Identifier_p, Identifier_p>(op_name, op_argname));
+    _argnames.push_back(pair<Identifier*, Identifier*>(op_name, op_argname));
     init_method_ident();
     init_docstring();
   }
 
-  Method::Method(const list< pair<Identifier_p, Identifier_p> > argnames,
-                 const ExpressionList_p body) : 
+  Method::Method(const list< pair<Identifier*, Identifier*> > argnames,
+                 ExpressionList* body) : 
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
@@ -38,18 +42,18 @@ namespace fancy {
     return _argnames.size();
   }
 
-  list< pair<Identifier_p, Identifier_p> > Method::argnames() const
+  list< pair<Identifier*, Identifier*> > Method::argnames() const
   {
     return _argnames;
   }
 
-  FancyObject_p Method::equal(const FancyObject_p other) const
+  FancyObject* Method::equal(FancyObject* other) const
   {
     // can't compare methods with anything else
     return nil;
   }
 
-  FancyObject_p Method::call(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
+  FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
   {
     // check if method is empty
     if(_body->size() == 0)
@@ -66,8 +70,8 @@ namespace fancy {
         << ")";
     } else {
       // if amount ok, set the parameters to the given arguments
-      list< pair<Identifier_p, Identifier_p> >::iterator name_it = _argnames.begin();
-      // list<FancyObject_p>::iterator arg_it = args.begin();
+      list< pair<Identifier*, Identifier*> >::iterator name_it = _argnames.begin();
+      // list<FancyObject*>::iterator arg_it = args.begin();
       int i = 0;
     
       while(name_it != _argnames.end() && i < argc) {
@@ -85,7 +89,7 @@ namespace fancy {
     return nil;
   }
 
-  FancyObject_p Method::call(FancyObject_p self, Scope *scope)
+  FancyObject* Method::call(FancyObject* self, Scope *scope)
   {
     // check if method is empty
     if(_body->size() == 0)
@@ -108,7 +112,7 @@ namespace fancy {
   void Method::init_method_ident()
   {
     stringstream str;
-    list< pair<Identifier_p, Identifier_p> >::iterator it;
+    list< pair<Identifier*, Identifier*> >::iterator it;
     for(it = _argnames.begin(); it != _argnames.end(); it++) {
       str << it->first->name();
       if(!_is_operator) {

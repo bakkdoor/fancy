@@ -1,6 +1,13 @@
 #ifndef _FILE_H_
 #define _FILE_H_
 
+#include <string>
+#include <fstream>
+
+#include "fancy_object.h"
+
+using namespace std;
+
 namespace fancy {
 
   /**
@@ -16,13 +23,13 @@ namespace fancy {
      * following Symbols: :append, :read, :write, :binary, :at_end,
      * :truncate
      */
-    File(const string &filename, Array_p modes);
+    File(const string &filename, Array* modes);
     virtual ~File();
 
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject_p equal(const FancyObject_p other) const;
+    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -36,7 +43,7 @@ namespace fancy {
      * Returns the modes Array for this File object.
      * @return The modes Array for this File object.
      */
-    Array_p modes() const;
+    Array* modes() const;
 
     /**
      * Returns a C++ ios_base::openmode object representing the Files
@@ -81,14 +88,12 @@ namespace fancy {
     bool good() const;
 
   private:
-    void init_openmode(Array_p modes);
+    void init_openmode(Array* modes);
     string _filename;
-    Array_p _modes;
+    Array* _modes;
     ios_base::openmode _openmode;
     fstream _file;
   };
-
-  typedef File* File_p;
 
 }
 

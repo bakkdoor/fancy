@@ -1,4 +1,7 @@
-#include "includes.h"
+#include <sstream>
+
+#include "number.h"
+#include "bootstrap/core_classes.h"
 
 namespace fancy {
 
@@ -16,7 +19,7 @@ namespace fancy {
   {
   }
 
-  FancyObject_p Number::equal(const FancyObject_p other) const
+  FancyObject* Number::equal(FancyObject* other) const
   {
     if(!IS_NUM(other))
       return nil;
@@ -63,8 +66,8 @@ namespace fancy {
     }
   }
 
-  Number_p* Number::int_cache;
-  Number_p Number::from_int(int value)
+  Number** Number::int_cache;
+  Number* Number::from_int(int value)
   {
     // only cache numbers up to INT_CACHE_SIZE
     if((value < 0) || (value >= INT_CACHE_SIZE)) {
@@ -74,14 +77,14 @@ namespace fancy {
     return int_cache[value];
   }
 
-  Number_p Number::from_double(double value)
+  Number* Number::from_double(double value)
   {
     return new Number(value);
   }
 
   void Number::init_cache()
   {
-    int_cache = new Number_p[INT_CACHE_SIZE];
+    int_cache = new Number*[INT_CACHE_SIZE];
     for(int i = 0; i < INT_CACHE_SIZE; i++) {
       int_cache[i] = new Number(i);
     }

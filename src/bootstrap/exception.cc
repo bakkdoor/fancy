@@ -1,5 +1,9 @@
 #include "includes.h"
 
+#include "../array.h"
+#include "../string.h"
+#include "../errors.h"
+
 namespace fancy {
   namespace bootstrap {
 
@@ -77,7 +81,7 @@ namespace fancy {
 
     METHOD(ExceptionClass, raise)
     {
-      if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
+      if(FancyException* except = dynamic_cast<FancyException*>(self)) {
         throw except;
       } else {
         cout << "DIDNT raise!" <<endl;
@@ -88,7 +92,7 @@ namespace fancy {
 
     METHOD(ExceptionClass, message)
     {
-      if(FancyException_p except = dynamic_cast<FancyException_p>(self)) {
+      if(FancyException* except = dynamic_cast<FancyException*>(self)) {
         return String::from_value(except->message());
       } else {
         errorln("Not a Exception!");
@@ -103,7 +107,7 @@ namespace fancy {
 
     METHOD(MethodNotFoundErrorClass, method_name)
     {
-      if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
+      if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
         return String::from_value(except->method_name());
       } else {
         errorln("Not a MethodNotFoundError!");
@@ -113,7 +117,7 @@ namespace fancy {
 
     METHOD(MethodNotFoundErrorClass, _class)
     {
-      if(MethodNotFoundError_p except = dynamic_cast<MethodNotFoundError_p>(self)) {
+      if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
         return except->get_class();
       } else {
         errorln("Not a MethodNotFoundError!");
@@ -127,7 +131,7 @@ namespace fancy {
 
     METHOD(IOErrorClass, filename)
     {
-      if(IOError_p except = dynamic_cast<IOError_p>(self)) {
+      if(IOError* except = dynamic_cast<IOError*>(self)) {
         return String::from_value(except->filename());
       } else {
         errorln("Not an IOError!");
@@ -137,7 +141,7 @@ namespace fancy {
 
     METHOD(IOErrorClass, modes)
     {
-      if(IOError_p except = dynamic_cast<IOError_p>(self)) {
+      if(IOError* except = dynamic_cast<IOError*>(self)) {
         return except->modes();
       } else {
         errorln("Not an IOError!");
