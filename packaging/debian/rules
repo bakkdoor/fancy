@@ -36,7 +36,6 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	$(MAKE) all
-	$(MAKE) test
 	touch $@
 
 clean::
