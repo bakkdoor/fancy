@@ -1,0 +1,45 @@
+--- fancy-0.1.0.orig/lib/boot.fnc
++++ fancy-0.1.0/lib/boot.fnc
+@@ -7,25 +7,25 @@
+ # In general, it's best to add any autoload-files at the end of the
+ # current list (if adding them here is really necessary at all).
+ 
+-require: "object.fnc";
+-require: "class.fnc";
+-require: "true_class.fnc";
+-require: "nil_class.fnc";
+-require: "number.fnc";
+-require: "enumerable.fnc";
+-require: "string.fnc";
+-require: "array.fnc";
+-require: "block.fnc";
+-require: "file.fnc";
+-require: "directory.fnc";
+-require: "fancy_spec.fnc";
+-require: "console.fnc";
+-require: "hash.fnc";
+-require: "set.fnc";
+-require: "symbol.fnc";
++require: "/usr/lib/fancy/object.fnc";
++require: "/usr/lib/fancy/class.fnc";
++require: "/usr/lib/fancy/true_class.fnc";
++require: "/usr/lib/fancy/nil_class.fnc";
++require: "/usr/lib/fancy/number.fnc";
++require: "/usr/lib/fancy/enumerable.fnc";
++require: "/usr/lib/fancy/string.fnc";
++require: "/usr/lib/fancy/array.fnc";
++require: "/usr/lib/fancy/block.fnc";
++require: "/usr/lib/fancy/file.fnc";
++require: "/usr/lib/fancy/directory.fnc";
++require: "/usr/lib/fancy/fancy_spec.fnc";
++require: "/usr/lib/fancy/console.fnc";
++require: "/usr/lib/fancy/hash.fnc";
++require: "/usr/lib/fancy/set.fnc";
++require: "/usr/lib/fancy/symbol.fnc";
+ 
+ # version.fnc holds fancy's version number
+-require: "version.fnc";
++require: "/usr/lib/fancy/version.fnc";
+ 
+ 
+ # handle ARGV special cases
