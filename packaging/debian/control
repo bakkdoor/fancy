@@ -2,7 +2,7 @@ Source: fancy
 Section: interpreters
 Priority: extra
 Maintainer: Christopher Bertels <chris@fancy-lang.org>
-Build-Depends: debhelper (>= 7), bison (>= 2.4), flex, make, g++
+Build-Depends: debhelper (>= 7), cdbs, bison (>= 2.4), flex, make, g++
 Standards-Version: 3.8.3
 Homepage: http://www.fancy-lang.org
 

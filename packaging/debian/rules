@@ -56,7 +56,7 @@ install: build
 #	copy binary & lib/ files over into installation directories
 	mkdir -p $(BINDIR)
 	mkdir -p $(LIBDIR)
-	cp -r $(CURDIR)/lib/* $(LIBDIR)/
+	cp -r $(CURDIR)/lib/*.fnc $(LIBDIR)/
 	cp $(CURDIR)/bin/fancy $(BINDIR)
 
 
