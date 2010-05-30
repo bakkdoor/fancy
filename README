@@ -42,6 +42,10 @@ For example, to build on Ubuntu Linux, run:
   $ sudo apt-get install g++ make bison flex
   $ make && make test
 
+I've successfully built Fancy on Debian & Ubuntu, OpenSuSE and Mac OS
+X 10.5. Given the tools & libraries mentioned above, it _should_ build
+on most Unix compatible platforms. If you find a system it doesn't
+compile on, let me know.
 
 ----------------------------
 Some technical information:
