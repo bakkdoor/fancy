@@ -13,7 +13,7 @@ def class Hash {
     "Calls a given Block with each key and value.";
 
     self keys each: |key| {
-      block call: [key, self[key]]
+      block call: [key, self at: key]
     }
   }
 
