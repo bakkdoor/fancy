@@ -37,11 +37,6 @@ namespace fancy {
                  each);
 
       DEF_METHOD(ArrayClass,
-                 "each_with_index:",
-                 "Iterate over all elements in Array. Calls a given Block with each element and its index.",
-                 each_with_index);
-
-      DEF_METHOD(ArrayClass,
                  "<<",
                  "Insert a value into Array.",
                  insert);
@@ -130,27 +125,6 @@ If given an Array of indices, removes all the elements with these indices.",
         return retval;
       } else { 
         errorln("Array#each: expects Block argument");
-        return nil;
-      }
-    }
-
-    METHOD(ArrayClass, each_with_index)
-    {
-      EXPECT_ARGS("Array#each_with_index:", 1);
-      if(IS_BLOCK(args[0])) {
-        Array* array = dynamic_cast<Array*>(self);
-        Block* block = dynamic_cast<Block*>(args[0]);
-        FancyObject* retval = nil;
-        array->eval(scope);
-        int size = array->size();
-        // TODO: fix this to start from and increment ...
-        for(int i = 0; i < size; i++) {
-          FancyObject* block_args[2] = { array->at(i), Number::from_int(i) };
-          retval = block->call(self, block_args, 2, scope);
-        }
-        return retval;
-      } else { 
-        errorln("Array#each_with_index: expects Block argument");
         return nil;
       }
     }
