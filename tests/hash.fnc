@@ -50,5 +50,30 @@ FancySpec describe: Hash with: |it| {
     hash[:foo] should_equal: "bar";
     hash[:bar] should_equal: "baz";
     hash[:foobar] should_equal: 112.21
+  };
+
+  it should: "call the Block for each key and value" when: {
+    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    hash each: |key val| {
+      val should_equal: $ hash[key]
+    }
+  };
+
+  it should: "call the Block with each key" when: {
+    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    count = 0;
+    hash each_key: |key| {
+      key should_equal: $ hash keys[count];
+      count = count + 1
+    }
+  };
+
+  it should: "call the Block with each value" when: {
+    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    count = 0;
+    hash each_value: |val| {
+      val should_equal: $ hash values[count];
+      count = count + 1
+    }
   }
 }
