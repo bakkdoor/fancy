@@ -286,9 +286,4 @@ def class Array {
       x println
     }
   }
-
-  def empty? {
-    "Indicates, if the Array is empty (has no elements).";
-    self size == 0
-  }
 }

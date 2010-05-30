@@ -19,12 +19,6 @@ def class String {
     self + (other to_s)
   }
 
-  def empty? {
-    "Indicates, if a String is empty (it's size == 0)";
-
-    self size == 0
-  }
-
   def whitespace? {
     "Indicates, if a String is empty or a single whitespace character.";
 

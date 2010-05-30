@@ -157,6 +157,11 @@ def class Enumerable {
     i
   }
 
+  def empty? {
+    "Indicates, if the Enumerable is empty (has no elements).";
+    self size == 0
+  }
+
   def last {
     "Returns the last element in an Enumerable.";
 
