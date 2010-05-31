@@ -60,7 +60,7 @@ def class Enumerable {
     };
     found
   }
-  
+
   def map: block {
     "Returns a new Array with the results of calling a given block for every element";
 
@@ -69,8 +69,8 @@ def class Enumerable {
       coll << (block call: [x])
     };
     coll
-  };
-  
+  }
+
   def select: condition {
     "Returns a new Array with all elements that meet the given condition block.";
 
@@ -79,8 +79,8 @@ def class Enumerable {
       { coll << x } if: $ condition call: [x]
     };
     coll
-  };
-  
+  }
+
   def reject: condition {
     "Returns a new Array with all elements that don't meet the given condition block.";
 
