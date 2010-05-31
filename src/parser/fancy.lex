@@ -31,7 +31,7 @@ catch           "catch"
 super           "super"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
-regexp_lit      "/"[^\/]*"/"
+regexp_lit      "r{".*"}"
 comma           ,
 semi            ;
 equals          =
@@ -91,7 +91,7 @@ comment         #[^\n]*
                 }
 {regexp_lit}    {
                   string str(yytext);
-                  yylval.object = new Regexp(str.substr(1, str.length() - 2));
+                  yylval.object = new Regexp(str.substr(2, str.length() - 3));
                   return REGEXP_LITERAL;
                 }
 {comma}         { return COMMA; }

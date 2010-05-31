@@ -29,7 +29,7 @@ namespace fancy {
 
   string Regexp::to_s() const
   {
-    return "/" + _pattern + "/";
+    return "r{" + _pattern + "}";
   }
 
   string Regexp::pattern() const
