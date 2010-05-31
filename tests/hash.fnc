@@ -75,5 +75,18 @@ FancySpec describe: Hash with: |it| {
       val should_equal: $ hash values[count];
       count = count + 1
     }
+  };
+
+  it should: "call most Enumerable methods with each pair" when: {
+    hash = <[:hello => "world", :fancy => "is cool"]>;
+
+    hash map: |pair| { pair[0] }
+      . should_be: |arr| { arr === [:hello, :fancy] }; # order does not matter
+
+    hash select: |pair| { pair[1] to_s include?: "c" }
+      . should_equal: [[:fancy, "is cool"]];
+
+    hash reject: |pair| { pair[0] to_s include?: "l" }
+      . map: :second . should_equal: ["is cool"]
   }
 }

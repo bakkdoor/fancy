@@ -12,8 +12,14 @@ def class Hash {
   def each: block {
     "Calls a given Block with each key and value.";
 
-    self keys each: |key| {
-      block call: [key, self at: key]
+    (block argcount == 1) if_true: {
+      self keys each: |key| {
+        block call: [[key, self at: key]]
+      }
+    } else: {
+      self keys each: |key| {
+        block call: [key, self at: key]
+      }
     }
   }
 
