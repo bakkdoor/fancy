@@ -2,6 +2,7 @@
 
 #include "../number.h"
 #include "../block.h"
+#include "../errors.h"
 
 
 namespace fancy {
@@ -134,8 +135,12 @@ namespace fancy {
       if(IS_NUM(arg)) {
         Number* num1 = dynamic_cast<Number*>(self);
         Number* num2 = dynamic_cast<Number*>(arg);
-        // always return double number for division
-        return Number::from_double(num1->doubleval() / num2->doubleval());
+        if(num2->intval() == 0) {
+          throw new DivisionByZeroError();
+        } else {
+          // always return double number for division
+          return Number::from_double(num1->doubleval() / num2->doubleval());
+        }
       } else {
         return Number::from_int(0);
       }

@@ -6,32 +6,33 @@
 namespace fancy {
 
   extern Class *ClassClass;
-  extern Class *ObjectClass;
-  extern Class *NilClass;
-  extern Class *TrueClass;
-  extern Class *StringClass;
-  extern Class *SymbolClass;
-  extern Class *NumberClass;
-  extern Class *RegexpClass;
-  extern Class *ArrayClass;
-  extern Class *HashClass;
-  extern Class *MethodClass;
-  extern Class *MethodCallClass;
-  extern Class *BlockClass;
-  extern Class *FileClass;
-  extern Class *DirectoryClass;
-  extern Class *ConsoleClass;
-  extern Class *ScopeClass;
+  extern Class* ObjectClass;
+  extern Class* NilClass;
+  extern Class* TrueClass;
+  extern Class* StringClass;
+  extern Class* SymbolClass;
+  extern Class* NumberClass;
+  extern Class* RegexpClass;
+  extern Class* ArrayClass;
+  extern Class* HashClass;
+  extern Class* MethodClass;
+  extern Class* MethodCallClass;
+  extern Class* BlockClass;
+  extern Class* FileClass;
+  extern Class* DirectoryClass;
+  extern Class* ConsoleClass;
+  extern Class* ScopeClass;
 
-  extern Class *ExceptionClass;
-  extern Class *UnknownIdentifierErrorClass;
-  extern Class *MethodNotFoundErrorClass;
-  extern Class *IOErrorClass;
+  extern Class* ExceptionClass;
+  extern Class* UnknownIdentifierErrorClass;
+  extern Class* MethodNotFoundErrorClass;
+  extern Class* IOErrorClass;
+  extern Class* DivisionByZeroErrorClass;
 
-  extern Class *SystemClass;
+  extern Class* SystemClass;
 
-  extern FancyObject *nil;
-  extern FancyObject *t;
+  extern FancyObject* nil;
+  extern FancyObject* t;
 
   namespace bootstrap {
 

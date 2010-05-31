@@ -23,6 +23,15 @@ FancySpec describe: Number with: |it| {
     n1 / n2 should_equal: 2
   };
 
+  it should: "raise an exception when dividing by zero" when: {
+    try {
+      10 / 0;
+      "This should not happen!" should_equal: nil
+    } catch DivisionByZeroError => err {
+      err message should_equal: "Division by zero!"
+    }
+  };
+
   it should: "calculate the correct modulo value" when: {
     9 % 4 should_equal: 1;
     10 modulo: 2 . should_equal: 0

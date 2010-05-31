@@ -72,4 +72,15 @@ namespace fancy {
     return _modes;
   }
 
+  // DivisionByZeroError
+
+  DivisionByZeroError::DivisionByZeroError() :
+    FancyException("Division by zero!", DivisionByZeroErrorClass)
+  {
+  }
+
+  DivisionByZeroError::~DivisionByZeroError()
+  {
+  }
+
 }

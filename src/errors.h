@@ -51,6 +51,12 @@ namespace fancy {
     Array* _modes;
   };
 
+  class DivisionByZeroError : public FancyException
+  {
+  public:
+    DivisionByZeroError();
+    ~DivisionByZeroError();
+  };
 }
 
 #endif /* _ERRORS_H_ */
