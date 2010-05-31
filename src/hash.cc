@@ -19,29 +19,17 @@ namespace fancy {
   {
   }
 
-  FancyObject* Hash::operator[](FancyObject* key) const
-  {
-    map<FancyObject*, FancyObject*>::const_iterator citer = _mappings.find(key);
-  
-    if (citer == _mappings.end()) {
-      // throw UnknownIdentifierError("Unknown key object!");
-      return 0;
-    }
-  
-    return (*citer).second;
-  }
-
   FancyObject* Hash::set_value(FancyObject* key, FancyObject* value)
   {
     _mappings[key] = value;
     return value;
   }
 
-  FancyObject* Hash::get_value(FancyObject* key)
+  FancyObject* Hash::get_value(FancyObject* key) const
   {
-    map<FancyObject*, FancyObject*>::iterator it = _mappings.find(key);
+    map<FancyObject*, FancyObject*>::const_iterator it = _mappings.find(key);
     if(it != _mappings.end()) {
-      return (*this)[key];
+      return (*it).second;
     } else {
       return nil;
     }
@@ -110,7 +98,7 @@ namespace fancy {
     for(map<FancyObject*, FancyObject*>::const_iterator iter = _mappings.begin(); 
         iter != _mappings.end(); 
         iter++) {
-      if(iter->first->equal(other[iter->first]) == nil) {
+      if(iter->first->equal(other.get_value(iter->first)) == nil) {
         return false;
       }
     }

@@ -33,8 +33,7 @@ namespace fancy {
      * @param key The FancyObject used as the key for an entry in the Hash.
      * @return The value for the given key, or nil if key not in Hash.
      */
-    FancyObject* operator[](FancyObject* key) const;
-    FancyObject* get_value(FancyObject* key);
+    FancyObject* get_value(FancyObject* key) const;
 
     /**
      * Sets the value for a given key in the Hash.
