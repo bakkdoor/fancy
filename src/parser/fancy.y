@@ -71,6 +71,7 @@
 %token                  REQUIRE
 %token                  TRY
 %token                  CATCH
+%token                  FINALLY
 %token                  SUPER
 %token                  DEFCLASS
 %token                  DEF
@@ -126,6 +127,7 @@
 
 %type  <expression>         try_catch_block
 %type  <except_handler_list> catch_blocks
+%type  <expr_list>          finally_block
 
 %%
 
@@ -306,6 +308,11 @@ try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                   ExpressionList* body = new ExpressionList($3);
                   $$ = new nodes::TryCatchBlock(body, $5);
                 }
+                | TRY LCURLY method_body RCURLY catch_blocks finally_block {
+                  ExpressionList* body = new ExpressionList($3);
+                  ExpressionList* finally = new ExpressionList($6);
+                  $$ = new nodes::TryCatchBlock(body, $5, finally);
+                }
                 ;
 
 catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
@@ -320,6 +327,11 @@ catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
                 | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList* body = new ExpressionList($7);
                   $$ = except_handler_node($3, $5, body, $1);
+                }
+                ;
+
+finally_block:  FINALLY LCURLY method_body RCURLY {
+                  $$ = $3;
                 }
                 ;
 

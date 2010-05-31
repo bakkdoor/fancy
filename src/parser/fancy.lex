@@ -28,6 +28,7 @@ return          "return:"
 require         "require:"
 try             "try"
 catch           "catch"
+finally         "finally"
 super           "super"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
@@ -78,6 +79,7 @@ comment         #[^\n]*
 {require}       { return REQUIRE; }
 {try}           { return TRY; }
 {catch}         { return CATCH; }
+{finally}       { return FINALLY; }
 {super}         { return SUPER; }
 {identifier}    { 
                   string str(yytext);

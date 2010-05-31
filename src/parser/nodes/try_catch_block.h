@@ -37,16 +37,20 @@ namespace fancy {
       class TryCatchBlock : public Expression
       {
       public:
-        TryCatchBlock(ExpressionList* body, except_handler_list *except_handlers);
+        TryCatchBlock(ExpressionList* body, except_handler_list* except_handlers);
+        TryCatchBlock(ExpressionList* body, except_handler_list* except_handlers, ExpressionList* finally_block);
         TryCatchBlock(ExpressionList* body, list<ExceptionHandler*> except_handlers);
+        TryCatchBlock(ExpressionList* body, list<ExceptionHandler*> except_handlers, ExpressionList* finally_block);
         virtual ~TryCatchBlock();
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
 
       private:
+        void init_except_handlers(except_handler_list* except_handlers);
         ExpressionList* _body;
         list<ExceptionHandler*> _except_handlers;
+        ExpressionList* _finally_block;
       };
 
     }

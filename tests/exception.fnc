@@ -46,6 +46,18 @@ FancySpec describe: Exception with: |it| {
     } catch MethodNotFoundError => err {
       var should_equal: 1234
     }
+  };
+
+  it should: "always evaluate the finally clause" when: {
+    try {
+      x = 10 / 0; # ouch!
+      "This should fail!" should_equal: true # should not get here!
+    } catch DivisionByZeroError => err {
+      err message should_equal: "Division by zero!"
+    } finally {
+      # this part gets always run :)
+      "It works!" should_equal: "It works!"
+    }
   }
   
 }

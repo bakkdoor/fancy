@@ -41,18 +41,36 @@ namespace fancy {
       // TryCatchBlock
 
       TryCatchBlock::TryCatchBlock(ExpressionList* body,
-                                     except_handler_list *except_handlers) :
-        _body(body)
+                                   except_handler_list* except_handlers) :
+        _body(body),
+        _finally_block(NULL)
       {
-        for(except_handler_list *tmp = except_handlers; tmp != NULL; tmp = tmp->next) {
-          _except_handlers.push_front(tmp->handler);
-        }
+        init_except_handlers(except_handlers);
       }
 
       TryCatchBlock::TryCatchBlock(ExpressionList* body,
-                                     list<ExceptionHandler*> except_handlers) :
+                                   except_handler_list* except_handlers,
+                                   ExpressionList* finally_block) :
         _body(body),
-        _except_handlers(except_handlers)
+        _finally_block(finally_block)
+      {
+        init_except_handlers(except_handlers);
+      }
+
+      TryCatchBlock::TryCatchBlock(ExpressionList* body,
+                                   list<ExceptionHandler*> except_handlers) :
+        _body(body),
+        _except_handlers(except_handlers),
+        _finally_block(NULL)
+      {
+      }
+
+      TryCatchBlock::TryCatchBlock(ExpressionList* body,
+                                   list<ExceptionHandler*> except_handlers,
+                                   ExpressionList* finally_block) :
+        _body(body),
+        _except_handlers(except_handlers),
+        _finally_block(finally_block)
       {
       }
 
@@ -67,20 +85,50 @@ namespace fancy {
 
       FancyObject* TryCatchBlock::eval(Scope *scope)
       {
+        // OK, I admit this code looks kinda ugly. But it's pretty
+        // simple actually:
+        // Try to simply eval the body.
+        // If there's a finally block defined, run it afterwars, then
+        // return its last value.
+        // If the body evaluation raises an exception:
+        // -> check for an exception handler.
+        // Again, always make sure that a finally block gets run, if
+        // defined.
+
         try {
-          return _body->eval(scope);
+          if(!_finally_block) {
+            return _body->eval(scope);
+          } else {
+            _body->eval(scope);
+            return _finally_block->eval(scope);
+          }
         } catch(FancyException* ex) {
           for(list<ExceptionHandler*>::iterator it = _except_handlers.begin();
               it != _except_handlers.end();
               it++) {
             if((*it)->can_handle(ex->exception_class(), scope)) {
-              return (*it)->handle(ex, scope);
+              FancyObject* retval = (*it)->handle(ex, scope);
+              // eval finally block if any given
+              if(_finally_block) {
+                retval = _finally_block->eval(scope);
+              }
+              return retval;
             }
+          }
+          // always eval finally block!
+          if(_finally_block) {
+            _finally_block->eval(scope);
           }
           throw ex; // no handler defined
         }
       }
       
+      void TryCatchBlock::init_except_handlers(except_handler_list* except_handlers)
+      {
+        for(except_handler_list *tmp = except_handlers; tmp != NULL; tmp = tmp->next) {
+          _except_handlers.push_front(tmp->handler);
+        }
+      }
     }
   }
 }
