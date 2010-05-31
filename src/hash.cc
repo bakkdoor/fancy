@@ -39,7 +39,12 @@ namespace fancy {
 
   FancyObject* Hash::get_value(FancyObject* key)
   {
-    return (*this)[key];
+    map<FancyObject*, FancyObject*>::iterator it = _mappings.find(key);
+    if(it != _mappings.end()) {
+      return (*this)[key];
+    } else {
+      return nil;
+    }
   }
 
   FancyObject* Hash::equal(FancyObject* other) const
