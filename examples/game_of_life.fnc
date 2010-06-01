@@ -37,17 +37,17 @@ def class World {
   def simulate: amount_generations {
     "Simulate the World for a given amount of iterations (generations).";
 
-    amount_generations times: {
+    self display: 0;
+    amount_generations times: |i| {
       System sleep: 500; # sleep 500 ms
       self simulate;
-      self display
+      self display: (i + 1)
     }
   }
 
   def display {
     "Display the World (print on Screen).";
 
-    Console clear;
     @matrix each: |row| {
       row each: |entry| {
         (entry == 0) if_true: {
@@ -58,6 +58,14 @@ def class World {
       };
       "" println
     }
+  }
+
+  def display: iteration {
+    "Display the World (print on Screen) with the current iteration count.";
+
+    Console clear;
+    "Generation: " ++ iteration println;
+    self display
   }
 
   def was_alive?: pos {
@@ -136,5 +144,4 @@ PULSAR = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 w = World new;
 w matrix: PULSAR;
 
-w display;
 w simulate: 20
