@@ -57,6 +57,11 @@ namespace fancy {
                  at);
 
       DEF_METHOD(ArrayClass,
+                 "at:put:",
+                 "Sets the value for a given index.",
+                 at__put);
+
+      DEF_METHOD(ArrayClass,
                  "append:",
                  "Appends another Array onto this one.",
                  append);
@@ -160,6 +165,19 @@ If given an Array of indices, removes all the elements with these indices.",
         return array->at(index->intval());
       } else {
         errorln("Array#at: expects Integer value.");
+        return nil;
+      }
+    }
+
+    METHOD(ArrayClass, at__put)
+    {
+      EXPECT_ARGS("Array#at:put:", 2);
+      Array* array = dynamic_cast<Array*>(self);
+      if(Number* index = dynamic_cast<Number*>(args[0])) {
+        array->set_value(index->intval(), args[1]);
+        return args[1];
+      } else {
+        errorln("Array#at:put: expects index (Number) and value.");
         return nil;
       }
     }
