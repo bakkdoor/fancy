@@ -32,6 +32,25 @@ FancySpec describe: Object with: |it| {
     };
 
     obj = UnkownMessage new;
-    obj this_is_not_defined: "It's true!" . should_equal: "Got: this_is_not_defined: [It's true!]"
+    obj this_is_not_defined: "It's true!" . should_equal: "Got: this_is_not_defined: It's true!"
+  };
+
+  it should: "return a correct string representation" when: {
+    3 to_s should_equal: "3";
+    :foo to_s should_equal: "foo";
+    nil to_s should_equal: ""
+  };
+
+  it should: "return a correct array representation" when: {
+    nil to_a should_equal: [];
+    :foo to_a should_equal: [:foo];
+    <[:foo => "bar", :bar => "baz"]> to_a should_equal: [[:bar, "baz"], [:foo, "bar"]]
+  };
+
+  it should: "return a correct number representation" when: {
+    nil to_num should_equal: 0;
+    :foo to_num should_equal: 0;
+    3 to_num should_equal: 3;
+    3.28437 to_num should_equal: 3.28437
   }
 }

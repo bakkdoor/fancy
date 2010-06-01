@@ -38,4 +38,12 @@ def class Hash {
       block call: val
     }
   }
+
+  def to_a {
+    self map: |pair| { pair }
+  }
+
+  def to_s {
+    self to_a to_s
+  }
 }

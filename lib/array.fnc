@@ -294,4 +294,9 @@ def class Array {
       x println
     }
   }
+
+  def to_s {
+    str = "";
+    self reduce: |x y| { x ++ y } with: str
+  }
 }

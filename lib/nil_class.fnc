@@ -41,4 +41,12 @@ def class NilClass {
     "Returns nil.";
     nil
   }
+
+  def to_s {
+    ""
+  }
+
+  def to_a {
+    []
+  }
 }

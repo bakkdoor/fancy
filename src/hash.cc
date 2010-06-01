@@ -54,7 +54,7 @@ namespace fancy {
   string Hash::to_s() const
   {
     stringstream s;
-    s << "{ ";
+    s << "<[ ";
 
     for(map<FancyObject*, FancyObject*>::const_iterator iter = _mappings.begin(); iter != _mappings.end(); iter++) {
       s << iter->first->to_s();
@@ -63,7 +63,7 @@ namespace fancy {
       s << " ";
     }
 
-    s << "}";
+    s << "]>";
     return s.str();
   }
 

@@ -78,4 +78,12 @@ def class Object {
       self
     }
   }
+  
+  def to_num {
+    0
+  }
+
+  def to_a {
+    [self]
+  }
 }

@@ -88,6 +88,10 @@ def class Number {
     };
     val
   }
+
+  def to_num {
+    self
+  }
 };
 
 def class Enumerable {
