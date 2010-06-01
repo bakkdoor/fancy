@@ -17,6 +17,11 @@ namespace fancy {
                       "readln",
                       "Reads a line from STDIN and returns it as a String.",
                       readln);
+
+      DEF_CLASSMETHOD(ConsoleClass,
+                      "clear",
+                      "Clears the console.",
+                      clear);
     }
 
 
@@ -36,6 +41,12 @@ namespace fancy {
       string input;
       getline(cin, input);
       return FancyString::from_value(input);
+    }
+
+    CLASSMETHOD(ConsoleClass, clear)
+    {
+      cout << "\e[H\e[2J";
+      return nil;
     }
 
   }
