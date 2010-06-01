@@ -54,7 +54,7 @@ def class Object {
     self nil? if_true: {
       nil
     } else: {
-      block call: self
+      block call: [self]
     }
   }
 
@@ -65,7 +65,7 @@ def class Object {
     self nil? if_true: {
       else_block call
     } else: {
-      then_block call: self
+      then_block call: [self]
     }
   }
 
