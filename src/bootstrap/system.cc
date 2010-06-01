@@ -2,6 +2,8 @@
 
 #include "../array.h"
 #include "../string.h"
+#include "../number.h"
+#include <unistd.h>
 
 namespace fancy {
   namespace bootstrap {
@@ -22,6 +24,11 @@ namespace fancy {
                       "pipe:",
                       "Runs the given string as a popen() call and returns the output of the call as a string.",
                       pipe);
+
+      DEF_CLASSMETHOD(SystemClass,
+                      "sleep:",
+                      "Sets the Fancy process for a given amount of milliseconds to sleep.",
+                      sleep);
     }
 
     CLASSMETHOD(SystemClass, exit)
@@ -55,6 +62,18 @@ namespace fancy {
         }
       }
       return new Array(lines);
+    }
+
+    CLASSMETHOD(SystemClass, sleep)
+    {
+      EXPECT_ARGS("System##sleep:", 1);
+      if(Number* seconds = dynamic_cast<Number*>(args[0])) {
+        usleep(seconds->doubleval() * 1000);
+        return nil;
+      } else {
+        errorln("System##sleep: expects a Number value!");
+        return nil;
+      }
     }
 
   }
