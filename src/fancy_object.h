@@ -146,12 +146,25 @@ namespace fancy {
      * @return Array with all methods of the FancyObject.
      */
     Array* methods() const;
+
+    /**
+     * Returns the metadata Hash attached to this object.
+     * @return The metadata Hash attached to this object.
+     */
+    FancyObject* metadata() const;
+
+    /**
+     * Sets the metadata for this object.
+     * @param metadata The metadata for this object.
+     */
+    void set_metadata(FancyObject* metadata);
   protected:
     void init_slots();
     Class *_class;
     map<string, FancyObject*> _slots;
     map<string, Callable*> _singleton_methods;
     string _docstring;
+    FancyObject* _metadata;
   };
 
 }

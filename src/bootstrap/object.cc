@@ -112,6 +112,16 @@ and passing them on to the initialize: method of the class.",
                  "methods",
                  "Returns all methods of an object in an Array.",
                  methods);
+
+      DEF_METHOD(ObjectClass,
+                 "%M",
+                 "Returns the metadata attached to this object.",
+                 metadata);
+
+      DEF_METHOD(ObjectClass,
+                 "%M:",
+                 "Sets the metadata for this object.",
+                 set_metadata);
     }
 
     /**
@@ -300,5 +310,18 @@ and passing them on to the initialize: method of the class.",
     {
       return self->methods();
     }
+
+    METHOD(ObjectClass, metadata)
+    {
+      return self->metadata();
+    }
+
+    METHOD(ObjectClass, set_metadata)
+    {
+      EXPECT_ARGS("Object#%M:", 1);
+      self->set_metadata(args[0]);
+      return self;
+    }
+
   }
 }

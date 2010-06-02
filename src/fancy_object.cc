@@ -15,7 +15,8 @@
 namespace fancy {
 
   FancyObject::FancyObject(Class* _class) :
-    _class(_class)
+    _class(_class),
+    _metadata(nil)
   {
     init_slots();
   }
@@ -206,5 +207,19 @@ namespace fancy {
     vector<FancyObject*> class_instance_methods = _class->instance_methods()->values();
     methods.insert(methods.end(), class_instance_methods.begin(), class_instance_methods.end());
     return new Array(methods);
+  }
+
+  FancyObject* FancyObject::metadata() const
+  {
+    return _metadata;
+  }
+  
+  void FancyObject::set_metadata(FancyObject* metadata)
+  {
+    if(metadata) {
+      _metadata = metadata;
+    } else {
+      errorln("Invalid metadata given!");
+    }
   }
 }
