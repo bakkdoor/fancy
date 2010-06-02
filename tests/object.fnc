@@ -52,5 +52,16 @@ FancySpec describe: Object with: |it| {
     :foo to_num should_equal: 0;
     3 to_num should_equal: 3;
     3.28437 to_num should_equal: 3.28437
+  };
+
+  it should: "have no metadata initially" when: {
+    o = Object new;
+    o %M should_equal: nil
+  };
+
+  it should: "set the metadata correctly" when: {
+    o = Object new;
+    o %M: "foobar";
+    o %M should_equal: "foobar"
   }
 }
