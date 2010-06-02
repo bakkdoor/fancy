@@ -83,6 +83,11 @@ Raises an IOError if any File to be deleted does not exist.",
                  "readln",
                  "Reads a line from the File and returns it as a String.",
                  readln);
+
+      DEF_METHOD(FileClass,
+                 "filename",
+                 "Returns the name of the File.",
+                 filename);
     }
 
 
@@ -282,6 +287,17 @@ Raises an IOError if any File to be deleted does not exist.",
         return FancyString::from_value(line);
       }
       return nil;
+    }
+
+    METHOD(FileClass, filename)
+    {
+      File* file = dynamic_cast<File*>(self);
+      if(file) {
+        return FancyString::from_value(file->filename());
+      } else {
+        errorln("Invalid File!");
+        return nil;
+      }
     }
 
   }

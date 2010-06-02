@@ -1,11 +1,5 @@
 Here's a list of ideas for features in Fancy:
 
-- Metadata attachable to each object (similar to how it's done in Clojure)
-  -> Fancy has docstrings, which also can be attached to each single
-     object in the language.
-     Metadata would allow the programmer to attach _any_ data to each
-     object in the language.
-
 - Some form of multiple dispatch?
   -> Need to come up with a good syntactical & semantical way of
      expressing that.
