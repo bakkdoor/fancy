@@ -12,8 +12,8 @@ def class World {
     # each position (e.g. [-1,-1] points to the upper left neighbor of
     # each cell)
     @offsets = [[-1, -1], [-1, 0], [-1, 1],
-                [0, -1], [0, 0], [0, 1],
-                [1, -1], [1, 0], [1, 1]]
+                [0, -1],           [0, 1],
+                [1, -1],  [1, 0],  [1, 1]]
   }
   
   def initialize: size {
