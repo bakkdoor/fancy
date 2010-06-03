@@ -162,6 +162,10 @@ def class Enumerable {
     self size == 0
   }
 
+  def first {
+    self at: 0
+  }
+  
   def last {
     "Returns the last element in an Enumerable.";
 
@@ -177,6 +181,28 @@ def class Enumerable {
 
     self reject: |x| { x nil? }
   }
-  
-  # alias: <[:map => :collect, :select => :filter]>
+
+  def max {
+    "Returns the maximum value in the Enumerable (via the '<' comparison message).";
+
+    retval = self first;
+    self each: |x| {
+      (retval < x) if_true: {
+        retval = x
+      }
+    };
+    retval
+  }
+
+  def min {
+    "Returns the maximum value in the Enumerable (via the '>' comparison message).";
+
+    retval = self first;
+    self each: |x| {
+      (retval > x) if_true: {
+        retval = x
+      }
+    };
+    retval    
+  }
 }

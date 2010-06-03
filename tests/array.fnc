@@ -224,5 +224,15 @@ FancySpec describe: Array with: |it| {
     arr = [:foo, :bar, 1, 2, :baz, "hello"];
     arr select!: |x| { x is_a?: Number };
     arr should_equal: [1, 2]
+  };
+
+  it should: "print the maximum value in the list" when: {
+    [1,2,3,4] max should_equal: 4;
+    [1,5,-3,2,6,-4,-2] max should_equal: 6
+  };
+
+  it should: "print the minimum value in the list" when: {
+    [1,2,3,4] min should_equal: 1;
+    [1,5,-3,2,6,-4,-2] min should_equal: -4
   }
 }
