@@ -182,27 +182,25 @@ def class Enumerable {
     self reject: |x| { x nil? }
   }
 
-  def max {
-    "Returns the maximum value in the Enumerable (via the '<' comparison message).";
+  def superior_by: comparison_block {
+    "Returns the superiour element in the Enumerable that has met the given comparison block with all other elements.";
 
     retval = self first;
     self each: |x| {
-      (retval < x) if_true: {
+      (comparison_block call: [retval, x]) if_true: {
         retval = x
       }
     };
     retval
   }
+  
+  def max {
+    "Returns the maximum value in the Enumerable (via the '<' comparison message).";
+    self superior_by: :<
+  }
 
   def min {
     "Returns the maximum value in the Enumerable (via the '>' comparison message).";
-
-    retval = self first;
-    self each: |x| {
-      (retval > x) if_true: {
-        retval = x
-      }
-    };
-    retval    
+    self superior_by: :>
   }
 }
