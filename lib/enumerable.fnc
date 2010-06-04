@@ -187,7 +187,7 @@ def class Enumerable {
 
     retval = self first;
     self each: |x| {
-      (comparison_block call: [retval, x]) if_true: {
+      (comparison_block call: [x, retval]) if_true: {
         retval = x
       }
     };
@@ -195,12 +195,12 @@ def class Enumerable {
   }
   
   def max {
-    "Returns the maximum value in the Enumerable (via the '<' comparison message).";
-    self superior_by: :<
+    "Returns the maximum value in the Enumerable (via the '>' comparison message).";
+    self superior_by: :>
   }
 
   def min {
-    "Returns the maximum value in the Enumerable (via the '>' comparison message).";
-    self superior_by: :>
+    "Returns the minimum value in the Enumerable (via the '<' comparison message).";
+    self superior_by: :<
   }
 }
