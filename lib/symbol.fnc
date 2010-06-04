@@ -4,7 +4,7 @@ def class Symbol {
       Example: [1, 2, 3] map: :squared # => [1, 4, 9]"";
 
     arg is_a?: Array . if_true: {
-      arg each: |a| { a send: self }
+      arg first send: self params: (arg[[1,-1]])
     } else: {
       arg send: self
     }

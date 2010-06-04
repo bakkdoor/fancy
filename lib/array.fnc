@@ -138,6 +138,13 @@ def class Array {
 
     arr = [];
     size = self size;
+    # deal with negative indices
+    (start_idx < 0) if_true: {
+      start_idx = (self size) + start_idx
+    };    
+    (end_idx < 0) if_true: {
+      end_idx = (self size) + end_idx
+    };    
     (start_idx >= 0 and: $ start_idx <= end_idx) if_true: {
       i = start_idx;
       { i <= end_idx and: $ i < size } while_true: {
