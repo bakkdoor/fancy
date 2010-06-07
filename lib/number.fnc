@@ -7,6 +7,12 @@ def class Number {
     self * self
   }
 
+  def doubled {
+    "Returns the double value of a Number.";
+
+    self + self
+  }
+
   def abs {
     "Returns the absolute (positive) value of a Number.";
 

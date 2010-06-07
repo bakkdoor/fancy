@@ -68,5 +68,21 @@ FancySpec describe: Number with: |it| {
       i ** 1 should_equal: i;
       i ** 2 should_equal: (i squared)
     }
+  };
+
+  it should: "be the square of self" when: {
+    5 squared should_equal: 25;
+    10 squared should_equal: 100;
+    20 upto: 50 do_each: |i| {
+      i squared should_equal: (i * i)
+    }
+  };
+
+  it should: "be the double value of self" when: {
+    5 doubled should_equal: 10;
+    10 doubled should_equal: 20;
+    20 upto: 50 do_each: |i| {
+      i doubled should_equal: (i + i)
+    }
   }
 }
