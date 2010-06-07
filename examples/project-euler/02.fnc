@@ -18,4 +18,4 @@ fibs = [1, 2];
 fibs inspect println;
 
 "sum: " print;
-fibs select: |x| { x even? } . sum println
+fibs select: :even? . sum println
