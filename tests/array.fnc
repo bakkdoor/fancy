@@ -238,5 +238,14 @@ FancySpec describe: Array with: |it| {
   it should: "print the minimum value in the list" when: {
     [1,2,3,4] min should_equal: 1;
     [1,5,-3,2,6,-4,-2] min should_equal: -4
+  };
+
+  it should: "return an Array containing the elements n times." when: {
+    [1,2,3,4,5] * 2 should_equal: [1,2,3,4,5,1,2,3,4,5];
+    [1,2,3] * 2 should_equal: ([1,2,3] + [1,2,3])
+  };
+
+  it should: "return the concatenation of two Arrays" when: {
+    ([1,2,3,4] + [-1,-2,-3,-4]) should_equal: [1,2,3,4,-1,-2,-3,-4]
   }
 }

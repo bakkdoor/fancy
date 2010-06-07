@@ -290,7 +290,7 @@ def class Array {
     "Removes all elements that meet the given condition block.";
 
     self remove_at:
-      (self select_with_index: |x| { condition call: x }
+      (self select_with_index: condition
          . map: :second)
   }
 
@@ -303,7 +303,25 @@ def class Array {
   }
 
   def to_s {
+    "Returns String representation of Array.";
+
     str = "";
     self reduce: |x y| { x ++ y } with: str
+  }
+
+  def * num {
+    "Returns a new Array that contains the elements of self num times in a row.";
+
+    arr = [];
+    num times: {
+      self each: |x| { arr << x }
+    };
+    arr
+  }
+
+  def + other_arr {
+    "Returns concatenation with another Array.";
+
+    self clone append: other_arr
   }
 }

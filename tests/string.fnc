@@ -76,5 +76,10 @@ FancySpec describe: String with: |it| {
     "3 + 4" eval should_equal: 7;
     ":foo to_s upcase" eval should_equal: "FOO";
     "33.33" eval should_equal: 33.33
+  };
+
+  it should: "return itself times n" when: {
+    "foo" * 2 should_equal: "foofoo";
+    "f" ++ ("o" * 2) ++ "bar" should_equal: "foobar"
   }
 }

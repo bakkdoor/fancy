@@ -42,7 +42,7 @@ def class Set {
   }
 
   def unknown_message: msg with_params: params {
-    params empty? . if_true: {
+    params empty? if_true: {
       @values send: msg
     } else: {
       @values send: msg params: params

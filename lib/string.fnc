@@ -28,6 +28,16 @@ def class String {
   def blank? {
     "Indicates, if a String consists only of whitespace.";
 
-    self all?: |c| { c whitespace? }
+    self all?: :whitespace?
+  }
+
+  def * num {
+    "Returns a string that is the num-fold concatenation of itself.";
+
+    str = "";
+    num times: {
+      str = (str ++ self)
+    };
+    str
   }
 }
