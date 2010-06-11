@@ -45,7 +45,6 @@ namespace fancy {
 
     virtual ~FancyException();
 
-    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 

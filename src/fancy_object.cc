@@ -68,17 +68,7 @@ namespace fancy {
 
   FancyObject* FancyObject::equal(FancyObject* other) const
   {
-    if(!IS_CLASSINSTANCE(other))
-      return nil;
-  
-    FancyObject* other_instance = dynamic_cast<FancyObject*>(other);
-
-    if(_class->equal(other_instance->_class) != nil) {
-      // TODO: compare slotvalues for both instances
-      return nil;
-    } else {
-      return nil;
-    }
+    return nil; // default return value
   }
 
   FancyObject* FancyObject::eval(Scope *scope)

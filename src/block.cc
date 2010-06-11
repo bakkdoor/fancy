@@ -31,11 +31,6 @@ namespace fancy {
   {
   }
 
-  FancyObject* Block::equal(FancyObject* other) const
-  {
-    return nil;
-  }
-
   EXP_TYPE Block::type() const
   {
     return EXP_BLOCK;

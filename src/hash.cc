@@ -35,17 +35,6 @@ namespace fancy {
     }
   }
 
-  FancyObject* Hash::equal(FancyObject* other) const
-  {
-    if(!IS_HASH(other))
-      return nil;
-
-    Hash* other_hash = (Hash*)other;
-    if((*this) == (*other_hash))
-      return t;
-    return nil;
-  }
-
   EXP_TYPE Hash::type() const
   {
     return EXP_HASH;
@@ -91,18 +80,6 @@ namespace fancy {
       i++;
     }
     return values;
-  }
-
-  bool Hash::operator==(const Hash& other) const
-  {
-    for(map<FancyObject*, FancyObject*>::const_iterator iter = _mappings.begin(); 
-        iter != _mappings.end(); 
-        iter++) {
-      if(iter->first->equal(other.get_value(iter->first)) == nil) {
-        return false;
-      }
-    }
-    return true;
   }
 
   int Hash::size() const

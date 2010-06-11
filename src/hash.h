@@ -46,7 +46,6 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
 
@@ -61,12 +60,6 @@ namespace fancy {
      * @return C++ vector of all the values in the Hash.
      */
     vector<FancyObject*> values();
-
-    /**
-     * Indicates, if two Hashes are equal.
-     * @return true, if equal, false otherwise.
-     */
-    bool operator==(const Hash& other) const;
   
     /**
      * Returns the size (amount of entries) in the Hash.

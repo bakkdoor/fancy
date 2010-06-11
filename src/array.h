@@ -128,14 +128,6 @@ namespace fancy {
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;
-
-    /**
-     * Compares two Arrays.
-     * @param other Other Array to compare to.
-     * @return true, if equal, false otherwise
-     */
-    bool operator==(const Array& other) const;
-    virtual FancyObject* equal(FancyObject* other) const;
   
     /**
      * Returns size of Array.

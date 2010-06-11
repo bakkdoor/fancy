@@ -47,12 +47,6 @@ namespace fancy {
     return _argnames;
   }
 
-  FancyObject* Method::equal(FancyObject* other) const
-  {
-    // can't compare methods with anything else
-    return nil;
-  }
-
   FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
   {
     // check if method is empty

@@ -42,19 +42,6 @@ namespace fancy {
   {
   }
 
-  FancyObject* FancyException::equal(FancyObject* other) const
-  {
-    FancyException* other_except = dynamic_cast<FancyException*>(other);
-    if(!other_except)
-      return nil;
-
-    if(_exception_value && other_except->_exception_value) {
-      return _exception_value->equal(other_except->_exception_value);
-    }
-
-    return nil;
-  }
-
   EXP_TYPE FancyException::type() const
   {
     return EXP_EXCEPTION;

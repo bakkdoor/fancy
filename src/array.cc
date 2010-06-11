@@ -1,7 +1,7 @@
 #include <sstream>
 #include "array.h"
 #include "bootstrap/core_classes.h"
-#include "utils.h"
+
 namespace fancy {
 
   Array::Array() : FancyObject(ArrayClass)
@@ -130,7 +130,7 @@ namespace fancy {
 
   Array* Array::last(int n) const
   {
-    if((n > 0) && (n <= _values.size())) {
+    if((n > 0) && ((unsigned int)n <= _values.size())) {
       vector<FancyObject*> subarr(n, nil);
       int count = 0;
       for(unsigned int i = _values.size() - n; i < _values.size(); i++) {
@@ -172,30 +172,6 @@ namespace fancy {
     }
     s << "]";
     return s.str();
-  }
-
-  bool Array::operator==(const Array& other) const
-  {
-    if(_values.size() != other._values.size())
-      return false;
-
-    for(unsigned int i = 0; i < _values.size(); i++) {
-      if(_values[i]->equal(other._values[i]) == nil) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  FancyObject* Array::equal(FancyObject* other) const
-  {
-    if(other->type() != EXP_ARRAY)
-      return nil;
-
-    Array* other_array = (Array*)other;
-    if((*this) == (*other_array))
-      return t;
-    return nil;
   }
 
   unsigned int Array::size() const
