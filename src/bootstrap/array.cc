@@ -76,6 +76,36 @@ namespace fancy {
                  "Removes an element at a given index. \
 If given an Array of indices, removes all the elements with these indices.",
                  remove_at);
+
+      DEF_METHOD(ArrayClass,
+                 "first",
+                 "Returns the first element in the Array",
+                 first);
+
+      DEF_METHOD(ArrayClass,
+                 "second",
+                 "Returns the second element in the Array",
+                 second);
+
+      DEF_METHOD(ArrayClass,
+                 "third",
+                 "Returns the third element in the Array",
+                 third);
+
+      DEF_METHOD(ArrayClass,
+                 "fourth",
+                 "Returns the fourth element in the Array",
+                 fourth);
+
+      DEF_METHOD(ArrayClass,
+                 "indices:",
+                 "Returns an Array of all indices of this item.",
+                 indices_);
+
+      DEF_METHOD(ArrayClass,
+                 "indices",
+                 "Returns an Array of all indices in the Array.",
+                 indices);
     }
 
     /**
@@ -225,6 +255,55 @@ If given an Array of indices, removes all the elements with these indices.",
         errorln("Array#remove_at: expects Number argument.");
         return nil;
       }
+    }
+
+    METHOD(ArrayClass, first)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      return array->at(0);
+    }
+
+    METHOD(ArrayClass, second)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      return array->at(1);
+    }
+
+    METHOD(ArrayClass, third)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      return array->at(2);
+    }
+
+    METHOD(ArrayClass, fourth)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      return array->at(3);
+    }
+
+    METHOD(ArrayClass, indices_)
+    {
+      EXPECT_ARGS("Array#indices:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      vector<FancyObject*> indices;
+      FancyObject* eq_args[1] = { args[0] };
+      for(unsigned int i = 0; i < array->size(); i++) {
+        FancyObject* item = array->at(i);
+        if(item->call_method("==", eq_args, 1, scope) != nil) {
+          indices.push_back(Number::from_int(i));
+        }
+      }
+      return new Array(indices);
+    }
+
+    METHOD(ArrayClass, indices)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      vector<FancyObject*> indices(array->size(), nil);
+      for(unsigned int i = 0; i < array->size(); i++) {
+        indices[i] = Number::from_int(i);
+      }
+      return new Array(indices);
     }
 
   }

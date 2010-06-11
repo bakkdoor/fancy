@@ -62,23 +62,6 @@ def class Array {
     found_idx
   }
 
-  def indices: item {
-    "Returns an Array of all indexes of this item.";
-
-    indices = [];
-    self each_with_index: |x i| {
-      (x == item) if_true: {
-        indices << i
-      }
-    };
-    indices
-  }
-
-  def indices {
-    "Returns an Array of all indices in the Array.";
-
-    0 upto: (self size - 1)
-  }
   def find: item {
     "Returns the item, if it's in the Array or nil (if not found).";
 
@@ -153,30 +136,6 @@ def class Array {
       }
     };
     arr
-  }
-
-  def first {
-    "Returns the first element in the Array";
-
-    self at: 0
-  }
-
-  def second {
-    "Returns the second element in the Array";
-
-    self at: 1
-  }
-
-  def third {
-    "Returns the third element in the Array";
-
-    self at: 2
-  }
-
-  def fourth {
-    "Returns the fourth element in the Array";
-
-    self at: 3
   }
 
   def last {
