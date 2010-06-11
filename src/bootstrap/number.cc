@@ -3,6 +3,7 @@
 #include "../number.h"
 #include "../block.h"
 #include "../errors.h"
+#include "../array.h"
 
 
 namespace fancy {
@@ -69,6 +70,16 @@ namespace fancy {
                  "%",
                  "Calculates the modulo value of self and a given Number.",
                  modulo);
+
+      DEF_METHOD(NumberClass,
+                 "upto:",
+                 "Returns an Array of Numbers from self up to a given (larger) Number.",
+                 upto);
+
+      DEF_METHOD(NumberClass,
+                 "downto:",
+                 "Returns an Array of Numbers from self down to a given (smaller) Number.",
+                 downto);
     }
 
     /**
@@ -278,6 +289,52 @@ namespace fancy {
         errorln("Number#modulo: expects Number argument.");
       }
       return self;
+    }
+
+    METHOD(NumberClass, upto)
+    {
+      EXPECT_ARGS("Number#upto:", 1);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        int i = num1->intval();
+        int max = num2->intval();
+        if(i <= max) {
+          int count = 0;
+          vector<FancyObject*> arr(max - i + 1, nil);
+          for(; i <= max; i++) {
+            arr[count++] = Number::from_int(i);
+          }
+          return new Array(arr);
+        } else {
+          return new Array();
+        }
+      }
+      errorln("Number#upto: expects Number argument.");
+      return nil;
+    }
+
+    METHOD(NumberClass, downto)
+    {
+      EXPECT_ARGS("Number#downto:", 1);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        int i = num1->intval();
+        int min = num2->intval();
+        if(i >= min) {
+          int count = 0;
+          vector<FancyObject*> arr(i - min + 1, nil);
+          for(; i >= min; i--) {
+            arr[count++] = Number::from_int(i);
+          }
+          return new Array(arr);
+        } else {
+          return new Array();
+        }
+      }
+      errorln("Number#downto: expects Number argument.");
+      return nil;
     }
 
   }

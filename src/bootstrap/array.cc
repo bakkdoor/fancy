@@ -37,6 +37,12 @@ namespace fancy {
                  each);
 
       DEF_METHOD(ArrayClass,
+                 "==",
+                 "Compares two Arrays where order matters.\
+e.g. [1,2,3] == [2,1,3] should not be true",
+                 eq);
+
+      DEF_METHOD(ArrayClass,
                  "<<",
                  "Insert a value into Array.",
                  insert);
@@ -193,6 +199,24 @@ If given an Array of indices, removes all the elements with these indices.",
         errorln("Array#each: expects Block argument");
         return nil;
       }
+    }
+
+    METHOD(ArrayClass, eq)
+    {
+      EXPECT_ARGS("Array#==", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      if(Array* other = dynamic_cast<Array*>(args[0])) {
+        if(array->size() == other->size()) {
+          for(unsigned int i = 0; i < array->size(); i++) {
+            FancyObject* cmp_arg[1] = { other->at(i) };
+            if(array->at(i)->call_method("==", cmp_arg, 1, scope) == nil) {
+              return nil;
+            }
+          }
+          return t;
+        }
+      }
+      return nil;
     }
 
     METHOD(ArrayClass, insert)

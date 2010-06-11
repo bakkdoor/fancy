@@ -41,30 +41,6 @@ def class Number {
     self even? not
   }
 
-  def upto: val {
-    "Returns an Array of Numbers from self up to a given (larger) Number.";
-
-    coll = [];
-    tmp = self;
-    { tmp <= val } while_true: {
-      coll << tmp;
-      tmp = tmp + 1
-    };
-    coll
-  }
-
-  def downto: val {
-    "Returns an Array of Numbers from self down to a given (smaller) Number.";
-
-    coll = [];
-    tmp = self;
-    { tmp >= val } while_true: {
-      coll << tmp;
-      tmp = tmp - 1
-    };
-    coll
-  }
-
   def upto: val do_each: block {
     "Calls a given block for each value between self and a given (larger) Number.";
 

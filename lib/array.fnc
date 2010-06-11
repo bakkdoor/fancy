@@ -15,26 +15,6 @@ def class Array {
     }    
   }
 
-  def == other {
-    ""Compares two Arrays where order matters.
-      e.g. [1,2,3] == [2,1,3] should not be true"";
-
-    other is_a?: Array . if_true: {
-      self size != (other size) if_true: {
-        nil
-      } else: {
-        same = true;
-        size = self size;
-        i = 0;
-        { same and: (i < size) } while_true: {
-          same = self at: i == (other at: i);
-          i = i + 1
-        };
-        same
-      }
-    }
-  }
-
   def === other {
     "Compares two Arrays where order does not matter";
 
