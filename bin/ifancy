@@ -1,0 +1,14 @@
+#!/usr/bin/env fancy
+
+["Welcome to the (still very simple) Fancy REPL",
+ "Fancy " ++ FANCY_VERSION] println;
+
+
+{ line != "exit" } while_true: {
+  try {
+    line = Console readln: ">> ";
+    line eval println
+  } catch MethodNotFoundError => e {
+    e message println
+  }
+}
