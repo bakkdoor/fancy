@@ -352,7 +352,7 @@ array_literal:  empty_array
                 ;
 
 exp_comma_list: exp { $$ = expr_node($1, 0); }
-                | exp COMMA exp_comma_list { $$ = expr_node($1, $3); }
+                | exp_comma_list COMMA exp { $$ = expr_node($3, $1); }
                 ;
 
 empty_array:    LBRACKET RBRACKET { $$ = new nodes::ArrayLiteral(0); }

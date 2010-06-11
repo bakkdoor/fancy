@@ -7,7 +7,7 @@ namespace fancy {
       ArrayLiteral::ArrayLiteral(expression_node *expr_list)
       {
         for(expression_node *tmp = expr_list; tmp != NULL; tmp = tmp->next) {
-          _expressions.push_back(tmp->expression);
+          _expressions.push_front(tmp->expression);
         }
       }
 
