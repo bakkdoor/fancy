@@ -41,36 +41,6 @@ def class Number {
     self even? not
   }
 
-  def upto: val do_each: block {
-    "Calls a given block for each value between self and a given (larger) Number.";
-
-    tmp = self;
-    { tmp <= val } while_true: {
-      block call: tmp;
-      tmp = tmp + 1
-    }
-  }
-
-  def downto: val do_each: block {
-    "Calls a given block for each value between self and a given (smaller) Number.";
-
-    tmp = self;
-    { tmp >= val } while_true: {
-      block call: tmp;
-      tmp = tmp - 1
-    }
-  }
-
-  def ** power {
-    "Calculates the given power of a Number.";
-
-    val = 1;
-    power times: {
-      val = val * self
-    };
-    val
-  }
-
   def to_num {
     self
   }

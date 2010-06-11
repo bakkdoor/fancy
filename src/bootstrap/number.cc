@@ -80,6 +80,22 @@ namespace fancy {
                  "downto:",
                  "Returns an Array of Numbers from self down to a given (smaller) Number.",
                  downto);
+
+      DEF_METHOD(NumberClass,
+                 "upto:do_each:",
+                 "Calls a given block for each value between self and a given (larger) Number.",
+                 upto__do_each);
+
+      DEF_METHOD(NumberClass,
+                 "downto:do_each:",
+                 "Calls a given block for each value between self and a given (smaller) Number.",
+                 downto__do_each);
+
+      DEF_METHOD(NumberClass,
+                 "**",
+                 "Calculates the given power of a Number.",
+                 power);
+
     }
 
     /**
@@ -335,6 +351,67 @@ namespace fancy {
       }
       errorln("Number#downto: expects Number argument.");
       return nil;
+    }
+
+    METHOD(NumberClass, upto__do_each)
+    {
+      EXPECT_ARGS("Number#upto:do_each:", 2);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        // special case for Blocks (better performance)
+        if(Block* block = dynamic_cast<Block*>(args[1])) {
+          for(int i = num1->intval(); i <= num2->intval(); i++) {
+            FancyObject* block_arg[1] = { Number::from_int(i) };
+            block->call(self, block_arg, 1, scope);
+          }
+        } else {
+          for(int i = num1->intval(); i <= num2->intval(); i++) {
+            FancyObject* block_arg[1] = { Number::from_int(i) };
+            args[1]->call_method("call:", block_arg, 1, scope);
+          }
+        }
+        return nil;
+      }
+      errorln("Number#upto:do_each expects Number and callable argument.");
+      return nil;
+    }
+
+
+    METHOD(NumberClass, downto__do_each)
+    {
+      EXPECT_ARGS("Number#downto:do_each:", 2);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        // special case for Blocks (better performance)
+        if(Block* block = dynamic_cast<Block*>(args[1])) {
+          for(int i = num1->intval(); i >= num2->intval(); i--) {
+            FancyObject* block_arg[1] = { Number::from_int(i) };
+            block->call(self, block_arg, 1, scope);
+          }
+        } else {
+          for(int i = num1->intval(); i >= num2->intval(); i--) {
+            FancyObject* block_arg[1] = { Number::from_int(i) };
+            args[1]->call_method("call:", block_arg, 1, scope);
+          }
+        }
+        return nil;
+      }
+      errorln("Number#downto:do_each expects Number and callable argument.");
+      return nil;
+    }
+
+    METHOD(NumberClass, power)
+    {
+      EXPECT_ARGS("Number#**", 1);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        return Number::from_double(pow(NUMVAL(num1), NUMVAL(num2)));
+      }
+      errorln("Number#** expects Number argument.");
+      return self;
     }
 
   }
