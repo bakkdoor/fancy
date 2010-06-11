@@ -247,5 +247,17 @@ FancySpec describe: Array with: |it| {
 
   it should: "return the concatenation of two Arrays" when: {
     ([1,2,3,4] + [-1,-2,-3,-4]) should_equal: [1,2,3,4,-1,-2,-3,-4]
+  };
+
+  it should: "return true for all elements" when: {
+    [1,2,3,4] all?: |x| { x < 5 } . should_equal: true;
+    [1,2,3,4] all?: |x| { x > 0 } . should_equal: true;
+    [1,2,3,4] all?: |x| { x > 4 } . should_equal: nil
+  };
+
+  it should: "return true for any elements" when: {
+    [1,2,3,4] any?: |x| { x > 3 } . should_equal: true;
+    [1,2,3,4] any?: |x| { x < 4 } . should_equal: true;
+    [1,2,3,4] any?: |x| { x > 4 } . should_equal: nil
   }
 }

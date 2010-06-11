@@ -119,6 +119,12 @@ namespace fancy {
      */
     FancyObject* last() const;
 
+    /**
+     * Returns the last n elements in the Array.
+     * @return Last n elements in Array.
+     */
+    Array* last(int n) const;
+
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
     virtual string inspect() const;

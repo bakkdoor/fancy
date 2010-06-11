@@ -84,4 +84,10 @@ using namespace std;
   CLASSMETHOD(klass, method_func);                                      \
   klass->def_class_method(method_name, new NativeMethod(method_name, docstring, CLASSMETHOD_FUNC(klass, method_func)))
 
+#define FORWARD_METHOD(class, method_name)                      \
+  METHOD_FUNC(class, method_name)(self, args, argc, scope)
+
+#define FORWARD_CLASSMETHOD(class, method_name)                 \
+  CLASSMETHOD_FUNC(class, method_name)(self, args, argc, scope)
+
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

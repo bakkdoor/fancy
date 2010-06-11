@@ -1,7 +1,7 @@
 #include <sstream>
 #include "array.h"
 #include "bootstrap/core_classes.h"
-
+#include "utils.h"
 namespace fancy {
 
   Array::Array() : FancyObject(ArrayClass)
@@ -126,6 +126,19 @@ namespace fancy {
     } else {
       return nil;
     }
+  }
+
+  Array* Array::last(int n) const
+  {
+    if((n > 0) && (n <= _values.size())) {
+      vector<FancyObject*> subarr(n, nil);
+      int count = 0;
+      for(unsigned int i = _values.size() - n; i < _values.size(); i++) {
+        subarr[count++] = _values[i];
+      }
+      return new Array(subarr);
+    }
+    return new Array();
   }
 
   EXP_TYPE Array::type() const

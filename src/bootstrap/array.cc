@@ -57,6 +57,12 @@ namespace fancy {
                  at);
 
       DEF_METHOD(ArrayClass,
+                 "[]",
+                 "Given an Array of 2 Numbers, it returns the sub-array between the given indices.\
+If given a Number, returns the element at that index.",
+                 square_brackets);
+
+      DEF_METHOD(ArrayClass,
                  "at:put:",
                  "Sets the value for a given index.",
                  at__put);
@@ -106,6 +112,31 @@ If given an Array of indices, removes all the elements with these indices.",
                  "indices",
                  "Returns an Array of all indices in the Array.",
                  indices);
+
+      DEF_METHOD(ArrayClass,
+                 "from:to:",
+                 "Returns sub-array starting at from: and going to to:",
+                 from__to);
+
+      DEF_METHOD(ArrayClass,
+                 "last",
+                 "Returns the last element in the Array.",
+                 last);
+
+      DEF_METHOD(ArrayClass,
+                 "last:",
+                 "Returns new Array with last n elements specified.",
+                 last_n);
+
+      DEF_METHOD(ArrayClass,
+                 "any?:",
+                 "Takes condition-block and returns true if any element meets it.",
+                 any);
+
+      DEF_METHOD(ArrayClass,
+                 "all?:",
+                 "Takes condition-block and returns true if all elements meet it.",
+                 all);
     }
 
     /**
@@ -197,6 +228,25 @@ If given an Array of indices, removes all the elements with these indices.",
         errorln("Array#at: expects Integer value.");
         return nil;
       }
+    }
+
+    METHOD(ArrayClass, square_brackets)
+    {
+      EXPECT_ARGS("Array#[]:", 1);
+      if(IS_NUM(args[0])) {
+        return FORWARD_METHOD(ArrayClass, at);
+      } else if(IS_ARRAY(args[0])) {
+        if(Array* indices_array = dynamic_cast<Array*>(args[0])) {
+          Number* idx1 = dynamic_cast<Number*>(indices_array->at(0));
+          Number* idx2 = dynamic_cast<Number*>(indices_array->at(1));
+          if(idx1 && idx2) {
+            FancyObject* call_args[2] = { idx1, idx2 };
+            return self->call_method("from:to:", call_args, 2, scope);
+          }
+        }
+      }
+      errorln("Array#[]: expects Integer or Array of Numbers as value.");
+      return nil;
     }
 
     METHOD(ArrayClass, at__put)
@@ -304,6 +354,76 @@ If given an Array of indices, removes all the elements with these indices.",
         indices[i] = Number::from_int(i);
       }
       return new Array(indices);
+    }
+
+    METHOD(ArrayClass, from__to)
+    {
+      EXPECT_ARGS("Array#from:to:", 2);
+      Number* idx1 = dynamic_cast<Number*>(args[0]);
+      Number* idx2 = dynamic_cast<Number*>(args[1]);
+      if(idx1 && idx2) {
+        Array* array = dynamic_cast<Array*>(self);
+        vector<FancyObject*> subarr;
+        int i1 = idx1->intval();
+        int i2 = idx2->intval();
+        // handle negative indices
+        if(i1 < 0) {
+          i1 = array->size() + i1;
+        }
+        if(i2 < 0) {
+          i2 = array->size() + i2;
+        }
+        for(int i = i1; i <= i2; i++) {
+          subarr.push_back(array->at(i));
+        }
+        return new Array(subarr);
+      }
+      errorln("Array#from:to: expects Number values.");
+      return new Array();
+    }
+
+    METHOD(ArrayClass, last)
+    {
+      Array* array = dynamic_cast<Array*>(self);
+      return array->last();
+    }
+
+    METHOD(ArrayClass, last_n)
+    {
+      EXPECT_ARGS("Array#last:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      if(Number* num = dynamic_cast<Number*>(args[0])) {
+        return array->last(num->intval());
+      } else {
+        errorln("Array#last: expects Number value.");
+        return nil;
+      }
+    }
+
+    METHOD(ArrayClass, any)
+    {
+      EXPECT_ARGS("Array#any?:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      for(unsigned int i = 0; i < array->size(); i++) {
+        FancyObject* block_arg[1] = { array->at(i) };
+        if(args[0]->call_method("call:", block_arg, 1, scope) != nil) {
+          return t;
+        }
+      }
+      return nil;
+    }
+
+    METHOD(ArrayClass, all)
+    {
+      EXPECT_ARGS("Array#all?:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      for(unsigned int i = 0; i < array->size(); i++) {
+        FancyObject* block_arg[1] = { array->at(i) };
+        if(args[0]->call_method("call:", block_arg, 1, scope) == nil) {
+          return nil;
+        }
+      }
+      return t;
     }
 
   }
