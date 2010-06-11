@@ -1,5 +1,5 @@
 *.o
-bin/*
+bin/fancy
 *~
 src/parser/bison.c
 src/parser/fancy.output
