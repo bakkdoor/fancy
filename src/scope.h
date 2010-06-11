@@ -22,7 +22,7 @@ namespace fancy {
 
   typedef map<string, FancyObject*> object_map;
 
-  class Scope : public FancyObject
+  class Scope : public gc_cleanup
   {
   public:
     Scope(FancyObject *current_self);
@@ -56,13 +56,6 @@ namespace fancy {
      * value overwritten).
      */
     bool define(string identifier, FancyObject* value);
-
-    /**
-     * See FancyObject for these methods.
-     */
-    virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
-    virtual string to_s() const;
 
     /**
      * Sets the current_self value (reference to the 'self' value

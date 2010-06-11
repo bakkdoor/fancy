@@ -14,7 +14,6 @@ namespace fancy {
    *****************************************/
 
   Scope::Scope(FancyObject* current_self) :
-    FancyObject(ScopeClass),
     _parent(0)
   {
     assert(current_self);
@@ -22,7 +21,6 @@ namespace fancy {
   }
 
   Scope::Scope(Scope *parent) :
-    FancyObject(ScopeClass),
     _parent(parent)
   {
     if(parent) {
@@ -32,7 +30,6 @@ namespace fancy {
   }
 
   Scope::Scope(FancyObject* current_self, Scope *parent) :
-    FancyObject(ScopeClass),
     _parent(parent)
   {
     assert(current_self);
@@ -45,10 +42,6 @@ namespace fancy {
 
   FancyObject* Scope::get(string identifier)
   {
-    // check for current_scope
-    if(identifier == "__current_scope__")
-      return this;
-
     // check for instance & class variables
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
@@ -97,33 +90,6 @@ namespace fancy {
     bool found = _value_mappings.find(identifier) != _value_mappings.end();
     _value_mappings[identifier] = value;
     return found;
-  }
-
-  FancyObject* Scope::equal(FancyObject* other) const
-  {
-    return nil;
-  }
-
-  EXP_TYPE Scope::type() const
-  {
-    return EXP_SCOPE;
-  }
-
-  string Scope::to_s() const
-  {
-    stringstream s;
-    s << "Scope:" << endl;
-
-    for(map<string, FancyObject*>::const_iterator iter = _value_mappings.begin();
-        iter != _value_mappings.end();
-        iter++) {
-      s << iter->first;
-      s << ": ";
-      s << iter->second->to_s();
-      s << endl;
-    }
-
-    return s.str();
   }
 
   FancyObject* Scope::current_self() const
