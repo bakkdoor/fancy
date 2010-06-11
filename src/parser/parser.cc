@@ -56,13 +56,7 @@ namespace fancy {
       yylineno = 1;
       yy_switch_to_buffer(buf.buffstate);
 
-      try {
-        yyparse();
-      } catch(FancyException* ex) {
-        errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
-        errorln(ex->to_s());
-        exit(1);
-      }
+      yyparse();
 
       // delete string buffer
       yy_delete_buffer(buf.buffstate);
