@@ -1,12 +1,12 @@
 # actors example
-import: [System]
+import: [System];
 
 def actor Ping: pong_receiver {
-  pong_receiver ! [:ping, self]
+  pong_receiver ! [:ping, self];
   loop: {
     receive {
       [:pong, pid] -> {
-        Console writeln: "Got PONG by #{pid}, quitting.."
+        Console writeln: "Got PONG by #{pid}, quitting..";
         self die
       }
       _any -> {
@@ -14,13 +14,13 @@ def actor Ping: pong_receiver {
       }
     }
   }
-}
+};
 
 def actor Pong {
   loop: {
     receive {
       [:ping, pid] -> {
-        Console writeln: "Got PING by #{pid}, sending reply!"
+        Console writeln: "Got PING by #{pid}, sending reply!";
         pid ! :pong
       }
       _any -> {
@@ -28,14 +28,12 @@ def actor Pong {
       }
     }
   }
-}
+};
 
 # start actors
-def main: args {
-  # start Pong
-  pong = Pong spawn
-  # start Ping with pong's pid
-  ping = Ping spawn: [pong]
-  # wait for both pong & ping processes
-  Process wait: [pong, ping]
-}
+# start Pong
+pong = Pong spawn;
+# start Ping with pong's pid
+ping = Ping spawn: [pong];
+# wait for both pong & ping processes
+Process wait: [pong, ping]
