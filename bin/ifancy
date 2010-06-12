@@ -7,7 +7,7 @@
 { line != "exit" } while_true: {
   try {
     line = Console readln: ">> ";
-    line eval println
+    line eval inspect println
   } catch MethodNotFoundError => e {
     e message println
   }
