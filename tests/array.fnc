@@ -119,7 +119,7 @@ FancySpec describe: Array with: |it| {
   
   it should: "return an array containing the values at the given indices" when: {
     arr = [1, 2, 3, :foo, "bar"];
-    arr values_at: [1, 3, 4] . should_equal: [2, :foo, "bar"]
+    arr values_at: [1, 3, 4, 10] . should_equal: [2, :foo, "bar", nil]
   };
 
   it should: "return unique values only" when: {

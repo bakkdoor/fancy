@@ -75,9 +75,7 @@ def class Array {
 
     values = [];
     idx_arr each: |idx| {
-      self at: idx . if_do: |val| {
-        values << val
-      }
+      values << (self at: idx)
     };
     values
   }
