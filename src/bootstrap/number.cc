@@ -72,6 +72,11 @@ namespace fancy {
                  modulo);
 
       DEF_METHOD(NumberClass,
+                 "div:",
+                 "Calculates the Integer division value of self and a given Number.",
+                 div);
+
+      DEF_METHOD(NumberClass,
                  "upto:",
                  "Returns an Array of Numbers from self up to a given (larger) Number.",
                  upto);
@@ -303,6 +308,19 @@ namespace fancy {
         return Number::from_int(num1->intval() % num2->intval());
       } else {
         errorln("Number#modulo: expects Number argument.");
+      }
+      return self;
+    }
+
+    METHOD(NumberClass, div)
+    {
+      EXPECT_ARGS("Number#div:", 1);
+      Number* num1 = dynamic_cast<Number*>(self);
+      Number* num2 = dynamic_cast<Number*>(args[0]);
+      if(num1 && num2) {
+        return Number::from_int(num1->intval() / num2->intval());
+      } else {
+        errorln("Number#div: expects Number argument.");
       }
       return self;
     }

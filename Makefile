@@ -55,6 +55,8 @@ example: all
 	@clear
 	bin/fancy examples/arithmetic.fnc
 	@echo
+	bin/fancy examples/armstrong_numbers.fnc
+	@echo
 	bin/fancy examples/array.fnc
 	@echo
 	bin/fancy examples/blocks.fnc
@@ -65,15 +67,27 @@ example: all
 	@echo
 	bin/fancy examples/closures.fnc
 	@echo
+	bin/fancy examples/echo.fnc examples/echo.fnc
+	@echo
+	bin/fancy examples/factorial.fnc
+	@echo
+	bin/fancy examples/fibonacci.fnc
+	@echo
 	bin/fancy examples/files.fnc
 	@echo
-	bin/fancy examples/hello-world.fnc
+	bin/fancy examples/hello_world.fnc
+	@echo
+	bin/fancy examples/html_generator.fnc
+	@echo
+	bin/fancy examples/metadata.fnc
 	@echo
 	bin/fancy examples/methods.fnc
 	@echo
 	bin/fancy examples/numbers.fnc
 	@echo
 	bin/fancy examples/person.fnc
+	@echo
+	bin/fancy examples/require.fnc
 	@echo
 	bin/fancy examples/scope.fnc
 	@echo
