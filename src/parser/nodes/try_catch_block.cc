@@ -24,8 +24,9 @@ namespace fancy {
       bool ExceptionHandler::can_handle(Class* the_class, Scope *scope)
       {
         _exception_class = dynamic_cast<Class*>(scope->get(_exception_class_name->name()));
-        if(_exception_class)
-          return _exception_class->subclass_of(the_class);
+        if(_exception_class) {
+          return the_class->subclass_of(_exception_class);
+        }
         return false;
       }
 
