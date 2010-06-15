@@ -22,6 +22,12 @@ namespace fancy {
   {
   public:
     /**
+     * Initializes Anonymous Class with a given superclass.
+     * @param superclass Superclass of the Class.
+     */
+    Class(Class* superclass);
+
+    /**
      * Initializes Class with a given name.
      * @param name Name of the class.
      */

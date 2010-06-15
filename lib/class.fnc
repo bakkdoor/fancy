@@ -41,4 +41,21 @@ def class Class {
       self define_slot_writer: s
     }
   }
+
+  def subclass?: class_obj {
+    "Indicates, if a Class is a subclass of another Class.";
+
+    (self == class_obj) if_true: {
+      true
+    } else: {
+      (self superclass == class_obj) if_true: {
+        true
+      } else: {
+        # take care of Object class, as Object is its own superclass
+        (self superclass != self) if_true: {
+          self superclass subclass?: class_obj
+        }
+      }
+    }
+  }
 }

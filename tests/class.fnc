@@ -139,5 +139,16 @@ FancySpec describe: Class with: |it| {
     sub = SubClass new: 42;
     sub name should_equal: "SubClass";
     sub age should_equal: 42
+  };
+
+  it should: "return its superclass" when: {
+    Number superclass should_equal: Object;
+    Symbol superclass should_equal: Object;
+    Exception superclass should_equal: Object;
+    Object superclass should_equal: Object;
+    Class superclass should_equal: Object;
+
+    IOError superclass should_equal: Exception;
+    MethodNotFoundError superclass should_equal: Exception
   }
 }

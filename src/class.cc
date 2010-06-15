@@ -10,6 +10,13 @@
 
 namespace fancy {
 
+  Class::Class(Class* superclass) :
+    FancyObject(ClassClass),
+    _name("AnonymousClass"),
+    _superclass(superclass)
+  {
+  }
+
   Class::Class(const string &name) :
     FancyObject(ClassClass),
     _name(name)
@@ -156,7 +163,13 @@ namespace fancy {
 
   Class* Class::superclass() const
   {
-    return _superclass;
+    if(_superclass) {
+      return _superclass;
+    } else {
+      // when no superclass defined, simply return ObjectClass
+      // and the recursive class hierarchy begins ;)
+      return ObjectClass;
+    }
   }
 
   Array* Class::instance_methods() const

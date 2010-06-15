@@ -10,6 +10,7 @@ namespace fancy {
       /**
        * Class instance methods
        */
+
       DEF_METHOD(ClassClass,
                  "define_method:with:",
                  "Define a method on a Class, taking a Block as the \
@@ -31,8 +32,12 @@ second argument to serve as the method's body.",
                  "method:",
                  "Returns the Method object with a given name (or nil, if method not defined).",
                  method);
-    }
 
+      DEF_METHOD(ClassClass,
+                 "superclass",
+                 "Returns the Class' superclass.",
+                 superclass);
+    }
 
     /**
      * Class instance methods
@@ -95,6 +100,11 @@ second argument to serve as the method's body.",
         }
       }
       return nil;
+    }
+
+    METHOD(ClassClass, superclass)
+    {
+      return dynamic_cast<Class*>(self)->superclass();
     }
 
   }
