@@ -45,7 +45,7 @@ namespace fancy {
      * @return The (value) object represented by the identifier within
      * the scope
      */
-    FancyObject* get(string identifier);
+    virtual FancyObject* get(string identifier);
 
     /**
      * Defines an identifier with a value (or overwrites it, if already
@@ -55,7 +55,7 @@ namespace fancy {
      * @return True, if identifier was already defined (and thus, its
      * value overwritten).
      */
-    bool define(string identifier, FancyObject* value);
+    virtual bool define(string identifier, FancyObject* value);
 
     /**
      * Sets the current_self value (reference to the 'self' value
@@ -89,11 +89,31 @@ namespace fancy {
      */
     Scope* parent_scope() const;
 
-  private:
+    /**
+     * Returns the value mappings map for the Scope.
+     * @return The value mappings map for the Scope.
+     */
+    map<string, FancyObject*> value_mappings() const;
+
+    /**
+     * Sets the closed value for a Scope.
+     * @param val The closed value (indicating, if the Scope has been
+     * "closed over" by a LexicalScope).
+     */
+    void set_closed(bool val) { _closed = val; }
+
+    /**
+     * Indicates, if a Scope has been "closed over" by a LexicalScope.
+     * @return True, if closed over by a LexicalScope, false otherwise.
+     */
+    bool is_closed() const { return _closed; }
+
+  protected:
     map<string, FancyObject*> _value_mappings;
     Scope *_parent;
     FancyObject *_current_self;
     Class *_current_class;
+    bool _closed;
   };
 
   /**
