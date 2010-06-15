@@ -7,6 +7,13 @@ FancySpec describe: Array with: |it| {
     arr should_equal: [1,2,3]
   };
 
+  it should: "iterate over all elements, calling a block" when: {
+    sum = 0;
+    retval = [1,2,3,4,5] each: |x| { sum = sum + x };
+    retval should_equal: sum;
+    sum should_equal: $ [1,2,3,4,5] sum
+  };
+
   it should: "be empty after clearing it" when: {
     arr = [1,2,3];
     arr size should_equal: 3;
@@ -230,6 +237,12 @@ FancySpec describe: Array with: |it| {
     arr should_equal: [1, 2]
   };
 
+  it should: "return a new Array with all elements that meet a given condition" when: {
+    arr = [1, 2, "foo", :bar, 120];
+    arr select: |x| { x is_a?: Number } . should_equal: [1,2,120];
+    arr should_equal: [1, 2, "foo", :bar, 120] # select: is non-destructive
+  };
+
   it should: "print the maximum value in the list" when: {
     [1,2,3,4] max should_equal: 4;
     [1,5,-3,2,6,-4,-2] max should_equal: 6
@@ -259,5 +272,9 @@ FancySpec describe: Array with: |it| {
     [1,2,3,4] any?: |x| { x > 3 } . should_equal: true;
     [1,2,3,4] any?: |x| { x < 4 } . should_equal: true;
     [1,2,3,4] any?: |x| { x > 4 } . should_equal: nil
+  };
+
+  it should: "be selected from it with each index" when: {
+    ["yooo",2,3,1,:foo,"bar"] select_with_index: |x i| { x is_a?: Number } . should_equal: [[2,1], [3,2], [1,3]]
   }
 }

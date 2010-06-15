@@ -31,10 +31,16 @@ namespace fancy {
       /**
        * Array instance methods
        */
+
       DEF_METHOD(ArrayClass,
                  "each:",
                  "Iterate over all elements in Array. Calls a given Block with each element.",
                  each);
+
+      DEF_METHOD(ArrayClass,
+                 "each_with_index:",
+                 "Iterate over all elements in Array. Calls a given Block with each element and its index.",
+                 each_with_index);
 
       DEF_METHOD(ArrayClass,
                  "==",
@@ -143,6 +149,16 @@ If given an Array of indices, removes all the elements with these indices.",
                  "all?:",
                  "Takes condition-block and returns true if all elements meet it.",
                  all);
+
+      DEF_METHOD(ArrayClass,
+                 "select:",
+                 "Returns a new Array with all elements that meet the given condition block.",
+                 select);
+
+      DEF_METHOD(ArrayClass,
+                 "select_with_index:",
+                 "Same as select, just gets also called with an additional argument for each element's index value.",
+                 select_with_index);
     }
 
     /**
@@ -187,9 +203,7 @@ If given an Array of indices, removes all the elements with these indices.",
         Array* array = dynamic_cast<Array*>(self);
         Block* block = dynamic_cast<Block*>(args[0]);
         FancyObject* retval = nil;
-        array->eval(scope);
         int size = array->size();
-        // TODO: fix this to start from and increment ...
         for(int i = 0; i < size; i++) {
           FancyObject* arr[1] = { array->at(i) };
           retval = block->call(self, arr, 1, scope);
@@ -198,6 +212,30 @@ If given an Array of indices, removes all the elements with these indices.",
       } else { 
         errorln("Array#each: expects Block argument");
         return nil;
+      }
+    }
+
+    METHOD(ArrayClass, each_with_index)
+    {
+      EXPECT_ARGS("Array#each_with_index:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      unsigned int size = array->size();
+      FancyObject* retval = nil;
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(unsigned int i = 0; i < size; i++) {
+          FancyObject* arr[2] = { array->at(i), Number::from_int(i) };
+          retval = block->call(self, arr, 2, scope);
+        }
+        return retval;
+      } else {
+        for(unsigned int i = 0; i < size; i++) {
+          Array* call_args_arr = new Array();
+          call_args_arr->insert(array->at(i));
+          call_args_arr->insert(Number::from_int(i));
+          FancyObject* args[1] = { call_args_arr };
+          retval = args[0]->send_message("call:", args, 1, scope, self);
+        }
+        return retval;
       }
     }
 
@@ -448,6 +486,64 @@ If given an Array of indices, removes all the elements with these indices.",
         }
       }
       return t;
+    }
+
+    METHOD(ArrayClass, select)
+    {
+      EXPECT_ARGS("Array#select:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      Array* ret_array = new Array();
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* obj = array->at(i);
+          FancyObject* block_arg[1] = { obj };
+          if(block->call(self, block_arg, 1, scope) != nil) {
+            ret_array->insert(obj);
+          }
+        }
+      } else {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* obj = array->at(i);
+          FancyObject* block_arg[1] = { obj };
+          if(args[0]->send_message("call:", block_arg, 1, scope, self) != nil) {
+            ret_array->insert(obj);
+          }
+        }
+      }
+      return ret_array;
+    }
+
+    METHOD(ArrayClass, select_with_index)
+    {
+      EXPECT_ARGS("Array#select_with_index:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      Array* ret_array = new Array();
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* obj = array->at(i);
+          Number* idx = Number::from_int(i);
+          Array* arr = new Array();
+          arr->insert(obj);
+          arr->insert(idx);
+          FancyObject* block_arg[2] = { obj, idx };
+          if(block->call(self, block_arg, 2, scope) != nil) {
+            ret_array->insert(arr);
+          }
+        }
+      } else {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* obj = array->at(i);
+          Number* idx = Number::from_int(i);
+          Array* arr = new Array();
+          arr->insert(obj);
+          arr->insert(idx);
+          FancyObject* block_arg[1] = { arr };
+          if(args[0]->send_message("call:", block_arg, 1, scope, self) != nil) {
+            ret_array->insert(arr);
+          }
+        }
+      }
+      return ret_array;
     }
 
   }
