@@ -45,7 +45,7 @@ namespace fancy {
 
     CLASSMETHOD(ConsoleClass, clear)
     {
-      cout << "\e[H\e[2J";
+      cout << "\033[H\033[2J";
       return nil;
     }
 
