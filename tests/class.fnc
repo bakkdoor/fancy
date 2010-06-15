@@ -150,5 +150,19 @@ FancySpec describe: Class with: |it| {
 
     IOError superclass should_equal: Exception;
     MethodNotFoundError superclass should_equal: Exception
+  };
+
+  it should: "create a new Class dynamically" when: {
+    x = Class new;
+    x is_a?: Class . should_equal: true;
+    x new is_a?: x . should_equal: true;
+    x new is_a?: Object . should_equal: true;
+    x new _class should_equal: x;
+
+    # Symbol as superclass
+    y = Class new: Symbol;
+    y is_a?: Class . should_equal: true;
+    y new is_a?: Symbol . should_equal: true;
+    y new is_a?: Object . should_equal: true
   }
 }

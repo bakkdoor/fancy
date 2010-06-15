@@ -86,4 +86,10 @@ def class Object {
   def to_a {
     [self]
   }
+
+  def is_a?: class_obj {
+    "Indicates, if an object is an instance of a given Class.";
+
+    self _class subclass?: class_obj
+  }
 }

@@ -63,5 +63,15 @@ FancySpec describe: Object with: |it| {
     o = Object new;
     o %M: "foobar";
     o %M should_equal: "foobar"
+  };
+
+  it should: "be an Object of the correct Class (or Superclass)" when: {
+    Object new is_a?: Object . should_equal: true;
+    "foo" is_a?: String . should_equal: true;
+    "foo" is_a?: Object . should_equal: true;
+    1123 is_a?: Number . should_equal: true;
+    1123 is_a?: Object . should_equal: true;
+    132.123 is_a?: Number . should_equal: true;
+    132.123 is_a?: Object . should_equal: true    
   }
 }

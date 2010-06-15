@@ -3,6 +3,7 @@
 #include "../array.h"
 #include "../block.h"
 #include "../string.h"
+#include "../number.h"
 
 
 namespace fancy {
@@ -21,7 +22,7 @@ It is expected, that self (the receiver) is a class object.",
 
       DEF_CLASSMETHOD(ObjectClass,
                       "new:",
-                      "Same as Object#new, but also expecting arguments\
+                      "Same as Object##new, but also expecting arguments\
 and passing them on to the initialize: method of the class.",
                       new_with_arg);
 
@@ -68,10 +69,10 @@ and passing them on to the initialize: method of the class.",
                  "Índicates, if two objects are equal.",
                  eq);
   
-      DEF_METHOD(ObjectClass,
-                 "is_a?:",
-                 "Indicates, if an object is an instance of a given Class.",
-                 is_a);
+      // DEF_METHOD(ObjectClass,
+      //            "is_a?:",
+      //            "Indicates, if an object is an instance of a given Class.",
+      //            is_a);
 
       DEF_METHOD(ObjectClass,
                  "send:",
@@ -122,6 +123,11 @@ and passing them on to the initialize: method of the class.",
                  "%M:",
                  "Sets the metadata for this object.",
                  set_metadata);
+
+      DEF_METHOD(ObjectClass,
+                 "memaddr",
+                 "Returns the raw memory pointer adress as a Number",
+                 memaddr);
     }
 
     /**
@@ -131,12 +137,20 @@ and passing them on to the initialize: method of the class.",
     CLASSMETHOD(ObjectClass, new)
     {
       if(IS_CLASS(self)) {
-        Class* the_class = dynamic_cast<Class*>(self);
-        FancyObject* new_instance = the_class->create_instance();
-        if(new_instance->responds_to("initialize")) {
-          new_instance->call_method("initialize", args, argc, scope);
+        // deal with special case of Class class for dynamically
+        // creating Class Objects
+        if(self == ClassClass) {
+          return new Class(ObjectClass);
+        } else {
+          // this deals with the "normal" Classes that create "normal"
+          // Objects
+          Class* the_class = dynamic_cast<Class*>(self);
+          FancyObject* new_instance = the_class->create_instance();
+          if(new_instance->responds_to("initialize")) {
+            new_instance->call_method("initialize", args, argc, scope);
+          }
+          return new_instance;
         }
-        return new_instance;
       } else {
         errorln("Expected instance to be a class. Not the case!");
       }
@@ -147,12 +161,22 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object##new:", 1);
       if(IS_CLASS(self)) {
-        Class* the_class = dynamic_cast<Class*>(self);
-        FancyObject* new_instance = the_class->create_instance();
-        if(new_instance->responds_to("initialize:")) {
-          new_instance->call_method("initialize:", args, argc, scope);
+        // same as above, check for Class class special case
+        if(self == ClassClass) {
+          if(Class* superclass = dynamic_cast<Class*>(args[0])) {
+            return new Class(superclass);
+          } else {
+            errorln("Expected Class argument as Superclass.");
+            return nil;
+          }
+        } else {
+          Class* the_class = dynamic_cast<Class*>(self);
+          FancyObject* new_instance = the_class->create_instance();
+          if(new_instance->responds_to("initialize:")) {
+            new_instance->call_method("initialize:", args, argc, scope);
+          }
+          return new_instance;
         }
-        return new_instance;
       } else {
         errorln("Expected instance to be a class. Not the case!");
       }
@@ -228,18 +252,18 @@ and passing them on to the initialize: method of the class.",
       return self->equal(args[0]);
     }
 
-    METHOD(ObjectClass, is_a)
-    {
-      EXPECT_ARGS("Object#is_a?:", 1);
-      Class* the_class = dynamic_cast<Class*>(args[0]);
-      if(the_class) {
-        if(self->get_class()->subclass_of(the_class))
-          return t;
-      } else {
-        errorln("Object#is_a?: expects Class argument.");
-      }
-      return nil;
-    }
+    // METHOD(ObjectClass, is_a)
+    // {
+    //   EXPECT_ARGS("Object#is_a?:", 1);
+    //   Class* the_class = dynamic_cast<Class*>(args[0]);
+    //   if(the_class) {
+    //     if(self->get_class()->subclass_of(the_class))
+    //       return t;
+    //   } else {
+    //     errorln("Object#is_a?: expects Class argument.");
+    //   }
+    //   return nil;
+    // }
 
     METHOD(ObjectClass, send)
     {
@@ -321,6 +345,11 @@ and passing them on to the initialize: method of the class.",
       EXPECT_ARGS("Object#%M:", 1);
       self->set_metadata(args[0]);
       return self;
+    }
+
+    METHOD(ObjectClass, memaddr)
+    {
+      return Number::from_int((long)self);
     }
 
   }
