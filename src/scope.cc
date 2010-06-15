@@ -14,14 +14,16 @@ namespace fancy {
    *****************************************/
 
   Scope::Scope(FancyObject* current_self) :
-    _parent(0)
+    _parent(0),
+    _closed(false)
   {
     assert(current_self);
     set_current_self(current_self);
   }
 
   Scope::Scope(Scope *parent) :
-    _parent(parent)
+    _parent(parent),
+    _closed(false)
   {
     if(parent) {
       assert(parent->_current_self);
@@ -30,7 +32,8 @@ namespace fancy {
   }
 
   Scope::Scope(FancyObject* current_self, Scope *parent) :
-    _parent(parent)
+    _parent(parent),
+    _closed(false)
   {
     assert(current_self);
     set_current_self(current_self);
@@ -120,4 +123,8 @@ namespace fancy {
     return _parent;
   }
 
+  map<string, FancyObject*> Scope::value_mappings() const
+  {
+    return _value_mappings;
+  }
 }

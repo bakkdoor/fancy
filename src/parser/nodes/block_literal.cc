@@ -1,5 +1,7 @@
 #include "block_literal.h"
 #include "../../block.h"
+#include "../../lexical_scope.h"
+#include <cassert>
 
 namespace fancy {
   namespace parser {
@@ -24,7 +26,8 @@ namespace fancy {
 
       FancyObject* BlockLiteral::eval(Scope *scope)
       {
-        return new Block(_argnames, _body, scope);
+        LexicalScope* lex = new LexicalScope(scope);
+        return new Block(_argnames, _body, lex);
       }
 
       EXP_TYPE BlockLiteral::type() const

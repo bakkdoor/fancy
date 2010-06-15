@@ -53,7 +53,7 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    Scope *call_scope = new Scope(self, scope);
+    Scope* call_scope = new Scope(self, scope);
 
     // check amount of given arguments
     if(_argnames.size() != (unsigned int)argc) {
@@ -77,7 +77,11 @@ namespace fancy {
       }
     
       // finally, eval the methods body expression
-      return _body->eval(call_scope);
+      FancyObject* val = _body->eval(call_scope);
+      if(!call_scope->is_closed()) {
+        delete call_scope;
+      }
+      return val;
     }
   
     return nil;
@@ -89,8 +93,12 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    Scope *call_scope = new Scope(self, scope);
-    return _body->eval(call_scope);
+    Scope* call_scope = new Scope(self, scope);
+    FancyObject* val = _body->eval(call_scope);
+    if(!call_scope->is_closed()) {
+      delete call_scope;
+    }
+    return val;
   }
 
   EXP_TYPE Method::type() const
