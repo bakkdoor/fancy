@@ -15,7 +15,8 @@ namespace fancy {
 
   Scope::Scope(FancyObject* current_self) :
     _parent(0),
-    _closed(false)
+    _closed(false),
+    _current_sender(nil)
   {
     assert(current_self);
     set_current_self(current_self);
@@ -23,20 +24,28 @@ namespace fancy {
 
   Scope::Scope(Scope *parent) :
     _parent(parent),
-    _closed(false)
+    _closed(false),
+    _current_sender(nil)
   {
     if(parent) {
       assert(parent->_current_self);
       set_current_self(parent->_current_self);
+      if(parent->_current_sender) {
+        _current_sender = parent->_current_sender;
+      }
     }
   }
 
   Scope::Scope(FancyObject* current_self, Scope *parent) :
     _parent(parent),
-    _closed(false)
+    _closed(false),
+    _current_sender(nil)
   {
     assert(current_self);
     set_current_self(current_self);
+    if(parent && parent->_current_sender) {
+      _current_sender = parent->_current_sender;
+    }
   }
 
   Scope::~Scope()
@@ -56,6 +65,10 @@ namespace fancy {
       } else {
         return _current_self->get_slot(identifier);
       }
+    }
+
+    if(identifier == "__sender__") {
+      return _current_sender;
     }
 
     object_map::const_iterator it = _value_mappings.find(identifier);

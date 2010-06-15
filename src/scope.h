@@ -108,12 +108,25 @@ namespace fancy {
      */
     bool is_closed() const { return _closed; }
 
+    /**
+     * Sets the current_sender Object for the Scope.
+     * @param sender The current_sender Object.
+     */
+    void set_current_sender(FancyObject* sender) { _current_sender = sender; }
+
+    /**
+     * Returns the current_sender Object for the Scope.
+     * @return The current_sender Object.
+     */
+    FancyObject* current_sender() const { return _current_sender; }
+
   protected:
     map<string, FancyObject*> _value_mappings;
     Scope *_parent;
     FancyObject *_current_self;
     Class *_current_class;
     bool _closed;
+    FancyObject* _current_sender;
   };
 
   /**
