@@ -20,6 +20,11 @@ examples/farex/*
 vendor/gc/.deps/*
 vendor/gc/tests/.deps/*
 vendor/gc/Makefile
+vendor/gc/**/Makefile
+vendor/gc/**/**/Makefile
+vendor/gc/**/**/**/Makefile
+vendor/gc/**/**/**/**/Makefile
+vendor/gc/**/config.status
 vendor/gc/*.lo
 vendor/gc/libtool
 vendor/gc/.libs/*
