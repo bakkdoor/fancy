@@ -1,6 +1,4 @@
 #include "lexical_scope.h"
-#include "bootstrap/core_classes.h"
-#include <iostream>
 
 namespace fancy {
 

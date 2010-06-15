@@ -38,6 +38,12 @@ namespace fancy {
     virtual bool define(string identifier, FancyObject* value);
 
   private:
+    /**
+     * Returns the nearest Scope in the call environment that has a
+     * given identifier defined, or returns NULL.
+     * @param identifier Identifier to check for.
+     * @return Scope that has the identifier defined, or NULL.
+     */
     Scope* scope_for_ident(const string &identifier);
   };
 
