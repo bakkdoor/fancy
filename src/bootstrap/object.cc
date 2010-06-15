@@ -249,7 +249,11 @@ and passing them on to the initialize: method of the class.",
     METHOD(ObjectClass, eq)
     {
       EXPECT_ARGS("Object#==", 1);
-      return self->equal(args[0]);
+      if(self == args[0]) { // this is kind of obvious ;)
+        return t;
+      } else {
+        return self->equal(args[0]);
+      }
     }
 
     // METHOD(ObjectClass, is_a)
