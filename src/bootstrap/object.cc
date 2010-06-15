@@ -69,10 +69,10 @@ and passing them on to the initialize: method of the class.",
                  "Índicates, if two objects are equal.",
                  eq);
   
-      // DEF_METHOD(ObjectClass,
-      //            "is_a?:",
-      //            "Indicates, if an object is an instance of a given Class.",
-      //            is_a);
+      DEF_METHOD(ObjectClass,
+                 "is_a?:",
+                 "Indicates, if an object is an instance of a given Class.",
+                 is_a);
 
       DEF_METHOD(ObjectClass,
                  "send:",
@@ -256,18 +256,18 @@ and passing them on to the initialize: method of the class.",
       }
     }
 
-    // METHOD(ObjectClass, is_a)
-    // {
-    //   EXPECT_ARGS("Object#is_a?:", 1);
-    //   Class* the_class = dynamic_cast<Class*>(args[0]);
-    //   if(the_class) {
-    //     if(self->get_class()->subclass_of(the_class))
-    //       return t;
-    //   } else {
-    //     errorln("Object#is_a?: expects Class argument.");
-    //   }
-    //   return nil;
-    // }
+    METHOD(ObjectClass, is_a)
+    {
+      EXPECT_ARGS("Object#is_a?:", 1);
+      Class* the_class = dynamic_cast<Class*>(args[0]);
+      if(the_class) {
+        if(self->get_class()->subclass_of(the_class))
+          return t;
+      } else {
+        errorln("Object#is_a?: expects Class argument.");
+      }
+      return nil;
+    }
 
     METHOD(ObjectClass, send)
     {

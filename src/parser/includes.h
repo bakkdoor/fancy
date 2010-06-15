@@ -26,6 +26,8 @@
 #include "../string.h"
 #include "../symbol.h"
 
+#include "../bootstrap/core_classes.h"
+
 #include "parser.h"
 
 

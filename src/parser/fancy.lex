@@ -32,6 +32,7 @@ finally         "finally"
 super           "super"
 private         "private"
 protected       "protected"
+native_only     "NATIVE"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regexp_lit      "r{".*"}"
@@ -85,6 +86,7 @@ comment         #[^\n]*
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }
+{native_only}   { return NATIVE_ONLY; }
 {identifier}    { 
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
