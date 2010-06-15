@@ -80,6 +80,7 @@ namespace fancy {
       FancyObject* val = _body->eval(call_scope);
       if(!call_scope->is_closed()) {
         delete call_scope;
+        call_scope = NULL;
       }
       return val;
     }
@@ -97,6 +98,7 @@ namespace fancy {
     FancyObject* val = _body->eval(call_scope);
     if(!call_scope->is_closed()) {
       delete call_scope;
+      call_scope = NULL;
     }
     return val;
   }
