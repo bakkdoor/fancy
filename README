@@ -31,7 +31,7 @@ Fancy is currently built using flex & bison for parsing and uses the
 BoehmGC for garbage collection. You'll need the following
 libraries/programms in order to build the sources:
   - GNU Make
-  - Bison ( preferrably version 2.4 and higher )
+  - Bison ( version 2.4 and higher )
   - Flex
   - libgc ( BoehmGC - It's included in the vendor/ directory
             but you can also get it here:
