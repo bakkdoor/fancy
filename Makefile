@@ -9,7 +9,7 @@ gc: ${GCLIB}
 
 ${GCLIB}:
 	@echo "compiling GC"
-	@cd vendor/gc && ./configure --enable-cplusplus --disable-threads -q && make -s
+	@cd vendor/gc && CFLAGS="${GC_CFLAGS} ${CFLAGS}" ./configure --enable-cplusplus --disable-threads -q && make -s
 
 clean:
 	cd src && make clean > /dev/null
