@@ -93,9 +93,10 @@ namespace fancy {
      * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
      * @param argc Amount of arguments passed.
      * @param scope Scope in which the methodcall should evaluate.
+     * @param sender Object, that tries to send the message to this Object.
      * @return The (return) value of the methodcall.
      */
-    FancyObject* call_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope);
+    FancyObject* send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender);
 
     /**
      * Calls a method on its superclass with arguments in a given scope.
@@ -103,9 +104,10 @@ namespace fancy {
      * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
      * @param argc Amount of arguments passed.
      * @param scope Scope in which the methodcall should evaluate.
+     * @param sender Object, that tries to send the message to this Object.
      * @return The (return) value of the methodcall.
      */
-    FancyObject* call_super_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope);
+    FancyObject* send_super_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender);
 
     /**
      * Define a singleton method on a FancyObject.
@@ -113,6 +115,20 @@ namespace fancy {
      * @param method A Callable that holds the method's body.
      */
     void def_singleton_method(const string &name, Callable* method);
+
+    /**
+     * Define a private singleton method on a FancyObject.
+     * @param name Name of the private singleton method.
+     * @param method A Callable that holds the method's body.
+     */
+    void def_private_singleton_method(const string &name, Callable* method);
+
+    /**
+     * Define a protected singleton method on a FancyObject.
+     * @param name Name of the protected singleton method.
+     * @param method A Callable that holds the method's body.
+     */
+    void def_protected_singleton_method(const string &name, Callable* method);
 
     /**
      * Indicates, if a FancyObject responds to a given methodname (has

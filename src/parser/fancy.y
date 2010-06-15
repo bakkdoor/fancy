@@ -73,6 +73,8 @@
 %token                  CATCH
 %token                  FINALLY
 %token                  SUPER
+%token                  PRIVATE
+%token                  PROTECTED
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -217,6 +219,20 @@ method_w_args:  DEF method_args LCURLY method_body RCURLY {
                   $$ = new nodes::MethodDefExpr(method_args, method);
                   method_args.clear();
                 }
+                | DEF PRIVATE method_args LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
+                  Method* method = new Method(method_args, body);
+                  // TODO: set method_args correctly
+                  $$ = new nodes::PrivateMethodDefExpr(method_args, method);
+                  method_args.clear();
+                }
+                | DEF PROTECTED method_args LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
+                  Method* method = new Method(method_args, body);
+                  // TODO: set method_args correctly
+                  $$ = new nodes::ProtectedMethodDefExpr(method_args, method);
+                  method_args.clear();
+                } 
                 ;
 
 
@@ -225,6 +241,18 @@ method_no_args: DEF IDENTIFIER LCURLY method_body RCURLY {
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::MethodDefExpr($2, method);
+                }
+                | DEF PRIVATE IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
+                  $$ = new nodes::PrivateMethodDefExpr($3, method);
+                }
+                | DEF PROTECTED IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
+                  $$ = new nodes::ProtectedMethodDefExpr($3, method);
                 }
                 ;
 
@@ -236,6 +264,18 @@ class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
                   $$ = new nodes::ClassMethodDefExpr($2, method_args, method);
                   method_args.clear();
                 }
+                | DEF PRIVATE IDENTIFIER method_args LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method(method_args, body);
+                  $$ = new nodes::PrivateClassMethodDefExpr($3, method_args, method);
+                  method_args.clear();
+                }
+                | DEF PROTECTED IDENTIFIER method_args LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method(method_args, body);
+                  $$ = new nodes::ProtectedClassMethodDefExpr($3, method_args, method);
+                  method_args.clear();
+                }
                 ;
 
 class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
@@ -245,6 +285,18 @@ class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::ClassMethodDefExpr($2, $3, method);
                 }
+                | DEF PRIVATE IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
+                  $$ = new nodes::PrivateClassMethodDefExpr($3, $4, method);
+                }
+                | DEF PROTECTED IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
+                  Method* method = new Method(empty_args, body);
+                  $$ = new nodes::ProtectedClassMethodDefExpr($3, $4, method);
+                }
                 ;
 
 operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
@@ -252,10 +304,30 @@ operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
                   Method* method = new Method($2, $3, body);
                   $$ = new nodes::OperatorDefExpr($2, method);
                 }
+                | DEF PRIVATE OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method($3, $4, body);
+                  $$ = new nodes::PrivateOperatorDefExpr($3, method);
+                }
+                | DEF PROTECTED OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
+                  Method* method = new Method($3, $4, body);
+                  $$ = new nodes::ProtectedOperatorDefExpr($3, method);
+                }
                 | DEF LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList* body = new ExpressionList($6);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $4, body);
                   $$ = new nodes::OperatorDefExpr(nodes::Identifier::from_string("[]"), method);
+                }
+                | DEF PRIVATE LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
+                  $$ = new nodes::PrivateOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
+                }
+                | DEF PROTECTED LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
+                  $$ = new nodes::ProtectedOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
                 }
                 ;
 
@@ -264,10 +336,30 @@ class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY
                   Method* method = new Method($3, $4, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, $3, method);
                 }
+                | DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
+                  Method* method = new Method($4, $5, body);
+                  $$ = new nodes::PrivateClassOperatorDefExpr($3, $4, method);
+                }
+                | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
+                  Method* method = new Method($4, $5, body);
+                  $$ = new nodes::ProtectedClassOperatorDefExpr($3, $4, method);
+                }
                 | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, nodes::Identifier::from_string("[]"), method);
+                }
+                | DEF PRIVATE IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
+                  $$ = new nodes::PrivateClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
+                }
+                | DEF PROTECTED IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
+                  Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
+                  $$ = new nodes::ProtectedClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
                 }
                 ;
 

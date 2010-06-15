@@ -386,7 +386,7 @@ namespace fancy {
         } else {
           for(int i = num1->intval(); i <= num2->intval(); i++) {
             FancyObject* block_arg[1] = { Number::from_int(i) };
-            args[1]->call_method("call:", block_arg, 1, scope);
+            args[1]->send_message("call:", block_arg, 1, scope, self);
           }
         }
         return nil;
@@ -411,7 +411,7 @@ namespace fancy {
         } else {
           for(int i = num1->intval(); i >= num2->intval(); i--) {
             FancyObject* block_arg[1] = { Number::from_int(i) };
-            args[1]->call_method("call:", block_arg, 1, scope);
+            args[1]->send_message("call:", block_arg, 1, scope, self);
           }
         }
         return nil;

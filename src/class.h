@@ -82,6 +82,20 @@ namespace fancy {
     void def_method(const string &name, Callable* method);
 
     /**
+     * Defines a private instance method for the class.
+     * @param name the name of the private instance method.
+     * @param method The instance method object.
+     */
+    void def_private_method(const string &name, Callable* method);
+
+    /**
+     * Defines a protected instance method for the class.
+     * @param name the name of the protected instance method.
+     * @param method The instance method object.
+     */
+    void def_protected_method(const string &name, Callable* method);
+
+    /**
      * Defines a class method for the Class.
      * Note: This is the same as calling Class#def_singleton_method
      * since class methods are simply singleton methods on Class objects.
@@ -89,6 +103,24 @@ namespace fancy {
      * @param method The class method object.
      */
     void def_class_method(const string &name, Callable* method);
+
+    /**
+     * Defines a private class method for the Class.
+     * Note: This is the same as calling Class#def_private_singleton_method
+     * since class methods are simply singleton methods on Class objects.
+     * @param name Name of the private class method.
+     * @param method The private class method object.
+     */
+    void def_private_class_method(const string &name, Callable* method);
+
+    /**
+     * Defines a protected class method for the Class.
+     * Note: This is the same as calling Class#def_protected_singleton_method
+     * since class methods are simply singleton methods on Class objects.
+     * @param name Name of the protected class method.
+     * @param method The protected class method object.
+     */
+    void def_protected_class_method(const string &name, Callable* method);
 
     /**
      * Includes (Mixin) another the methods of another Class into this one.

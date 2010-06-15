@@ -26,6 +26,7 @@ namespace fancy {
   {
   public:
     MethodNotFoundError(const string &method_name, Class* klass);
+    MethodNotFoundError(const string &method_name, Class* klass, const string &reason);
     ~MethodNotFoundError();
   
     string method_name() const;

@@ -20,6 +20,20 @@ def class ClassWithNoMixin {
   }
 };
 
+def class ClassWithPrivate {
+  def public_method {
+    "public!"
+  }
+
+  def protected protected_method {
+    "protected!"
+  }
+  
+  def private private_method {
+    "private!"
+  }
+};
+
 FancySpec describe: Class with: |it| {
   it should: "NOT find the method when not mixed-in" when: {
     instance = ClassWithMixin new;
@@ -164,5 +178,20 @@ FancySpec describe: Class with: |it| {
     y is_a?: Class . should_equal: true;
     y new is_a?: Symbol . should_equal: true;
     y new is_a?: Object . should_equal: true
+  };
+
+  it should: "only be able to call the public method from outside the Class" when: {
+    x = ClassWithPrivate new;
+    x public_method should_equal: "public!";
+    try {
+      x private_method should_equal: nil # should fail
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "private_method"
+    };
+    try {
+      x protected_method should_equal: nil # should fail
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "protected_method"
+    }
   }
 }

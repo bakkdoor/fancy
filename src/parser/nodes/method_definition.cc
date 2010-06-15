@@ -46,6 +46,50 @@ namespace fancy {
         return _method_name->name();
       }
 
+
+      /**
+       * PrivateMethodDefExpr
+       */
+
+      PrivateMethodDefExpr::PrivateMethodDefExpr(Identifier* method_name, Method* method) :
+        MethodDefExpr(method_name, method)
+      {
+      }
+
+      PrivateMethodDefExpr::PrivateMethodDefExpr(list< pair<Identifier*, Identifier*> > args_with_name, Method* method) :
+        MethodDefExpr(args_with_name, method)
+      {
+      }
+
+      FancyObject* PrivateMethodDefExpr::eval(Scope *scope)
+      {
+        _method->set_name(method_name());
+        scope->current_class()->def_private_method(method_name(), _method);
+        return _method;
+      }
+
+
+      /**
+       * ProtectedMethodDefExpr
+       */
+
+      ProtectedMethodDefExpr::ProtectedMethodDefExpr(Identifier* method_name, Method* method) :
+        MethodDefExpr(method_name, method)
+      {
+      }
+
+      ProtectedMethodDefExpr::ProtectedMethodDefExpr(list< pair<Identifier*, Identifier*> > args_with_name, Method* method) :
+        MethodDefExpr(args_with_name, method)
+      {
+      }
+
+      FancyObject* ProtectedMethodDefExpr::eval(Scope *scope)
+      {
+        _method->set_name(method_name());
+        scope->current_class()->def_protected_method(method_name(), _method);
+        return _method;
+      }
+
     }
   }
 }

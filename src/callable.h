@@ -31,6 +31,18 @@ namespace fancy {
      * @param scope The calling scope.
      */
     virtual FancyObject* call(FancyObject *self, Scope *scope) = 0;
+
+    bool is_private() const { return _private; }
+    bool is_protected() const { return _protected; }
+    bool is_public() const { return (!_private && !_protected); }
+
+    void set_private() { _private = true; _protected = false; }
+    void set_protected() { _protected = true; _private = false; }
+    void set_public() { _protected = false; _private = false; }
+
+  private:
+    bool _private;
+    bool _protected;
   };
 
 }

@@ -209,7 +209,7 @@ If given an Array of indices, removes all the elements with these indices.",
         if(array->size() == other->size()) {
           for(unsigned int i = 0; i < array->size(); i++) {
             FancyObject* cmp_arg[1] = { other->at(i) };
-            if(array->at(i)->call_method("==", cmp_arg, 1, scope) == nil) {
+            if(array->at(i)->send_message("==", cmp_arg, 1, scope, self) == nil) {
               return nil;
             }
           }
@@ -265,7 +265,7 @@ If given an Array of indices, removes all the elements with these indices.",
           Number* idx2 = dynamic_cast<Number*>(indices_array->at(1));
           if(idx1 && idx2) {
             FancyObject* call_args[2] = { idx1, idx2 };
-            return self->call_method("from:to:", call_args, 2, scope);
+            return self->send_message("from:to:", call_args, 2, scope, self);
           }
         }
       }
@@ -363,7 +363,7 @@ If given an Array of indices, removes all the elements with these indices.",
       FancyObject* eq_args[1] = { args[0] };
       for(unsigned int i = 0; i < array->size(); i++) {
         FancyObject* item = array->at(i);
-        if(item->call_method("==", eq_args, 1, scope) != nil) {
+        if(item->send_message("==", eq_args, 1, scope, self) != nil) {
           indices.push_back(Number::from_int(i));
         }
       }
@@ -430,7 +430,7 @@ If given an Array of indices, removes all the elements with these indices.",
       Array* array = dynamic_cast<Array*>(self);
       for(unsigned int i = 0; i < array->size(); i++) {
         FancyObject* block_arg[1] = { array->at(i) };
-        if(args[0]->call_method("call:", block_arg, 1, scope) != nil) {
+        if(args[0]->send_message("call:", block_arg, 1, scope, self) != nil) {
           return t;
         }
       }
@@ -443,7 +443,7 @@ If given an Array of indices, removes all the elements with these indices.",
       Array* array = dynamic_cast<Array*>(self);
       for(unsigned int i = 0; i < array->size(); i++) {
         FancyObject* block_arg[1] = { array->at(i) };
-        if(args[0]->call_method("call:", block_arg, 1, scope) == nil) {
+        if(args[0]->send_message("call:", block_arg, 1, scope, self) == nil) {
           return nil;
         }
       }

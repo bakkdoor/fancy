@@ -30,6 +30,8 @@ try             "try"
 catch           "catch"
 finally         "finally"
 super           "super"
+private         "private"
+protected       "protected"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regexp_lit      "r{".*"}"
@@ -81,6 +83,8 @@ comment         #[^\n]*
 {catch}         { return CATCH; }
 {finally}       { return FINALLY; }
 {super}         { return SUPER; }
+{private}       { return PRIVATE; }
+{protected}     { return PROTECTED; }
 {identifier}    { 
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);

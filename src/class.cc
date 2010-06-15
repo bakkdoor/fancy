@@ -91,11 +91,37 @@ namespace fancy {
     _instance_methods[name] = method;
   }
 
+  void Class::def_private_method(const string &name, Callable* method)
+  {
+    assert(method);
+    method->set_private();
+    _instance_methods[name] = method;
+  }
+
+  void Class::def_protected_method(const string &name, Callable* method)
+  {
+    assert(method);
+    method->set_protected();
+    _instance_methods[name] = method;
+  }
+
   void Class::def_class_method(const string &name, Callable* method)
   {
     assert(method);
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
+  }
+
+  void Class::def_private_class_method(const string &name, Callable* method)
+  {
+    assert(method);
+    this->def_private_singleton_method(name, method);
+  }
+
+  void Class::def_protected_class_method(const string &name, Callable* method)
+  {
+    assert(method);
+    this->def_protected_singleton_method(name, method);
   }
 
   FancyObject* Class::equal(FancyObject* other) const

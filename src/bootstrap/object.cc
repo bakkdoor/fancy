@@ -147,7 +147,7 @@ and passing them on to the initialize: method of the class.",
           Class* the_class = dynamic_cast<Class*>(self);
           FancyObject* new_instance = the_class->create_instance();
           if(new_instance->responds_to("initialize")) {
-            new_instance->call_method("initialize", args, argc, scope);
+            new_instance->send_message("initialize", args, argc, scope, self);
           }
           return new_instance;
         }
@@ -173,7 +173,7 @@ and passing them on to the initialize: method of the class.",
           Class* the_class = dynamic_cast<Class*>(self);
           FancyObject* new_instance = the_class->create_instance();
           if(new_instance->responds_to("initialize:")) {
-            new_instance->call_method("initialize:", args, argc, scope);
+            new_instance->send_message("initialize:", args, argc, scope, self);
           }
           return new_instance;
         }
@@ -269,7 +269,7 @@ and passing them on to the initialize: method of the class.",
     {
       EXPECT_ARGS("Object#send:", 1);
       string method_name = args[0]->to_s();
-      return self->call_method(method_name, 0, 0, scope);
+      return self->send_message(method_name, 0, 0, scope, self);
     }
 
     METHOD(ObjectClass, send__params)
@@ -282,7 +282,7 @@ and passing them on to the initialize: method of the class.",
         for(int i = 0; i < size; i++) {
           arg_array[i] = arr->at(i);
         }
-        FancyObject* retval = self->call_method(method_name, arg_array, size, scope);
+        FancyObject* retval = self->send_message(method_name, arg_array, size, scope, self);
         delete[] arg_array; // cleanup
         return retval;
       } else {

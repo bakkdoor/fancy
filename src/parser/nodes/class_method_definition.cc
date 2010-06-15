@@ -48,6 +48,50 @@ namespace fancy {
         }
       }
 
+
+      /**
+       * PrivateClassMethodDefExpr
+       */
+
+      PrivateClassMethodDefExpr::PrivateClassMethodDefExpr(Identifier* class_name, Identifier* method_name, Method* method) :
+        ClassMethodDefExpr(class_name, method_name, method)
+      {
+      }
+
+      PrivateClassMethodDefExpr::PrivateClassMethodDefExpr(Identifier* class_name, list< pair<Identifier*, Identifier*> > args_with_name, Method* method) :
+        ClassMethodDefExpr(class_name, args_with_name, method)
+      {
+      }
+
+      FancyObject* PrivateClassMethodDefExpr::eval(Scope *scope)
+      {
+        _method->set_name(method_name());
+        scope->get(_class_name->name())->def_private_singleton_method(method_name(), _method);
+        return _method;
+      }
+
+
+      /**
+       * ProtectedClassMethodDefExpr
+       */
+
+      ProtectedClassMethodDefExpr::ProtectedClassMethodDefExpr(Identifier* class_name, Identifier* method_name, Method* method) :
+        ClassMethodDefExpr(class_name, method_name, method)
+      {
+      }
+
+      ProtectedClassMethodDefExpr::ProtectedClassMethodDefExpr(Identifier* class_name, list< pair<Identifier*, Identifier*> > args_with_name, Method* method) :
+        ClassMethodDefExpr(class_name, args_with_name, method)
+      {
+      }
+
+      FancyObject* ProtectedClassMethodDefExpr::eval(Scope *scope)
+      {
+        _method->set_name(method_name());
+        scope->get(_class_name->name())->def_protected_singleton_method(method_name(), _method);
+        return _method;
+      }
+
     }
   }
 }

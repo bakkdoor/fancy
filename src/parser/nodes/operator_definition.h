@@ -13,15 +13,33 @@ namespace fancy {
       {
       public:
         OperatorDefExpr(Identifier* op_name, Method* method);
+        virtual ~OperatorDefExpr() {}
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
  
-      private:
+      protected:
         Identifier* _op_name;
         Method* _method;
       };
 
+      class PrivateOperatorDefExpr : public OperatorDefExpr
+      {
+      public:
+        PrivateOperatorDefExpr(Identifier* op_name, Method* method);
+        virtual ~PrivateOperatorDefExpr() {}
+
+        virtual FancyObject* eval(Scope *scope);
+      };
+
+      class ProtectedOperatorDefExpr : public OperatorDefExpr
+      {
+      public:
+        ProtectedOperatorDefExpr(Identifier* op_name, Method* method);
+        virtual ~ProtectedOperatorDefExpr() {}
+
+        virtual FancyObject* eval(Scope *scope);
+      };
     }
   }
 }

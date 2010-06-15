@@ -91,11 +91,22 @@ namespace fancy {
     return to_s();
   }
 
-  FancyObject* FancyObject::call_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope)
+  FancyObject* FancyObject::send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
     Callable* method = get_method(method_name);
     if(method) {
       if(argc == 0) {
+        // take care of private & protected methods
+        if(method->is_private()) {
+          if(sender->get_class() != this->_class) {
+            throw new MethodNotFoundError(method_name, _class, "private method");
+          }
+        }
+        if(method->is_protected()) {
+          if(!sender->get_class()->subclass_of(this->_class)) {
+            throw new MethodNotFoundError(method_name, _class, "protected method");
+          }
+        }
         return method->call(this, scope);
       }
       return method->call(this, arguments, argc, scope);
@@ -115,12 +126,23 @@ namespace fancy {
     }
   }
 
-  FancyObject* FancyObject::call_super_method(const string &method_name, FancyObject* *arguments, int argc, Scope *scope)
+  FancyObject* FancyObject::send_super_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
     if(Class* superclass = _class->superclass()) {
       Callable* method = superclass->find_method(method_name);
       if(method) {
         if(argc == 0) {
+        // take care of private & protected methods
+          if(method->is_private()) {
+            if(sender->get_class() != this->_class) {
+              throw new MethodNotFoundError(method_name, _class, "private method");
+            }
+          }
+          if(method->is_protected()) {
+            if(!sender->get_class()->subclass_of(this->_class)) {
+              throw new MethodNotFoundError(method_name, _class, "protected method");
+            }
+          }
           return method->call(this, scope);
         }
         return method->call(this, arguments, argc, scope);
@@ -148,6 +170,20 @@ namespace fancy {
   void FancyObject::def_singleton_method(const string &name, Callable* method)
   {
     assert(method);
+    _singleton_methods[name] = method;
+  }
+
+  void FancyObject::def_private_singleton_method(const string &name, Callable* method)
+  {
+    assert(method);
+    method->set_private();
+    _singleton_methods[name] = method;
+  }
+
+  void FancyObject::def_protected_singleton_method(const string &name, Callable* method)
+  {
+    assert(method);
+    method->set_protected();
     _singleton_methods[name] = method;
   }
 

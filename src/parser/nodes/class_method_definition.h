@@ -18,11 +18,12 @@ namespace fancy {
       public:
         ClassMethodDefExpr(Identifier* class_name, Identifier* method_name, Method* method); // method takes no arguments
         ClassMethodDefExpr(Identifier* class_name, list< pair<Identifier*, Identifier*> > args_with_name, Method* method);
+        virtual ~ClassMethodDefExpr() {}
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
  
-      private:
+      protected:
         string method_name();
         Identifier* _class_name;
         Identifier* _method_name;
@@ -30,6 +31,25 @@ namespace fancy {
         list< pair<Identifier*, Identifier*> > _method_args;
       };
 
+      class PrivateClassMethodDefExpr : public ClassMethodDefExpr
+      {
+      public:
+        PrivateClassMethodDefExpr(Identifier* class_name, Identifier* method_name, Method* method); // method takes no arguments
+        PrivateClassMethodDefExpr(Identifier* class_name, list< pair<Identifier*, Identifier*> > args_with_name, Method* method);
+        virtual ~PrivateClassMethodDefExpr() {}
+
+        virtual FancyObject* eval(Scope *scope);
+      };
+
+      class ProtectedClassMethodDefExpr : public ClassMethodDefExpr
+      {
+      public:
+        ProtectedClassMethodDefExpr(Identifier* class_name, Identifier* method_name, Method* method); // method takes no arguments
+        ProtectedClassMethodDefExpr(Identifier* class_name, list< pair<Identifier*, Identifier*> > args_with_name, Method* method);
+        virtual ~ProtectedClassMethodDefExpr() {}
+
+        virtual FancyObject* eval(Scope *scope);
+      };
     }
   }
 }

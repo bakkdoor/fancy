@@ -44,11 +44,11 @@ namespace fancy {
 
         // check for super call
         if(_receiver->type() == EXP_SUPER) {
-          retval = scope->current_self()->call_super_method(_method_ident->name(), args, size, scope);
+          retval = scope->current_self()->send_super_message(_method_ident->name(), args, size, scope, scope->current_self());
         } else {
           // if no super call, do normal method call
           FancyObject* receiver_obj = _receiver->eval(scope);
-          retval = receiver_obj->call_method(_method_ident->name(), args, size, scope);
+          retval = receiver_obj->send_message(_method_ident->name(), args, size, scope, scope->current_self());
         }
         delete[] args;
         return retval;
