@@ -94,6 +94,7 @@ namespace fancy {
   FancyObject* FancyObject::send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
     Callable* method = get_method(method_name);
+    scope->define("__sender__", sender);
     if(method) {
       if(argc == 0) {
         // take care of private & protected methods
@@ -128,6 +129,7 @@ namespace fancy {
 
   FancyObject* FancyObject::send_super_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
+    scope->define("__sender__", sender);
     if(Class* superclass = _class->superclass()) {
       Callable* method = superclass->find_method(method_name);
       if(method) {
