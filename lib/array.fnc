@@ -126,8 +126,8 @@ def class Array {
     coll
   };
 
-  def reject!: condition {
-    "Removes all elements in place, that meet the condition";
+  NATIVE def reject!: condition {
+    "Removes all elements in place, that meet the condition.";
     
     entries = self select_with_index: |x i| { condition call: x };
     self remove_at: $ entries map: |e| { e second };

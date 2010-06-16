@@ -159,6 +159,11 @@ If given an Array of indices, removes all the elements with these indices.",
                  "select_with_index:",
                  "Same as select, just gets also called with an additional argument for each element's index value.",
                  select_with_index);
+
+      DEF_METHOD(ArrayClass,
+                 "reject!:",
+                 "Removes all elements in place, that meet the condition.",
+                 reject_in_place);
     }
 
     /**
@@ -544,6 +549,33 @@ If given an Array of indices, removes all the elements with these indices.",
         }
       }
       return ret_array;
+    }
+
+    METHOD(ArrayClass, reject_in_place)
+    {
+      EXPECT_ARGS("Array#reject!:", 1);
+      Array* array = dynamic_cast<Array*>(self);
+      Array* del_idx_array = new Array();
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* block_arg[1] = { array->at(i) };
+          if(block->call(self, block_arg, 1, scope) != nil) {
+            del_idx_array->insert(Number::from_int(i));
+          }
+        }
+      } else {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* block_arg[1] = { array->at(i) };
+          if(args[0]->send_message("call:", block_arg, 1, scope, self) != nil) {
+            del_idx_array->insert(Number::from_int(i));
+          }
+        }
+      }
+
+      // now delete all the values with the given indexes in del_idx_array
+      FancyObject* arg[1] = { del_idx_array };
+      self->send_message("remove_at:", arg, 1, scope, self);
+      return self;
     }
 
   }
