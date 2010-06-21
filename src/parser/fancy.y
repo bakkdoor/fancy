@@ -16,6 +16,9 @@
   expression_node* expr_node(Expression* expr,
                              expression_node *next);
 
+  nodes::identifier_node* ident_node(Identifier* ident,
+                                     nodes::identifier_node *next);
+
   nodes::block_arg_node* blk_arg_node(nodes::Identifier* argname,
                                       nodes::block_arg_node *next);
 
@@ -37,6 +40,7 @@
   fancy::parser::nodes::key_val_node      *key_val_list;
   array_node               *value_list;
   expression_node          *expr_list;
+  identifier_node          *ident_list;
   fancy::parser::nodes::block_arg_node    *block_arg_list;
   fancy::parser::nodes::send_arg_node     *send_arg_list;
   fancy::parser::nodes::except_handler_list *except_handler_list;
@@ -106,6 +110,8 @@
 %type  <object>             code
 %type  <object>             exp
 %type  <expression>         assignment
+%type  <expression>         multiple_assignment
+%type  <ident_list>         identifier_list
 %type  <expression>         return_statement
 %type  <expression>         require_statement
 
@@ -161,6 +167,18 @@ exp:            method_def
 
 assignment:     IDENTIFIER EQUALS exp {
                   $$ = new nodes::AssignmentExpr($1, $3);
+                }
+                | multiple_assignment
+                ;
+
+multiple_assignment: identifier_list EQUALS exp_comma_list {
+                  $$ = new nodes::AssignmentExpr($1, $3);
+                }
+                ;
+
+identifier_list: IDENTIFIER { $$ = ident_node($1, NULL); }
+                | identifier_list COMMA IDENTIFIER {
+                  $$ = ident_node($3, $1);
                 }
                 ;
 
@@ -516,6 +534,13 @@ expression_node* expr_node(Expression* expr, expression_node *next)
   return node;
 }
 
+nodes::identifier_node* ident_node(Identifier* ident, nodes::identifier_node* next)
+{
+  nodes::identifier_node *node = new nodes::identifier_node;
+  node->identifier = ident;
+  node->next = next;
+  return node;
+}
 
 nodes::block_arg_node* blk_arg_node(nodes::Identifier* argname, nodes::block_arg_node *next)
 {

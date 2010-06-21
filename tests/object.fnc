@@ -73,5 +73,17 @@ FancySpec describe: Object with: |it| {
     1123 is_a?: Object . should_equal: true;
     132.123 is_a?: Number . should_equal: true;
     132.123 is_a?: Object . should_equal: true    
+  };
+
+  it should: "correctly assign multiple values at once" when: {
+    x, y, z = 1, 10, 100;
+    x should_equal: 1;
+    y should_equal: 10;
+    z should_equal: 100;
+
+    x, y, z = :foo, :bar;
+    x should_equal: :foo;
+    y should_equal: :bar;
+    z should_equal: nil
   }
 }
