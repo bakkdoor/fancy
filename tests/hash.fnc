@@ -87,7 +87,7 @@ FancySpec describe: Hash with: |it| {
       . should_equal: [[:fancy, "is cool"]];
 
     hash reject: |pair| { pair[0] to_s include?: "l" }
-      . map: :second . should_equal: ["is cool"]
+      . map: |x| { x second } . should_equal: ["is cool"]
   };
 
   it should: "return nil if the key isn't defined" when: {

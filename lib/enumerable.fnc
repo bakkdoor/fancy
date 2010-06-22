@@ -196,11 +196,11 @@ def class Enumerable {
   
   def max {
     "Returns the maximum value in the Enumerable (via the '>' comparison message).";
-    self superior_by: :>
+    self superior_by: |x y| { x > y }
   }
 
   def min {
     "Returns the minimum value in the Enumerable (via the '<' comparison message).";
-    self superior_by: :<
+    self superior_by: |x y| { x < y }
   }
 }

@@ -3,7 +3,7 @@
 def class Array {
   self include: Enumerable;
 
-  def [] index {
+  NATIVE def [] index {
     ""Given an Array of 2 Numbers, it returns the sub-array between the given indices.
       If given a Number, returns the element at that index."";
 
@@ -157,7 +157,7 @@ def class Array {
 
     self remove_at:
       (self select_with_index: condition
-         . map: :second)
+         . map: |x| { x second })
   }
 
   def println {

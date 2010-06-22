@@ -53,7 +53,9 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    Scope* call_scope = new Scope(self, scope);
+    _call_scope.clear();
+    _call_scope.set_current_self(self);
+    _call_scope.set_parent_scope(scope);
 
     // check amount of given arguments
     if(_argnames.size() != (unsigned int)argc) {
@@ -71,17 +73,17 @@ namespace fancy {
       while(name_it != _argnames.end() && i < argc) {
         // name_it->second holds the name of the actual param name 
         // (the first is part of the method name)
-        call_scope->define(name_it->second->name(), args[i]);
+        _call_scope.define(name_it->second->name(), args[i]);
         name_it++;
         i++;
       }
     
       // finally, eval the methods body expression
-      FancyObject* val = _body->eval(call_scope);
-      if(!call_scope->is_closed()) {
-        delete call_scope;
-        call_scope = NULL;
-      }
+      FancyObject* val = _body->eval(&_call_scope);
+      // if(!call_scope->is_closed()) {
+      //   delete call_scope;
+      //   call_scope = NULL;
+      // }
       return val;
     }
   
@@ -94,12 +96,15 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    Scope* call_scope = new Scope(self, scope);
-    FancyObject* val = _body->eval(call_scope);
-    if(!call_scope->is_closed()) {
-      delete call_scope;
-      call_scope = NULL;
-    }
+    _call_scope.clear();
+    _call_scope.set_current_self(self);
+    _call_scope.set_parent_scope(scope);
+
+    FancyObject* val = _body->eval(&_call_scope);
+    // if(!call_scope->is_closed()) {
+    //   delete call_scope;
+    //   call_scope = NULL;
+    // }
     return val;
   }
 
