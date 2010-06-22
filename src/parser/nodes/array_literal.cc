@@ -31,6 +31,27 @@ namespace fancy {
         return EXP_ARRAYLITERAL;
       }
 
+      string ArrayLiteral::to_sexp() const
+      {
+        stringstream s;
+        s << "[:array_lit, ";
+        int size = _expressions.size();
+        int count = 1;
+        for(list<Expression*>::const_iterator it = _expressions.begin();
+            it != _expressions.end();
+            it++) {
+          s << (*it)->to_sexp();
+
+          if(count < size) {
+            s << ", ";
+          }
+
+          count++;
+        }
+        s << "]";
+        return s.str();
+      }
+
     }
   }
 }

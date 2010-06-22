@@ -31,6 +31,31 @@ namespace fancy {
         return EXP_HASHLITERAL;
       }
 
+      string HashLiteral::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:hash_lit, ";
+
+        int size = _key_val_list.size();
+        int count = 1;
+        list< pair<Expression*, Expression*> >::const_iterator it;
+        for(it = _key_val_list.begin(); it != _key_val_list.end(); it++) {
+          s << "[" << it->first->to_sexp() << ", ";
+          s << it->second->to_sexp() << "]";
+
+          if(count < size) {
+            s << ", ";
+          }
+
+          count++;
+        }
+
+        s << "]";
+
+        return s.str();
+      }
+
     }
   }
 }

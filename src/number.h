@@ -33,6 +33,7 @@ namespace fancy {
      */  
     virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
+    virtual string to_sexp() const;
     virtual string to_s() const;
 
     /**

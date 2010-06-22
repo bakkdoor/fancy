@@ -73,6 +73,26 @@ namespace fancy {
         return EXP_CLASSDEFEXPR;
       }
 
+      string ClassDefExpr::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:class_def, ";
+        s << _class_name->to_sexp() << ", ";
+
+        if(_superclass_name) {
+          s << _superclass_name->to_sexp();
+        } else {
+          s << "[]";
+        }
+        s << ", ";
+
+        s << _class_body->to_sexp();
+        s << "]";
+
+        return s.str();
+      }
+
     }
   }
 }

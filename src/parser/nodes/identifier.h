@@ -32,6 +32,7 @@ namespace fancy {
          */
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
+        virtual string to_sexp() const;
 
         /**
          * Returns the name of the Identifier as a C++ string.

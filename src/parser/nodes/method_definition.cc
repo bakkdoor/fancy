@@ -31,19 +31,30 @@ namespace fancy {
         return _method;
       }
 
-      string MethodDefExpr::method_name()
+      string MethodDefExpr::to_sexp() const
+      {
+        stringstream s;
+        s << "[:method_def, ";
+        // insert method
+        _method->set_name(method_name());
+        s << _method->to_sexp() << "]";
+        return s.str();
+      }
+
+      string MethodDefExpr::method_name() const
       {
         if(!_method_name) {
           stringstream s;
-          list< pair<Identifier*, Identifier*> >::iterator it;
+          list< pair<Identifier*, Identifier*> >::const_iterator it;
     
           for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";
           }
-          _method_name = Identifier::from_string(s.str());
-        }
 
-        return _method_name->name();
+          return s.str();
+        } else {
+          return _method_name->name();
+        }
       }
 
 
@@ -68,6 +79,10 @@ namespace fancy {
         return _method;
       }
 
+      string PrivateMethodDefExpr::to_sexp() const
+      {
+        return "[:private, " + MethodDefExpr::to_sexp() + "]";
+      }
 
       /**
        * ProtectedMethodDefExpr
@@ -90,6 +105,10 @@ namespace fancy {
         return _method;
       }
 
+      string ProtectedMethodDefExpr::to_sexp() const
+      {
+        return "[:protected, " + MethodDefExpr::to_sexp() + "]";
+      }
     }
   }
 }

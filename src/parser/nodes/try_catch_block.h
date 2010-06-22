@@ -27,6 +27,10 @@ namespace fancy {
         bool can_handle(Class* the_class, Scope *scope);
         FancyObject* handle(FancyException* exception, Scope *scope);
 
+        Identifier* exception_class_name() const { return _exception_class_name; }
+        Identifier* local_name() const { return _local_name; }
+        Expression* body() const { return _body; }
+
       private:
         Identifier* _exception_class_name;
         Class* _exception_class;
@@ -45,6 +49,7 @@ namespace fancy {
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
 
       private:
         void init_except_handlers(except_handler_list* except_handlers);

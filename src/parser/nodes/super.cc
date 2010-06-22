@@ -25,6 +25,11 @@ namespace fancy {
         return EXP_SUPER;
       }
 
+      string Super::to_sexp() const
+      {
+        return "[:super]";
+      }
+
     }
   }
 }

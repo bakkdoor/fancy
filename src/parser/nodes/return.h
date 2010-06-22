@@ -15,6 +15,7 @@ namespace fancy {
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
 
       private:
         Expression* _return_expr;

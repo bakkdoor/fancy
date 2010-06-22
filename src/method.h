@@ -53,6 +53,7 @@ namespace fancy {
      */
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
+    virtual string to_sexp() const;
 
     /**
      * Inherited from Callable. Calls the method.

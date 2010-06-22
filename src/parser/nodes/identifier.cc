@@ -24,6 +24,11 @@ namespace fancy {
         return EXP_IDENTIFIER;
       }
 
+      string Identifier::to_sexp() const
+      {
+        return "[:ident, \"" + _name + "\"]";
+      }
+
       string Identifier::name() const
       {
         return _name;

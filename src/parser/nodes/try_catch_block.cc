@@ -84,6 +84,41 @@ namespace fancy {
         return EXP_TRYCATCHBLOCK;
       }
 
+      string TryCatchBlock::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:try_catch_block, "
+          << "[:try, "
+          << _body->to_sexp() << "]"
+
+          << "[:handlers, ";
+        int size = _except_handlers.size();
+        int count = 1;
+        list<ExceptionHandler*>::const_iterator it;
+        for(it = _except_handlers.begin(); it != _except_handlers.end(); it++) {
+          s << "[:except_handler, "
+            << (*it)->exception_class_name()->to_sexp() << ", "
+            << (*it)->local_name()->to_sexp() << ", "
+            << (*it)->body()->to_sexp() << "]";
+          if(count < size) {
+            s << ", ";
+          }
+          count++;
+        }
+        s << "]";
+
+        if(_finally_block) {
+          s << "[:finally, "
+            << _finally_block->to_sexp()
+            << "]";
+        }
+
+        s << "]";
+
+        return s.str();
+      }
+
       FancyObject* TryCatchBlock::eval(Scope *scope)
       {
         // OK, I admit this code looks kinda ugly. But it's pretty

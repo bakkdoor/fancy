@@ -5,6 +5,10 @@
 #include "../vendor/gc/include/gc_cpp.h"
 #include "../vendor/gc/include/gc_allocator.h"
 
+#include <string>
+#include <sstream>
+using namespace std;
+
 namespace fancy {
 
   class Scope;
@@ -53,14 +57,16 @@ namespace fancy {
   /**
    * Interface for everything that can evaluate into a FancyObject
    * instance.  
-   * This includes parser nodes (see src/parser/nodes/) as * well as
-   * FancyObjects (they evaluate to themself)
+   * This includes parser nodes (see src/parser/nodes/) as well as
+   * FancyObjects (they evaluate to themself).
    */
   class Expression : public gc_cleanup
   {
   public:
     virtual FancyObject* eval(Scope *scope) = 0;
     virtual EXP_TYPE type() const = 0;
+
+    virtual string to_sexp() const = 0;
   };
 
 }

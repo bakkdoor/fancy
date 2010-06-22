@@ -36,6 +36,15 @@ namespace fancy {
     }
   }
 
+  string Number::to_sexp() const
+  {
+    if(_is_double) {
+      return "[:double_lit, " + to_s() + "]";
+    } else {
+      return "[:int_lit, " + to_s() + "]";
+    }
+  }
+
   string Number::to_s() const
   {
     stringstream s;

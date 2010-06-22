@@ -34,6 +34,11 @@ namespace fancy {
     return EXP_SYMBOL;
   }
 
+  string Symbol::to_sexp() const
+  {
+    return "[:symbol_lit, " + _name + "]";
+  }
+
   string Symbol::to_s() const
   {
     return _name.substr(1, _name.size() - 1);

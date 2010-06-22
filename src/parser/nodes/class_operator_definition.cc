@@ -23,6 +23,17 @@ namespace fancy {
         return _method;
       }
 
+      string ClassOperatorDefExpr::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:singleton_operator_def, ";
+        s << _class_name->to_sexp() << ", ";
+        s << _method->to_sexp() << "]";
+
+        return s.str();
+      }
+
 
       /**
        * PrivateClassOperatorDefExpr
@@ -39,6 +50,10 @@ namespace fancy {
         return _method;
       }
 
+      string PrivateClassOperatorDefExpr::to_sexp() const
+      {
+        return "[:private, " + ClassOperatorDefExpr::to_sexp() + "]";
+      }
 
       /**
        * ProtectedClassOperatorDefExpr
@@ -55,6 +70,10 @@ namespace fancy {
         return _method;
       }
 
+      string ProtectedClassOperatorDefExpr::to_sexp() const
+      {
+        return "[:protected, " + ClassOperatorDefExpr::to_sexp() + "]";
+      }
     }
   }
 }

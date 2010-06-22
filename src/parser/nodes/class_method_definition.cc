@@ -32,11 +32,22 @@ namespace fancy {
         return _method;
       }
 
-      string ClassMethodDefExpr::method_name()
+      string ClassMethodDefExpr::to_sexp() const
+      {
+        stringstream s;
+        s << "[:singleton_method_def, ";
+        s << _class_name->to_sexp() << ", ";
+        // insert body
+        _method->set_name(method_name());
+        s << _method->to_sexp() << "]";
+        return s.str();
+      }
+
+      string ClassMethodDefExpr::method_name() const
       {
         if(!_method_name) {
           stringstream s;
-          list< pair<Identifier*, Identifier*> >::iterator it;
+          list< pair<Identifier*, Identifier*> >::const_iterator it;
     
           for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";
@@ -70,6 +81,10 @@ namespace fancy {
         return _method;
       }
 
+      string PrivateClassMethodDefExpr::to_sexp() const
+      {
+        return "[:private, " + ClassMethodDefExpr::to_sexp() + "]";
+      }
 
       /**
        * ProtectedClassMethodDefExpr
@@ -90,6 +105,11 @@ namespace fancy {
         _method->set_name(method_name());
         scope->get(_class_name->name())->def_protected_singleton_method(method_name(), _method);
         return _method;
+      }
+
+      string ProtectedClassMethodDefExpr::to_sexp() const
+      {
+        return "[:protected, " + ClassMethodDefExpr::to_sexp() + "]";
       }
 
     }

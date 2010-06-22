@@ -113,6 +113,34 @@ namespace fancy {
     return "<Method : '" + _method_ident + "' Doc:'" + _docstring + "'>";
   }
 
+  string Method::to_sexp() const
+  {
+    stringstream s;
+
+    s << "[:method, \"" << _method_ident << "\""
+      << ", ";
+
+    // insert argument names
+    s << "[";
+    int count = 1;
+    int size = _argnames.size();
+    list< pair<Identifier*, Identifier*> >::const_iterator it;
+    for(it = _argnames.begin(); it != _argnames.end(); it++) {
+      s << it->second->to_sexp();
+      if(count < size) {
+        s << ", ";
+      }
+    }
+    s << "], ";
+
+    // insert method body
+    s << _body->to_sexp();
+
+    s << "]";
+    
+    return s.str();
+  }
+
   void Method::init_method_ident()
   {
     stringstream str;

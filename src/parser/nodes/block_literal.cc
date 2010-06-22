@@ -35,6 +35,29 @@ namespace fancy {
         return EXP_BLOCKLITERAL;
       }
 
+      string BlockLiteral::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:block_lit, [";
+        int size = _argnames.size();
+        int count = 1;
+        for(list<Identifier*>::const_iterator it = _argnames.begin();
+            it != _argnames.end();
+            it++) {
+          s << (*it)->to_sexp();
+          if(count < size) {
+            s << ", ";
+          }
+          count++;
+        }
+        s << "], "
+          << _body->to_sexp()
+          << "]";
+
+        return s.str();
+      }
+
     }
   }
 }

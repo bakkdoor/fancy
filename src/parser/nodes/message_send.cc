@@ -59,6 +59,29 @@ namespace fancy {
         return EXP_METHODCALL;
       }
 
+      string MessageSend::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:message_send, " << _receiver->to_sexp() << ", ";
+        s << _method_ident->to_sexp() << ", ";
+        s << "[";
+
+        int count = 1;
+        int size = _arg_expressions.size();
+        list< pair<Identifier*, Expression*> >::const_iterator it;
+        for(it = _arg_expressions.begin(); it != _arg_expressions.end(); it++) {
+          s << it->second->to_sexp();
+          if(count < size) {
+            s << ", ";
+          }
+          count++;
+        }
+        s << "]";
+
+        return s.str();
+      }
+
       void MessageSend::init_method_ident()
       {
         stringstream str;

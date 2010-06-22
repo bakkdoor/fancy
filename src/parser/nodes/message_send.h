@@ -28,6 +28,7 @@ namespace fancy {
 
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
+        virtual string to_sexp() const;
 
       private:
         void init_method_ident();

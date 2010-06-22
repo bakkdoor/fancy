@@ -36,6 +36,11 @@ namespace fancy {
     return EXP_STRING;
   }
 
+  string FancyString::to_sexp() const
+  {
+    return "[:string_lit, " + inspect() + "]";
+  }
+
   string FancyString::to_s() const
   {
     return _value;

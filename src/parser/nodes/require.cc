@@ -29,6 +29,11 @@ namespace fancy {
         return nil;
       }
 
+      string RequireStatement::to_sexp() const
+      {
+        return "[:require, " + _filename + "]";
+      }
+
     }
   }
 }

@@ -42,6 +42,28 @@ namespace fancy {
         return EXP_EXPRLIST;
       }
 
+      string ExpressionList::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:exp_list, [";
+
+        int size = _expressions.size();
+        int count = 1;
+        list<Expression*>::const_iterator it;
+        for(it = _expressions.begin(); it != _expressions.end(); it++) {
+          s << (*it)->to_sexp();
+          if(count < size) {
+            s << ", ";
+          }
+          count++;
+        }
+
+        s << "]]";
+
+        return s.str();
+      }
+
       unsigned int ExpressionList::size() const
       {
         return _expressions.size();

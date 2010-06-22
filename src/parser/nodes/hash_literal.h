@@ -28,6 +28,7 @@ namespace fancy {
 
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const;
+        virtual string to_sexp() const;
 
       private:
         list< pair<Expression*, Expression*> > _key_val_list;

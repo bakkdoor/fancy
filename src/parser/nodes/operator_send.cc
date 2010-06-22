@@ -35,6 +35,17 @@ namespace fancy {
         return EXP_OPCALL;
       }
 
+      string OperatorSend::to_sexp() const
+      {
+        stringstream s;
+        
+        s << "[:message_send, " << _receiver->to_sexp() << ", ";
+        s << _operator_name->name() << ", ";
+        s << "[" << _operand->to_sexp() << "]]";
+
+        return s.str();
+      }
+
     }
   }
 }

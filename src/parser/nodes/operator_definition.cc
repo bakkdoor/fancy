@@ -23,6 +23,16 @@ namespace fancy {
         return _method;
       }
 
+      string OperatorDefExpr::to_sexp() const
+      {
+        stringstream s;
+
+        s << "[:operator_def, ";
+        s << _method->to_sexp() << "]";
+
+        return s.str();
+      }
+
 
       /**
        * PrivateOperatorDefExpr
@@ -39,6 +49,11 @@ namespace fancy {
         return _method;
       }
 
+      string PrivateOperatorDefExpr::to_sexp() const
+      {
+        return "[:private, " + OperatorDefExpr::to_sexp() + "]";
+      }
+
 
       /**
        * ProtectedOperatorDefExpr
@@ -53,6 +68,11 @@ namespace fancy {
       {
         scope->current_class()->def_protected_method(_op_name->name(), _method);
         return _method;
+      }
+
+      string ProtectedOperatorDefExpr::to_sexp() const
+      {
+        return "[:protected, " + OperatorDefExpr::to_sexp() + "]";
       }
 
     }

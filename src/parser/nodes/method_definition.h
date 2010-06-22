@@ -22,9 +22,10 @@ namespace fancy {
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
  
       protected:
-        string method_name();
+        string method_name() const;
         list< pair<Identifier*, Identifier*> > _method_args;
         Method* _method;
         Identifier* _method_name;
@@ -38,6 +39,7 @@ namespace fancy {
         virtual ~PrivateMethodDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
       };
 
       class ProtectedMethodDefExpr : public MethodDefExpr
@@ -48,6 +50,7 @@ namespace fancy {
         virtual ~ProtectedMethodDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
       };
 
     }

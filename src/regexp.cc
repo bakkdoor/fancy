@@ -27,6 +27,11 @@ namespace fancy {
     return EXP_REGEX;
   }
 
+  string Regexp::to_sexp() const
+  {
+    return "[:regexp_lit, " + to_s() + "]";
+  }
+
   string Regexp::to_s() const
   {
     return "r{" + _pattern + "}";

@@ -24,6 +24,11 @@ namespace fancy {
         return retval;
       }
 
+      string ReturnStatement::to_sexp() const
+      {
+        return "[:return, " + _return_expr->to_sexp() + "]";
+      }
+
     }
   }
 }

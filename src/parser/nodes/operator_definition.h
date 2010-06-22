@@ -17,7 +17,8 @@ namespace fancy {
 
         virtual EXP_TYPE type() const;
         virtual FancyObject* eval(Scope *scope);
- 
+        virtual string to_sexp() const;
+
       protected:
         Identifier* _op_name;
         Method* _method;
@@ -30,6 +31,7 @@ namespace fancy {
         virtual ~PrivateOperatorDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
       };
 
       class ProtectedOperatorDefExpr : public OperatorDefExpr
@@ -39,6 +41,7 @@ namespace fancy {
         virtual ~ProtectedOperatorDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
+        virtual string to_sexp() const;
       };
     }
   }
