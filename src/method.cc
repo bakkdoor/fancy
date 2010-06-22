@@ -56,6 +56,7 @@ namespace fancy {
     _call_scope.clear();
     _call_scope.set_current_self(self);
     _call_scope.set_parent_scope(scope);
+    _call_scope.set_current_sender(scope->current_sender());
 
     // check amount of given arguments
     if(_argnames.size() != (unsigned int)argc) {
@@ -99,6 +100,7 @@ namespace fancy {
     _call_scope.clear();
     _call_scope.set_current_self(self);
     _call_scope.set_parent_scope(scope);
+    _call_scope.set_current_sender(scope->current_sender());
 
     FancyObject* val = _body->eval(&_call_scope);
     // if(!call_scope->is_closed()) {
