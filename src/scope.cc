@@ -76,6 +76,10 @@ namespace fancy {
       }
     }
 
+    if(identifier == "self") {
+      return _current_self;
+    }
+
     if(identifier == "__sender__") {
       return _current_sender;
     }
@@ -131,7 +135,6 @@ namespace fancy {
   {
     _current_self = current_self;
     _current_class = current_self->get_class();
-    define("self", current_self);
   }
 
   void Scope::set_current_class(Class* klass)
