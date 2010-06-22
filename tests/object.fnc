@@ -25,14 +25,14 @@ FancySpec describe: Object with: |it| {
   };
 
   it should: "call unkown_message:with_params: when calling an undefined method" when: {
-    def class UnkownMessage {
+    def class UnknownMessage {
       def unknown_message: message with_params: params {
-        "Got: " ++ message ++ " " ++ params
+        "Got: " ++ message ++ " " ++ (params to_s)
       }
     };
 
-    obj = UnkownMessage new;
-    obj this_is_not_defined: "It's true!" . should_equal: "Got: this_is_not_defined: It's true!"
+    obj = UnknownMessage new;
+    (obj this_is_not_defined: "It's true!") . should_equal: "Got: this_is_not_defined: It's true!"
   };
 
   it should: "return a correct string representation" when: {

@@ -105,6 +105,7 @@ namespace fancy {
     ExpressionList* _body;
     bool _is_operator;
     string _method_ident;
+    Scope _call_scope;
   };
 
 }

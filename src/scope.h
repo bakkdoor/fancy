@@ -25,6 +25,7 @@ namespace fancy {
   class Scope : public gc_cleanup
   {
   public:
+    Scope();
     Scope(FancyObject *current_self);
     Scope(Scope *parent);
 
@@ -89,6 +90,8 @@ namespace fancy {
      */
     Scope* parent_scope() const;
 
+    void set_parent_scope(Scope* parent) { _parent = parent; }
+
     /**
      * Returns the value mappings map for the Scope.
      * @return The value mappings map for the Scope.
@@ -119,6 +122,8 @@ namespace fancy {
      * @return The current_sender Object.
      */
     FancyObject* current_sender() const { return _current_sender; }
+
+    void clear() { _value_mappings.clear(); }
 
   protected:
     map<string, FancyObject*> _value_mappings;

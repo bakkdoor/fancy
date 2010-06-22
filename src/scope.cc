@@ -13,8 +13,17 @@ namespace fancy {
   /*****************************************
    *****************************************/
 
+  Scope::Scope() :
+    _parent(NULL),
+    _current_self(nil),
+    _current_class(NilClass),
+    _closed(false),
+    _current_sender(nil)
+  {
+  }
+
   Scope::Scope(FancyObject* current_self) :
-    _parent(0),
+    _parent(NULL),
     _closed(false),
     _current_sender(nil)
   {
