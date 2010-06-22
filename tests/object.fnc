@@ -84,6 +84,12 @@ FancySpec describe: Object with: |it| {
     x, y, z = :foo, :bar;
     x should_equal: :foo;
     y should_equal: :bar;
-    z should_equal: nil
+    z should_equal: nil;
+
+    x = :foo;
+    y = :bar;
+    x, y = y, x;
+    x should_equal: :bar;
+    y should_equal: :foo
   }
 }

@@ -52,11 +52,24 @@ namespace fancy {
         if(_multiple_assign) {
           list<Expression*>::iterator it_exp = _value_exprs.begin();
           list<Identifier*>::iterator it_ident = _identifiers.begin();
-          while(it_ident != _identifiers.end() && it_exp != _value_exprs.end()) {
-            scope->define((*it_ident)->name(), (*it_exp)->eval(scope));
+	  vector<FancyObject*> values(_value_exprs.size(), nil);
+	  // first, evaluate all expressions and save the results
+	  // in order to support stuff like: x, y = y, x
+	  // which depends on evaluating all expressions first and only then
+	  // binding the results to the identifiers in the scope
+	  unsigned int i = 0;
+	  while(it_exp != _value_exprs.end()) {
+	    values[i] = (*it_exp)->eval(scope);
+	    i++;
+	    it_exp++;
+	  }
+
+	  i = 0;
+          while(it_ident != _identifiers.end() && i < values.size()) {
+            scope->define((*it_ident)->name(), values[i]);
             // move on
             it_ident++;
-            it_exp++;
+            i++;
           }
           // fill any left identifiers up with nil
           while(it_ident != _identifiers.end()) {
