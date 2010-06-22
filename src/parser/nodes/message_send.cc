@@ -77,7 +77,7 @@ namespace fancy {
           }
           count++;
         }
-        s << "]";
+        s << "]]";
 
         return s.str();
       }
