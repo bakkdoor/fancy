@@ -90,7 +90,7 @@ namespace fancy {
 
         s << "[:try_catch_block, "
           << "[:try, "
-          << _body->to_sexp() << "]"
+          << _body->to_sexp() << "],"
 
           << "[:handlers, ";
         int size = _except_handlers.size();
