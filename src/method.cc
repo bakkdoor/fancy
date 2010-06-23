@@ -53,10 +53,6 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    // _call_scope.clear();
-    // _call_scope.set_current_self(self);
-    // _call_scope.set_parent_scope(scope);
-    // _call_scope.set_current_sender(scope->current_sender());
     Scope* call_scope = new Scope(self, scope);
 
     // check amount of given arguments
@@ -98,16 +94,12 @@ namespace fancy {
     if(_body->size() == 0)
       return nil;
 
-    _call_scope.clear();
-    _call_scope.set_current_self(self);
-    _call_scope.set_parent_scope(scope);
-    _call_scope.set_current_sender(scope->current_sender());
-
-    FancyObject* val = _body->eval(&_call_scope);
-    // if(!call_scope->is_closed()) {
-    //   delete call_scope;
-    //   call_scope = NULL;
-    // }
+    Scope* call_scope = new Scope(self, scope);
+    FancyObject* val = _body->eval(call_scope);
+    if(!call_scope->is_closed()) {
+      delete call_scope;
+      call_scope = NULL;
+    }
     return val;
   }
 
