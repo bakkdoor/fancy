@@ -83,7 +83,7 @@ namespace fancy {
 
   string FancyObject::to_sexp() const
   {
-    return "UNKOWN SEXP FOR EXP_CLASSINSTANCE";
+    return "\"UNKOWN SEXP FOR EXP_CLASSINSTANCE\"";
   }
 
   string FancyObject::to_s() const

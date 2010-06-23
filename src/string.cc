@@ -38,7 +38,10 @@ namespace fancy {
 
   string FancyString::to_sexp() const
   {
-    return "[:string_lit, " + inspect() + "]";
+    FancyString str(_value);
+    str.replace(__newline, __fake_newline);
+    str.replace(__tab, __fake_tab);
+    return "[:string_lit, \"" + str.inspect() + "\"]";
   }
 
   string FancyString::to_s() const
