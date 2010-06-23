@@ -130,6 +130,7 @@ namespace fancy {
       if(count < size) {
         s << ", ";
       }
+      count++;
     }
     s << "], ";
 
