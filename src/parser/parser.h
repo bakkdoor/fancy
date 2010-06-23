@@ -30,6 +30,7 @@ namespace fancy {
     extern stack<parser_buffer> parse_buffers;
     extern list<string> load_path;
     extern FancyObject* last_value;
+    extern bool output_sexp;
 
     void parse_file(string &filename);
     FancyObject* parse_string(const string &code);

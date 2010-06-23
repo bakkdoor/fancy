@@ -21,6 +21,7 @@ namespace fancy {
     stack<parser_buffer> parse_buffers;
     list<string> load_path;
     FancyObject* last_value = nil;
+    bool output_sexp = false;
 
     void parse_file(string &filename)
     {

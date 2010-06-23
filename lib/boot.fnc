@@ -48,7 +48,9 @@ ARGV option?: ["--help", "-h"] .
   if_true: {
   ["Usage: fancy [option] [programfile] [arguments]",
    "  --help        Print this output",
+   "  -h            Print this output",
    "  --version     Print Fancy's version number",
    "  -v            Print Fancy's version number",
-   "  -I directory  Add directory to Fancy's LOAD_PATH"] println
+   "  -I directory  Add directory to Fancy's LOAD_PATH",
+   "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it "] println
 }

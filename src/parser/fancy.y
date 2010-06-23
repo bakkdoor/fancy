@@ -142,8 +142,22 @@
 %%
 
 programm:       /* empty */
-                | code { Expression* expr = $1; printf("%s\n", expr->to_sexp().c_str()); last_value = expr->eval(global_scope); }
-                | programm SEMI code { Expression* expr = $3; printf("%s\n", expr->to_sexp().c_str()); last_value = expr->eval(global_scope); }
+                | code {
+                  Expression* expr = $1;
+                  if(output_sexp) {
+                    printf("%s\n", expr->to_sexp().c_str());
+                  } else {
+                    last_value = expr->eval(global_scope);
+                  }
+                }
+                | programm SEMI code {
+                  Expression* expr = $3;
+                  if(output_sexp) {
+                    printf("%s\n", expr->to_sexp().c_str());
+                  } else {
+                    last_value = expr->eval(global_scope);
+                  }
+                }
                 ;
 
 code:           statement

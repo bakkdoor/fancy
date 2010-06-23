@@ -38,6 +38,15 @@ string get_load_path(int argc, char **argv)
   return "."; // current dir
 }
 
+bool output_sexp(int argc, char **argv) {
+  for(int i = 1; i < argc; i++) {
+    if(strcmp(argv[i], "--sexp") == 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void prepare_argv(int argc, char **argv)
 {
   // set command line arguments in global ARGV variable as Array
@@ -47,6 +56,10 @@ void prepare_argv(int argc, char **argv)
     // skip -I + root loadpath arg
     if(arg == "-I") {
       i++;
+      continue;
+    }
+    // skip --sexp option
+    if(arg == "--sexp") {
       continue;
     }
     args_arr->insert(FancyString::from_value(arg));
@@ -71,6 +84,7 @@ int main(int argc, char **argv)
 {
   GC_INIT();
 
+  fancy::parser::output_sexp = output_sexp(argc, argv);
   fancy::parser::load_path.push_back(get_load_path(argc, argv));
   fancy::bootstrap::init_core_classes();
   fancy::bootstrap::init_global_objects();
@@ -83,7 +97,10 @@ int main(int argc, char **argv)
 
   prepare_argv(argc, argv);
   // now, load boot.fnc
+  bool tmp = fancy::parser::output_sexp;
+  fancy::parser::output_sexp = false; // just for booting phase
   fancy::parser::parse_file(boot_file);
+  fancy::parser::output_sexp = tmp;
 
   try {
     if (argc > 1) {
