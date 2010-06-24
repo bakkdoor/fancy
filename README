@@ -77,6 +77,7 @@ What's still missing?
     Erlang)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (advanced stuff - saved for later)
+  - Rubinius VM bytecode compiler
 
 
 How is it implemented?
@@ -91,11 +92,9 @@ How is it implemented?
 
   - Currently the lexer & parser are built with flex & bison.
 
-  - I'm planning to add a compiler later on, written in the language
-    itself. Possible targets include beam (Erlang VM), LLVM, JVM, ...?
-
-    I'd prefer not writing my own vm from scratch. Rubinius' or
-    Erlang's VM would seem a nice fit.
+  - I'm planning to add a bytecode compiler soon, written in the
+    language itself. I'm planning on bootstrapping and targeting the
+    language for the Rubinius VM.
 
 ----------------------------------------------------------------------
 
