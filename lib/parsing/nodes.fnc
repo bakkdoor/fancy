@@ -48,7 +48,7 @@ def class Identifier : Node {
 
 def class ExpressionList : Node {
   self read_write_slots: [:exprs];
-  Node register: :expr_list for_node: ExpressionList;
+  Node register: :exp_list for_node: ExpressionList;
   def initialize: exprs {
     @exprs = exprs
   }
@@ -87,6 +87,7 @@ def class ClassDefinition : Node {
 
 def class Method : Node {
   self read_write_slots: [:ident, :args, :body];
+  Node register: :method for_node: Method;
   def Method identifier: ident args: args body: body {
     m = Method new;
     m ident: ident;
@@ -94,12 +95,32 @@ def class Method : Node {
     m body: body;
     m
   }
+
+  def Method from_sexp: sexp {
+    ident = Identifier new: (sexp second);
+    args = sexp third map: :to_ast;
+    body = sexp fourth to_ast;
+    Method identifier: ident args: args body: body
+  }
+
+  def to_s {
+    "<Method: ident:'" ++ @ident ++ "' args:" ++ @args ++ " body:" ++ @body ++ ">"
+  }
 };
 
 def class MethodDefinition : Node {
   self read_slots: [:method];
+  Node register: :method_def for_node: MethodDefinition;
   def initialize: method {
     @method = method
+  }
+
+  def MethodDefinition from_sexp: sexp {
+    MethodDefinition new: (sexp second to_ast)
+  }
+
+  def to_s {
+    "<MethodDefinition: method:" ++ @method ++ ">"
   }
 };
 
@@ -149,6 +170,10 @@ def class NumberLiteral : Node {
   }
 };
 
-# [:expr_list, [[:ident, "foo"]]] to_ast println
+# [:exp_list, [[:ident, "foo"]]] to_ast println
 [:class_def, [:ident, "Block"], [:ident, "Object"],
- [:expr_list, [[:ident, "foo"]]]] to_ast println
+ [:exp_list,
+  [:method_def,
+   [:method, "while_nil:", [[:ident, "block"]],
+    [:exp_list,
+     [[:ident, "nil"]]]]]]] to_ast println
