@@ -276,5 +276,11 @@ FancySpec describe: Array with: |it| {
 
   it should: "be selected from it with each index" when: {
     ["yooo",2,3,1,:foo,"bar"] select_with_index: |x i| { x is_a?: Number } . should_equal: [[2,1], [3,2], [1,3]]
+  };
+
+  it should: "return its remaining (all but the first) elements as a new Array" when: {
+    [1,2,3,4] rest should_equal: [2,3,4];
+    [] rest should_equal: [];
+    100 upto: 1000 . rest should_equal: $ 101 upto: 1000
   }
 }

@@ -15,6 +15,11 @@ def class Array {
     }    
   }
 
+  def rest {
+    "Returns all elements except the first one as a new Array";
+    self from: 1 to: -1
+  }
+  
   def === other {
     "Compares two Arrays where order does not matter";
 
