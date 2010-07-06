@@ -22,15 +22,30 @@ namespace fancy {
     list<string> load_path;
     FancyObject* last_value = nil;
 
+    void try_parse()
+    {
+      try {
+        yyparse();
+      } catch(FancyException* ex) {
+        errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
+        errorln(ex->to_s());
+        exit(1);
+      }
+      pop_buffer();
+    }
+
     void parse_file(string &filename)
     {
       // put the path of the file into the load_path vector
       // this makes requiring files in the same directory easier
       string filepath = dirname_for_path(filename);
+      bool has_ending = true;
 
       // check for file ending
+      string filename_with_ending = filename;
       if(filename_for_path(filename) != "fnc") {
-        filename = filename + ".fnc";
+        has_ending = false;
+        filename_with_ending = filename + ".fnc";
       }
 
       if(!is_whitespace(filepath)) {
@@ -38,16 +53,21 @@ namespace fancy {
         load_path.unique(); // remove double entries
       }
 
-      if(push_buffer(filename)) {
-        try {
-          yyparse();
-        } catch(FancyException* ex) {
-          errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
-          errorln(ex->to_s());
-          exit(1);
+      if(!push_buffer(filename)) {
+        // try with file ending, if not given
+        if(!has_ending) {
+          if(push_buffer(filename_with_ending)) {
+            try_parse();
+          } else {
+            error(filename) << ": No such file or directory\n";
+            return;
+          }
+        } else {
+          error(filename) << ": No such file or directory\n";
+          return;
         }
-
-        pop_buffer();
+      } else {
+        try_parse();
       }
     }
 
@@ -106,8 +126,8 @@ namespace fancy {
       parser_buffer buf;
       FILE *f = find_open_file(filename);
       if(!f) {
-        error("");
-        perror(filename.c_str());
+        // error("");
+        // perror(filename.c_str());
         return false;
       }  
       buf.buffstate = yy_create_buffer(f, YY_BUF_SIZE);
