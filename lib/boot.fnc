@@ -7,25 +7,25 @@
 # In general, it's best to add any autoload-files at the end of the
 # current list (if adding them here is really necessary at all).
 
-require: "object.fnc";
-require: "class.fnc";
-require: "true_class.fnc";
-require: "nil_class.fnc";
-require: "number.fnc";
-require: "enumerable.fnc";
-require: "string.fnc";
-require: "array.fnc";
-require: "block.fnc";
-require: "file.fnc";
-require: "directory.fnc";
-require: "fancy_spec.fnc";
-require: "console.fnc";
-require: "hash.fnc";
-require: "set.fnc";
-require: "symbol.fnc";
+require: "object";
+require: "class";
+require: "true_class";
+require: "nil_class";
+require: "number";
+require: "enumerable";
+require: "string";
+require: "array";
+require: "block";
+require: "file";
+require: "directory";
+require: "fancy_spec";
+require: "console";
+require: "hash";
+require: "set";
+require: "symbol";
 
-# version.fnc holds fancy's version number
-require: "version.fnc";
+# version holds fancy's version number
+require: "version";
 
 
 # handle ARGV special cases

@@ -27,6 +27,12 @@ namespace fancy {
       // put the path of the file into the load_path vector
       // this makes requiring files in the same directory easier
       string filepath = dirname_for_path(filename);
+
+      // check for file ending
+      if(filename_for_path(filename) != "fnc") {
+        filename = filename + ".fnc";
+      }
+
       if(!is_whitespace(filepath)) {
         load_path.push_back(filepath);
         load_path.unique(); // remove double entries
@@ -141,9 +147,10 @@ namespace fancy {
       size_t found = path.find_last_of("/\\");
       return path.substr(0,found);
     }
+
     string filename_for_path(const string &path)
     {
-      size_t found = path.find_last_of("/\\");
+      size_t found = path.find_last_of(".");
       return path.substr(found + 1);
     }
 
