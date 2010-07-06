@@ -97,6 +97,8 @@
 %type  <expression>         literal_value
 %type  <expression>         block_literal
 %type  <block_arg_list>     block_args
+%type  <block_arg_list>     block_args_without_comma
+%type  <block_arg_list>     block_args_with_comma
 %type  <expression>         hash_literal
 %type  <expression>         array_literal
 %type  <expression>         empty_array
@@ -492,8 +494,16 @@ block_literal:  LCURLY method_body RCURLY {
                 }
                 ;
 
-block_args:     IDENTIFIER { $$ = blk_arg_node($1, 0); }
+block_args:     block_args_with_comma
+                | block_args_without_comma
+                ;
+
+block_args_without_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
                 | block_args IDENTIFIER { $$ = blk_arg_node($2, $1); }
+                ;
+
+block_args_with_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
+                | block_args COMMA IDENTIFIER { $$ = blk_arg_node($3, $1); }
                 ;
 
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
