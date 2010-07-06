@@ -13,8 +13,11 @@ namespace fancy {
    * A scope contains a hashtable, in which all identifiers etc. are
    * stored, as well as a potential reference to its parent scope.
    *
-   * For example, a function scope has a reference to a parent scope
-   * (the scope, in which the function is defined).
+   * For example, the scope of a message send points to the scope the
+   * message send was initiated in.
+   *
+   * Also, a class definition's scope points to the scope where the
+   * class is defined.
    */
 
   class Class;
