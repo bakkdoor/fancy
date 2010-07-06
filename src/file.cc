@@ -13,10 +13,6 @@ namespace fancy {
     init_openmode(modes);
   }
 
-  File::~File()
-  {
-  }
-
   FancyObject* File::equal(FancyObject* other) const
   {
     if(IS_FILE(other)) {
@@ -28,34 +24,9 @@ namespace fancy {
     return nil;
   }
 
-  EXP_TYPE File::type() const
-  {
-    return EXP_FILE;
-  }
-
   string File::to_s() const
   {
     return "<File:" + _filename + ">";; // + " [" + _mode + "]>";
-  }
-
-  string File::filename() const
-  {
-    return _filename;
-  }
-
-  Array* File::modes() const
-  {
-    return _modes;
-  }
-
-  ios_base::openmode File::openmode() const
-  {
-    return _openmode;
-  }
-
-  fstream& File::file()
-  {
-    return _file;
   }
 
   void File::open()

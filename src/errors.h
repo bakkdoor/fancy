@@ -14,9 +14,9 @@ namespace fancy {
   {
   public:
     UnknownIdentifierError(const string &ident);
-    ~UnknownIdentifierError();
+    ~UnknownIdentifierError() {}
   
-    string identifier() const;
+    string identifier() const { return _identifier; }
   
   private:
     string _identifier;
@@ -27,10 +27,10 @@ namespace fancy {
   public:
     MethodNotFoundError(const string &method_name, Class* klass);
     MethodNotFoundError(const string &method_name, Class* klass, const string &reason);
-    ~MethodNotFoundError();
+    ~MethodNotFoundError() {}
   
-    string method_name() const;
-    Class* get_class() const;
+    string method_name() const { return _method_name; }
+    Class* get_class() const { return _class; }
   
   private:
     string _method_name;
@@ -42,10 +42,10 @@ namespace fancy {
   public:
     IOError(const string &message, const string &filename);
     IOError(const string &message, const string &filename, Array* modes);
-    ~IOError();
+    ~IOError() {}
   
-    string filename() const;
-    Array* modes() const;
+    string filename() const { return _filename; }
+    Array* modes() const { return _modes; }
   
   private:
     string _filename;
@@ -56,7 +56,7 @@ namespace fancy {
   {
   public:
     DivisionByZeroError();
-    ~DivisionByZeroError();
+    ~DivisionByZeroError() {}
   };
 }
 

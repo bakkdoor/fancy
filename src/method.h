@@ -46,12 +46,12 @@ namespace fancy {
      */
     Method();
 
-    ~Method();
+    ~Method() {}
 
     /**
      * See FancyObject for these methods.
      */
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_METHOD; }
     virtual string to_s() const;
 
     /**
@@ -76,7 +76,7 @@ namespace fancy {
      * Returns the amount of arguments this method expects.
      * @return The amount of arguments this method expects.
      */
-    unsigned int argcount() const;
+    unsigned int argcount() const { return _argnames.size(); }
 
     /**
      * Returns a list of pairs of Identifiers holding the argument key
@@ -84,19 +84,19 @@ namespace fancy {
      * @return List of pairs of Identifiers with argument key and
      * variable name.
      */
-    list< pair<Identifier*, Identifier*> > argnames() const;
+    list< pair<Identifier*, Identifier*> > argnames() const { return _argnames; }
 
     /**
      * Returns the name of the Method.
      * @return Name of the Method.
      */
-    string name() const;
+    string name() const { return _method_ident; }
 
     /**
      * Sets the name of a Method.
      * @param method_name Name of the Method.
      */
-    void set_name(const string &method_name);
+    void set_name(const string &method_name) { _method_ident = method_name; }
 
   protected:
     void init_method_ident();

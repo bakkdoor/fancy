@@ -23,19 +23,9 @@ namespace fancy {
     return nil;
   }
 
-  EXP_TYPE Directory::type() const
-  {
-    return EXP_DIRECTORY;
-  }
-
   string Directory::to_s() const
   {
     return "<Directory:" + _dirname + ">";
-  }
-
-  string Directory::dirname() const
-  {
-    return _dirname;
   }
 
 }

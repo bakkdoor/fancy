@@ -30,13 +30,13 @@ namespace fancy {
      * @param _class The Class object that represents the Class of the Object.
      */
     FancyObject(Class *_class);
-    virtual ~FancyObject();
+    virtual ~FancyObject() {}
   
     /**
      * Returns the Class of the object.
      * @return Class object of the object.
      */
-    Class* get_class() const;
+    Class* get_class() const { return _class; }
 
     /**
      * Sets the Class object of the object.
@@ -70,22 +70,22 @@ namespace fancy {
     /**
      * Inherited from Expression.
      */
-    virtual FancyObject* eval(Scope *scope);
-    virtual EXP_TYPE type() const;
+    virtual FancyObject* eval(Scope *scope) { return this; }
+    virtual EXP_TYPE type() const { return EXP_CLASSINSTANCE; }
 
     /**
      * Returns a C++ string representation of the object (for ouput
      * purposes).
      * @return C++ string representation of the object.
      */
-    virtual string to_s() const;
+    virtual string to_s() const { return "<Unkown FancyObject>"; }
 
     /**
      * Returns a C++ string representation with additional information
      * (e.g. Class of the object).
      * @return C++ stirng representation with additional information.
      */
-    virtual string inspect() const;
+    virtual string inspect() const { return to_s(); }
 
     /**
      * Calls a method with arguments in a given scope.
@@ -149,13 +149,13 @@ namespace fancy {
      * Returns a C++ string holding the documentation string for the FancyObject.
      * return C++ string with documentation string.
      */
-    string docstring() const;
+    string docstring() const { return _docstring; }
 
     /**
      * Sets the docstring for the FancyObject.
      * @param docstring The documentation string to be set.
      */
-    void set_docstring(const string &docstring);
+    void set_docstring(const string &docstring) { _docstring = docstring; }
 
     /**
      * Returns all methods of this FancyObject in an Array.
@@ -167,13 +167,13 @@ namespace fancy {
      * Returns the metadata Hash attached to this object.
      * @return The metadata Hash attached to this object.
      */
-    FancyObject* metadata() const;
+    FancyObject* metadata() const { return _metadata; }
 
     /**
      * Sets the metadata for this object.
      * @param metadata The metadata for this object.
      */
-    void set_metadata(FancyObject* metadata);
+    void set_metadata(FancyObject* metadata) { _metadata = metadata; }
   protected:
     void init_slots();
     Class *_class;

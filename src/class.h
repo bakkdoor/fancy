@@ -46,7 +46,7 @@ namespace fancy {
      * Returns the name of the Class.
      * @return Name of the Class.
      */
-    string name() const;
+    string name() const { return _name; }
 
     /**
      * Creates an instance of the Class.
@@ -132,17 +132,17 @@ namespace fancy {
      * Returns a vector of the names of the instance slots.
      * @return Vector of the names of the instance slots.
      */
-    vector<string> instance_slotnames() const;
+    vector<string> instance_slotnames() const { return _instance_slotnames; }
 
     /**
      * Returns a map of the names and values of the class slots.
      * @return Map of the names and values of the class slots.
      */
-    map<string, FancyObject*> class_slots() const;
+    map<string, FancyObject*> class_slots() const { return _class_slots; } 
 
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
-    virtual string to_s() const;
+    virtual EXP_TYPE type() const { return EXP_CLASS; }
+    virtual string to_s() const { return _name; }
 
     /**
      * Look-up method for finding a method in the Class.

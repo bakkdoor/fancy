@@ -17,10 +17,6 @@ namespace fancy {
     set_docstring(docstring);
   }
 
-  NativeMethod::~NativeMethod()
-  {
-  }
-
   FancyObject* NativeMethod::equal(FancyObject* other) const
   {
     if(!IS_NATIVEMETHOD(other)) {
@@ -34,11 +30,6 @@ namespace fancy {
       }
       return nil;
     }
-  }
-
-  EXP_TYPE NativeMethod::type() const
-  {
-    return EXP_NATIVEMETHOD;
   }
 
   string NativeMethod::to_s() const

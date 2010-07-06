@@ -141,11 +141,6 @@ namespace fancy {
     return new Array();
   }
 
-  EXP_TYPE Array::type() const
-  {
-    return EXP_ARRAY;
-  }
-
   string Array::to_s() const
   {
     stringstream s;
@@ -192,11 +187,6 @@ namespace fancy {
   list<FancyObject*> Array::to_list() const
   {
     return list<FancyObject*>(_values.begin(), _values.end());
-  }
-
-  vector<FancyObject*> Array::values() const
-  {
-    return _values;
   }
 
 }

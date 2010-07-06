@@ -44,7 +44,7 @@ namespace fancy {
 
     virtual ~Block();
 
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_BLOCK; }
     virtual string to_s() const;
 
     /**
@@ -63,13 +63,13 @@ namespace fancy {
      * Sets the creation_scope of the Block.
      * @param creation_scope The creation_scope of the Block.
      */
-    void set_creation_scope(Scope *creation_scope);
+    void set_creation_scope(Scope *creation_scope) { _creation_scope = creation_scope; }
 
     /**
      * Return the creation_scope of the Block.
      * @return The creation_scope of the Block.
      */
-    Scope* creation_scope() const;
+    Scope* creation_scope() const { return _creation_scope; }
 
     /**
      * Returns vector of String objects of the argument names.
@@ -81,7 +81,7 @@ namespace fancy {
      * Returns the amount of arguments for the Block.
      * @return Amount of arguments the Block expects.
      */
-    unsigned int argcount() const;
+    unsigned int argcount() const { return _argcount; }
 
     /**
      * Sets the override_self flag, that indicates if the block should
@@ -93,13 +93,13 @@ namespace fancy {
      * @param do_it Boolean value that indicates, if override_self
      * should be set or not.
      */
-    void override_self(bool do_it);
+    void override_self(bool do_it) { _override_self = do_it; }
 
     /**
      * Indicates, if the body of the block is empty.
      * @return true if the body's block is empty.
      */
-    bool is_empty() const;
+    bool is_empty() const { return _body->size() == 0; }
 
   private:
     void init_orig_block_arg_values();

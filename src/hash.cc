@@ -15,10 +15,6 @@ namespace fancy {
   {
   }
 
-  Hash::~Hash()
-  {
-  }
-
   FancyObject* Hash::set_value(FancyObject* key, FancyObject* value)
   {
     _mappings[key] = value;
@@ -33,11 +29,6 @@ namespace fancy {
     } else {
       return nil;
     }
-  }
-
-  EXP_TYPE Hash::type() const
-  {
-    return EXP_HASH;
   }
 
   string Hash::to_s() const
@@ -80,11 +71,6 @@ namespace fancy {
       i++;
     }
     return values;
-  }
-
-  int Hash::size() const
-  {
-    return _mappings.size();
   }
 
 }

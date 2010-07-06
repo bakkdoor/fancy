@@ -8,10 +8,6 @@ namespace fancy {
     scope->set_closed(true);
   }
 
-  LexicalScope::~LexicalScope()
-  {
-  }
-
   bool LexicalScope::define(string identifier, FancyObject* value)
   {
     if(Scope* the_scope = scope_for_ident(identifier)) {

@@ -5,8 +5,6 @@ namespace fancy {
 
   Nil::Nil() : FancyObject(NilClass) {}
 
-  Nil::~Nil() {}
-
   FancyObject* Nil::equal(FancyObject* other) const
   {
     if(IS_NIL(other))
@@ -17,16 +15,6 @@ namespace fancy {
   FancyObject* Nil::eval(Scope *scope)
   {
     return nil;
-  }
-
-  EXP_TYPE Nil::type() const
-  {
-    return EXP_NIL;
-  }
-
-  string Nil::to_s() const
-  {
-    return "nil";
   }
 
 }

@@ -42,19 +42,9 @@ namespace fancy {
   {
   }
 
-  EXP_TYPE FancyException::type() const
-  {
-    return EXP_EXCEPTION;
-  }
-
   string FancyException::to_s() const
   {
     return exception_class()->to_s() + ": " + message();
-  }
-
-  string FancyException::message() const
-  {
-    return _message;
   }
 
   Class* FancyException::exception_class() const

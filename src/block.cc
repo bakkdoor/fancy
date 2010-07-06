@@ -31,11 +31,6 @@ namespace fancy {
   {
   }
 
-  EXP_TYPE Block::type() const
-  {
-    return EXP_BLOCK;
-  }
-
   string Block::to_s() const
   {
     return "<Block>";
@@ -99,16 +94,6 @@ namespace fancy {
     return return_value;
   }
 
-  void Block::set_creation_scope(Scope *creation_scope)
-  {
-    _creation_scope = creation_scope;
-  }
-
-  Scope* Block::creation_scope() const
-  {
-    return _creation_scope;
-  }
-
   vector<FancyObject*> Block::args()
   {
     vector<FancyObject*> args(_argnames.size(), nil);
@@ -120,21 +105,6 @@ namespace fancy {
       i++;
     }
     return args;
-  }
-
-  unsigned int Block::argcount() const
-  {
-    return _argcount;
-  }
-
-  void Block::override_self(bool do_it)
-  {
-    _override_self = do_it;
-  }
-
-  bool Block::is_empty() const
-  {
-    return _body->size() == 0;
   }
 
   void Block::init_orig_block_arg_values()

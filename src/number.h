@@ -26,7 +26,7 @@ namespace fancy {
      * @param value Integer value for Number.
      */
     Number(int value);
-    ~Number();
+    ~Number() {}
 
     /**
      * See FancyObject for these methods.
@@ -39,7 +39,7 @@ namespace fancy {
      * Indicates, if Number is double.
      * @return true if double, false otherwise.
      */
-    bool is_double() const;
+    bool is_double() const { return _is_double; }
 
     /**
      * Returns the double value (casted, if needed).

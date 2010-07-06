@@ -19,14 +19,14 @@ namespace fancy {
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_DIRECTORY; }
     virtual string to_s() const;
 
     /**
      * Returns the dirname set for this Directory object.
      * @return The dirname set for this Directory object.
      */
-    string dirname() const;
+    string dirname() const { return _dirname; }
 
   private:
     string _dirname;

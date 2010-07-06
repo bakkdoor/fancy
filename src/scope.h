@@ -40,7 +40,7 @@ namespace fancy {
      * @return The newly created scope.
      */
     Scope(FancyObject *current_self, Scope *parent);
-    ~Scope();
+    ~Scope() {}
 
     /**
      * Looks for an identifier and returns the corresponding object,
@@ -72,13 +72,13 @@ namespace fancy {
      * Returns the current_self value for the Scope.
      * @return The current_self value for the Scope.
      */
-    FancyObject* current_self() const;
+    FancyObject* current_self() const { return _current_self; }
 
     /**
      * Returns the current_class value for the Scope.
      * @return The current_class value for the Scope.
      */
-    Class* current_class() const;
+    Class* current_class() const { return _current_class; }
 
     /**
      * Sets the current_class value (reference to the current class
@@ -91,7 +91,7 @@ namespace fancy {
      * Returns the Scope's parent scope or NULL, if not defined.
      * @return The Scope's parent scope or NULL.
      */
-    Scope* parent_scope() const;
+    Scope* parent_scope() const { return _parent; }
 
     void set_parent_scope(Scope* parent) { _parent = parent; }
 
@@ -99,7 +99,7 @@ namespace fancy {
      * Returns the value mappings map for the Scope.
      * @return The value mappings map for the Scope.
      */
-    map<string, FancyObject*> value_mappings() const;
+    map<string, FancyObject*> value_mappings() const { return _value_mappings; }
 
     /**
      * Sets the closed value for a Scope.

@@ -57,10 +57,6 @@ namespace fancy {
     }
   }
 
-  Scope::~Scope()
-  {
-  }
-
   FancyObject* Scope::get(string identifier)
   {
     // check for instance & class variables
@@ -121,16 +117,6 @@ namespace fancy {
     return found;
   }
 
-  FancyObject* Scope::current_self() const
-  {
-    return _current_self;
-  }
-
-  Class* Scope::current_class() const
-  {
-    return _current_class;
-  }
-
   void Scope::set_current_self(FancyObject* current_self)
   {
     _current_self = current_self;
@@ -143,13 +129,4 @@ namespace fancy {
       _current_class = klass;
   }
 
-  Scope* Scope::parent_scope() const
-  {
-    return _parent;
-  }
-
-  map<string, FancyObject*> Scope::value_mappings() const
-  {
-    return _value_mappings;
-  }
 }

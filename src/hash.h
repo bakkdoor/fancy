@@ -26,7 +26,7 @@ namespace fancy {
      * @param mappings C++ map containing key-value pairs for the Hash object to contain.
      */
     Hash(map<FancyObject*, FancyObject*> mappings);
-    ~Hash();
+    ~Hash() {}
 
     /**
      * Returns the value for a given key in the Hash (or nil, if not defined).
@@ -46,7 +46,7 @@ namespace fancy {
     /**
      * See FancyObject for these methods.
      */
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_HASH; }
     virtual string to_s() const;
 
     /**
@@ -65,7 +65,7 @@ namespace fancy {
      * Returns the size (amount of entries) in the Hash.
      * @return The size (amount of entries) in the Hash.
      */
-    int size() const;
+    int size() const { return _mappings.size(); }
 
   private:
     map<FancyObject*, FancyObject*> _mappings;
