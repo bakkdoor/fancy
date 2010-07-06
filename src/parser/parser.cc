@@ -79,6 +79,28 @@ namespace fancy {
       return last_value;
     }
 
+    void parse_stdin()
+    {
+      parser_buffer buf;
+      buf.buffstate = yy_create_buffer(stdin, YY_BUF_SIZE);
+      buf.file = stdin;
+      buf.filename = "STDIN";
+      buf.lineno = yylineno;
+      parse_buffers.push(buf);
+      current_file = "STDIN";
+      yylineno = 1;
+      yy_switch_to_buffer(buf.buffstate);
+      // keep it running!
+      while(true) {
+        try {
+          yyparse();
+        } catch(FancyException* ex) {
+          errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
+          errorln(ex->to_s());
+        }
+      }
+    }
+
     bool push_buffer(const string &filename)
     {
       parser_buffer buf;

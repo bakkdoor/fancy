@@ -54,19 +54,6 @@ void prepare_argv(int argc, char **argv)
   global_scope->define("ARGV", args_arr);
 }
 
-void exec_from_stdin()
-{
-  yyrestart(stdin);
-  try {
-    yyparse();
-  } catch(FancyException *ex) {
-    errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
-    errorln(ex->to_s());
-    // keep it running!
-    exec_from_stdin();
-  }
-}
-
 int main(int argc, char **argv)
 {
   GC_INIT();
@@ -94,14 +81,14 @@ int main(int argc, char **argv)
             filename = string(argv[3]);
             fancy::parser::parse_file(filename);
           } else {
-            exec_from_stdin();
+            parser::parse_stdin();
           }
         } else {
           fancy::parser::parse_file(filename);
         }
       }
     } else {
-      exec_from_stdin();
+      parser::parse_stdin();
     }
   } catch(UnknownIdentifierError &ex) {
     cout << "Error:" << endl;

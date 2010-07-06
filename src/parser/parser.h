@@ -33,6 +33,7 @@ namespace fancy {
 
     void parse_file(string &filename);
     FancyObject* parse_string(const string &code);
+    void parse_stdin();
     bool push_buffer(const string &filename);
     void pop_buffer();
 
