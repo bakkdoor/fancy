@@ -56,13 +56,13 @@ FancySpec describe: Object with: |it| {
 
   it should: "have no metadata initially" when: {
     o = Object new;
-    o %M should_equal: nil
+    o meta should_equal: nil
   };
 
   it should: "set the metadata correctly" when: {
     o = Object new;
-    o %M: "foobar";
-    o %M should_equal: "foobar"
+    o meta: "foobar";
+    o meta should_equal: "foobar"
   };
 
   it should: "be an Object of the correct Class (or Superclass)" when: {

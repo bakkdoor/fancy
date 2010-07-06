@@ -115,12 +115,12 @@ and passing them on to the initialize: method of the class.",
                  methods);
 
       DEF_METHOD(ObjectClass,
-                 "%M",
+                 "meta",
                  "Returns the metadata attached to this object.",
                  metadata);
 
       DEF_METHOD(ObjectClass,
-                 "%M:",
+                 "meta:",
                  "Sets the metadata for this object.",
                  set_metadata);
 
@@ -346,7 +346,7 @@ and passing them on to the initialize: method of the class.",
 
     METHOD(ObjectClass, set_metadata)
     {
-      EXPECT_ARGS("Object#%M:", 1);
+      EXPECT_ARGS("Object#meta:", 1);
       self->set_metadata(args[0]);
       return self;
     }
