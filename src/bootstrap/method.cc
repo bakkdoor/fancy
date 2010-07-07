@@ -20,7 +20,7 @@ namespace fancy {
       if(Method* method = dynamic_cast<Method*>(self)) {
         return FancyString::from_value(method->name());
       } else if(NativeMethod* method = dynamic_cast<NativeMethod*>(self)) {
-        return FancyString::from_value(method->_identifier);
+        return FancyString::from_value(method->identifier());
       } else {
         return nil;
       }

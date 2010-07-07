@@ -35,11 +35,6 @@ namespace fancy {
   {
   }
 
-  string Class::name() const
-  {
-    return _name;
-  }
-
   FancyObject* Class::create_instance() const
   {
     Class* klass = const_cast<Class*>(this);
@@ -73,16 +68,6 @@ namespace fancy {
   {
     assert(klass);
     _included_classes.insert(klass);
-  }
-
-  vector<string> Class::instance_slotnames() const
-  {
-    return _instance_slotnames;
-  }
-
-  map<string, FancyObject*> Class::class_slots() const
-  {
-    return _class_slots;
   }
 
   void Class::def_method(const string &name, Callable* method)
@@ -134,16 +119,6 @@ namespace fancy {
 
     // TODO: compare slotnames, class_slots, superclass etc.
     return nil;
-  }
-
-  EXP_TYPE Class::type() const
-  {
-    return EXP_CLASS;
-  }
-
-  string Class::to_s() const
-  {
-    return _name;
   }
 
   Callable* Class::find_method(const string &name)

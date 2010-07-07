@@ -33,20 +33,6 @@ namespace fancy {
   {
   }
 
-  Method::~Method()
-  {
-  }
-
-  unsigned int Method::argcount() const
-  {
-    return _argnames.size();
-  }
-
-  list< pair<Identifier*, Identifier*> > Method::argnames() const
-  {
-    return _argnames;
-  }
-
   FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
   {
     // check if method is empty
@@ -103,11 +89,6 @@ namespace fancy {
     return val;
   }
 
-  EXP_TYPE Method::type() const
-  {
-    return EXP_METHOD;
-  }
-
   string Method::to_s() const
   {
     return "<Method : '" + _method_ident + "' Doc:'" + _docstring + "'>";
@@ -155,20 +136,9 @@ namespace fancy {
     _method_ident = str.str();
   }
 
-
   void Method::init_docstring()
   {
     _docstring = _body->docstring();
-  }
-
-  string Method::name() const
-  {
-    return _method_ident;
-  }
-
-  void Method::set_name(const string &method_name)
-  {
-    _method_ident = method_name;
   }
 
 }

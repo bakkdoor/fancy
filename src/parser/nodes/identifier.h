@@ -25,20 +25,20 @@ namespace fancy {
          * @param name The identifier name.
          */
         Identifier(const string &name);
-        ~Identifier();
+        ~Identifier() {}
   
         /**
          * Inherited from Expression.
          */
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_IDENTIFIER; }
         virtual string to_sexp() const;
 
         /**
          * Returns the name of the Identifier as a C++ string.
          * @return The name of the Identifier as a C++ string.
          */
-        string name() const;
+        string name() const { return _name; }
 
         /**
          * Returns an Identifier with the given name value.

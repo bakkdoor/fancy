@@ -11,7 +11,6 @@
 #include "method.h"
 #include "bootstrap/core_classes.h"
 
-
 namespace fancy {
 
   FancyObject::FancyObject(Class* _class) :
@@ -19,15 +18,6 @@ namespace fancy {
     _metadata(nil)
   {
     init_slots();
-  }
-
-  FancyObject::~FancyObject()
-  {
-  }
-
-  Class* FancyObject::get_class() const
-  {
-    return _class;
   }
 
   void FancyObject::set_class(Class* klass)
@@ -68,32 +58,12 @@ namespace fancy {
 
   FancyObject* FancyObject::equal(FancyObject* other) const
   {
-    return nil; // default return value
-  }
-
-  FancyObject* FancyObject::eval(Scope *scope)
-  {
-    return this;
-  }
-
-  EXP_TYPE FancyObject::type() const
-  {
-    return EXP_CLASSINSTANCE;
+    return nil; // return default value
   }
 
   string FancyObject::to_sexp() const
   {
     return "\"UNKOWN SEXP FOR EXP_CLASSINSTANCE\"";
-  }
-
-  string FancyObject::to_s() const
-  {
-    return "<Unkown FancyObject>";
-  }
-
-  string FancyObject::inspect() const
-  {
-    return to_s();
   }
 
   FancyObject* FancyObject::send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
@@ -214,16 +184,6 @@ namespace fancy {
     }
   }
 
-  string FancyObject::docstring() const
-  {
-    return _docstring;
-  }
-
-  void FancyObject::set_docstring(const string &docstring)
-  {
-    _docstring = docstring;
-  }
-
   Array* FancyObject::methods() const
   {
     vector<FancyObject*> methods;
@@ -242,17 +202,4 @@ namespace fancy {
     return new Array(methods);
   }
 
-  FancyObject* FancyObject::metadata() const
-  {
-    return _metadata;
-  }
-  
-  void FancyObject::set_metadata(FancyObject* metadata)
-  {
-    if(metadata) {
-      _metadata = metadata;
-    } else {
-      errorln("Invalid metadata given!");
-    }
-  }
 }

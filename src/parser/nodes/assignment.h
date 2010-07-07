@@ -29,9 +29,9 @@ namespace fancy {
       public:
         AssignmentExpr(Identifier* identifier, Expression* value_expr);
         AssignmentExpr(identifier_node* identifiers, expression_node* value_exprs);
-        ~AssignmentExpr();
+        ~AssignmentExpr() {}
   
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_ASSIGNEXPR; }
         virtual FancyObject* eval(Scope *scope);
 
         virtual string to_sexp() const;

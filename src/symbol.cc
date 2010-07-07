@@ -10,10 +10,6 @@ namespace fancy {
   {
   }
 
-  Symbol::~Symbol()
-  {
-  }
-
   FancyObject* Symbol::equal(FancyObject* other) const
   {
     if(!IS_SYMBOL(other)) {
@@ -29,11 +25,6 @@ namespace fancy {
     return nil;
   }
 
-  EXP_TYPE Symbol::type() const
-  {
-    return EXP_SYMBOL;
-  }
-
   string Symbol::to_sexp() const
   {
     return "[:symbol_lit, " + _name + "]";
@@ -42,16 +33,6 @@ namespace fancy {
   string Symbol::to_s() const
   {
     return _name.substr(1, _name.size() - 1);
-  }
-
-  string Symbol::inspect() const
-  {
-    return _name;
-  }
-
-  string Symbol::name() const
-  {
-    return _name;
   }
 
   map<string, Symbol*> Symbol::sym_cache;

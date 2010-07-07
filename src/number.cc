@@ -15,10 +15,6 @@ namespace fancy {
   {
   }
 
-  Number::~Number()
-  {
-  }
-
   FancyObject* Number::equal(FancyObject* other) const
   {
     if(!IS_NUM(other))
@@ -50,11 +46,6 @@ namespace fancy {
     stringstream s;
     s << (is_double() ? _doubleval : _intval);
     return s.str();
-  }
-
-  bool Number::is_double() const
-  {
-    return _is_double;
   }
 
   double Number::doubleval() const

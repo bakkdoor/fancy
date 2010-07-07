@@ -15,15 +15,15 @@ namespace fancy {
      * True constructor. Creates a new true value.
      */
     True();
-    ~True();
+    ~True() {}
 
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
     virtual FancyObject* eval(Scope *scope);
-    virtual EXP_TYPE type() const;
-    virtual string to_s() const;
+    virtual EXP_TYPE type() const { return EXP_TRUE; }
+    virtual string to_s() const { return "true"; }
   };
 
 }

@@ -17,13 +17,13 @@ namespace fancy {
      * @param pattern A C++ string that is the regexp pattern.
      */
     Regexp(const string &pattern);
-    ~Regexp();
+    ~Regexp() {}
 
     /**
      * See FancyObject for these methods.
      */  
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_REGEX; }
     virtual string to_sexp() const;
     virtual string to_s() const;
 
@@ -31,7 +31,7 @@ namespace fancy {
      * Returns the pattern string.
      * @return C++ pattern string.
      */
-    string pattern() const;
+    string pattern() const { return _pattern; }
 
     /**
      * Does the matching on a given string.

@@ -24,26 +24,26 @@ namespace fancy {
      * :truncate
      */
     File(const string &filename, Array* modes);
-    virtual ~File();
+    virtual ~File() {}
 
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_FILE; }
     virtual string to_s() const;
 
     /**
      * Returns the filename set for this File object.
      * @return The filename set for this File object.
      */
-    string filename() const;
+    string filename() const { return _filename; }
 
     /**
      * Returns the modes Array for this File object.
      * @return The modes Array for this File object.
      */
-    Array* modes() const;
+    Array* modes() const { return _modes; }
 
     /**
      * Returns a C++ ios_base::openmode object representing the Files
@@ -51,13 +51,13 @@ namespace fancy {
      * @return C++ ios_base::openmode object representing the Files
      * modes.
      */
-    ios_base::openmode openmode() const;
+    ios_base::openmode openmode() const { return _openmode; }
 
     /**
      * Returns the C++ filestream object for this File object.
      * @return The C++ filestream object for this File object.
      */
-    fstream& file();
+    fstream& file() { return _file; }
 
     /**
      * Opens the File.

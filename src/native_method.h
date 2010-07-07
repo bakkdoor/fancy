@@ -29,13 +29,13 @@ namespace fancy {
                  string docstring,
                  FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope));
 
-    ~NativeMethod();
+    ~NativeMethod() {}
 
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_NATIVEMETHOD; }
     virtual string to_s() const;
 
     /**
@@ -55,10 +55,14 @@ namespace fancy {
      * @return Return value of the method call.
      */
     virtual FancyObject* call(FancyObject* self, Scope *scope);
-  
+
     /**
-     * The identifier (name) of the NativeMethod.
+     * Returns the identifier (name) of the NativeMethod.
+     * @return Identifier (name) of the NativeMethod.
      */
+    string identifier() const { return _identifier; }
+  
+  private:
     string _identifier;
 
     /**

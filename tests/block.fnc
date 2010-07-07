@@ -69,5 +69,10 @@ FancySpec describe: Block with: |it| {
     } catch Exception => e {
       e message should_equal: "got_run!"
     }
+  };
+  
+  it should: "also be able to take arguments seperated by comma" when: {
+    block = |x, y| { x + y };
+    block call: [1,2] . should_equal: 3
   }
 }

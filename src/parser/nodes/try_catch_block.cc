@@ -17,10 +17,6 @@ namespace fancy {
       {
       }
 
-      ExceptionHandler::~ExceptionHandler()
-      {
-      }
-
       bool ExceptionHandler::can_handle(Class* the_class, Scope *scope)
       {
         _exception_class = dynamic_cast<Class*>(scope->get(_exception_class_name->name()));
@@ -73,15 +69,6 @@ namespace fancy {
         _except_handlers(except_handlers),
         _finally_block(finally_block)
       {
-      }
-
-      TryCatchBlock::~TryCatchBlock()
-      {
-      }
-
-      EXP_TYPE TryCatchBlock::type() const
-      {
-        return EXP_TRYCATCHBLOCK;
       }
 
       string TryCatchBlock::to_sexp() const

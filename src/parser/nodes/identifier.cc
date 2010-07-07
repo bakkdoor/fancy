@@ -10,28 +10,14 @@ namespace fancy {
       {
       }
 
-      Identifier::~Identifier()
-      {
-      }
-
       FancyObject* Identifier::eval(Scope *scope)
       {
         return scope->get(_name);
       }
 
-      EXP_TYPE Identifier::type() const
-      {
-        return EXP_IDENTIFIER;
-      }
-
       string Identifier::to_sexp() const
       {
         return "[:ident, \"" + _name + "\"]";
-      }
-
-      string Identifier::name() const
-      {
-        return _name;
       }
 
       map<string, Identifier*> Identifier::ident_cache;

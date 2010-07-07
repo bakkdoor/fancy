@@ -25,10 +25,6 @@ namespace fancy {
       {
       }
 
-      MessageSend::~MessageSend()
-      {
-      }
-
       FancyObject* MessageSend::eval(Scope *scope)
       {
         int size = _arg_expressions.size();
@@ -52,11 +48,6 @@ namespace fancy {
         }
         delete[] args;
         return retval;
-      }
-
-      EXP_TYPE MessageSend::type() const
-      {
-        return EXP_METHODCALL;
       }
 
       string MessageSend::to_sexp() const

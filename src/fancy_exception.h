@@ -45,14 +45,14 @@ namespace fancy {
 
     virtual ~FancyException();
 
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_EXCEPTION; }
     virtual string to_s() const;
 
     /**
      * Returns the message of the Exception.
      * @return Message of the Exception (can be an empty String if not defined).
      */
-    string message() const;
+    string message() const { return _message; }
 
     /**
      * Returns the (runtime) Class of the Exception.

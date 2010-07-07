@@ -12,11 +12,6 @@ namespace fancy {
       {
       }
 
-      EXP_TYPE ClassOperatorDefExpr::type() const
-      {
-        return EXP_OPERATORDEFEXPR;
-      }
-
       FancyObject* ClassOperatorDefExpr::eval(Scope *scope)
       {
         scope->get(_class_name->name())->def_singleton_method(_op_name->name(), _method);

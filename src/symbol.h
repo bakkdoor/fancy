@@ -18,22 +18,22 @@ namespace fancy {
      * @param name Name of the Symbol.
      */
     Symbol(const string &name);
-    ~Symbol();
+    ~Symbol() {}
   
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_SYMBOL; }
     virtual string to_sexp() const;
     virtual string to_s() const;
-    virtual string inspect() const;
+    virtual string inspect() const { return _name; }
 
     /**
      * Returns the name of the Symbol (as a C++ string).
      * @return The name of the Symbol (as a C++ string).
      */
-    string name() const;
+    string name() const { return _name; }
 
     /**
      * Returns a Symbol object with a given name.

@@ -17,22 +17,22 @@ namespace fancy {
      * @param value C++ string containing the actual string.
      */
     FancyString(const string &value);
-    ~FancyString();
+    ~FancyString() {}
 
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_STRING; }
     virtual string to_sexp() const;
-    virtual string to_s() const;
-    virtual string inspect() const;
+    virtual string to_s() const { return _value; }
+    virtual string inspect() const { return "\"" + _value + "\""; }
 
     /**
      * Returns the C++ string value.
      * @return The C++ string value.
      */
-    string value() const;
+    string value() const { return _value; }
 
     /**
      * Replaces all occurences of what in the FancyString with with.

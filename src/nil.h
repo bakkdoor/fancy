@@ -16,15 +16,15 @@ namespace fancy {
      * Nil constructor. Creates a new nil object.
      */
     Nil();
-    ~Nil();
+    ~Nil() {}
 
     /**
      * See FancyObject for these methods.
      */
     virtual FancyObject* equal(FancyObject* other) const;
     virtual FancyObject* eval(Scope *scope);
-    virtual EXP_TYPE type() const;
-    virtual string to_s() const;
+    virtual EXP_TYPE type() const { return EXP_NIL; }
+    virtual string to_s() const { return "nil"; }
   };
 
 }

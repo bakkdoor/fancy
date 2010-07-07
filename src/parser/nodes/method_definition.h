@@ -20,7 +20,7 @@ namespace fancy {
         MethodDefExpr(list< pair<Identifier*, Identifier*> > args_with_name, Method* method);
         virtual ~MethodDefExpr() {}
 
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_METHODDEFEXPR; }
         virtual FancyObject* eval(Scope *scope);
         virtual string to_sexp() const;
  

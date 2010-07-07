@@ -12,10 +12,6 @@ namespace fancy {
         }
       }
 
-      HashLiteral::~HashLiteral()
-      {
-      }
-
       FancyObject* HashLiteral::eval(Scope *scope)
       {
         map<FancyObject*, FancyObject*> mappings;
@@ -24,11 +20,6 @@ namespace fancy {
           mappings[it->first->eval(scope)] = it->second->eval(scope);
         }
         return new Hash(mappings);
-      }
-
-      EXP_TYPE HashLiteral::type() const
-      {
-        return EXP_HASHLITERAL;
       }
 
       string HashLiteral::to_sexp() const

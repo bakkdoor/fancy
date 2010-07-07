@@ -1,6 +1,8 @@
 # package: Fancy::Lang
 
 def class Object {
+  "Root class of Fancy's class hierarchy. All classes inherit from Object.";
+
   def loop: block {
     "Infinitely calls the block (loops).";
     { true } while_true: {

@@ -15,7 +15,7 @@ namespace fancy {
         ClassOperatorDefExpr(Identifier* class_name, Identifier* op_name, Method* method);
         virtual ~ClassOperatorDefExpr() {}
 
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_OPERATORDEFEXPR; }
         virtual FancyObject* eval(Scope *scope);
         virtual string to_sexp() const;
  

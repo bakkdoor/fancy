@@ -111,7 +111,7 @@ comment         #[^\n]*
 {comment}       {}
 
 [ \t]*		{}
-[\n]		{ yylineno++; }
+[\n]		{}
 
 .		{ fprintf(stderr, "SCANNER %d", yyerror("")); exit(1);	}
 

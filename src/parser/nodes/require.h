@@ -17,9 +17,9 @@ namespace fancy {
       {
       public:
         RequireStatement(FancyString* filename);
-        virtual ~RequireStatement();
+        virtual ~RequireStatement() {}
 
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_REQUIRESTATEMENT; }
         virtual FancyObject* eval(Scope *scope);
         virtual string to_sexp() const;
 

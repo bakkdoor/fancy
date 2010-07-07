@@ -7,10 +7,6 @@ namespace fancy {
   {
   }
 
-  Regexp::~Regexp()
-  {
-  }
-
   FancyObject* Regexp::equal(FancyObject* other) const
   {
     if(!IS_REGEX(other))
@@ -22,11 +18,6 @@ namespace fancy {
     return nil;
   }
 
-  EXP_TYPE Regexp::type() const
-  {
-    return EXP_REGEX;
-  }
-
   string Regexp::to_sexp() const
   {
     return "[:regexp_lit, " + to_s() + "]";
@@ -35,11 +26,6 @@ namespace fancy {
   string Regexp::to_s() const
   {
     return "r{" + _pattern + "}";
-  }
-
-  string Regexp::pattern() const
-  {
-    return _pattern;
   }
 
   FancyObject* Regexp::match(FancyString* string) const

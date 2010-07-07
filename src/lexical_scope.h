@@ -23,7 +23,7 @@ namespace fancy {
      * @param scope The LexicalScope's parent Scope.
      */
     LexicalScope(Scope *scope);
-    virtual ~LexicalScope();
+    virtual ~LexicalScope() {}
 
     /**
      * Defines a value for a given name within the LexicalScope.

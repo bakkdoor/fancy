@@ -8,13 +8,8 @@ namespace fancy {
 
   UnknownIdentifierError::UnknownIdentifierError(const string &ident) :
     FancyException("Unknown Identifier: " + ident),
-    _identifier(ident) {}
-
-  UnknownIdentifierError::~UnknownIdentifierError() {}
-
-  string UnknownIdentifierError::identifier() const
+    _identifier(ident)
   {
-    return _identifier;
   }
 
   // NoMethodError
@@ -35,20 +30,6 @@ namespace fancy {
   {
   }
 
-  MethodNotFoundError::~MethodNotFoundError()
-  {
-  }
-  
-  string MethodNotFoundError::method_name() const
-  {
-    return _method_name;
-  }
-
-  Class* MethodNotFoundError::get_class() const
-  {
-    return _class;
-  }
-
   // IOError
 
   IOError::IOError(const string &message, const string &filename) :
@@ -66,28 +47,10 @@ namespace fancy {
   {
   }
 
-  IOError::~IOError()
-  {
-  }
-  
-  string IOError::filename() const
-  {
-    return _filename;
-  }
-
-  Array* IOError::modes() const
-  {
-    return _modes;
-  }
-
   // DivisionByZeroError
 
   DivisionByZeroError::DivisionByZeroError() :
     FancyException("Division by zero!", DivisionByZeroErrorClass)
-  {
-  }
-
-  DivisionByZeroError::~DivisionByZeroError()
   {
   }
 

@@ -16,10 +16,6 @@ namespace fancy {
     replace(__fake_tab, __tab);
   }
 
-  FancyString::~FancyString()
-  {
-  }
-
   FancyObject* FancyString::equal(FancyObject* other) const
   {
     if(!IS_STRING(other))
@@ -31,32 +27,12 @@ namespace fancy {
     return nil;
   }
 
-  EXP_TYPE FancyString::type() const
-  {
-    return EXP_STRING;
-  }
-
   string FancyString::to_sexp() const
   {
     FancyString str(_value);
     str.replace(__newline, __fake_newline);
     str.replace(__tab, __fake_tab);
     return "[:string_lit, \"" + str.inspect() + "\"]";
-  }
-
-  string FancyString::to_s() const
-  {
-    return _value;
-  }
-
-  string FancyString::inspect() const
-  {
-    return "\"" + _value + "\"";
-  }
-
-  string FancyString::value() const
-  {
-    return _value;
   }
 
   void FancyString::replace(string &what, string &with)

@@ -13,8 +13,17 @@ namespace fancy {
   /*****************************************
    *****************************************/
 
+  Scope::Scope() :
+    _parent(NULL),
+    _current_self(nil),
+    _current_class(NilClass),
+    _closed(false),
+    _current_sender(nil)
+  {
+  }
+
   Scope::Scope(FancyObject* current_self) :
-    _parent(0),
+    _parent(NULL),
     _closed(false),
     _current_sender(nil)
   {
@@ -48,10 +57,6 @@ namespace fancy {
     }
   }
 
-  Scope::~Scope()
-  {
-  }
-
   FancyObject* Scope::get(string identifier)
   {
     // check for instance & class variables
@@ -65,6 +70,10 @@ namespace fancy {
       } else {
         return _current_self->get_slot(identifier);
       }
+    }
+
+    if(identifier == "self") {
+      return _current_self;
     }
 
     if(identifier == "__sender__") {
@@ -108,21 +117,10 @@ namespace fancy {
     return found;
   }
 
-  FancyObject* Scope::current_self() const
-  {
-    return _current_self;
-  }
-
-  Class* Scope::current_class() const
-  {
-    return _current_class;
-  }
-
   void Scope::set_current_self(FancyObject* current_self)
   {
     _current_self = current_self;
     _current_class = current_self->get_class();
-    define("self", current_self);
   }
 
   void Scope::set_current_class(Class* klass)
@@ -131,13 +129,4 @@ namespace fancy {
       _current_class = klass;
   }
 
-  Scope* Scope::parent_scope() const
-  {
-    return _parent;
-  }
-
-  map<string, FancyObject*> Scope::value_mappings() const
-  {
-    return _value_mappings;
-  }
 }

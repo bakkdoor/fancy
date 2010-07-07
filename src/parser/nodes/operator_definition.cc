@@ -12,11 +12,6 @@ namespace fancy {
       {
       }
 
-      EXP_TYPE OperatorDefExpr::type() const
-      {
-        return EXP_OPERATORDEFEXPR;
-      }
-
       FancyObject* OperatorDefExpr::eval(Scope *scope)
       {
         scope->current_class()->def_method(_op_name->name(), _method);

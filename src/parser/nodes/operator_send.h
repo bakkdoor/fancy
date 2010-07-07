@@ -13,10 +13,10 @@ namespace fancy {
       {
       public:
         OperatorSend(Expression* receiver, Identifier* operator_name, Expression* operand);
-        virtual ~OperatorSend();
+        virtual ~OperatorSend() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_OPSEND; }
         virtual string to_sexp() const;
 
       private:

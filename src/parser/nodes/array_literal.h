@@ -18,10 +18,10 @@ namespace fancy {
       {
       public:
         ArrayLiteral(expression_node *expr_list);
-        virtual ~ArrayLiteral();
+        virtual ~ArrayLiteral() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_ARRAYLITERAL; }
 
         virtual string to_sexp() const;
 

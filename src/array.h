@@ -125,7 +125,7 @@ namespace fancy {
      */
     Array* last(int n) const;
 
-    virtual EXP_TYPE type() const;
+    virtual EXP_TYPE type() const { return EXP_ARRAY; }
     virtual string to_s() const;
     virtual string inspect() const;
   
@@ -156,7 +156,7 @@ namespace fancy {
      * Returns vector of elements in Array.
      * @return Vector of elements in Array.
      */
-    vector<FancyObject*> values() const;
+    vector<FancyObject*> values() const { return _values; }
 
   private:
     vector<FancyObject*> _values;

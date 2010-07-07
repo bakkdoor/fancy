@@ -24,10 +24,10 @@ namespace fancy {
       {
       public:
         HashLiteral(key_val_node *key_val_list);
-        virtual ~HashLiteral();
+        virtual ~HashLiteral() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_HASHLITERAL; }
         virtual string to_sexp() const;
 
       private:

@@ -25,13 +25,13 @@ FancySpec describe: Object with: |it| {
   };
 
   it should: "call unkown_message:with_params: when calling an undefined method" when: {
-    def class UnkownMessage {
+    def class UnknownMessage {
       def unknown_message: message with_params: params {
         "Got: " ++ message ++ " " ++ params
       }
     };
 
-    obj = UnkownMessage new;
+    obj = UnknownMessage new;
     obj this_is_not_defined: "It's true!" . should_equal: "Got: this_is_not_defined: It's true!"
   };
 
@@ -56,13 +56,13 @@ FancySpec describe: Object with: |it| {
 
   it should: "have no metadata initially" when: {
     o = Object new;
-    o %M should_equal: nil
+    o meta should_equal: nil
   };
 
   it should: "set the metadata correctly" when: {
     o = Object new;
-    o %M: "foobar";
-    o %M should_equal: "foobar"
+    o meta: "foobar";
+    o meta should_equal: "foobar"
   };
 
   it should: "be an Object of the correct Class (or Superclass)" when: {
@@ -84,6 +84,12 @@ FancySpec describe: Object with: |it| {
     x, y, z = :foo, :bar;
     x should_equal: :foo;
     y should_equal: :bar;
-    z should_equal: nil
+    z should_equal: nil;
+
+    x = :foo;
+    y = :bar;
+    x, y = y, x;
+    x should_equal: :bar;
+    y should_equal: :foo
   }
 }

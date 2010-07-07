@@ -11,10 +11,6 @@ namespace fancy {
         }
       }
 
-      ArrayLiteral::~ArrayLiteral()
-      {
-      }
-
       FancyObject* ArrayLiteral::eval(Scope *scope)
       {
         vector<FancyObject*> values;
@@ -24,11 +20,6 @@ namespace fancy {
           values.push_back((*it)->eval(scope));
         }
         return new Array(values);
-      }
-
-      EXP_TYPE ArrayLiteral::type() const
-      {
-        return EXP_ARRAYLITERAL;
       }
 
       string ArrayLiteral::to_sexp() const

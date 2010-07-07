@@ -40,7 +40,7 @@ namespace fancy {
          * linked-list of Expressions.
          */
         ExpressionList(expression_node *list);
-        ~ExpressionList();
+        ~ExpressionList() {}
 
         /**
          * Evaluates each Expression in the ExpressionList.
@@ -49,7 +49,7 @@ namespace fancy {
          * ExpressionList.
          */  
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_EXPRLIST; }
         virtual string to_sexp() const;
 
         /**
@@ -57,7 +57,7 @@ namespace fancy {
          * ExpressionList.
          * @return Amount of top-level Expressions in the ExpressionList.
          */
-        unsigned int size() const;
+        unsigned int size() const { return _expressions.size(); }
 
         /**
          * If the first Expression in an ExpressionList is a
