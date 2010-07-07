@@ -11,10 +11,10 @@ namespace fancy {
       {
       public:
         Super();
-        virtual ~Super();
+        virtual ~Super() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_SUPER; }
       };
 
     }

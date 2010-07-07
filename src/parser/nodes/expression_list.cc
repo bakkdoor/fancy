@@ -20,10 +20,6 @@ namespace fancy {
         }
       }
 
-      ExpressionList::~ExpressionList()
-      {
-      }
-
       FancyObject* ExpressionList::eval(Scope *scope)
       {
         FancyObject* retval = nil;
@@ -35,16 +31,6 @@ namespace fancy {
           // }
         }
         return retval;
-      }
-
-      EXP_TYPE ExpressionList::type() const
-      {
-        return EXP_EXPRLIST;
-      }
-
-      unsigned int ExpressionList::size() const
-      {
-        return _expressions.size();
       }
 
       string ExpressionList::docstring() const

@@ -20,11 +20,6 @@ namespace fancy {
       {
       }
 
-      EXP_TYPE ClassMethodDefExpr::type() const
-      {
-        return EXP_METHODDEFEXPR;
-      }
-
       FancyObject* ClassMethodDefExpr::eval(Scope *scope)
       {
         _method->set_name(method_name());

@@ -38,15 +38,6 @@ namespace fancy {
         }
       }
 
-      AssignmentExpr::~AssignmentExpr()
-      {
-      }
-
-      EXP_TYPE AssignmentExpr::type() const
-      {
-        return EXP_ASSIGNEXPR;
-      }
-
       FancyObject* AssignmentExpr::eval(Scope *scope)
       {
         if(_multiple_assign) {

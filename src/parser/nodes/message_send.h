@@ -24,10 +24,10 @@ namespace fancy {
       public:
         MessageSend(Expression* receiver, send_arg_node *message_args);
         MessageSend(Expression* receiver, Identifier* method_ident);
-        ~MessageSend();
+        ~MessageSend() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_MESSAGESEND; }
 
       private:
         void init_method_ident();

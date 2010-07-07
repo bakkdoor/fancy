@@ -22,7 +22,7 @@ namespace fancy {
       {
       public:
         ExceptionHandler(Identifier* exception_class_name, Identifier* local_name, Expression* body);
-        ~ExceptionHandler();
+        ~ExceptionHandler() {}
 
         bool can_handle(Class* the_class, Scope *scope);
         FancyObject* handle(FancyException* exception, Scope *scope);
@@ -41,9 +41,9 @@ namespace fancy {
         TryCatchBlock(ExpressionList* body, except_handler_list* except_handlers, ExpressionList* finally_block);
         TryCatchBlock(ExpressionList* body, list<ExceptionHandler*> except_handlers);
         TryCatchBlock(ExpressionList* body, list<ExceptionHandler*> except_handlers, ExpressionList* finally_block);
-        virtual ~TryCatchBlock();
+        virtual ~TryCatchBlock() {}
 
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_TRYCATCHBLOCK; }
         virtual FancyObject* eval(Scope *scope);
 
       private:

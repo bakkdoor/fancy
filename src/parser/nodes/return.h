@@ -11,9 +11,9 @@ namespace fancy {
       {
       public:
         ReturnStatement(Expression* return_expr);
-        virtual ~ReturnStatement();
+        virtual ~ReturnStatement() {}
 
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_RETURNSTATEMENT; }
         virtual FancyObject* eval(Scope *scope);
 
       private:

@@ -8,21 +8,12 @@ namespace fancy {
       Super::Super()
       {
       }
-
-      Super::~Super()
-      {
-      }
       
       FancyObject* Super::eval(Scope *scope)
       {
         // we simply return nil, since this value isn't needed.
         // see MethodCall#eval() for dealing with super method calls.
         return nil;
-      }
-
-      EXP_TYPE Super::type() const
-      {
-        return EXP_SUPER;
       }
 
     }

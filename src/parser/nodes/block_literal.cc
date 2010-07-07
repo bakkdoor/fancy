@@ -20,19 +20,10 @@ namespace fancy {
         }
       }
 
-      BlockLiteral::~BlockLiteral()
-      {
-      }
-
       FancyObject* BlockLiteral::eval(Scope *scope)
       {
         LexicalScope* lex = new LexicalScope(scope);
         return new Block(_argnames, _body, lex);
-      }
-
-      EXP_TYPE BlockLiteral::type() const
-      {
-        return EXP_BLOCKLITERAL;
       }
 
     }

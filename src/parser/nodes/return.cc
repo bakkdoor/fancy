@@ -9,15 +9,6 @@ namespace fancy {
       {
       }
 
-      ReturnStatement::~ReturnStatement()
-      {
-      }
-
-      EXP_TYPE ReturnStatement::type() const
-      {
-        return EXP_RETURNSTATEMENT;
-      }
-
       FancyObject* ReturnStatement::eval(Scope *scope)
       {
         FancyObject* retval = _return_expr->eval(scope);

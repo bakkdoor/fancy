@@ -26,10 +26,6 @@ namespace fancy {
       {
       }
 
-      ClassDefExpr::~ClassDefExpr()
-      {
-      }
-
       FancyObject* ClassDefExpr::eval(Scope *scope)
       {
         Class* the_class = 0;
@@ -68,11 +64,6 @@ namespace fancy {
           the_class->set_docstring(_class_body->docstring());
         }
         return the_class;
-      }
-
-      EXP_TYPE ClassDefExpr::type() const
-      {
-        return EXP_CLASSDEFEXPR;
       }
 
     }

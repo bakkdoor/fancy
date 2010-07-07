@@ -29,10 +29,10 @@ namespace fancy {
       public:
         BlockLiteral(ExpressionList* body);
         BlockLiteral(block_arg_node *argnames, ExpressionList* body);
-        virtual ~BlockLiteral();
+        virtual ~BlockLiteral() {}
 
         virtual FancyObject* eval(Scope *scope);
-        virtual EXP_TYPE type() const;
+        virtual EXP_TYPE type() const { return EXP_BLOCKLITERAL; }
 
       private:
         list<Identifier*> _argnames;

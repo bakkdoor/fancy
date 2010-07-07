@@ -14,15 +14,6 @@ namespace fancy {
         _filename = filename->value();
       }
 
-      RequireStatement::~RequireStatement()
-      {
-      }
-
-      EXP_TYPE RequireStatement::type() const
-      {
-        return EXP_REQUIRESTATEMENT;
-      }
-
       FancyObject* RequireStatement::eval(Scope *scope)
       {
         parse_file(_filename);
