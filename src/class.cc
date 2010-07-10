@@ -153,12 +153,9 @@ namespace fancy {
       return true;
 
     if(_superclass) {
-      if(_superclass == klass) {
-        return true;
-      } else {
-        return _superclass->subclass_of(klass);
-      }
+      return _superclass->subclass_of(klass);
     }
+
     return false;
   }
 

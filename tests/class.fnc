@@ -193,5 +193,17 @@ FancySpec describe: Class with: |it| {
     } catch MethodNotFoundError => e {
       e method_name should_equal: "protected_method"
     }
+  };
+  
+  it should: "be a subclass of another Class" when: {
+    def class Super {
+    };
+    def class Sub : Super {
+    };
+
+    Super subclass?: Object . should_equal: true;
+    Sub subclass?: Object . should_equal: true;
+    Sub subclass?: Super . should_equal: true;
+    Super subclass?: Sub . should_equal: nil
   }
 }
