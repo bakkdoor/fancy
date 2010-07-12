@@ -92,6 +92,6 @@ def class Object {
   NATIVE def is_a?: class_obj {
     "Indicates, if an object is an instance of a given Class.";
     
-    self _class subclass?: class_obj
+    self class subclass?: class_obj
   }
 }

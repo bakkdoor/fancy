@@ -171,7 +171,7 @@ FancySpec describe: Class with: |it| {
     x is_a?: Class . should_equal: true;
     x new is_a?: x . should_equal: true;
     x new is_a?: Object . should_equal: true;
-    x new _class should_equal: x;
+    x new class should_equal: x;
 
     # Symbol as superclass
     y = Class new: Symbol;
