@@ -60,7 +60,7 @@ namespace fancy {
         errorln("Block#call got more than 0 arguments!");
       } else {
         Block* block = dynamic_cast<Block*>(self);
-        return block->call(self, scope);
+        return block->call(self, scope, sender);
       }
       return nil;
     }
@@ -77,12 +77,12 @@ namespace fancy {
         for(int i = 0; i < size; i++) {
           args_array_arr[i] = args_array->at(i);
         }
-        FancyObject* retval =  block->call(self, args_array_arr, size, scope);
+        FancyObject* retval =  block->call(self, args_array_arr, size, scope, sender);
         delete[] args_array_arr; // cleanup  before leave
         return retval;
       } else {
         FancyObject* call_args[1] = { first_arg };
-        return block->call(self, call_args, 1, scope);
+        return block->call(self, call_args, 1, scope, sender);
       }
     }
 
@@ -93,8 +93,8 @@ namespace fancy {
       if(IS_BLOCK(first_arg)) {
         Block* while_block = dynamic_cast<Block*>(self);
         Block* then_block = dynamic_cast<Block*>(first_arg);
-        while(while_block->call(self, scope) != nil) {
-          then_block->call(self, scope);
+        while(while_block->call(self, scope, sender) != nil) {
+          then_block->call(self, scope, sender);
         }
         return nil;
       } else {
@@ -108,7 +108,7 @@ namespace fancy {
       FancyObject* first_arg = args[0];
       if(first_arg != nil) {
         Block* block = dynamic_cast<Block*>(self);
-        return block->call(self, scope);
+        return block->call(self, scope, sender);
       } else {
         return nil;
       }
@@ -120,7 +120,7 @@ namespace fancy {
       FancyObject* first_arg = args[0];
       if(first_arg == nil) {
         Block* block = dynamic_cast<Block*>(self);
-        return block->call(self, scope);
+        return block->call(self, scope, sender);
       } else {
         return nil;
       }

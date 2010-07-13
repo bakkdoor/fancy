@@ -145,7 +145,7 @@ namespace fancy {
         for(string::iterator it = str.begin(); it != str.end(); it++) {
           string str(&(*it), 1);
           FancyObject* block_args[1] = { FancyString::from_value(str) };
-          retval = block->call(self, block_args, 1, scope);
+          retval = block->call(self, block_args, 1, scope, sender);
         }
         return retval;
       }
