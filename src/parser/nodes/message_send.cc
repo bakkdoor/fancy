@@ -42,6 +42,7 @@ namespace fancy {
         }
 
         FancyObject* retval = nil;
+        scope->set_current_sender(scope->current_self());
   
         // check for super call
         if(_receiver->type() == EXP_SUPER) {

@@ -22,6 +22,8 @@ namespace fancy {
         Expression* _receiver;
         Identifier* _operator_name;
         Expression* _operand;
+        Callable* _method_cache;
+        Class* _class_cache;
       };
 
     }

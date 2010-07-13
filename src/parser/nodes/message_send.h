@@ -35,7 +35,6 @@ namespace fancy {
 
       private:
         void init_method_ident();
-        //FancyObject* do_message_send();
 
         Expression* _receiver;
         Identifier* _method_ident;
