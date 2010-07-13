@@ -18,6 +18,9 @@ namespace fancy {
 
   typedef map<string, FancyObject*> object_map;
   typedef map<string, Callable*> method_map;
+      
+#define CHANGED(obj, last_chnum)                \
+      (obj->change_num() < last_chnum)
 
   /**
    * Base class for all built-in object types in Fancy.
@@ -90,24 +93,36 @@ namespace fancy {
     /**
      * Calls a method with arguments in a given scope.
      * @param method_name Name of the method (e.g. "is_a?:")
-     * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
+     * @param arguments Array of FancyObjects that holds the arguments for the message send.
      * @param argc Amount of arguments passed.
-     * @param scope Scope in which the methodcall should evaluate.
+     * @param scope Scope in which the message send should evaluate.
      * @param sender Object, that tries to send the message to this Object.
-     * @return The (return) value of the methodcall.
+     * @return The (return) value of the message send.
      */
     FancyObject* send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender);
 
     /**
      * Calls a method on its superclass with arguments in a given scope.
      * @param method_name Name of the method (e.g. "is_a?:")
-     * @param arguments Array of FancyObjects that holds the arguments for the methodcall.
+     * @param arguments Array of FancyObjects that holds the arguments for the message send.
      * @param argc Amount of arguments passed.
-     * @param scope Scope in which the methodcall should evaluate.
+     * @param scope Scope in which the message send should evaluate.
      * @param sender Object, that tries to send the message to this Object.
-     * @return The (return) value of the methodcall.
+     * @return The (return) value of the message send.
      */
     FancyObject* send_super_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender);
+
+    /**
+     * Handles unkown messages (sends unknown_message:params: message
+     * to self, if defined or throws an NoMethodError)
+     * @param method_name Name of the method (e.g. "foobar:")
+     * @param arguments Array of FancyObjects that holds the arguments for the message send.
+     * @param argc Amount of arguments passed.
+     * @param scope Scope in which the message send should evaluate.
+     * @param sender Object, that tries to send the message to this Object.
+     * @return The (return) value of the message send.
+     */
+    FancyObject* handle_unknown_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender, bool from_super = false);
 
     /**
      * Define a singleton method on a FancyObject.
@@ -175,8 +190,7 @@ namespace fancy {
      */
     void set_metadata(FancyObject* metadata) { _metadata = metadata; }
 
-    bool changed() const { return _changed; }
-    void set_changed(bool val) { _changed = val; }
+    unsigned int change_num() const { return _change_num; }
 
   protected:
     void init_slots();
@@ -185,7 +199,7 @@ namespace fancy {
     map<string, Callable*> _singleton_methods;
     string _docstring;
     FancyObject* _metadata;
-    bool _changed;
+    unsigned int _change_num; // counter for number of method changes (used for method caching)
   };
 
 }

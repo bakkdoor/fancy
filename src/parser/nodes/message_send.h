@@ -41,6 +41,8 @@ namespace fancy {
         list< pair<Identifier*, Expression*> > _arg_expressions;
         Callable* _method_cache;
         Class* _class_cache;
+        unsigned int _class_change_cache;
+        unsigned int _receiver_change_cache;
       };
 
     }
