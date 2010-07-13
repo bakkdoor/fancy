@@ -1,6 +1,6 @@
 FancySpec describe: Method with: |it| {
   it should: "return a Method object" when: {
-    Array method: "each:" . _class should_equal: Method
+    Array method: "each:" . class should_equal: Method
   };
 
   it should: "return the (correct) sender object of the MessageSend" when: {

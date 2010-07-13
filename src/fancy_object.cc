@@ -15,7 +15,8 @@ namespace fancy {
 
   FancyObject::FancyObject(Class* _class) :
     _class(_class),
-    _metadata(nil)
+    _metadata(nil),
+    _change_num(0)
   {
     init_slots();
   }
@@ -72,33 +73,12 @@ namespace fancy {
     scope->set_current_sender(sender);
     if(method) {
       if(argc == 0) {
-        // take care of private & protected methods
-        if(method->is_private()) {
-          if(sender->get_class() != this->_class) {
-            throw new MethodNotFoundError(method_name, _class, "private method");
-          }
-        }
-        if(method->is_protected()) {
-          if(!sender->get_class()->subclass_of(this->_class)) {
-            throw new MethodNotFoundError(method_name, _class, "protected method");
-          }
-        }
-        return method->call(this, scope);
+        return method->call(this, scope, sender);
       }
-      return method->call(this, arguments, argc, scope);
+      return method->call(this, arguments, argc, scope, sender);
     } else {
-      // handle unkown messages, if unkown_message:with*arams is defined
-      if(Callable* unkown_message_method = get_method("unknown_message:with_params:")) {
-        int size = sizeof(arguments) / sizeof(arguments[0]);
-        vector<FancyObject*> arr_vec(arguments, &arguments[size]);
-        FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
-        return unkown_message_method->call(this, new_args, 2, scope);
-      }
-      
-      // in this case no method is found and we raise a MethodNotFoundError
-      FancyException* except = new MethodNotFoundError(method_name, _class);
-      throw except;
-      return nil;
+      // handle unkown messages, if unkown_message:with_params is defined
+      return handle_unknown_message(method_name, arguments, argc, scope, sender);
     }
   }
 
@@ -109,33 +89,12 @@ namespace fancy {
       Callable* method = superclass->find_method(method_name);
       if(method) {
         if(argc == 0) {
-        // take care of private & protected methods
-          if(method->is_private()) {
-            if(sender->get_class() != this->_class) {
-              throw new MethodNotFoundError(method_name, _class, "private method");
-            }
-          }
-          if(method->is_protected()) {
-            if(!sender->get_class()->subclass_of(this->_class)) {
-              throw new MethodNotFoundError(method_name, _class, "protected method");
-            }
-          }
-          return method->call(this, scope);
+          return method->call(this, scope, sender);
         }
-        return method->call(this, arguments, argc, scope);
+        return method->call(this, arguments, argc, scope, sender);
       } else {
-        // handle unkown messages, if unkown_message:with_params is defined
-        if(Callable* unkown_message_method = _class->superclass()->find_method("unknown_message:with_params:")) {
-          int size = sizeof(arguments) / sizeof(arguments[0]);
-          vector<FancyObject*> arr_vec(arguments, &arguments[size]);
-          FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
-          return unkown_message_method->call(this, new_args, 2, scope);
-        }
-      
-        // in this case no method is found and we raise a MethodNotFoundError
-        FancyException* except = new MethodNotFoundError(method_name, _class->superclass());
-        throw except;
-        return nil;
+        // no method found -> handle unkown message
+        return handle_unknown_message(method_name, arguments, argc, scope, sender, true);
       }
     } else {
       // TODO: create a UndefinedSuperClass exception class or so...
@@ -144,10 +103,37 @@ namespace fancy {
     }
   }
 
+  FancyObject* FancyObject::handle_unknown_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender, bool from_super)
+  {
+    Callable* unkown_message_method = NULL;
+
+    if(from_super) {
+      unkown_message_method = _class->superclass()->find_method("unknown_message:with_params:");
+    } else {
+      unkown_message_method = get_method("unknown_message:with_params:");
+    }
+
+    if(unkown_message_method) {
+      // create array of arguments for unkown_message:with_params: method
+      // including the message name and an array including the old
+      // arguments for further use within unkown_message:with_params:
+      int size = sizeof(arguments) / sizeof(arguments[0]);
+      vector<FancyObject*> arr_vec(arguments, &arguments[size]);
+      FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
+      return unkown_message_method->call(this, new_args, 2, scope, sender);
+    }
+
+    // in this case no method is found and we raise a MethodNotFoundError
+    FancyException* except = new MethodNotFoundError(method_name, _class);
+    throw except;
+    return nil;
+  }
+
   void FancyObject::def_singleton_method(const string &name, Callable* method)
   {
     assert(method);
     _singleton_methods[name] = method;
+    _change_num++;
   }
 
   void FancyObject::def_private_singleton_method(const string &name, Callable* method)
@@ -155,6 +141,7 @@ namespace fancy {
     assert(method);
     method->set_private();
     _singleton_methods[name] = method;
+    _change_num++;
   }
 
   void FancyObject::def_protected_singleton_method(const string &name, Callable* method)
@@ -162,6 +149,7 @@ namespace fancy {
     assert(method);
     method->set_protected();
     _singleton_methods[name] = method;
+    _change_num++;
   }
 
   bool FancyObject::responds_to(const string &method_name)

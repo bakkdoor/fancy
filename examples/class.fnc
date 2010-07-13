@@ -34,7 +34,7 @@ foo on_hello_do: {
 };
 foo say_hello;
 
-foo _class println; # print the class of foo
+foo class println; # print the class of foo
 
 # define a singleton method on foo object
 foo define_singleton_method: "foo!" with: {
@@ -45,7 +45,7 @@ foo foo!;
 
 # define a 'normal' method on Foo class
 # (instance method for all instances of Foo)
-foo _class define_method: "foo_for_all:" with: |x| {
+foo class define_method: "foo_for_all:" with: |x| {
   "In foo_for_all method (defined for all instances of Foo class)" println;
   "Got argument: " ++ x println
 };
@@ -56,10 +56,10 @@ foo  foo_for_all: "hello, test (again)! :)";
 
 # define a class method on Foo class
 # it's the same as calling 'define_singleton_method:with:' on class
-foo _class define_class_method: "cool_class_method:" with: |arg| {
+foo class define_class_method: "cool_class_method:" with: |arg| {
   "In class method for Foo! Argument given: " ++ arg println
 };
 
 # the following is the same as:
-# foo _class cool_class_method: "Some argument string"
+# foo class cool_class_method: "Some argument string"
 Foo cool_class_method: "Some argument string"

@@ -5,10 +5,14 @@
 
 #include "../../expression.h"
 #include "identifier.h"
+#include "../../callable.h"
 
 using namespace std;
 
 namespace fancy {
+
+  class Class;
+
   namespace parser {
     namespace nodes {
 
@@ -36,6 +40,10 @@ namespace fancy {
         Expression* _receiver;
         Identifier* _method_ident;
         list< pair<Identifier*, Expression*> > _arg_expressions;
+        Callable* _method_cache;
+        Class* _class_cache;
+        unsigned int _class_change_cache;
+        unsigned int _receiver_change_cache;
       };
 
     }

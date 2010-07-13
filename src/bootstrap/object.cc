@@ -55,7 +55,7 @@ and passing them on to the initialize: method of the class.",
                  inspect);
   
       DEF_METHOD(ObjectClass,
-                 "_class",
+                 "class",
                  "Returns the class of the object.",
                  class);  
 

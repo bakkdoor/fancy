@@ -68,12 +68,14 @@ namespace fancy {
   {
     assert(klass);
     _included_classes.insert(klass);
+    _change_num++;
   }
 
   void Class::def_method(const string &name, Callable* method)
   {
     assert(method);
     _instance_methods[name] = method;
+    _change_num++;
   }
 
   void Class::def_private_method(const string &name, Callable* method)
@@ -81,6 +83,7 @@ namespace fancy {
     assert(method);
     method->set_private();
     _instance_methods[name] = method;
+    _change_num++;
   }
 
   void Class::def_protected_method(const string &name, Callable* method)
@@ -88,6 +91,7 @@ namespace fancy {
     assert(method);
     method->set_protected();
     _instance_methods[name] = method;
+    _change_num++;
   }
 
   void Class::def_class_method(const string &name, Callable* method)
@@ -95,18 +99,21 @@ namespace fancy {
     assert(method);
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
+    _change_num++;
   }
 
   void Class::def_private_class_method(const string &name, Callable* method)
   {
     assert(method);
     this->def_private_singleton_method(name, method);
+    _change_num++;
   }
 
   void Class::def_protected_class_method(const string &name, Callable* method)
   {
     assert(method);
     this->def_protected_singleton_method(name, method);
+    _change_num++;
   }
 
   FancyObject* Class::equal(FancyObject* other) const
@@ -153,12 +160,9 @@ namespace fancy {
       return true;
 
     if(_superclass) {
-      if(_superclass == klass) {
-        return true;
-      } else {
-        return _superclass->subclass_of(klass);
-      }
+      return _superclass->subclass_of(klass);
     }
+
     return false;
   }
 

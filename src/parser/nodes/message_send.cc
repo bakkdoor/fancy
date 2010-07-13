@@ -1,4 +1,5 @@
 #include <sstream>
+#include <iostream>
 
 #include "message_send.h"
 #include "../../scope.h"
@@ -10,7 +11,11 @@ namespace fancy {
 
       MessageSend::MessageSend(Expression* receiver,
                                send_arg_node *method_args) :
-        _receiver(receiver)
+        _receiver(receiver),
+        _method_cache(NULL),
+        _class_cache(NULL),
+        _class_change_cache(0),
+        _receiver_change_cache(0)
       {
         for(send_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
           _arg_expressions.push_front(pair<Identifier*, Expression*>(tmp->argname, tmp->argexpr));
@@ -21,7 +26,11 @@ namespace fancy {
 
       MessageSend::MessageSend(Expression* receiver, Identifier* method_ident) :
         _receiver(receiver),
-        _method_ident(method_ident)
+        _method_ident(method_ident),
+        _method_cache(NULL),
+        _class_cache(NULL),
+        _class_change_cache(0),
+        _receiver_change_cache(0)
       {
       }
 
@@ -34,17 +43,39 @@ namespace fancy {
         for(it = _arg_expressions.begin(); it != _arg_expressions.end() && i < size; it++) {
           args[i] = it->second->eval(scope);
           i++;
-        }  
-  
-        FancyObject* retval = nil;
+        }
 
-        // check for super call
+        FancyObject* retval = nil;
+        scope->set_current_sender(scope->current_self());
+  
+        // check for super send
         if(_receiver->type() == EXP_SUPER) {
           retval = scope->current_self()->send_super_message(_method_ident->name(), args, size, scope, scope->current_self());
         } else {
-          // if no super call, do normal method call
+          // if no super send, do normal message send
           FancyObject* receiver_obj = _receiver->eval(scope);
-          retval = receiver_obj->send_message(_method_ident->name(), args, size, scope, scope->current_self());
+          Class* receiver_class = receiver_obj->get_class();
+          // check the class & method cache
+          if(_class_cache == receiver_class 
+             && !CHANGED(receiver_obj, _receiver_change_cache)
+             && !CHANGED(receiver_class, _class_change_cache)) {
+            if(_method_cache) {
+              retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
+            }
+          } else {
+            // receiver object or class changed -> cache invalidated
+            _class_cache = receiver_class;
+            _method_cache = receiver_obj->get_method(_method_ident->name());
+            _class_change_cache = receiver_class->change_num();
+            _receiver_change_cache = receiver_obj->change_num();
+
+            if(_method_cache) {
+              retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
+            } else {
+              // no method found -> handle unknown message
+              retval = receiver_obj->handle_unknown_message(_method_ident->name(), args, size, scope, scope->current_self());
+            }
+          }
         }
         delete[] args;
         return retval;

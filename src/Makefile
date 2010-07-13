@@ -13,7 +13,7 @@ console array file directory scope hash exception method system
 
 files = fancy_object true nil hash array symbol number string		\
 native_method scope lexical_scope class errors method regexp block	\
-utils file directory fancy_exception
+utils file directory fancy_exception callable
 
 src_files = $(foreach file, $(files), $(file).cc) 			\
 $(foreach file, $(bootstrap_files), bootstrap/$(file).cc) 		\
@@ -96,6 +96,9 @@ file.o: file.cc
 
 fancy_exception.o: fancy_exception.cc
 	$(cc) $(cc_flags) -c fancy_exception.cc -o fancy_exception.o
+
+callable.o: callable.cc
+	$(cc) $(cc_flags) -c callable.cc -o callable.o
 
 subdirs:
 	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)

@@ -17,11 +17,11 @@ FancySpec describe: Object with: |it| {
   };
 
   it should: "return its class" when: {
-    nil _class should_equal: NilClass;
-    true _class should_equal: TrueClass;
-    "foo" _class should_equal: String;
-    :bar _class should_equal: Symbol;
-    { :a_block } _class should_equal: Block
+    nil class should_equal: NilClass;
+    true class should_equal: TrueClass;
+    "foo" class should_equal: String;
+    :bar class should_equal: Symbol;
+    { :a_block } class should_equal: Block
   };
 
   it should: "call unkown_message:with_params: when calling an undefined method" when: {
