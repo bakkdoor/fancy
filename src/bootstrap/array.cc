@@ -211,7 +211,7 @@ If given an Array of indices, removes all the elements with these indices.",
         int size = array->size();
         for(int i = 0; i < size; i++) {
           FancyObject* arr[1] = { array->at(i) };
-          retval = block->call(self, arr, 1, scope);
+          retval = block->call(self, arr, 1, scope, sender);
         }
         return retval;
       } else { 
@@ -229,7 +229,7 @@ If given an Array of indices, removes all the elements with these indices.",
       if(Block* block = dynamic_cast<Block*>(args[0])) {
         for(unsigned int i = 0; i < size; i++) {
           FancyObject* arr[2] = { array->at(i), Number::from_int(i) };
-          retval = block->call(self, arr, 2, scope);
+          retval = block->call(self, arr, 2, scope, sender);
         }
         return retval;
       } else {
@@ -502,7 +502,7 @@ If given an Array of indices, removes all the elements with these indices.",
         for(unsigned int i = 0; i < array->size(); i++) {
           FancyObject* obj = array->at(i);
           FancyObject* block_arg[1] = { obj };
-          if(block->call(self, block_arg, 1, scope) != nil) {
+          if(block->call(self, block_arg, 1, scope, sender) != nil) {
             ret_array->insert(obj);
           }
         }
@@ -531,7 +531,7 @@ If given an Array of indices, removes all the elements with these indices.",
           arr->insert(obj);
           arr->insert(idx);
           FancyObject* block_arg[2] = { obj, idx };
-          if(block->call(self, block_arg, 2, scope) != nil) {
+          if(block->call(self, block_arg, 2, scope, sender) != nil) {
             ret_array->insert(arr);
           }
         }
@@ -559,7 +559,7 @@ If given an Array of indices, removes all the elements with these indices.",
       if(Block* block = dynamic_cast<Block*>(args[0])) {
         for(unsigned int i = 0; i < array->size(); i++) {
           FancyObject* block_arg[1] = { array->at(i) };
-          if(block->call(self, block_arg, 1, scope) != nil) {
+          if(block->call(self, block_arg, 1, scope, sender) != nil) {
             del_idx_array->insert(Number::from_int(i));
           }
         }

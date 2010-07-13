@@ -52,7 +52,7 @@ namespace fancy {
           Class* receiver_class = receiver_obj->get_class();
           if(_class_cache == receiver_class && !receiver_obj->changed() && !receiver_class->changed()) {
             if(_method_cache) {
-              retval = _method_cache->call(receiver_obj, args, size, scope);
+              retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
             }
           } else {
             // different class now
@@ -62,7 +62,7 @@ namespace fancy {
             receiver_obj->set_changed(false);
 
             if(_method_cache) {
-              retval = _method_cache->call(receiver_obj, args, size, scope);
+              retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
             } else {
               retval = receiver_obj->send_message(_method_ident->name(), args, size, scope, scope->current_self());
             }

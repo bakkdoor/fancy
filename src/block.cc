@@ -36,7 +36,7 @@ namespace fancy {
     return "<Block>";
   }
 
-  FancyObject* Block::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
+  FancyObject* Block::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
   {
     // check if block is empty
     if(_body->size() == 0)
@@ -54,7 +54,7 @@ namespace fancy {
       }
     }
 
-    FancyObject* return_value = call(self, scope);
+    FancyObject* return_value = call(self, scope, sender);
 
     // reset old values for param names in creation_scope (if any args given)
     if(argc > 0) {
@@ -71,7 +71,7 @@ namespace fancy {
     return return_value;
   }
 
-  FancyObject* Block::call(FancyObject* self, Scope *scope)
+  FancyObject* Block::call(FancyObject* self, Scope *scope, FancyObject* sender)
   {
     // check if block is empty
     if(_body->size() == 0) {

@@ -122,7 +122,7 @@ Raises an IOError if any File to be deleted does not exist.",
       // sure, the file gets closed at all times to avoid resource leaks.
       FancyObject* call_args[1] = { file };
       try {
-        block->call(self, call_args, 1, scope);
+        block->call(self, call_args, 1, scope, sender);
       } catch(FancyException* ex) {
         file->close();
         throw ex;

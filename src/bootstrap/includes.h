@@ -58,7 +58,7 @@ using namespace std;
  * -> FancyObject_p ObjectClass__to_s(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
  */
 #define METHOD(class, method_name)                                       \
-  FancyObject* METHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
+  FancyObject* METHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
 
 /**
  * Macro, that generates a NativeMethod (class method) function
@@ -67,7 +67,7 @@ using namespace std;
  * -> FancyObject_p ObjectClass__new(FancyObject_p self, FancyObject_p *args, int argc, Scope *scope)
  */
 #define CLASSMETHOD(class, method_name)                                       \
-  FancyObject* CLASSMETHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
+  FancyObject* CLASSMETHOD_FUNC(class, method_name)(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
 
 /**
  * Generates the NativeMethod (instance method) prototype declaration,
@@ -86,9 +86,9 @@ using namespace std;
   klass->def_class_method(method_name, new NativeMethod(method_name, docstring, CLASSMETHOD_FUNC(klass, method_func)))
 
 #define FORWARD_METHOD(class, method_name)                      \
-  METHOD_FUNC(class, method_name)(self, args, argc, scope)
+  METHOD_FUNC(class, method_name)(self, args, argc, scope, sender)
 
 #define FORWARD_CLASSMETHOD(class, method_name)                 \
-  CLASSMETHOD_FUNC(class, method_name)(self, args, argc, scope)
+  CLASSMETHOD_FUNC(class, method_name)(self, args, argc, scope, sender)
 
 #endif /* _BOOTSTRAP_INCLUDES_H_ */

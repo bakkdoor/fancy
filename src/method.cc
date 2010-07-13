@@ -33,8 +33,10 @@ namespace fancy {
   {
   }
 
-  FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope)
+  FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
   {
+    Callable::check_sender_access(_method_ident, self, sender);
+
     // check if method is empty
     if(_body->size() == 0)
       return nil;
@@ -74,8 +76,10 @@ namespace fancy {
     return nil;
   }
 
-  FancyObject* Method::call(FancyObject* self, Scope *scope)
+  FancyObject* Method::call(FancyObject* self, Scope *scope, FancyObject* sender)
   {
+    Callable::check_sender_access(_method_ident, self, sender);
+
     // check if method is empty
     if(_body->size() == 0)
       return nil;

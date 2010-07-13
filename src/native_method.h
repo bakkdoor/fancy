@@ -17,7 +17,7 @@ namespace fancy {
      * @param func C++ function pointer that contains the code for the methods body.
      */
     NativeMethod(string identifier,
-                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope));
+                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender));
 
     /**
      * NativeMethod constructor.
@@ -27,7 +27,7 @@ namespace fancy {
      */
     NativeMethod(string identifier,
                  string docstring,
-                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope));
+                 FancyObject* (&func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender));
 
     ~NativeMethod() {}
 
@@ -46,7 +46,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender);
 
     /**
      * Inherited from Callable. Calls the NativeMethod without any arguments.
@@ -54,7 +54,7 @@ namespace fancy {
      * @param scope Scope in which the method should be evaluated.
      * @return Return value of the method call.
      */
-    virtual FancyObject* call(FancyObject* self, Scope *scope);
+    virtual FancyObject* call(FancyObject* self, Scope *scope, FancyObject* sender);
 
     /**
      * Returns the identifier (name) of the NativeMethod.
@@ -68,7 +68,7 @@ namespace fancy {
     /**
      * The C++ function pointer for the NativeMethod's body code.
      */
-    FancyObject* (&_func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
+    FancyObject* (&_func)(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender);
   };
 
 }

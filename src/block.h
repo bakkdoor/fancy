@@ -51,13 +51,13 @@ namespace fancy {
      * Calls the Block (see Callable).
      * @return Return value from calling the Block.
      */
-    FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope);
+    FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender);
 
     /**
      * Calls the Block with no arguments (see Callable).
      * @return Return value from calling the Block.
      */
-    FancyObject* call(FancyObject* self, Scope *scope);
+    FancyObject* call(FancyObject* self, Scope *scope, FancyObject* sender);
 
     /**
      * Sets the creation_scope of the Block.
