@@ -174,6 +174,10 @@ namespace fancy {
      * @param metadata The metadata for this object.
      */
     void set_metadata(FancyObject* metadata) { _metadata = metadata; }
+
+    bool changed() const { return _changed; }
+    void set_changed(bool val) { _changed = val; }
+
   protected:
     void init_slots();
     Class *_class;
@@ -181,6 +185,7 @@ namespace fancy {
     map<string, Callable*> _singleton_methods;
     string _docstring;
     FancyObject* _metadata;
+    bool _changed;
   };
 
 }

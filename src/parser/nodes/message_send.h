@@ -5,10 +5,14 @@
 
 #include "../../expression.h"
 #include "identifier.h"
+#include "../../callable.h"
 
 using namespace std;
 
 namespace fancy {
+
+  class Class;
+
   namespace parser {
     namespace nodes {
 
@@ -31,10 +35,13 @@ namespace fancy {
 
       private:
         void init_method_ident();
+        //FancyObject* do_message_send();
 
         Expression* _receiver;
         Identifier* _method_ident;
         list< pair<Identifier*, Expression*> > _arg_expressions;
+        Callable* _method_cache;
+        Class* _class_cache;
       };
 
     }

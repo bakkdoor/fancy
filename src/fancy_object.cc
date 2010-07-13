@@ -15,7 +15,8 @@ namespace fancy {
 
   FancyObject::FancyObject(Class* _class) :
     _class(_class),
-    _metadata(nil)
+    _metadata(nil),
+    _changed(false)
   {
     init_slots();
   }
@@ -82,7 +83,7 @@ namespace fancy {
       }
       return method->call(this, arguments, argc, scope);
     } else {
-      // handle unkown messages, if unkown_message:with*arams is defined
+      // handle unkown messages, if unkown_message:with_params is defined
       if(Callable* unkown_message_method = get_method("unknown_message:with_params:")) {
         int size = sizeof(arguments) / sizeof(arguments[0]);
         vector<FancyObject*> arr_vec(arguments, &arguments[size]);
@@ -143,6 +144,7 @@ namespace fancy {
   {
     assert(method);
     _singleton_methods[name] = method;
+    _changed = true;
   }
 
   void FancyObject::def_private_singleton_method(const string &name, Callable* method)
@@ -150,6 +152,7 @@ namespace fancy {
     assert(method);
     method->set_private();
     _singleton_methods[name] = method;
+    _changed = true;
   }
 
   void FancyObject::def_protected_singleton_method(const string &name, Callable* method)
@@ -157,6 +160,7 @@ namespace fancy {
     assert(method);
     method->set_protected();
     _singleton_methods[name] = method;
+    _changed = true;
   }
 
   bool FancyObject::responds_to(const string &method_name)
