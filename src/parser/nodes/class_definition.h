@@ -19,6 +19,8 @@ namespace fancy {
 
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const { return EXP_CLASSDEFEXPR; }
+
+        string class_name() const { return _class_name->name(); }
   
       private:
         Class* _superclass;
