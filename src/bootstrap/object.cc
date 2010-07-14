@@ -146,8 +146,9 @@ and passing them on to the initialize: method of the class.",
           // Objects
           Class* the_class = dynamic_cast<Class*>(self);
           FancyObject* new_instance = the_class->create_instance();
-          if(new_instance->responds_to("initialize")) {
-            new_instance->send_message("initialize", args, argc, scope, self);
+          if(Callable* method = the_class->find_method_in_class("initialize")) {
+            // new_instance->send_message("initialize", args, argc, scope, self);
+            method->call(new_instance, args, argc, scope, self);
           }
           return new_instance;
         }
@@ -172,8 +173,8 @@ and passing them on to the initialize: method of the class.",
         } else {
           Class* the_class = dynamic_cast<Class*>(self);
           FancyObject* new_instance = the_class->create_instance();
-          if(new_instance->responds_to("initialize:")) {
-            new_instance->send_message("initialize:", args, argc, scope, self);
+          if(Callable* method = the_class->find_method_in_class("initialize:")) {
+            method->call(new_instance, args, argc, scope, self);
           }
           return new_instance;
         }

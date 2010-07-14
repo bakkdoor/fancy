@@ -151,7 +151,20 @@ namespace fancy {
       return _superclass->find_method(name);
     }
 
-    return 0;
+    return NULL;
+  }
+
+  Callable* Class::find_method_in_class(const string &name)
+  {
+    // first, try instance methods
+    if(_instance_methods.find(name) != _instance_methods.end()) {
+      return _instance_methods[name];
+    }
+    // then, try singleton methods (class methods)
+    if(_singleton_methods.find(name) != _singleton_methods.end()) {
+      return _singleton_methods[name];
+    }
+    return NULL;
   }
 
   bool Class::subclass_of(Class* klass)
