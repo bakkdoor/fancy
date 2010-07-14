@@ -34,6 +34,7 @@ private         "private"
 protected       "protected"
 native_only     "NATIVE"
 identifier      @?@?({letter}|{digit}|{special})+
+nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
 symbol_lit      :{identifier}
 regexp_lit      "r{".*"}"
 comma           ,
@@ -90,6 +91,13 @@ comment         #[^\n]*
 {identifier}    { 
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
+                  return IDENTIFIER;
+                }
+{nested_identifier} {
+                  string str(yytext);
+                  Identifier* ident = fancy::parser::nodes::Identifier::from_string(str);
+                  ident->set_nested(true);
+                  yylval.expression = ident;
                   return IDENTIFIER;
                 }
 {symbol_lit}    { 

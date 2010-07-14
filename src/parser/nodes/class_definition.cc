@@ -39,7 +39,7 @@ namespace fancy {
       FancyObject* ClassDefExpr::eval(Scope *scope)
       {
         Class* the_class = NULL;
-        FancyObject* class_obj = scope->get(_class_name->name());
+        FancyObject* class_obj = _class_name->eval(scope);
         // check if class is already defined.
         // if so, don't create a new class
         if(IS_CLASS(class_obj)) {

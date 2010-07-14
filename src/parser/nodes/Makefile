@@ -2,7 +2,7 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 files = identifier expression_list hash_literal array_literal		\
-class_definition message_send operator_send assignment return require	\
+class_definition nested_class_definition message_send operator_send assignment return require	\
 method_definition class_method_definition operator_definition		\
 class_operator_definition block_literal try_catch_block super
 
@@ -25,6 +25,9 @@ array_literal.o: array_literal.cc
 
 class_definition.o: class_definition.cc
 	$(cc) $(cc_flags) -c class_definition.cc -o class_definition.o
+
+nested_class_definition.o: nested_class_definition.cc
+	$(cc) $(cc_flags) -c nested_class_definition.cc -o nested_class_definition.o
 
 message_send.o: message_send.cc
 	$(cc) $(cc_flags) -c message_send.cc -o message_send.o

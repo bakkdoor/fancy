@@ -9,6 +9,7 @@
 #include "nodes/hash_literal.h"
 #include "nodes/block_literal.h"
 #include "nodes/class_definition.h"
+#include "nodes/nested_class_definition.h"
 #include "nodes/message_send.h"
 #include "nodes/operator_send.h"
 #include "nodes/assignment.h"

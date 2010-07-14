@@ -260,5 +260,30 @@ FancySpec describe: Class with: |it| {
     } catch MethodNotFoundError => e {
       e method_name should_equal: "class_method"
     }
+  };
+
+  it should: "have nested classes" when: {
+    def class Outer {
+      def class Inner {
+        def class InnerMost {
+          def foobar {
+            "foobar!"
+          }
+        }
+      }
+    };
+    Outer is_a?: Class . should_equal: true;
+    Outer::Inner is_a?: Class . should_equal: true;
+    Outer::Inner::InnerMost is_a?: Class . should_equal: true;
+    obj = Outer::Inner::InnerMost new;
+    obj foobar should_equal: "foobar!";
+
+    # change InnerMost#foobar
+    def class Outer::Inner::InnerMost {
+      def foobar {
+        "oh no!"
+      }
+    };
+    obj foobar . should_equal: "oh no!"
   }
 }

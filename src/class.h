@@ -196,14 +196,28 @@ namespace fancy {
      */
     Array* instance_methods() const;
 
+    /**
+     * Adds a nested Class to this Class.
+     * @param class_name Name of the nested Class.
+     * @param klass The Class to be nested into this one.
+     */
+    void add_nested_class(const string &class_name, Class* klass);
+
+    /**
+     * Returns the nested Class object or NULL, if not defined.
+     * @param class_name Name of the nested Class.
+     * @return The nested Class or NULL, if not defined.
+     */
+    Class* get_nested_class(const string &class_name) const;
+
   private:
     string _name;
     vector<string> _instance_slotnames;
     map<string, FancyObject*> _class_slots;
     Class* _superclass;
     set<Class*> _included_classes;
-
     map<string, Callable*> _instance_methods;
+    map<string, Class*> _nested_classes;
   };
 
 }

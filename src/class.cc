@@ -114,7 +114,7 @@ namespace fancy {
 
   bool Class::undef_class_method(const string &name)
   {
-    this->undef_singleton_method(name);
+    return this->undef_singleton_method(name);
   }
 
   void Class::def_private_class_method(const string &name, Callable* method)
@@ -228,4 +228,19 @@ namespace fancy {
 
     return new Array(methods);
   }
+
+  void Class::add_nested_class(const string &class_name, Class* klass)
+  {
+    _nested_classes[class_name] = klass;
+  }
+
+  Class* Class::get_nested_class(const string &class_name) const
+  {
+    map<string,Class*>::const_iterator it = _nested_classes.find(class_name);
+    if(it != _nested_classes.end()) {
+      return it->second;
+    }
+    return NULL; // no nested class with given name found
+  }
+
 }

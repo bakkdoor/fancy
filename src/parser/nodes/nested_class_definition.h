@@ -10,7 +10,7 @@ namespace fancy {
       class NestedClassDefExpr : public Expression
       {
       public:
-        NestedClassDefExpr(ClassDefExpr* class_def);
+        NestedClassDefExpr(Expression* class_def_expr);
         virtual ~NestedClassDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
