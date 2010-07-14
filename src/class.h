@@ -82,6 +82,14 @@ namespace fancy {
     void def_method(const string &name, Callable* method);
 
     /**
+     * Undefines an existing instance method within the class.
+     * @param name the name of the instance method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_method(const string &name);
+
+    /**
      * Defines a private instance method for the class.
      * @param name the name of the private instance method.
      * @param method The instance method object.
@@ -103,6 +111,14 @@ namespace fancy {
      * @param method The class method object.
      */
     void def_class_method(const string &name, Callable* method);
+
+    /**
+     * Undefines an existing class method within the class.
+     * @param name the name of the class method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_class_method(const string &name);
 
     /**
      * Defines a private class method for the Class.

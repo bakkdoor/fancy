@@ -29,10 +29,20 @@ second argument to serve as the method's body.",
                  define_method__with);
 
       DEF_METHOD(ClassClass,
+                 "undefine_method:",
+                 "Undefine an existing method on a Class.",
+                 undefine_method);
+
+      DEF_METHOD(ClassClass,
                  "define_class_method:with:",
                  "Define a class method, taking a Block as the \
 second argument to serve as the method's body.",
                  define_class_method__with);
+
+      DEF_METHOD(ClassClass,
+                 "undefine_class_method:",
+                 "Undefine an existing class method on a Class.",
+                 undefine_class_method);
 
       DEF_METHOD(ClassClass,
                  "include:",
@@ -96,6 +106,18 @@ second argument to serve as the method's body.",
       }
     }
 
+    METHOD(ClassClass, undefine_method)
+    {
+      EXPECT_ARGS("Class#undefine_method:", 1);
+      string method_name = args[0]->to_s();
+      Class* the_class = dynamic_cast<Class*>(self);
+      if(the_class->undef_method(method_name)) {
+        return t; // return t if method was defined, nil otherwise.
+      } else {
+        return nil;
+      }
+    }
+
     METHOD(ClassClass, define_class_method__with)
     {
       EXPECT_ARGS("Class#define_class_method:with:", 2);
@@ -108,6 +130,18 @@ second argument to serve as the method's body.",
         return t;
       } else {
         errorln("Class#define_class_method:with: expects String and Block arguments.");
+        return nil;
+      }
+    }
+
+    METHOD(ClassClass, undefine_class_method)
+    {
+      EXPECT_ARGS("Class#undefine_class_method:", 1);
+      string method_name = args[0]->to_s();
+      Class* the_class = dynamic_cast<Class*>(self);
+      if(the_class->undef_class_method(method_name)) {
+        return t; // return t if method was defined, nil otherwise.
+      } else {
         return nil;
       }
     }

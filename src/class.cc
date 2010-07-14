@@ -78,6 +78,16 @@ namespace fancy {
     _change_num++;
   }
 
+  bool Class::undef_method(const string &name)
+  {
+    if(_instance_methods.find(name) != _instance_methods.end()) {
+      _instance_methods.erase(name);
+      _change_num++;
+      return true;
+    }
+    return false;
+  }
+
   void Class::def_private_method(const string &name, Callable* method)
   {
     assert(method);
@@ -100,6 +110,11 @@ namespace fancy {
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
     _change_num++;
+  }
+
+  bool Class::undef_class_method(const string &name)
+  {
+    this->undef_singleton_method(name);
   }
 
   void Class::def_private_class_method(const string &name, Callable* method)

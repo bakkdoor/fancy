@@ -65,6 +65,11 @@ and passing them on to the initialize: method of the class.",
                  define_singleton_method__with);
 
       DEF_METHOD(ObjectClass,
+                 "undefine_singleton_method:",
+                 "Undefine an existing singleton method for an Object.",
+                 undefine_singleton_method);
+
+      DEF_METHOD(ObjectClass,
                  "==",
                  "Índicates, if two objects are equal.",
                  eq);
@@ -243,6 +248,17 @@ and passing them on to the initialize: method of the class.",
         return t;
       } else {
         errorln("Object#define_singleton_method:with: expects String and Block arguments.");
+        return nil;
+      }
+    }
+
+    METHOD(ObjectClass, undefine_singleton_method)
+    {
+      EXPECT_ARGS("Class#undefine_singleton_method:", 1);
+      string method_name = args[0]->to_s();
+      if(self->undef_singleton_method(method_name)) {
+        return t; // return t if method was defined, nil otherwise.
+      } else {
         return nil;
       }
     }

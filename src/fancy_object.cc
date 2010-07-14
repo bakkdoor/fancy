@@ -131,6 +131,17 @@ namespace fancy {
     _change_num++;
   }
 
+  bool FancyObject::undef_singleton_method(const string &name)
+  {
+    if(_singleton_methods.find(name) != _singleton_methods.end()) {
+      _singleton_methods.erase(name);
+      _change_num++;
+      return true;
+    }
+    return false;
+  }
+
+
   void FancyObject::def_private_singleton_method(const string &name, Callable* method)
   {
     assert(method);
