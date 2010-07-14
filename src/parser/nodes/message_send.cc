@@ -1,5 +1,4 @@
 #include <sstream>
-#include <iostream>
 
 #include "message_send.h"
 #include "../../scope.h"

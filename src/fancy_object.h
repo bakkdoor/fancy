@@ -20,7 +20,7 @@ namespace fancy {
   typedef map<string, Callable*> method_map;
       
 #define CHANGED(obj, last_chnum)                \
-      (obj->change_num() < last_chnum)
+      (obj->change_num() != last_chnum)
 
   /**
    * Base class for all built-in object types in Fancy.
