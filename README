@@ -55,7 +55,8 @@ Some technical information:
 What's already working?
 ------------------------
 
-  - Class definitions
+  - Class definitions 
+    (including nested classes that work like modules / namespaces)
   - Instance & class method definitions
   - String, Integer, Float, Array, Hash (HashMap) & Block literals
   - Method & Operator calls
