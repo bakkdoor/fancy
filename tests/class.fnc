@@ -205,5 +205,28 @@ FancySpec describe: Class with: |it| {
     Sub subclass?: Object . should_equal: true;
     Sub subclass?: Super . should_equal: true;
     Super subclass?: Sub . should_equal: nil
+  };
+
+  it should: "dynamically create a subclass of another class" when: {
+    subclass = String subclass: {
+      def foo {
+        "hello, world!"
+      }
+    };
+    subclass is_a?: Class . should_equal: true;
+    subclass subclass?: String . should_equal: true;
+    subclass new is_a?: subclass . should_equal: true;
+    subclass new foo should_equal: "hello, world!";
+
+    # now the same with Class##new:body:
+    subclass2 = Class superclass: Symbol body: {
+      def foo {
+        "hello, world, again!"
+      }
+    };
+    subclass2 is_a?: Class . should_equal: true;
+    subclass2 subclass?: String . should_equal: true;
+    subclass2 new is_a?: subclass2 . should_equal: true;
+    subclass2 new foo should_equal: "hello, world, again!"
   }
 }

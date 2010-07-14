@@ -152,6 +152,16 @@ namespace fancy {
     Callable* find_method(const string &name);
 
     /**
+     * Look-up method for finding a method withing this Class.
+     * If this class does not have this method defined (e.g. only
+     * defined in superclass) return NULL.
+     * @param name Name of the method to find within the Class.
+     * @return A Callable representing the method or NULL, if method
+     * not defined in Class.
+     */
+    Callable* find_method_in_class(const string &name);
+
+    /**
      * Indicates, if a Class is a subclass of a given Class (or the same).
      * @param klass The class to check.
      * @return true, if this Class is a subclass of the given class, false otherwise.

@@ -15,6 +15,7 @@ namespace fancy {
       public:
         ClassDefExpr(Identifier* class_name, ExpressionList* class_body);
         ClassDefExpr(Identifier* superclass_name, Identifier* class_name, ExpressionList* class_body);
+        ClassDefExpr(Class* superclass, Identifier* class_name, ExpressionList* class_body);
         virtual ~ClassDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
