@@ -132,6 +132,14 @@ namespace fancy {
     void def_singleton_method(const string &name, Callable* method);
 
     /**
+     * Undefines an existing singleton method for the Object.
+     * @param name the name of the singleton method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_singleton_method(const string &name);
+
+    /**
      * Define a private singleton method on a FancyObject.
      * @param name Name of the private singleton method.
      * @param method A Callable that holds the method's body.

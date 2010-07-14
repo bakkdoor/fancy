@@ -228,5 +228,37 @@ FancySpec describe: Class with: |it| {
     subclass2 subclass?: String . should_equal: true;
     subclass2 new is_a?: subclass2 . should_equal: true;
     subclass2 new foo should_equal: "hello, world, again!"
+  };
+
+  it should: "undefine an instance method" when: {
+    def class Foo {
+      def instance_method {
+      "instance method!"
+      }
+    };
+    f = Foo new;
+    f instance_method should_equal: "instance method!";
+    Foo undefine_method: :instance_method . should_equal: true;
+    try {
+      f instance_method should_equal: nil # should not get here
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "instance_method"
+    }
+  };
+
+  it should: "undefine a class method" when: {
+    def class Foo {
+      def self class_method {
+      "class method!"
+      }
+    };
+    Foo class_method should_equal: "class method!";
+    Foo undefine_method: :class_method . should_equal: nil;
+    Foo undefine_class_method: :class_method . should_equal: true;
+    try {
+      Foo class_method should_equal: nil # should not get here
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "class_method"
+    }
   }
 }
