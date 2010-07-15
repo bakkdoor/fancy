@@ -1,5 +1,6 @@
 #include "nested_class_definition.h"
 #include "../../class.h"
+#include "../../utils.h"
 
 namespace fancy {
   namespace parser {
@@ -18,6 +19,7 @@ namespace fancy {
       {
         if(Class* outer_class = dynamic_cast<Class*>(scope->current_self())) {
           Scope *class_eval_scope = new Scope(outer_class, scope);
+          _class_def->set_nested(outer_class);
           FancyObject* class_obj = _class_def->eval(class_eval_scope);
           if(Class* nested_class = dynamic_cast<Class*>(class_obj)) {
             outer_class->add_nested_class(_class_def->class_name(), nested_class);

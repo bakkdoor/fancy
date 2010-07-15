@@ -285,5 +285,19 @@ FancySpec describe: Class with: |it| {
       }
     };
     obj foobar . should_equal: "oh no!"
+  };
+
+  it should: "not override existing classes with the same name in a nested class" when: {
+    StdArray = Array;
+    def class NameSpace {
+      def class Array {
+        def Array what_am_i {
+          "not the same as the standard Array class"
+        }
+      }
+    };
+
+    NameSpace::Array what_am_i . should_equal: "not the same as the standard Array class";
+    NameSpace::Array should_not_equal: Array
   }
 }
