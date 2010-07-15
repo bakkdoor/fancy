@@ -78,6 +78,16 @@ namespace fancy {
     _change_num++;
   }
 
+  bool Class::undef_method(const string &name)
+  {
+    if(_instance_methods.find(name) != _instance_methods.end()) {
+      _instance_methods.erase(name);
+      _change_num++;
+      return true;
+    }
+    return false;
+  }
+
   void Class::def_private_method(const string &name, Callable* method)
   {
     assert(method);
@@ -100,6 +110,11 @@ namespace fancy {
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
     _change_num++;
+  }
+
+  bool Class::undef_class_method(const string &name)
+  {
+    return this->undef_singleton_method(name);
   }
 
   void Class::def_private_class_method(const string &name, Callable* method)
@@ -151,7 +166,20 @@ namespace fancy {
       return _superclass->find_method(name);
     }
 
-    return 0;
+    return NULL;
+  }
+
+  Callable* Class::find_method_in_class(const string &name)
+  {
+    // first, try instance methods
+    if(_instance_methods.find(name) != _instance_methods.end()) {
+      return _instance_methods[name];
+    }
+    // then, try singleton methods (class methods)
+    if(_singleton_methods.find(name) != _singleton_methods.end()) {
+      return _singleton_methods[name];
+    }
+    return NULL;
   }
 
   bool Class::subclass_of(Class* klass)
@@ -200,4 +228,19 @@ namespace fancy {
 
     return new Array(methods);
   }
+
+  void Class::add_nested_class(const string &class_name, Class* klass)
+  {
+    _nested_classes[class_name] = klass;
+  }
+
+  Class* Class::get_nested_class(const string &class_name) const
+  {
+    map<string,Class*>::const_iterator it = _nested_classes.find(class_name);
+    if(it != _nested_classes.end()) {
+      return it->second;
+    }
+    return NULL; // no nested class with given name found
+  }
+
 }

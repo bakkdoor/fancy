@@ -205,5 +205,85 @@ FancySpec describe: Class with: |it| {
     Sub subclass?: Object . should_equal: true;
     Sub subclass?: Super . should_equal: true;
     Super subclass?: Sub . should_equal: nil
+  };
+
+  it should: "dynamically create a subclass of another class" when: {
+    subclass = String subclass: {
+      def foo {
+        "hello, world!"
+      }
+    };
+    subclass is_a?: Class . should_equal: true;
+    subclass subclass?: String . should_equal: true;
+    subclass new is_a?: subclass . should_equal: true;
+    subclass new foo should_equal: "hello, world!";
+
+    # now the same with Class##new:body:
+    subclass2 = Class superclass: Symbol body: {
+      def foo {
+        "hello, world, again!"
+      }
+    };
+    subclass2 is_a?: Class . should_equal: true;
+    subclass2 subclass?: String . should_equal: true;
+    subclass2 new is_a?: subclass2 . should_equal: true;
+    subclass2 new foo should_equal: "hello, world, again!"
+  };
+
+  it should: "undefine an instance method" when: {
+    def class Foo {
+      def instance_method {
+      "instance method!"
+      }
+    };
+    f = Foo new;
+    f instance_method should_equal: "instance method!";
+    Foo undefine_method: :instance_method . should_equal: true;
+    try {
+      f instance_method should_equal: nil # should not get here
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "instance_method"
+    }
+  };
+
+  it should: "undefine a class method" when: {
+    def class Foo {
+      def self class_method {
+      "class method!"
+      }
+    };
+    Foo class_method should_equal: "class method!";
+    Foo undefine_method: :class_method . should_equal: nil;
+    Foo undefine_class_method: :class_method . should_equal: true;
+    try {
+      Foo class_method should_equal: nil # should not get here
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "class_method"
+    }
+  };
+
+  it should: "have nested classes" when: {
+    def class Outer {
+      def class Inner {
+        def class InnerMost {
+          def foobar {
+            "foobar!"
+          }
+        }
+      }
+    };
+    Outer is_a?: Class . should_equal: true;
+    Outer::Inner is_a?: Class . should_equal: true;
+    Outer::Inner::InnerMost is_a?: Class . should_equal: true;
+    obj = Outer::Inner::InnerMost new;
+    obj foobar should_equal: "foobar!";
+
+    # change InnerMost#foobar
+    def class Outer::Inner::InnerMost {
+      def foobar {
+        "oh no!"
+      }
+    };
+    obj foobar . should_equal: "oh no!"
   }
 }

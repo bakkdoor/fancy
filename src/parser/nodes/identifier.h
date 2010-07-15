@@ -41,6 +41,20 @@ namespace fancy {
         string name() const { return _name; }
 
         /**
+         * Sets the nested value (indicating, if the identifier is a
+         * nested identifier, e.g. Foo::Bar for nested class acces).
+         * @param nested Boolean value to be used for the nested value.
+         */
+        void set_nested(bool nested) { _nested = nested; }
+
+        /**
+         * Indicates, if the Identifier a nested (e.g. Foo::Bar).
+         * @return true, if nested, false otherwise.
+         */
+        bool is_nested() const { return _nested; }
+
+
+        /**
          * Returns an Identifier with the given name value.
          * @param name The C++ string with the name of the Identifier.
          * @return Identifier with the given name (might have been created
@@ -50,6 +64,7 @@ namespace fancy {
 
       private:
         string _name;
+        bool _nested;
 
         static map<string, Identifier*> ident_cache;
       };

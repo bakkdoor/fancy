@@ -91,5 +91,18 @@ FancySpec describe: Object with: |it| {
     x, y = y, x;
     x should_equal: :bar;
     y should_equal: :foo
+  };
+
+  it should: "undefine a singleton method" when: {
+    def self a_singleton_method {
+      "a singleton method!"
+    };
+    self a_singleton_method should_equal: "a singleton method!";
+    self undefine_singleton_method: :a_singleton_method . should_equal: true;
+    try {
+      self a_singleton_method should_equal: nil # should not get here
+    } catch MethodNotFoundError => e {
+      e method_name should_equal: "a_singleton_method"
+    }
   }
 }

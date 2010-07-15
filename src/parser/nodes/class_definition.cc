@@ -10,7 +10,7 @@ namespace fancy {
       ClassDefExpr::ClassDefExpr(Identifier* class_name,
                                  ExpressionList* class_body) :
         _superclass(ObjectClass),
-        _superclass_name(0),
+        _superclass_name(NULL),
         _class_name(class_name),
         _class_body(class_body)
       {
@@ -19,8 +19,18 @@ namespace fancy {
       ClassDefExpr::ClassDefExpr(Identifier* superclass_name,
                                  Identifier* class_name,
                                  ExpressionList* class_body) :
-        _superclass(0),
+        _superclass(NULL),
         _superclass_name(superclass_name),
+        _class_name(class_name),
+        _class_body(class_body)
+      {
+      }
+
+      ClassDefExpr::ClassDefExpr(Class* superclass,
+                                 Identifier* class_name,
+                                 ExpressionList* class_body) :
+        _superclass(superclass),
+        _superclass_name(Identifier::from_string(superclass->name())),
         _class_name(class_name),
         _class_body(class_body)
       {
@@ -28,8 +38,8 @@ namespace fancy {
 
       FancyObject* ClassDefExpr::eval(Scope *scope)
       {
-        Class* the_class = 0;
-        FancyObject* class_obj = scope->get(_class_name->name());
+        Class* the_class = NULL;
+        FancyObject* class_obj = _class_name->eval(scope);
         // check if class is already defined.
         // if so, don't create a new class
         if(IS_CLASS(class_obj)) {

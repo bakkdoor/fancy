@@ -20,7 +20,7 @@ namespace fancy {
   typedef map<string, Callable*> method_map;
       
 #define CHANGED(obj, last_chnum)                \
-      (obj->change_num() < last_chnum)
+      (obj->change_num() != last_chnum)
 
   /**
    * Base class for all built-in object types in Fancy.
@@ -131,6 +131,14 @@ namespace fancy {
      * @param method A Callable that holds the method's body.
      */
     void def_singleton_method(const string &name, Callable* method);
+
+    /**
+     * Undefines an existing singleton method for the Object.
+     * @param name the name of the singleton method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_singleton_method(const string &name);
 
     /**
      * Define a private singleton method on a FancyObject.

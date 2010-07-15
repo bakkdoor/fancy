@@ -82,6 +82,14 @@ namespace fancy {
     void def_method(const string &name, Callable* method);
 
     /**
+     * Undefines an existing instance method within the class.
+     * @param name the name of the instance method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_method(const string &name);
+
+    /**
      * Defines a private instance method for the class.
      * @param name the name of the private instance method.
      * @param method The instance method object.
@@ -103,6 +111,14 @@ namespace fancy {
      * @param method The class method object.
      */
     void def_class_method(const string &name, Callable* method);
+
+    /**
+     * Undefines an existing class method within the class.
+     * @param name the name of the class method to be deleted
+     * (undefined).
+     * @return true, if method existed, false otherwise.
+     */
+    bool undef_class_method(const string &name);
 
     /**
      * Defines a private class method for the Class.
@@ -152,6 +168,16 @@ namespace fancy {
     Callable* find_method(const string &name);
 
     /**
+     * Look-up method for finding a method withing this Class.
+     * If this class does not have this method defined (e.g. only
+     * defined in superclass) return NULL.
+     * @param name Name of the method to find within the Class.
+     * @return A Callable representing the method or NULL, if method
+     * not defined in Class.
+     */
+    Callable* find_method_in_class(const string &name);
+
+    /**
      * Indicates, if a Class is a subclass of a given Class (or the same).
      * @param klass The class to check.
      * @return true, if this Class is a subclass of the given class, false otherwise.
@@ -170,14 +196,28 @@ namespace fancy {
      */
     Array* instance_methods() const;
 
+    /**
+     * Adds a nested Class to this Class.
+     * @param class_name Name of the nested Class.
+     * @param klass The Class to be nested into this one.
+     */
+    void add_nested_class(const string &class_name, Class* klass);
+
+    /**
+     * Returns the nested Class object or NULL, if not defined.
+     * @param class_name Name of the nested Class.
+     * @return The nested Class or NULL, if not defined.
+     */
+    Class* get_nested_class(const string &class_name) const;
+
   private:
     string _name;
     vector<string> _instance_slotnames;
     map<string, FancyObject*> _class_slots;
     Class* _superclass;
     set<Class*> _included_classes;
-
     map<string, Callable*> _instance_methods;
+    map<string, Class*> _nested_classes;
   };
 
 }

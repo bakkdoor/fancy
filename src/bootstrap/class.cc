@@ -1,12 +1,23 @@
 #include "includes.h"
 
 #include "../block.h"
+#include "../parser/nodes/class_definition.h"
+
 
 namespace fancy {
   namespace bootstrap {
 
     void init_class_class()
     {
+
+      /**
+       * Class class methods.
+       */
+      DEF_CLASSMETHOD(ClassClass,
+                      "superclass:body:",
+                      "Creates a new Class with a given superclass and a Block defining its body.",
+                      superclass__body);
+
       /**
        * Class instance methods
        */
@@ -18,10 +29,20 @@ second argument to serve as the method's body.",
                  define_method__with);
 
       DEF_METHOD(ClassClass,
+                 "undefine_method:",
+                 "Undefine an existing method on a Class.",
+                 undefine_method);
+
+      DEF_METHOD(ClassClass,
                  "define_class_method:with:",
                  "Define a class method, taking a Block as the \
 second argument to serve as the method's body.",
                  define_class_method__with);
+
+      DEF_METHOD(ClassClass,
+                 "undefine_class_method:",
+                 "Undefine an existing class method on a Class.",
+                 undefine_class_method);
 
       DEF_METHOD(ClassClass,
                  "include:",
@@ -37,6 +58,33 @@ second argument to serve as the method's body.",
                  "superclass",
                  "Returns the Class' superclass.",
                  superclass);
+
+      DEF_METHOD(ClassClass,
+                 "subclass:",
+                 "Creates a new subclass for this class with a given body.",
+                 subclass);
+    }
+
+    /**
+     * Class class methods.
+     */
+
+    CLASSMETHOD(ClassClass, superclass__body)
+    {
+      EXPECT_ARGS("Class#superclass:body:", 2);
+      if(Class* superclass = dynamic_cast<Class*>(args[0])) {
+        if(Block* body_block = dynamic_cast<Block*>(args[1])) {
+          parser::nodes::ClassDefExpr* class_def = new parser::nodes::ClassDefExpr(superclass, Identifier::from_string("AnonymousClass"), body_block->body());
+          FancyObject* new_class_obj = class_def->eval(scope);
+          return new_class_obj;
+        } else {
+          errorln("No Block given to Class##superclass:body:");
+          return nil;
+        }
+      } else {
+        errorln("No valid Superclass given to Class##superclass:body:");
+        return nil;
+      }
     }
 
     /**
@@ -58,6 +106,18 @@ second argument to serve as the method's body.",
       }
     }
 
+    METHOD(ClassClass, undefine_method)
+    {
+      EXPECT_ARGS("Class#undefine_method:", 1);
+      string method_name = args[0]->to_s();
+      Class* the_class = dynamic_cast<Class*>(self);
+      if(the_class->undef_method(method_name)) {
+        return t; // return t if method was defined, nil otherwise.
+      } else {
+        return nil;
+      }
+    }
+
     METHOD(ClassClass, define_class_method__with)
     {
       EXPECT_ARGS("Class#define_class_method:with:", 2);
@@ -70,6 +130,18 @@ second argument to serve as the method's body.",
         return t;
       } else {
         errorln("Class#define_class_method:with: expects String and Block arguments.");
+        return nil;
+      }
+    }
+
+    METHOD(ClassClass, undefine_class_method)
+    {
+      EXPECT_ARGS("Class#undefine_class_method:", 1);
+      string method_name = args[0]->to_s();
+      Class* the_class = dynamic_cast<Class*>(self);
+      if(the_class->undef_class_method(method_name)) {
+        return t; // return t if method was defined, nil otherwise.
+      } else {
         return nil;
       }
     }
@@ -105,6 +177,24 @@ second argument to serve as the method's body.",
     METHOD(ClassClass, superclass)
     {
       return dynamic_cast<Class*>(self)->superclass();
+    }
+
+    METHOD(ClassClass, subclass)
+    {
+      EXPECT_ARGS("Class#subclass:", 1);
+      if(Class* superclass = dynamic_cast<Class*>(self)) {
+        if(Block* body_block = dynamic_cast<Block*>(args[0])) {
+          parser::nodes::ClassDefExpr* class_def = new parser::nodes::ClassDefExpr(superclass, Identifier::from_string("AnonymousClass"), body_block->body());
+          FancyObject* new_class_obj = class_def->eval(scope);
+          return new_class_obj;
+        } else {
+          errorln("No Block given to Class#subclass:");
+          return nil;
+        }
+      } else {
+        errorln("Self is not a valid Superclass in Class#subclass:");
+        return nil;
+      }
     }
 
   }

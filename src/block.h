@@ -101,6 +101,8 @@ namespace fancy {
      */
     bool is_empty() const { return _body->size() == 0; }
 
+    parser::nodes::ExpressionList* body() const { return _body; }
+
   private:
     void init_orig_block_arg_values();
 

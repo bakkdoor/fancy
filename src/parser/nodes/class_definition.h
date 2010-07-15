@@ -15,12 +15,15 @@ namespace fancy {
       public:
         ClassDefExpr(Identifier* class_name, ExpressionList* class_body);
         ClassDefExpr(Identifier* superclass_name, Identifier* class_name, ExpressionList* class_body);
+        ClassDefExpr(Class* superclass, Identifier* class_name, ExpressionList* class_body);
         virtual ~ClassDefExpr() {}
 
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const { return EXP_CLASSDEFEXPR; }
         virtual string to_sexp() const;
 
+        string class_name() const { return _class_name->name(); }
+  
       private:
         Class* _superclass;
         Identifier* _superclass_name;

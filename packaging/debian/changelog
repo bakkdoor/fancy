@@ -1,3 +1,10 @@
+fancy (0.2.0-1) unstable; urgency=low
+
+  * Updated to version 0.2.0.
+	Lots of changes since last release.
+
+ -- Christopher Bertels <chris@fancy-lang.org>  Wed, 14 Jul 2010 19:24:42 +0200
+
 fancy (0.1.0-1) unstable; urgency=low
 
   * Initial release.

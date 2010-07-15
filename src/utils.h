@@ -2,6 +2,7 @@
 #define _UTILS_H_
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -35,6 +36,15 @@ namespace fancy {
    */
   ostream& errorln(string message);
 
+  /**
+   * Splits a string by a given seperator string and saves results in
+   * results vector.
+   * @param str The string to be splitted.
+   * @param separator The seperator string to split by.
+   * @param results Pointer to a vector to be filled with the results
+   * of splitting the string.
+   */
+  void string_split(string str, string separator, vector<string>* results);
 }
 
 #endif /* _UTILS_H_ */
