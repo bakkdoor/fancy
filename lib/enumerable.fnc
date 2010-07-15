@@ -1,5 +1,3 @@
-# package: Fancy::Collections
-
 def class Enumerable {
   "Mixin-Class with useful methods for collections that implement an 'each:' method.";
 

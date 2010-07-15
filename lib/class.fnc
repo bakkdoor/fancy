@@ -1,5 +1,3 @@
-# package: Fancy::Lang
-
 def class Class {
   def define_slot_reader: slotname {
     "Defines a slot reader method with a given name.";

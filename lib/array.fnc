@@ -1,5 +1,3 @@
-# package: Fancy::Collections
-
 def class Array {
   self include: Enumerable;
 

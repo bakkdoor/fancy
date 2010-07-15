@@ -1,5 +1,3 @@
-# package: Fancy::Lang
-
 def class Object {
   "Root class of Fancy's class hierarchy. All classes inherit from Object.";
 
