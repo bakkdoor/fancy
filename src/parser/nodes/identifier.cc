@@ -27,6 +27,8 @@ namespace fancy {
             for(unsigned int i = 1; i < nested_parts.size(); i++) {
               if(Class* the_class = dynamic_cast<Class*>(current_class->get_nested_class(nested_parts[i]))) {
                 current_class = the_class;
+              } else {
+                return nil;
               }
             }
             return current_class;

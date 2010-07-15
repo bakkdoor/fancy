@@ -39,14 +39,18 @@ namespace fancy {
       FancyObject* ClassDefExpr::eval(Scope *scope)
       {
         Class* the_class = NULL;
-        FancyObject* class_obj = _class_name->eval(scope);
+        FancyObject* class_obj = nil;
+        if(_outer_class) { // nested class
+          class_obj = _outer_class->get_nested_class(_class_name->name());
+        } else {
+          class_obj = _class_name->eval(scope);
+        }
+
         // check if class is already defined.
         // if so, don't create a new class
-        if(IS_CLASS(class_obj)) {
-          the_class = dynamic_cast<Class*>(class_obj);
-        } else {
-          // if not yet defined, create a new class and define it in the
-          // current scope
+        // if not yet defined, create a new class and define it in the
+        // current scope
+        if(!(the_class = dynamic_cast<Class*>(class_obj))) {
           Class* superclass = _superclass;
           if(!superclass && _superclass_name) {
             FancyObject* class_obj = scope->get(_superclass_name->name());
