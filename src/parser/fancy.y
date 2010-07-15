@@ -79,7 +79,6 @@
 %token                  SUPER
 %token                  PRIVATE
 %token                  PROTECTED
-%token                  NATIVE_ONLY
 %token                  DEFCLASS
 %token                  DEF
 %token                  DOT
@@ -125,7 +124,6 @@
 %type  <expression>         class_method_no_args
 
 %type  <expression>         method_def
-%type  <expression>         native_only_def
 %type  <expression>         method_w_args
 %type  <expression>         method_no_args
 %type  <expression>         operator_def
@@ -220,12 +218,7 @@ method_def:     method_w_args
                 | class_method_no_args
                 | operator_def
                 | class_operator_def
-                | native_only_def
                 ;
-
-native_only_def: NATIVE_ONLY method_def {
-                  $$ = fancy::nil;
-                }
 
 method_args:    IDENTIFIER COLON IDENTIFIER { 
                   method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($1, $3));

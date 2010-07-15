@@ -3,7 +3,7 @@
 def class Array {
   self include: Enumerable;
 
-  NATIVE def [] index {
+  def NATIVE [] index {
     ""Given an Array of 2 Numbers, it returns the sub-array between the given indices.
       If given a Number, returns the element at that index."";
 
@@ -113,7 +113,7 @@ def class Array {
     self join: (String new)
   }
 
-  NATIVE def each_with_index: block {
+  def NATIVE each_with_index: block {
     "Iterate over all elements in Array. Calls a given Block with each element and its index.";
 
     self size times: |idx| {
@@ -121,7 +121,7 @@ def class Array {
     }
   }
   
-  NATIVE def select_with_index: condition {
+  def NATIVE select_with_index: condition {
     "Same as select, just gets also called with an additional argument for each element's index value.";
     
     coll = [];
@@ -131,7 +131,7 @@ def class Array {
     coll
   };
 
-  NATIVE def reject!: condition {
+  def NATIVE reject!: condition {
     "Removes all elements in place, that meet the condition.";
     
     entries = self select_with_index: |x i| { condition call: x };

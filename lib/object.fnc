@@ -89,7 +89,7 @@ def class Object {
     [self]
   }
   
-  NATIVE def is_a?: class_obj {
+  def NATIVE is_a?: class_obj {
     "Indicates, if an object is an instance of a given Class.";
     
     self class subclass?: class_obj
