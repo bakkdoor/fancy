@@ -21,7 +21,7 @@ namespace fancy {
 
     /**
      * See FancyObject for these methods.
-     */  
+     */
     virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const { return EXP_REGEX; }
     virtual string to_s() const;

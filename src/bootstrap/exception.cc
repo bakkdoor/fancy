@@ -41,8 +41,8 @@ namespace fancy {
                  "_class",
                  "Returns the Class for which the Method wasn not found.",
                  _class);
-                 
-                 
+
+
       /**
        * IOError class
        */
@@ -99,7 +99,7 @@ namespace fancy {
         return nil;
       }
     }
- 
+
 
     /**
      * MethodNotFoundError instance methods
@@ -151,7 +151,7 @@ namespace fancy {
 
     CLASSMETHOD(IOErrorClass, message__filename)
     {
-      EXPECT_ARGS("IOError##message:filename::", 2);      
+      EXPECT_ARGS("IOError##message:filename::", 2);
       return new IOError(args[0]->to_s(), args[1]->to_s());
     }
 

@@ -24,7 +24,7 @@ namespace fancy {
     _superclass = 0;
   }
 
-  Class::Class(const string &name, Class* superclass) : 
+  Class::Class(const string &name, Class* superclass) :
     FancyObject(ClassClass),
     _name(name),
     _superclass(superclass)
@@ -213,7 +213,7 @@ namespace fancy {
       vector<FancyObject*> super_methods = _superclass->instance_methods()->values();
       methods.insert(methods.end(), super_methods.begin(), super_methods.end());
     }
-    
+
     for(map<string, Callable*>::const_iterator it = _instance_methods.begin();
         it != _instance_methods.end();
         it++) {

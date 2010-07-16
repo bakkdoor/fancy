@@ -49,7 +49,7 @@ namespace fancy {
   {
     if(_class) {
       vector<string>::iterator it;
-      for(it = _class->instance_slotnames().begin(); 
+      for(it = _class->instance_slotnames().begin();
           it != _class->instance_slotnames().end();
           it++){
         _slots[*it] = nil;
@@ -181,7 +181,7 @@ namespace fancy {
   Array* FancyObject::methods() const
   {
     vector<FancyObject*> methods;
-    
+
     for(map<string, Callable*>::const_iterator it = _singleton_methods.begin();
         it != _singleton_methods.end();
         it++) {

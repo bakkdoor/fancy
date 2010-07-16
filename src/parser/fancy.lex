@@ -52,7 +52,7 @@ comment         #[^\n]*
 {def}           { return DEF; }
 {int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
-{string_lit}	{ 
+{string_lit}	{
                   string str(yytext);
                   yylval.object = FancyString::from_value(str.substr(1, str.length() - 2));
                   return STRING_LITERAL;
@@ -86,7 +86,7 @@ comment         #[^\n]*
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }
-{identifier}    { 
+{identifier}    {
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return IDENTIFIER;
@@ -98,7 +98,7 @@ comment         #[^\n]*
                   yylval.expression = ident;
                   return IDENTIFIER;
                 }
-{symbol_lit}    { 
+{symbol_lit}    {
                   string str(yytext);
                   yylval.object = Symbol::from_string(str);
                   return SYMBOL_LITERAL;

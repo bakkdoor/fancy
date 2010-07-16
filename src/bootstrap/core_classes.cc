@@ -132,7 +132,7 @@ namespace fancy {
       global_scope->define("DivisionByZeroError", DivisionByZeroErrorClass);
 
       global_scope->define("System", SystemClass);
-  
+
       /* define singleton objects */
       global_scope->define("nil", nil);
       global_scope->define("true", t);

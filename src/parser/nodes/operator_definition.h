@@ -17,7 +17,7 @@ namespace fancy {
 
         virtual EXP_TYPE type() const { return EXP_OPERATORDEFEXPR; }
         virtual FancyObject* eval(Scope *scope);
- 
+
       protected:
         Identifier* _op_name;
         Method* _method;

@@ -35,7 +35,7 @@ using namespace std;
   if(argc != amount) {                                                  \
     error(method_name) << " expects " << amount << " arguments." << endl; \
     return nil;                                                         \
-  }                                                                     
+  }
 
 /**
  * Macro that generates a NativeMethod (instance method) function name.

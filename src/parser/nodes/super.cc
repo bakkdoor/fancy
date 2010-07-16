@@ -8,7 +8,7 @@ namespace fancy {
       Super::Super()
       {
       }
-      
+
       FancyObject* Super::eval(Scope *scope)
       {
         // we simply return nil, since this value isn't needed.

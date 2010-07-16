@@ -6,7 +6,7 @@ namespace fancy {
     namespace nodes {
 
       // ExceptionHandler
-      
+
       ExceptionHandler::ExceptionHandler(Identifier* exception_class_name,
                                          Identifier* local_name,
                                          Expression* body) :
@@ -110,7 +110,7 @@ namespace fancy {
           throw ex; // no handler defined
         }
       }
-      
+
       void TryCatchBlock::init_except_handlers(except_handler_list* except_handlers)
       {
         for(except_handler_list *tmp = except_handlers; tmp != NULL; tmp = tmp->next) {

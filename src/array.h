@@ -128,7 +128,7 @@ namespace fancy {
     virtual EXP_TYPE type() const { return EXP_ARRAY; }
     virtual string to_s() const;
     virtual string inspect() const;
-  
+
     /**
      * Returns size of Array.
      * @return Size of Array.

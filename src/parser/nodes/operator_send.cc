@@ -44,7 +44,7 @@ namespace fancy {
           _method_cache = receiver_obj->get_method(_operator_name->name());
           _class_change_cache = receiver_class->change_num();
           _receiver_change_cache = receiver_obj->change_num();
-          
+
           if(_method_cache) {
             return _method_cache->call(receiver_obj, &operand, 1, scope, scope->current_self());
           }

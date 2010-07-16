@@ -26,7 +26,7 @@ namespace fancy {
          */
         Identifier(const string &name);
         ~Identifier() {}
-  
+
         /**
          * Inherited from Expression.
          */

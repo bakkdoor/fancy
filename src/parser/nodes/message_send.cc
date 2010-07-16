@@ -46,7 +46,7 @@ namespace fancy {
 
         FancyObject* retval = nil;
         scope->set_current_sender(scope->current_self());
-  
+
         // check for super send
         if(_receiver->type() == EXP_SUPER) {
           retval = scope->current_self()->send_super_message(_method_ident->name(), args, size, scope, scope->current_self());
@@ -55,7 +55,7 @@ namespace fancy {
           FancyObject* receiver_obj = _receiver->eval(scope);
           Class* receiver_class = receiver_obj->get_class();
           // check the class & method cache
-          if(_class_cache == receiver_class 
+          if(_class_cache == receiver_class
              && !CHANGED(receiver_obj, _receiver_change_cache)
              && !CHANGED(receiver_class, _class_change_cache)) {
             if(_method_cache) {

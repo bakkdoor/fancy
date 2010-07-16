@@ -30,7 +30,7 @@ namespace fancy {
 
     /**
      * See FancyObject for these methods.
-     */  
+     */
     virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
@@ -52,7 +52,7 @@ namespace fancy {
      * @return Integer value for the Number.
      */
     int intval() const;
-  
+
     /**
      * Returns Number object with the given int value.
      * @param value Integer value for the Number object.

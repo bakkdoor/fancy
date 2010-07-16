@@ -60,7 +60,7 @@ namespace fancy {
      * @return C++ vector of all the values in the Hash.
      */
     vector<FancyObject*> values();
-  
+
     /**
      * Returns the size (amount of entries) in the Hash.
      * @return The size (amount of entries) in the Hash.

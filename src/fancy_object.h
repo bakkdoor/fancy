@@ -18,7 +18,7 @@ namespace fancy {
 
   typedef map<string, FancyObject*> object_map;
   typedef map<string, Callable*> method_map;
-      
+
 #define CHANGED(obj, last_chnum)                \
       (obj->change_num() != last_chnum)
 
@@ -34,7 +34,7 @@ namespace fancy {
      */
     FancyObject(Class *_class);
     virtual ~FancyObject() {}
-  
+
     /**
      * Returns the Class of the object.
      * @return Class object of the object.

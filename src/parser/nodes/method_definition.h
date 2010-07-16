@@ -22,7 +22,7 @@ namespace fancy {
 
         virtual EXP_TYPE type() const { return EXP_METHODDEFEXPR; }
         virtual FancyObject* eval(Scope *scope);
- 
+
       protected:
         string method_name();
         list< pair<Identifier*, Identifier*> > _method_args;

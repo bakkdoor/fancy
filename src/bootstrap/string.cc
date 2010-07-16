@@ -90,7 +90,7 @@ namespace fancy {
       string str = dynamic_cast<FancyString*>(self)->value();
       FancyObject* arg1 = args[0];
       FancyObject* arg2 = args[1];
-  
+
       if(IS_INT(arg1) && IS_INT(arg2)) {
         Number* idx1 = dynamic_cast<Number*>(arg1);
         Number* idx2 = dynamic_cast<Number*>(arg2);

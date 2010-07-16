@@ -53,11 +53,11 @@ and passing them on to the initialize: method of the class.",
                  "inspect",
                  "Returns detailed string representation of object.",
                  inspect);
-  
+
       DEF_METHOD(ObjectClass,
                  "class",
                  "Returns the class of the object.",
-                 class);  
+                 class);
 
       DEF_METHOD(ObjectClass,
                  "define_singleton_method:with:",
@@ -73,7 +73,7 @@ and passing them on to the initialize: method of the class.",
                  "==",
                  "Índicates, if two objects are equal.",
                  eq);
-  
+
       DEF_METHOD(ObjectClass,
                  "is_a?:",
                  "Indicates, if an object is an instance of a given Class.",
@@ -88,7 +88,7 @@ and passing them on to the initialize: method of the class.",
                  "send:params:",
                  "Sends a message to an object with an Array of arguments.",
                  send__params);
-  
+
       DEF_METHOD(ObjectClass,
                  "responds_to?:",
                  "Indicates, if an object responds to a given method name.",
@@ -103,7 +103,7 @@ and passing them on to the initialize: method of the class.",
                  "set_slot:value:",
                  "Sets the value of slot.",
                  set_slot__value);
-  
+
       DEF_METHOD(ObjectClass,
                  "docstring:",
                  "Sets the docstring for an object.",

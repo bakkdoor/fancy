@@ -20,7 +20,7 @@ namespace fancy {
 
       /**
        * Assignment expression class.
-       * Used in the parser. 
+       * Used in the parser.
        * When evaluated, sets the value of an identifier within the current
        * scope.
        */
@@ -30,7 +30,7 @@ namespace fancy {
         AssignmentExpr(Identifier* identifier, Expression* value_expr);
         AssignmentExpr(identifier_node* identifiers, expression_node* value_exprs);
         ~AssignmentExpr() {}
-  
+
         virtual EXP_TYPE type() const { return EXP_ASSIGNEXPR; }
         virtual FancyObject* eval(Scope *scope);
 

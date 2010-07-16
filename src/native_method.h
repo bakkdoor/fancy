@@ -61,7 +61,7 @@ namespace fancy {
      * @return Identifier (name) of the NativeMethod.
      */
     string identifier() const { return _identifier; }
-  
+
   private:
     string _identifier;
 

@@ -52,7 +52,7 @@ namespace fancy {
 
   /**
    * Interface for everything that can evaluate into a FancyObject
-   * instance.  
+   * instance.
    * This includes parser nodes (see src/parser/nodes/) as * well as
    * FancyObjects (they evaluate to themself)
    */
