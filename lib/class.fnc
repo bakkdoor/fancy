@@ -14,7 +14,7 @@ def class Class {
       self set_slot: slotname value: val
     }
   }
-  
+
   def read_slots: slots {
     "Defines slot reader methods for all given slotnames.";
 

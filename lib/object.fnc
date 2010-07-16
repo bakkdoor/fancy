@@ -32,7 +32,7 @@ def class Object {
     "Returns nil.";
     nil
   }
-  
+
   def nil? {
     "Returns nil.";
     nil
@@ -60,7 +60,7 @@ def class Object {
 
   def if_do: then_block else: else_block {
     ""If the object is non-nil, it calls the given then_block with itself as argument.
-      Otherwise it calls the given else_block with itself as argument."";    
+      Otherwise it calls the given else_block with itself as argument."";
 
     self nil? if_true: {
       else_block call
@@ -78,7 +78,7 @@ def class Object {
       self
     }
   }
-  
+
   def to_num {
     0
   }
@@ -86,10 +86,10 @@ def class Object {
   def to_a {
     [self]
   }
-  
+
   def NATIVE is_a?: class_obj {
     "Indicates, if an object is an instance of a given Class.";
-    
+
     self class subclass?: class_obj
   }
 }

@@ -48,7 +48,7 @@ def class Set {
       @values send: msg params: params
     }
   }
-  
+
   def to_s {
     "Returns a String representation of a Set.";
     "Set" ++ @values to_s

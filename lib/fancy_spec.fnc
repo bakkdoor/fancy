@@ -3,7 +3,7 @@ def class FancySpec {
     @test_obj = test_obj;
     @spec_tests = []
   }
-  
+
   def self describe: test_obj with: block {
     it = FancySpec new: test_obj;
     block call: [it];
@@ -79,13 +79,13 @@ def class Object {
     };
     self check_with_unexpected: unexpected_value
   }
-  
+
   def should_be: block {
     (block call: [self]) if_false: {
       SpecTest failed_test: [self, nil]
     }
   }
-  
+
   def should_not_be: block {
     (block call: [self]) if_true: {
       SpecTest failed_test: [self, nil]

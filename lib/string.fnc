@@ -12,7 +12,7 @@ def class String {
       self at: index
     }
   }
-  
+
   def ++ other {
     "Concatenate the String with another String";
 

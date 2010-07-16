@@ -4,7 +4,7 @@ def class TrueClass {
     # TrueClass instance
     true
   }
-  
+
   def if_true: then_block else: else_block {
     "Calls the then_block.";
     then_block call
