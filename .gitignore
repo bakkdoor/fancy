@@ -33,3 +33,4 @@ vendor/gc/*.la
 vendor/gc/config.status
 vendor/gc/cord/.*
 vendor/gc/cord/*.lo
+docs/*

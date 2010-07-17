@@ -11,10 +11,14 @@ ${GCLIB}:
 	@echo "compiling GC"
 	@cd vendor/gc && CFLAGS="${GC_CFLAGS} ${CFLAGS}" ./configure --enable-cplusplus --disable-threads -q && make -s
 
+docs:
+	doxygen
+
 clean:
 	cd src && make clean > /dev/null
 	rm -f bin/fancy
 	rm -rf tmp/
+	rm -rf docs/
 
 all-clean: clean
 	@cd vendor/gc && make clean
