@@ -17,7 +17,7 @@ namespace fancy {
   }
 
   Method::Method(const list< pair<Identifier*, Identifier*> > argnames,
-                 ExpressionList* body) : 
+                 ExpressionList* body) :
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
@@ -55,15 +55,15 @@ namespace fancy {
       list< pair<Identifier*, Identifier*> >::iterator name_it = _argnames.begin();
       // list<FancyObject*>::iterator arg_it = args.begin();
       int i = 0;
-    
+
       while(name_it != _argnames.end() && i < argc) {
-        // name_it->second holds the name of the actual param name 
+        // name_it->second holds the name of the actual param name
         // (the first is part of the method name)
         call_scope->define(name_it->second->name(), args[i]);
         name_it++;
         i++;
       }
-    
+
       // finally, eval the methods body expression
       FancyObject* val = _body->eval(call_scope);
       if(!call_scope->is_closed()) {
@@ -72,7 +72,7 @@ namespace fancy {
       }
       return val;
     }
-  
+
     return nil;
   }
 

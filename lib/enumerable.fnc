@@ -88,7 +88,7 @@ def class Enumerable {
     };
     coll
   }
-  
+
   def take_while: condition {
     "Returns a new Array by taking elements from the beginning as long as they meet the given condition block.";
 
@@ -163,7 +163,7 @@ def class Enumerable {
   def first {
     self at: 0
   }
-  
+
   def last {
     "Returns the last element in an Enumerable.";
 
@@ -191,7 +191,7 @@ def class Enumerable {
     };
     retval
   }
-  
+
   def max {
     "Returns the maximum value in the Enumerable (via the '>' comparison message).";
     self superior_by: :>

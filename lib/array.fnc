@@ -10,14 +10,14 @@ def class Array {
       self from: (index[0]) to: (index[1])
     } else: {
       self at: index
-    }    
+    }
   }
 
   def rest {
     "Returns all elements except the first one as a new Array";
     self from: 1 to: -1
   }
-  
+
   def === other {
     "Compares two Arrays where order does not matter";
 
@@ -118,10 +118,10 @@ def class Array {
       block call: [self at: idx, idx]
     }
   }
-  
+
   def NATIVE select_with_index: condition {
     "Same as select, just gets also called with an additional argument for each element's index value.";
-    
+
     coll = [];
     self each_with_index: |x i| {
       { coll << [x, i] } if: $ condition call: [x, i]
@@ -131,7 +131,7 @@ def class Array {
 
   def NATIVE reject!: condition {
     "Removes all elements in place, that meet the condition.";
-    
+
     entries = self select_with_index: |x i| { condition call: x };
     self remove_at: $ entries map: |e| { e second };
     self
@@ -139,13 +139,13 @@ def class Array {
 
   def select!: condition {
     "Removes all elements in place, that don't meet the condition";
-    
+
     self reject!: |x| { condition call: x . not }
   }
 
   def compact! {
     "Removes all nil-value elements in place.";
-    
+
     self reject!: |x| { x nil? }
   }
 

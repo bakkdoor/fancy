@@ -7,7 +7,7 @@ file directory scope hash exception method system
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
 
-sub_dirs = 
+sub_dirs =
 
 all: subdirs $(obj_files)
 

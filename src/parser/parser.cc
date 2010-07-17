@@ -16,7 +16,7 @@ extern int yy_delete_buffer(yy_buffer_state*);
 
 namespace fancy {
   namespace parser {
-    
+
     string current_file;
     stack<parser_buffer> parse_buffers;
     list<string> load_path;
@@ -130,16 +130,16 @@ namespace fancy {
         // error("");
         // perror(filename.c_str());
         return false;
-      }  
+      }
       buf.buffstate = yy_create_buffer(f, YY_BUF_SIZE);
       buf.file = f;
       buf.filename = filename;
       buf.lineno = yylineno;
       parse_buffers.push(buf);
-      
+
       current_file = filename;
       yylineno = 1;
-      
+
       yy_switch_to_buffer(buf.buffstate);
       return true;
     }
@@ -149,7 +149,7 @@ namespace fancy {
       if(!parse_buffers.empty()) {
         parser_buffer buf = parse_buffers.top();
         parse_buffers.pop();
-        
+
         fclose(buf.file);
         yy_delete_buffer(buf.buffstate);
 

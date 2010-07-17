@@ -106,11 +106,11 @@ Raises an IOError if any File to be deleted does not exist.",
         errorln("File##open:modes:with: expects String, Array and Block value");
         return nil;
       }
-  
+
       string filename = dynamic_cast<FancyString*>(arg1)->value();
       Array* modes = dynamic_cast<Array*>(arg2);
-      Block* block = dynamic_cast<Block*>(arg3);  
-      File* file = new File(filename, modes); 
+      Block* block = dynamic_cast<Block*>(arg3);
+      File* file = new File(filename, modes);
       file->open();
 
       if(!file->good()) {
@@ -136,7 +136,7 @@ Raises an IOError if any File to be deleted does not exist.",
       EXPECT_ARGS("File##open:modes:", 2);
       FancyObject* arg1 = args[0];
       FancyObject* arg2 = args[1];
-  
+
       if(!(IS_STRING(arg1) && IS_ARRAY(arg2))) {
         errorln("File##open:modes: expects String and Array value");
         return nil;
@@ -152,7 +152,7 @@ Raises an IOError if any File to be deleted does not exist.",
         file->close();
         throw new IOError("Could not open file: ", filename, modes);
       }
-  
+
       return file;
     }
 
@@ -160,7 +160,7 @@ Raises an IOError if any File to be deleted does not exist.",
     {
       EXPECT_ARGS("File##delete:", 1);
       FancyObject* arg = args[0];
-  
+
       if(!(IS_STRING(arg) || IS_ARRAY(arg))) {
         errorln("File##delete: expects String or Array value");
         return nil;

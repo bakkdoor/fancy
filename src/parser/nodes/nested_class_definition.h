@@ -15,6 +15,7 @@ namespace fancy {
 
         virtual FancyObject* eval(Scope *scope);
         virtual EXP_TYPE type() const { return EXP_CLASSDEFEXPR; }
+	virtual string to_sexp() const { return _class_def->to_sexp(); }
 
       private:
         ClassDefExpr* _class_def;

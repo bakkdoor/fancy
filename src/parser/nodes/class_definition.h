@@ -24,7 +24,7 @@ namespace fancy {
 
         string class_name() const { return _class_name->name(); }
         void set_nested(Class* outer_class) { _outer_class = outer_class; }
-  
+
       private:
         Class* _superclass;
         Identifier* _superclass_name;

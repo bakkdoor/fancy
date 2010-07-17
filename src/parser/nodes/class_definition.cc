@@ -57,8 +57,8 @@ namespace fancy {
             if(IS_CLASS(class_obj)) {
               superclass = dynamic_cast<Class*>(class_obj);
             } else {
-              error("Superclass identifier does not reference a class: ") 
-                << _superclass_name->name() 
+              error("Superclass identifier does not reference a class: ")
+                << _superclass_name->name()
                 << "(" << class_obj->type() << ")"
                 << endl;
               return nil;

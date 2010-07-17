@@ -154,7 +154,7 @@ namespace fancy {
      * Returns a map of the names and values of the class slots.
      * @return Map of the names and values of the class slots.
      */
-    map<string, FancyObject*> class_slots() const { return _class_slots; } 
+    map<string, FancyObject*> class_slots() const { return _class_slots; }
 
     virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const { return EXP_CLASS; }

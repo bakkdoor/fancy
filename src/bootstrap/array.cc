@@ -27,7 +27,7 @@ namespace fancy {
                       "new:with:",
                       "Create a new Array with a given size and default-value.",
                       new__with);
-      
+
       /**
        * Array instance methods
        */
@@ -214,7 +214,7 @@ If given an Array of indices, removes all the elements with these indices.",
           retval = block->call(self, arr, 1, scope, sender);
         }
         return retval;
-      } else { 
+      } else {
         errorln("Array#each: expects Block argument");
         return nil;
       }
@@ -350,7 +350,7 @@ If given an Array of indices, removes all the elements with these indices.",
 
     METHOD(ArrayClass, remove_at)
     {
-      EXPECT_ARGS("Array#remove_at:", 1);      
+      EXPECT_ARGS("Array#remove_at:", 1);
       Array* array = dynamic_cast<Array*>(self);
       if(Number* index = dynamic_cast<Number*>(args[0])) {
         return array->remove_at(index->intval());

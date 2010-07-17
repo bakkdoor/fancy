@@ -4,7 +4,7 @@
 #include "bootstrap/core_classes.h"
 
 namespace fancy {
-  
+
   FancyException::FancyException(Class* exception_class) :
     FancyObject(exception_class),
     _exception_value(0),
@@ -12,7 +12,7 @@ namespace fancy {
   {
     assert(exception_class);
   }
-  
+
   FancyException::FancyException(const string &message, Class* exception_class) :
     FancyObject(exception_class),
     _exception_value(0),

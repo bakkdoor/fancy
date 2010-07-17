@@ -234,7 +234,7 @@ method_def:     method_w_args
                 | class_operator_def
                 ;
 
-method_args:    IDENTIFIER COLON IDENTIFIER { 
+method_args:    IDENTIFIER COLON IDENTIFIER {
                   method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($1, $3));
                 }
                 | method_args IDENTIFIER COLON IDENTIFIER {
@@ -443,11 +443,11 @@ try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                 ;
 
 catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
-                | CATCH LCURLY method_body RCURLY { 
+                | CATCH LCURLY method_body RCURLY {
                   ExpressionList* body = new ExpressionList($3);
                   $$ = except_handler_node(nodes::Identifier::from_string("Exception"), nodes::Identifier::from_string(""), body, 0);
                 }
-                | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY { 
+                | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY method_body RCURLY {
                   ExpressionList* body = new ExpressionList($6);
                   $$ = except_handler_node($2, $4, body, 0);
                 }
@@ -517,16 +517,16 @@ block_args_with_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
 key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
                 | SYMBOL_LITERAL ARROW literal_value { $$ = key_val_obj($1, $3, NULL); }
                 | STRING_LITERAL ARROW literal_value { $$ = key_val_obj($1, $3, NULL); }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW exp  { 
-                  $$ = key_val_obj($3, $5, $1); 
-                }
-                | key_value_list COMMA STRING_LITERAL ARROW exp  { 
-                  $$ = key_val_obj($3, $5, $1); 
-                }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value { 
+                | key_value_list COMMA SYMBOL_LITERAL ARROW exp  {
                   $$ = key_val_obj($3, $5, $1);
                 }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value { 
+                | key_value_list COMMA STRING_LITERAL ARROW exp  {
+                  $$ = key_val_obj($3, $5, $1);
+                }
+                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value {
+                  $$ = key_val_obj($3, $5, $1);
+                }
+                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value {
                   $$ = key_val_obj($3, $5, $1);
                 }
                 ;
@@ -537,7 +537,7 @@ int yyerror(char *s)
 {
   extern int yylineno;
   extern char *yytext;
-  
+
   fprintf(stderr, "ERROR [%s:%d] : %s at symbol %s\n", current_file.c_str(), yylineno, s, yytext);
   exit(1);
 }
@@ -584,7 +584,7 @@ nodes::send_arg_node* msend_arg_node(nodes::Identifier* argname, Expression* arg
   return node;
 }
 
-nodes::except_handler_list* 
+nodes::except_handler_list*
 except_handler_node(nodes::Identifier* classname, nodes::Identifier* localname, ExpressionList* body, nodes::except_handler_list *next)
 {
   nodes::except_handler_list *node = new nodes::except_handler_list;

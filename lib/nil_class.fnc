@@ -6,7 +6,7 @@ def class NilClass {
     # NilClass instance
     nil
   }
-  
+
   def if_true: then_block else: else_block {
     "Calls else_block.";
     else_block call

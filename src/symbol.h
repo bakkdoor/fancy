@@ -19,7 +19,7 @@ namespace fancy {
      */
     Symbol(const string &name);
     ~Symbol() {}
-  
+
     /**
      * See FancyObject for these methods.
      */

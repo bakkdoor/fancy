@@ -31,7 +31,7 @@ namespace fancy {
   {
   }
 
-  Array::~Array() 
+  Array::~Array()
   {
   }
 

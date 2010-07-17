@@ -11,7 +11,7 @@ namespace fancy {
   {
     if(!IS_REGEX(other))
       return nil;
-  
+
     Regexp* other_regex = (Regexp*)other;
     if(_pattern == other_regex->_pattern)
       return t;

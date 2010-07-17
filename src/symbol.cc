@@ -15,7 +15,7 @@ namespace fancy {
     if(!IS_SYMBOL(other)) {
       return nil;
     }
-  
+
     Symbol* other_sym = dynamic_cast<Symbol*>(other);
     if(other_sym) {
       if(_name == other_sym->_name) {

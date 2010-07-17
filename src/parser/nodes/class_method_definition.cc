@@ -43,11 +43,10 @@ namespace fancy {
         if(!_method_name) {
           stringstream s;
           list< pair<Identifier*, Identifier*> >::const_iterator it;
-    
           for(it = _method_args.begin(); it != _method_args.end(); it++) {
             s << it->first->name() << ":";
           }
-    
+
           return s.str();
         } else {
           return _method_name->name();
