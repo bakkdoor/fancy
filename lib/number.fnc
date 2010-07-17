@@ -48,13 +48,15 @@ def class Number {
 
 def class Enumerable {
   def sum {
-    "Calculates the sum of all the elements in the Array (assuming them to be Numbers).";
+    ""Calculates the sum of all the elements in the Enumerable
+      (assuming them to be Numbers (implementing '+' & '*'))."";
 
     self reduce: |x y| { x + y } with: 0
   }
 
   def product {
-    "Calculates the product of all the elements in the Array (assuming them to be Numbers).";
+    ""Calculates the product of all the elements in the Enumerable
+      (assuming them to be Numbers (implementing '+' & '*'))."";
 
     self reduce: |x y| { x * y } with: 1
   }
