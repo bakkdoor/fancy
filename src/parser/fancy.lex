@@ -12,7 +12,7 @@ special         [-+?!_=*/^><%]
 int_lit 	-?{digit}+
 double_lit      {int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
-doc_string      \"\"[^\"]*\"\"
+doc_string      \"\"\"[^\"]*\"\"\"
 lparen          \(
 rparen          \)
 lcurly          "{"
