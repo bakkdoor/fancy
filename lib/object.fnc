@@ -59,8 +59,8 @@ def class Object {
   }
 
   def if_do: then_block else: else_block {
-    ""If the object is non-nil, it calls the given then_block with itself as argument.
-      Otherwise it calls the given else_block with itself as argument."";
+    """If the object is non-nil, it calls the given then_block with itself as argument.
+       Otherwise it calls the given else_block with itself as argument.""";
 
     self nil? if_true: {
       else_block call

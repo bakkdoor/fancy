@@ -1,11 +1,11 @@
 # Calculates & outputs all Armstrong Numbers between 0 and 10000.
 # See http://en.wikipedia.org/wiki/Narcissistic_number for more
 # information.
-                                       
+
 def class Number {
   def decimals {
-    ""Returns all decimals of a Number as an Array.
-      E.g. 123 decimals # => [1,2,3]"";
+    """Returns all decimals of a Number as an Array.
+      E.g. 123 decimals # => [1,2,3]""";
 
     decimals = [];
     tmp = self;

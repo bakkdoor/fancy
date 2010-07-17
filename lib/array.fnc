@@ -2,8 +2,8 @@ def class Array {
   self include: Enumerable;
 
   def NATIVE [] index {
-    ""Given an Array of 2 Numbers, it returns the sub-array between the given indices.
-      If given a Number, returns the element at that index."";
+    """Given an Array of 2 Numbers, it returns the sub-array between the given indices.
+       If given a Number, returns the element at that index.""";
 
     # if given an Array, interpret it as a from:to: range substring
     index is_a?: Array . if_true: {
@@ -91,8 +91,8 @@ def class Array {
   }
 
   def join: join_str {
-    ""Joins all elements in the Array by a given String.
-      E.g.: [1,2,3] join: ', ' # => '1,2,3'"";
+    """Joins all elements in the Array by a given String.
+       E.g.: [1,2,3] join: ', ' # => '1,2,3'""";
 
     str = "";
     max_idx = self size - 1;
