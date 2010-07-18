@@ -1,5 +1,8 @@
 #include "utils.h"
 
+#include <algorithm>
+#include <iterator>
+
 namespace fancy {
 
   ostream& warn(string message)
@@ -26,20 +29,25 @@ namespace fancy {
     return cerr;
   }
 
-  void string_split(string str, string separator, vector<string>* results)
-  {
-    int found;
-    found = str.find_first_of(separator);
-    while(found != string::npos){
-      if(found > 0){
-        results->push_back(str.substr(0,found));
+  vector<string> string_split(const string& str, const string& seperator, const bool keep_empty) {
+    vector<string> result;
+    if (seperator.empty()) {
+      result.push_back(str);
+      return result;
+    }
+    string::const_iterator substart = str.begin(), subend;
+    while (true) {
+      subend = search(substart, str.end(), seperator.begin(), seperator.end());
+      string temp(substart, subend);
+      if (keep_empty || !temp.empty()) {
+	result.push_back(temp);
       }
-      str = str.substr(found+1);
-      found = str.find_first_of(separator);
+      if (subend == str.end()) {
+	break;
+      }
+      substart = subend + seperator.size();
     }
-    if(str.length() > 0){
-      results->push_back(str);
-    }
+    return result;
   }
 
 }

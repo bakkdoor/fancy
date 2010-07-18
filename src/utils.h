@@ -41,10 +41,10 @@ namespace fancy {
    * results vector.
    * @param str The string to be splitted.
    * @param separator The seperator string to split by.
-   * @param results Pointer to a vector to be filled with the results
-   * of splitting the string.
+   * @param keep_empty Boolean indicating if empty strings are to be kept in the return vector.
+   * @return Vector of substrings that are the result of splitting the input string.
    */
-  void string_split(string str, string separator, vector<string>* results);
+  vector<string> string_split(const string& str, const string& seperator, const bool keep_empty = true);
 }
 
 #endif /* _UTILS_H_ */

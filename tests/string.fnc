@@ -3,7 +3,7 @@ FancySpec describe: String with: |it| {
     str = String new;
     str should_equal: ""
   };
-  
+
   it should: "be the concatination of the strings" when: {
     str1 = "hello ";
     str2 = "world";
@@ -81,5 +81,11 @@ FancySpec describe: String with: |it| {
   it should: "return itself times n" when: {
     "foo" * 2 should_equal: "foofoo";
     "f" ++ ("o" * 2) ++ "bar" should_equal: "foobar"
+  };
+
+  it should: "split a string at a given seperator string" when: {
+    str = "hello, world, how are you?";
+    str split: ", " . should_equal: ["hello", "world", "how are you?"];
+    "1,2,3,,4,5" split: "," . should_equal: ["1", "2", "3", "", "4", "5"]
   }
 }
