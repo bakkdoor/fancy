@@ -1,4 +1,6 @@
 def class Array {
+  "Array class. Arrays are dynamically resizable containers with a constant-time index-based access to members.";
+
   self include: Enumerable;
 
   def NATIVE [] index {
