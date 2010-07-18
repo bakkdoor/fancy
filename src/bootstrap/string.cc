@@ -6,6 +6,7 @@
 #include "../string.h"
 #include "../number.h"
 #include "../block.h"
+#include "../array.h"
 
 namespace fancy {
   namespace bootstrap {
@@ -56,6 +57,11 @@ namespace fancy {
                  "eval",
                  "Interprets the String as Fancy code and tries to run it.",
                  eval);
+
+      DEF_METHOD(StringClass,
+                 "split:",
+                 "Splits a String at a given seperator String and returns the substrings as an Array.",
+                 split);
     }
 
     /**
@@ -169,6 +175,20 @@ namespace fancy {
     {
       string code = self->to_s();
       return parser::parse_string(code);
+    }
+
+    METHOD(StringClass, split)
+    {
+      EXPECT_ARGS("String#split:" , 1);
+      string str = self->to_s();
+      string seperator = args[0]->to_s();
+      vector<string> parts;
+      string_split(str, seperator, &parts);
+      Array* arr = new Array();
+      for(unsigned int i = 0; i < parts.size(); i++) {
+	arr->insert(FancyString::from_value(parts[i]));
+      }
+      return arr;
     }
 
   }
