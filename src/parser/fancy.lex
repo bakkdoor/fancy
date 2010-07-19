@@ -34,7 +34,7 @@ private         "private"
 protected       "protected"
 identifier      @?@?({letter}|{digit}|{special})+
 nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
-symbol_lit      :{identifier}
+symbol_lit      (:|\'){identifier}
 regexp_lit      "r{".*"}"
 comma           ,
 semi            ;
@@ -99,8 +99,8 @@ comment         #[^\n]*
                   return IDENTIFIER;
                 }
 {symbol_lit}    {
-                  string str(yytext);
-                  yylval.object = Symbol::from_string(str);
+                  string str(yytext + 1);
+                  yylval.object = Symbol::from_string(":" + str);
                   return SYMBOL_LITERAL;
                 }
 {regexp_lit}    {

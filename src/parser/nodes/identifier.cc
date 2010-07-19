@@ -18,8 +18,7 @@ namespace fancy {
         if(!_nested) {
           return scope->get(_name);
         } else {
-          vector<string> nested_parts;
-          string_split(_name, "::", &nested_parts);
+          vector<string> nested_parts = string_split(_name, "::", false);
           Class* outer_class = dynamic_cast<Class*>(scope->get(nested_parts[0]));
           Class* current_class = outer_class;
           if(outer_class) {
