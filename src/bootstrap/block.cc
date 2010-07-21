@@ -25,17 +25,21 @@ namespace fancy {
 
       DEF_METHOD(BlockClass,
                  "while_true:",
-                 "Calls the given Block while this one evaluates to non-nil.",
+                 "Calls the given Block while this one evaluates to non-nil.\nExample:\n\
+    x = 0;\n\
+    { x < 10 } while_true: { x println; x = x + 1 }",
                  while_true);
 
       DEF_METHOD(BlockClass,
                  "if:",
-                 "Evaluates the Block if the given argument is non-nil.",
+                 "Evaluates the Block if the given argument is non-nil.\nExample:\n\
+    { arr clone } if: (arr is_a?: Array)",
                  if);
 
       DEF_METHOD(BlockClass,
                  "unless:",
-                 "Evaluates the Block if the given argument is nil.",
+                 "Evaluates the Block if the given argument is nil.\nExample:\n\
+    { arr clone } unless: (arr empty?)",
                  unless);
 
       DEF_METHOD(BlockClass,
