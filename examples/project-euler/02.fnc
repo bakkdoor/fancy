@@ -9,7 +9,7 @@
 fibs = [1, 2];
 
 # insert into fibs as long as the sum of the last two numbers doesn't
-# exceed 4000000 
+# exceed 4000000
 { fibs[-1] + (fibs[-2]) <= 4000000 } while_true: {
   fibs << (fibs last: 2 . sum)
 };
