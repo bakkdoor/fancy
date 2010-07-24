@@ -16,12 +16,12 @@ def class Array {
   }
 
   def rest {
-    "Returns all elements except the first one as a new Array";
+    "Returns all elements except the first one as a new Array.";
     self from: 1 to: -1
   }
 
   def === other {
-    "Compares two Arrays where order does not matter";
+    "Compares two Arrays where order does not matter.";
 
     other is_a?: Array . if_true: {
       self size != (other size) if_true: {
@@ -33,7 +33,7 @@ def class Array {
   }
 
   def index: item {
-    "Returns the index of an item (or nil, if it isn't in the Array)";
+    "Returns the index of an item (or nil, if it isn't in the Array).";
 
     found_idx = nil;
     i = 0;
@@ -76,7 +76,7 @@ def class Array {
   }
 
   def values_at: idx_arr {
-    "Returns new Array with elements at given indices";
+    "Returns new Array with elements at given indices.";
 
     values = [];
     idx_arr each: |idx| {
@@ -140,7 +140,7 @@ def class Array {
   }
 
   def select!: condition {
-    "Removes all elements in place, that don't meet the condition";
+    "Removes all elements in place, that don't meet the condition.";
 
     self reject!: |x| { condition call: x . not }
   }

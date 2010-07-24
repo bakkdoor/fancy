@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
  * Copyright (c) 1991-1994 by Xerox Corporation.  All rights reserved.
  *
@@ -39,7 +39,7 @@ asm static void PushMacRegisters()
     move.l  a4,(sp)
     jsr		GC_push_one
 #   if !__option(a6frames)
-	// <pcb> perhaps a6 should be pushed if stack frames are not being used.    
+	// <pcb> perhaps a6 should be pushed if stack frames are not being used.
   	move.l	a6,(sp)
   	jsr		GC_push_one
 #   endif
@@ -160,7 +160,11 @@ void GC_push_regs()
 #endif
 
 #if !defined(HAVE_PUSH_REGS) && defined(UNIX_LIKE)
-# include <ucontext.h>
+# if defined(__APPLE__) && defined(__MACH__)
+#  include <sys/ucontext.h>
+# else
+#  include <ucontext.h>
+# endif
 #endif
 
 /* Ensure that either registers are pushed, or callee-save registers	*/
@@ -204,7 +208,7 @@ void GC_with_callee_saves_pushed(void (*fn)(ptr_t, void *),
         jmp_buf regs;
         register word * i = (word *) regs;
         register ptr_t lim = (ptr_t)(regs) + (sizeof regs);
-  
+
         /* Setjmp doesn't always clear all of the buffer.		*/
         /* That tends to preserve garbage.  Clear it.   		*/
   	for (; (char *)i < lim; i++) {
@@ -242,4 +246,4 @@ void GC_push_regs_and_stack(ptr_t cold_gc_frame)
     { return(arg); }
     /* The real version is in a .S file */
 # endif
-#endif /* ASM_CLEAR_CODE */ 
+#endif /* ASM_CLEAR_CODE */
