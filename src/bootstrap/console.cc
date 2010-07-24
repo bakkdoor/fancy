@@ -43,8 +43,11 @@ namespace fancy {
     CLASSMETHOD(ConsoleClass, readln)
     {
       string input;
-      getline(cin, input);
-      return FancyString::from_value(input);
+      if(getline(cin, input)) {
+        return FancyString::from_value(input);
+      } else {
+        return nil;
+      }
     }
 
     CLASSMETHOD(ConsoleClass, clear)
