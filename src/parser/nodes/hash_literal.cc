@@ -1,3 +1,7 @@
+#include "../../../vendor/gc/include/gc.h"
+#include "../../../vendor/gc/include/gc_cpp.h"
+#include "../../../vendor/gc/include/gc_allocator.h"
+
 #include "hash_literal.h"
 #include "../../hash.h"
 

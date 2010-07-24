@@ -1,3 +1,7 @@
+#include "../../../vendor/gc/include/gc.h"
+#include "../../../vendor/gc/include/gc_cpp.h"
+#include "../../../vendor/gc/include/gc_allocator.h"
+
 #include "class_operator_definition.h"
 #include "../../bootstrap/core_classes.h"
 
