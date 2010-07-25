@@ -1,3 +1,7 @@
+#include "../vendor/gc/include/gc.h"
+#include "../vendor/gc/include/gc_cpp.h"
+#include "../vendor/gc/include/gc_allocator.h"
+
 #include "block.h"
 #include "symbol.h"
 #include "bootstrap/core_classes.h"
@@ -90,7 +94,7 @@ namespace fancy {
     if(_override_self) {
       _creation_scope->set_current_self(old_self);
     }
-  
+
     return return_value;
   }
 

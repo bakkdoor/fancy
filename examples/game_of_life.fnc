@@ -15,7 +15,7 @@ def class World {
                 [0, -1],           [0, 1],
                 [1, -1],  [1, 0],  [1, 1]]
   }
-  
+
   def initialize: size {
     "Initialize a World with a given size ([height, width]).";
 
@@ -33,7 +33,7 @@ def class World {
     "Return the row for a given index.";
     @matrix[index]
   }
-  
+
   def simulate: amount_generations {
     "Simulate the World for a given amount of iterations (generations).";
 
@@ -75,7 +75,7 @@ def class World {
       row[pos[1]] == 1
     }
   }
-  
+
   def live: pos {
     "Sets the given cell ([row,column]) alive.;";
     (@matrix[pos[0]]) at: (pos[1]) put: 1

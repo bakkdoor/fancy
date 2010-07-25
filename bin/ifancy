@@ -3,11 +3,13 @@
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy " ++ FANCY_VERSION] println;
 
-
-{ line != "exit" } while_true: {
+self loop: {
   try {
-    line = Console readln: ">> ";
-    line eval inspect println
+    Console readln: ">> " . if_do: |line| {
+      line eval inspect println
+    } else: {
+      System exit
+    }
   } catch MethodNotFoundError => e {
     e message println
   }

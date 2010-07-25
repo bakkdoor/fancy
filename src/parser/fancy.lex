@@ -1,4 +1,8 @@
 %{
+#include "../../vendor/gc/include/gc.h"
+#include "../../vendor/gc/include/gc_cpp.h"
+#include "../../vendor/gc/include/gc_allocator.h"
+
 #include "includes.h"
 #include "tok.h"
 int yyerror(char *s);
