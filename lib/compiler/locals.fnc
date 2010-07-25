@@ -1,142 +1,151 @@
-module Rubinius
-  class Compiler
-    module LocalVariables
-      def variables
-        @variables ||= {}
-      end
+def class Rubinius {
+  def class Compiler {
+    def class LocalVariables {
+      def variables {
+        @variables = @variables or_take: <[]>
+      }
 
-      def local_count
-        variables.size
-      end
+      def local_count {
+        variables size
+      }
 
-      def local_names
-        names = []
-        eval_names = []
-        variables.each_pair do |name, var|
-          if var.kind_of? EvalLocalVariable
+      def local_names {
+        names = [];
+        eval_names = [];
+        variables each_pair: |name var| {
+          var kind_of?: EvalLocalVariable . if_true: {
             eval_names << name
-          else
-            names[var.slot] = name
-          end
-        end
-        names += eval_names
-      end
+          } else: {
+            names at: (var slot) put: name
+          }
+        };
+        names = names + eval_names
+      }
 
-      def allocate_slot
-        variables.size
-      end
-    end
+      def allocate_slot {
+        variables size
+      }
+    }
 
-    class LocalVariable
-      attr_reader :slot
+    def class LocalVariable {
+      self read_slots: [:slot];
 
-      def initialize(slot)
+      def initialize: slot {
         @slot = slot
-      end
+      }
 
-      def reference
-        LocalReference.new @slot
-      end
+      def reference {
+        LocalReference new: @slot
+      }
 
-      def nested_reference
-        NestedLocalReference.new @slot
-      end
-    end
+      def nested_reference {
+        NestedLocalReference new: @slot
+      }
+    }
 
-    class NestedLocalVariable
-      attr_reader :depth, :slot
+    def class NestedLocalVariable {
+      self read_slots: [:depth, :slot];
 
-      def initialize(depth, slot)
-        @depth = depth
-        @slot = slot
-      end
+      def self with_depth: depth slot: slot {
+        NestedLocalVariable new: [depth, slot]
+      }
 
-      def reference
-        NestedLocalReference.new @slot, @depth
-      end
+      def initialize: depth_and_slot {
+        @depth = depth_and_slot first;
+        @slot = depth_and_slot second
+      }
 
-      alias_method :nested_reference, :reference
-    end
+      def reference {
+        NestedLocalReference new: [@slot, @depth]
+      }
 
-    class EvalLocalVariable
-      attr_reader :name
+      # self alias_method: :nested_reference with: :reference
+    };
 
-      def initialize(name)
+    def class EvalLocalVariable {
+      self read_slots: [:name];
+
+      def initialize: name {
         @name = name
-      end
+      }
 
-      def reference
-        EvalLocalReference.new @name
-      end
+      def reference {
+        EvalLocalReference new: @name
+      }
 
-      alias_method :nested_reference, :reference
-    end
+      # self alias_method: :nested_reference with: :reference
+    };
 
-    class LocalReference
-      attr_reader :slot
+    def class LocalReference {
+      self read_slots: [:slot];
 
-      def initialize(slot)
+      def initialize: slot {
         @slot = slot
-      end
+      }
 
-      def get_bytecode(g)
-        g.push_local @slot
-      end
+      def get_bytecode: g {
+        g push_local: @slot
+      }
 
-      def set_bytecode(g)
-        g.set_local @slot
-      end
-    end
+      def set_bytecode: g {
+        g set_local: @slot
+      }
+    }
 
-    class NestedLocalReference
-      attr_accessor :depth
-      attr_reader :slot
+    def class NestedLocalReference {
+      self read_write_slots: [:depth];
+      self read_slots: [:slot];
 
-      def initialize(slot, depth=0)
-        @slot = slot
-        @depth = depth
-      end
+      def self with_slot: slot depth: depth {
+        nlr = NestedLocalReference new: slot;
+        nlr depth: depth
+      }
 
-      def get_bytecode(g)
-        if @depth == 0
-          g.push_local @slot
-        else
-          g.push_local_depth @depth, @slot
-        end
-      end
+      def initialize: slot {
+        @slot = slot;
+        @depth = 0
+      }
 
-      def set_bytecode(g)
-        if @depth == 0
-          g.set_local @slot
-        else
-          g.set_local_depth @depth, @slot
-        end
-      end
-    end
+      def get_bytecode: g {
+        @depth == 0 . if_true: {
+          g push_local: @slot
+        } else: {
+          g push_local_depth: [@depth, @slot]
+        }
+      }
 
-    class EvalLocalReference
+      def set_bytecode: g {
+        @depth == 0 . if_true: {
+          g set_local: @slot
+        } else: {
+          g set_local_depth: [@depth, @slot]
+        }
+      }
+    }
+
+    def class EvalLocalReference {
 
       # Ignored, but simplifies duck-typing references
-      attr_accessor :depth
+      self read_write_slots: [:depth];
 
-      def initialize(name)
-        @name = name
+      def initialize: name {
+        @name = name;
         @depth = 0
-      end
+      }
 
-      def get_bytecode(g)
-        g.push_variables
-        g.push_literal @name
-        g.send :get_eval_local, 1, false
-      end
+      def get_bytecode: g {
+        g push_variables;
+        g push_literal: @name;
+        g send: :get_eval_local params: [1, nil] # TODO: fix this line!
+      }
 
-      def set_bytecode(g)
-        g.push_variables
-        g.swap
-        g.push_literal @name
-        g.swap
-        g.send :set_eval_local, 2, false
-      end
-    end
-  end
-end
+      def set_bytecode: g {
+        g push_variables;
+        g swap;
+        g push_literal: @name;
+        g swap;
+        g send: :set_eval_local params: [2, nil]
+      }
+    }
+  }
+}
