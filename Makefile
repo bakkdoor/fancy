@@ -23,75 +23,23 @@ clean:
 all-clean: clean
 	@cd vendor/gc && make clean
 
+TESTFILES = array block boolean class documentation exception file	\
+hash method number object set string symbol
+
 test: all
-	@clear
-	@bin/fancy tests/array.fnc
-	@echo
-	@bin/fancy tests/block.fnc
-	@echo
-	@bin/fancy tests/boolean.fnc
-	@echo
-	@bin/fancy tests/class.fnc
-	@echo
-	@bin/fancy tests/documentation.fnc
-	@echo
-	@bin/fancy tests/exception.fnc
-	@echo
 	@mkdir -p tmp
-	@bin/fancy tests/file.fnc
+	@clear
+	@$(foreach file, $(TESTFILES),bin/fancy tests/$(file).fnc;)
 	@echo
-	@bin/fancy tests/hash.fnc
-	@echo
-	@bin/fancy tests/method.fnc
-	@echo
-	@bin/fancy tests/number.fnc
-	@echo
-	@bin/fancy tests/object.fnc
-	@echo
-	@bin/fancy tests/set.fnc
-	@echo
-	@bin/fancy tests/string.fnc
-	@echo
-	@bin/fancy tests/symbol.fnc
+
+
+EXAMPLEFILES = arithmetic armstrong_numbers array blocks boolean class	\
+closures factorial fibonacci files hello_world html_generator metadata	\
+methods numbers person require scope
 
 example: all
 	@mkdir -p tmp
 	@clear
-	bin/fancy examples/arithmetic.fnc
-	@echo
-	bin/fancy examples/armstrong_numbers.fnc
-	@echo
-	bin/fancy examples/array.fnc
-	@echo
-	bin/fancy examples/blocks.fnc
-	@echo
-	bin/fancy examples/boolean.fnc
-	@echo
-	bin/fancy examples/class.fnc
-	@echo
-	bin/fancy examples/closures.fnc
-	@echo
 	bin/fancy examples/echo.fnc examples/echo.fnc
 	@echo
-	bin/fancy examples/factorial.fnc
-	@echo
-	bin/fancy examples/fibonacci.fnc
-	@echo
-	bin/fancy examples/files.fnc
-	@echo
-	bin/fancy examples/hello_world.fnc
-	@echo
-	bin/fancy examples/html_generator.fnc
-	@echo
-	bin/fancy examples/metadata.fnc
-	@echo
-	bin/fancy examples/methods.fnc
-	@echo
-	bin/fancy examples/numbers.fnc
-	@echo
-	bin/fancy examples/person.fnc
-	@echo
-	bin/fancy examples/require.fnc
-	@echo
-	bin/fancy examples/scope.fnc
-	@echo
+	@$(foreach file, $(EXAMPLEFILES),echo "\n\n>> examples/$(file).fnc:\n"; bin/fancy examples/$(file).fnc;)
