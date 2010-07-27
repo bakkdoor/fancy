@@ -50,5 +50,12 @@ ARGV option?: ["--help", "-h"] .
    "  --help        Print this output",
    "  --version     Print Fancy's version number",
    "  -v            Print Fancy's version number",
-   "  -I directory  Add directory to Fancy's LOAD_PATH"] println
+   "  -I directory  Add directory to Fancy's LOAD_PATH",
+   "  -e 'command'  One line of Fancy code that gets evaluated immediately"] println
+};
+
+ARGV option?: ["-e"] .
+  if_true: {
+  idx = (ARGV index: "-e") + 1;
+  ARGV[idx] eval
 }
