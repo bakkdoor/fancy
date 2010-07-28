@@ -1,103 +1,106 @@
-module Rubinius
-  class Compiler
-    class Printer < Stage
-      def initialize
-      end
-    end
+def class Rubinius {
+  def class Compiler {
+    def class Printer : Stage {
+      def initialize {
+      }
+    };
 
-    class ASTPrinter < Printer
-      def run
-        @input.ascii_graph
-        @output = @input
-        run_next
-      end
-    end
+    def class ASTPrinter : Printer {
+      def run {
+        @input ascii_graph;
+        @output = @input;
+        self run_next
+      }
+    };
 
-    class SexpPrinter < Printer
-      def run
-        require 'pp'
+    def class SexpPrinter : Printer {
+      def run {
+        require: "pp";
 
-        puts @input.to_sexp.pretty_inspect
-        @output = @input
-        run_next
-      end
-    end
+        @input to_sexp pretty_inspect println;
+        @output = @input;
+        self run_next
+      }
+    };
 
-    class MethodPrinter < Printer
-      attr_accessor :bytecode, :assembly
+    def class MethodPrinter : Printer {
+      self read_write_slots: [:bytecode, :assembly];
 
-      SEPARATOR_SIZE = 40
+      SEPARATOR_SIZE = 40;
 
-      def method_names=(names)
-        return if names.empty?
-        @method_names = names.map { |n| n.to_sym }
-      end
+      def method_names: names {
+        names empty? if_false: {
+          @method_names = names map: |n| { n to_sym }
+        }
+      }
 
-      def match?(name)
-        return true unless @method_names
-        @method_names.include? name
-      end
+      def match?: name {
+        @method_names if_false: {
+          true
+        } else: {
+          @method_names include?: name
+        }
+      }
 
-      def print_header(cm)
-        name = cm.name.inspect
-        size = (SEPARATOR_SIZE - name.size - 2) / 2
-        size = 1 if size <= 0
-        puts "\n#{"=" * size} #{name} #{"=" * (size + name.size % 2)}"
-        print "Arguments:   "
-        print "#{cm.required_args} required, #{cm.total_args} total"
-        print cm.splat ? ", (splat)\n" : "\n"
-        print "Locals:      #{cm.local_count}"
-        print cm.local_count > 0 ? ": #{cm.local_names.join ", "}\n" : "\n"
-        puts "Stack size:  #{cm.stack_size}"
-        print_lines cm
-        puts
-      end
+      def print_header: cm {
+        name = cm name inspect;
+        size = (SEPARATOR_SIZE - (name size) - 2) / 2;
+        size = { 1 } if: (size <= 0);
+        "\n" ++ ("=" * size) ++ " " ++ name ++ " " ++ ("=" * (size + (name size) % 2)) println;
+        "Arguments:   " println;
+        cm required_args to_s ++ " required, " ++ (cm total_args) ++ " total" print;
+        cm splat if_do: { ", (splat)\n" print } else: { "\n" print };
+        "Locals:      " ++ (cm local_count) print;
+        cm local_count > 0 if_do: { ": " ++ (cm local_names join: ", ") ++ "\n" print } else: { "\n" print };
+        "Stack size:  " ++ (cm stack_size) println;
+        self print_lines: cm;
+        "" println
+      }
 
-      def print_footer
-        puts "-" * SEPARATOR_SIZE
-      end
+      def print_footer {
+        ("-" * SEPARATOR_SIZE) println
+      }
 
-      def print_lines(cm)
-        print "Lines to IP: "
-        size = cm.lines.size - 1
-        i = 1
-        while i < size
-          print "#{cm.lines[i]}: #{cm.lines[i - 1]}-#{cm.lines[i + 1] - 1}"
-          i += 2
-          print ", " if i < size
-        end
-        puts
-      end
+      def print_lines: cm {
+        "Lines to IP: " print;
+        size = cm lines size - 1;
+        i = 1;
+        {i < size} while_true: {
+          cm lines[i] to_s ++ ": " ++ (cm lines[i - 1]) ++ "-" ++ (cm lines[i + 1] - 1) print;
+          i = i + 2;
+          { ", " print } if: (i < size)
+        };
+        "" println
+      }
 
-      def print_decoded(cm)
-        return unless match? cm.name
+      def print_decoded: cm {
+        self match?: (cm name) if_true: {
+          self print_header: cm;
+          { cm decode } if: @bytecode;
+          @assembly if_do: {
+            "" println;
+            mm = cm make_machine_method;
+            mm disassemble
+          };
+          self print_footer
+        }
+      }
 
-        print_header cm
-        puts cm.decode if @bytecode
+      def print_method: cm {
+        self print_decoded: cm;
 
-        if @assembly
-          puts
-          mm = cm.make_machine_method
-          mm.disassemble
-        end
-        print_footer
-      end
+        cm literals each: |m| {
+          { self next } unless: $ m kind_of?: Rubinius::CompiledMethod;
+          self print_method: m
+        }
+      }
 
-      def print_method(cm)
-        print_decoded cm
+      def run {
+        self print_method: @input;
 
-        cm.literals.each do |m|
-          next unless m.kind_of? Rubinius::CompiledMethod
-          print_method m
-        end
-      end
-
-      def run
-        print_method @input
-
-        @output = @input
-        run_next
-      end
-    end
-  end
-end
+        @output = @input;
+        self run_next
+      }
+    }
+  }
+}

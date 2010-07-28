@@ -1,229 +1,256 @@
-module Rubinius
-  class Compiler
-    Stages = { }
+def class Rubinius {
+  def class Compiler {
+    Stages = <[]>;
 
-    class Stage
-      attr_accessor :next_stage, :printer
+    def class Stage {
+      self read_write_slots: [:next_stage, :printer];
 
-      def self.stage(name)
-        @stage = name
-        Stages[name] = self
-      end
+      def self stage: name {
+        @stage = name;
+        Stages at: name put: self
+      }
 
-      def self.stage_name
+      def self stage_name {
         @stage
-      end
+      }
 
-      def self.next_stage(klass)
-        @next_stage_class = klass
-      end
+      def self next_stage: class {
+        @next_stage_class = class
+      }
 
-      def self.next_stage_class
+      def self next_stage_class {
         @next_stage_class
-      end
+      }
 
-      def initialize(compiler, last)
-        @next_stage = create_next_stage compiler, last
-      end
+      def initialize: compiler_and_last {
+        compiler = compiler_and_last[0];
+        last = compiler_and_last[1];
+        @next_stage = self create_next_stage: compiler last: last
+      }
 
-      def input(data)
+      def input: data {
         @input = data
-      end
+      }
 
-      def processor(klass)
+      def processor: klass {
         @processor = klass
-      end
+      }
 
-      def create_next_stage(compiler, last)
-        return if self.class.stage_name == last
+      def create_next_stage: compiler last: last {
+        self.class.stage_name == last if_false: {
+          stage = self class next_stage_class;
+          { stage new: [compiler, last] } if: stage
+        }
+      }
 
-        stage = self.class.next_stage_class
-        stage.new compiler, last if stage
-      end
+      def insert: stage {
+        tmp = stage next_stage;
+        stage next_stage: self;
+        @next_stage = tmp
+      }
 
-      def insert(stage)
-        @next_stage, stage.next_stage = stage.next_stage, self
-      end
-
-      def run_next
-        if @next_stage
-          @next_stage.input @output
-          @next_stage.run
-        else
+      def run_next {
+        @next_stage if_do: {
+          @next_stage input: @output;
+          @next_stage run
+        } else: {
           @output
-        end
-      end
-    end
+        }
+      }
+    };
 
     # compiled method -> compiled file
-    class Writer < Stage
-      stage :compiled_file
+    def class Writer : Stage {
+      self stage: :compiled_file;
 
-      attr_accessor :name
+      self read_write_slots: [:name];
 
-      def initialize(compiler, last)
-        super
-        compiler.writer = self
+      def initialize: compiler_and_last {
+        super initialize: compiler_and_last;
+        compiler = compiler_and_last[0];
+        last = compiler_and_last[1];
+        compiler writer: self;
         @processor = Rubinius::CompiledFile
-      end
+      }
 
-      def run
-        @name = "#{@input.file}c" unless @name
-        @processor.dump @input, @name
+      def run {
+        { @name = (@input file) to_s ++ "c" } unless: @name;
+        @processor dump: @input name: @name;
         @input
-      end
-    end
+      }
+    };
 
     # encoded bytecode -> compiled method
-    class Packager < Stage
-      stage :compiled_method
-      next_stage Writer
+    def class Packager : Stage {
+      self stage: :compiled_method;
+      self next_stage: Writer;
 
-      def initialize(compiler, last)
-        super
-        compiler.packager = self
-      end
+      def initialize: compiler_and_last {
+        super initialize: compiler_and_last;
+        compiler packager: self
+      }
 
-      def print(klass=MethodPrinter)
-        @printer = klass.new
-        @printer.insert self
+      def print {
+        self print: MethodPrinter
+      }
+
+      def print: class {
+        @printer = class new;
+        @printer insert: self;
         @printer
-      end
+      }
 
-      def run
-        @output = @input.package Rubinius::CompiledMethod
-        run_next
-      end
-    end
+      def run {
+        @output = @input package: Rubinius::CompiledMethod;
+        self run_next
+      }
+    };
 
     # symbolic bytecode -> encoded bytecode
-    class Encoder < Stage
-      stage :encoded_bytecode
-      next_stage Packager
+    def class Encoder : Stage {
+      self stage: :encoded_bytecode;
+      self next_stage: Packager;
 
-      def initialize(compiler, last)
-        super
-        compiler.encoder = self
+      def initialize: compiler_and_last {
+        super initialize: compiler_and_last;
+        compiler encoder: self;
         @encoder = InstructionSequence::Encoder
-      end
+      }
 
-      def processor(encoder)
+      def processor: encoder {
         @encoder = encoder
-      end
+      }
 
-      def run
-        @input.encode @encoder
-        @output = @input
-        run_next
-      end
-    end
+      def run {
+        @input encode: @encoder;
+        @output = @input;
+        self run_next
+      }
+    };
 
     # AST -> symbolic bytecode
-    class Generator < Stage
-      stage :bytecode
-      next_stage Encoder
+    def class Generator : Stage {
+      self stage: :bytecode;
+      self next_stage: Encoder;
 
-      attr_accessor :variable_scope
+      self read_write_slots: [:variable_scope];
 
-      def initialize(compiler, last)
-        super
-        @variable_scope = nil
-        compiler.generator = self
+      def initialize: compiler_and_last {
+        super initialize: compiler_and_last;
+        @variable_scope = nil;
+        compiler generator: self;
         @processor = Rubinius::Generator
-      end
+      }
 
-      def run
-        @output = @processor.new
-        @input.variable_scope = @variable_scope
-        @input.bytecode @output
-        @output.close
-        run_next
-      end
-    end
+      def run {
+        @output = @processor new;
+        @input variable_scope: @variable_scope;
+        @input bytecode: @output;
+        @output close;
+        self run_next
+      }
+    };
 
     # source -> AST
-    class Parser < Stage
-      attr_accessor :transforms
+    def class Parser : Stage {
+      self read_write_slots: [:transforms];
 
-      def initialize(compiler, last)
-        super
-        compiler.parser = self
-        @transforms = []
+      def initialize: compiler_and_last {
+        super initialize: compiler_and_last;
+        compiler = compiler_and_last[0];
+        compiler parser: self;
+        @transforms = [];
         @processor = Rubinius::Melbourne
-      end
+      }
 
-      def root(klass)
-        @root = klass
-      end
+      def root: class {
+        @root = class
+      }
 
-      def default_transforms
-        @transforms.concat AST::Transforms.category(:default)
-      end
+      def default_transforms {
+        @transforms concat: (AST::Transforms category: :default)
+      }
 
-      def print(klass=ASTPrinter)
-        @printer = klass.new
-        @printer.insert self
+      def print {
+        self print: ASTPrinter
+      }
+
+      def print: class {
+        @printer = class new;
+        @printer insert: self;
         @printer
-      end
+      }
 
-      def enable_category(name)
-        transforms = AST::Transforms.category name
-        @transforms.concat transforms if transforms
-      end
+      def enable_category: name {
+        transforms = AST::Transforms category: name;
+        { @transforms concat: transforms } if: transforms
+      }
 
-      def enable_transform(name)
-        transform = AST::Transforms[name]
-        @transforms << transform if transform
-      end
+      def enable_transform: name {
+        transform = AST::Transforms[name];
+        { @transforms << transform } if: transform
+      }
 
-      def create
-        @parser = @processor.new(@file, @line, @transforms)
-        @parser.magic_handler = self
+      def create {
+        @parser = @processor new: [@file, @line, @transforms];
+        @parser magic_handler: self;
         @parser
-      end
+      }
 
-      def add_magic_comment(str)
-        if m = /-\*-\s*(.*?)\s*(-\*-)$/.match(str)
-          enable_transform(m[1].to_sym)
-        end
-      end
+      def add_magic_comment: str {
+        (r{-\*-\s*(.*?)\s*(-\*-)$} match: str) if_do: |m| {
+          self enable_transform: (m[1] to_sym)
+        }
+      }
 
-      def run
-        @output = @root.new parse
-        @output.file = @file
-        run_next
-      end
-    end
+      def run {
+        @output = @root new parse;
+        @output file: @file;
+        self run_next
+      }
+    };
 
     # source file -> AST
-    class FileParser < Parser
-      stage :file
-      next_stage Generator
+    def class FileParser : Parser {
+      self stage: :file;
+      self next_stage: Generator;
 
-      def input(file, line=1)
-        @file = file
+      def input: file {
+        self input: file line: 1
+      }
+
+      def input: file line: line {
+        @file = file;
         @line = line
-      end
+      }
 
-      def parse
-        create.parse_file
-      end
-    end
+      def parse {
+        self create parse_file
+      }
+    };
 
     # source string -> AST
-    class StringParser < Parser
-      stage :string
-      next_stage Generator
+    def class StringParser : Parser {
+      self stage: :string;
+      self next_stage: Generator;
 
-      def input(string, name="(eval)", line=1)
-        @input = string
-        @file = name
+      def input: string {
+        self input: string name: "(eval)"
+      }
+
+      def input: string name: name {
+        self input: string name: name line: 1
+      }
+
+      def input: string name: name line: line {
+        @input = string;
+        @file = name;
         @line = line
-      end
+      }
 
-      def parse
-        create.parse_string(@input)
-      end
-    end
-  end
-end
+      def parse {
+        self create parse_string: @input
+      }
+    }
+  }
+}

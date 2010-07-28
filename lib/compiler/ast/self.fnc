@@ -1,23 +1,23 @@
-module Rubinius
-  module AST
-    class Self < Node
-      def bytecode(g)
-        pos(g)
+def class Rubinius {
+  def class AST {
+    def class Self : Node {
+      def bytecode: g {
+        self pos: g;
 
-        g.push :self
-      end
+        g push: :self
+      }
 
-      def defined(g)
-        g.push_literal "self"
-      end
+      def defined: g {
+        g push_literal: "self"
+      }
 
-      def value_defined(g, f)
-        g.push :self
-      end
+      def value_defined: g label: f {
+        g push: :self
+      }
 
-      def to_sexp
+      def to_sexp {
         [:self]
-      end
-    end
-  end
-end
+      }
+    }
+  }
+}
