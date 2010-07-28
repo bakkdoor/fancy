@@ -65,42 +65,60 @@ def class SpecTest {
   }
 };
 
+def class PositiveMatcher {
+  def initialize: expected_value {
+    @actual_value = expected_value
+  }
+
+  def == expected_value {
+    (@actual_value == expected_value) if_false: {
+      SpecTest failed_test: [@actual_value, expected_value]
+    }
+  }
+
+  def != expected_value {
+    (@actual_value != expected_value) if_false: {
+      SpecTest failed_negative_test: [@actual_value, expected_value]
+    }
+  }
+
+  def be: block {
+    (block call: [@actual_value]) if_false: {
+      SpecTest failed_negative_test: [@actual_value, nil]
+    }
+  }
+};
+
+def class NegativeMatcher {
+  def initialize: actual_value {
+    @actual_value = actual_value
+  }
+
+  def == expected_value {
+    (@actual_value == expected_value) if_true: {
+      SpecTest failed_test: [@actual_value, expected_value]
+    }
+  }
+
+  def != expected_value {
+    (@actual_value != expected_value) if_true: {
+      SpecTest failed_negative_test: [@actual_value, expected_value]
+    }
+  }
+
+  def be: block {
+    (block call: [@actual_value]) if_true: {
+      SpecTest failed_negative_test: [@actual_value, nil]
+    }
+  }
+};
+
 def class Object {
-  def should_equal: expected_value {
-    expected_value is_a?: Block . if_true: {
-      expected_value = expected_value call
-    };
-    self check_with_expected: expected_value
+  def should {
+    PositiveMatcher new: self
   }
 
-  def should_not_equal: unexpected_value {
-    unexpected_value is_a?: Block . if_true: {
-      unexpected_value = unexpected_value call
-    };
-    self check_with_unexpected: unexpected_value
-  }
-
-  def should_be: block {
-    (block call: [self]) if_false: {
-      SpecTest failed_test: [self, nil]
-    }
-  }
-
-  def should_not_be: block {
-    (block call: [self]) if_true: {
-      SpecTest failed_test: [self, nil]
-    }
-  }
-
-  def check_with_expected: expected_value {
-    (self == expected_value) if_false: {
-      SpecTest failed_test: [self, expected_value]
-    }
-  }
-
-  def check_with_unexpected: unexpected_value {
-    (self != unexpected_value) if_false: {
-      SpecTest failed_test: [self, unexpected_value]
-    }
+  def should_not {
+    NegativeMatcher new: self
   }
 }

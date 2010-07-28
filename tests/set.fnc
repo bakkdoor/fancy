@@ -3,8 +3,8 @@ FancySpec describe: Set with: |it| {
     s = Set new;
     s << :foo;
     s << :foo;
-    s size should_equal: 1;
-    s should_equal: (Set[[:foo]]);
-    s should_not_equal: [:foo] # Sets and Arrays differ
+    s size should == 1;
+    s should == (Set[[:foo]]);
+    s should_not == [:foo] # Sets and Arrays differ
   }
 }
