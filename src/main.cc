@@ -54,6 +54,19 @@ void prepare_argv(int argc, char **argv)
   global_scope->define("ARGV", args_arr);
 }
 
+vector<string> filenames(int argc, char **argv)
+{
+  vector<string> filenames;
+  for(int i = 1; i < argc; i++) {
+    if(argv[i][0] == '-') {
+      i++;
+      continue;
+    }
+    filenames.push_back(string(argv[i]));
+  }
+  return filenames;
+}
+
 int main(int argc, char **argv)
 {
   GC_INIT();
@@ -73,19 +86,10 @@ int main(int argc, char **argv)
   fancy::parser::parse_file(boot_file);
 
   try {
-    if (argc > 1) {
-      string filename = string(argv[1]);
-      if(filename[0] != '-') {
-        if(filename == "-I") {
-          if(argc > 3) {
-            filename = string(argv[3]);
-            fancy::parser::parse_file(filename);
-          } else {
-            parser::parse_stdin();
-          }
-        } else {
-          fancy::parser::parse_file(filename);
-        }
+    vector<string> files = filenames(argc, argv);
+    if(files.size() > 0) {
+      for(unsigned int i = 0; i < files.size(); i++) {
+        fancy::parser::parse_file(files[i]);
       }
     } else {
       parser::parse_stdin();
