@@ -91,7 +91,7 @@ FancySpec describe: Class with: |it| {
     str = "instance value";
     instance = AClass new: str;
     instance foo should == str;
-    AClass new foo should_not == str
+    AClass new foo should == nil
   };
 
   it should: "find the class variable correctly" when: {
