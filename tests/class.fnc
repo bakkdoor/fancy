@@ -303,8 +303,16 @@ FancySpec describe: Class with: |it| {
 
   it should: "return all nested classes of a class" when: {
     def class Outer {
+    };
+    Outer nested_classes should == [];
+
+    def class Outer {
       def class Inner1 {
       }
+    };
+    Outer nested_classes should == [Outer::Inner1];
+
+    def class Outer {
       def class Inner2 {
       }
     };
