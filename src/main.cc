@@ -38,8 +38,9 @@ string get_load_path(int argc, char **argv)
   return "."; // current dir
 }
 
-void prepare_argv(int argc, char **argv)
+int prepare_argv(int argc, char **argv)
 {
+  int argv_size = 0;
   // set command line arguments in global ARGV variable as Array
   Array* args_arr = new Array();
   for(int i = 1; i < argc; i++) {
@@ -50,21 +51,22 @@ void prepare_argv(int argc, char **argv)
       continue;
     }
     args_arr->insert(FancyString::from_value(arg));
+    argv_size++;
   }
   global_scope->define("ARGV", args_arr);
+  return argv_size;
 }
 
-vector<string> filenames(int argc, char **argv)
+string filename(int argc, char **argv)
 {
-  vector<string> filenames;
   for(int i = 1; i < argc; i++) {
     if(argv[i][0] == '-') {
       i++;
       continue;
     }
-    filenames.push_back(string(argv[i]));
+    return string(argv[i]);
   }
-  return filenames;
+  return "";
 }
 
 int main(int argc, char **argv)
@@ -81,18 +83,18 @@ int main(int argc, char **argv)
   string stdlib_path = get_load_path(argc, argv) + "/lib";
   fancy::parser::load_path.push_back(stdlib_path);
 
-  prepare_argv(argc, argv);
+  int argv_size = prepare_argv(argc, argv);
   // now, load boot.fnc
   fancy::parser::parse_file(boot_file);
 
   try {
-    vector<string> files = filenames(argc, argv);
-    if(files.size() > 0) {
-      for(unsigned int i = 0; i < files.size(); i++) {
-        fancy::parser::parse_file(files[i]);
-      }
+    string file = filename(argc, argv);
+    if(file != "") {
+      fancy::parser::parse_file(file);
     } else {
-      parser::parse_stdin();
+      if(argv_size == 0) {
+        parser::parse_stdin();
+      }
     }
   } catch(UnknownIdentifierError &ex) {
     cout << "Error:" << endl;
