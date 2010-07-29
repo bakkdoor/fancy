@@ -82,6 +82,15 @@ def class PositiveMatcher {
     }
   }
 
+  def unknown_message: msg with_params: params {
+    """Forwardy any other message and parameters to the object itself
+       and checks the return value.""";
+
+    (@actual_value send: msg params: params) if_false: {
+      SpecTest failed_test: [@actual_value, params first]
+    }
+  }
+
   def be: block {
     (block call: [@actual_value]) if_false: {
       SpecTest failed_negative_test: [@actual_value, nil]
@@ -103,6 +112,15 @@ def class NegativeMatcher {
   def != expected_value {
     (@actual_value != expected_value) if_true: {
       SpecTest failed_negative_test: [@actual_value, expected_value]
+    }
+  }
+
+  def unknown_message: msg with_params: params {
+    """Forwardy any other message and parameters to the object itself
+       and checks the return value.""";
+
+    (@actual_value send: msg params: params) if_true: {
+      SpecTest failed_negative_test: [@actual_value, params first]
     }
   }
 

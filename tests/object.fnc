@@ -44,7 +44,7 @@ FancySpec describe: Object with: |it| {
   it should: "return a correct array representation" when: {
     nil to_a should == [];
     :foo to_a should == [:foo];
-    <[:foo => "bar", :bar => "baz"]> to_a should == [[:bar, "baz"], [:foo, "bar"]]
+    <[:foo => "bar", :bar => "baz"]> to_a should === [[:bar, "baz"], [:foo, "bar"]]
   };
 
   it should: "return a correct number representation" when: {
