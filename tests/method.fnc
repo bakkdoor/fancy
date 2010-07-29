@@ -1,6 +1,6 @@
 FancySpec describe: Method with: |it| {
   it should: "return a Method object" when: {
-    Array method: "each:" . class should_equal: Method
+    Array method: "each:" . class should == Method
   };
 
   it should: "return the (correct) sender object of the MessageSend" when: {
@@ -11,7 +11,7 @@ FancySpec describe: Method with: |it| {
     };
 
     x = SenderTest new;
-    x give_me_the_sender! should_equal: self
+    x give_me_the_sender! should == self
   };
 
   it should: "return the amount of arguments a Method takes" when: {
@@ -26,9 +26,9 @@ FancySpec describe: Method with: |it| {
       }
     };
 
-    Foo method: :no_args . argcount should_equal: 0;
-    Foo method: "one_arg:" . argcount should_equal: 1;
-    Foo method: "two:args:" . argcount should_equal: 2;
-    Foo method: "three:args:ok:" . argcount should_equal: 3
+    Foo method: :no_args . argcount should == 0;
+    Foo method: "one_arg:" . argcount should == 1;
+    Foo method: "two:args:" . argcount should == 2;
+    Foo method: "three:args:ok:" . argcount should == 3
   }
 }

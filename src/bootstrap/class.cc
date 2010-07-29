@@ -67,6 +67,11 @@ second argument to serve as the method's body.",
                  "subclass:",
                  "Creates a new subclass for this class with a given body.",
                  subclass);
+
+      DEF_METHOD(ClassClass,
+                 "nested_classes",
+                 "Returns an Array of all the nested classes within a Class.",
+                 nested_classes);
     }
 
     /**
@@ -199,6 +204,11 @@ second argument to serve as the method's body.",
         errorln("Self is not a valid Superclass in Class#subclass:");
         return nil;
       }
+    }
+
+    METHOD(ClassClass, nested_classes)
+    {
+      return new Array(dynamic_cast<Class*>(self)->nested_classes());
     }
 
   }

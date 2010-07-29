@@ -47,8 +47,9 @@ bool output_sexp(int argc, char **argv) {
   return false;
 }
 
-void prepare_argv(int argc, char **argv)
+int prepare_argv(int argc, char **argv)
 {
+  int argv_size = 0;
   // set command line arguments in global ARGV variable as Array
   Array* args_arr = new Array();
   for(int i = 1; i < argc; i++) {
@@ -63,8 +64,22 @@ void prepare_argv(int argc, char **argv)
       continue;
     }
     args_arr->insert(FancyString::from_value(arg));
+    argv_size++;
   }
   global_scope->define("ARGV", args_arr);
+  return argv_size;
+}
+
+string filename(int argc, char **argv)
+{
+  for(int i = 1; i < argc; i++) {
+    if(argv[i][0] == '-') {
+      i++;
+      continue;
+    }
+    return string(argv[i]);
+  }
+  return "";
 }
 
 int main(int argc, char **argv)
@@ -82,7 +97,7 @@ int main(int argc, char **argv)
   string stdlib_path = get_load_path(argc, argv) + "/lib";
   fancy::parser::load_path.push_back(stdlib_path);
 
-  prepare_argv(argc, argv);
+  int argv_size = prepare_argv(argc, argv);
   // now, load boot.fnc
   bool tmp = fancy::parser::output_sexp;
   fancy::parser::output_sexp = false; // just for booting phase
@@ -90,22 +105,13 @@ int main(int argc, char **argv)
   fancy::parser::output_sexp = tmp;
 
   try {
-    if (argc > 1) {
-      string filename = string(argv[1]);
-      if(filename[0] != '-') {
-        if(filename == "-I") {
-          if(argc > 3) {
-            filename = string(argv[3]);
-            fancy::parser::parse_file(filename);
-          } else {
-            parser::parse_stdin();
-          }
-        } else {
-          fancy::parser::parse_file(filename);
-        }
-      }
+    string file = filename(argc, argv);
+    if(file != "") {
+      fancy::parser::parse_file(file);
     } else {
-      parser::parse_stdin();
+      if(argv_size == 0) {
+        parser::parse_stdin();
+      }
     }
   } catch(UnknownIdentifierError &ex) {
     cout << "Error:" << endl;

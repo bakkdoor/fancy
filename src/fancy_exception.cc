@@ -27,7 +27,7 @@ namespace fancy {
   }
 
   FancyException::FancyException(const string &message) :
-    FancyObject(ExceptionClass),
+    FancyObject(StdErrorClass),
     _exception_value(0),
     _exception_class(0),
     _message(message)
@@ -59,7 +59,7 @@ namespace fancy {
     if(_exception_value)
       return _exception_value->get_class();
 
-    return ExceptionClass;
+    return StdErrorClass;
   }
 
   FancyObject* FancyException::exception_value()

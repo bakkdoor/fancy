@@ -1,20 +1,20 @@
 FancySpec describe: Hash with: |it| {
   it should: "be empty on initialization" when: {
     hash = <[]>;
-    hash size should_equal: 0;
-    hash empty? should_equal: true
+    hash size should == 0;
+    hash empty? should == true
   };
-  
+
   it should: "be empty on initialization via Hash#new" when: {
     hash = Hash new;
-    hash size should_equal: 0;
-    hash empty? should_equal: true
+    hash size should == 0;
+    hash empty? should == true
   };
-  
+
   it should: "contain one entry" when: {
     hash = <[:foo => "bar"]>;
-    hash size should_equal: 1;
-    hash empty? should_equal: nil
+    hash size should == 1;
+    hash empty? should == nil
   };
 
   it should: "contain 10 square values after 10 insertions" when: {
@@ -24,38 +24,38 @@ FancySpec describe: Hash with: |it| {
     };
 
     10 times: |i| {
-      hash at: i . should_equal: (i * i)
+      hash at: i . should == (i * i)
     }
   };
 
   it should: "override the value for a given key" when: {
     hash = <[:foo => "bar"]>;
-    hash at: :foo . should_equal: "bar";
+    hash at: :foo . should == "bar";
     hash at: :foo put: :foobarbaz;
-    hash at: :foo . should_equal: :foobarbaz
+    hash at: :foo . should == :foobarbaz
   };
 
   it should: "return all keys" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
-    hash keys should_be: |x| { x === [:foo, :bar, :foobar] }
+    hash keys should be: |x| { x === [:foo, :bar, :foobar] }
   };
 
   it should: "return all values" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
-    hash values should_be: |x| { x === ["bar", "baz", 112.21] }
+    hash values should be: |x| { x === ["bar", "baz", 112.21] }
   };
 
   it should: "return value by the []-operator" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
-    hash[:foo] should_equal: "bar";
-    hash[:bar] should_equal: "baz";
-    hash[:foobar] should_equal: 112.21
+    hash[:foo] should == "bar";
+    hash[:bar] should == "baz";
+    hash[:foobar] should == 112.21
   };
 
   it should: "call the Block for each key and value" when: {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
     hash each: |key val| {
-      val should_equal: $ hash[key]
+      val should == (hash[key])
     }
   };
 
@@ -63,7 +63,7 @@ FancySpec describe: Hash with: |it| {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
     count = 0;
     hash each_key: |key| {
-      key should_equal: $ hash keys[count];
+      key should == (hash keys[count]);
       count = count + 1
     }
   };
@@ -72,7 +72,7 @@ FancySpec describe: Hash with: |it| {
     hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
     count = 0;
     hash each_value: |val| {
-      val should_equal: $ hash values[count];
+      val should == (hash values[count]);
       count = count + 1
     }
   };
@@ -81,18 +81,18 @@ FancySpec describe: Hash with: |it| {
     hash = <[:hello => "world", :fancy => "is cool"]>;
 
     hash map: |pair| { pair[0] }
-      . should_be: |arr| { arr === [:hello, :fancy] }; # order does not matter
+      . should be: |arr| { arr === [:hello, :fancy] }; # order does not matter
 
     hash select: |pair| { pair[1] to_s include?: "c" }
-      . should_equal: [[:fancy, "is cool"]];
+      . should == [[:fancy, "is cool"]];
 
     hash reject: |pair| { pair[0] to_s include?: "l" }
-      . map: :second . should_equal: ["is cool"]
+      . map: :second . should == ["is cool"]
   };
 
   it should: "return nil if the key isn't defined" when: {
-    <[:foo => "bar"]> [:bar] . should_equal: nil;
-    <[]> [:foobar] . should_equal: nil;
-    <[:foo => "bar"]> [nil] . should_equal: nil
+    <[:foo => "bar"]> [:bar] . should == nil;
+    <[]> [:foobar] . should == nil;
+    <[:foo => "bar"]> [nil] . should == nil
   }
 }

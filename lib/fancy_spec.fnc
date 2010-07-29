@@ -27,11 +27,16 @@ def class FancySpec {
 
 def class SpecTest {
   def self failed_test: actual_and_expected {
-    @@failed << actual_and_expected
+    @@failed_positive << actual_and_expected
+  }
+
+  def self failed_negative_test: value {
+    @@failed_negative << value
   }
 
   def initialize: info_str {
-    { @@failed = [] } unless: @@failed;
+    { @@failed_positive = [] } unless: @@failed_positive;
+    { @@failed_negative = [] } unless: @@failed_negative;
     @info_str = info_str
   }
 
@@ -40,67 +45,121 @@ def class SpecTest {
   }
 
   def run: test_obj {
-    @@failed = [];
+    @@failed_positive = [];
+    @@failed_negative = [];
     try {
       @block call
     } catch IOError => e {
       SpecTest failed_test: [e, "UNKNOWN"]
     };
 
-    (@@failed size > 0) if_true: {
+    (@@failed_positive size > 0) if_true: {
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
-      self print_failed
+      self print_failed_positive
+    } else: {
+      "." print
+    };
+
+    (@@failed_negative size > 0) if_true: {
+      Console newline;
+      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
+      self print_failed_negative
     } else: {
       "." print
     }
   }
 
-  def print_failed {
-    " [" ++ (@@failed size) ++ " unexpected values]" println;
+  def print_failed_positive {
+    " [" ++ (@@failed_positive size) ++ " unexpected values]" println;
     "Got: " println;
-    @@failed each: |f| {
+    @@failed_positive each: |f| {
       "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
+    }
+  }
+
+  def print_failed_negative {
+    " [" ++ (@@failed_negative size) ++ " unexpected values]" println;
+    "Should not have gotten the following values: " println;
+    @@failed_negative each: |f| {
+      "     " ++ (f inspect) println
+    }
+  }
+
+};
+
+def class PositiveMatcher {
+  def initialize: expected_value {
+    @actual_value = expected_value
+  }
+
+  def == expected_value {
+    (@actual_value == expected_value) if_false: {
+      SpecTest failed_test: [@actual_value, expected_value]
+    }
+  }
+
+  def != expected_value {
+    (@actual_value != expected_value) if_false: {
+      SpecTest failed_negative_test: @actual_value
+    }
+  }
+
+  def unknown_message: msg with_params: params {
+    """Forwardy any other message and parameters to the object itself
+       and checks the return value.""";
+
+    (@actual_value send: msg params: params) if_false: {
+      SpecTest failed_test: [@actual_value, params first]
+    }
+  }
+
+  def be: block {
+    (block call: [@actual_value]) if_false: {
+      SpecTest failed_test: [@actual_value, nil]
+    }
+  }
+};
+
+def class NegativeMatcher {
+  def initialize: actual_value {
+    @actual_value = actual_value
+  }
+
+  def == expected_value {
+    (@actual_value == expected_value) if_true: {
+      SpecTest failed_negative_test: @actual_value
+    }
+  }
+
+  def != expected_value {
+    (@actual_value != expected_value) if_true: {
+      SpecTest failed_test: [@actual_value, expected_value]
+    }
+  }
+
+  def unknown_message: msg with_params: params {
+    """Forwardy any other message and parameters to the object itself
+       and checks the return value.""";
+
+    (@actual_value send: msg params: params) if_true: {
+      SpecTest failed_negative_test: @actual_value
+    }
+  }
+
+  def be: block {
+    (block call: [@actual_value]) if_true: {
+      SpecTest failed_negative_test: @actual_value
     }
   }
 };
 
 def class Object {
-  def should_equal: expected_value {
-    expected_value is_a?: Block . if_true: {
-      expected_value = expected_value call
-    };
-    self check_with_expected: expected_value
+  def should {
+    PositiveMatcher new: self
   }
 
-  def should_not_equal: unexpected_value {
-    unexpected_value is_a?: Block . if_true: {
-      unexpected_value = unexpected_value call
-    };
-    self check_with_unexpected: unexpected_value
-  }
-
-  def should_be: block {
-    (block call: [self]) if_false: {
-      SpecTest failed_test: [self, nil]
-    }
-  }
-
-  def should_not_be: block {
-    (block call: [self]) if_true: {
-      SpecTest failed_test: [self, nil]
-    }
-  }
-
-  def check_with_expected: expected_value {
-    (self == expected_value) if_false: {
-      SpecTest failed_test: [self, expected_value]
-    }
-  }
-
-  def check_with_unexpected: unexpected_value {
-    (self != unexpected_value) if_false: {
-      SpecTest failed_test: [self, unexpected_value]
-    }
+  def should_not {
+    NegativeMatcher new: self
   }
 }

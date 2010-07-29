@@ -247,4 +247,17 @@ namespace fancy {
     return NULL; // no nested class with given name found
   }
 
+  vector<FancyObject*> Class::nested_classes() const
+  {
+    vector<FancyObject*> nested_classes(_nested_classes.size(), nil);
+    unsigned int i = 0;
+    for(map<string, Class*>::const_iterator it = _nested_classes.begin();
+        it != _nested_classes.end();
+        it++) {
+      nested_classes[i] = it->second;
+      i++;
+    }
+    return nested_classes;
+  }
+
 }
