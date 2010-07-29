@@ -29,7 +29,7 @@ hash method number object set string symbol
 test: all
 	@mkdir -p tmp
 	@clear
-	@bin/fancy $(foreach file, $(TESTFILES), tests/$(file).fnc)
+	@bin/fancy bin/fspec $(foreach file, $(TESTFILES), tests/$(file).fnc)
 	@echo
 
 

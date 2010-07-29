@@ -193,6 +193,9 @@ return_statement: RETURN exp {
 require_statement: REQUIRE STRING_LITERAL {
                   $$ = new nodes::RequireStatement($2);
                 }
+                | REQUIRE IDENTIFIER {
+                  $$ = new nodes::RequireStatement($2);
+                }
                 ;
 
 class_def:      class_no_super

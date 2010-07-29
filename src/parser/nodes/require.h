@@ -17,6 +17,7 @@ namespace fancy {
       {
       public:
         RequireStatement(FancyString* filename);
+        RequireStatement(Expression* filename_expr);
         virtual ~RequireStatement() {}
 
         virtual EXP_TYPE type() const { return EXP_REQUIRESTATEMENT; }
@@ -24,6 +25,7 @@ namespace fancy {
 
       private:
         string _filename;
+        Expression* _filename_expr;
       };
 
     }
