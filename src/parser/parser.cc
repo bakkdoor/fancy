@@ -31,6 +31,7 @@ namespace fancy {
       try {
         yyparse();
       } catch(FancyException* ex) {
+        cerr << "\n";
         errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
         errorln(ex->to_s());
         exit(1);

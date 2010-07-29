@@ -299,5 +299,15 @@ FancySpec describe: Class with: |it| {
 
     NameSpace::Array what_am_i . should == "not the same as the standard Array class";
     NameSpace::Array should_not == Array
+  };
+
+  it should: "return all nested classes of a class" when: {
+    def class Outer {
+      def class Inner1 {
+      }
+      def class Inner2 {
+      }
+    };
+    Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
   }
 }

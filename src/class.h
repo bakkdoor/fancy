@@ -210,6 +210,12 @@ namespace fancy {
      */
     Class* get_nested_class(const string &class_name) const;
 
+    /**
+     * Returns the nested Classes of a Class as a vector of FancyObjects.
+     * @return The nested Classes of a Class as a vector of FancyObjects.
+     */
+    vector<FancyObject*> nested_classes() const;
+
   private:
     string _name;
     vector<string> _instance_slotnames;
