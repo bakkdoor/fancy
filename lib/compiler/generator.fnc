@@ -202,7 +202,7 @@ def class Rubinius {
       try {
         # Validate the stack and calculate the max depth
         @enter_block visit: 0
-      } catch Exception => e {
+      } catch StdError => e {
         _DEBUG_ if_do: {
           "Error computing stack for " ++ @name ++ ": " ++ (e message)
           ++ " (" ++ (e class) ++ ")" println;
@@ -267,7 +267,7 @@ def class Rubinius {
     }
 
     def set_line: line {
-      { Exception new: "source code line cannot be nil" . raise! } unless: line;
+      { "source code line cannot be nil" raise! } unless: line;
 
       @last_line if_false: {
         @lines << @ip;
@@ -317,7 +317,7 @@ def class Rubinius {
     def close {
       @lines empty? if_true: {
         msg = "closing a method definition with no line info: " ++ file ++ ":" ++ line;
-        Exception new: msg . raise!
+        msg raise!
       };
 
       @lines << @ip
@@ -462,7 +462,7 @@ def class Rubinius {
       { self allow_private } if: priv;
 
       count kind_of?: Fixnum . if_false: {
-        Exception new: "count must be a number" . raise!
+        "count must be a number" raise!
       };
 
       idx = self find_literal: meth;

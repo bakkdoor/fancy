@@ -1,4 +1,4 @@
-# def class UndefinedNodeError : Exception {
+# def class UndefinedNodeError : StdError {
 #   def initialize: node_name {
 #     super initialize: $ "Node not defined: " ++ (node first)
 #   }
@@ -10,7 +10,7 @@ def class Array {
       (Node ast_creators[self first]) if_do: |x| {
         x from_sexp: self
       } else: {
-        Exception new: ("Node not defined: " ++ (node first)) . raise!
+        "Node not defined: " ++ (node first) . raise!
       }
     } else: {
       self map: :to_ast
@@ -20,7 +20,7 @@ def class Array {
 
 def class Node {
   @@ast_creators = <[]>;
- 
+
   def Node register: keyword for_node: node_class {
     @@ast_creators at: keyword put: node_class
   }

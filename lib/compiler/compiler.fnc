@@ -1,6 +1,6 @@
 def class Rubinius {
 
-  def class CompileError : Exception {
+  def class CompileError : StdError {
   }
 
   def class Compiler {
@@ -71,7 +71,7 @@ def class Rubinius {
 
       try {
         compiler run
-      } catch Exception => e {
+      } catch StdError => e {
         self compiler_error: ("Error trying to compile " ++ file) error: e
       }
   }

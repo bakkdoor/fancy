@@ -189,7 +189,7 @@ def class Rubinius {
           stream each: |inst| {
             self encode: inst
           }
-        } catch Exception => e {
+        } catch StdError => e {
           STDERR println: "Unable to encode stream:";
           STDERR println: $ stream inspect;
           e raise!
