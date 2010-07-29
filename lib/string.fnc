@@ -40,4 +40,9 @@ def class String {
     };
     str
   }
+
+  def raise! {
+    "Raises a new StdError with self as the message.";
+    StdError new: self . raise!
+  }
 }

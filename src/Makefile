@@ -10,7 +10,7 @@ class_operator_definition try_catch_block super
 parser_files = parser/lex parser/bison
 
 bootstrap_files = core_classes object class block string number		\
-console array file directory scope hash exception method system
+console array file directory scope hash error method system
 
 files = fancy_object true nil hash array symbol number string		\
 native_method scope lexical_scope class errors method regexp block	\

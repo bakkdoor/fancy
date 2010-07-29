@@ -11,23 +11,23 @@
 namespace fancy {
   namespace bootstrap {
 
-    void init_exception_classes()
+    void init_error_classes()
     {
       /**
        * Exception class
        */
 
-      DEF_CLASSMETHOD(ExceptionClass,
+      DEF_CLASSMETHOD(StdErrorClass,
                       "new:",
                       "Exception constructor.",
                       new);
 
-      DEF_METHOD(ExceptionClass,
+      DEF_METHOD(StdErrorClass,
                  "raise!",
                  "Raises (throws) the Exception up the execution stack, in order to be caught.",
                  raise);
 
-      DEF_METHOD(ExceptionClass,
+      DEF_METHOD(StdErrorClass,
                  "message",
                  "Returns the message (should be a String) of the Exception",
                  message);
@@ -71,7 +71,7 @@ namespace fancy {
      * Exception class methods
      */
 
-    CLASSMETHOD(ExceptionClass, new)
+    CLASSMETHOD(StdErrorClass, new)
     {
       EXPECT_ARGS("Exception##new:", 1);
       string message = args[0]->to_s();
@@ -83,7 +83,7 @@ namespace fancy {
      * Exception instance methods
      */
 
-    METHOD(ExceptionClass, raise)
+    METHOD(StdErrorClass, raise)
     {
       if(FancyException* except = dynamic_cast<FancyException*>(self)) {
         throw except;
@@ -94,7 +94,7 @@ namespace fancy {
       }
     }
 
-    METHOD(ExceptionClass, message)
+    METHOD(StdErrorClass, message)
     {
       if(FancyException* except = dynamic_cast<FancyException*>(self)) {
         return FancyString::from_value(except->message());

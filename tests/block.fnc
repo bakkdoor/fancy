@@ -55,18 +55,18 @@ FancySpec describe: Block with: |it| {
 
   it should: "call itself only when the argument is nil" when: {
     try {
-      { Exception new: "got_run!" . raise! } unless: nil;
-      Exception new: "didnt_run!" . raise!
-    } catch Exception => e {
+      { StdError new: "got_run!" . raise! } unless: nil;
+      StdError new: "didnt_run!" . raise!
+    } catch StdError => e {
       e message should == "got_run!"
     }
   };
 
   it should: "call itself only when the argument is true" when: {
     try {
-      { Exception new: "got_run!" . raise! } if: true;
-      Exception new: "didnt_run!" . raise!
-    } catch Exception => e {
+      { StdError new: "got_run!" . raise! } if: true;
+      StdError new: "didnt_run!" . raise!
+    } catch StdError => e {
       e message should == "got_run!"
     }
   };

@@ -30,7 +30,7 @@ namespace fancy {
   Class* ConsoleClass;
   Class* ScopeClass;
 
-  Class* ExceptionClass;
+  Class* StdErrorClass;
   Class* UnknownIdentifierErrorClass;
   Class* MethodNotFoundErrorClass;
   Class* IOErrorClass;
@@ -73,11 +73,11 @@ namespace fancy {
       ConsoleClass = new Class("Console", ObjectClass);
       ScopeClass = new Class("Scope", ObjectClass);
 
-      ExceptionClass = new Class("Exception", ObjectClass);
-      UnknownIdentifierErrorClass = new Class("UnknownIdentifierError", ExceptionClass);
-      MethodNotFoundErrorClass = new Class("MethodNotFoundError", ExceptionClass);
-      IOErrorClass = new Class("IOError", ExceptionClass);
-      DivisionByZeroErrorClass = new Class("DivisionByZeroError", ExceptionClass);
+      StdErrorClass = new Class("StdError", ObjectClass);
+      UnknownIdentifierErrorClass = new Class("UnknownIdentifierError", StdErrorClass);
+      MethodNotFoundErrorClass = new Class("MethodNotFoundError", StdErrorClass);
+      IOErrorClass = new Class("IOError", StdErrorClass);
+      DivisionByZeroErrorClass = new Class("DivisionByZeroError", StdErrorClass);
 
       SystemClass = new Class("System", ObjectClass);
 
@@ -92,7 +92,7 @@ namespace fancy {
       init_directory_class();
       init_scope_class();
       init_hash_class();
-      init_exception_classes();
+      init_error_classes();
       init_method_class();
       init_system_class();
     }
@@ -129,7 +129,7 @@ namespace fancy {
       global_scope->define("Console", ConsoleClass);
       global_scope->define("Scope", ScopeClass);
 
-      global_scope->define("Exception", ExceptionClass);
+      global_scope->define("StdError", StdErrorClass);
       global_scope->define("UnknownIdentifierError", UnknownIdentifierErrorClass);
       global_scope->define("MethodNotFoundError", MethodNotFoundErrorClass);
       global_scope->define("IOError", IOErrorClass);

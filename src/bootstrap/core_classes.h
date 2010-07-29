@@ -23,7 +23,7 @@ namespace fancy {
   extern Class* ConsoleClass;
   extern Class* ScopeClass;
 
-  extern Class* ExceptionClass;
+  extern Class* StdErrorClass;
   extern Class* UnknownIdentifierErrorClass;
   extern Class* MethodNotFoundErrorClass;
   extern Class* IOErrorClass;
@@ -59,7 +59,7 @@ namespace fancy {
     void init_block_class();
     void init_class_class();
     void init_console_class();
-    void init_exception_classes();
+    void init_error_classes();
     void init_file_class();
     void init_directory_class();
     void init_hash_class();

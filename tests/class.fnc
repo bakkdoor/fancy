@@ -158,12 +158,12 @@ FancySpec describe: Class with: |it| {
   it should: "return its superclass" when: {
     Number superclass should == Object;
     Symbol superclass should == Object;
-    Exception superclass should == Object;
+    StdError superclass should == Object;
     Object superclass should == Object;
     Class superclass should == Object;
 
-    IOError superclass should == Exception;
-    MethodNotFoundError superclass should == Exception
+    IOError superclass should == StdError;
+    MethodNotFoundError superclass should == StdError
   };
 
   it should: "create a new Class dynamically" when: {

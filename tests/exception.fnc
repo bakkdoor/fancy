@@ -1,19 +1,19 @@
 def class Foo {
   def bar: x {
     (x == :error) . if_true: {
-      Exception new: "Some Error" . raise!
+      StdError new: "Some Error" . raise!
     } else: {
       :no_error
     }
   }
 };
 
-FancySpec describe: Exception with: |it| {
+FancySpec describe: StdError with: |it| {
   it should: "raise an exception and catch it correctly" when: {
     try {
-      Exception new: "FAIL!" . raise!;
+      StdError new: "FAIL!" . raise!;
       nil should == true # this should not occur
-    } catch Exception => ex {
+    } catch StdError => ex {
       ex message should == "FAIL!"
     }
   };
@@ -23,7 +23,7 @@ FancySpec describe: Exception with: |it| {
     f bar: "Don't raise here" . should == :no_error;
     try {
       f bar: :error . should == :no_error
-    } catch Exception => e {
+    } catch StdError => e {
       e message should == "Some Error"
     }
   };
@@ -57,6 +57,16 @@ FancySpec describe: Exception with: |it| {
     } finally {
       # this part gets always run :)
       "It works!" should == "It works!"
+    }
+  };
+
+  it should: "raise a StdError when raising a String" when: {
+    msg = "A Custom Error!";
+    try {
+      msg raise!;
+      msg should_not == msg # this should not get executed
+    } catch StdError => e {
+      e message should == msg
     }
   }
 
