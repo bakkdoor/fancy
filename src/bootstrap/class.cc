@@ -185,7 +185,11 @@ second argument to serve as the method's body.",
 
     METHOD(ClassClass, superclass)
     {
-      return dynamic_cast<Class*>(self)->superclass();
+      if(Class* superclass =  dynamic_cast<Class*>(self)->superclass()) {
+        return superclass;
+      } else {
+        return nil;
+      }
     }
 
     METHOD(ClassClass, subclass)

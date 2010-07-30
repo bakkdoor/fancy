@@ -157,6 +157,7 @@ namespace fancy {
     if(_singleton_methods.find(name) != _singleton_methods.end()) {
       return _singleton_methods[name];
     }
+
     // then, try methods in included classes
     for(set<Class*>::iterator it = _included_classes.begin();
         it != _included_classes.end();
@@ -205,7 +206,7 @@ namespace fancy {
     } else {
       // when no superclass defined, simply return ObjectClass
       // and the recursive class hierarchy begins ;)
-      return ObjectClass;
+      return NULL;
     }
   }
 
