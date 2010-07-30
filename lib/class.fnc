@@ -47,7 +47,7 @@ def class Class {
       true
     } else: {
       # take care of Object class, as Object is its own superclass
-      (self superclass != self) if_true: {
+      (self superclass != nil) if_true: {
         self superclass subclass?: class_obj
       }
     }

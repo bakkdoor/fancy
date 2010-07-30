@@ -159,8 +159,8 @@ FancySpec describe: Class with: |it| {
     Number superclass should == Object;
     Symbol superclass should == Object;
     StdError superclass should == Object;
-    Object superclass should == Object;
     Class superclass should == Object;
+    Object superclass should == nil;
 
     IOError superclass should == StdError;
     MethodNotFoundError superclass should == StdError
