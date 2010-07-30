@@ -62,7 +62,6 @@ def class Rubinius {
     # compiled method -> compiled file
     def class Writer : Stage {
       self stage: :compiled_file;
-
       self read_write_slots: [:name];
 
       def initialize: compiler_and_last {
