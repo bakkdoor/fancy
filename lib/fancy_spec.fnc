@@ -53,21 +53,22 @@ def class SpecTest {
       SpecTest failed_test: [e, "UNKNOWN"]
     };
 
+    any_failure = nil;
     (@@failed_positive size > 0) if_true: {
+      any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed_positive
-    } else: {
-      "." print
     };
 
     (@@failed_negative size > 0) if_true: {
+      any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed_negative
-    } else: {
-      "." print
-    }
+    };
+
+    { "." print } unless: any_failure
   }
 
   def print_failed_positive {
