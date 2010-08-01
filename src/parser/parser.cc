@@ -9,6 +9,9 @@
 #include "../fancy_exception.h"
 #include "../utils.h"
 #include "../bootstrap/core_classes.h"
+#include "../scope.h"
+#include "../string.h"
+
 
 /* prototype of bison-generated parser function */
 extern int yyparse();
@@ -25,6 +28,11 @@ namespace fancy {
     stack<parser_buffer> parse_buffers;
     list<string> load_path;
     FancyObject* last_value = nil;
+
+    void define_predefined_values(const string &filename)
+    {
+      global_scope->define("__FILE__", FancyString::from_value(filename));
+    }
 
     void try_parse()
     {
@@ -62,6 +70,7 @@ namespace fancy {
         // try with file ending, if not given
         if(!has_ending) {
           if(push_buffer(filename_with_ending)) {
+            define_predefined_values(filename_with_ending);
             try_parse();
           } else {
             error(filename) << ": No such file or directory\n";
@@ -72,6 +81,7 @@ namespace fancy {
           return;
         }
       } else {
+        define_predefined_values(filename);
         try_parse();
       }
     }
