@@ -276,9 +276,8 @@ namespace fancy {
     {
       EXPECT_ARGS("Number#times:", 1);
       FancyObject* arg = args[0];
-      if(IS_BLOCK(arg)) {
-        Number* num1 = dynamic_cast<Number*>(self);
-        Block* block = dynamic_cast<Block*>(arg);
+      Number* num1 = dynamic_cast<Number*>(self);
+      if(Block* block = dynamic_cast<Block*>(arg)) {
 
         // if block is empty (nothing in the blocks body) simply
         // return nil and don't bother wasting any precious time here...
@@ -298,8 +297,12 @@ namespace fancy {
           }
         }
       } else {
-        errorln("Number#times: expects Block object as parameter!");
+        for(unsigned int i = 0; i < num1->intval(); i++) {
+          FancyObject* block_arg = Number::from_int(i);
+          args[0]->send_message("call:", &block_arg, 1, scope, self);
+        }
       }
+
       return nil;
     }
 
@@ -389,8 +392,8 @@ namespace fancy {
           }
         } else {
           for(int i = num1->intval(); i <= num2->intval(); i++) {
-            FancyObject* block_arg[1] = { Number::from_int(i) };
-            args[1]->send_message("call:", block_arg, 1, scope, self);
+            FancyObject* block_arg = Number::from_int(i);
+            args[1]->send_message("call:", &block_arg, 1, scope, self);
           }
         }
         return nil;
@@ -414,8 +417,8 @@ namespace fancy {
           }
         } else {
           for(int i = num1->intval(); i >= num2->intval(); i--) {
-            FancyObject* block_arg[1] = { Number::from_int(i) };
-            args[1]->send_message("call:", block_arg, 1, scope, self);
+            FancyObject* block_arg = Number::from_int(i);
+            args[1]->send_message("call:", &block_arg, 1, scope, self);
           }
         }
         return nil;
