@@ -10,9 +10,7 @@ self loop: {
     } else: {
       System exit
     }
-  } catch MethodNotFoundError => e {
-    e message println
-  } catch UnknownIdentifierError => e {
+  } catch StdError => e {
     e message println
   }
 }
