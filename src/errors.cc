@@ -11,7 +11,8 @@ namespace fancy {
   // UnknownIdentifierError
 
   UnknownIdentifierError::UnknownIdentifierError(const string &ident) :
-    FancyException("Unknown Identifier: " + ident),
+    FancyException("Unknown Identifier: " + ident,
+                   UnknownIdentifierErrorClass),
     _identifier(ident)
   {
   }

@@ -12,5 +12,7 @@ self loop: {
     }
   } catch MethodNotFoundError => e {
     e message println
+  } catch UnknownIdentifierError => e {
+    e message println
   }
 }

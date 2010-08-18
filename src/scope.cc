@@ -9,6 +9,7 @@
 #include "scope.h"
 #include "class.h"
 #include "bootstrap/core_classes.h"
+#include "errors.h"
 
 namespace fancy {
 
@@ -93,8 +94,7 @@ namespace fancy {
       if(_parent) {
         return _parent->get(identifier);
       } else {
-        // throw UnknownIdentifierError(identifier);
-        return nil;
+        throw new UnknownIdentifierError(identifier); // ident not found!
       }
     }
   }

@@ -111,7 +111,7 @@ namespace fancy {
     Scope *_creation_scope;
     bool _override_self;
     int _argcount;
-    list<FancyObject*> _block_arg_orig_values;
+    map<string, FancyObject*> _block_arg_orig_values;
   };
 
 }

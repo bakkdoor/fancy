@@ -43,11 +43,11 @@ FancySpec describe: Number with: |it| {
 
   it should: "be odd" when: {
     1 odd? should == true;
-    1 even? should == false
+    1 even? should == nil
   };
 
   it should: "be even" when: {
-    2 odd? should == false;
+    2 odd? should == nil;
     2 even? should == true
   };
 
