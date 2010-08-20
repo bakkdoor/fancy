@@ -11,7 +11,6 @@
 #include "method.h"
 #include "native_method.h"
 #include "bootstrap/core_classes.h"
-#include "utils.h"
 
 namespace fancy {
 
