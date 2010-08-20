@@ -43,6 +43,12 @@ namespace fancy {
     virtual ~Class();
 
     /**
+     * Returns the Metaclass of the object.
+     * @return Metaclass object of the object.
+     */
+    virtual Class* metaclass();
+
+    /**
      * Returns the name of the Class.
      * @return Name of the Class.
      */

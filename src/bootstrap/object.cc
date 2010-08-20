@@ -16,21 +16,6 @@ namespace fancy {
     void init_object_class()
     {
       /**
-       * Object class methods
-       */
-      DEF_CLASSMETHOD(ObjectClass,
-                      "new",
-                      "New method for creating new instances of classes.\
-It is expected, that self (the receiver) is a class object.",
-                      new);
-
-      DEF_CLASSMETHOD(ObjectClass,
-                      "new:",
-                      "Same as Object##new, but also expecting arguments\
-and passing them on to the initialize: method of the class.",
-                      new_with_arg);
-
-      /**
        * Object instance methods
        */
       DEF_METHOD(ObjectClass,
@@ -62,6 +47,11 @@ and passing them on to the initialize: method of the class.",
                  "class",
                  "Returns the class of the object.",
                  class);
+
+      DEF_METHOD(ObjectClass,
+                 "metaclass",
+                 "Returns the metaclass of the object.",
+                 metaclass);
 
       DEF_METHOD(ObjectClass,
                  "define_singleton_method:with:",
@@ -140,60 +130,6 @@ and passing them on to the initialize: method of the class.",
     }
 
     /**
-     * Object class methods
-     */
-
-    CLASSMETHOD(ObjectClass, new)
-    {
-      if(IS_CLASS(self)) {
-        // deal with special case of Class class for dynamically
-        // creating Class Objects
-        if(self == ClassClass) {
-          return new Class(ObjectClass);
-        } else {
-          // this deals with the "normal" Classes that create "normal"
-          // Objects
-          Class* the_class = dynamic_cast<Class*>(self);
-          FancyObject* new_instance = the_class->create_instance();
-          if(Callable* method = the_class->find_method_in_class("initialize")) {
-            // new_instance->send_message("initialize", args, argc, scope, self);
-            method->call(new_instance, args, argc, scope, self);
-          }
-          return new_instance;
-        }
-      } else {
-        errorln("Expected instance to be a class. Not the case!");
-      }
-      return nil;
-    }
-
-    CLASSMETHOD(ObjectClass, new_with_arg)
-    {
-      EXPECT_ARGS("Object##new:", 1);
-      if(IS_CLASS(self)) {
-        // same as above, check for Class class special case
-        if(self == ClassClass) {
-          if(Class* superclass = dynamic_cast<Class*>(args[0])) {
-            return new Class(superclass);
-          } else {
-            errorln("Expected Class argument as Superclass.");
-            return nil;
-          }
-        } else {
-          Class* the_class = dynamic_cast<Class*>(self);
-          FancyObject* new_instance = the_class->create_instance();
-          if(Callable* method = the_class->find_method_in_class("initialize:")) {
-            method->call(new_instance, args, argc, scope, self);
-          }
-          return new_instance;
-        }
-      } else {
-        errorln("Expected instance to be a class. Not the case!");
-      }
-      return nil;
-    }
-
-    /**
      * Object instance methods
      */
 
@@ -239,6 +175,11 @@ and passing them on to the initialize: method of the class.",
     METHOD(ObjectClass, class)
     {
       return self->get_class();
+    }
+
+    METHOD(ObjectClass, metaclass)
+    {
+      return self->metaclass();
     }
 
     METHOD(ObjectClass, define_singleton_method__with)

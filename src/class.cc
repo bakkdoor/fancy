@@ -11,6 +11,7 @@
 #include "method.h"
 #include "native_method.h"
 #include "bootstrap/core_classes.h"
+#include "utils.h"
 
 namespace fancy {
 
@@ -37,6 +38,22 @@ namespace fancy {
 
   Class::~Class()
   {
+  }
+
+  Class* Class::metaclass()
+  {
+    if(!_has_metaclass) {
+      if(this == ObjectClass) {
+        _class = new Class("Metaclass<" + this->to_s() + ">", ClassClass);
+        _has_metaclass = true;
+      } else {
+        if(_superclass) {
+          _class = new Class("Metaclass<" + this->to_s() + ">", _superclass->metaclass());
+          _has_metaclass = true;
+        }
+      }
+    }
+    return _class;
   }
 
   FancyObject* Class::create_instance() const
@@ -153,10 +170,6 @@ namespace fancy {
     if(_instance_methods.find(name) != _instance_methods.end()) {
       return _instance_methods[name];
     }
-    // then, try singleton methods (class methods)
-    if(_singleton_methods.find(name) != _singleton_methods.end()) {
-      return _singleton_methods[name];
-    }
 
     // then, try methods in included classes
     for(set<Class*>::iterator it = _included_classes.begin();
@@ -179,10 +192,6 @@ namespace fancy {
     // first, try instance methods
     if(_instance_methods.find(name) != _instance_methods.end()) {
       return _instance_methods[name];
-    }
-    // then, try singleton methods (class methods)
-    if(_singleton_methods.find(name) != _singleton_methods.end()) {
-      return _singleton_methods[name];
     }
     return NULL;
   }
