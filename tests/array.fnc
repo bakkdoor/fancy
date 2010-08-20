@@ -255,7 +255,8 @@ FancySpec describe: Array with: |it| {
 
   it should: "return an Array containing the elements n times." when: {
     [1,2,3,4,5] * 2 should == [1,2,3,4,5,1,2,3,4,5];
-    [1,2,3] * 2 should == ([1,2,3] + [1,2,3])
+    [1,2,3] * 2 should == ([1,2,3] + [1,2,3]);
+    [:a,:b,:c] * 4 should == [:a,:b,:c, :a,:b,:c, :a,:b,:c, :a,:b,:c]
   };
 
   it should: "return the concatenation of two Arrays" when: {
@@ -282,5 +283,9 @@ FancySpec describe: Array with: |it| {
     [1,2,3,4] rest should == [2,3,4];
     [] rest should == [];
     100 upto: 1000 . rest should == (101 upto: 1000)
+  };
+
+  it should: "return itself as a string" when: {
+    [1,2,3] to_s should == "123"
   }
 }
