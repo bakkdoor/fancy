@@ -42,6 +42,8 @@ namespace fancy {
 
     virtual ~Class();
 
+    virtual Class* get_class() const;
+
     /**
      * Returns the Metaclass of the object.
      * @return Metaclass object of the object.

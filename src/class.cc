@@ -39,6 +39,11 @@ namespace fancy {
   {
   }
 
+  Class* Class::get_class() const
+  {
+    return ClassClass;
+  }
+
   Class* Class::metaclass()
   {
     if(!_has_metaclass) {

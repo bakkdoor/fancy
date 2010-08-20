@@ -39,7 +39,7 @@ namespace fancy {
      * Returns the Class of the object.
      * @return Class object of the object.
      */
-    Class* get_class() const;
+    virtual Class* get_class() const;
 
     /**
      * Sets the Class object of the object.
