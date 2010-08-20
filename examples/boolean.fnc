@@ -1,11 +1,13 @@
 # some boolean expressions & logicial operations
 
 true and: true . println; # true
-true and: false . println; # nil
-false and: false . println; # nil
 true and: nil . println; # nil
 nil and: nil . println; # nil
-false and: nil . println; # nil
+
+true or: true . println; # true
+true or: nil . println; # true
+nil or: nil . println; # nil
+
 
 "--------------" println;
 
