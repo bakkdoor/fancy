@@ -232,6 +232,14 @@ namespace fancy {
       methods.insert(methods.end(), super_methods.begin(), super_methods.end());
     }
 
+    // also include methods of included classes
+    for(set<Class*>::const_iterator it =  _included_classes.begin();
+        it != _included_classes.end();
+        it++) {
+      vector<FancyObject*> included_methods = (*it)->instance_methods()->values();
+      methods.insert(methods.end(), included_methods.begin(), included_methods.end());
+    }
+
     for(map<string, Callable*>::const_iterator it = _instance_methods.begin();
         it != _instance_methods.end();
         it++) {
