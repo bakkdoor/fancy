@@ -55,7 +55,7 @@ Some technical information:
 What's already working?
 ------------------------
 
-  - Class definitions 
+  - Class definitions
     (including nested classes that work like modules / namespaces)
   - Instance & class method definitions
   - String, Integer, Float, Array, Hash (HashMap) & Block literals
@@ -85,7 +85,7 @@ How is it implemented?
 -----------------------
 
   - Currently, theres a quite simple interpreter written in
-    non-idiomatic C++. 
+    non-idiomatic C++.
     Sorry, I'm not a big C++ programmer. It should be fairly easy to
     read though.
 
