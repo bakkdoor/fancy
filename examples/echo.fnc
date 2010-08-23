@@ -2,7 +2,7 @@
 
 ARGV[1] if_do: |filename| {
  try {
-    File open: filename modes: [:read] with: |f| {
+    File open: filename modes: ['read] with: |f| {
       { f eof? } while_false: {
         f readln println
       }

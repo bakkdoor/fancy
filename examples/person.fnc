@@ -2,7 +2,7 @@
 # (C) 2010 Christopher Bertels <chris@fancy-lang.org>
 
 def class City {
-  self read_slots: [:city];
+  self read_slots: ['city];
   def initialize: name {
     @name = name
   };
