@@ -35,14 +35,14 @@ def class ClassWithPrivate {
 };
 
 FancySpec describe: Class with: |it| {
-  it should: "NOT find the method when not mixed-in" when: {
+  it should: "NOT find the method when not mixed-in" for: "responds_to?:" when: {
     instance = ClassWithMixin new;
     instance normal_method . should == :normal_found;
     instance responds_to?: :normal_method . should == true;
     instance responds_to?: :mixin_method . should == nil
   };
 
-  it should: "find the method when mixed-in" when: {
+  it should: "find the method when mixed-in" for: "include:" when: {
     # => include Mixin into ClassWithMixin
     def class ClassWithMixin {
       self include: Mixin;
@@ -65,7 +65,7 @@ FancySpec describe: Class with: |it| {
     instance normal_method should == :new_normal_found
   };
 
-  it should: "have dynamically generated getter methods" when: {
+  it should: "have dynamically generated getter methods" for: "responds_to?:" when: {
     instance = ClassWithNoMixin new;
     instance responds_to?: :foo . should == true;
     instance responds_to?: :bar . should == true;
@@ -195,7 +195,7 @@ FancySpec describe: Class with: |it| {
     }
   };
 
-  it should: "be a subclass of another Class" when: {
+  it should: "be a subclass of another Class" for: "subclass?:" when: {
     def class Super {
     };
     def class Sub : Super {
@@ -207,7 +207,7 @@ FancySpec describe: Class with: |it| {
     Super subclass?: Sub . should == nil
   };
 
-  it should: "dynamically create a subclass of another class" when: {
+  it should: "dynamically create a subclass of another class" for: "is_a?:" when: {
     subclass = String subclass: {
       def foo {
         "hello, world!"
@@ -230,7 +230,7 @@ FancySpec describe: Class with: |it| {
     subclass2 new foo should == "hello, world, again!"
   };
 
-  it should: "undefine an instance method" when: {
+  it should: "undefine an instance method" for: "undefine_method:" when: {
     def class Foo {
       def instance_method {
       "instance method!"
@@ -246,7 +246,7 @@ FancySpec describe: Class with: |it| {
     }
   };
 
-  it should: "undefine a class method" when: {
+  it should: "undefine a class method" for: "undefine_class_method:" when: {
     def class Foo {
       def self class_method {
       "class method!"
@@ -301,7 +301,7 @@ FancySpec describe: Class with: |it| {
     NameSpace::Array should_not == Array
   };
 
-  it should: "return all nested classes of a class" when: {
+  it should: "return all nested classes of a class" for: 'nested_classes when: {
     def class Outer {
     };
     Outer nested_classes should == [];

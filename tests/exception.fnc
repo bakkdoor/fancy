@@ -9,7 +9,7 @@ def class Foo {
 };
 
 FancySpec describe: StdError with: |it| {
-  it should: "raise an exception and catch it correctly" when: {
+  it should: "raise an exception and catch it correctly" for: 'raise! when: {
     try {
       StdError new: "FAIL!" . raise!;
       nil should == true # this should not occur
@@ -60,7 +60,7 @@ FancySpec describe: StdError with: |it| {
     }
   };
 
-  it should: "raise a StdError when raising a String" when: {
+  it should: "raise a StdError when raising a String" for: 'raise! when: {
     msg = "A Custom Error!";
     try {
       msg raise!;

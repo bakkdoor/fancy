@@ -14,7 +14,7 @@ FancySpec describe: Method with: |it| {
     x give_me_the_sender! should == self
   };
 
-  it should: "return the amount of arguments a Method takes" when: {
+  it should: "return the amount of arguments a Method takes" for: 'argcount when: {
     def class Foo {
       def no_args {
       }

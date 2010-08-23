@@ -4,27 +4,27 @@ FancySpec describe: String with: |it| {
     str should == ""
   };
 
-  it should: "be the concatination of the strings" when: {
+  it should: "be the concatination of the strings" for: '+ when: {
     str1 = "hello ";
     str2 = "world";
     str3 = "!";
     str1 + str2 + str3 should == "hello world!"
   };
 
-  it should: "concatenate the argument's string value with a string" when: {
+  it should: "concatenate the argument's string value with a string" for: '++ when: {
     "I'm " ++ 21 ++ " years old!" should == "I'm 21 years old!"
   };
 
-  it should: "return the correct substring" when: {
+  it should: "return the correct substring" for: "from:to:" when: {
     "hello, world" from: 2 to: 5 . should == "llo,";
     "hello, world"[[2,5]] . should == "llo,"
   };
 
-  it should: "return the upcased string" when: {
+  it should: "return the upcased string" for: 'upcase when: {
     "hello, world" upcase should == "HELLO, WORLD"
   };
 
-  it should: "return the downcased string" when: {
+  it should: "return the downcased string" for: 'downcase when: {
     "HELLO, WORLD" downcase should == "hello, world"
   };
 
@@ -32,7 +32,7 @@ FancySpec describe: String with: |it| {
     "HELLO, WORLD" downcase upcase should == "HELLO, WORLD"
   };
 
-  it should: "iterate over each character in a string" when: {
+  it should: "iterate over each character in a string" for: "each:" when: {
     str = "Hello, World!";
     i = 0;
     str each: |char| {
@@ -41,27 +41,27 @@ FancySpec describe: String with: |it| {
     }
   };
 
-  it should: "behave like a collection/sequence via each:" when: {
+  it should: "behave like a collection/sequence via each:" for: 'uniq when: {
     str = "Hello, World!";
     str uniq join: "" . should == "Helo, Wrd!"
   };
 
-  it should: "have all its characters as instances of String class" when: {
+  it should: "have all its characters as instances of String class" for: "all?:" when: {
     str = "foo bar baz";
     str all?: |c| { c is_a?: String } . should == true
   };
 
-  it should: "drop all characters upto a whitespace" when: {
+  it should: "drop all characters upto a whitespace" for: "drop_while:" when: {
     "hello world" drop_while: |c| { c != " " } . join: "" . should == "world"
   };
 
-  it should: "be empty" when: {
+  it should: "be empty" for: 'empty? when: {
     "" empty? should == true;
     " " empty? should == nil;
     String new empty? should == true
   };
 
-  it should: "be blank" when: {
+  it should: "be blank" for: 'blank? when: {
     "" blank? should == true;
     " " blank? should == true;
     "-" blank? should == nil;
@@ -78,12 +78,12 @@ FancySpec describe: String with: |it| {
     "33.33" eval should == 33.33
   };
 
-  it should: "return itself times n" when: {
+  it should: "return itself times n" for: '* when: {
     "foo" * 2 should == "foofoo";
     "f" ++ ("o" * 2) ++ "bar" should == "foobar"
   };
 
-  it should: "split a string at a given seperator string" when: {
+  it should: "split a string at a given seperator string" for: "split:" when: {
     str = "hello, world, how are you?";
     str split: ", " . should == ["hello", "world", "how are you?"];
     "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"]

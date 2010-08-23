@@ -1,5 +1,5 @@
 FancySpec describe: Set with: |it| {
-  it should: "only keep unique values" when: {
+  it should: "only keep unique values" for: "[]" when: {
     s = Set new;
     s << :foo;
     s << :foo;
