@@ -104,5 +104,36 @@ FancySpec describe: Object with: |it| {
     } catch MethodNotFoundError => e {
       e method_name should == "a_singleton_method"
     }
+  };
+
+  # boolean messages
+
+  it should: "be true for calling and: with non-nil values" for: "and:" when: {
+    :foo and: :bar . should == true
+  };
+
+  it should: "be false for calling and: with a nil value" for: "and:" when: {
+    :foo and: nil . should == nil
+  };
+
+  it should: "NOT be nil for non-nil values" for: 'nil? when: {
+    :foo nil? should == nil;
+    1 nil? should == nil;
+    "hello" nil? should == nil
+  };
+
+  it should: "NOT be false for non-nil values" for: 'false? when: {
+    :foo false? should == nil;
+    "hello, world" false? should == nil
+  };
+
+  it should: "not be true" for: 'true? when: {
+    :foo true? should == nil;
+    "hello, world" true? should == nil
+  };
+
+  it should: "NOT call the block if not nil" for: "if_nil:" when: {
+    :foo if_nil: { :is_nil } . should == nil;
+    "hello, world" if_nil: { :is_nil } . should == nil
   }
 }

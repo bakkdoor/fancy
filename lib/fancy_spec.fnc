@@ -16,11 +16,32 @@ def class FancySpec {
     @spec_tests << test
   }
 
+  def should: spec_info_string for: method_name when: spec_block {
+    test = SpecTest new: spec_info_string;
+    test block: spec_block;
+    try {
+      (@test_obj method: method_name) if_do: |method| {
+        method tests << test
+      }
+    } catch MethodNotFoundError => e {
+      # ignore errors
+    };
+    @spec_tests << test
+  }
+
   def run {
     "Running tests for: " ++ @test_obj ++ ": " print;
     @spec_tests each: |test| {
       test run: @test_obj
     };
+#    Console newline; Console newline;
+    # untested_methods = @test_obj methods select: |m| {
+    #   m tests size == 0
+    # };
+    # untested_methods empty? if_false: {
+    #   "WARNING: These methods need tests:\n" ++
+    #   (untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", ") println
+    # };
     Console newline
   }
 };
