@@ -14,7 +14,7 @@ def class City {
 
 def class Person {
   # creates getters & setters for slots
-  self read_write_slots: [:name, :age, :city];
+  self read_write_slots: ['name, 'age, 'city];
 
   # Person class method for creating a new person with a name, age and city
   def Person name: name age: age city: city {

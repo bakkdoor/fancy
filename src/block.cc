@@ -104,7 +104,7 @@ namespace fancy {
     for(list<parser::nodes::Identifier*>::iterator it = _argnames.begin();
         it != _argnames.end();
         it++) {
-      args[i] = Symbol::from_string(":" + (*it)->name());
+      args[i] = Symbol::from_string("'" + (*it)->name());
       i++;
     }
     return args;

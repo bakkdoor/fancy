@@ -32,7 +32,7 @@ FancySpec describe: Number with: |it| {
     }
   };
 
-  it should: "calculate the correct modulo value" for: "modulo:" when: {
+  it should: "calculate the correct modulo value" for: 'modulo: when: {
     9 % 4 should == 1;
     10 modulo: 2 . should == 0
   };
@@ -51,11 +51,11 @@ FancySpec describe: Number with: |it| {
     2 even? should == true
   };
 
-  it should: "return an array from 0 upto 10" for: "upto:" when: {
+  it should: "return an array from 0 upto 10" for: 'upto: when: {
     0 upto: 10 . should == [0,1,2,3,4,5,6,7,8,9,10]
   };
 
-  it should: "return an array from 10 downto 0" for: "downto:" when: {
+  it should: "return an array from 10 downto 0" for: 'downto: when: {
     10 downto: 0 . should == [10,9,8,7,6,5,4,3,2,1,0]
   };
 

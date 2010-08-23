@@ -1,9 +1,9 @@
 def class Foo {
   def bar: x {
-    (x == :error) . if_true: {
+    (x == 'error) . if_true: {
       StdError new: "Some Error" . raise!
     } else: {
-      :no_error
+      'no_error
     }
   }
 };
@@ -20,16 +20,16 @@ FancySpec describe: StdError with: |it| {
 
   it should: "raise an exception inside a method and catch it correctly" when: {
     f = Foo new;
-    f bar: "Don't raise here" . should == :no_error;
+    f bar: "Don't raise here" . should == 'no_error;
     try {
-      f bar: :error . should == :no_error
+      f bar: 'error . should == 'no_error
     } catch StdError => e {
       e message should == "Some Error"
     }
   };
 
   it should: "raise a MethodNotFoundError" when: {
-    s = :symbol;
+    s = 'symbol;
     try {
       s this_method_doesnt_exist!;
       nil should == true # should not execute

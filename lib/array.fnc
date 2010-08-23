@@ -162,7 +162,7 @@ def class Array {
 
     self remove_at:
       (self select_with_index: condition
-         . map: :second)
+         . map: 'second)
   }
 
   def println {

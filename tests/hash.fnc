@@ -12,12 +12,12 @@ FancySpec describe: Hash with: |it| {
   };
 
   it should: "contain one entry" when: {
-    hash = <[:foo => "bar"]>;
+    hash = <['foo => "bar"]>;
     hash size should == 1;
     hash empty? should == nil
   };
 
-  it should: "contain 10 square values after 10 insertions" for: "at:" when: {
+  it should: "contain 10 square values after 10 insertions" for: 'at: when: {
     hash = Hash new;
     10 times: |i| {
       hash at: i put: (i * i)
@@ -28,39 +28,39 @@ FancySpec describe: Hash with: |it| {
     }
   };
 
-  it should: "override the value for a given key" for: "at:" when: {
-    hash = <[:foo => "bar"]>;
-    hash at: :foo . should == "bar";
-    hash at: :foo put: :foobarbaz;
-    hash at: :foo . should == :foobarbaz
+  it should: "override the value for a given key" for: 'at: when: {
+    hash = <['foo => "bar"]>;
+    hash at: 'foo . should == "bar";
+    hash at: 'foo put: 'foobarbaz;
+    hash at: 'foo . should == 'foobarbaz
   };
 
   it should: "return all keys" for: 'keys when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
-    hash keys should be: |x| { x === [:foo, :bar, :foobar] }
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
+    hash keys should be: |x| { x === ['foo, 'bar, 'foobar] }
   };
 
   it should: "return all values" for: 'values when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
     hash values should be: |x| { x === ["bar", "baz", 112.21] }
   };
 
   it should: "return value by the []-operator" for: "[]" when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
-    hash[:foo] should == "bar";
-    hash[:bar] should == "baz";
-    hash[:foobar] should == 112.21
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
+    hash['foo] should == "bar";
+    hash['bar] should == "baz";
+    hash['foobar] should == 112.21
   };
 
-  it should: "call the Block for each key and value" for: "each:" when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+  it should: "call the Block for each key and value" for: 'each: when: {
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
     hash each: |key val| {
       val should == (hash[key])
     }
   };
 
-  it should: "call the Block with each key" for: "each_key:" when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+  it should: "call the Block with each key" for: 'each_key: when: {
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
     count = 0;
     hash each_key: |key| {
       key should == (hash keys[count]);
@@ -68,8 +68,8 @@ FancySpec describe: Hash with: |it| {
     }
   };
 
-  it should: "call the Block with each value" for: "each_value:" when: {
-    hash = <[:foo => "bar", :bar => "baz", :foobar => 112.21]>;
+  it should: "call the Block with each value" for: 'each_value: when: {
+    hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>;
     count = 0;
     hash each_value: |val| {
       val should == (hash values[count]);
@@ -78,21 +78,21 @@ FancySpec describe: Hash with: |it| {
   };
 
   it should: "call most Enumerable methods with each pair" when: {
-    hash = <[:hello => "world", :fancy => "is cool"]>;
+    hash = <['hello => "world", 'fancy => "is cool"]>;
 
     hash map: |pair| { pair[0] }
-      . should be: |arr| { arr === [:hello, :fancy] }; # order does not matter
+      . should be: |arr| { arr === ['hello, 'fancy] }; # order does not matter
 
     hash select: |pair| { pair[1] to_s include?: "c" }
-      . should == [[:fancy, "is cool"]];
+      . should == [['fancy, "is cool"]];
 
     hash reject: |pair| { pair[0] to_s include?: "l" }
-      . map: :second . should == ["is cool"]
+      . map: 'second . should == ["is cool"]
   };
 
   it should: "return nil if the key isn't defined" when: {
-    <[:foo => "bar"]> [:bar] . should == nil;
-    <[]> [:foobar] . should == nil;
-    <[:foo => "bar"]> [nil] . should == nil
+    <['foo => "bar"]> ['bar] . should == nil;
+    <[]> ['foobar] . should == nil;
+    <['foo => "bar"]> [nil] . should == nil
   }
 }

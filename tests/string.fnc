@@ -15,7 +15,7 @@ FancySpec describe: String with: |it| {
     "I'm " ++ 21 ++ " years old!" should == "I'm 21 years old!"
   };
 
-  it should: "return the correct substring" for: "from:to:" when: {
+  it should: "return the correct substring" for: 'from:to: when: {
     "hello, world" from: 2 to: 5 . should == "llo,";
     "hello, world"[[2,5]] . should == "llo,"
   };
@@ -32,7 +32,7 @@ FancySpec describe: String with: |it| {
     "HELLO, WORLD" downcase upcase should == "HELLO, WORLD"
   };
 
-  it should: "iterate over each character in a string" for: "each:" when: {
+  it should: "iterate over each character in a string" for: 'each: when: {
     str = "Hello, World!";
     i = 0;
     str each: |char| {
@@ -46,12 +46,12 @@ FancySpec describe: String with: |it| {
     str uniq join: "" . should == "Helo, Wrd!"
   };
 
-  it should: "have all its characters as instances of String class" for: "all?:" when: {
+  it should: "have all its characters as instances of String class" for: 'all?: when: {
     str = "foo bar baz";
     str all?: |c| { c is_a?: String } . should == true
   };
 
-  it should: "drop all characters upto a whitespace" for: "drop_while:" when: {
+  it should: "drop all characters upto a whitespace" for: 'drop_while: when: {
     "hello world" drop_while: |c| { c != " " } . join: "" . should == "world"
   };
 
@@ -71,10 +71,10 @@ FancySpec describe: String with: |it| {
   };
 
   it should: "be evaled as fancy code and return the correct value" when: {
-    x = ":foo" eval;
-    x should == :foo;
+    x = "'foo" eval;
+    x should == 'foo;
     "3 + 4" eval should == 7;
-    ":foo to_s upcase" eval should == "FOO";
+    "'foo to_s upcase" eval should == "FOO";
     "33.33" eval should == 33.33
   };
 
@@ -83,7 +83,7 @@ FancySpec describe: String with: |it| {
     "f" ++ ("o" * 2) ++ "bar" should == "foobar"
   };
 
-  it should: "split a string at a given seperator string" for: "split:" when: {
+  it should: "split a string at a given seperator string" for: 'split: when: {
     str = "hello, world, how are you?";
     str split: ", " . should == ["hello", "world", "how are you?"];
     "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"]

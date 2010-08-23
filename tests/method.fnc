@@ -26,7 +26,7 @@ FancySpec describe: Method with: |it| {
       }
     };
 
-    Foo method: :no_args . argcount should == 0;
+    Foo method: 'no_args . argcount should == 0;
     Foo method: "one_arg:" . argcount should == 1;
     Foo method: "two:args:" . argcount should == 2;
     Foo method: "three:args:ok:" . argcount should == 3
