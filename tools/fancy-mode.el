@@ -1,5 +1,9 @@
 ;;;
 ;;;  fancy-mode.el -
+;;;  fancy-mode is a copy of ruby-mode.el and adapted to fancy's
+;;;  syntax for highlighting etc.
+;;;
+;;;  ruby-mode's copyright notice:
 ;;;
 ;;;  $Author: knu $
 ;;;  $Date: 2008-05-19 00:02:36 +0900 (Mon, 19 May 2008) $
