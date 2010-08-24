@@ -111,8 +111,8 @@ def class SpecTest {
 };
 
 def class PositiveMatcher {
-  def initialize: expected_value {
-    @actual_value = expected_value
+  def initialize: actual_value {
+    @actual_value = actual_value
   }
 
   def == expected_value {
