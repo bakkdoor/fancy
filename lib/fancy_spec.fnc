@@ -111,6 +111,10 @@ def class SpecTest {
 };
 
 def class PositiveMatcher {
+  """PositiveMatcher expects its actual value to be equal to an
+     expected value.
+     If the values are not equal, a SpecTest failure is generated.""";
+
   def initialize: actual_value {
     @actual_value = actual_value
   }
@@ -144,6 +148,10 @@ def class PositiveMatcher {
 };
 
 def class NegativeMatcher {
+  """NegativeMatcher expects its actual value to be unequal to an
+     expected value.
+     If the values are equal, a SpecTest failure is generated.""";
+
   def initialize: actual_value {
     @actual_value = actual_value
   }
@@ -178,10 +186,12 @@ def class NegativeMatcher {
 
 def class Object {
   def should {
+    "Returns a PositiveMatcher for self.";
     PositiveMatcher new: self
   }
 
   def should_not {
+    "Returns a NegativeMatcher for self.";
     NegativeMatcher new: self
   }
 }
