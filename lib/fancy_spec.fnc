@@ -4,7 +4,7 @@ def class FancySpec {
     @spec_tests = []
   }
 
-  def self describe: test_obj with: block {
+  def FancySpec describe: test_obj with: block {
     it = FancySpec new: test_obj;
     block call: [it];
     it run
@@ -47,11 +47,11 @@ def class FancySpec {
 };
 
 def class SpecTest {
-  def self failed_test: actual_and_expected {
+  def SpecTest failed_test: actual_and_expected {
     @@failed_positive << actual_and_expected
   }
 
-  def self failed_negative_test: value {
+  def SpecTest failed_negative_test: value {
     @@failed_negative << value
   }
 
