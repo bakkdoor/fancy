@@ -86,7 +86,7 @@ namespace fancy {
       }
     }
 
-    FancyObject* parse_string(const string &code)
+    FancyObject* parse_string(const string &code, Scope* scope)
     {
       parser_buffer buf;
       buf.buffstate = yy_scan_string(code.c_str());
@@ -97,7 +97,14 @@ namespace fancy {
       yylineno = 1;
       yy_switch_to_buffer(buf.buffstate);
 
+      // save global_scope since we want to evaluate the string within
+      // the given scope
+      Scope* old_global_scope = global_scope;
+      global_scope = scope;
+
       yyparse();
+
+      global_scope = old_global_scope;
 
       // delete string buffer
       yy_delete_buffer(buf.buffstate);
