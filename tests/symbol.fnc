@@ -8,5 +8,10 @@ FancySpec describe: Symbol with: |it| {
 
     [1,2,3,4,5] select: 'even?
       . should == [2,4]
+  };
+
+  it should: "evaluate itself within the current scope" when: {
+    x = 10;
+    'x eval should == x
   }
 }
