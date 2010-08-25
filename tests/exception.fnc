@@ -34,7 +34,7 @@ FancySpec describe: StdError with: |it| {
       s this_method_doesnt_exist!;
       nil should == true # should not execute
     } catch MethodNotFoundError => err {
-      err _class should == Symbol;
+      err for_class should == Symbol;
       err method_name should == "this_method_doesnt_exist!"
     }
   };

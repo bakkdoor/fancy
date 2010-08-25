@@ -25,16 +25,16 @@ namespace fancy {
   class MethodNotFoundError : public FancyException
   {
   public:
-    MethodNotFoundError(const string &method_name, Class* klass);
-    MethodNotFoundError(const string &method_name, Class* klass, const string &reason);
+    MethodNotFoundError(const string &method_name, Class* for_class);
+    MethodNotFoundError(const string &method_name, Class* for_class, const string &reason);
     ~MethodNotFoundError() {}
 
     string method_name() const { return _method_name; }
-    Class* get_class() const { return _class; }
+    Class* for_class() const { return _for_class; }
 
   private:
     string _method_name;
-    Class* _class;
+    Class* _for_class;
   };
 
   class IOError : public FancyException

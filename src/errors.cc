@@ -19,19 +19,19 @@ namespace fancy {
 
   // NoMethodError
 
-  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class* klass) :
-    FancyException("Method not found: '" + method_name + "' for class: " + klass->name(),
+  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class* for_class) :
+    FancyException("Method not found: '" + method_name + "' for class: " + for_class->name(),
                    MethodNotFoundErrorClass),
     _method_name(method_name),
-    _class(klass)
+    _for_class(for_class)
   {
   }
 
-  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class* klass, const string &reason) :
-    FancyException("Method not found: '" + method_name + "' for class: " + klass->name() + " (" + reason + ")",
+  MethodNotFoundError::MethodNotFoundError(const string &method_name, Class* for_class, const string &reason) :
+    FancyException("Method not found: '" + method_name + "' for class: " + for_class->name() + " (" + reason + ")",
                    MethodNotFoundErrorClass),
     _method_name(method_name),
-    _class(klass)
+    _for_class(for_class)
   {
   }
 
