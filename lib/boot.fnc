@@ -58,5 +58,6 @@ ARGV option?: ["--help", "-h"] .
 ARGV option?: ["-e"] .
   if_true: {
   idx = (ARGV index: "-e") + 1;
-  ARGV[idx] eval
+  ARGV[idx] eval;
+  System exit # quit when running with -e
 }
