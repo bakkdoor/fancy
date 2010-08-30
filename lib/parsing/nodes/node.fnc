@@ -7,7 +7,7 @@ def class Array {
         "Node not defined: " ++ (self first) . raise!
       }
     } else: {
-      self map: 'to_ast
+      "No node given!" raise!
     }
   }
 };
