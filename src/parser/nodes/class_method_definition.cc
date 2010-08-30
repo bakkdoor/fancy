@@ -34,7 +34,7 @@ namespace fancy {
       string ClassMethodDefExpr::to_sexp() const
       {
         stringstream s;
-        s << "[:singleton_method_def, ";
+        s << "['singleton_method_def, ";
         s << _class_name->to_sexp() << ", ";
         // insert body
         _method->set_name(method_name());
@@ -81,7 +81,7 @@ namespace fancy {
 
       string PrivateClassMethodDefExpr::to_sexp() const
       {
-        return "[:private, " + ClassMethodDefExpr::to_sexp() + "]";
+        return "['private, " + ClassMethodDefExpr::to_sexp() + "]";
       }
 
       /**
@@ -107,7 +107,7 @@ namespace fancy {
 
       string ProtectedClassMethodDefExpr::to_sexp() const
       {
-        return "[:protected, " + ClassMethodDefExpr::to_sexp() + "]";
+        return "['protected, " + ClassMethodDefExpr::to_sexp() + "]";
       }
 
     }

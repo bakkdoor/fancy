@@ -34,7 +34,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:block_lit, [";
+        s << "['block_lit, [";
         int size = _argnames.size();
         int count = 1;
         for(list<Identifier*>::const_iterator it = _argnames.begin();

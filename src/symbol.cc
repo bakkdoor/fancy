@@ -31,7 +31,7 @@ namespace fancy {
 
   string Symbol::to_sexp() const
   {
-    return "[:symbol_lit, " + _name + "]";
+    return "['symbol_lit, " + _name + "]";
   }
 
   string Symbol::to_s() const

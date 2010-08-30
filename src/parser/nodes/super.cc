@@ -22,7 +22,7 @@ namespace fancy {
 
       string Super::to_sexp() const
       {
-        return "[:super]";
+        return "['super]";
       }
 
     }

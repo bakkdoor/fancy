@@ -61,8 +61,8 @@ namespace fancy {
       string OperatorSend::to_sexp() const
       {
         stringstream s;
-        
-        s << "[:operator_send, " << _receiver->to_sexp() << ", ";
+
+        s << "['operator_send, " << _receiver->to_sexp() << ", ";
         s << _operator_name->to_sexp() << ", ";
         s << "[" << _operand->to_sexp() << "]]";
 

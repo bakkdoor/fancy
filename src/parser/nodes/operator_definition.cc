@@ -26,7 +26,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:operator_def, ";
+        s << "['operator_def, ";
         s << _method->to_sexp() << "]";
 
         return s.str();
@@ -50,7 +50,7 @@ namespace fancy {
 
       string PrivateOperatorDefExpr::to_sexp() const
       {
-        return "[:private, " + OperatorDefExpr::to_sexp() + "]";
+        return "['private, " + OperatorDefExpr::to_sexp() + "]";
       }
 
 
@@ -71,7 +71,7 @@ namespace fancy {
 
       string ProtectedOperatorDefExpr::to_sexp() const
       {
-        return "[:protected, " + OperatorDefExpr::to_sexp() + "]";
+        return "['protected, " + OperatorDefExpr::to_sexp() + "]";
       }
 
     }

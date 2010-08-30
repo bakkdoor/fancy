@@ -41,7 +41,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:exp_list, [";
+        s << "['exp_list, [";
 
         int size = _expressions.size();
         int count = 1;

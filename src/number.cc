@@ -39,9 +39,9 @@ namespace fancy {
   string Number::to_sexp() const
   {
     if(_is_double) {
-      return "[:double_lit, " + to_s() + "]";
+      return "['double_lit, " + to_s() + "]";
     } else {
-      return "[:int_lit, " + to_s() + "]";
+      return "['int_lit, " + to_s() + "]";
     }
   }
 

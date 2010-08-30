@@ -82,11 +82,11 @@ namespace fancy {
       string AssignmentExpr::to_sexp() const
       {
         stringstream s;
-        
+
         if(_multiple_assign) {
           // TODO: finish this part
         } else {
-          s << "[:assign, ";
+          s << "['assign, ";
           s << _identifier->to_sexp();
           s << ", ";
           s << _value_expr->to_sexp();

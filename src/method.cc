@@ -106,7 +106,7 @@ namespace fancy {
   {
     stringstream s;
 
-    s << "[:method, \"" << _method_ident << "\""
+    s << "['method, \"" << _method_ident << "\""
       << ", ";
 
     // insert argument names
@@ -127,7 +127,7 @@ namespace fancy {
     s << _body->to_sexp();
 
     s << "]";
-    
+
     return s.str();
   }
 

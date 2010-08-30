@@ -42,7 +42,7 @@ namespace fancy {
 
       string Identifier::to_sexp() const
       {
-        return "[:ident, \"" + _name + "\"]";
+        return "['ident, \"" + _name + "\"]";
       }
 
       map<string, Identifier*> Identifier::ident_cache;

@@ -33,7 +33,7 @@ namespace fancy {
       string MethodDefExpr::to_sexp() const
       {
         stringstream s;
-        s << "[:method_def, ";
+        s << "['method_def, ";
         // insert method
         _method->set_name(method_name());
         s << _method->to_sexp() << "]";
@@ -79,7 +79,7 @@ namespace fancy {
 
       string PrivateMethodDefExpr::to_sexp() const
       {
-        return "[:private, " + MethodDefExpr::to_sexp() + "]";
+        return "['private, " + MethodDefExpr::to_sexp() + "]";
       }
 
       /**
@@ -105,7 +105,7 @@ namespace fancy {
 
       string ProtectedMethodDefExpr::to_sexp() const
       {
-        return "[:protected, " + MethodDefExpr::to_sexp() + "]";
+        return "['protected, " + MethodDefExpr::to_sexp() + "]";
       }
     }
   }

@@ -80,16 +80,16 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:try_catch_block, "
-          << "[:try, "
+        s << "['try_catch_block, "
+          << "['try, "
           << _body->to_sexp() << "],"
 
-          << "[:handlers, ";
+          << "['handlers, ";
         int size = _except_handlers.size();
         int count = 1;
         list<ExceptionHandler*>::const_iterator it;
         for(it = _except_handlers.begin(); it != _except_handlers.end(); it++) {
-          s << "[:except_handler, "
+          s << "['except_handler, "
             << (*it)->exception_class_name()->to_sexp() << ", "
             << (*it)->local_name()->to_sexp() << ", "
             << (*it)->body()->to_sexp() << "]";
@@ -101,7 +101,7 @@ namespace fancy {
         s << "]";
 
         if(_finally_block) {
-          s << "[:finally, "
+          s << "['finally, "
             << _finally_block->to_sexp()
             << "]";
         }

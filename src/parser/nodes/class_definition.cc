@@ -93,7 +93,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:class_def, ";
+        s << "['class_def, ";
         s << _class_name->to_sexp() << ", ";
 
         if(_superclass_name) {

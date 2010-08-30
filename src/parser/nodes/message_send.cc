@@ -88,7 +88,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "[:message_send, " << _receiver->to_sexp() << ", ";
+        s << "['message_send, " << _receiver->to_sexp() << ", ";
         s << _method_ident->to_sexp() << ", ";
         s << "[";
 

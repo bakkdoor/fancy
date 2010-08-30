@@ -10,10 +10,10 @@ def class Array {
       (Node ast_creators[self first]) if_do: |x| {
         x from_sexp: self
       } else: {
-        "Node not defined: " ++ (node first) . raise!
+        "Node not defined: " ++ (self first) . to_s raise!
       }
     } else: {
-      self map: :to_ast
+      self map: 'to_ast
     }
   }
 };
@@ -31,8 +31,8 @@ def class Node {
 };
 
 def class Identifier : Node {
-  self read_write_slots: [:name];
-  Node register: :ident for_node: Identifier;
+  self read_write_slots: ['name];
+  Node register: 'ident for_node: Identifier;
   def initialize: name {
     @name = name
   }
@@ -47,8 +47,8 @@ def class Identifier : Node {
 };
 
 def class ExpressionList : Node {
-  self read_write_slots: [:exprs];
-  Node register: :exp_list for_node: ExpressionList;
+  self read_write_slots: ['exprs];
+  Node register: 'exp_list for_node: ExpressionList;
   def initialize: exprs {
     @exprs = exprs
   }
@@ -63,8 +63,8 @@ def class ExpressionList : Node {
 };
 
 def class ClassDefinition : Node {
-  self read_write_slots: [:ident, :superclass_ident, :body];
-  Node register: :class_def for_node: ClassDefinition;
+  self read_write_slots: ['ident, 'superclass_ident, 'body];
+  Node register: 'class_def for_node: ClassDefinition;
   def ClassDefinition identifier: ident superclass: superclass_ident body: class_body {
     cd = ClassDefinition new;
     cd ident: ident;
@@ -86,8 +86,8 @@ def class ClassDefinition : Node {
 };
 
 def class Method : Node {
-  self read_write_slots: [:ident, :args, :body];
-  Node register: :method for_node: Method;
+  self read_write_slots: ['ident, 'args, 'body];
+  Node register: 'method for_node: Method;
   def Method identifier: ident args: args body: body {
     m = Method new;
     m ident: ident;
@@ -98,7 +98,7 @@ def class Method : Node {
 
   def Method from_sexp: sexp {
     ident = Identifier new: (sexp second);
-    args = sexp third map: :to_ast;
+    args = sexp third map: 'to_ast;
     body = sexp fourth to_ast;
     Method identifier: ident args: args body: body
   }
@@ -109,8 +109,8 @@ def class Method : Node {
 };
 
 def class MethodDefinition : Node {
-  self read_slots: [:method];
-  Node register: :method_def for_node: MethodDefinition;
+  self read_slots: ['method];
+  Node register: 'method_def for_node: MethodDefinition;
   def initialize: method {
     @method = method
   }
@@ -125,7 +125,16 @@ def class MethodDefinition : Node {
 };
 
 def class MessageSend : Node {
-  self read_write_slots: [:receiver, :method_ident, :args];
+  self read_write_slots: ['receiver, 'method_ident, 'args];
+  Node register: 'message_send for_node: MessageSend;
+
+ def MessageSend from_sexp: sexp {
+   receiver = sexp[1] to_ast;
+   message_name = sexp[2] to_ast;
+   args = sexp[3] map: |a| { a to_ast };
+   MessageSend receiver: receiver method_ident: message_name args: args
+ }
+
   def MessageSend receiver: recv method_ident: mident args: args {
     ms = MessageSend new;
     ms receiver: recv;
@@ -136,7 +145,7 @@ def class MessageSend : Node {
 };
 
 def class OperatorSend : Node {
-  self read_write_slots: [:receiver, :op_ident, :operand];
+  self read_write_slots: ['receiver, 'op_ident, 'operand];
   def OperatorSend receiver: recv op_ident: op_id operand: operand {
     os = OperatorSend new;
     os receiver: recv;
@@ -147,7 +156,7 @@ def class OperatorSend : Node {
 };
 
 def class BlockLiteral : Node {
-  self read_write_slots: [:args, :body];
+  self read_write_slots: ['args, 'body];
   def BlockLiteral args: args body: body {
     bl = BlockLiteral new;
     bl args: args;
@@ -157,23 +166,23 @@ def class BlockLiteral : Node {
 };
 
 def class StringLiteral : Node {
-  self read_slots: [:string];
+  self read_slots: ['string];
   def initialize: str {
     @string = str
   }
 };
 
 def class NumberLiteral : Node {
-  self read_slots: [:num_val];
+  self read_slots: ['num_val];
   def initialize: num_val {
     @num_val = num_val
   }
 };
 
 # [:exp_list, [[:ident, "foo"]]] to_ast println
-[:class_def, [:ident, "Block"], [:ident, "Object"],
- [:exp_list,
-  [:method_def,
-   [:method, "while_nil:", [[:ident, "block"]],
-    [:exp_list,
-     [[:ident, "nil"]]]]]]] to_ast println
+['class_def, ['ident, "Block"], ['ident, "Object"],
+ ['exp_list,
+  ['method_def,
+   ['method, "while_nil:", [['ident, "block"]],
+    ['exp_list,
+     [['ident, "nil"]]]]]]] to_ast println

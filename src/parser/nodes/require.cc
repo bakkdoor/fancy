@@ -35,7 +35,7 @@ namespace fancy {
 
       string RequireStatement::to_sexp() const
       {
-        return "[:require, \"" + _filename + "\"]";
+        return "['require, \"" + _filename + "\"]";
       }
 
     }
