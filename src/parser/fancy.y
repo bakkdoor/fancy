@@ -161,6 +161,7 @@ programm:       /* empty */
                     last_value = expr->eval(global_scope);
                   }
                 }
+                | programm SEMI { } /* also allow empty statements */
                 ;
 
 code:           statement
