@@ -1,9 +1,3 @@
-# def class UndefinedNodeError : StdError {
-#   def initialize: node_name {
-#     super initialize: $ "Node not defined: " ++ (node first)
-#   }
-# };
-
 require: "nodes/node";
 require: "nodes/identifier";
 require: "nodes/expression_list";
@@ -31,16 +25,3 @@ Node register: 'message_send for_node: MessageSend;
 Node register: 'operator_send for_node: OperatorSend;
 Node register: 'method for_node: Method;
 Node register: 'method_def for_node: MethodDefinition;
-
-
-# example
-# ['exp_list, [['ident, "foo"]]] to_ast println;
-# ['exp_list, [['ident, "foo"], ['ident, "bar"]]] to_ast println;
-# ['class_def, ['ident, "Block"], ['ident, "Object"],
-#  ['exp_list,
-#   [['method_def,
-#     ['method, "while_nil:", [['ident, "block"]],
-#      ['exp_list,
-#       [['ident, "nil"]]]]]]]] to_ast println;
-# ['exp_list,
-#  [['ident, "nil"]]] to_ast println
