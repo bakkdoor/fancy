@@ -1,6 +1,5 @@
 def class ExpressionList : Node {
   self read_write_slots: ['exprs];
-  Node register: 'exp_list for_node: ExpressionList;
   def initialize: exprs {
     @exprs = exprs
   }

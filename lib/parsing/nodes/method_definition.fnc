@@ -1,6 +1,6 @@
 def class MethodDefinition : Node {
   self read_slots: ['method];
-  Node register: 'method_def for_node: MethodDefinition;
+
   def initialize: method {
     @method = method
   }

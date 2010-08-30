@@ -1,6 +1,5 @@
 def class ClassDefinition : Node {
   self read_write_slots: ['ident, 'superclass_ident, 'body];
-  Node register: 'class_def for_node: ClassDefinition;
   def ClassDefinition identifier: ident superclass: superclass_ident body: class_body {
     cd = ClassDefinition new;
     cd ident: ident;
