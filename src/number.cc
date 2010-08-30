@@ -48,6 +48,7 @@ namespace fancy {
   string Number::to_s() const
   {
     stringstream s;
+    s.precision(1000); // for preciser output of numbers
     s << (is_double() ? _doubleval : _intval);
     return s.str();
   }

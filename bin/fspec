@@ -1,5 +1,0 @@
-#!/usr/bin/env fancy
-
-ARGV rest each: |file| {
-  require: file
-}

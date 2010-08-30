@@ -29,7 +29,7 @@ hash method number object set string symbol argv
 test: all
 	@mkdir -p tmp
 	@clear
-	@bin/fancy bin/fspec $(foreach file, $(TESTFILES), tests/$(file).fnc)
+	@bin/fancy -e "ARGV rest rest each: |f| { require: f }" $(foreach file, $(TESTFILES), tests/$(file).fnc)
 	@echo
 
 
