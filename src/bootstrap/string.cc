@@ -63,6 +63,11 @@ namespace fancy {
                  eval);
 
       DEF_METHOD(StringClass,
+                 "eval_global",
+                 "Interprets the String as Fancy code and tries to run it in the global scope.",
+                 eval_global);
+
+      DEF_METHOD(StringClass,
                  "split:",
                  "Splits a String at a given seperator String and returns the substrings as an Array.",
                  split);
@@ -178,7 +183,13 @@ namespace fancy {
     METHOD(StringClass, eval)
     {
       string code = self->to_s();
-      return parser::parse_string(code);
+      return parser::parse_string(code, scope);
+    }
+
+    METHOD(StringClass, eval_global)
+    {
+      string code = self->to_s();
+      return parser::parse_string(code, global_scope);
     }
 
     METHOD(StringClass, split)

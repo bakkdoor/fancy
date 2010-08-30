@@ -2,7 +2,7 @@ def class Set {
   "A simple Set data structure class.";
 
   self include: Enumerable;
-  self read_slots: [:values];
+  self read_slots: ['values];
 
   def initialize: arr {
     "Initialize a new Set with a given Array of values.";

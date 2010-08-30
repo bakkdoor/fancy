@@ -14,10 +14,10 @@ arr each_with_index: |x i| {
 };
 
 # print the array of squared elements
-arr map: :squared . inspect println;
+arr map: 'squared . inspect println;
 
 # print the array of doubled elements
-arr map: :doubled . inspect println;
+arr map: 'doubled . inspect println;
 
 # print array of all elements smaller than 4
 arr select: |x| { x < 4 } . inspect println;

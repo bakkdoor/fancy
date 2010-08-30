@@ -9,4 +9,10 @@ def class Symbol {
       arg send: self
     }
   }
+
+  def eval {
+    "Evaluates the symbol within the current scope.";
+
+    self to_s eval
+  }
 }

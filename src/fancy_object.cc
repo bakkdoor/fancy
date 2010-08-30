@@ -20,9 +20,28 @@ namespace fancy {
   FancyObject::FancyObject(Class* _class) :
     _class(_class),
     _metadata(nil),
-    _change_num(0)
+    _change_num(0),
+    _has_metaclass(false)
   {
     init_slots();
+  }
+
+  Class* FancyObject::get_class() const
+  {
+    if(!_has_metaclass) {
+      return _class;
+    } else {
+      return _class->superclass();
+    }
+  }
+
+  Class* FancyObject::metaclass()
+  {
+    if(!_has_metaclass) {
+      _class = new Class("Metaclass<" + this->to_s() + ">", _class);
+      _has_metaclass = true;
+    }
+    return _class;
   }
 
   void FancyObject::set_class(Class* klass)
@@ -51,10 +70,11 @@ namespace fancy {
 
   void FancyObject::init_slots()
   {
-    if(_class) {
+    Class* klass = this->get_class();
+    if(klass) {
       vector<string>::iterator it;
-      for(it = _class->instance_slotnames().begin();
-          it != _class->instance_slotnames().end();
+      for(it = klass->instance_slotnames().begin();
+          it != klass->instance_slotnames().end();
           it++){
         _slots[*it] = nil;
       }
@@ -89,7 +109,7 @@ namespace fancy {
   FancyObject* FancyObject::send_super_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
     scope->set_current_sender(sender);
-    if(Class* superclass = _class->superclass()) {
+    if(Class* superclass = this->get_class()->superclass()) {
       Callable* method = superclass->find_method(method_name);
       if(method) {
         if(argc == 0) {
@@ -102,7 +122,7 @@ namespace fancy {
       }
     } else {
       // TODO: create a UndefinedSuperClass exception class or so...
-      error("No superclass defined for: ") << _class->to_s() << endl;
+      error("No superclass defined for: ") << this->get_class()->to_s() << endl;
       return nil;
     }
   }
@@ -112,7 +132,7 @@ namespace fancy {
     Callable* unkown_message_method = NULL;
 
     if(from_super) {
-      unkown_message_method = _class->superclass()->find_method("unknown_message:with_params:");
+      unkown_message_method = this->get_class()->superclass()->find_method("unknown_message:with_params:");
     } else {
       unkown_message_method = get_method("unknown_message:with_params:");
     }
@@ -128,7 +148,7 @@ namespace fancy {
     }
 
     // in this case no method is found and we raise a MethodNotFoundError
-    FancyException* except = new MethodNotFoundError(method_name, _class);
+    FancyException* except = new MethodNotFoundError(method_name, this->get_class());
     throw except;
     return nil;
   }
@@ -136,14 +156,14 @@ namespace fancy {
   void FancyObject::def_singleton_method(const string &name, Callable* method)
   {
     assert(method);
-    _singleton_methods[name] = method;
+    this->metaclass()->def_method(name, method);
     _change_num++;
   }
 
   bool FancyObject::undef_singleton_method(const string &name)
   {
-    if(_singleton_methods.find(name) != _singleton_methods.end()) {
-      _singleton_methods.erase(name);
+    if(this->metaclass()->find_method(name)) {
+      this->metaclass()->undef_method(name);
       _change_num++;
       return true;
     }
@@ -154,16 +174,14 @@ namespace fancy {
   void FancyObject::def_private_singleton_method(const string &name, Callable* method)
   {
     assert(method);
-    method->set_private();
-    _singleton_methods[name] = method;
+    this->metaclass()->def_private_method(name, method);
     _change_num++;
   }
 
   void FancyObject::def_protected_singleton_method(const string &name, Callable* method)
   {
     assert(method);
-    method->set_protected();
-    _singleton_methods[name] = method;
+    this->metaclass()->def_protected_method(name, method);
     _change_num++;
   }
 
@@ -178,31 +196,12 @@ namespace fancy {
 
   Callable* FancyObject::get_method(const string &method_name)
   {
-    // first of all, check singleton methods
-    method_map::const_iterator it = _singleton_methods.find(method_name);
-    if(it != _singleton_methods.end()) {
-      return it->second;
-    } else {
-      return _class->find_method(method_name);
-    }
+    return _class->find_method(method_name);
   }
 
   Array* FancyObject::methods() const
   {
-    vector<FancyObject*> methods;
-
-    for(map<string, Callable*>::const_iterator it = _singleton_methods.begin();
-        it != _singleton_methods.end();
-        it++) {
-      if(Method* method = dynamic_cast<Method*>(it->second)) {
-        methods.push_back(method);
-      } else if(Block* method = dynamic_cast<Block*>(it->second)) {
-        methods.push_back(method);
-      }
-    }
-    vector<FancyObject*> class_instance_methods = _class->instance_methods()->values();
-    methods.insert(methods.end(), class_instance_methods.begin(), class_instance_methods.end());
-    return new Array(methods);
+    return new Array(_class->instance_methods()->values());
   }
 
 }

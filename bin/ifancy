@@ -6,11 +6,11 @@
 self loop: {
   try {
     Console readln: ">> " . if_do: |line| {
-      line eval inspect println
+      line eval_global inspect println
     } else: {
       System exit
     }
-  } catch MethodNotFoundError => e {
+  } catch StdError => e {
     e message println
   }
 }

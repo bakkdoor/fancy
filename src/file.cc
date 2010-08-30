@@ -64,22 +64,22 @@ namespace fancy {
       if(IS_SYMBOL(modes->at(i))) {
         Symbol* sym = dynamic_cast<Symbol*>(modes->at(i));
         // check different cases
-        if(sym == Symbol::from_string(":append")) {
+        if(sym == Symbol::from_string("'append")) {
           _openmode = _openmode | fstream::app;
         }
-        if(sym == Symbol::from_string(":read")) {
+        if(sym == Symbol::from_string("'read")) {
           _openmode = _openmode | fstream::in;
         }
-        if(sym == Symbol::from_string(":write")) {
+        if(sym == Symbol::from_string("'write")) {
           _openmode = _openmode | fstream::out;
         }
-        if(sym == Symbol::from_string(":binary")) {
+        if(sym == Symbol::from_string("'binary")) {
           _openmode = _openmode | fstream::binary;
         }
-        if(sym == Symbol::from_string(":at_end")) {
+        if(sym == Symbol::from_string("'at_end")) {
           _openmode = _openmode | fstream::ate;
         }
-        if(sym == Symbol::from_string(":truncate")) {
+        if(sym == Symbol::from_string("'truncate")) {
           _openmode = _openmode | fstream::trunc;
         }
       }

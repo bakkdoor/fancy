@@ -32,11 +32,12 @@ namespace fancy {
 
       FancyObject* ExceptionHandler::handle(FancyException* exception, Scope *scope)
       {
-        Scope *catch_scope = new Scope(scope);
+        // Scope *catch_scope = new Scope(scope);
+        Scope catch_scope(scope);
         if(_local_name->name() != "") {
-          scope->define(_local_name->name(), exception);
+          catch_scope.define(_local_name->name(), exception);
         }
-        return _body->eval(catch_scope);
+        return _body->eval(&catch_scope);
       }
 
       // TryCatchBlock

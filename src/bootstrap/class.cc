@@ -17,6 +17,7 @@ namespace fancy {
       /**
        * Class class methods.
        */
+
       DEF_CLASSMETHOD(ClassClass,
                       "superclass:body:",
                       "Creates a new Class with a given superclass and a Block defining its body.",
@@ -25,6 +26,18 @@ namespace fancy {
       /**
        * Class instance methods
        */
+
+      DEF_METHOD(ClassClass,
+                      "new",
+                      "New method for creating new instances of classes.\
+It is expected, that self (the receiver) is a class object.",
+                      new);
+
+      DEF_METHOD(ClassClass,
+                      "new:",
+                      "Same as Object##new, but also expecting arguments\
+and passing them on to the initialize: method of the class.",
+                      new_with_arg);
 
       DEF_METHOD(ClassClass,
                  "define_method:with:",
@@ -99,6 +112,57 @@ second argument to serve as the method's body.",
     /**
      * Class instance methods
      */
+
+
+    METHOD(ClassClass, new)
+    {
+      if(IS_CLASS(self)) {
+        // deal with special case of Class class for dynamically
+        // creating Class Objects
+        if(self == ClassClass) {
+          return new Class(ClassClass);
+        } else {
+          // this deals with the "normal" Classes that create "normal"
+          // Objects
+          Class* the_class = dynamic_cast<Class*>(self);
+          FancyObject* new_instance = the_class->create_instance();
+          if(Callable* method = the_class->find_method_in_class("initialize")) {
+            // new_instance->send_message("initialize", args, argc, scope, self);
+            method->call(new_instance, args, argc, scope, self);
+          }
+          return new_instance;
+        }
+      } else {
+        errorln("Expected instance to be a class. Not the case!");
+      }
+      return nil;
+    }
+
+    METHOD(ClassClass, new_with_arg)
+    {
+      EXPECT_ARGS("Class#new:", 1);
+      if(IS_CLASS(self)) {
+        // same as above, check for Class class special case
+        if(self == ClassClass) {
+          if(Class* superclass = dynamic_cast<Class*>(args[0])) {
+            return new Class(superclass);
+          } else {
+            errorln("Expected Class argument as Superclass.");
+            return nil;
+          }
+        } else {
+          Class* the_class = dynamic_cast<Class*>(self);
+          FancyObject* new_instance = the_class->create_instance();
+          if(Callable* method = the_class->find_method_in_class("initialize:")) {
+            method->call(new_instance, args, argc, scope, self);
+          }
+          return new_instance;
+        }
+      } else {
+        errorln("Expected instance to be a class. Not the case!");
+      }
+      return nil;
+    }
 
     METHOD(ClassClass, define_method__with)
     {

@@ -23,6 +23,7 @@ require: "console";
 require: "hash";
 require: "set";
 require: "symbol";
+require: "method";
 
 # version holds fancy's version number
 require: "version";

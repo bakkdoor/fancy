@@ -39,13 +39,19 @@ namespace fancy {
      * Returns the Class of the object.
      * @return Class object of the object.
      */
-    Class* get_class() const { return _class; }
+    virtual Class* get_class() const;
 
     /**
      * Sets the Class object of the object.
      * @param klass Class object of the object.
      */
     void set_class(Class *klass);
+
+    /**
+     * Returns the Metaclass of the object.
+     * @return Metaclass object of the object.
+     */
+    virtual Class* metaclass();
 
     /**
      * Returns the value of a slot or nil, if not defined.
@@ -203,12 +209,12 @@ namespace fancy {
 
   protected:
     void init_slots();
-    Class *_class;
+    Class* _class;
     map<string, FancyObject*> _slots;
-    map<string, Callable*> _singleton_methods;
     string _docstring;
     FancyObject* _metadata;
     unsigned int _change_num; // counter for number of method changes (used for method caching)
+    bool _has_metaclass;
   };
 
 }

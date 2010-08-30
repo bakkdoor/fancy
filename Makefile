@@ -23,8 +23,8 @@ clean:
 all-clean: clean
 	@cd vendor/gc && make clean
 
-TESTFILES = array block boolean class documentation exception file	\
-hash method number object set string symbol
+TESTFILES = array block true_class nil_class class documentation exception file	\
+hash method number object set string symbol argv
 
 test: all
 	@mkdir -p tmp

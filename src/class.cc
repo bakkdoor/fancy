@@ -39,6 +39,27 @@ namespace fancy {
   {
   }
 
+  Class* Class::get_class() const
+  {
+    return ClassClass;
+  }
+
+  Class* Class::metaclass()
+  {
+    if(!_has_metaclass) {
+      if(this == ObjectClass) {
+        _class = new Class("Metaclass<" + this->to_s() + ">", ClassClass);
+        _has_metaclass = true;
+      } else {
+        if(_superclass) {
+          _class = new Class("Metaclass<" + this->to_s() + ">", _superclass->metaclass());
+          _has_metaclass = true;
+        }
+      }
+    }
+    return _class;
+  }
+
   FancyObject* Class::create_instance() const
   {
     Class* klass = const_cast<Class*>(this);
@@ -153,10 +174,6 @@ namespace fancy {
     if(_instance_methods.find(name) != _instance_methods.end()) {
       return _instance_methods[name];
     }
-    // then, try singleton methods (class methods)
-    if(_singleton_methods.find(name) != _singleton_methods.end()) {
-      return _singleton_methods[name];
-    }
 
     // then, try methods in included classes
     for(set<Class*>::iterator it = _included_classes.begin();
@@ -179,10 +196,6 @@ namespace fancy {
     // first, try instance methods
     if(_instance_methods.find(name) != _instance_methods.end()) {
       return _instance_methods[name];
-    }
-    // then, try singleton methods (class methods)
-    if(_singleton_methods.find(name) != _singleton_methods.end()) {
-      return _singleton_methods[name];
     }
     return NULL;
   }
@@ -217,6 +230,14 @@ namespace fancy {
     if(_superclass) {
       vector<FancyObject*> super_methods = _superclass->instance_methods()->values();
       methods.insert(methods.end(), super_methods.begin(), super_methods.end());
+    }
+
+    // also include methods of included classes
+    for(set<Class*>::const_iterator it =  _included_classes.begin();
+        it != _included_classes.end();
+        it++) {
+      vector<FancyObject*> included_methods = (*it)->instance_methods()->values();
+      methods.insert(methods.end(), included_methods.begin(), included_methods.end());
     }
 
     for(map<string, Callable*>::const_iterator it = _instance_methods.begin();

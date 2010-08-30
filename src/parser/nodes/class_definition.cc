@@ -6,6 +6,7 @@
 #include "../../class.h"
 #include "../../utils.h"
 #include "../../bootstrap/core_classes.h"
+#include "../../errors.h"
 
 namespace fancy {
   namespace parser {
@@ -47,7 +48,11 @@ namespace fancy {
         if(_outer_class) { // nested class
           class_obj = _outer_class->get_nested_class(_class_name->name());
         } else {
-          class_obj = _class_name->eval(scope);
+          try {
+            class_obj = _class_name->eval(scope);
+          } catch(UnknownIdentifierError* e) {
+            class_obj = nil;
+          }
         }
 
         // check if class is already defined.

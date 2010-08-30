@@ -162,7 +162,7 @@ def class Array {
 
     self remove_at:
       (self select_with_index: condition
-         . map: :second)
+         . map: 'second)
   }
 
   def println {
@@ -176,8 +176,7 @@ def class Array {
   def to_s {
     "Returns String representation of Array.";
 
-    str = "";
-    self reduce: |x y| { x ++ y } with: str
+    self reduce: |x y| { x ++ y } with: ""
   }
 
   def * num {
@@ -185,7 +184,7 @@ def class Array {
 
     arr = [];
     num times: {
-      self each: |x| { arr << x }
+      arr append: self
     };
     arr
   }

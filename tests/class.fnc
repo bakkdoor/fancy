@@ -1,22 +1,22 @@
 def class Mixin {
   def mixin_method {
-    :mixed_in_found
+    'mixed_in_found
   }
 };
 
 def class ClassWithMixin {
   def normal_method {
-    :normal_found
+    'normal_found
   }
 };
 
 def class ClassWithNoMixin {
-  self read_slots: [:foo, :bar, :baz];
-  self write_slots: [:hello, :world];
-  self read_write_slots: [:oh, :noes];
+  self read_slots: ['foo, 'bar, 'baz];
+  self write_slots: ['hello, 'world];
+  self read_write_slots: ['oh, 'noes];
 
   def normal_method {
-    :new_normal_found
+    'new_normal_found
   }
 };
 
@@ -35,46 +35,46 @@ def class ClassWithPrivate {
 };
 
 FancySpec describe: Class with: |it| {
-  it should: "NOT find the method when not mixed-in" when: {
+  it should: "NOT find the method when not mixed-in" for: 'responds_to?: when: {
     instance = ClassWithMixin new;
-    instance normal_method . should == :normal_found;
-    instance responds_to?: :normal_method . should == true;
-    instance responds_to?: :mixin_method . should == nil
+    instance normal_method . should == 'normal_found;
+    instance responds_to?: 'normal_method . should == true;
+    instance responds_to?: 'mixin_method . should == nil
   };
 
-  it should: "find the method when mixed-in" when: {
+  it should: "find the method when mixed-in" for: 'include: when: {
     # => include Mixin into ClassWithMixin
     def class ClassWithMixin {
       self include: Mixin;
     };
 
     instance = ClassWithMixin new;
-    instance responds_to?: :normal_method . should == true;
-    instance responds_to?: :mixin_method . should == true;
-    instance normal_method . should == :normal_found;
-    instance mixin_method . should == :mixed_in_found
+    instance responds_to?: 'normal_method . should == true;
+    instance responds_to?: 'mixin_method . should == true;
+    instance normal_method . should == 'normal_found;
+    instance mixin_method . should == 'mixed_in_found
   };
 
   it should: ("rebind the old class name with ClassWithNoMixin"
               + " and replace the old normal_method") when: {
     instance = ClassWithMixin new;
-    instance normal_method should == :normal_found;
+    instance normal_method should == 'normal_found;
     # rebind the class to the other class
     ClassWithMixin = ClassWithNoMixin;
     instance = ClassWithMixin new;
-    instance normal_method should == :new_normal_found
+    instance normal_method should == 'new_normal_found
   };
 
-  it should: "have dynamically generated getter methods" when: {
+  it should: "have dynamically generated getter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new;
-    instance responds_to?: :foo . should == true;
-    instance responds_to?: :bar . should == true;
-    instance responds_to?: :baz . should == true;
+    instance responds_to?: 'foo . should == true;
+    instance responds_to?: 'bar . should == true;
+    instance responds_to?: 'baz . should == true;
     instance responds_to?: "hello:" . should == true;
     instance responds_to?: "world:" . should == true;
-    instance responds_to?: :oh . should == true;
+    instance responds_to?: 'oh . should == true;
     instance responds_to?: "oh" . should == true;
-    instance responds_to?: :noes . should == true;
+    instance responds_to?: 'noes . should == true;
     instance responds_to?: "noes:" . should == true
   };
 
@@ -136,13 +136,13 @@ FancySpec describe: Class with: |it| {
 
   it should: "call superclass method by calling super" when: {
     def class SuperClass {
-      self read_slots: [:name];
+      self read_slots: ['name];
       def initialize: name {
         @name = name
       }
     };
     def class SubClass : SuperClass {
-      self read_slots: [:age];
+      self read_slots: ['age];
 
       def initialize: age {
         super initialize: "SubClass";
@@ -195,7 +195,7 @@ FancySpec describe: Class with: |it| {
     }
   };
 
-  it should: "be a subclass of another Class" when: {
+  it should: "be a subclass of another Class" for: 'subclass?: when: {
     def class Super {
     };
     def class Sub : Super {
@@ -207,7 +207,7 @@ FancySpec describe: Class with: |it| {
     Super subclass?: Sub . should == nil
   };
 
-  it should: "dynamically create a subclass of another class" when: {
+  it should: "dynamically create a subclass of another class" for: 'is_a?: when: {
     subclass = String subclass: {
       def foo {
         "hello, world!"
@@ -230,7 +230,7 @@ FancySpec describe: Class with: |it| {
     subclass2 new foo should == "hello, world, again!"
   };
 
-  it should: "undefine an instance method" when: {
+  it should: "undefine an instance method" for: 'undefine_method: when: {
     def class Foo {
       def instance_method {
       "instance method!"
@@ -238,7 +238,7 @@ FancySpec describe: Class with: |it| {
     };
     f = Foo new;
     f instance_method should == "instance method!";
-    Foo undefine_method: :instance_method . should == true;
+    Foo undefine_method: 'instance_method . should == true;
     try {
       f instance_method should == nil # should not get here
     } catch MethodNotFoundError => e {
@@ -246,15 +246,15 @@ FancySpec describe: Class with: |it| {
     }
   };
 
-  it should: "undefine a class method" when: {
+  it should: "undefine a class method" for: 'undefine_class_method: when: {
     def class Foo {
       def self class_method {
       "class method!"
       }
     };
     Foo class_method should == "class method!";
-    Foo undefine_method: :class_method . should == nil;
-    Foo undefine_class_method: :class_method . should == true;
+    Foo undefine_method: 'class_method . should == nil;
+    Foo undefine_class_method: 'class_method . should == true;
     try {
       Foo class_method should == nil # should not get here
     } catch MethodNotFoundError => e {
@@ -301,7 +301,7 @@ FancySpec describe: Class with: |it| {
     NameSpace::Array should_not == Array
   };
 
-  it should: "return all nested classes of a class" when: {
+  it should: "return all nested classes of a class" for: 'nested_classes when: {
     def class Outer {
     };
     Outer nested_classes should == [];

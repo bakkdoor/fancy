@@ -28,7 +28,7 @@ def class String {
   def blank? {
     "Indicates, if a String consists only of whitespace.";
 
-    self all?: :whitespace?
+    self all?: 'whitespace?
   }
 
   def * num {

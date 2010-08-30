@@ -42,9 +42,9 @@ namespace fancy {
                  method_name);
 
       DEF_METHOD(MethodNotFoundErrorClass,
-                 "_class",
+                 "for_class",
                  "Returns the Class for which the Method wasn not found.",
-                 _class);
+                 for_class);
 
 
       /**
@@ -119,10 +119,10 @@ namespace fancy {
       }
     }
 
-    METHOD(MethodNotFoundErrorClass, _class)
+    METHOD(MethodNotFoundErrorClass, for_class)
     {
       if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
-        return except->get_class();
+        return except->for_class();
       } else {
         errorln("Not a MethodNotFoundError!");
         return nil;

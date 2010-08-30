@@ -4,7 +4,7 @@ def class FancySpec {
     @spec_tests = []
   }
 
-  def self describe: test_obj with: block {
+  def FancySpec describe: test_obj with: block {
     it = FancySpec new: test_obj;
     block call: [it];
     it run
@@ -16,21 +16,42 @@ def class FancySpec {
     @spec_tests << test
   }
 
+  def should: spec_info_string for: method_name when: spec_block {
+    test = SpecTest new: spec_info_string;
+    test block: spec_block;
+    try {
+      (@test_obj method: method_name) if_do: |method| {
+        method tests << test
+      }
+    } catch MethodNotFoundError => e {
+      # ignore errors
+    };
+    @spec_tests << test
+  }
+
   def run {
     "Running tests for: " ++ @test_obj ++ ": " print;
     @spec_tests each: |test| {
       test run: @test_obj
     };
+#    Console newline; Console newline;
+    # untested_methods = @test_obj methods select: |m| {
+    #   m tests size == 0
+    # };
+    # untested_methods empty? if_false: {
+    #   "WARNING: These methods need tests:\n" ++
+    #   (untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", ") println
+    # };
     Console newline
   }
 };
 
 def class SpecTest {
-  def self failed_test: actual_and_expected {
+  def SpecTest failed_test: actual_and_expected {
     @@failed_positive << actual_and_expected
   }
 
-  def self failed_negative_test: value {
+  def SpecTest failed_negative_test: value {
     @@failed_negative << value
   }
 
@@ -53,21 +74,22 @@ def class SpecTest {
       SpecTest failed_test: [e, "UNKNOWN"]
     };
 
+    any_failure = nil;
     (@@failed_positive size > 0) if_true: {
+      any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed_positive
-    } else: {
-      "." print
     };
 
     (@@failed_negative size > 0) if_true: {
+      any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed_negative
-    } else: {
-      "." print
-    }
+    };
+
+    { "." print } unless: any_failure
   }
 
   def print_failed_positive {
@@ -89,8 +111,12 @@ def class SpecTest {
 };
 
 def class PositiveMatcher {
-  def initialize: expected_value {
-    @actual_value = expected_value
+  """PositiveMatcher expects its actual value to be equal to an
+     expected value.
+     If the values are not equal, a SpecTest failure is generated.""";
+
+  def initialize: actual_value {
+    @actual_value = actual_value
   }
 
   def == expected_value {
@@ -122,6 +148,10 @@ def class PositiveMatcher {
 };
 
 def class NegativeMatcher {
+  """NegativeMatcher expects its actual value to be unequal to an
+     expected value.
+     If the values are equal, a SpecTest failure is generated.""";
+
   def initialize: actual_value {
     @actual_value = actual_value
   }
@@ -156,10 +186,12 @@ def class NegativeMatcher {
 
 def class Object {
   def should {
+    "Returns a PositiveMatcher for self.";
     PositiveMatcher new: self
   }
 
   def should_not {
+    "Returns a NegativeMatcher for self.";
     NegativeMatcher new: self
   }
 }

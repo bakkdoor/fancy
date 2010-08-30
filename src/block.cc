@@ -5,6 +5,7 @@
 #include "block.h"
 #include "symbol.h"
 #include "bootstrap/core_classes.h"
+#include "errors.h"
 
 namespace fancy {
 
@@ -63,12 +64,10 @@ namespace fancy {
     // reset old values for param names in creation_scope (if any args given)
     if(argc > 0) {
       list<parser::nodes::Identifier*>::iterator name_it = _argnames.begin();
-      list<FancyObject*>::iterator val_it = _block_arg_orig_values.begin();
-      while(name_it != _argnames.end() && val_it != _block_arg_orig_values.end()) {
-        string name = (*name_it)->name();
-        _creation_scope->define(name, (*val_it));
-        name_it++;
-        val_it++;
+      for(map<string, FancyObject*>::iterator val_it = _block_arg_orig_values.begin();
+          val_it != _block_arg_orig_values.end();
+          val_it++) {
+        _creation_scope->define(val_it->first, val_it->second);
       }
     }
 
@@ -105,7 +104,7 @@ namespace fancy {
     for(list<parser::nodes::Identifier*>::iterator it = _argnames.begin();
         it != _argnames.end();
         it++) {
-      args[i] = Symbol::from_string(":" + (*it)->name());
+      args[i] = Symbol::from_string("'" + (*it)->name());
       i++;
     }
     return args;
@@ -117,7 +116,12 @@ namespace fancy {
       list<parser::nodes::Identifier*>::iterator name_it = _argnames.begin();
       while(name_it != _argnames.end()) {
         // save old value for name in _block_arg_orig_values;
-        _block_arg_orig_values.push_back(_creation_scope->get((*name_it)->name()));
+        try {
+          FancyObject* orig_val = _creation_scope->get((*name_it)->name());
+          _block_arg_orig_values[(*name_it)->name()] = orig_val;
+        } catch(UnknownIdentifierError* e) {
+          // value not defined, ignore
+        }
         name_it++;
       }
     }

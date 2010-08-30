@@ -2,7 +2,7 @@
 # (C) 2010 Christopher Bertels <chris@fancy-lang.org>
 
 def class City {
-  self read_slots: [:city];
+  self read_slots: ['city];
   def initialize: name {
     @name = name
   };
@@ -14,7 +14,7 @@ def class City {
 
 def class Person {
   # creates getters & setters for slots
-  self read_write_slots: [:name, :age, :city];
+  self read_write_slots: ['name, 'age, 'city];
 
   # Person class method for creating a new person with a name, age and city
   def Person name: name age: age city: city {
