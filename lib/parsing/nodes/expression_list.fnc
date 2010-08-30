@@ -11,4 +11,8 @@ def class ExpressionList : Node {
   def to_s {
     "<ExpressionList: [" ++ (@exprs join: ",") ++ "]>"
   }
+
+  def inspect {
+    self to_s
+  }
 }

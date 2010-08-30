@@ -34,14 +34,13 @@ Node register: 'method_def for_node: MethodDefinition;
 
 
 # example
-#['exp_list, [['ident, "foo"]]] to_ast println;
-#['exp_list, [['ident, "foo"], ['ident, "bar"]]] to_ast println;
+# ['exp_list, [['ident, "foo"]]] to_ast println;
+# ['exp_list, [['ident, "foo"], ['ident, "bar"]]] to_ast println;
 # ['class_def, ['ident, "Block"], ['ident, "Object"],
 #  ['exp_list,
 #   [['method_def,
 #     ['method, "while_nil:", [['ident, "block"]],
 #      ['exp_list,
-#       [['ident, "nil"]]]]]]]] to_ast println
-
+#       [['ident, "nil"]]]]]]]] to_ast println;
 # ['exp_list,
 #  [['ident, "nil"]]] to_ast println
