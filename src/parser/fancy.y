@@ -147,6 +147,7 @@
 programm:       /* empty */
                 | code { Expression* expr = $1; last_value = expr->eval(global_scope); }
                 | programm SEMI code { Expression* expr = $3; last_value = expr->eval(global_scope); }
+                | programm SEMI { } /* also allow empty statements */
                 ;
 
 code:           statement
