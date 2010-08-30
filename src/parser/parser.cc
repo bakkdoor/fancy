@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <sys/stat.h>
 
 #include "parser.h"
 #include "../fancy_exception.h"
@@ -187,24 +188,33 @@ namespace fancy {
     FILE* find_open_file(const string &filename)
     {
       FILE *f = 0;
+      int status;
+      struct stat st_buf;
+      status = stat(filename.c_str(), &st_buf);
 
       // try direct filename first
       f = fopen(filename.c_str(), "r");
 
-      // if that failed, try with each path in load_path prepended to
-      // the filename until we succeed
-      if(!f) {
+      // if that failed or the file actually is a directory, try with
+      // each path in load_path prepended to the filename until we
+      // succeed
+      if(f && !(S_ISDIR(st_buf.st_mode))) {
+        return f;
+      } else {
         for(list<string>::iterator it = load_path.begin();
             it != load_path.end();
             it++) {
-          f = fopen(((*it) + "/" + filename).c_str(), "r");
-          if(f) {
+          string new_filename = ((*it) + "/" + filename).c_str();
+          f = fopen(new_filename.c_str(), "r");
+          status = stat(new_filename.c_str(), &st_buf);
+          if(f && !(S_ISDIR(st_buf.st_mode))) {
             return f;
           }
         }
       }
+
       // at this point we failed and f = 0
-      return f;
+      return  NULL;
     }
 
     string dirname_for_path(const string &path)
