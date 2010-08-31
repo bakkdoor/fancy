@@ -27,26 +27,14 @@ require: "method";
 
 # version holds fancy's version number
 require: "version";
+require: "argv";
 
-
-# handle ARGV special cases
-
-def ARGV option?: opt {
-  opt is_a?: Array . if_true: {
-    opt any?: |o| { ARGV include?: o }
-  } else: {
-    ARGV include?: opt
-  }
-};
-
-ARGV option?: ["-v", "--version"] .
-  if_true: {
+ARGV for_options: ["-v", "--version"] do: {
   "fancy " ++ FANCY_VERSION println;
   "(C) 2010 Christopher Bertels <chris@fancy-lang.org>" println
 };
 
-ARGV option?: ["--help", "-h"] .
-  if_true: {
+ARGV for_options: ["--help", "-h"] do: {
   ["Usage: fancy [option] [programfile] [arguments]",
    "  --help        Print this output",
    "  --version     Print Fancy's version number",
@@ -55,9 +43,7 @@ ARGV option?: ["--help", "-h"] .
    "  -e 'command'  One line of Fancy code that gets evaluated immediately"] println
 };
 
-ARGV option?: ["-e"] .
-  if_true: {
-  idx = (ARGV index: "-e") + 1;
-  ARGV[idx] eval;
+ARGV for_option: "-e" do: |eval_string| {
+  eval_string eval;
   System exit # quit when running with -e
 }
