@@ -5,7 +5,7 @@ def class ExpressionList : Node {
   }
 
   def ExpressionList from_sexp: sexp {
-    ExpressionList new: (sexp second map: |x| { x to_ast })
+    ExpressionList new: $ sexp second map: 'to_ast
   }
 
   def to_s {

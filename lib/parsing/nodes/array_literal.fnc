@@ -3,4 +3,8 @@ def class ArrayLiteral : Node {
   def initialize: array {
     @array = array
   }
+
+  def ArrayLiteral from_sexp: sexp {
+    ArrayLiteral new: $ sexp second
+  }
 }

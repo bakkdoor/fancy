@@ -3,4 +3,8 @@ def class StringLiteral : Node {
   def initialize: str {
     @string = str
   }
+
+  def StringLiteral from_sexp: sexp {
+    StringLiteral new: $ sexp second
+  }
 }

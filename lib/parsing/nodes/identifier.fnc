@@ -5,7 +5,7 @@ def class Identifier : Node {
   }
 
   def Identifier from_sexp: sexp {
-    Identifier new: (sexp second)
+    Identifier new: $ sexp second
   }
 
   def to_s {

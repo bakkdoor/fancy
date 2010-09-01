@@ -6,4 +6,10 @@ def class BlockLiteral : Node {
     bl body: body;
     bl
   }
+
+  def BlockLiteral from_sexp: sexp {
+    args = sexp second map: 'to_ast;
+    body = sexp third to_ast;
+    BlockLiteral args: (args to_ast) body: (body to_ast)
+  }
 }

@@ -7,4 +7,12 @@ def class OperatorSend : Node {
     os operand: operand;
     os
   }
+
+  def OperatorSend from_sexp: sexp {
+    receiver = sexp[1] to_ast;
+    op_ident = sexp[2] to_ast;
+    operand = sexp[3] to_ast;
+    OperatorSend receiver: receiver op_ident: op_ident operand: operand
+  }
+
 }
