@@ -71,6 +71,11 @@ namespace fancy {
                  "split:",
                  "Splits a String at a given seperator String and returns the substrings as an Array.",
                  split);
+
+      DEF_METHOD(StringClass,
+                 "to_sexp",
+                 "Returns an Array representing the S-Expression of the string interpreted as Fancy code.",
+                 to_sexp);
     }
 
     /**
@@ -203,6 +208,27 @@ namespace fancy {
 	arr->set_value(i, FancyString::from_value(parts[i]));
       }
       return arr;
+    }
+
+    METHOD(StringClass, to_sexp)
+    {
+      string str = self->to_s();
+      bool tmp_sexp = parser::output_sexp;
+      bool tmp_newline = parser::output_newline;
+      ostream* tmp_out = parser::out_stream;
+
+      parser::output_sexp = true;
+      parser::output_newline = false;
+
+      stringstream s;
+      parser::out_stream = &s;
+      parser::parse_string(str, scope);
+
+      parser::output_sexp = tmp_sexp;
+      parser::output_newline = tmp_newline;
+      parser::out_stream = tmp_out;
+
+      return parser::parse_string(s.str(), scope);
     }
 
   }

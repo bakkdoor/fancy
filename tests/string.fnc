@@ -87,5 +87,13 @@ FancySpec describe: String with: |it| {
     str = "hello, world, how are you?";
     str split: ", " . should == ["hello", "world", "how are you?"];
     "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"]
+  };
+
+  it should: "return the S-Expression representation as an Array" for: 'to_sexp when: {
+    "x = 3" to_sexp should == ['assign, ['ident, "x"], ['int_lit, 3]];
+    "'foo" to_sexp should == ['symbol_lit, 'foo]
+
+    # TODO: add testcases for all s-expressions available, possibly in
+    #       its own test-file.
   }
 }

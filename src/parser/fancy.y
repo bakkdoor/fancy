@@ -148,7 +148,10 @@ programm:       /* empty */
                 | code {
                   Expression* expr = $1;
                   if(output_sexp) {
-                    printf("%s\n", expr->to_sexp().c_str());
+                    (*parser::out_stream) << expr->to_sexp();
+                    if(output_newline) {
+                      (*parser::out_stream) << "\n";
+                    }
                   } else {
                     last_value = expr->eval(global_scope);
                   }
@@ -156,7 +159,10 @@ programm:       /* empty */
                 | programm SEMI code {
                   Expression* expr = $3;
                   if(output_sexp) {
-                    printf("%s\n", expr->to_sexp().c_str());
+                    (*parser::out_stream) << expr->to_sexp();
+                    if(output_newline) {
+                      (*parser::out_stream) << "\n";
+                    }
                   } else {
                     last_value = expr->eval(global_scope);
                   }

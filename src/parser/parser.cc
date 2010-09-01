@@ -30,6 +30,8 @@ namespace fancy {
     list<string> load_path;
     FancyObject* last_value = nil;
     bool output_sexp = false;
+    bool output_newline = true;
+    ostream *out_stream = &cout;
 
     void define_predefined_values(const string &filename)
     {
