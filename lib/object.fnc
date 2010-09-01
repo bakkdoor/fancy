@@ -92,4 +92,14 @@ def class Object {
 
     self class subclass?: class_obj
   }
+
+  def || other {
+    "Same as Object#or:";
+    self or: other
+  }
+
+  def && other {
+    "Same as Object#and:";
+    self and: other
+  }
 }

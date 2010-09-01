@@ -5,6 +5,12 @@ FancySpec describe: NilClass with: |it| {
     nil and: nil . should == nil
   };
 
+  it should: "be false for calling && with any value" for: '&& when: {
+    (nil && true) should == nil;
+    (nil && 'foo) should == nil;
+    (nil && nil) should == nil
+  };
+
   it should: "be true for calling or: with any non-nil value" for: 'or: when: {
     nil or: true . should == true;
     nil or: 'foo . should == true
@@ -12,6 +18,15 @@ FancySpec describe: NilClass with: |it| {
 
   it should: "be nil for calling or: with a nil value" for: 'or: when: {
     nil or: nil . should == nil
+  };
+
+  it should: "be true for calling || with any non-nil value" for: '|| when: {
+    (nil || true) should == true;
+    (nil || 'foo) should == true
+  };
+
+  it should: "be nil for calling || with a nil value" for: '|| when: {
+    (nil || nil) should == nil
   };
 
   it should: "NOT call the block" for: 'if_true: when: {

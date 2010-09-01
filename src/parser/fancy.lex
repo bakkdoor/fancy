@@ -12,7 +12,8 @@ int yyerror(char *s);
 
 digit		[0-9]
 letter          [A-Za-z]
-special         [-+?!_=*/^><%]
+special         [-+?!_=*/^><%&]
+operator        ({special}+|"||"{special}*)
 int_lit 	-?{digit}+
 double_lit      {int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
@@ -38,7 +39,7 @@ private         "private"
 protected       "protected"
 identifier      @?@?({letter}|{digit}|{special})+
 nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
-symbol_lit      \'({identifier}|:)+
+symbol_lit      \'({identifier}|{operator}|:)+
 regexp_lit      "r{".*"}"
 comma           ,
 semi            ;
@@ -77,7 +78,7 @@ comment         #[^\n]*
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
 {equals}        { return EQUALS; }
-{special}+      {
+{operator}      {
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return OPERATOR;

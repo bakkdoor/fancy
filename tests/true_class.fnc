@@ -8,6 +8,15 @@ FancySpec describe: TrueClass with: |it| {
     true and: nil . should == nil
   };
 
+  it should: "be true for calling && with non-nil value" for: '&& when: {
+    (true && true) should == true;
+    (true && 'bar) should == true
+  };
+
+  it should: "be false for calling && with a nil value" for: '&& when: {
+    (true && nil) should == nil
+  };
+
   it should: "be true for calling or: with both non-nil values" for: 'or: when: {
     true or: true . should == true
   };
@@ -16,6 +25,16 @@ FancySpec describe: TrueClass with: |it| {
     true or: nil . should == true;
     true or: true . should == true;
     true or: 'foo . should == true
+  };
+
+  it should: "be true for calling || with both non-nil values" for: '|| when: {
+    (true || true) should == true
+  };
+
+  it should: "be true for calling || with any values" for: '|| when: {
+    (true || nil) should == true;
+    (true || true) should == true;
+    (true || 'foo) should == true
   };
 
   it should: "call the then-block" for: 'if_true:else: when: {
