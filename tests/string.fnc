@@ -90,7 +90,7 @@ FancySpec describe: String with: |it| {
   };
 
   it should: "return the S-Expression representation as an Array" for: 'to_sexp when: {
-    "x = 3" to_sexp should == ['assign, ['ident, "x"], ['int_lit, 3]];
+    "x = 3" to_sexp should == ['assign, ['ident, 'x], ['int_lit, 3]];
     "'foo" to_sexp should == ['symbol_lit, 'foo]
 
     # TODO: add testcases for all s-expressions available, possibly in
