@@ -24,7 +24,7 @@ all-clean: clean
 	@cd vendor/gc && make clean
 
 TESTFILES = array block true_class nil_class class documentation exception file	\
-hash method number object set string symbol argv
+hash method number object set string symbol argv parsing/sexp
 
 test: all
 	@mkdir -p tmp
