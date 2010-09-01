@@ -1,11 +1,23 @@
 def class FancySpec {
-  def initialize: test_obj {
+  def initialize: description {
+    @description = description;
     @test_obj = test_obj;
     @spec_tests = []
   }
 
+  def test_obj: test_obj {
+    @test_obj = test_obj
+  }
+
   def FancySpec describe: test_obj with: block {
     it = FancySpec new: test_obj;
+    block call: [it];
+    it run
+  }
+
+  def FancySpec describe: description for: test_obj with: block {
+    it = FancySpec new: description;
+    it test_obj: test_obj;
     block call: [it];
     it run
   }
@@ -30,7 +42,7 @@ def class FancySpec {
   }
 
   def run {
-    "Running tests for: " ++ @test_obj ++ ": " print;
+    "Running tests for: " ++ @description ++ ": " print;
     @spec_tests each: |test| {
       test run: @test_obj
     };
