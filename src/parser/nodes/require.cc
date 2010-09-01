@@ -35,7 +35,11 @@ namespace fancy {
 
       string RequireStatement::to_sexp() const
       {
-        return "['require, \"" + _filename + "\"]";
+        if(_filename_expr) {
+          return "['require, " + _filename_expr->to_sexp() + "]";
+        } else {
+          return "['require, ['string_lit, \"" + _filename + "\"]]";
+        }
       }
 
     }

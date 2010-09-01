@@ -30,7 +30,7 @@ namespace fancy {
       {
         stringstream s;
 
-        s << "['hash_lit, ";
+        s << "['hash_lit, [";
 
         int size = _key_val_list.size();
         int count = 1;
@@ -46,7 +46,7 @@ namespace fancy {
           count++;
         }
 
-        s << "]";
+        s << "]]";
 
         return s.str();
       }
