@@ -1,7 +1,7 @@
 def class Rubinius {
   # Temporary
   def class InstructionSequence {
-    self read_write_slots: [:opcodes];
+    self read_write_slots: ['opcodes];
 
     def self from: opcodes {
       is = self allocate;
@@ -40,10 +40,10 @@ def class Rubinius {
     # concrete IP's.
 
     def class Label {
-      self read_write_slots: [:position];
-      self read_slots: [:used, :basic_block];
+      self read_write_slots: ['position];
+      self read_slots: ['used, 'basic_block];
       # TODO: translate this:
-      # alias_method :used?, :used
+      # alias_method 'used?, 'used
 
       def initialize: generator {
         @generator   = generator;
@@ -182,17 +182,17 @@ def class Rubinius {
       @max_stack = 0
     }
 
-    self read_slots: [:ip, :stream, :iseq, :literals];
-    self read_write_slots: [:break, :redo, :next, :retry, :file, :name,
-                            :required_args, :total_args, :splat_index,
-                            :local_count, :local_names, :primitive, :for_block, :current_block];
+    self read_slots: ['ip, 'stream, 'iseq, 'literals];
+    self read_write_slots: ['break, 'redo, 'next, 'retry, 'file, 'name,
+                            'required_args, 'total_args, 'splat_index,
+                            'local_count, 'local_names, 'primitive, 'for_block, 'current_block];
 
     def execute: node {
       node bytecode: self
     }
 
     # TODO: translate this:
-    # alias_method :run, :execute
+    # alias_method 'run, 'execute
 
     # Formalizers
 
@@ -235,9 +235,9 @@ def class Rubinius {
 
       @for_block if_do: {
         # TODO: translate this:
-        # cm add_metadata: :for_block, true
+        # cm add_metadata: 'for_block, true
         # maybe like this:
-        # cm meta at: :for_block put: true
+        # cm meta at: 'for_block put: true
       };
 
       cm
@@ -357,13 +357,13 @@ def class Rubinius {
     def push: what {
       # TODO: translate this:
       # case what
-      # when :true
+      # when 'true
       #   push_true
-      # when :false
+      # when 'false
       #   push_false
-      # when :self
+      # when 'self
       #   push_self
-      # when :nil
+      # when 'nil
       #   push_nil
       # when Integer
       #   push_int what
@@ -429,7 +429,7 @@ def class Rubinius {
     # def last_match(mode, which)
     #   push_int Integer(mode)
     #   push_int Integer(which)
-    #   invoke_primitive :regexp_last_match_result, 2
+    #   invoke_primitive 'regexp_last_match_result, 2
     # end
 
     # TODO: translate this:
