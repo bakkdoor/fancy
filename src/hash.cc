@@ -39,12 +39,18 @@ namespace fancy {
   {
     stringstream s;
     s << "<[ ";
+    int max = _mappings.size() - 1;
+    int i = 0;
 
     for(map<FancyObject*, FancyObject*>::const_iterator iter = _mappings.begin(); iter != _mappings.end(); iter++) {
       s << iter->first->to_s();
       s << " => ";
       s << iter->second->to_s();
+      if(i < max) {
+        s << ",";
+      }
       s << " ";
+      i++;
     }
 
     s << "]>";

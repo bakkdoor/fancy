@@ -6,6 +6,7 @@
 #include "../../scope.h"
 #include "../../bootstrap/core_classes.h"
 #include "../../utils.h"
+#include "../../errors.h"
 
 namespace fancy {
   namespace parser {
@@ -31,12 +32,14 @@ namespace fancy {
               if(Class* the_class = dynamic_cast<Class*>(current_class->get_nested_class(nested_parts[i]))) {
                 current_class = the_class;
               } else {
-                return nil;
+                // return nil;
+                throw new UnknownIdentifierError(_name);
               }
             }
             return current_class;
           }
-          return nil;
+          //return nil;
+          throw new UnknownIdentifierError(nested_parts[0]);
         }
       }
 

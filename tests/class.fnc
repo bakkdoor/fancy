@@ -317,5 +317,25 @@ FancySpec describe: Class with: |it| {
       }
     };
     Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
+  };
+
+  it should: "find other nested classes in the same parent class" when: {
+    def class MyOuter {
+      def class Inner1 {
+        def method1 {
+          'method_1
+        }
+      }
+      def class Inner2 {
+        self include: Inner1;
+        def method2 {
+          'method_2
+        }
+      }
+    };
+
+    MyOuter::Inner1 new method1 should == 'method_1;
+    MyOuter::Inner2 new method1 should == 'method_1;
+    MyOuter::Inner2 new method2 should == 'method_2
   }
 }

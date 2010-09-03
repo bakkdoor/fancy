@@ -67,8 +67,8 @@ namespace fancy {
     // check for instance & class variables
     if(identifier[0] == '@') {
       if(identifier[1] == '@') {
-        if(IS_CLASS(_current_self)) {
-          return dynamic_cast<Class*>(_current_self)->get_class_slot(identifier);
+        if(Class* c = dynamic_cast<Class*>(_current_self)) {
+          return c->get_class_slot(identifier);
         } else {
           return _current_class->get_class_slot(identifier);
         }

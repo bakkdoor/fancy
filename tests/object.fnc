@@ -116,6 +116,27 @@ FancySpec describe: Object with: |it| {
     'foo and: nil . should == nil
   };
 
+  it should: "be true for calling && with non-nil values" for: '&& when: {
+    ('foo && 'bar) should == true
+  };
+
+  it should: "be false for calling && with a nil value" for: '&& when: {
+    ('foo && nil) should == nil
+  };
+
+
+  it should: "be true for calling or: with any value" for: 'or: when: {
+    'foo or: 'bar . should == true;
+    'foo or: nil . should == true
+  };
+
+  it should: "be true for calling || with any value" for: '|| when: {
+    ('foo || 'bar) should == true;
+    ('foo || nil) should == true
+  };
+
+  # end boolean messages
+
   it should: "NOT be nil for non-nil values" for: 'nil? when: {
     'foo nil? should == nil;
     1 nil? should == nil;
