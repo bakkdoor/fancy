@@ -214,9 +214,9 @@ class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY class_body RCURLY {
                 ;
 
 class_body:     /* empty */ { $$ = expr_node(0, 0); }
-                | class_body code SEMI { $$ = expr_node($2, $1); }
-                | class_body method_def { $$ = expr_node($2, $1); }
                 | class_body class_def { $$ = expr_node(new nodes::NestedClassDefExpr($2), $1); }
+                | class_body method_def { $$ = expr_node($2, $1); }
+                | class_body code SEMI { $$ = expr_node($2, $1); }
                 ;
 
 method_def:     method_w_args

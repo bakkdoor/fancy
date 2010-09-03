@@ -7,6 +7,7 @@
 #include "../../utils.h"
 #include "../../bootstrap/core_classes.h"
 #include "../../errors.h"
+#include "../../class_scope.h"
 
 namespace fancy {
   namespace parser {
@@ -79,7 +80,7 @@ namespace fancy {
         }
         // create new scope with current_self set to new class
         // and eval the body of the class definition
-        Scope *class_eval_scope = new Scope(the_class, scope);
+        Scope *class_eval_scope = new ClassScope(the_class, scope);
         class_eval_scope->set_current_class(the_class);
         _class_body->eval(class_eval_scope);
         // set documentation string, if given
