@@ -110,7 +110,7 @@ def class Array {
   def join {
     "Joins all elements with the empty String.";
     # TODO: this is a hack, somehow it doesn't work with a literal string
-    self join: (String new)
+    self join: ""
   }
 
   def NATIVE each_with_index: block {
