@@ -6,7 +6,11 @@ def class AST {
     }
 
     def NumberLiteral from_sexp: sexp {
-      NumberLiteral new: (sexp second)
+      AST::NumberLiteral new: (sexp second)
+    }
+
+    def to_ruby: out {
+      out print: @num_val
     }
   }
 }

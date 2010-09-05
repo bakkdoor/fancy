@@ -1,15 +1,22 @@
 def class AST {
   def class Assignment : Node {
-    self read_slots: ['ident, 'expr];
+    self read_write_slots: ['ident, 'expr];
 
     def Assignment ident: ident value: expr {
-      as = Assignment new;
+      as = AST::Assignment new;
       as ident: ident;
       as expr: expr
     }
 
     def Assignment from_sexp: sexp {
-      Assignment ident: (sexp second to_ast) value: (sexp third to_ast)
+      AST::Assignment ident: (sexp second to_ast) value: (sexp third to_ast)
+    }
+
+    def to_ruby: out {
+      out print: $ @ident name;
+      out print: " = ";
+      out print: $ @expr to_ruby: out;
+      out print: ";"
     }
   }
 }
