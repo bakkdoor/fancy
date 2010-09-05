@@ -103,7 +103,7 @@ def class Rubinius {
 
       def add_stack: size {
         @stack = @stack + size;
-        @max_size = { @stack } if: (@stack > @max_size)
+        { @max_size = @stack } if: (@stack > @max_size)
       }
 
       def add_edge: block {
