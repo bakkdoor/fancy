@@ -17,24 +17,24 @@ require: "nodes/require";
 require: "nodes/return";
 require: "nodes/assignment";
 
-Node register: 'exp_list for_node: ExpressionList;
-Node register: 'ident for_node: Identifier;
+AST::Node register: 'exp_list for_node: AST::ExpressionList;
+AST::Node register: 'ident for_node: AST::Identifier;
 
-Node register: 'array_lit for_node: ArrayLiteral;
-Node register: 'hash_lit for_node: HashLiteral;
-Node register: 'block_lit for_node: BlockLiteral;
-Node register: 'int_lit for_node: NumberLiteral;
-Node register: 'double_lit for_node: NumberLiteral;
-Node register: 'string_lit for_node: StringLiteral;
-Node register: 'symbol_lit for_node: SymbolLiteral;
+AST::Node register: 'array_lit for_node: AST::ArrayLiteral;
+AST::Node register: 'hash_lit for_node: AST::HashLiteral;
+AST::Node register: 'block_lit for_node: AST::BlockLiteral;
+AST::Node register: 'int_lit for_node: AST::NumberLiteral;
+AST::Node register: 'double_lit for_node: AST::NumberLiteral;
+AST::Node register: 'string_lit for_node: AST::StringLiteral;
+AST::Node register: 'symbol_lit for_node: AST::SymbolLiteral;
 
-Node register: 'class_def for_node: ClassDefinition;
-Node register: 'message_send for_node: MessageSend;
-Node register: 'operator_send for_node: OperatorSend;
-Node register: 'method for_node: Method;
-Node register: 'method_def for_node: MethodDefinition;
-Node register: 'singleton_method_def for_node: SingletonMethodDefinition;
+AST::Node register: 'class_def for_node: AST::ClassDefinition;
+AST::Node register: 'message_send for_node: AST::MessageSend;
+AST::Node register: 'operator_send for_node: AST::OperatorSend;
+AST::Node register: 'method for_node: AST::Method;
+AST::Node register: 'method_def for_node: AST::MethodDefinition;
+AST::Node register: 'singleton_method_def for_node: AST::SingletonMethodDefinition;
 
-Node register: 'require for_node: Require;
-Node register: 'return for_node: Return;
-Node register: 'assign for_node: Assignment;
+AST::Node register: 'require for_node: AST::Require;
+AST::Node register: 'return for_node: AST::Return;
+AST::Node register: 'assign for_node: AST::Assignment;

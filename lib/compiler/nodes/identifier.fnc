@@ -1,14 +1,16 @@
-def class Identifier : Node {
-  self read_write_slots: ['name];
-  def initialize: name {
-    @name = name
-  }
+def class AST {
+  def class Identifier : Node {
+    self read_write_slots: ['name];
+    def initialize: name {
+      @name = name
+    }
 
-  def Identifier from_sexp: sexp {
-    Identifier new: $ sexp second
-  }
+    def Identifier from_sexp: sexp {
+      Identifier new: $ sexp second
+    }
 
-  def to_s {
-    "<Identifier: '" ++ @name ++ "'>"
+    def to_s {
+      "<Identifier: '" ++ @name ++ "'>"
+    }
   }
 }

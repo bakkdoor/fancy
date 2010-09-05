@@ -1,15 +1,17 @@
-def class MethodDefinition : Node {
-  self read_slots: ['method];
+def class AST {
+  def class MethodDefinition : Node {
+    self read_slots: ['method];
 
-  def initialize: method {
-    @method = method
-  }
+    def initialize: method {
+      @method = method
+    }
 
-  def MethodDefinition from_sexp: sexp {
-    MethodDefinition new: (sexp second to_ast)
-  }
+    def MethodDefinition from_sexp: sexp {
+      MethodDefinition new: (sexp second to_ast)
+    }
 
-  def to_s {
-    "<MethodDefinition: method:" ++ @method ++ ">"
+    def to_s {
+      "<MethodDefinition: method:" ++ @method ++ ">"
+    }
   }
 }
