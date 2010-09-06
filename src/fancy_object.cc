@@ -86,6 +86,11 @@ namespace fancy {
     return nil; // return default value
   }
 
+  string FancyObject::inspect() const
+  {
+    return to_s() + " : " + get_class()->name();
+  }
+
   FancyObject* FancyObject::send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)
   {
     Callable* method = get_method(method_name);

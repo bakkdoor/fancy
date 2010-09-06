@@ -34,6 +34,7 @@ namespace fancy {
     virtual FancyObject* equal(FancyObject* other) const;
     virtual EXP_TYPE type() const;
     virtual string to_s() const;
+    virtual string inspect() const { return to_s(); }
 
     /**
      * Indicates, if Number is double.
