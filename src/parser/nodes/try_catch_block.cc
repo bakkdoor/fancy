@@ -101,7 +101,7 @@ namespace fancy {
         s << "]";
 
         if(_finally_block) {
-          s << "['finally, "
+          s << ",['finally, "
             << _finally_block->to_sexp()
             << "]";
         }
