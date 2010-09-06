@@ -61,7 +61,7 @@ ARGV for_option: "--ruby" do: {
         };
         out = Console;
         out println: $ "#### " ++ filename ++ ": " ++ "####";
-        lines join to_sexp to_ast to_ruby: Console
+        lines join: "\n" . to_sexp to_ast to_ruby: Console
       };
       Console newline
     }
