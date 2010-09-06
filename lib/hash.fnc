@@ -12,7 +12,7 @@ def class Hash {
   def each: block {
     "Calls a given Block with each key and value.";
 
-    (block argcount == 1) if_true: {
+    block argcount == 1 if_true: {
       self keys each: |key| {
         block call: [[key, self at: key]]
       }

@@ -50,7 +50,7 @@ def class World {
 
     @matrix each: |row| {
       row each: |entry| {
-        (entry == 0) if_true: {
+        entry == 0 if_true: {
           "  " print
         } else: {
           ". " print
@@ -95,13 +95,13 @@ def class World {
         # check amount of neighbors
         n_neighbors = self neighbors_of: [i, j];
         self was_alive?: [i,j] . if_true: {
-          (n_neighbors <= 1 or: (n_neighbors >= 4)) if_true: {
+          n_neighbors <= 1 or: (n_neighbors >= 4) if_true: {
             self die: [i,j]
           } else: {
             self live: [i,j]
           }
         } else: {
-          (n_neighbors == 3) if_true: {
+          n_neighbors == 3 if_true: {
             self live: [i,j]
           }
         }

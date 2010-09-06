@@ -43,11 +43,11 @@ def class Class {
   def subclass?: class_obj {
     "Indicates, if a Class is a subclass of another Class.";
 
-    (self == class_obj) if_true: {
+    self == class_obj if_true: {
       true
     } else: {
       # take care of Object class, as Object is its own superclass
-      (self superclass != nil) if_true: {
+      self superclass != nil if_true: {
         self superclass subclass?: class_obj
       }
     }
