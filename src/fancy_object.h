@@ -95,7 +95,7 @@ namespace fancy {
      * (e.g. Class of the object).
      * @return C++ stirng representation with additional information.
      */
-    virtual string inspect() const { return to_s(); }
+    virtual string inspect() const;
 
     /**
      * Calls a method with arguments in a given scope.

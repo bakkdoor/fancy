@@ -64,7 +64,7 @@ comment         #[^\n]*
                 }
 {doc_string}	{
                   string str(yytext);
-                  yylval.object = FancyString::from_value(str.substr(2, str.length() - 4));
+                  yylval.object = FancyString::from_value(str.substr(3, str.length() - 6));
                   return STRING_LITERAL;
                 }
 {lparen}        { return LPAREN; }
