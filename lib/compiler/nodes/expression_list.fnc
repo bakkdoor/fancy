@@ -17,11 +17,12 @@ def class AST {
       self to_s
     }
 
-    def to_ruby: out {
-      @exprs each: |e| {
-        e to_ruby: out;
-        out println: "; "
-      }
+    def to_ruby: out indent: ilvl {
+      @exprs from: 0 to: -2 . each: |e| {
+        e to_ruby: out indent: ilvl;
+        out print: "\n"
+      };
+      @exprs last to_ruby: out indent: ilvl
     }
   }
 }

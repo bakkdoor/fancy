@@ -9,6 +9,10 @@ def class AST {
     def self ast_creators {
       @@ast_creators
     }
+
+    def to_ruby: out {
+      self to_ruby: out indent: 0
+    }
   }
 };
 

@@ -11,7 +11,18 @@ def class AST {
     def BlockLiteral from_sexp: sexp {
       args = sexp second map: 'to_ast;
       body = sexp third to_ast;
-      AST::BlockLiteral args: (args to_ast) body: (body to_ast)
+      AST::BlockLiteral args: args body: body
+    }
+
+    def to_ruby: out indent: ilvl {
+      out print: "Proc.new{ ";
+      @args empty? if_false: {
+        out print: "|";
+        @args each: |a| { a to_ruby: out };
+        out print: "|"
+      };
+      @body to_ruby: out indent: ilvl;
+      out print: " }"
     }
   }
 }

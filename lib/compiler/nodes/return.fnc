@@ -8,5 +8,10 @@ def class AST {
     def Return from_sexp: sexp {
       AST::Return new: $ sexp second to_ast
     }
+
+    def to_ruby: out indent: ilvl {
+      out print: $ " " * ilvl ++ "return ";
+      out print: (@expr to_ruby: out)
+    }
   }
 }

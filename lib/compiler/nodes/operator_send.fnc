@@ -16,11 +16,12 @@ def class AST {
       AST::OperatorSend receiver: receiver op_ident: op_ident operand: operand
     }
 
-    def to_ruby: out {
+    def to_ruby: out indent: ilvl {
+      out print: $ " " * ilvl ++ "(";
       @receiver to_ruby: out;
-      out print: ".";
+      out print: " ";
       @op_ident to_ruby: out;
-      out print: "(";
+      out print: " ";
       # output all but last args first, each followed by a comma
       @operand to_ruby: out;
       out print: ")"

@@ -71,7 +71,7 @@ ARGV for_option: "-c" do: {
           lines << (f readln)
         };
         COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
-        lines join: "\n" . to_sexp to_ast to_ruby: COMPILE_OUT_STREAM
+        lines join: "\n" . to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
       };
       COMPILE_OUT_STREAM newline
     }

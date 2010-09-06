@@ -17,8 +17,8 @@ def class AST {
       ms
     }
 
-    def to_ruby: out {
-      @receiver to_ruby: out;
+    def to_ruby: out indent: ilvl {
+      @receiver to_ruby: out indent: ilvl;
       out print: ".";
       @method_ident to_ruby: out;
       out print: "(";

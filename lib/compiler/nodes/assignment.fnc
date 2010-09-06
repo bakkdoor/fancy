@@ -12,10 +12,10 @@ def class AST {
       AST::Assignment ident: (sexp second to_ast) value: (sexp third to_ast)
     }
 
-    def to_ruby: out {
-      out print: $ @ident name;
+    def to_ruby: out indent: ilvl {
+      out print: $ (" " * ilvl) ++ (@ident name);
       out print: " = ";
-      @expr to_ruby: out
+      @expr to_ruby: out indent: ilvl
     }
   }
 }

@@ -8,5 +8,10 @@ def class AST {
     def Require from_sexp: sexp {
       AST::Require new: $ sexp second to_ast
     }
+
+    def to_ruby: out indent: ilvl {
+      out print: $ " " * ilvl ++ "require ";
+      out print: (@expr to_ruby: out)
+    }
   }
 }

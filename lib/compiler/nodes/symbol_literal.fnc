@@ -9,11 +9,11 @@ def class AST {
       AST::SymbolLiteral new: $ sexp second
     }
 
-    def to_ruby: out {
+    def to_ruby: out indent: ilvl {
       @symbol to_s include?: ":" . if_true: {
-        out print: $ ":'" ++ @symbol ++ "'"
+        out print: $ (" " * ilvl) ++ ":'" ++ @symbol ++ "'"
       } else: {
-        out print: $ ":" ++ @symbol
+        out print: $ (" " * ilvl) ++ ":" ++ @symbol
       }
     }
   }

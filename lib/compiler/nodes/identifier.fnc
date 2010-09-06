@@ -13,7 +13,8 @@ def class AST {
       "<Identifier: '" ++ @name ++ "'>"
     }
 
-    def to_ruby: out {
+    def to_ruby: out indent: ilvl {
+      out print: $ " " * ilvl;
       out print: $ self rubyfy
     }
 

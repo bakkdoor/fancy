@@ -19,5 +19,17 @@ def class AST {
     def to_s {
       "<ClassDefinition: ident:'" ++ @ident ++ "' superclass:'" ++ @superclass_ident ++ "' body:" ++ @body ++ ">"
     }
+
+    def to_ruby: out indent: ilvl {
+      out print: $ " " * ilvl ++ "class ";
+      out print: $ @ident name;
+      { out print: " < "; @superclass_ident to_ruby: out indent: ilvl } if: @superclass_ident;
+      out print: "\n";
+
+      ilvl = ilvl + 2;
+
+      @body to_ruby: out indent: ilvl;
+      out print: "\nend"
+    }
   }
 }

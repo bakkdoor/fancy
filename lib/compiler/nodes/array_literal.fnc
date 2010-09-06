@@ -9,8 +9,8 @@ def class AST {
       AST::ArrayLiteral new: $ sexp second
     }
 
-    def to_ruby: out {
-      out print: "[";
+    def to_ruby: out indent: ilvl {
+      out print: $ (" " * ilvl) ++ "[";
       @array from: 0 to: -2 . each: |e| {
         e to_ast to_ruby: out;
         out print: ", "

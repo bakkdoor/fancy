@@ -9,7 +9,7 @@ def class AST {
       AST::StringLiteral new: $ sexp second
     }
 
-    def to_ruby: out {
+    def to_ruby: out indent: ilvl{
       out print: @string
     }
   }
