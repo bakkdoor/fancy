@@ -20,7 +20,7 @@ def class FancySpec {
     test = SpecTest new: spec_info_string;
     test block: spec_block;
     try {
-      (@test_obj method: method_name) if_do: |method| {
+      @test_obj method: method_name . if_do: |method| {
         method tests << test
       }
     } catch MethodNotFoundError => e {
@@ -75,14 +75,14 @@ def class SpecTest {
     };
 
     any_failure = nil;
-    (@@failed_positive size > 0) if_true: {
+    @@failed_positive size > 0 if_true: {
       any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
       self print_failed_positive
     };
 
-    (@@failed_negative size > 0) if_true: {
+    @@failed_negative size > 0 if_true: {
       any_failure = true;
       Console newline;
       "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
@@ -120,13 +120,13 @@ def class PositiveMatcher {
   }
 
   def == expected_value {
-    (@actual_value == expected_value) if_false: {
+    @actual_value == expected_value if_false: {
       SpecTest failed_test: [@actual_value, expected_value]
     }
   }
 
   def != expected_value {
-    (@actual_value != expected_value) if_false: {
+    @actual_value != expected_value if_false: {
       SpecTest failed_negative_test: @actual_value
     }
   }
@@ -135,13 +135,13 @@ def class PositiveMatcher {
     """Forwardy any other message and parameters to the object itself
        and checks the return value.""";
 
-    (@actual_value send: msg params: params) if_false: {
+    @actual_value send: msg params: params . if_false: {
       SpecTest failed_test: [@actual_value, params first]
     }
   }
 
   def be: block {
-    (block call: [@actual_value]) if_false: {
+    block call: [@actual_value] . if_false: {
       SpecTest failed_test: [@actual_value, nil]
     }
   }
@@ -157,13 +157,13 @@ def class NegativeMatcher {
   }
 
   def == expected_value {
-    (@actual_value == expected_value) if_true: {
+    @actual_value == expected_value if_true: {
       SpecTest failed_negative_test: @actual_value
     }
   }
 
   def != expected_value {
-    (@actual_value != expected_value) if_true: {
+    @actual_value != expected_value if_true: {
       SpecTest failed_test: [@actual_value, expected_value]
     }
   }
@@ -172,13 +172,13 @@ def class NegativeMatcher {
     """Forwardy any other message and parameters to the object itself
        and checks the return value.""";
 
-    (@actual_value send: msg params: params) if_true: {
+    @actual_value send: msg params: params . if_true: {
       SpecTest failed_negative_test: @actual_value
     }
   }
 
   def be: block {
-    (block call: [@actual_value]) if_true: {
+    block call: [@actual_value] . if_true: {
       SpecTest failed_negative_test: @actual_value
     }
   }
