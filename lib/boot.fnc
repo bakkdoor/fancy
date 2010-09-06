@@ -42,7 +42,9 @@ ARGV for_options: ["--help", "-h"] do: {
    "  -v            Print Fancy's version number",
    "  -I directory  Add directory to Fancy's LOAD_PATH",
    "  -e 'command'  One line of Fancy code that gets evaluated immediately",
-   "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it "] println
+   "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it ",
+   "  -c            Compile given files to Ruby code and output to STDOUT or -o option, if given",
+   "  -o            Output compiled Ruby code to a given file name"] println
 };
 
 ARGV for_option: "-e" do: |eval_string| {
@@ -50,22 +52,35 @@ ARGV for_option: "-e" do: |eval_string| {
   System exit # quit when running with -e
 };;
 
-ARGV for_option: "--ruby" do: {
+COMPILE_OUT_STREAM = Console;
+
+ARGV for_option: "-o" do: |out_file| {
+  COMPILE_OUT_STREAM = File open: out_file modes: ['write];
+  out_file_idx = ARGV index: "-o";
+  # remove -o with given arg
+  2 times: { ARGV remove_at: out_file_idx }
+};
+
+ARGV for_option: "-c" do: {
   require: "lib/compiler/nodes.fnc";
-  ARGV index: "--ruby" . if_do: |idx| {
+  ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       File open: filename modes: ['read] with: |f| {
         lines = [];
         { f eof? } while_false: {
           lines << (f readln)
         };
-        out = Console;
-        out println: $ "#### " ++ filename ++ ": " ++ "####";
-        lines join: "\n" . to_sexp to_ast to_ruby: Console
+        COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
+        lines join: "\n" . to_sexp to_ast to_ruby: COMPILE_OUT_STREAM
       };
-      Console newline
+      COMPILE_OUT_STREAM newline
     }
  };
  System exit # quit when running with -e
+};
+
+# close COMPILE_OUT_STREAM if it's a File
+COMPILE_OUT_STREAM != Console if_true: {
+  COMPILE_OUT_STREAM close
 }
 
