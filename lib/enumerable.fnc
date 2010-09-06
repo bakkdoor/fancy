@@ -12,7 +12,7 @@ def class Enumerable {
 
     found = nil;
     self each: |x| {
-      (condition call: x) if_true: {
+      condition call: x . if_true: {
         found = true
       }
     };
@@ -24,7 +24,7 @@ def class Enumerable {
 
     all = true;
     self each: |x| {
-      (condition call: x) if_false: {
+      condition call: x . if_false: {
         all = nil
       }
     };
@@ -39,7 +39,7 @@ def class Enumerable {
     } else: {
       found = nil;
       self each: |x| {
-        (item == x) if_true: {
+        item == x if_true: {
           found = x
         }
       };
@@ -113,7 +113,7 @@ def class Enumerable {
     drop = nil;
     first_check = true;
     self each: |x| {
-      (drop or: first_check) if_true: {
+      drop or: first_check . if_true: {
         drop = condition call: [x];
         first_check = nil
       } else: {
@@ -185,7 +185,7 @@ def class Enumerable {
 
     retval = self first;
     self each: |x| {
-      (comparison_block call: [x, retval]) if_true: {
+      comparison_block call: [x, retval] . if_true: {
         retval = x
       }
     };

@@ -86,9 +86,15 @@ namespace fancy {
     return nil; // return default value
   }
 
+
   string FancyObject::to_sexp() const
   {
     return "\"UNKOWN SEXP FOR EXP_CLASSINSTANCE\"";
+  }
+
+  string FancyObject::inspect() const
+  {
+    return to_s() + " : " + get_class()->name();
   }
 
   FancyObject* FancyObject::send_message(const string &method_name, FancyObject* *arguments, int argc, Scope *scope, FancyObject* sender)

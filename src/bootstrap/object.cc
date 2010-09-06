@@ -169,7 +169,7 @@ namespace fancy {
 
     METHOD(ObjectClass, inspect)
     {
-      return FancyString::from_value(self->inspect() + " : " + self->get_class()->name());
+      return FancyString::from_value(self->inspect());
     }
 
     METHOD(ObjectClass, class)

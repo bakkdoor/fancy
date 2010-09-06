@@ -36,7 +36,7 @@ def class String {
 
     str = "";
     num times: {
-      str = (str ++ self)
+      str = str ++ self
     };
     str
   }

@@ -100,7 +100,7 @@ def class Array {
     max_idx = self size - 1;
     self each_with_index: |x i| {
       str = str ++ x;
-      (i < max_idx) if_true: {
+      i < max_idx if_true: {
         str = str ++ join_str
       }
     };

@@ -26,6 +26,7 @@ namespace fancy {
     virtual EXP_TYPE type() const { return EXP_REGEX; }
     virtual string to_sexp() const;
     virtual string to_s() const;
+    virtual string inspect() const { return to_s(); }
 
     /**
      * Returns the pattern string.
