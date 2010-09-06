@@ -10,7 +10,7 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl{
-      out print: @string
+      out print: $ " " * ilvl ++ @string
     }
   }
 }
