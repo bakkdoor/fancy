@@ -51,8 +51,8 @@ def class FancySpec {
     #   m tests size == 0
     # };
     # untested_methods empty? if_false: {
-    #   "WARNING: These methods need tests:\n" ++
-    #   (untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", ") println
+      # ["WARNING: These methods need tests:",
+      #  untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", "] println
     # };
     Console newline
   }
