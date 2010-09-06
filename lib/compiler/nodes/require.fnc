@@ -11,7 +11,7 @@ def class AST {
 
     def to_ruby: out indent: ilvl {
       out print: $ " " * ilvl ++ "require ";
-      out print: (@expr to_ruby: out)
+      @expr to_ruby: out
     }
   }
 }
