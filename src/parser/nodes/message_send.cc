@@ -60,6 +60,7 @@ namespace fancy {
           Class* receiver_class = receiver_obj->get_class();
           // check the class & method cache
           if(_class_cache == receiver_class
+             && _receiver_cache == receiver_obj
              && !CHANGED(receiver_obj, _receiver_change_cache)
              && !CHANGED(receiver_class, _class_change_cache)) {
             if(_method_cache) {
@@ -67,6 +68,7 @@ namespace fancy {
             }
           } else {
             // receiver object or class changed -> cache invalidated
+            _receiver_cache = receiver_obj;
             _class_cache = receiver_class;
             _method_cache = receiver_obj->get_method(_method_ident->name());
             _class_change_cache = receiver_class->change_num();

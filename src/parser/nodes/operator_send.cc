@@ -37,6 +37,7 @@ namespace fancy {
 
         // check for class cache
         if(_class_cache == receiver_class
+           && _receiver_cache == receiver_obj
            && !CHANGED(receiver_obj, _receiver_change_cache)
            && !CHANGED(receiver_class, _class_change_cache)) {
           if(_method_cache) {
@@ -44,6 +45,7 @@ namespace fancy {
           }
         } else {
           // receiver object or class changed -> cache invalidated
+          _receiver_cache = receiver_obj;
           _class_cache = receiver_class;
           _method_cache = receiver_obj->get_method(_operator_name->name());
           _class_change_cache = receiver_class->change_num();
