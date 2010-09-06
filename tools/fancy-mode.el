@@ -30,7 +30,7 @@
     )
 
 (defconst fancy-block-mid-re
-  "catch\\|ensure\\|finally"
+  "catch\\|finally"
   )
 
 (defconst fancy-block-end-re "\\<end\\>")
