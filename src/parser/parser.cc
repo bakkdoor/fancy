@@ -41,7 +41,7 @@ namespace fancy {
     {
       try {
         if(output_sexp)
-          (*out_stream) << "['exp_lit, [";
+          (*out_stream) << "['exp_list, [";
         yyparse();
         if(output_sexp)
           (*out_stream) << "]]\n";
@@ -109,7 +109,11 @@ namespace fancy {
       Scope* old_global_scope = global_scope;
       global_scope = scope;
 
+      if(output_sexp)
+        (*out_stream) << "['exp_list, [";
       yyparse();
+      if(output_sexp)
+        (*out_stream) << "]]";
 
       global_scope = old_global_scope;
 
