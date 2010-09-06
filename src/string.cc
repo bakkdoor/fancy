@@ -36,7 +36,7 @@ namespace fancy {
     FancyString str(_value);
     str.replace(__newline, __fake_newline);
     str.replace(__tab, __fake_tab);
-    return "['string_lit, \"\"\"" + str.inspect() + "\"\"\"]";
+    return "['string_lit, \"\"\"" + str.to_s() + "\"\"\"]";
   }
 
   void FancyString::replace(string &what, string &with)
