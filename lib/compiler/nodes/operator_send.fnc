@@ -15,5 +15,15 @@ def class AST {
       operand = sexp[3] to_ast;
       AST::OperatorSend receiver: receiver op_ident: op_ident operand: operand
     }
+
+    def to_ruby: out {
+      @receiver to_ruby: out;
+      out print: ".";
+      @op_ident to_ruby: out;
+      out print: "(";
+      # output all but last args first, each followed by a comma
+      @operand to_ruby: out;
+      out print: ")"
+    }
   }
 }
