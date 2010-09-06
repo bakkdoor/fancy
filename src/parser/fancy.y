@@ -96,6 +96,9 @@
 %token <identifier>         IDENTIFIER
 %token <identifier>         OPERATOR
 
+%left                   DOT
+%right                  DOLLAR
+
 %type  <expression>         literal_value
 %type  <expression>         block_literal
 %type  <block_arg_list>     block_args
@@ -398,7 +401,7 @@ message_send:   receiver IDENTIFIER { $$ = new nodes::MessageSend($1, $2); }
                 ;
 
 
-operator_send:  receiver OPERATOR exp {
+operator_send:  receiver OPERATOR arg_exp {
                   $$ = new nodes::OperatorSend($1, $2, $3);
                 }
                 | receiver LBRACKET exp RBRACKET {
