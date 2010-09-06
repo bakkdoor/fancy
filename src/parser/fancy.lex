@@ -39,7 +39,7 @@ private         "private"
 protected       "protected"
 identifier      @?@?({letter}|{digit}|{special})+
 nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
-symbol_lit      \'({identifier}|{operator}|:)+
+symbol_lit      \'({identifier}|{operator}|:|"[]")+
 regexp_lit      "r{".*"}"
 comma           ,
 semi            ;
