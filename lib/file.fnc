@@ -10,6 +10,16 @@ def class File {
     }
   }
 
+  def self read: filename {
+    lines = [];
+    File open: filename modes: ['read] with: |f| {
+      { f eof? } while_false: {
+        lines << (f readln)
+      }
+    };
+    lines join: "\n"
+  }
+
   def writeln: x {
     "Writes a given argument as a String followed by a newline into the File.";
 

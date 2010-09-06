@@ -35,6 +35,8 @@ AST::Node register: 'operator_send for_node: AST::OperatorSend;
 AST::Node register: 'method for_node: AST::Method;
 AST::Node register: 'method_def for_node: AST::MethodDefinition;
 AST::Node register: 'singleton_method_def for_node: AST::SingletonMethodDefinition;
+AST::Node register: 'operator_def for_node: AST::MethodDefinition;
+AST::Node register: 'singleton_operator_def for_node: AST::SingletonMethodDefinition;
 
 AST::Node register: 'require for_node: AST::Require;
 AST::Node register: 'return for_node: AST::Return;

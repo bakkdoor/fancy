@@ -65,14 +65,9 @@ ARGV for_option: "-c" do: {
   require: "lib/compiler/nodes.fnc";
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-      File open: filename modes: ['read] with: |f| {
-        lines = [];
-        { f eof? } while_false: {
-          lines << (f readln)
-        };
-        COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
-        lines join: "\n" . to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
-      };
+      contents = File read: filename;
+      COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
+      contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
       COMPILE_OUT_STREAM newline;
       COMPILE_OUT_STREAM newline
     }
