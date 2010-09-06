@@ -16,4 +16,14 @@ def class File {
     self write: x;
     self newline
   }
+
+  def print: x {
+    "Same as File#write:.";
+    self write: x
+  }
+
+  def println: x {
+    "Same as File#writeln:.";
+    self writeln: x
+  }
 }
