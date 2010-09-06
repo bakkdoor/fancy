@@ -6,7 +6,7 @@ def class AST {
     }
 
     def ExpressionList from_sexp: sexp {
-      ExpressionList new: $ sexp second map: 'to_ast
+      AST::ExpressionList new: $ sexp second map: 'to_ast
     }
 
     def to_s {
@@ -15,6 +15,13 @@ def class AST {
 
     def inspect {
       self to_s
+    }
+
+    def to_ruby: out {
+      @exprs each: |e| {
+        e to_ruby: out;
+        out println: "; "
+      }
     }
   }
 }

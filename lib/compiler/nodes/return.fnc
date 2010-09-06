@@ -6,7 +6,7 @@ def class AST {
     }
 
     def Return from_sexp: sexp {
-      Return new: $ sexp second to_ast
+      AST::Return new: $ sexp second to_ast
     }
   }
 }

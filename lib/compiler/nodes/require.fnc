@@ -6,7 +6,7 @@ def class AST {
     }
 
     def Require from_sexp: sexp {
-      Require new: $ sexp second to_ast
+      AST::Require new: $ sexp second to_ast
     }
   }
 }

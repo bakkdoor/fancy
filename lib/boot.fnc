@@ -48,4 +48,24 @@ ARGV for_options: ["--help", "-h"] do: {
 ARGV for_option: "-e" do: |eval_string| {
   eval_string eval;
   System exit # quit when running with -e
+};;
+
+ARGV for_option: "--ruby" do: {
+  require: "lib/compiler/nodes.fnc";
+  ARGV index: "--ruby" . if_do: |idx| {
+    ARGV[[idx + 1, -1]] each: |filename| {
+      File open: filename modes: ['read] with: |f| {
+        lines = [];
+        { f eof? } while_false: {
+          lines << (f readln)
+        };
+        out = Console;
+        out println: $ "#### " ++ filename ++ ": " ++ "####";
+        lines join to_sexp to_ast to_ruby: Console
+      };
+      Console newline
+    }
+ };
+ System exit # quit when running with -e
 }
+

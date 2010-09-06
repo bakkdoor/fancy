@@ -12,5 +12,13 @@ def class AST {
     def to_s {
       "<Identifier: '" ++ @name ++ "'>"
     }
+
+    def to_ruby: out {
+      out print: $ self rubyfy
+    }
+
+    def rubyfy {
+      @name to_s split: ":" . select: |x| { x empty? not } . join: "___"
+    }
   }
 }

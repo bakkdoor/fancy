@@ -6,7 +6,7 @@ def class AST {
     }
 
     def SymbolLiteral from_sexp: sexp {
-      SymbolLiteral new: $ sexp second
+      AST::SymbolLiteral new: $ sexp second
     }
   }
 }

@@ -6,7 +6,7 @@ def class AST {
     }
 
     def ArrayLiteral from_sexp: sexp {
-      ArrayLiteral new: $ sexp second
+      AST::ArrayLiteral new: $ sexp second
     }
   }
 }

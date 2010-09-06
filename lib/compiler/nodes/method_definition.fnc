@@ -7,7 +7,7 @@ def class AST {
     }
 
     def MethodDefinition from_sexp: sexp {
-      MethodDefinition new: (sexp second to_ast)
+      AST::MethodDefinition new: (sexp second to_ast)
     }
 
     def to_s {

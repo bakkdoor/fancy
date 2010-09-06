@@ -6,7 +6,7 @@ def class AST {
     }
 
     def HashLiteral from_sexp: sexp {
-      HashLiteral new: $ sexp second map: |entry| { entry map: 'to_ast }
+      AST::HashLiteral new: $ sexp second map: |entry| { entry map: 'to_ast }
     }
   }
 }
