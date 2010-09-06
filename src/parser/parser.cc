@@ -30,7 +30,6 @@ namespace fancy {
     list<string> load_path;
     FancyObject* last_value = nil;
     bool output_sexp = false;
-    bool output_newline = true;
     ostream *out_stream = &cout;
 
     void define_predefined_values(const string &filename)
@@ -41,7 +40,11 @@ namespace fancy {
     void try_parse()
     {
       try {
+        if(output_sexp)
+          (*out_stream) << "['exp_lit, [";
         yyparse();
+        if(output_sexp)
+          (*out_stream) << "]]\n";
       } catch(FancyException* ex) {
         cerr << "\n";
         errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");

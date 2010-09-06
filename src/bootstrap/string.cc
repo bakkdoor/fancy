@@ -214,18 +214,15 @@ namespace fancy {
     {
       string str = self->to_s();
       bool tmp_sexp = parser::output_sexp;
-      bool tmp_newline = parser::output_newline;
       ostream* tmp_out = parser::out_stream;
 
       parser::output_sexp = true;
-      parser::output_newline = false;
 
       stringstream s;
       parser::out_stream = &s;
       parser::parse_string(str, scope);
 
       parser::output_sexp = tmp_sexp;
-      parser::output_newline = tmp_newline;
       parser::out_stream = tmp_out;
 
       return parser::parse_string(s.str(), scope);

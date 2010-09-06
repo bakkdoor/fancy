@@ -33,7 +33,6 @@ namespace fancy {
     extern list<string> load_path;
     extern FancyObject* last_value;
     extern bool output_sexp;
-    extern bool output_newline;
     extern ostream* out_stream;
 
     void parse_file(string &filename);
