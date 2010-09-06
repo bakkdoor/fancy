@@ -18,7 +18,7 @@ def class AST {
       s = " " * ilvl;
       out print: $ s ++ "def ";
 
-      out print: $ @method ident name;
+      out print: $ @method ident to_ruby: out;
       out print: "(";
       @method args from: 0 to: -2 . each: |a| {
         a to_ruby: out;

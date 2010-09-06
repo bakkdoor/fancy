@@ -16,6 +16,7 @@ require: "nodes/hash_literal";
 require: "nodes/require";
 require: "nodes/return";
 require: "nodes/assignment";
+require: "nodes/try_catch_block";
 
 AST::Node register: 'exp_list for_node: AST::ExpressionList;
 AST::Node register: 'ident for_node: AST::Identifier;
@@ -38,3 +39,5 @@ AST::Node register: 'singleton_method_def for_node: AST::SingletonMethodDefiniti
 AST::Node register: 'require for_node: AST::Require;
 AST::Node register: 'return for_node: AST::Return;
 AST::Node register: 'assign for_node: AST::Assignment;
+AST::Node register: 'try_catch_block for_node: AST::TryCatchBlock;
+AST::Node register: 'except_handler for_node: AST::ExceptHandler;

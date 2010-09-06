@@ -19,11 +19,20 @@ def class AST {
     def to_ruby: out indent: ilvl {
       out print: $ " " * ilvl ++ "(";
       @receiver to_ruby: out;
-      out print: " ";
-      @op_ident to_ruby: out;
-      out print: " ";
-      # output all but last args first, each followed by a comma
-      @operand to_ruby: out;
+
+      # check for [] access
+      # e.g.: arr[1] instead of: arr [] 1
+      @op_ident name == '[] if_true: {
+        out print: "[";
+        @operand to_ruby: out;
+        out print: "]"
+      } else: {
+        out print: " ";
+        @op_ident to_ruby: out;
+        out print: " ";
+        # output all but last args first, each followed by a comma
+        @operand to_ruby: out
+      };
       out print: ")"
     }
   }

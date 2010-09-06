@@ -11,11 +11,13 @@ def class AST {
 
     def to_ruby: out indent: ilvl {
       out print: $ (" " * ilvl) ++ "[";
-      @array from: 0 to: -2 . each: |e| {
-        e to_ast to_ruby: out;
-        out print: ", "
+      @array empty? if_false: {
+        @array from: 0 to: -2 . each: |e| {
+          e to_ast to_ruby: out;
+          out print: ", "
+        };
+        @array last to_ast to_ruby: out
       };
-      @array last to_ast to_ruby: out;
       out print: "]"
     }
   }
