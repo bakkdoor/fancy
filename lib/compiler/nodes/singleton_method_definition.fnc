@@ -27,10 +27,10 @@ def class AST {
         out print: ","
       };
       @method args last if_do: |l| { out print: $ l name };
-      out print: ")\n";
+      out println: ")";
       { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
 
-      out print: "\n";
+      out newline;
       out print: $ s ++ "end"
     }
   }

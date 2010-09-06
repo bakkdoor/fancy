@@ -15,12 +15,13 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: "Proc.new{ ";
+      out print: "Proc.new{";
       @args empty? if_false: {
         out print: "|";
         @args each: |a| { a to_ruby: out };
         out print: "|"
       };
+      out print: " ";
       @body to_ruby: out indent: ilvl;
       out print: " }"
     }

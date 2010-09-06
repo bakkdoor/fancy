@@ -20,7 +20,7 @@ def class AST {
     def to_ruby: out indent: ilvl {
       @exprs from: 0 to: -2 . each: |e| {
         e to_ruby: out indent: ilvl;
-        out print: "\n"
+        out newline
       };
       @exprs last to_ruby: out indent: ilvl
     }

@@ -24,12 +24,13 @@ def class AST {
       out print: $ " " * ilvl ++ "class ";
       out print: $ @ident name;
       { out print: " < "; @superclass_ident to_ruby: out indent: ilvl } if: @superclass_ident;
-      out print: "\n";
+      out newline;
 
       ilvl = ilvl + 2;
 
       @body to_ruby: out indent: ilvl;
-      out print: "\nend"
+      out newline;
+      out print: "end"
     }
   }
 }
