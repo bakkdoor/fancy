@@ -18,9 +18,9 @@ def class AST {
     def to_ruby: out indent: ilvl {
       s = " " * ilvl;
       out print: $ s ++ "def ";
-      out print: $ @object_ident to_ruby: out;
+      @object_ident to_ruby: out;
       out print: ".";
-      out print: $ @method ident to_ruby: out;
+      @method ident to_ruby: out;
       out print: "(";
       @method args from: 0 to: -2 . each: |a| {
         a to_ruby: out;
