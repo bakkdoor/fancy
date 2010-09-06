@@ -15,8 +15,7 @@ def class AST {
     def to_ruby: out {
       out print: $ @ident name;
       out print: " = ";
-      out print: $ @expr to_ruby: out;
-      out print: ";"
+      @expr to_ruby: out
     }
   }
 }
