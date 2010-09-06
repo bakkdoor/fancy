@@ -10,7 +10,11 @@ def class AST {
     }
 
     def to_ruby: out {
-      out print: $ ":" ++ @symbol
+      @symbol to_s include?: ":" . if_true: {
+        out print: $ ":'" ++ @symbol ++ "'"
+      } else: {
+        out print: $ ":" ++ @symbol
+      }
     }
   }
 }
