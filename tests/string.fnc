@@ -86,6 +86,7 @@ FancySpec describe: String with: |it| {
   it should: "split a string at a given seperator string" for: 'split: when: {
     str = "hello, world, how are you?";
     str split: ", " . should == ["hello", "world", "how are you?"];
-    "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"]
+    "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"];
+    ",1,2,3,4," split: "," . should == ["", "1", "2", "3", "4"]
   }
 }

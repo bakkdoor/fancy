@@ -44,12 +44,15 @@ namespace fancy {
       subend = search(substart, str.end(), seperator.begin(), seperator.end());
       string temp(substart, subend);
       if (keep_empty || !temp.empty()) {
-	result.push_back(temp);
+        result.push_back(temp);
       }
       if (subend == str.end()) {
 	break;
       }
       substart = subend + seperator.size();
+    }
+    if(result.back() == "") {
+      result.pop_back();
     }
     return result;
   }

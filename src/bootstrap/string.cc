@@ -202,7 +202,7 @@ namespace fancy {
       EXPECT_ARGS("String#split:" , 1);
       string str = self->to_s();
       string seperator = args[0]->to_s();
-      vector<string> parts = string_split(str, seperator, false);
+      vector<string> parts = string_split(str, seperator, true);
       Array* arr = new Array(parts.size());
       for(unsigned int i = 0; i < parts.size(); i++) {
 	arr->set_value(i, FancyString::from_value(parts[i]));
