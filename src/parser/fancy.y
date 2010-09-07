@@ -87,6 +87,7 @@
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
+%token                  RB_ARGS_PREFIX
 
 %token <number>             INTEGER_LITERAL
 %token <number>             DOUBLE_LITERAL
@@ -485,6 +486,9 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
 array_literal:  empty_array
                 | LBRACKET exp_comma_list RBRACKET {
                     $$ = new nodes::ArrayLiteral($2);
+                }
+                | RB_ARGS_PREFIX array_literal {
+                  $$ = new nodes::RubyArgsLiteral($2);
                 }
                 ;
 

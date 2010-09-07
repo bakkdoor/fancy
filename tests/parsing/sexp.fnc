@@ -9,7 +9,7 @@ FancySpec describe: "S-Expression" for: String with: |it| {
   };
 
   it should: "be correct for string literals" for: 'to_sexp when: {
-#    "\"foo\"" to_sexp should == ['exp_list, [['string_lit, "foo"]]
+    #    "\"foo\"" to_sexp should == ['exp_list, [['string_lit, "foo"]]
   };
 
   it should: "be correct for integer literals" for: 'to_sexp when: {
@@ -34,8 +34,17 @@ FancySpec describe: "S-Expression" for: String with: |it| {
     "[]" to_sexp should == ['exp_list, [['array_lit, []]]]
   };
 
- it should: "be able to parse multiple expressions in one string" for: 'to_sexp when: {
-   "x = 1; y = 2" to_sexp should == ['exp_list, [['assign, ['ident, 'x], ['int_lit, 1]],
-                                                 ['assign, ['ident, 'y], ['int_lit, 2]]]]
- }
+  it should: "be able to parse multiple expressions in one string" for: 'to_sexp when: {
+    "x = 1; y = 2" to_sexp should == ['exp_list, [['assign, ['ident, 'x], ['int_lit, 1]],
+                                                  ['assign, ['ident, 'y], ['int_lit, 2]]]]
+  };
+
+  it should: "parse an RubyArgsLiteral correctly" for: 'to_sexp when: {
+    "obj foo: ~[1,2]" to_sexp should ==
+    ['exp_list, [['message_send, ['ident, 'obj],
+                  ['ident, 'foo:],
+                  [['rb_args_lit, ['array_lit,
+                                   [['int_lit, 1],
+                                    ['int_lit, 2]]]]]]]]
+  }
 }

@@ -32,4 +32,5 @@ namespace fancy {
     }
   }
 }
+
 #endif /* _ARRAY_LITERAL_H_ */
