@@ -24,47 +24,39 @@ def class Array {
     "Appends another Array onto this one.";
 
     # TODO: should this method return a copy, or append to self and return self ?
-
     arr is_a? Array . if_true: {
-
-     arr each: |other| {
+      arr each: |other| {
         self << other
       };
-
       tmp # TODO: does the method return this ?
-
     } else: {
       nil
     }
-
   }
 
   def clone {
     "Clones (shallow copy) the Array."
-    # TODO: implement
+    new = [];
+    self each: |x| {
+      new << x
+    };
+    new
   }
 
   def remove_at: obj {
-    """Removes an element at a given index. \
-     If given an Array of indices, removes all the elements with these indices. \
+    """Removes an element at a given index.
+     If given an Array of indices, removes all the elements with these indices.
      Returns the deleted object if an index was given, the last deleted object for an Array given.""";
 
     obj is_a?: Number . if_true: {
-
       self delete_at: obj # call to ruby-Array#delete_at
-
     } else: {
-
       obj is_a?: Array . if_true: {
-
         obj each: |idx| {
           self delete_at: obj # call to ruby-Array#delete_at
         }
-
       }
-
     }
-
   }
 
 
@@ -87,18 +79,13 @@ def class Array {
   def indices: item {
     "Returns an Array of all indices of this item. Empty Array if item does not occur.";
 
-    tmp =  Array new;
-
+    tmp = [];
     self each_with_index: |obj, idx| {
-
       item == obj if_true: {
         tmp << idx
       }
-
     };
-
     tmp
-
   }
 
   def from: from to: to {
@@ -124,7 +111,7 @@ def class Array {
   def select_with_index: block {
     "Same as select, just gets also called with an additional argument for each element's index value.";
 
-    tmp = Array.new;
+    tmp = [];
 
     self each_with_index: |obj idx| {
       block call: [obj, idx] . if_true: {
@@ -132,7 +119,6 @@ def class Array {
       }
     };
 
-    # TODO: return nil if it fails ?
     tmp
   }
 
