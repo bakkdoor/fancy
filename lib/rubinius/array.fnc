@@ -1,35 +1,40 @@
 def class Array {
 
-  def new: size {
-    "Array constructor method that takes the initial size of the Array."
-    # TODO: implement
-  }
+  def Array new: size with: default {
+    "Create a new Array with a given size and default-value.";
 
-  def new: size with: default {
-    "Create a new Array with a given size and default-value."
-    # TODO: implement
-  }
+    Array new: ~[size, default]
+  };
 
-  # skipped each
-
-  # skipped ==
-
-  # skipped <<
-
-  # skipped clear
-
-  # skipped size
-
-  def at: index {
-    "Returns the value at a given index or nil, if index not valid."
-    # TODO: implement
-  }
-
-  # skipped at
+  # methods already existing on Array in ruby
+  self method: "each" .  docstring=: "See ruby Array#each";
+  self method: "==" . docstring=: "See ruby Array#==";
+  self method: "clear" . docstring=: "See ruby Array#clear";
+  self method: "size" . docstring=: "See ruby Array#size";
+  self method: "at" . docstring=: "See ruby Array#at";
+  self method: "indices" . docstring=: "See ruby Array#indices";
+  self method: "first" . docstring=: "See ruby Array#first";
+  self method: "reject!" . docstring=: "See ruby Array#reject!";
+  self method: "select" . docstring=: "See ruby Array#select";
+  self method: "<<" . docstring=: "See ruby Array#<<";
 
   def append: arr {
-    "Appends another Array onto this one."
-    # TODO: implement
+    "Appends another Array onto this one.";
+
+    # TODO: should this method return a copy, or append to self and return self ?
+
+    arr is_a? Array . if_true: {
+
+      arr each: |other| {
+        self << other
+      };
+
+      tmp # does the method return this ?
+
+    } else: {
+      nil
+    }
+
   }
 
   def clone {
@@ -37,26 +42,42 @@ def class Array {
     # TODO: implement
   }
 
-  def remove_at: index {
-    "Removes an element at a given index. \
-     If given an Array of indices, removes all the elements with these indices."
-    # TODO: implement
+  def remove_at: obj {
+    """Removes an element at a given index. \
+     If given an Array of indices, removes all the elements with these indices. \
+     Returns the deleted object if an index was given, the last deleted object for an Array given.""";
+
+    obj is_a?: Number . if_true: {
+
+      self delete_at: obj # call to ruby-Array#delete_at
+
+    } else: {
+
+      obj is_a?: Array . if_true: {
+
+        obj each: |idx| {
+          self delete_at: obj # call to ruby-Array#delete_at
+        }
+
+      }
+
+    }
+
   }
 
-  # skipped first
 
   def second {
-    "Returns the second element in the Array"
+    "Returns the second element in the Array";
     self at: 1
   }
 
   def third {
-    "Returns the third element in the Array"
+    "Returns the third element in the Array";
     self at: 2
   }
 
   def fourth {
-    "Returns the fourth element in the Array"
+    "Returns the fourth element in the Array";
     self at: 3
   }
 
@@ -65,7 +86,6 @@ def class Array {
     # TODO: implement
   }
 
-  # skipped indices
 
   def from: from to: to {
     "Returns sub-array starting at from: and going to to:"
@@ -92,30 +112,10 @@ def class Array {
     # TODO: implement
   }
 
-  # skipped select
 
-  def select_with_index: {
+  def select_with_index: index {
     "Same as select, just gets also called with an additional argument for each element's index value."
     # TODO: implement
   }
-
-  # skipped reject!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
