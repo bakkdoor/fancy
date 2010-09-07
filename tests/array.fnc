@@ -290,5 +290,15 @@ FancySpec describe: Array with: |it| {
 
   it should: "return itself as a string" for: 'to_s when: {
     [1,2,3] to_s should == "123"
+  };
+
+  it should: "call a given block between calling the each block" for: 'each:in_between: when: {#
+    arr = [];
+    [1,2,3] each: |x| { arr << x } in_between: { arr << "-" };
+    arr should == [1, "-", 2, "-", 3];
+
+    str = "";
+    ['foo, 'bar, 'baz] each: |x| { str = str ++ (x to_s) } in_between: { str = str ++ " " };
+    str should == "foo bar baz"
   }
 }
