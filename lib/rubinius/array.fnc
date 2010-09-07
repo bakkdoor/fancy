@@ -112,7 +112,6 @@ def class Array {
     "Same as select, just gets also called with an additional argument for each element's index value.";
 
     tmp = [];
-
     self each_with_index: |obj idx| {
       block call: [obj, idx] . if_true: {
         tmp << obj
