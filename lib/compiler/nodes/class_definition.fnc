@@ -29,6 +29,7 @@ def class AST {
       ilvl = ilvl + 2;
 
       @body to_ruby: out indent: ilvl;
+      out newline;
       out print: "end"
     }
   }
