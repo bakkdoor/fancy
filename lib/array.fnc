@@ -194,4 +194,21 @@ def class Array {
 
     self clone append: other_arr
   }
+
+  def each: each_block in_between: between_block {
+    """
+    Similar to Array#each: but calls an additional Block between
+    calling the first Block for each element in self.
+    """;
+
+    count = 0;
+    size = self size;
+    self each: |x| {
+      each_block call: x;
+      count == (size - 1) if_false: {
+        between_block call
+      };
+      count = count + 1
+    }
+  }
 }
