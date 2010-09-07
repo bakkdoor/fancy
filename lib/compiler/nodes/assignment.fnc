@@ -13,7 +13,7 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ (" " * ilvl) ++ (@ident name);
+      @ident to_ruby: out indent: ilvl;
       out print: " = ";
       @expr to_ruby: out
     }

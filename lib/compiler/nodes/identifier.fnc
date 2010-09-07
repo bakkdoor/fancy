@@ -4,7 +4,8 @@ def class AST {
     @@name_conversions = <["||" => "or",
                           "&&" => "and",
                           "!=" => "not_equal",
-                          "++" => "plusplus"]>;
+                          "++" => "plusplus",
+                          "class" => "_class"]>;
 
     def initialize: name {
       @name = name

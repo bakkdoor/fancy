@@ -12,16 +12,16 @@ def class AST {
     def to_ruby: out indent: ilvl {
       out print: $ " " * ilvl ++ "{";
       @entries from: 0 to: -2 . each: |e| {
-        out print: (e first to_ruby: out);
+        e first to_ruby: out;
         out print: " => ";
-        out print: (e second to_ruby: out);
+        e second to_ruby: out;
         out print: ", "
       };
       # output last entry without comma
       @entries last if_do: |l| {
-        out print: (l first  to_ruby: out);
+        l first  to_ruby: out;
         out print: " => ";
-        out print: (l second to_ruby: out)
+        l second to_ruby: out
       };
       out print: "}"
     }

@@ -74,8 +74,8 @@ ARGV for_option: "-c" do: {
       COMPILE_OUT_STREAM newline;
       COMPILE_OUT_STREAM newline
     }
- };
- System exit # quit when running with -e
+  };
+  System exit
 };
 
 # close COMPILE_OUT_STREAM if it's a File

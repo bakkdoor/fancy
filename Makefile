@@ -50,6 +50,10 @@ STDLIB_BOOTSTRAP_FILES = argv boot array block class compiler		\
 directory enumerable fancy_spec hash method nil_class number object	\
 set string symbol true_class version
 
+COMPILER_BOOTSTRAP_FILES = nodes nodes/array_literal nodes/assignment nodes/block_literal nodes/class_definition nodes/expression_list nodes/hash_literal nodes/identifier nodes/message_send nodes/method_definition nodes/method nodes/node nodes/number_literal nodes/operator_send nodes/require nodes/return nodes/singleton_method_definition nodes/string_literal nodes/symbol_literal nodes/try_catch_block
+
+
 bootstrap:
-	@mkdir -p .compiled/lib
+	@mkdir -p .compiled/lib/compiler/nodes
 	$(foreach file, $(STDLIB_BOOTSTRAP_FILES), bin/fancy -c lib/$(file).fnc -o .compiled/lib/$(file).fnc.rb;)
+	$(foreach file, $(COMPILER_BOOTSTRAP_FILES), bin/fancy -c lib/compiler/$(file).fnc -o .compiled/lib/compiler/$(file).fnc.rb;)
