@@ -10,10 +10,7 @@ def class Array {
     # TODO: implement
   }
 
-  def each: block {
-    "Iterate over all elements in Array. Calls a given Block with each element."
-    # TODO: implement
-  }
+  # skipped each
 
   # skipped ==
 
