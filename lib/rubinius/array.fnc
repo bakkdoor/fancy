@@ -87,7 +87,7 @@ def class Array {
   def indices: item {
     "Returns an Array of all indices of this item. Empty Array if item does not occur.";
 
-    tmp =  Array new;
+    tmp =  [];
 
     self each_with_index: |obj, idx| {
 
@@ -124,7 +124,7 @@ def class Array {
   def select_with_index: block {
     "Same as select, just gets also called with an additional argument for each element's index value.";
 
-    tmp = Array.new;
+    tmp = [];
 
     self each_with_index: |obj idx| {
       block call: [obj, idx] . if_true: {
