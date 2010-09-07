@@ -21,15 +21,17 @@ def class AST {
       @object_ident to_ruby: out;
       out print: ".";
       @method ident to_ruby: out;
-      out print: "(";
-      @method args from: 0 to: -2 . each: |a| {
-        a to_ruby: out;
-        out print: ","
+      @method args empty? if_false: {
+        out print: "(";
+        @method args from: 0 to: -2 . each: |a| {
+          a to_ruby: out;
+          out print: ","
+        };
+        @method args last if_do: |l| { out print: $ l name };
+        out print: ")"
       };
-      @method args last if_do: |l| { out print: $ l name };
-      out println: ")";
+      out newline;
       { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
-
       out newline;
       out print: $ s ++ "end"
     }
