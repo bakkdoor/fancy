@@ -1,6 +1,11 @@
 def class AST {
   def class Identifier : Node {
     self read_write_slots: ['name];
+    @@name_conversions = <["||" => "or",
+                          "&&" => "and",
+                          "!=" => "not_equal",
+                          "++" => "plusplus"]>;
+
     def initialize: name {
       @name = name
     }
@@ -19,7 +24,14 @@ def class AST {
     }
 
     def rubyfy {
-      @name to_s split: ":" . select: |x| { x empty? not } . join: "___"
+      namespaced_parts = @name to_s split: "::";
+      namespaced_parts = namespaced_parts map: |n| { n to_s split: ":" . select: |x| { x empty? not } . join: "___" };
+      name = namespaced_parts join: "::";
+      @@name_conversions[name] if_do: |new_val| {
+        new_val
+      } else: {
+        name
+      }
     }
   }
 }

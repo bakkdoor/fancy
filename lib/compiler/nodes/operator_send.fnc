@@ -17,23 +17,28 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl ++ "(";
-      @receiver to_ruby: out;
-
-      # check for [] access
-      # e.g.: arr[1] instead of: arr [] 1
-      @op_ident name == '[] if_true: {
-        out print: "[";
-        @operand to_ruby: out;
-        out print: "]"
+      name = @op_ident rubyfy;
+      ["and", "or", "not_equal", "plusplus"] any?: |x| { name == x } . if_true: {
+        AST::MessageSend receiver: @receiver method_ident: @op_ident args: [@operand] . to_ruby: out indent: ilvl
       } else: {
-        out print: " ";
-        @op_ident to_ruby: out;
-        out print: " ";
-        # output all but last args first, each followed by a comma
-        @operand to_ruby: out
-      };
-      out print: ")"
+        out print: $ " " * ilvl ++ "(";
+        @receiver to_ruby: out;
+
+        # check for [] access
+        # e.g.: arr[1] instead of: arr [] 1
+        @op_ident name == '[] if_true: {
+          out print: "[";
+          @operand to_ruby: out;
+          out print: "]"
+        } else: {
+          out print: " ";
+          @op_ident to_ruby: out;
+          out print: " ";
+          # output all but last args first, each followed by a comma
+          @operand to_ruby: out
+        };
+        out print: ")"
+      }
     }
   }
 }
