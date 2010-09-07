@@ -7,6 +7,9 @@
 # In general, it's best to add any autoload-files at the end of the
 # current list (if adding them here is really necessary at all).
 
+# a hack for "def NATIVE" method definitions:
+NATIVE = Object new;
+
 require: "object";
 require: "class";
 require: "true_class";

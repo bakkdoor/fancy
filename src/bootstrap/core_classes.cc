@@ -140,8 +140,6 @@ namespace fancy {
       /* define singleton objects */
       global_scope->define("nil", nil);
       global_scope->define("true", t);
-      // a hack for "def NATIVE" method definitions:
-      global_scope->define("NATIVE", new FancyObject(ObjectClass));
     }
 
   }
