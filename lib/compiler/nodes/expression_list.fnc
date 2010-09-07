@@ -18,12 +18,10 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      @exprs empty? if_false: {
-        @exprs from: 0 to: -2 . each: |e| {
-          e to_ruby: out indent: ilvl;
-          out newline
-        };
-        @exprs last to_ruby: out indent: ilvl
+      @exprs each: |e| {
+        e to_ruby: out indent: ilvl
+      } in_between: {
+        out newline
       }
     }
     def docstring {

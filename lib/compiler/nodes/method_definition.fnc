@@ -16,22 +16,29 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      s = " " * ilvl;
+      s = " " * ilvl; # indent level
       out print: $ s ++ "def ";
 
       @method ident to_ruby: out;
+
+      # output args, if any given
       @method args empty? if_false: {
         out print: "(";
-        @method args from: 0 to: -2 . each: |a| {
-          a to_ruby: out;
+        @method args each: |arg| {
+          arg to_ruby: out
+        } in_between: {
           out print: ","
         };
-        @method args last if_do: |l| { out print: $ l name };
         out print: ")"
       };
+
       out newline;
+
+      # output method's body
       { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
       out print: $ s ++ "end";
+
+      # docstring, if given
       @docstring if_do: {
         out newline;
         out print: $ (" " * ilvl) ++ "self.method('";
