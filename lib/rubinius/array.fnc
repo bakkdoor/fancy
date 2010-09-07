@@ -3,20 +3,22 @@ def class Array {
   def Array new: size with: default {
     "Create a new Array with a given size and default-value.";
 
-    Array new: ~[size, default]
+    Array new: ~[size, default] # direct call to Array.new(size, default) in ruby
   };
 
   # methods already existing on Array in ruby
-  self method: "each" .  docstring=: "See ruby Array#each";
-  self method: "==" . docstring=: "See ruby Array#==";
-  self method: "clear" . docstring=: "See ruby Array#clear";
-  self method: "size" . docstring=: "See ruby Array#size";
-  self method: "at" . docstring=: "See ruby Array#at";
+  # TODO: Perhaps write better descriptions.
+  self method: "each"    . docstring=: "See ruby Array#each";
+  self method: "=="      . docstring=: "See ruby Array#==";
+  self method: "clear"   . docstring=: "See ruby Array#clear";
+  self method: "size"    . docstring=: "See ruby Array#size";
+  self method: "at"      . docstring=: "See ruby Array#at";
   self method: "indices" . docstring=: "See ruby Array#indices";
-  self method: "first" . docstring=: "See ruby Array#first";
+  self method: "first"   . docstring=: "See ruby Array#first";
   self method: "reject!" . docstring=: "See ruby Array#reject!";
-  self method: "select" . docstring=: "See ruby Array#select";
-  self method: "<<" . docstring=: "See ruby Array#<<";
+  self method: "select"  . docstring=: "See ruby Array#select";
+  self method: "<<"      . docstring=: "See ruby Array#<<";
+  self method: "last"    . docstring=: "See ruby Array#last";
 
   def append: arr {
     "Appends another Array onto this one.";
@@ -25,11 +27,11 @@ def class Array {
 
     arr is_a? Array . if_true: {
 
-      arr each: |other| {
+     arr each: |other| {
         self << other
       };
 
-      tmp # does the method return this ?
+      tmp # TODO: does the method return this ?
 
     } else: {
       nil
@@ -81,19 +83,26 @@ def class Array {
     self at: 3
   }
 
+  # TODO: rename to "indices_of:" ?
   def indices: item {
-     "Returns an Array of all indices of this item."
-    # TODO: implement
-  }
+    "Returns an Array of all indices of this item. Empty Array if item does not occur.";
 
+    tmp =  Array new;
+
+    self each_with_index: |obj, idx| {
+
+      item == obj if_true: {
+        tmp << idx
+      }
+
+    };
+
+    tmp
+
+  }
 
   def from: from to: to {
     "Returns sub-array starting at from: and going to to:"
-    # TODO: implement
-  }
-
-  def last {
-    "Returns the last element in the Array."
     # TODO: implement
   }
 
@@ -112,10 +121,19 @@ def class Array {
     # TODO: implement
   }
 
+  def select_with_index: block {
+    "Same as select, just gets also called with an additional argument for each element's index value.";
 
-  def select_with_index: index {
-    "Same as select, just gets also called with an additional argument for each element's index value."
-    # TODO: implement
+    tmp = Array.new;
+
+    self each_with_index: |obj idx| {
+      block call: [obj, idx] . if_true: {
+        tmp << obj
+      }
+    };
+
+    # TODO: return nil if it fails ?
+    tmp
   }
 
 }
