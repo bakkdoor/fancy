@@ -19,6 +19,7 @@ clean:
 	rm -f bin/fancy
 	rm -rf tmp/
 	rm -rf docs/
+	rm -rf .compiled/
 
 all-clean: clean
 	@cd vendor/gc && make clean
@@ -43,3 +44,12 @@ example: all
 	bin/fancy examples/echo.fnc examples/echo.fnc
 	@echo
 	@$(foreach file, $(EXAMPLEFILES),echo "\n\n>> examples/$(file).fnc:\n"; bin/fancy examples/$(file).fnc;)
+
+
+STDLIB_BOOTSTRAP_FILES = argv boot array block class compiler		\
+directory enumerable fancy_spec hash method nil_class number object	\
+set string symbol true_class version
+
+bootstrap:
+	@mkdir -p .compiled/lib
+	$(foreach file, $(STDLIB_BOOTSTRAP_FILES), bin/fancy -c lib/$(file).fnc -o .compiled/lib/$(file).fnc.rb;)
