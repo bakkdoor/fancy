@@ -23,6 +23,7 @@ def class AST {
     def to_ruby: out indent: ilvl {
       out print: $ " " * ilvl ++ "class ";
       out print: $ @ident name;
+      out newline;
       { out print: " < "; @superclass_ident to_ruby: out indent: ilvl } if: @superclass_ident;
       out newline;
 

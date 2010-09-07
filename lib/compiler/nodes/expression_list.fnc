@@ -26,5 +26,15 @@ def class AST {
         @exprs last to_ruby: out indent: ilvl
       }
     }
+    def docstring {
+      @docstring if_nil: {
+        @exprs first is_a?: AST::StringLiteral . if_true: {
+          @docstring = @exprs first string;
+          "got a docstring: " ++ @docstring println;
+          @exprs = @exprs rest # remove docstring from @exprs
+        }
+      };
+      @docstring
+    }
   }
 }

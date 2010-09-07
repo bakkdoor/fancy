@@ -20,5 +20,9 @@ def class AST {
     def to_s {
       "<Method: ident:'" ++ @ident ++ "' args:" ++ @args ++ " body:" ++ @body ++ ">"
     }
+
+    def docstring {
+      @body docstring
+    }
   }
 }

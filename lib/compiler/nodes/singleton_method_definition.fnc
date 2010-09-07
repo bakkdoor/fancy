@@ -2,10 +2,15 @@ def class AST {
   def class SingletonMethodDefinition : Node {
     self read_write_slots: ['object_ident, 'method];
 
+    def init_docstring {
+      @docstring = @method docstring
+    }
+
     def SingletonMethodDefinition object_ident: obj_ident method: method {
       cd = AST::SingletonMethodDefinition new;
       cd object_ident: obj_ident;
       cd method: method;
+      cd init_docstring;
       cd
     }
 
@@ -33,7 +38,17 @@ def class AST {
       out newline;
       { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
       out newline;
-      out print: $ s ++ "end"
+      out print: $ s ++ "end";
+      out newline;
+      @docstring if_do: {
+        out print: $ (" " * ilvl);
+        @object_ident to_ruby: out;
+        out print: ".method('";
+        @method ident to_ruby: out;
+        out print: "').docstring = ";
+        out print: $ "'" ++ @docstring ++ "'"
+      };
+      out newline
     }
   }
 }
