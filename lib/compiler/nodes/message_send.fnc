@@ -22,15 +22,12 @@ def class AST {
       out print: ".";
       @method_ident to_ruby: out;
       out print: "(";
-      # output all but last args first, each followed by a comma
-      @args empty? if_false: {
-        @args [[0,-2]] each: |a| {
-          a to_ruby: out;
-          out print: ", "
-        };
-        # then output last arg, not followed by a comma
-        @args last to_ruby: out
-      };
+
+      # output all args seperated by a comma
+      @args each: |a| {
+        a to_ruby: out
+      } in_between: { out print: ", " };
+
       out print: ")"
     }
   }

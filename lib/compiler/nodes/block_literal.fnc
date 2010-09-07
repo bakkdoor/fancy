@@ -22,7 +22,7 @@ def class AST {
         out print: "|"
       };
       out print: " ";
-      @body to_ruby: out indent: ilvl;
+      @body to_ruby: out;
       out print: " }"
     }
   }
