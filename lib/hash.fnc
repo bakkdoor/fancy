@@ -27,7 +27,7 @@ def class Hash {
     "Calls a given Block with each key.";
 
     self keys each: |key| {
-      block call: key
+      block call: [key]
     }
   }
 
@@ -35,7 +35,7 @@ def class Hash {
     "Calls a given Block with each value.";
 
     self values each: |val| {
-      block call: val
+      block call: [val]
     }
   }
 
