@@ -55,5 +55,7 @@ COMPILER_BOOTSTRAP_FILES = nodes nodes/array_literal nodes/assignment nodes/bloc
 
 bootstrap:
 	@mkdir -p .compiled/lib/compiler/nodes
+	@mkdir -p .compiled/tests/parsing
 	$(foreach file, $(STDLIB_BOOTSTRAP_FILES), bin/fancy -c lib/$(file).fnc -o .compiled/lib/$(file).fnc.rb;)
 	$(foreach file, $(COMPILER_BOOTSTRAP_FILES), bin/fancy -c lib/compiler/$(file).fnc -o .compiled/lib/compiler/$(file).fnc.rb;)
+	$(foreach file, $(TESTFILES), bin/fancy -c tests/$(file).fnc -o .compiled/tests/$(file).fnc.rb;)
