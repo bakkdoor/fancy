@@ -19,12 +19,25 @@ def class AST {
       s = " " * ilvl; # indent level
       out print: $ s ++ "def ";
 
-      @method ident to_ruby: out;
+      AST::MethodDefinition output: out method: @method indent: ilvl;
+
+      AST::MethodDefinition
+        output: out
+        docstring: @docstring
+        for: (AST::Identifier new: "self")
+        method: (@method ident)
+        indent: ilvl
+    }
+
+    def MethodDefinition output: out method: method indent: ilvl {
+      "Helper method for outputting the method header & body code.";
+
+      method ident to_ruby: out;
 
       # output args, if any given
-      @method args empty? if_false: {
+      method args empty? if_false: {
         out print: "(";
-        @method args each: |arg| {
+        method args each: |arg| {
           arg to_ruby: out
         } in_between: {
           out print: ","
@@ -35,16 +48,24 @@ def class AST {
       out newline;
 
       # output method's body
-      { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
-      out print: $ s ++ "end";
+      { method body to_ruby: out indent: (ilvl + 2) } if: (method body);
+
+      out newline;
+      out print: $ s ++ "end"
+    }
+
+    def MethodDefinition output: out docstring: docstring for: object method: method_ident indent: ilvl {
+      "Helper method for outputting the docstring setter code.";
 
       # docstring, if given
-      @docstring if_do: {
+      docstring if_do: {
         out newline;
-        out print: $ (" " * ilvl) ++ "self.method('";
-        @method ident to_ruby: out;
+        out print: $ " " * ilvl;
+        object to_ruby: out;
+        out print: ".method('";
+        method_ident to_ruby: out;
         out print: "').docstring = ";
-        out print: $ @docstring inspect;
+        out print: $ docstring inspect;
         out newline
       }
     }
