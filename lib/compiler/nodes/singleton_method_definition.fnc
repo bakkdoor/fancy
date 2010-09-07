@@ -46,9 +46,9 @@ def class AST {
         out print: ".method('";
         @method ident to_ruby: out;
         out print: "').docstring = ";
-        out print: $ "'" ++ @docstring ++ "'"
-      };
-      out newline
+        out print: $ @docstring inspect;
+        out newline
+      }
     }
   }
 }

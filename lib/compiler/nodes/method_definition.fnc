@@ -31,16 +31,15 @@ def class AST {
       };
       out newline;
       { @method body to_ruby: out indent: (ilvl + 2) } if: (@method body);
-      out newline;
       out print: $ s ++ "end";
-      out newline;
       @docstring if_do: {
+        out newline;
         out print: $ (" " * ilvl) ++ "self.method('";
         @method ident to_ruby: out;
         out print: "').docstring = ";
-        out print: $ "'" ++ @docstring ++ "'"
-      };
-      out newline
+        out print: $ @docstring inspect;
+        out newline
+      }
     }
   }
 }
