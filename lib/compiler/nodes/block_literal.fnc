@@ -18,7 +18,7 @@ def class AST {
       out print: "Proc.new{";
       @args empty? if_false: {
         out print: "|";
-        @args each: |a| { a to_ruby: out } in_between: { out pint: ", "};
+        @args each: |a| { a to_ruby: out } in_between: { out print: ", "};
         out print: "|"
       };
       out print: " ";
