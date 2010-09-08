@@ -68,9 +68,13 @@ ARGV for_option: "-c" do: {
   require: "lib/compiler/nodes.fnc";
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-      contents = File read: filename;
+    #   contents = File read: filename;
       COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
-      contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
+    #   contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
+    #   COMPILE_OUT_STREAM newline;
+    #   COMPILE_OUT_STREAM newline
+      exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp");
+      exp first eval to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
       COMPILE_OUT_STREAM newline;
       COMPILE_OUT_STREAM newline
     }
