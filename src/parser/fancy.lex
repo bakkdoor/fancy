@@ -37,6 +37,7 @@ finally         "finally"
 super           "super"
 private         "private"
 protected       "protected"
+self            "self"
 identifier      @?@?({letter}|{digit}|{special})+
 nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
@@ -91,6 +92,7 @@ comment         #[^\n]*
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }
+{self}          { yylval.expression = fancy::parser::nodes::Self::node(); return IDENTIFIER; }
 {identifier}    {
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);

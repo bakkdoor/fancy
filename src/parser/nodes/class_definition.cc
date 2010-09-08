@@ -63,7 +63,7 @@ namespace fancy {
         if(!(the_class = dynamic_cast<Class*>(class_obj))) {
           Class* superclass = _superclass;
           if(!superclass && _superclass_name) {
-            FancyObject* class_obj = scope->get(_superclass_name->name());
+            FancyObject* class_obj = _superclass_name->eval(scope);
             if(IS_CLASS(class_obj)) {
               superclass = dynamic_cast<Class*>(class_obj);
             } else {
