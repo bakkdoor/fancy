@@ -7,7 +7,7 @@ def class AST {
     }
 
     def SingletonMethodDefinition object_ident: obj_ident method: method {
-      cd = AST::SingletonMethodDefinition new;
+      cd = SingletonMethodDefinition new;
       cd object_ident: obj_ident;
       cd method: method;
       cd init_docstring;
@@ -17,7 +17,7 @@ def class AST {
     def SingletonMethodDefinition from_sexp: sexp {
       obj_ident = sexp second to_ast;
       method = sexp third to_ast;
-      AST::SingletonMethodDefinition object_ident: obj_ident method: method
+      SingletonMethodDefinition object_ident: obj_ident method: method
     }
 
     def to_ruby: out indent: ilvl {
@@ -27,9 +27,9 @@ def class AST {
       @object_ident to_ruby: out;
       out print: ".";
 
-      AST::MethodDefinition output: out method: @method indent: ilvl;
+      MethodDefinition output: out method: @method indent: ilvl;
 
-      AST::MethodDefinition
+      MethodDefinition
         output: out
         docstring: @docstring
         for: @object_ident

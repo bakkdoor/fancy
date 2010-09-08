@@ -345,15 +345,23 @@ FancySpec describe: Class with: |it| {
         def method1 {
           MyInner1
         }
+        def self class_method1 {
+          MyInner1;
+        }
       }
       def class MyInner2 {
         def method2 {
-          [MyInner1, MyInner2]
+          [MyInner1, MyInner2];
+        }
+        def self class_method2 {
+          [MyInner1, MyInner2];
         }
       }
     };
 
     MyOuter::MyInner1 new method1 should == MyOuter::MyInner1;
-    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
+    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2];
+    MyOuter::MyInner1 class_method1 should == MyOuter::MyInner1;
+    MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2];
   }
 }

@@ -3,13 +3,13 @@ def class AST {
     self read_write_slots: ['ident, 'expr];
 
     def Assignment ident: ident value: expr {
-      as = AST::Assignment new;
+      as = Assignment new;
       as ident: ident;
       as expr: expr
     }
 
     def Assignment from_sexp: sexp {
-      AST::Assignment ident: (sexp second to_ast) value: (sexp third to_ast)
+      Assignment ident: (sexp second to_ast) value: (sexp third to_ast)
     }
 
     def to_ruby: out indent: ilvl {

@@ -87,16 +87,27 @@ namespace fancy {
     if(it != _value_mappings.end()) {
       return it->second;
     } else {
+      // otherwise try to look in current_self's (if a class) &
+      // current_class's nested classes:
+
       // try if the identifier is referring to a nested class name
       // within current_class's outer_class, if there is any
+
+      if(Class* klass = dynamic_cast<Class*>(_current_self)) {
+        if(Class* outer = klass->outer_class()) {
+          if(Class* nested_class = outer->get_nested_class(identifier)) {
+            return nested_class;
+          }
+        }
+      }
+
       if(Class* outer = _current_class->outer_class()) {
         if(Class* nested_class = outer->get_nested_class(identifier)) {
           return nested_class;
         }
       }
 
-      // otherwise try to look in current_self & current_class
-      // current_self
+      // finally check parent scope or fail
       if(_parent) {
         return _parent->get(identifier);
       } else {

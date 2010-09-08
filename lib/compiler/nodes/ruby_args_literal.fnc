@@ -6,7 +6,7 @@ def class AST {
     }
 
     def RubyArgsLiteral from_sexp: sexp {
-      AST::RubyArgsLiteral new: $ sexp second to_ast
+      RubyArgsLiteral new: $ sexp second to_ast
     }
 
     def to_ruby: out indent: ilvl {

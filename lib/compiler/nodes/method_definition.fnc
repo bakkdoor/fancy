@@ -8,7 +8,7 @@ def class AST {
     }
 
     def MethodDefinition from_sexp: sexp {
-      AST::MethodDefinition new: (sexp second to_ast)
+      MethodDefinition new: (sexp second to_ast)
     }
 
     def to_s {
@@ -19,12 +19,12 @@ def class AST {
       s = " " * ilvl; # indent level
       out print: $ s ++ "def ";
 
-      AST::MethodDefinition output: out method: @method indent: ilvl;
+      MethodDefinition output: out method: @method indent: ilvl;
 
-      AST::MethodDefinition
+      MethodDefinition
         output: out
         docstring: @docstring
-        for: (AST::Identifier new: "self")
+        for: (Identifier new: "self")
         method: (@method ident)
         indent: ilvl
     }

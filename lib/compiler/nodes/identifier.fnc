@@ -12,7 +12,7 @@ def class AST {
     }
 
     def Identifier from_sexp: sexp {
-      AST::Identifier new: $ sexp second
+      Identifier new: $ sexp second
     }
 
     def to_s {

@@ -6,7 +6,7 @@ def class AST {
     }
 
     def Return from_sexp: sexp {
-      AST::Return new: $ sexp second to_ast
+      Return new: $ sexp second to_ast
     }
 
     def to_ruby: out indent: ilvl {

@@ -6,7 +6,7 @@ def class AST {
     }
 
     def ExpressionList from_sexp: sexp {
-      AST::ExpressionList new: $ sexp second map: 'to_ast
+      ExpressionList new: $ sexp second map: 'to_ast
     }
 
     def to_s {
@@ -26,7 +26,7 @@ def class AST {
     }
     def docstring {
       @docstring if_nil: {
-        @exprs first is_a?: AST::StringLiteral . if_true: {
+        @exprs first is_a?: StringLiteral . if_true: {
           @docstring = @exprs first string;
           @exprs = @exprs rest # remove docstring from @exprs
         }

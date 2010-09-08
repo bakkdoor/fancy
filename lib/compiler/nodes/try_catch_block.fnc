@@ -3,7 +3,7 @@ def class AST {
     self read_write_slots: ['class, 'var, 'body];
 
     def ExceptHandler class: c var: v body: b {
-      eh = AST::ExceptHandler new;
+      eh = ExceptHandler new;
       eh class: c;
       eh var: v;
       eh body: b;
@@ -14,7 +14,7 @@ def class AST {
       class = sexp second to_ast;
       var = sexp third to_ast;
       body = sexp fourth to_ast;
-      AST::ExceptHandler class: class var: var body: body
+      ExceptHandler class: class var: var body: body
     }
 
     def to_ruby: out indent: ilvl {
@@ -31,7 +31,7 @@ def class AST {
     self read_write_slots: ['body, 'handlers, 'final];
 
     def TryCatchBlock body: b handlers: h final: f {
-      tcb = AST::TryCatchBlock new;
+      tcb = TryCatchBlock new;
       tcb body: b;
       tcb handlers: h;
       tcb final: f
@@ -44,7 +44,7 @@ def class AST {
       sexp fourth if_do: |final| {
         f = final second to_ast
       };
-      AST::TryCatchBlock body: b handlers: h final: f
+      TryCatchBlock body: b handlers: h final: f
     }
 
     def to_ruby: out indent: ilvl {

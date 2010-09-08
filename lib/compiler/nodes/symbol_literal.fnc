@@ -6,7 +6,7 @@ def class AST {
     }
 
     def SymbolLiteral from_sexp: sexp {
-      AST::SymbolLiteral new: $ sexp second
+      SymbolLiteral new: $ sexp second
     }
 
     def to_ruby: out indent: ilvl {

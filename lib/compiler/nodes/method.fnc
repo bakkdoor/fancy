@@ -3,7 +3,7 @@ def class AST {
     self read_write_slots: ['ident, 'args, 'body];
 
     def Method identifier: ident args: args body: body {
-      m = AST::Method new;
+      m = Method new;
       m ident: ident;
       m args: args;
       m body: body;
@@ -11,10 +11,10 @@ def class AST {
     }
 
     def Method from_sexp: sexp {
-      ident = AST::Identifier new: (sexp second);
+      ident = Identifier new: (sexp second);
       args = sexp third map: 'to_ast;
       body = sexp fourth to_ast;
-      AST::Method identifier: ident args: args body: body
+      Method identifier: ident args: args body: body
     }
 
     def to_s {
