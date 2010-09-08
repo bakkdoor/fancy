@@ -11,6 +11,7 @@ namespace fancy {
       {
       public:
         static Self* node();
+        static void init();
       private:
         Self();
         virtual ~Self() {}

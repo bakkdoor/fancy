@@ -7,6 +7,9 @@
 #include "../nil.h"
 #include "../true.h"
 
+#include "../parser/nodes/self.h"
+
+
 namespace fancy {
 
   /**
@@ -142,6 +145,9 @@ namespace fancy {
       global_scope->define("true", t);
       // a hack for "def NATIVE" method definitions:
       global_scope->define("NATIVE", new FancyObject(ObjectClass));
+
+      // initialize Self node singleton instance
+      Self::init();
     }
 
   }

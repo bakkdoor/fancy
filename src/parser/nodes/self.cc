@@ -8,10 +8,14 @@ namespace fancy {
       Self* Self::_self_node = NULL;
       Self* Self::node()
       {
+        return _self_node;
+      }
+
+      void Self::init()
+      {
         if(!_self_node) {
           _self_node = new Self();
         }
-        return _self_node;
       }
 
       Self::Self() : Identifier("self")
