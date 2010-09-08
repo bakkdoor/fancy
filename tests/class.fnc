@@ -353,7 +353,7 @@ FancySpec describe: Class with: |it| {
       }
     };
 
-    MyOuter::MyInner1 new method1 should == MyOuter::MyInner1
-#    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
+    MyOuter::MyInner1 new method1 should == MyOuter::MyInner1;
+    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 }
