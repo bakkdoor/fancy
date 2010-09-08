@@ -2,10 +2,10 @@ cc = g++
 cc_flags = -g -Wall -ansi -pedantic
 
 files = identifier expression_list hash_literal array_literal		\
-class_definition nested_class_definition message_send operator_send	\
+class_definition nested_class_definition message_send operator_send	\g
 assignment return require method_definition class_method_definition	\
 operator_definition class_operator_definition block_literal		\
-try_catch_block super ruby_args_literal
+try_catch_block super ruby_args_literal self
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -68,6 +68,9 @@ super.o: super.cc
 
 ruby_args_literal.o: ruby_args_literal.cc
 	$(cc) $(cc_flags) -c ruby_args_literal.cc -o ruby_args_literal.o
+
+self.o: self.cc
+	$(cc) $(cc_flags) -c self.cc -o self.o
 
 clean:
 	rm -f *.o > /dev/null

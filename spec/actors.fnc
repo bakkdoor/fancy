@@ -1,39 +1,33 @@
-# actors example
-import: [System];
-
-def actor Ping: pong_receiver {
-  pong_receiver ! [:ping, self];
-  loop: {
-    receive {
-      [:pong, pid] -> {
-        Console writeln: "Got PONG by #{pid}, quitting..";
-        self die
-      }
-      _any -> {
-        Console writeln: "Unknown message: #{_any inspect}, waiting for PONG"
-      }
-    }
+def class Ping {
+  # async method definition
+  # gets run, if the message "pong" gets sent asynchronously
+  def async pong {
+    "Got pong by " ++ __sender__ ++ ", quitting.." println
   }
-};
 
-def actor Pong {
-  loop: {
-    receive {
-      [:ping, pid] -> {
-        Console writeln: "Got PING by #{pid}, sending reply!";
-        pid ! :pong
-      }
-      _any -> {
-        Console writeln: "Unknown message: #{_any inspect}, waiting for PING"
-      }
-    }
+  def async unknown_message: msg params: p {
+    "Unknown message: " ++ msg ++ ", waiting for pong" println
   }
-};
+}
 
-# start actors
-# start Pong
-pong = Pong spawn;
-# start Ping with pong's pid
-ping = Ping spawn: [pong];
-# wait for both pong & ping processes
-Process wait: [pong, ping]
+def class Pong {
+  def initialize: pong_obj {
+    pong_obj @ ping # send "ping" message to pong_obj asynchronously
+  }
+
+  def async ping {
+    "Got PING by " ++ __sender__ ++ ", sending reply!" println
+    # async message sends are prefixed with @
+    __sender__ @ pong
+  }
+
+  def async unknown_message: msg params: p {
+    "Unknown message: " ++ msg ++ ", waiting for ping" println
+  }
+}
+
+# create actor objects
+# create Pong
+pong = Pong new
+# create Ping with pong object
+ping = Ping new: pong
