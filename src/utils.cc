@@ -57,4 +57,17 @@ namespace fancy {
     return result;
   }
 
+  string string_replace(string& str, string& what, string& with)
+  {
+    string s = str;
+    string::size_type next;
+
+    for(next = s.find(what); next != string::npos; next = s.find(what, next)) {
+      s.replace(next, what.length(), with);
+      next += with.length();
+    }
+
+    return s;
+  }
+
 }

@@ -84,5 +84,14 @@ FancySpec describe: Number with: |it| {
     20 upto: 50 do_each: |i| {
       i doubled should == (i + i)
     }
+  };
+
+  it should: "be the same when using underscores within the literal" when: {
+    50000 should == 50_000;
+    100_000 should == 100000;
+    100_000 should == 100_000;
+    100_000 should == 100000.0;
+    100_000.0 should == 100000;
+    100_999.999 should == 100999.999
   }
 }

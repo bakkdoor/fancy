@@ -45,6 +45,15 @@ namespace fancy {
    * @return Vector of substrings that are the result of splitting the input string.
    */
   vector<string> string_split(const string& str, const string& seperator, const bool keep_empty = true);
+
+  /**
+   * Replaces all occurences of what in the string with with.
+   * @param what String to replace in.
+   * @param what String to find and replace.
+   * @param with String to replace all occurrances of what with.
+   * @return String that hast the replacements done.
+   */
+  string string_replace(string& str, string& what, string& with);
 }
 
 #endif /* _UTILS_H_ */

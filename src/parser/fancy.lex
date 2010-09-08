@@ -5,7 +5,10 @@
 
 #include "includes.h"
 #include "tok.h"
+#include "../utils.h"
 int yyerror(char *s);
+string underscore = "_";
+string empty = "";
 %}
 
 %option yylineno
@@ -14,7 +17,7 @@ digit		[0-9]
 letter          [A-Za-z]
 special         [-+?!_=*/^><%&]
 operator        ({special}+|"||"{special}*)
-int_lit 	-?{digit}+
+int_lit 	-?({digit}|_)+
 double_lit      {int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
 doc_string      \"\"\"[^\"]*\"\"\"
@@ -57,8 +60,18 @@ comment         #[^\n]*
 
 {def_class}     { return DEFCLASS; }
 {def}           { return DEF; }
-{int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
-{double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
+{int_lit}	{
+                  string str(yytext);
+                  int val = atoi(string_replace(str, underscore, empty).c_str());
+                  yylval.object = Number::from_int(val);
+                  return INTEGER_LITERAL;
+                }
+{double_lit}    {
+                  string str(yytext);
+                  double val = atof(string_replace(str, underscore, empty).c_str());
+                  yylval.object = Number::from_double(val);
+                  return DOUBLE_LITERAL;
+                }
 {string_lit}	{
                   string str(yytext);
                   yylval.object = FancyString::from_value(str.substr(1, str.length() - 2));
