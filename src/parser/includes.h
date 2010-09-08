@@ -20,6 +20,7 @@
 #include "nodes/class_operator_definition.h"
 #include "nodes/try_catch_block.h"
 #include "nodes/super.h"
+#include "nodes/self.h"
 
 #include "../number.h"
 #include "../regexp.h"

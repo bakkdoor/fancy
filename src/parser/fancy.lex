@@ -33,6 +33,7 @@ super           "super"
 private         "private"
 protected       "protected"
 native_only     "NATIVE"
+self            "self"
 identifier      @?@?({letter}|{digit}|{special})+
 symbol_lit      :{identifier}
 regexp_lit      "r{".*"}"
@@ -52,7 +53,7 @@ comment         #[^\n]*
 {def}           { return DEF; }
 {int_lit}	{ yylval.object = Number::from_int(atoi(yytext)); return INTEGER_LITERAL; }
 {double_lit}    { yylval.object = Number::from_double(atof(yytext)); return DOUBLE_LITERAL; }
-{string_lit}	{ 
+{string_lit}	{
                   string str(yytext);
                   yylval.object = FancyString::from_value(str.substr(1, str.length() - 2));
                   return STRING_LITERAL;
@@ -87,12 +88,13 @@ comment         #[^\n]*
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }
 {native_only}   { return NATIVE_ONLY; }
-{identifier}    { 
+{self}          { yylval.expression = fancy::parser::nodes::Self::node(); return IDENTIFIER; }
+{identifier}    {
                   string str(yytext);
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return IDENTIFIER;
                 }
-{symbol_lit}    { 
+{symbol_lit}    {
                   string str(yytext);
                   yylval.object = Symbol::from_string(str);
                   return SYMBOL_LITERAL;

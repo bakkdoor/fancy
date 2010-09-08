@@ -33,7 +33,7 @@ namespace fancy {
       FancyObject* ClassDefExpr::eval(Scope *scope)
       {
         Class* the_class = 0;
-        FancyObject* class_obj = scope->get(_class_name->name());
+        FancyObject* class_obj = _class_name->eval(scope);
         // check if class is already defined.
         // if so, don't create a new class
         if(IS_CLASS(class_obj)) {
@@ -43,12 +43,12 @@ namespace fancy {
           // current scope
           Class* superclass = _superclass;
           if(!superclass && _superclass_name) {
-            FancyObject* class_obj = scope->get(_superclass_name->name());
+            FancyObject* class_obj = _superclass_name->eval(scope);
             if(IS_CLASS(class_obj)) {
               superclass = dynamic_cast<Class*>(class_obj);
             } else {
-              error("Superclass identifier does not reference a class: ") 
-                << _superclass_name->name() 
+              error("Superclass identifier does not reference a class: ")
+                << _superclass_name->name()
                 << "(" << class_obj->type() << ")"
                 << endl;
               return nil;

@@ -95,7 +95,7 @@ namespace fancy {
     if(_override_self) {
       _creation_scope->set_current_self(old_self);
     }
-  
+
     return return_value;
   }
 
@@ -143,7 +143,7 @@ namespace fancy {
       list<parser::nodes::Identifier*>::iterator name_it = _argnames.begin();
       while(name_it != _argnames.end()) {
         // save old value for name in _block_arg_orig_values;
-        _block_arg_orig_values.push_back(_creation_scope->get((*name_it)->name()));
+        _block_arg_orig_values.push_back((*name_it)->eval(_creation_scope));
         name_it++;
       }
     }

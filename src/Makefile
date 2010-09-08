@@ -4,7 +4,8 @@ cc_flags = -g -Wall -ansi -pedantic
 parser_node_files = identifier expression_list array_literal		\
 assignment return require block_literal class_definition hash_literal	\
 message_send operator_send method_definition class_method_definition	\
-operator_definition class_operator_definition try_catch_block super
+operator_definition class_operator_definition try_catch_block super	\
+self
 
 parser_files = parser/lex parser/bison
 
