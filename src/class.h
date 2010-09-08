@@ -224,6 +224,9 @@ namespace fancy {
      */
     vector<FancyObject*> nested_classes() const;
 
+    Class* outer_class() const { return _outer_class; }
+    void set_outer_class(Class* c) { _outer_class = c; }
+
   private:
     string _name;
     vector<string> _instance_slotnames;
@@ -232,6 +235,7 @@ namespace fancy {
     set<Class*> _included_classes;
     map<string, Callable*> _instance_methods;
     map<string, Class*> _nested_classes;
+    Class* _outer_class; // can be NULL, if class is not nested
   };
 
 }

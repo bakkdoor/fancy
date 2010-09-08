@@ -337,5 +337,23 @@ FancySpec describe: Class with: |it| {
     MyOuter::Inner1 new method1 should == 'method_1;
     MyOuter::Inner2 new method1 should == 'method_1;
     MyOuter::Inner2 new method2 should == 'method_2
+  };
+
+  it should: "find itself in it's own methods, even if nested into another class" when: {
+    def class MyOuter {
+      def class MyInner1 {
+        def method1 {
+          MyInner1
+        }
+      }
+      def class MyInner2 {
+        def method2 {
+          [MyInner1, MyInner2]
+        }
+      }
+    };
+
+    MyOuter::MyInner1 new method1 should == MyOuter::MyInner1
+#    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 }

@@ -81,15 +81,26 @@ namespace fancy {
       return _current_sender;
     }
 
+    // first of all, check the value_mappings for this scope
+    // then go through the other possible options
     object_map::const_iterator it = _value_mappings.find(identifier);
     if(it != _value_mappings.end()) {
       return it->second;
     } else {
-      // try to look in current_self & current_class
+      // try if the identifier is referring to a nested class name
+      // within current_class's outer_class, if there is any
+      if(Class* outer = _current_class->outer_class()) {
+        if(Class* nested_class = outer->get_nested_class(identifier)) {
+          return nested_class;
+        }
+      }
+
+      // otherwise try to look in current_self & current_class
       // current_self
       if(_parent) {
         return _parent->get(identifier);
       } else {
+        // nothing found => fail
         throw new UnknownIdentifierError(identifier); // ident not found!
       }
     }

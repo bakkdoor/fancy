@@ -27,6 +27,7 @@ namespace fancy {
           FancyObject* class_obj = _class_def->eval(class_eval_scope);
           if(Class* nested_class = dynamic_cast<Class*>(class_obj)) {
             outer_class->add_nested_class(_class_def->class_name(), nested_class);
+            nested_class->set_outer_class(outer_class);
             return class_obj;
           }
           throw "Nested class is not an actual Class!";
