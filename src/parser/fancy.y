@@ -110,7 +110,6 @@
 %type  <expression>         empty_array
 
 %type  <key_val_list>       key_value_list
-%type  <expr_list>          exp_list
 %type  <expr_list>          exp_comma_list
 %type  <expr_list>          method_body
 
@@ -165,7 +164,7 @@ programm:       /* empty */
                     last_value = expr->eval(global_scope);
                   }
                 }
-                | programm SEMI { } /* also allow empty statements */
+                | programm SEMI { } /* also allow empty expressions */
                 ;
 
 code:           statement
@@ -235,6 +234,7 @@ class_body:     /* empty */ { $$ = expr_node(0, 0); }
                 | class_body class_def { $$ = expr_node(new nodes::NestedClassDefExpr($2), $1); }
                 | class_body method_def { $$ = expr_node($2, $1); }
                 | class_body code SEMI { $$ = expr_node($2, $1); }
+                | class_body SEMI { } /* empty expressions */
                 ;
 
 method_def:     method_w_args
@@ -256,6 +256,7 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
 method_body:    /* empty */ { $$ = expr_node(0, 0); }
                 | code { $$ = expr_node($1, 0); }
                 | method_body SEMI code { $$ = expr_node($3, $1); }
+                | method_body SEMI { } /* empty expressions */
                 ;
 
 method_w_args:  DEF method_args LCURLY method_body RCURLY {
@@ -497,11 +498,6 @@ exp_comma_list: exp { $$ = expr_node($1, 0); }
                 ;
 
 empty_array:    LBRACKET RBRACKET { $$ = new nodes::ArrayLiteral(0); }
-                ;
-
-exp_list:       /* empty */ { $$ = expr_node(0, 0); }
-                | code { $$ = expr_node($1, 0); }
-                | exp_list SEMI code { $$ = expr_node($3, $1); }
                 ;
 
 hash_literal:   LHASH key_value_list RHASH { $$ = new nodes::HashLiteral($2); }
