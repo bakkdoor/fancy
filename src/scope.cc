@@ -77,10 +77,6 @@ namespace fancy {
       }
     }
 
-    if(identifier == "self") {
-      return _current_self;
-    }
-
     if(identifier == "__sender__") {
       return _current_sender;
     }

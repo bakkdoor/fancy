@@ -66,7 +66,7 @@ def class Array {
     i = 0;
     size = self size;
     { found not and: (i < size) } while_true: {
-      item = block call: (self at: i);
+      item = block call: [(self at: i)];
       item nil? if_false: {
         found = self at: i
       };
@@ -134,7 +134,7 @@ def class Array {
   def NATIVE reject!: condition {
     "Removes all elements in place, that meet the condition.";
 
-    entries = self select_with_index: |x i| { condition call: x };
+    entries = self select_with_index: |x i| { condition call: [x] };
     self remove_at: $ entries map: |e| { e second };
     self
   }
@@ -142,7 +142,7 @@ def class Array {
   def select!: condition {
     "Removes all elements in place, that don't meet the condition.";
 
-    self reject!: |x| { condition call: x . not }
+    self reject!: |x| { condition call: [x] . not }
   }
 
   def compact! {
@@ -193,5 +193,24 @@ def class Array {
     "Returns concatenation with another Array.";
 
     self clone append: other_arr
+  }
+
+  def each: each_block in_between: between_block {
+    """
+    Similar to Array#each: but calls an additional Block between
+    calling the first Block for each element in self.
+    """;
+
+    count = 0;
+    size = self size;
+    self each: |x| {
+      # NOTICE:
+      # use [x] instead of x since self is an array already:
+      each_block call: [x];
+      count == (size - 1) if_false: {
+        between_block call
+      };
+      count = count + 1
+    }
   }
 }

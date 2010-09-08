@@ -117,7 +117,7 @@ namespace fancy {
       while(name_it != _argnames.end()) {
         // save old value for name in _block_arg_orig_values;
         try {
-          FancyObject* orig_val = _creation_scope->get((*name_it)->name());
+          FancyObject* orig_val = (*name_it)->eval(_creation_scope);
           _block_arg_orig_values[(*name_it)->name()] = orig_val;
         } catch(UnknownIdentifierError* e) {
           // value not defined, ignore

@@ -4,7 +4,7 @@ def ARGV for_option: op_name do: block {
   ARGV index: op_name . if_do: |idx| {
     block argcount > 0 if_true: {
       ARGV[idx + 1] if_do: |arg| {
-        block call: arg
+        block call: [arg]
       }
     } else: {
       block call
@@ -22,7 +22,7 @@ def ARGV for_options: op_names do: block {
     ARGV index: (op_names[i]) . if_do: |idx| {
       block argcount > 0 if_true: {
         ARGV[idx + 1] if_do: |arg| {
-          block call: arg
+          block call: [arg]
         }
       } else: {
         block call
