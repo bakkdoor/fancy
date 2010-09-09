@@ -20,14 +20,14 @@ def class HTML {
   }
 
   def unknown_message: name with_params: params {
-    str = self open_tag: name
+    str = open_tag: name
 
     body = params first call
     body is_a?: Array . if_true: {
       body = body join
     }
 
-    str ++ body ++ (self close_tag: name)
+    str ++ body ++ (close_tag: name)
   }
 }
 

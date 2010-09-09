@@ -1,7 +1,7 @@
 ## Conway's Game of Life in Fancy :)
 
 def class World {
-  self read_write_slots: ['matrix]
+  read_write_slots: ['matrix]
 
   def World with_height: height and_width: width {
     World new: [height, width]
@@ -37,11 +37,11 @@ def class World {
   def simulate: amount_generations {
     "Simulate the World for a given amount of iterations (generations)."
 
-    self display: 0
+    display: 0
     amount_generations times: |i| {
       System sleep: 500 # sleep 500 ms
       self simulate
-      self display: (i + 1)
+      display: (i + 1)
     }
   }
 
@@ -93,16 +93,16 @@ def class World {
     @matrix each_with_index: |row i| {
       row each_with_index: |column j| {
         # check amount of neighbors
-        n_neighbors = self neighbors_of: [i, j]
-        self was_alive?: [i,j] . if_true: {
+        n_neighbors = neighbors_of: [i, j]
+        was_alive?: [i,j] . if_true: {
           n_neighbors <= 1 or: (n_neighbors >= 4) if_true: {
-            self die: [i,j]
+            die: [i,j]
           } else: {
-            self live: [i,j]
+            live: [i,j]
           }
         } else: {
           n_neighbors == 3 if_true: {
-            self live: [i,j]
+            live: [i,j]
           }
         }
       }

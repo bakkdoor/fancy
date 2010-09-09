@@ -11,9 +11,9 @@ def class ClassWithMixin {
 }
 
 def class ClassWithNoMixin {
-  self read_slots: ['foo, 'bar, 'baz]
-  self write_slots: ['hello, 'world]
-  self read_write_slots: ['oh, 'noes]
+  read_slots: ['foo, 'bar, 'baz]
+  write_slots: ['hello, 'world]
+  read_write_slots: ['oh, 'noes]
 
   def normal_method {
     'new_normal_found
@@ -45,7 +45,7 @@ FancySpec describe: Class with: |it| {
   it should: "find the method when mixed-in" for: 'include: when: {
     # => include Mixin into ClassWithMixin
     def class ClassWithMixin {
-      self include: Mixin
+      include: Mixin
     }
 
     instance = ClassWithMixin new
@@ -120,7 +120,7 @@ FancySpec describe: Class with: |it| {
   it should: "have correct method overloading for method names with and without an argument" when: {
     def class AClass {
       def foo {
-        self foo: "None!"
+        foo: "None!"
       }
 
       def foo: bar {
@@ -135,13 +135,13 @@ FancySpec describe: Class with: |it| {
 
   it should: "call superclass method by calling super" when: {
     def class SuperClass {
-      self read_slots: ['name]
+      read_slots: ['name]
       def initialize: name {
         @name = name
       }
     }
     def class SubClass : SuperClass {
-      self read_slots: ['age]
+      read_slots: ['age]
 
       def initialize: age {
         super initialize: "SubClass"
@@ -326,7 +326,7 @@ FancySpec describe: Class with: |it| {
         }
       }
       def class Inner2 {
-        self include: Inner1
+        include: Inner1
         def method2 {
           'method_2
         }
