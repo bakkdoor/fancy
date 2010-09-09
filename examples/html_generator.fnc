@@ -8,7 +8,7 @@ def class String {
     # and:      self from: 0 to: (self size - 2)
     self[[0,-2]]
   }
-};
+}
 
 def class HTML {
   def open_tag: name {
@@ -20,19 +20,19 @@ def class HTML {
   }
 
   def unknown_message: name with_params: params {
-    str = self open_tag: name;
+    str = self open_tag: name
 
-    body = params first call;
+    body = params first call
     body is_a?: Array . if_true: {
       body = body join
-    };
+    }
 
     str ++ body ++ (self close_tag: name)
   }
-};
+}
 
-# lets generate some simple HTML output ;)
-h = HTML new;
+# lets generate some simple HTML output )
+h = HTML new
 h html: {
   h body: {
     [

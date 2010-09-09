@@ -1,9 +1,9 @@
--10 abs println; # prints: 10
-10 abs println; # prints: 10
-0 abs println; # prints: 0
+-10 abs println # prints: 10
+10 abs println # prints: 10
+0 abs println # prints: 0
 
-"" println;
+"" println
 
--10 negate println; # prints: 10
-10 negate println; # prints: -10
+-10 negate println # prints: 10
+10 negate println # prints: -10
 0 negate println # prints: 0

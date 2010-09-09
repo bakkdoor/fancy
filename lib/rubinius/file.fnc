@@ -5,7 +5,7 @@ def class File {
       'append => "+",
       'at_end => "a",
       'binary => "b",
-      'truncate => "w+"]>;
+      'truncate => "w+"]>
 
   def File open: filename modes: modes_arr with: block {
     # """
@@ -16,9 +16,9 @@ def class File {
     #     f readln println
     #   }
     # }
-    # """;
+    # """
 
-    modes_str = self modes_str: modes_arr;
+    modes_str = self modes_str: modes_arr
     # TODO: how do we deal with Ruby methods that expect a block?
     # We need a way to let the compiler know if the last argument to
     # a method call should be used as the block (in Ruby: &prob_obj)
@@ -26,10 +26,10 @@ def class File {
   }
 
   def modes_str: modes_arr {
-    str = "";
+    str = ""
     modes_arr each: |m| {
       str = str ++ @@open_mode_conversions[m]
-    };
+    }
     str uniq join
   }
 }

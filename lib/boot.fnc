@@ -8,34 +8,34 @@
 # current list (if adding them here is really necessary at all).
 
 # a hack for "def NATIVE" method definitions:
-NATIVE = Object new;
+# NATIVE = Object new
 
-require: "object";
-require: "class";
-require: "true_class";
-require: "nil_class";
-require: "number";
-require: "enumerable";
-require: "string";
-require: "array";
-require: "block";
-require: "file";
-require: "directory";
-require: "fancy_spec";
-require: "console";
-require: "hash";
-require: "set";
-require: "symbol";
-require: "method";
+require: "object"
+require: "class"
+require: "true_class"
+require: "nil_class"
+require: "number"
+require: "enumerable"
+require: "string"
+require: "array"
+require: "block"
+require: "file"
+require: "directory"
+require: "fancy_spec"
+require: "console"
+require: "hash"
+require: "set"
+require: "symbol"
+require: "method"
 
 # version holds fancy's version number
-require: "version";
-require: "argv";
+require: "version"
+require: "argv"
 
 ARGV for_options: ["-v", "--version"] do: {
-  "fancy " ++ FANCY_VERSION println;
+  "fancy " ++ FANCY_VERSION println
   "(C) 2010 Christopher Bertels <chris@fancy-lang.org>" println
-};
+}
 
 ARGV for_options: ["--help", "-h"] do: {
   ["Usage: fancy [option] [programfile] [arguments]",
@@ -48,39 +48,39 @@ ARGV for_options: ["--help", "-h"] do: {
    "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it ",
    "  -c            Compile given files to Ruby code and output to STDOUT or -o option, if given",
    "  -o            Output compiled Ruby code to a given file name"] println
-};
+}
 
 ARGV for_option: "-e" do: |eval_string| {
-  eval_string eval;
+  eval_string eval
   System exit # quit when running with -e
-};;
+}
 
-COMPILE_OUT_STREAM = Console;
+COMPILE_OUT_STREAM = Console
 
 ARGV for_option: "-o" do: |out_file| {
-  COMPILE_OUT_STREAM = File open: out_file modes: ['write];
-  out_file_idx = ARGV index: "-o";
+  COMPILE_OUT_STREAM = File open: out_file modes: ['write]
+  out_file_idx = ARGV index: "-o"
   # remove -o with given arg
   2 times: { ARGV remove_at: out_file_idx }
-};
+}
 
 ARGV for_option: "-c" do: {
-  require: "lib/compiler/nodes.fnc";
+  require: "lib/compiler/nodes.fnc"
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-    #   contents = File read: filename;
-      COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####";
-    #   contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
-    #   COMPILE_OUT_STREAM newline;
+    #   contents = File read: filename
+      COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####"
+    #   contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
     #   COMPILE_OUT_STREAM newline
-      exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp");
-      exp first eval to_ast to_ruby: COMPILE_OUT_STREAM indent: 0;
-      COMPILE_OUT_STREAM newline;
+    #   COMPILE_OUT_STREAM newline
+      exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp")
+      exp first eval to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
+      COMPILE_OUT_STREAM newline
       COMPILE_OUT_STREAM newline
     }
-  };
+  }
   System exit
-};
+}
 
 # close COMPILE_OUT_STREAM if it's a File
 COMPILE_OUT_STREAM != Console if_true: {

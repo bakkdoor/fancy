@@ -1,16 +1,16 @@
 def class Hash {
-  "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value.";
+  "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value."
 
-  self include: Enumerable;
+  self include: Enumerable
 
   def [] key {
-    "Returns the value for a given key.";
+    "Returns the value for a given key."
 
     self at: key
   }
 
   def each: block {
-    "Calls a given Block with each key and value.";
+    "Calls a given Block with each key and value."
 
     block argcount == 1 if_true: {
       self keys each: |key| {
@@ -24,7 +24,7 @@ def class Hash {
   }
 
   def each_key: block {
-    "Calls a given Block with each key.";
+    "Calls a given Block with each key."
 
     self keys each: |key| {
       block call: [key]
@@ -32,7 +32,7 @@ def class Hash {
   }
 
   def each_value: block {
-    "Calls a given Block with each value.";
+    "Calls a given Block with each value."
 
     self values each: |val| {
       block call: [val]

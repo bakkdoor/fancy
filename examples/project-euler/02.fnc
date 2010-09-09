@@ -6,16 +6,16 @@
 # Find the sum of all the even-valued terms in the sequence which do
 # not exceed four million.
 
-fibs = [1, 2];
+fibs = [1, 2]
 
 # insert into fibs as long as the sum of the last two numbers doesn't
 # exceed 4000000
 { fibs[-1] + (fibs[-2]) <= 4000000 } while_true: {
   fibs << (fibs last: 2 . sum)
-};
+}
 
-"fibonacci sequence:" println;
-fibs inspect println;
+"fibonacci sequence:" println
+fibs inspect println
 
-"sum: " print;
+"sum: " print
 fibs select: 'even? . sum println

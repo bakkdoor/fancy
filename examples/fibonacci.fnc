@@ -10,7 +10,7 @@ def class Number {
       }
     }
   }
-};
+}
 
 15 times: |x| {
   x fib println

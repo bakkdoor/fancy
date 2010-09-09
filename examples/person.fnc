@@ -2,26 +2,26 @@
 # (C) 2010 Christopher Bertels <chris@fancy-lang.org>
 
 def class City {
-  self read_slots: ['city];
+  self read_slots: ['city]
   def initialize: name {
     @name = name
-  };
+  }
 
   def to_s {
     "City: " ++ @name
   }
-};
+}
 
 def class Person {
   # creates getters & setters for slots
-  self read_write_slots: ['name, 'age, 'city];
+  self read_write_slots: ['name, 'age, 'city]
 
   # Person class method for creating a new person with a name, age and city
   def Person name: name age: age city: city {
-    p = Person new;
-    p name: name;
-    p age: age;
-    p city: city;
+    p = Person new
+    p name: name
+    p age: age
+    p city: city
     p
   }
 
@@ -42,19 +42,19 @@ def class Person {
     city is_a?: City . if_true: {
       @city = city
     }
-  };
+  }
 
   def to_s {
     "Person: " ++ @name ++ ", " ++ @age ++ " years old, living in " ++ @city
   }
-};
+}
 
 # usage example:
-osna = City new: "Osnabrück";
-p = Person name: "Christopher" age: 23 city: osna;
-p println;
+osna = City new: "Osnabrück"
+p = Person name: "Christopher" age: 23 city: osna
+p println
 
-berlin = City new: "Berlin";
-p go_to: berlin; # => p city will then be set to berlin
+berlin = City new: "Berlin"
+p go_to: berlin # => p city will then be set to berlin
 
 p println

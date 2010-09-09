@@ -1,7 +1,7 @@
 #!/usr/bin/env fancy
 
 ["Welcome to the (still very simple) Fancy REPL",
- "Fancy " ++ FANCY_VERSION] println;
+ "Fancy " ++ FANCY_VERSION] println
 
 ARGV rest each: |file| {
   "LOADING: " ++ file println;

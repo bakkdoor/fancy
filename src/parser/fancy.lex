@@ -139,7 +139,7 @@ comment         #[^\n]*
 {comment}       {}
 
 [ \t]*		{}
-[\n]		{}
+[\n]		{ return NL; }
 
 .		{ fprintf(stderr, "SCANNER %d", yyerror("")); exit(1);	}
 

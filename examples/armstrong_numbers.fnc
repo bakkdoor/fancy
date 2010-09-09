@@ -5,26 +5,26 @@
 def class Number {
   def decimals {
     """Returns all decimals of a Number as an Array.
-      E.g. 123 decimals # => [1,2,3]""";
+      E.g. 123 decimals # => [1,2,3]"""
 
-    decimals = [];
-    tmp = self;
+    decimals = []
+    tmp = self
     { tmp >= 10 } while_true: {
-      decimals << (tmp modulo: 10);
+      decimals << (tmp modulo: 10)
       tmp = (tmp div: 10)
-    };
-    decimals << tmp;
+    }
+    decimals << tmp
     decimals
   }
 
   def armstrong? {
-    "Indicates, if a Number is a Armstrong Number.";
+    "Indicates, if a Number is a Armstrong Number."
 
-    decimals = self decimals;
-    n_decimals = decimals size;
+    decimals = self decimals
+    n_decimals = decimals size
     decimals map: |x| { x ** n_decimals } . sum == self
   }
-};
+}
 
 # output alls Armstrong Numbers between 0 and 10000
 0 upto: 10000 do_each: |i| {

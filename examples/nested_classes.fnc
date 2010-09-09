@@ -8,9 +8,9 @@ def class Outer {
   def to_s {
     "Outer"
   }
-};
+}
 
-o = Outer new;
-o println;
-i = Outer::Inner new;
+o = Outer new
+o println
+i = Outer::Inner new
 i println

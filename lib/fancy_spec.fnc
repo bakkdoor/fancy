@@ -1,7 +1,7 @@
 def class FancySpec {
   def initialize: description {
-    @description = description;
-    @test_obj = test_obj;
+    @description = description
+    @test_obj = test_obj
     @spec_tests = []
   }
 
@@ -10,53 +10,53 @@ def class FancySpec {
   }
 
   def FancySpec describe: test_obj with: block {
-    it = FancySpec new: test_obj;
-    block call: [it];
+    it = FancySpec new: test_obj
+    block call: [it]
     it run
   }
 
   def FancySpec describe: description for: test_obj with: block {
-    it = FancySpec new: description;
-    it test_obj: test_obj;
-    block call: [it];
+    it = FancySpec new: description
+    it test_obj: test_obj
+    block call: [it]
     it run
   }
 
   def should: spec_info_string when: spec_block {
-    test = SpecTest new: spec_info_string;
-    test block: spec_block;
+    test = SpecTest new: spec_info_string
+    test block: spec_block
     @spec_tests << test
   }
 
   def should: spec_info_string for: method_name when: spec_block {
-    test = SpecTest new: spec_info_string;
-    test block: spec_block;
+    test = SpecTest new: spec_info_string
+    test block: spec_block
     try {
       @test_obj method: method_name . if_do: |method| {
         method tests << test
       }
     } catch MethodNotFoundError => e {
       # ignore errors
-    };
+    }
     @spec_tests << test
   }
 
   def run {
-    "Running tests for: " ++ @description ++ ": " print;
+    "Running tests for: " ++ @description ++ ": " print
     @spec_tests each: |test| {
       test run: @test_obj
-    };
-#    Console newline; Console newline;
+    }
+#    Console newline Console newline
     # untested_methods = @test_obj methods select: |m| {
     #   m tests size == 0
-    # };
+    # }
     # untested_methods empty? if_false: {
       # ["WARNING: These methods need tests:",
       #  untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", "] println
-    # };
+    # }
     Console newline
   }
-};
+}
 
 def class SpecTest {
   def SpecTest failed_test: actual_and_expected {
@@ -68,8 +68,8 @@ def class SpecTest {
   }
 
   def initialize: info_str {
-    { @@failed_positive = [] } unless: @@failed_positive;
-    { @@failed_negative = [] } unless: @@failed_negative;
+    { @@failed_positive = [] } unless: @@failed_positive
+    { @@failed_negative = [] } unless: @@failed_negative
     @info_str = info_str
   }
 
@@ -78,54 +78,54 @@ def class SpecTest {
   }
 
   def run: test_obj {
-    @@failed_positive = [];
-    @@failed_negative = [];
+    @@failed_positive = []
+    @@failed_negative = []
     try {
       @block call
     } catch IOError => e {
       SpecTest failed_test: [e, "UNKNOWN"]
-    };
+    }
 
-    any_failure = nil;
+    any_failure = nil
     @@failed_positive size > 0 if_true: {
-      any_failure = true;
-      Console newline;
-      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
+      any_failure = true
+      Console newline
+      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print
       self print_failed_positive
-    };
+    }
 
     @@failed_negative size > 0 if_true: {
-      any_failure = true;
-      Console newline;
-      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print;
+      any_failure = true
+      Console newline
+      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print
       self print_failed_negative
-    };
+    }
 
     { "." print } unless: any_failure
   }
 
   def print_failed_positive {
-    " [" ++ (@@failed_positive size) ++ " unexpected values]" println;
-    "Got: " println;
+    " [" ++ (@@failed_positive size) ++ " unexpected values]" println
+    "Got: " println
     @@failed_positive each: |f| {
       "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
     }
   }
 
   def print_failed_negative {
-    " [" ++ (@@failed_negative size) ++ " unexpected values]" println;
-    "Should not have gotten the following values: " println;
+    " [" ++ (@@failed_negative size) ++ " unexpected values]" println
+    "Should not have gotten the following values: " println
     @@failed_negative each: |f| {
       "     " ++ (f inspect) println
     }
   }
 
-};
+}
 
 def class PositiveMatcher {
   """PositiveMatcher expects its actual value to be equal to an
      expected value.
-     If the values are not equal, a SpecTest failure is generated.""";
+     If the values are not equal, a SpecTest failure is generated."""
 
   def initialize: actual_value {
     @actual_value = actual_value
@@ -145,7 +145,7 @@ def class PositiveMatcher {
 
   def unknown_message: msg with_params: params {
     """Forwardy any other message and parameters to the object itself
-       and checks the return value.""";
+       and checks the return value."""
 
     @actual_value send: msg params: params . if_false: {
       SpecTest failed_test: [@actual_value, params first]
@@ -157,12 +157,12 @@ def class PositiveMatcher {
       SpecTest failed_test: [@actual_value, nil]
     }
   }
-};
+}
 
 def class NegativeMatcher {
   """NegativeMatcher expects its actual value to be unequal to an
      expected value.
-     If the values are equal, a SpecTest failure is generated.""";
+     If the values are equal, a SpecTest failure is generated."""
 
   def initialize: actual_value {
     @actual_value = actual_value
@@ -182,7 +182,7 @@ def class NegativeMatcher {
 
   def unknown_message: msg with_params: params {
     """Forwardy any other message and parameters to the object itself
-       and checks the return value.""";
+       and checks the return value."""
 
     @actual_value send: msg params: params . if_true: {
       SpecTest failed_negative_test: @actual_value
@@ -194,16 +194,16 @@ def class NegativeMatcher {
       SpecTest failed_negative_test: @actual_value
     }
   }
-};
+}
 
 def class Object {
   def should {
-    "Returns a PositiveMatcher for self.";
+    "Returns a PositiveMatcher for self."
     PositiveMatcher new: self
   }
 
   def should_not {
-    "Returns a NegativeMatcher for self.";
+    "Returns a NegativeMatcher for self."
     NegativeMatcher new: self
   }
 }

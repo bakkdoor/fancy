@@ -73,6 +73,7 @@
 %token                  ARROW
 %token                  COMMA
 %token                  SEMI
+%token                  NL
 %token                  COLON
 %token                  RETURN
 %token                  REQUIRE
@@ -156,7 +157,7 @@ programm:       /* empty */
                     last_value = expr->eval(global_scope);
                   }
                 }
-                | programm SEMI code {
+                | programm delim code {
                   Expression* expr = $3;
                   if(output_sexp) {
                     (*parser::out_stream) << ", " << expr->to_sexp();
@@ -164,7 +165,20 @@ programm:       /* empty */
                     last_value = expr->eval(global_scope);
                   }
                 }
-                | programm SEMI { } /* also allow empty expressions */
+                | programm delim { } /* also allow empty expressions */
+                ;
+
+delim:          nls
+                | SEMI
+                | delim delim
+                ;
+
+nls:            NL
+                | nls NL
+                ;
+
+space:          /* */
+                | nls
                 ;
 
 code:           statement
@@ -186,8 +200,8 @@ exp:            method_def
                 | LPAREN exp RPAREN { $$ = $2; }
                 ;
 
-assignment:     IDENTIFIER EQUALS exp {
-                  $$ = new nodes::AssignmentExpr($1, $3);
+assignment:     IDENTIFIER EQUALS space exp {
+                  $$ = new nodes::AssignmentExpr($1, $4);
                 }
                 | multiple_assignment
                 ;
@@ -231,10 +245,10 @@ class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY class_body RCURLY {
                 ;
 
 class_body:     /* empty */ { $$ = expr_node(0, 0); }
-                | class_body class_def { $$ = expr_node(new nodes::NestedClassDefExpr($2), $1); }
-                | class_body method_def { $$ = expr_node($2, $1); }
-                | class_body code SEMI { $$ = expr_node($2, $1); }
-                | class_body SEMI { } /* empty expressions */
+                | class_body class_def delim { $$ = expr_node(new nodes::NestedClassDefExpr($2), $1); }
+                | class_body method_def delim { $$ = expr_node($2, $1); }
+                | class_body code delim { $$ = expr_node($2, $1); }
+                | class_body delim { } /* empty expressions */
                 ;
 
 method_def:     method_w_args
@@ -255,26 +269,26 @@ method_args:    IDENTIFIER COLON IDENTIFIER {
 
 method_body:    /* empty */ { $$ = expr_node(0, 0); }
                 | code { $$ = expr_node($1, 0); }
-                | method_body SEMI code { $$ = expr_node($3, $1); }
-                | method_body SEMI { } /* empty expressions */
+                | method_body delim code { $$ = expr_node($3, $1); }
+                | method_body delim { } /* empty expressions */
                 ;
 
-method_w_args:  DEF method_args LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($4);
+method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
                   Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::MethodDefExpr(method_args, method);
                   method_args.clear();
                 }
-                | DEF PRIVATE method_args LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
+                | DEF PRIVATE method_args LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
                   Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::PrivateMethodDefExpr(method_args, method);
                   method_args.clear();
                 }
-                | DEF PROTECTED method_args LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
+                | DEF PROTECTED method_args LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
                   Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::ProtectedMethodDefExpr(method_args, method);
@@ -283,128 +297,128 @@ method_w_args:  DEF method_args LCURLY method_body RCURLY {
                 ;
 
 
-method_no_args: DEF IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($4);
+method_no_args: DEF IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($5);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::MethodDefExpr($2, method);
                 }
-                | DEF PRIVATE IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
+                | DEF PRIVATE IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::PrivateMethodDefExpr($3, method);
                 }
-                | DEF PROTECTED IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
+                | DEF PROTECTED IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::ProtectedMethodDefExpr($3, method);
                 }
                 ;
 
-class_method_w_args: DEF IDENTIFIER method_args LCURLY method_body RCURLY {
+class_method_w_args: DEF IDENTIFIER method_args LCURLY space method_body space RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList* body = new ExpressionList($5);
+                  ExpressionList* body = new ExpressionList($6);
                   Method* method = new Method(method_args, body);
                   // TODO: set method_args correctly
                   $$ = new nodes::ClassMethodDefExpr($2, method_args, method);
                   method_args.clear();
                 }
-                | DEF PRIVATE IDENTIFIER method_args LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PRIVATE IDENTIFIER method_args LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method(method_args, body);
                   $$ = new nodes::PrivateClassMethodDefExpr($3, method_args, method);
                   method_args.clear();
                 }
-                | DEF PROTECTED IDENTIFIER method_args LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PROTECTED IDENTIFIER method_args LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method(method_args, body);
                   $$ = new nodes::ProtectedClassMethodDefExpr($3, method_args, method);
                   method_args.clear();
                 }
                 ;
 
-class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
+class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
                   // TODO: change for class method specific stuff
-                  ExpressionList* body = new ExpressionList($5);
+                  ExpressionList* body = new ExpressionList($6);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::ClassMethodDefExpr($2, $3, method);
                 }
-                | DEF PRIVATE IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PRIVATE IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::PrivateClassMethodDefExpr($3, $4, method);
                 }
-                | DEF PROTECTED IDENTIFIER IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PROTECTED IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
                   Method* method = new Method(empty_args, body);
                   $$ = new nodes::ProtectedClassMethodDefExpr($3, $4, method);
                 }
                 ;
 
-operator_def:   DEF OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
+operator_def:   DEF OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($6);
                   Method* method = new Method($2, $3, body);
                   $$ = new nodes::OperatorDefExpr($2, method);
                 }
-                | DEF PRIVATE OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PRIVATE OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method($3, $4, body);
                   $$ = new nodes::PrivateOperatorDefExpr($3, method);
                 }
-                | DEF PROTECTED OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF PROTECTED OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method($3, $4, body);
                   $$ = new nodes::ProtectedOperatorDefExpr($3, method);
                 }
-                | DEF LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+                | DEF LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $4, body);
                   $$ = new nodes::OperatorDefExpr(nodes::Identifier::from_string("[]"), method);
                 }
-                | DEF PRIVATE LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
+                | DEF PRIVATE LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
                   $$ = new nodes::PrivateOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
                 }
-                | DEF PROTECTED LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
+                | DEF PROTECTED LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
                   $$ = new nodes::ProtectedOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
                 }
                 ;
 
-class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
+class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($7);
                   Method* method = new Method($3, $4, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, $3, method);
                 }
-                | DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
+                | DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
                   Method* method = new Method($4, $5, body);
                   $$ = new nodes::PrivateClassOperatorDefExpr($3, $4, method);
                 }
-                | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
+                | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
                   Method* method = new Method($4, $5, body);
                   $$ = new nodes::ProtectedClassOperatorDefExpr($3, $4, method);
                 }
-                | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
+                | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($8);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
                   $$ = new nodes::ClassOperatorDefExpr($2, nodes::Identifier::from_string("[]"), method);
                 }
-                | DEF PRIVATE IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
+                | DEF PRIVATE IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($9);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
                   $$ = new nodes::PrivateClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
                 }
-                | DEF PROTECTED IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY method_body RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
+                | DEF PROTECTED IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                  ExpressionList* body = new ExpressionList($9);
                   Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
                   $$ = new nodes::ProtectedClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
                 }
@@ -420,21 +434,25 @@ message_send:   receiver IDENTIFIER { $$ = new nodes::MessageSend($1, $2); }
 operator_send:  receiver OPERATOR arg_exp {
                   $$ = new nodes::OperatorSend($1, $2, $3);
                 }
+                | receiver OPERATOR DOT space arg_exp {
+                  $$ = new nodes::OperatorSend($1, $2, $5);
+                }
                 | receiver LBRACKET exp RBRACKET {
                   $$ = new nodes::OperatorSend($1, nodes::Identifier::from_string("[]"), $3);
                 }
                 ;
 
-receiver:       | /* empty */ { $$ = nodes::Identifier::from_string("self"); }
-                | LPAREN exp RPAREN { $$ = $2; }
+receiver:       LPAREN space exp space RPAREN { $$ = $3; }
                 | exp { $$ = $1; }
                 | IDENTIFIER { $$ = $1; }
                 | SUPER { $$ = new nodes::Super(); }
-                | exp DOT { $$ = $1; }
+                | exp DOT space { $$ = $1; }
                 ;
 
 send_args:      IDENTIFIER COLON arg_exp { $$ = msend_arg_node($1, $3, 0); }
+                | IDENTIFIER COLON space arg_exp { $$ = msend_arg_node($1, $4, 0); }
                 | send_args IDENTIFIER COLON arg_exp { $$ = msend_arg_node($2, $4, $1); }
+                | send_args IDENTIFIER COLON space arg_exp { $$ = msend_arg_node($2, $5, $1); }
                 ;
 
 arg_exp:        IDENTIFIER { $$ = $1; }
@@ -485,8 +503,8 @@ literal_value:  INTEGER_LITERAL	{ $$ = $1; }
                 ;
 
 array_literal:  empty_array
-                | LBRACKET exp_comma_list RBRACKET {
-                    $$ = new nodes::ArrayLiteral($2);
+                | LBRACKET space exp_comma_list space RBRACKET {
+                    $$ = new nodes::ArrayLiteral($3);
                 }
                 | RB_ARGS_PREFIX array_literal {
                   $$ = new nodes::RubyArgsLiteral($2);
@@ -494,21 +512,21 @@ array_literal:  empty_array
                 ;
 
 exp_comma_list: exp { $$ = expr_node($1, 0); }
-                | exp_comma_list COMMA exp { $$ = expr_node($3, $1); }
+                | exp_comma_list COMMA space exp { $$ = expr_node($4, $1); }
                 ;
 
-empty_array:    LBRACKET RBRACKET { $$ = new nodes::ArrayLiteral(0); }
+empty_array:    LBRACKET space RBRACKET { $$ = new nodes::ArrayLiteral(0); }
                 ;
 
-hash_literal:   LHASH key_value_list RHASH { $$ = new nodes::HashLiteral($2); }
-                | LHASH RHASH { $$ = new nodes::HashLiteral(0); }
+hash_literal:   LHASH space key_value_list space RHASH { $$ = new nodes::HashLiteral($3); }
+                | LHASH space RHASH { $$ = new nodes::HashLiteral(0); }
                 ;
 
-block_literal:  LCURLY method_body RCURLY {
-                  $$ = new nodes::BlockLiteral(new ExpressionList($2));
+block_literal:  LCURLY space method_body RCURLY {
+                  $$ = new nodes::BlockLiteral(new ExpressionList($3));
                 }
-                | STAB block_args STAB LCURLY method_body RCURLY {
-                  $$ = new nodes::BlockLiteral($2, new ExpressionList($5));
+                | STAB block_args STAB space LCURLY space method_body space RCURLY {
+                  $$ = new nodes::BlockLiteral($2, new ExpressionList($7));
                 }
                 ;
 
@@ -524,20 +542,20 @@ block_args_with_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
                 | block_args COMMA IDENTIFIER { $$ = blk_arg_node($3, $1); }
                 ;
 
-key_value_list: SYMBOL_LITERAL ARROW exp { $$ = key_val_obj($1, $3, NULL); }
-                | SYMBOL_LITERAL ARROW literal_value { $$ = key_val_obj($1, $3, NULL); }
-                | STRING_LITERAL ARROW literal_value { $$ = key_val_obj($1, $3, NULL); }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW exp  {
-                  $$ = key_val_obj($3, $5, $1);
+key_value_list: SYMBOL_LITERAL space ARROW space exp { $$ = key_val_obj($1, $5, NULL); }
+                | SYMBOL_LITERAL space ARROW space literal_value { $$ = key_val_obj($1, $5, NULL); }
+                | STRING_LITERAL space ARROW space literal_value { $$ = key_val_obj($1, $5, NULL); }
+                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space exp  {
+                  $$ = key_val_obj($4, $8, $1);
                 }
-                | key_value_list COMMA STRING_LITERAL ARROW exp  {
-                  $$ = key_val_obj($3, $5, $1);
+                | key_value_list COMMA space STRING_LITERAL space ARROW space exp  {
+                  $$ = key_val_obj($4, $8, $1);
                 }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value {
-                  $$ = key_val_obj($3, $5, $1);
+                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
+                  $$ = key_val_obj($4, $8, $1);
                 }
-                | key_value_list COMMA SYMBOL_LITERAL ARROW literal_value {
-                  $$ = key_val_obj($3, $5, $1);
+                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
+                  $$ = key_val_obj($4, $8, $1);
                 }
                 ;
 

@@ -1,55 +1,55 @@
 def class Object {
-  "Root class of Fancy's class hierarchy. All classes inherit from Object.";
+  "Root class of Fancy's class hierarchy. All classes inherit from Object."
 
   def loop: block {
-    "Infinitely calls the block (loops).";
+    "Infinitely calls the block (loops)."
     { true } while_true: {
       block call
     }
   }
 
   def println {
-    "Same as Console println: self. Prints the object on STDOUT, followed by a newline.";
+    "Same as Console println: self. Prints the object on STDOUT, followed by a newline."
     Console println: self
   }
 
   def print {
-    "Same as Console print: self. Prints the object on STDOUT.";
+    "Same as Console print: self. Prints the object on STDOUT."
     Console print: self
   }
 
   def != other {
-    "Indicates, if two objects are unequal.";
+    "Indicates, if two objects are unequal."
     self == other not
   }
 
   def if_false: block {
-    "Calls the block.";
+    "Calls the block."
     nil
   }
 
   def if_nil: block {
-    "Returns nil.";
+    "Returns nil."
     nil
   }
 
   def nil? {
-    "Returns nil.";
+    "Returns nil."
     nil
   }
 
   def false? {
-    "Returns nil.";
+    "Returns nil."
     nil
   }
 
   def true? {
-    "Returns nil.";
+    "Returns nil."
     nil
   }
 
   def if_do: block {
-    "If the object is non-nil, it calls the given block with itself as argument.";
+    "If the object is non-nil, it calls the given block with itself as argument."
 
     self nil? if_true: {
       nil
@@ -60,7 +60,7 @@ def class Object {
 
   def if_do: then_block else: else_block {
     """If the object is non-nil, it calls the given then_block with itself as argument.
-       Otherwise it calls the given else_block.""";
+       Otherwise it calls the given else_block."""
 
     self nil? if_true: {
       else_block call
@@ -70,7 +70,7 @@ def class Object {
   }
 
   def or_take: other {
-    "Returns self if it's non-nil, otherwise returns the given object.";
+    "Returns self if it's non-nil, otherwise returns the given object."
 
     self nil? if_true: {
       other
@@ -88,18 +88,18 @@ def class Object {
   }
 
   def NATIVE is_a?: class_obj {
-    "Indicates, if an object is an instance of a given Class.";
+    "Indicates, if an object is an instance of a given Class."
 
     self class subclass?: class_obj
   }
 
   def || other {
-    "Same as Object#or:";
+    "Same as Object#or:"
     self or: other
   }
 
   def && other {
-    "Same as Object#and:";
+    "Same as Object#and:"
     self and: other
   }
 }
