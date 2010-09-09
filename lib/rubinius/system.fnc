@@ -21,7 +21,7 @@ def class System {
   }
 
   def System sleep: n_ms {
-    "Sets the Fancy process for a given amount of milliseconds to sleep.",
+    "Sets the Fancy process for a given amount of milliseconds to sleep."
 
     Kernel sleep: $ n_ms / 1000
   }

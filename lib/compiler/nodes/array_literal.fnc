@@ -1,6 +1,6 @@
 def class AST {
   def class ArrayLiteral : Node {
-    read_slots: ['array];
+    read_slots: ['array]
     def initialize: array {
       @array = array
     }
@@ -10,12 +10,12 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ (" " * ilvl) ++ "[";
+      out print: $ (" " * ilvl) ++ "["
       @array each: |e| {
         e to_ast to_ruby: out
       } in_between: {
         out print: ", "
-      };
+      }
       out print: "]"
     }
   }

@@ -1,6 +1,6 @@
 def class AST {
   def class Node {
-    @@ast_creators = <[]>;
+    @@ast_creators = <[]>
 
     def self register: keyword for_node: node_class {
       @@ast_creators at: keyword put: node_class
@@ -14,7 +14,7 @@ def class AST {
       to_ruby: out indent: 0
     }
   }
-};
+}
 
 def class Array {
   def to_ast {

@@ -1,6 +1,6 @@
 def class AST {
   def class ExpressionList : Node {
-    read_write_slots: ['exprs];
+    read_write_slots: ['exprs]
     def initialize: exprs {
       @exprs = exprs
     }
@@ -27,10 +27,10 @@ def class AST {
     def docstring {
       @docstring if_nil: {
         @exprs first is_a?: StringLiteral . if_true: {
-          @docstring = @exprs first string;
+          @docstring = @exprs first string
           @exprs = @exprs rest # remove docstring from @exprs
         }
-      };
+      }
       @docstring
     }
   }

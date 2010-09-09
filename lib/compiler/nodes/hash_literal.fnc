@@ -1,6 +1,6 @@
 def class AST {
   def class HashLiteral : Node {
-    read_slots: ['entries];
+    read_slots: ['entries]
     def initialize: hash_entries {
       @entries = hash_entries
     }
@@ -10,19 +10,19 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl ++ "{";
+      out print: $ " " * ilvl ++ "{"
       @entries from: 0 to: -2 . each: |e| {
-        e first to_ruby: out;
-        out print: " => ";
-        e second to_ruby: out;
+        e first to_ruby: out
+        out print: " => "
+        e second to_ruby: out
         out print: ", "
-      };
+      }
       # output last entry without comma
       @entries last if_do: |l| {
-        l first  to_ruby: out;
-        out print: " => ";
+        l first  to_ruby: out
+        out print: " => "
         l second to_ruby: out
-      };
+      }
       out print: "}"
     }
   }

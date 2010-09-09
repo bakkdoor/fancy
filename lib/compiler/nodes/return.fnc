@@ -1,6 +1,6 @@
 def class AST {
   def class Return : Node {
-    read_slots: ['expr];
+    read_slots: ['expr]
     def initialize: expr {
       @expr = expr
     }
@@ -10,7 +10,7 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl ++ "return ";
+      out print: $ " " * ilvl ++ "return "
       out print: (@expr to_ruby: out)
     }
   }

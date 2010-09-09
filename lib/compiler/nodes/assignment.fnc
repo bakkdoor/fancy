@@ -1,10 +1,10 @@
 def class AST {
   def class Assignment : Node {
-    read_write_slots: ['ident, 'expr];
+    read_write_slots: ['ident, 'expr]
 
     def Assignment ident: ident value: expr {
-      as = Assignment new;
-      as ident: ident;
+      as = Assignment new
+      as ident: ident
       as expr: expr
     }
 
@@ -13,8 +13,8 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      @ident to_ruby: out indent: ilvl;
-      out print: " = ";
+      @ident to_ruby: out indent: ilvl
+      out print: " = "
       @expr to_ruby: out
     }
   }
