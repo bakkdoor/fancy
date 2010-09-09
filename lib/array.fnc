@@ -1,7 +1,7 @@
 def class Array {
   "Array class. Arrays are dynamically resizable containers with a constant-time index-based access to members."
 
-  self include: Enumerable
+  include: Enumerable
 
   def NATIVE [] index {
     """Given an Array of 2 Numbers, it returns the sub-array between the given indices.
@@ -9,15 +9,15 @@ def class Array {
 
     # if given an Array, interpret it as a from:to: range substring
     index is_a?: Array . if_true: {
-      self from: (index[0]) to: (index[1])
+      from: (index[0]) to: (index[1])
     } else: {
-      self at: index
+      at: index
     }
   }
 
   def rest {
     "Returns all elements except the first one as a new Array."
-    self from: 1 to: -1
+    from: 1 to: -1
   }
 
   def === other {

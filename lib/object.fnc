@@ -95,11 +95,11 @@ def class Object {
 
   def || other {
     "Same as Object#or:"
-    self or: other
+    or: other
   }
 
   def && other {
     "Same as Object#and:"
-    self and: other
+    and: other
   }
 }

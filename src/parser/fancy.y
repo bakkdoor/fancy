@@ -428,6 +428,9 @@ message_send:   receiver IDENTIFIER { $$ = new nodes::MessageSend($1, $2); }
                 | receiver send_args {
                    $$ = new nodes::MessageSend($1, $2);
                 }
+                | send_args {
+                   $$ = new nodes::MessageSend(nodes::Self::node(), $1);
+                }
                 ;
 
 

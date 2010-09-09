@@ -1,12 +1,12 @@
 def class Hash {
   "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value."
 
-  self include: Enumerable
+  include: Enumerable
 
   def [] key {
     "Returns the value for a given key."
 
-    self at: key
+    at: key
   }
 
   def each: block {
@@ -14,11 +14,11 @@ def class Hash {
 
     block argcount == 1 if_true: {
       self keys each: |key| {
-        block call: [[key, self at: key]]
+        block call: [[key, at: key]]
       }
     } else: {
       self keys each: |key| {
-        block call: [key, self at: key]
+        block call: [key, at: key]
       }
     }
   }
@@ -40,7 +40,7 @@ def class Hash {
   }
 
   def to_a {
-    self map: |pair| { pair }
+    map: |pair| { pair }
   }
 
   def to_s {

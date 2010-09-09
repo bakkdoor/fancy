@@ -2,16 +2,16 @@ def class Class {
   def define_slot_reader: slotname {
     "Defines a slot reader method with a given name."
 
-    self define_method: slotname with: {
-      self get_slot: slotname
+    define_method: slotname with: {
+      get_slot: slotname
     }
   }
 
   def define_slot_writer: slotname {
     "Defines a slot writer method with a given name."
 
-    self define_method: (slotname to_s + ":") with: |val| {
-      self set_slot: slotname value: val
+    define_method: (slotname to_s + ":") with: |val| {
+      set_slot: slotname value: val
     }
   }
 
@@ -19,7 +19,7 @@ def class Class {
     "Defines slot reader methods for all given slotnames."
 
     slots each: |s| {
-      self define_slot_reader: s
+      define_slot_reader: s
     }
   }
 
@@ -27,7 +27,7 @@ def class Class {
     "Defines slot writer methods for all given slotnames."
 
     slots each: |s| {
-      self define_slot_writer: s
+      define_slot_writer: s
     }
   }
 
@@ -35,8 +35,8 @@ def class Class {
     "Defines slot reader & writer methods for all given slotnames."
 
     slots each: |s| {
-      self define_slot_reader: s
-      self define_slot_writer: s
+      define_slot_reader: s
+      define_slot_writer: s
     }
   }
 

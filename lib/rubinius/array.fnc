@@ -8,17 +8,17 @@ def class Array {
 
   # methods already existing on Array in ruby
   # TODO: Perhaps write better descriptions.
-  self method: "each"    . docstring=: "See ruby Array#each"
-  self method: "=="      . docstring=: "See ruby Array#=="
-  self method: "clear"   . docstring=: "See ruby Array#clear"
-  self method: "size"    . docstring=: "See ruby Array#size"
-  self method: "at"      . docstring=: "See ruby Array#at"
-  self method: "indices" . docstring=: "See ruby Array#indices"
-  self method: "first"   . docstring=: "See ruby Array#first"
-  self method: "reject!" . docstring=: "See ruby Array#reject!"
-  self method: "select"  . docstring=: "See ruby Array#select"
-  self method: "<<"      . docstring=: "See ruby Array#<<"
-  self method: "last"    . docstring=: "See ruby Array#last"
+  method: "each"    . docstring=: "See ruby Array#each"
+  method: "=="      . docstring=: "See ruby Array#=="
+  method: "clear"   . docstring=: "See ruby Array#clear"
+  method: "size"    . docstring=: "See ruby Array#size"
+  method: "at"      . docstring=: "See ruby Array#at"
+  method: "indices" . docstring=: "See ruby Array#indices"
+  method: "first"   . docstring=: "See ruby Array#first"
+  method: "reject!" . docstring=: "See ruby Array#reject!"
+  method: "select"  . docstring=: "See ruby Array#select"
+  method: "<<"      . docstring=: "See ruby Array#<<"
+  method: "last"    . docstring=: "See ruby Array#last"
 
   def append: arr {
     "Appends another Array onto this one."
@@ -37,7 +37,7 @@ def class Array {
   def clone {
     "Clones (shallow copy) the Array."
     new = []
-    self each: |x| {
+    each: |x| {
       new << x
     }
     new
@@ -49,11 +49,11 @@ def class Array {
      Returns the deleted object if an index was given, the last deleted object for an Array given."""
 
     obj is_a?: Number . if_true: {
-      self delete_at: obj # call to ruby-Array#delete_at
+      delete_at: obj # call to ruby-Array#delete_at
     } else: {
       obj is_a?: Array . if_true: {
         obj each: |idx| {
-          self delete_at: obj # call to ruby-Array#delete_at
+          delete_at: obj # call to ruby-Array#delete_at
         }
       }
     }
@@ -62,17 +62,17 @@ def class Array {
 
   def second {
     "Returns the second element in the Array"
-    self at: 1
+    at: 1
   }
 
   def third {
     "Returns the third element in the Array"
-    self at: 2
+    at: 2
   }
 
   def fourth {
     "Returns the fourth element in the Array"
-    self at: 3
+    at: 3
   }
 
   # TODO: rename to "indices_of:" ?
@@ -80,7 +80,7 @@ def class Array {
     "Returns an Array of all indices of this item. Empty Array if item does not occur."
 
     tmp = []
-    self each_with_index: |obj, idx| {
+    each_with_index: |obj, idx| {
       item == obj if_true: {
         tmp << idx
       }
@@ -112,7 +112,7 @@ def class Array {
     "Same as select, just gets also called with an additional argument for each element's index value."
 
     tmp = []
-    self each_with_index: |obj idx| {
+    each_with_index: |obj idx| {
       block call: [obj, idx] . if_true: {
         tmp << obj
       }

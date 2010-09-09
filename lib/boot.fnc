@@ -8,7 +8,7 @@
 # current list (if adding them here is really necessary at all).
 
 # a hack for "def NATIVE" method definitions:
-# NATIVE = Object new
+NATIVE = Object new
 
 require: "object"
 require: "class"

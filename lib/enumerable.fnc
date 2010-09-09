@@ -4,14 +4,14 @@ def class Enumerable {
   def include?: item {
     "Indicates, if a collection includes a given element."
 
-    self any?: |x| { item == x }
+    any?: |x| { item == x }
   }
 
   def any?: condition {
     "Indicates, if any element meets the condition."
 
     found = nil
-    self each: |x| {
+    each: |x| {
       condition call: [x] . if_true: {
         found = true
       }
@@ -23,7 +23,7 @@ def class Enumerable {
     "Indicates, if all elements meet the condition."
 
     all = true
-    self each: |x| {
+    each: |x| {
       condition call: [x] . if_false: {
         all = nil
       }
@@ -35,10 +35,10 @@ def class Enumerable {
     "Returns nil, if the given object isn't found, or the object, if it is found."
 
     item is_a?: Block . if_true: {
-      self find_by: item
+      find_by: item
     } else: {
       found = nil
-      self each: |x| {
+      each: |x| {
         item == x if_true: {
           found = x
         }
@@ -51,7 +51,7 @@ def class Enumerable {
     "Similar to 'find:' but takes a block that is called for each element to find it."
 
     found = nil
-    self each: |x| {
+    each: |x| {
       block call: [x] . if_do: |item| {
         found = item
       }
@@ -63,7 +63,7 @@ def class Enumerable {
     "Returns a new Array with the results of calling a given block for every element"
 
     coll = []
-    self each: |x| {
+    each: |x| {
       coll << (block call: [x])
     }
     coll
@@ -73,7 +73,7 @@ def class Enumerable {
     "Returns a new Array with all elements that meet the given condition block."
 
     coll = []
-    self each: |x| {
+    each: |x| {
       { coll << x } if: $ condition call: [x]
     }
     coll
@@ -83,7 +83,7 @@ def class Enumerable {
     "Returns a new Array with all elements that don't meet the given condition block."
 
     coll = []
-    self each: |x| {
+    each: |x| {
       { coll << x } unless: $ condition call: [x]
     }
     coll
@@ -94,7 +94,7 @@ def class Enumerable {
 
     coll = []
     stop = nil
-    self each: |x| {
+    each: |x| {
       stop if_false: {
         condition call: [x] . if_true: {
           coll << x
@@ -112,7 +112,7 @@ def class Enumerable {
     coll = []
     drop = nil
     first_check = true
-    self each: |x| {
+    each: |x| {
       drop or: first_check . if_true: {
         drop = condition call: [x]
         first_check = nil
@@ -127,7 +127,7 @@ def class Enumerable {
     "Calculates a value based on a given block to be called on an accumulator value and an initial value."
 
     acc = init_val
-    self each: |x| {
+    each: |x| {
       acc = (block call: [acc, x])
     }
     acc
@@ -137,7 +137,7 @@ def class Enumerable {
     "Returns a new Array with all unique values (double entries are skipped)."
 
     uniq_vals = []
-    self each: |x| {
+    each: |x| {
       uniq_vals include?: x . if_false: {
         uniq_vals << x
       }
@@ -149,7 +149,7 @@ def class Enumerable {
     "Returns the size of an Enumerable."
 
     i = 0
-    self each: |x| {
+    each: |x| {
       i = i + 1
     }
     i
@@ -161,14 +161,14 @@ def class Enumerable {
   }
 
   def first {
-    self at: 0
+    at: 0
   }
 
   def last {
     "Returns the last element in an Enumerable."
 
     item = nil
-    self each: |x| {
+    each: |x| {
       item = x
     }
     item
@@ -177,14 +177,14 @@ def class Enumerable {
   def compact {
     "Returns a new Array with all values removed that are nil (return true on nil?)."
 
-    self reject: |x| { x nil? }
+    reject: |x| { x nil? }
   }
 
   def superior_by: comparison_block {
     "Returns the superiour element in the Enumerable that has met the given comparison block with all other elements."
 
     retval = self first
-    self each: |x| {
+    each: |x| {
       comparison_block call: [x, retval] . if_true: {
         retval = x
       }
@@ -194,11 +194,11 @@ def class Enumerable {
 
   def max {
     "Returns the maximum value in the Enumerable (via the '>' comparison message)."
-    self superior_by: '>
+    superior_by: '>
   }
 
   def min {
     "Returns the minimum value in the Enumerable (via the '<' comparison message)."
-    self superior_by: '<
+    superior_by: '<
   }
 }
