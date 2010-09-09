@@ -152,7 +152,7 @@ programm:       /* empty */
                 | code {
                   Expression* expr = $1;
                   if(output_sexp) {
-                    (*parser::out_stream) << expr->to_sexp();
+                    (*parser::out_stream) << expr->to_sexp() << ", ";
                   } else {
                     last_value = expr->eval(global_scope);
                   }
@@ -160,12 +160,12 @@ programm:       /* empty */
                 | programm delim code {
                   Expression* expr = $3;
                   if(output_sexp) {
-                    (*parser::out_stream) << ", " << expr->to_sexp();
+                    (*parser::out_stream) << expr->to_sexp() << ", ";
                   } else {
                     last_value = expr->eval(global_scope);
                   }
                 }
-                | programm delim { } /* also allow empty expressions */
+                | programm delim { }
                 ;
 
 delim:          nls
@@ -516,6 +516,7 @@ array_literal:  empty_array
 
 exp_comma_list: exp { $$ = expr_node($1, 0); }
                 | exp_comma_list COMMA space exp { $$ = expr_node($4, $1); }
+                | exp_comma_list COMMA { }
                 ;
 
 empty_array:    LBRACKET space RBRACKET { $$ = new nodes::ArrayLiteral(0); }
