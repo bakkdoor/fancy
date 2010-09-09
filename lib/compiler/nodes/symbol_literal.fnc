@@ -10,7 +10,7 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      (@symbol to_s include?: ":")
+      (@symbol to_s include?: ":") .
       || (@symbol == '||) . if_true: {
         out print: $ (" " * ilvl) ++ ":'" ++ @symbol ++ "'"
       } else: {
