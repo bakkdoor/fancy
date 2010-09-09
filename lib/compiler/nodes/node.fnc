@@ -11,7 +11,7 @@ def class AST {
     }
 
     def to_ruby: out {
-      self to_ruby: out indent: 0
+      to_ruby: out indent: 0
     }
   }
 };

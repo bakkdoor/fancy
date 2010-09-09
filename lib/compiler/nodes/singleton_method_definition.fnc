@@ -1,6 +1,6 @@
 def class AST {
   def class SingletonMethodDefinition : Node {
-    self read_write_slots: ['object_ident, 'method];
+    read_write_slots: ['object_ident, 'method];
 
     def init_docstring {
       @docstring = @method docstring

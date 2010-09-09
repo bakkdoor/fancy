@@ -1,6 +1,6 @@
 def class AST {
   def class OperatorSend : Node {
-    self read_write_slots: ['receiver, 'op_ident, 'operand];
+    read_write_slots: ['receiver, 'op_ident, 'operand];
     def OperatorSend receiver: recv op_ident: op_id operand: operand {
       os = OperatorSend new;
       os receiver: recv;

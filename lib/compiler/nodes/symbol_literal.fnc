@@ -1,6 +1,6 @@
 def class AST {
   def class SymbolLiteral : Node {
-    self read_slots: ['symbol];
+    read_slots: ['symbol];
     def initialize: sym {
       @symbol = sym
     }

@@ -1,6 +1,6 @@
 def class AST {
   def class Assignment : Node {
-    self read_write_slots: ['ident, 'expr];
+    read_write_slots: ['ident, 'expr];
 
     def Assignment ident: ident value: expr {
       as = Assignment new;

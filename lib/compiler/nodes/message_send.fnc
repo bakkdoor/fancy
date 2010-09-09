@@ -1,6 +1,6 @@
 def class AST {
   def class MessageSend : Node {
-    self read_write_slots: ['receiver, 'method_ident, 'args];
+    read_write_slots: ['receiver, 'method_ident, 'args];
 
     def MessageSend from_sexp: sexp {
       receiver = sexp[1] to_ast;

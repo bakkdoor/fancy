@@ -1,8 +1,8 @@
 def class Set {
   "A simple Set data structure class."
 
-  self include: Enumerable
-  self read_slots: ['values]
+  include: Enumerable
+  read_slots: ['values]
 
   def initialize: arr {
     "Initialize a new Set with a given Array of values."
@@ -28,7 +28,7 @@ def class Set {
 
   def << value {
     "Insert a value into the Set."
-    { @values << value } unless: (self include?: value)
+    { @values << value } unless: (include?: value)
   }
 
   def include?: value {

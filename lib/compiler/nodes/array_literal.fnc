@@ -1,6 +1,6 @@
 def class AST {
   def class ArrayLiteral : Node {
-    self read_slots: ['array];
+    read_slots: ['array];
     def initialize: array {
       @array = array
     }

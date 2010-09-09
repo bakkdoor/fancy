@@ -27,7 +27,7 @@ def class Array {
       self size != (other size) if_true: {
         nil
       } else: {
-        self all?: |x| { other include?: x }
+        all?: |x| { other include?: x }
       }
     }
   }
@@ -39,7 +39,7 @@ def class Array {
     i = 0
     size = self size
     { found_idx not and: (i < size) } while_true: {
-      item == (self at: i) if_true: {
+      item == (at: i) if_true: {
         found_idx = i
       }
       i = i + 1
@@ -51,10 +51,10 @@ def class Array {
     "Returns the item, if it's in the Array or nil (if not found)."
 
     item is_a?: Block . if_true: {
-      self find_by: item
+      find_by: item
     } else: {
-      self index: item . if_do: |idx| {
-        self at: idx
+      index: item . if_do: |idx| {
+        at: idx
       }
     }
   }
@@ -66,9 +66,9 @@ def class Array {
     i = 0
     size = self size
     { found not and: (i < size) } while_true: {
-      item = block call: [(self at: i)]
+      item = block call: [(at: i)]
       item nil? if_false: {
-        found = self at: i
+        found = at: i
       }
       i = i + 1
     }
@@ -80,7 +80,7 @@ def class Array {
 
     values = []
     idx_arr each: |idx| {
-      values << (self at: idx)
+      values << (at: idx)
     }
     values
   }
@@ -98,7 +98,7 @@ def class Array {
 
     str = ""
     max_idx = self size - 1
-    self each_with_index: |x i| {
+    each_with_index: |x i| {
       str = str ++ x
       i < max_idx if_true: {
         str = str ++ join_str
@@ -110,14 +110,14 @@ def class Array {
   def join {
     "Joins all elements with the empty String."
     # TODO: this is a hack, somehow it doesn't work with a literal string
-    self join: ""
+    join: ""
   }
 
   def NATIVE each_with_index: block {
     "Iterate over all elements in Array. Calls a given Block with each element and its index."
 
     self size times: |idx| {
-      block call: [self at: idx, idx]
+      block call: [at: idx, idx]
     }
   }
 
@@ -125,7 +125,7 @@ def class Array {
     "Same as select, just gets also called with an additional argument for each element's index value."
 
     coll = []
-    self each_with_index: |x i| {
+    each_with_index: |x i| {
       { coll << [x, i] } if: $ condition call: [x, i]
     }
     coll
@@ -134,41 +134,40 @@ def class Array {
   def NATIVE reject!: condition {
     "Removes all elements in place, that meet the condition."
 
-    entries = self select_with_index: |x i| { condition call: [x] }
-    self remove_at: $ entries map: |e| { e second }
+    entries = select_with_index: |x i| { condition call: [x] }
+    remove_at: $ entries map: |e| { e second }
     self
   }
 
   def select!: condition {
     "Removes all elements in place, that don't meet the condition."
 
-    self reject!: |x| { condition call: [x] . not }
+    reject!: |x| { condition call: [x] . not }
   }
 
   def compact! {
     "Removes all nil-value elements in place."
 
-    self reject!: |x| { x nil? }
+    reject!: |x| { x nil? }
   }
 
   def remove: obj {
     "Removes all occurances of obj in the Array."
 
-    self remove_at: (self indices: obj)
+    remove_at: (indices: obj)
   }
 
   def remove_if: condition {
     "Removes all elements that meet the given condition block."
 
-    self remove_at:
-      (self select_with_index: condition .
-       map: 'second)
+    remove_at: (select_with_index: condition .
+                map: 'second)
   }
 
   def println {
     "Prints each element on a seperate line."
 
-    self each: |x| {
+    each: |x| {
       x println
     }
   }
@@ -176,7 +175,7 @@ def class Array {
   def to_s {
     "Returns String representation of Array."
 
-    self reduce: |x y| { x ++ y } with: ""
+    reduce: |x y| { x ++ y } with: ""
   }
 
   def * num {
@@ -203,7 +202,7 @@ def class Array {
 
     count = 0
     size = self size
-    self each: |x| {
+    each: |x| {
       # NOTICE:
       # use [x] instead of x since self is an array already:
       each_block call: [x]

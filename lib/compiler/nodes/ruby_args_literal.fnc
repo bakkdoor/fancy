@@ -1,6 +1,6 @@
 def class AST {
   def class RubyArgsLiteral : Node {
-    self read_slots: ['args];
+    read_slots: ['args];
     def initialize: args {
       @args = args
     }

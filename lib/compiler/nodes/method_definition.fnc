@@ -1,6 +1,6 @@
 def class AST {
   def class MethodDefinition : Node {
-    self read_slots: ['method];
+    read_slots: ['method];
 
     def initialize: method {
       @method = method;

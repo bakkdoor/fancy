@@ -1,6 +1,6 @@
 def class AST {
   def class ClassDefinition : Node {
-    self read_write_slots: ['ident, 'superclass_ident, 'body];
+    read_write_slots: ['ident, 'superclass_ident, 'body];
     def ClassDefinition identifier: ident superclass: superclass_ident body: class_body {
       cd = ClassDefinition new;
       cd ident: ident;

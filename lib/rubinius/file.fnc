@@ -18,7 +18,7 @@ def class File {
     # }
     # """
 
-    modes_str = self modes_str: modes_arr
+    modes_str = modes_str: modes_arr
     # TODO: how do we deal with Ruby methods that expect a block?
     # We need a way to let the compiler know if the last argument to
     # a method call should be used as the block (in Ruby: &prob_obj)

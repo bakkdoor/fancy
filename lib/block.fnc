@@ -6,7 +6,7 @@ def class Block {
 
     self call if_true: {
       block call
-      self while_true: block
+      while_true: block
     }
   }
 
@@ -21,6 +21,6 @@ def class Block {
   def while_nil: block {
     "Same as Block#while_false:"
 
-    self while_false: block
+    while_false: block
   }
 }

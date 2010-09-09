@@ -23,17 +23,17 @@ def class File {
   def writeln: x {
     "Writes a given argument as a String followed by a newline into the File."
 
-    self write: x
+    write: x
     self newline
   }
 
   def print: x {
     "Same as File#write:."
-    self write: x
+    write: x
   }
 
   def println: x {
     "Same as File#writeln:."
-    self writeln: x
+    writeln: x
   }
 }

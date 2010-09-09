@@ -1,6 +1,6 @@
 def class AST {
   def class Method : Node {
-    self read_write_slots: ['ident, 'args, 'body];
+    read_write_slots: ['ident, 'args, 'body];
 
     def Method identifier: ident args: args body: body {
       m = Method new;

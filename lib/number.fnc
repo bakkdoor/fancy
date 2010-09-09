@@ -32,7 +32,7 @@ def class Number {
   def even? {
     "Indicates, if a Number is even."
 
-    self modulo: 2 . == 0
+    modulo: 2 . == 0
   }
 
   def odd? {
@@ -51,14 +51,14 @@ def class Enumerable {
     """Calculates the sum of all the elements in the Enumerable
       (assuming them to be Numbers (implementing '+' & '*'))."""
 
-    self reduce: |x y| { x + y } with: 0
+    reduce: |x y| { x + y } with: 0
   }
 
   def product {
     """Calculates the product of all the elements in the Enumerable
       (assuming them to be Numbers (implementing '+' & '*'))."""
 
-    self reduce: |x y| { x * y } with: 1
+    reduce: |x y| { x * y } with: 1
   }
 }
 

@@ -1,6 +1,6 @@
 def class AST {
   def class Require : Node {
-    self read_slots: ['expr];
+    read_slots: ['expr];
     def initialize: expr {
       @expr = expr
     }

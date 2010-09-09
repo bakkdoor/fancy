@@ -1,6 +1,6 @@
 def class AST {
   def class ExceptHandler : Node {
-    self read_write_slots: ['class, 'var, 'body];
+    read_write_slots: ['class, 'var, 'body];
 
     def ExceptHandler class: c var: v body: b {
       eh = ExceptHandler new;
@@ -28,7 +28,7 @@ def class AST {
   }
 
   def class TryCatchBlock : Node {
-    self read_write_slots: ['body, 'handlers, 'final];
+    read_write_slots: ['body, 'handlers, 'final];
 
     def TryCatchBlock body: b handlers: h final: f {
       tcb = TryCatchBlock new;

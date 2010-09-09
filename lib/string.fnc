@@ -1,5 +1,5 @@
 def class String {
-  self include: Enumerable
+  include: Enumerable
 
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.
@@ -7,9 +7,9 @@ def class String {
 
     # if given an Array, interpret it as a from:to: range substring
     index is_a?: Array . if_true: {
-      self from: (index[0]) to: (index[1])
+      from: (index[0]) to: (index[1])
     } else: {
-      self at: index
+      at: index
     }
   }
 
@@ -28,7 +28,7 @@ def class String {
   def blank? {
     "Indicates, if a String consists only of whitespace."
 
-    self all?: 'whitespace?
+    all?: 'whitespace?
   }
 
   def * num {
