@@ -16,13 +16,18 @@ def class Person {
   # creates getters & setters for slots
   read_write_slots: ['name, 'age, 'city]
 
-  # Person class method for creating a new person with a name, age and city
-  def Person name: name age: age city: city {
-    p = Person new
-    p name: name
-    p age: age
-    p city: city
-    p
+  # Person constructor method for creating a new person with a name,
+  # age and city.
+  # A method that starts with initialize: will cause a class factory
+  # method being generated, that calls this method when being called.
+  # The name of the class factory method is the same as the instance
+  # method but having initialize: replaced by new:.
+  # So in this case: Person##new:age:city:
+  # which calls this instance method internally
+  def initialize: name age: age city: city {
+    @name = name
+    @age = age
+    @city = city
   }
 
   def go_to: city {
@@ -51,7 +56,7 @@ def class Person {
 
 # usage example:
 osna = City new: "Osnabrück"
-p = Person name: "Christopher" age: 23 city: osna
+p = Person new: "Christopher" age: 23 city: osna
 p println
 
 berlin = City new: "Berlin"

@@ -12,6 +12,18 @@ using namespace std;
 namespace fancy {
   namespace parser {
     namespace nodes {
+      FancyObject* class_constuctor_method(FancyObject *self, FancyObject** args, int argc, Scope *scope, FancyObject* sender);
+
+      class ClassConstructorMethod : public Callable
+      {
+      public:
+        ClassConstructorMethod(string method_name, Class* for_class);
+        virtual FancyObject* call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender);
+        virtual FancyObject* call(FancyObject *self, Scope *scope, FancyObject* sender);
+      private:
+        string _method_name;
+        Class* _for_class;
+      };
 
       class MethodDefExpr : public Expression
       {
@@ -26,6 +38,8 @@ namespace fancy {
 
       protected:
         string method_name() const;
+        bool is_constructor_method() const;
+        void generate_constructor_class_method(Class* for_class, Scope* scope);
         list< pair<Identifier*, Identifier*> > _method_args;
         Method* _method;
         Identifier* _method_name;
