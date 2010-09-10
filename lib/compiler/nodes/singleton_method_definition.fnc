@@ -2,6 +2,14 @@ def class AST {
   def class SingletonMethodDefinition : Node {
     read_write_slots: ['object_ident, 'method]
 
+    def is_protected: p {
+      @method is_protected: p
+    }
+
+    def is_private: p {
+      @method is_private: p
+    }
+
     def init_docstring {
       @docstring = @method docstring
     }

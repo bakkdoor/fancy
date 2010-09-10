@@ -18,6 +18,7 @@ require: "nodes/return"
 require: "nodes/assignment"
 require: "nodes/try_catch_block"
 require: "nodes/ruby_args_literal"
+require: "nodes/super"
 
 AST::Node register: 'exp_list for_node: AST::ExpressionList
 AST::Node register: 'ident for_node: AST::Identifier
@@ -38,6 +39,8 @@ AST::Node register: 'method_def for_node: AST::MethodDefinition
 AST::Node register: 'singleton_method_def for_node: AST::SingletonMethodDefinition
 AST::Node register: 'operator_def for_node: AST::MethodDefinition
 AST::Node register: 'singleton_operator_def for_node: AST::SingletonMethodDefinition
+AST::Node register: 'protected for_node: AST::ProtectedMethodDefinition
+AST::Node register: 'private for_node: AST::PrivateMethodDefinition
 
 AST::Node register: 'require for_node: AST::Require
 AST::Node register: 'return for_node: AST::Return
@@ -46,3 +49,5 @@ AST::Node register: 'try_catch_block for_node: AST::TryCatchBlock
 AST::Node register: 'except_handler for_node: AST::ExceptHandler
 
 AST::Node register: 'rb_args_lit for_node: AST::RubyArgsLiteral
+
+AST::Node register: 'super for_node: AST::Super

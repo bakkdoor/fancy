@@ -2,6 +2,15 @@ def class AST {
   def class MethodDefinition : Node {
     read_slots: ['method]
 
+    def is_protected: p {
+      @method is_protected: p
+    }
+
+    def is_private: p {
+      @method is_private: p
+    }
+
+
     def initialize: method {
       @method = method
       @docstring = @method docstring
@@ -47,6 +56,15 @@ def class AST {
 
       out newline
       out print: $ s ++ "end"
+      out newline
+      method is_protected if_true: {
+        out print: $ s ++ "protected :"
+        method ident to_ruby: out
+      }
+      method is_private if_true: {
+        out print: $ s ++ "private :"
+        method ident to_ruby: out
+      }
     }
 
     def MethodDefinition output: out docstring: docstring for: object method: method_ident indent: ilvl {
@@ -63,6 +81,24 @@ def class AST {
         out print: $ docstring inspect
         out newline
       }
+    }
+  }
+
+  def class ProtectedMethodDefinition : Node {
+    def ProtectedMethodDefinition from_sexp: sexp {
+      method_def = sexp second to_ast
+      method_def is_protected: true
+      method_def is_private: nil
+      method_def
+    }
+  }
+
+  def class PrivateMethodDefinition : Node {
+    def PrivateMethodDefinition from_sexp: sexp {
+      method_def = sexp second to_ast
+      method_def is_protected: nil
+      method_def is_private: true
+      method_def
     }
   }
 }
