@@ -146,8 +146,7 @@ namespace fancy {
       // create array of arguments for unkown_message:with_params: method
       // including the message name and an array including the old
       // arguments for further use within unkown_message:with_params:
-      int size = sizeof(arguments) / sizeof(arguments[0]);
-      vector<FancyObject*> arr_vec(arguments, &arguments[size]);
+      vector<FancyObject*> arr_vec(arguments, &arguments[argc]);
       FancyObject* new_args[2] = { FancyString::from_value(method_name), new Array(arr_vec) };
       return unkown_message_method->call(this, new_args, 2, scope, sender);
     }
