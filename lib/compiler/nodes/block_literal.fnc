@@ -1,17 +1,15 @@
 def class AST {
   def class BlockLiteral : Node {
-    read_write_slots: ['args, 'body]
-    def BlockLiteral args: args body: body {
-      bl = BlockLiteral new
-      bl args: args
-      bl body: body
-      bl
+    read_slots: ['args, 'body]
+    def initialize: args body: body {
+      @args = args
+      @body = body
     }
 
     def BlockLiteral from_sexp: sexp {
       args = sexp second map: 'to_ast
       body = sexp third to_ast
-      BlockLiteral args: args body: body
+      BlockLiteral new: args body: body
     }
 
     def to_ruby: out indent: ilvl {

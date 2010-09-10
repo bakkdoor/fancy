@@ -1,6 +1,6 @@
 def class AST {
   def class ExpressionList : Node {
-    read_write_slots: ['exprs]
+    read_slots: ['exprs]
     def initialize: exprs {
       @exprs = exprs
     }

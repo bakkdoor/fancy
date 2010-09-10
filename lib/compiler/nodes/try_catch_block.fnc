@@ -1,20 +1,18 @@
 def class AST {
   def class ExceptHandler : Node {
-    read_write_slots: ['class, 'var, 'body]
+    read_slots: ['class, 'var, 'body]
 
-    def ExceptHandler class: c var: v body: b {
-      eh = ExceptHandler new
-      eh class: c
-      eh var: v
-      eh body: b
-      eh
+    def initialize: c var: v body: b {
+      @class = c
+      @var = v
+      @body = b
     }
 
     def ExceptHandler from_sexp: sexp {
       class = sexp second to_ast
       var = sexp third to_ast
       body = sexp fourth to_ast
-      ExceptHandler class: class var: var body: body
+      ExceptHandler new: class var: var body: body
     }
 
     def to_ruby: out indent: ilvl {

@@ -1,6 +1,6 @@
 def class AST {
   def class SingletonMethodDefinition : Node {
-    read_write_slots: ['object_ident, 'method]
+    read_slots: ['object_ident, 'method]
 
     def is_protected: p {
       @method is_protected: p
@@ -14,18 +14,16 @@ def class AST {
       @docstring = @method docstring
     }
 
-    def SingletonMethodDefinition object_ident: obj_ident method: method {
-      cd = SingletonMethodDefinition new
-      cd object_ident: obj_ident
-      cd method: method
-      cd init_docstring
-      cd
+    def initialize: obj_ident method: method {
+      @object_ident = obj_ident
+      @method = method
+      @init_docstring
     }
 
     def SingletonMethodDefinition from_sexp: sexp {
       obj_ident = sexp second to_ast
       method = sexp third to_ast
-      SingletonMethodDefinition object_ident: obj_ident method: method
+      SingletonMethodDefinition new: obj_ident method: method
     }
 
     def to_ruby: out indent: ilvl {

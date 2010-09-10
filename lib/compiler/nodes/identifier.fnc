@@ -1,6 +1,6 @@
 def class AST {
   def class Identifier : Node {
-    read_write_slots: ['name]
+    read_slots: ['name]
     @@name_conversions = <["||" => "or",
                           "&&" => "and",
                           "!=" => "not_equal",
