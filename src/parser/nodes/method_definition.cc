@@ -7,6 +7,7 @@
 #include "method_definition.h"
 #include "../../class.h"
 #include "../../native_method.h"
+#include "../../bootstrap/core_classes.h"
 
 namespace fancy {
   namespace parser {
@@ -27,8 +28,7 @@ namespace fancy {
 
       FancyObject* ClassConstructorMethod::call(FancyObject *self, Scope *scope, FancyObject* sender)
       {
-        FancyObject* args[0] = {};
-        return call(self, args, 0, scope, sender);
+        return call(self, &nil, 0, scope, sender);
       }
 
       // MethodDefExpr
