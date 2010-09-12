@@ -36,7 +36,7 @@ test: all
 
 EXAMPLEFILES = arithmetic armstrong_numbers array blocks boolean class	\
 closures factorial fibonacci files hello_world html_generator metadata	\
-methods numbers person require scope
+methods numbers person require
 
 example: all
 	@mkdir -p tmp
