@@ -12,8 +12,6 @@ using namespace std;
 namespace fancy {
   namespace parser {
     namespace nodes {
-      FancyObject* class_constuctor_method(FancyObject *self, FancyObject** args, int argc, Scope *scope, FancyObject* sender);
-
       class ClassConstructorMethod : public Callable
       {
       public:
