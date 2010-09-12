@@ -5,4 +5,12 @@ def class Object {
     Marshal load: $ Marshal dump: self
   }
 
+  def docstring=: docstring {
+    @docstring = docstring
+  }
+
+  def docstring {
+    @docstring
+  }
+
 }
