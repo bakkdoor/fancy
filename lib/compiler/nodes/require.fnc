@@ -10,8 +10,10 @@ def class AST {
     }
 
     def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl ++ "require "
+      ending = ".fnc.rb"
+      out print: $ " " * ilvl ++ "require ("
       @expr to_ruby: out
+      out print: $ " + " ++ (ending inspect) ++ ")"
     }
   }
 }
