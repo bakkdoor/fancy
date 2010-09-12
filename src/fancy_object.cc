@@ -20,7 +20,6 @@ namespace fancy {
   FancyObject::FancyObject(Class* _class) :
     _class(_class),
     _metadata(nil),
-    _change_num(0),
     _has_metaclass(false)
   {
     init_slots();
@@ -161,14 +160,12 @@ namespace fancy {
   {
     assert(method);
     this->metaclass()->def_method(name, method);
-    _change_num++;
   }
 
   bool FancyObject::undef_singleton_method(const string &name)
   {
     if(this->metaclass()->find_method(name)) {
       this->metaclass()->undef_method(name);
-      _change_num++;
       return true;
     }
     return false;
@@ -179,14 +176,12 @@ namespace fancy {
   {
     assert(method);
     this->metaclass()->def_private_method(name, method);
-    _change_num++;
   }
 
   void FancyObject::def_protected_singleton_method(const string &name, Callable* method)
   {
     assert(method);
     this->metaclass()->def_protected_method(name, method);
-    _change_num++;
   }
 
   bool FancyObject::responds_to(const string &method_name)

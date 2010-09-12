@@ -17,8 +17,8 @@ namespace fancy {
         _receiver(receiver),
         _method_cache(NULL),
         _class_cache(NULL),
-        _class_change_cache(0),
-        _receiver_change_cache(0)
+        _metaclass_cache(NULL),
+        _has_metaclass(false)
       {
         for(send_arg_node *tmp = method_args; tmp != NULL; tmp = tmp->next) {
           _arg_expressions.push_front(pair<Identifier*, Expression*>(tmp->argname, tmp->argexpr));
@@ -32,8 +32,8 @@ namespace fancy {
         _method_ident(method_ident),
         _method_cache(NULL),
         _class_cache(NULL),
-        _class_change_cache(0),
-        _receiver_change_cache(0)
+        _metaclass_cache(NULL),
+        _has_metaclass(false)
       {
       }
 
@@ -58,23 +58,37 @@ namespace fancy {
           // if no super send, do normal message send
           FancyObject* receiver_obj = _receiver->eval(scope);
           Class* receiver_class = receiver_obj->get_class();
+          Class* receiver_metaclass = NULL;
+          if(receiver_obj->has_metaclass()) {
+            receiver_metaclass = receiver_obj->metaclass();
+          }
           // check the class & method cache
-          if(_class_cache == receiver_class
+          if(_class_cache && _receiver_cache && _method_cache
+             && _class_cache == receiver_class
              && _receiver_cache == receiver_obj
-             && !CHANGED(receiver_obj, _receiver_change_cache)
-             && !CHANGED(receiver_class, _class_change_cache)) {
-            if(_method_cache) {
-              retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
-            }
+             && _metaclass_cache == receiver_metaclass) {
+            retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
           } else {
             // receiver object or class changed -> cache invalidated
             _receiver_cache = receiver_obj;
             _class_cache = receiver_class;
             _method_cache = receiver_obj->get_method(_method_ident->name());
-            _class_change_cache = receiver_class->change_num();
-            _receiver_change_cache = receiver_obj->change_num();
+
+            if(receiver_obj->has_metaclass()) {
+              _metaclass_cache = receiver_obj->metaclass();
+              _has_metaclass = true;
+            } else {
+              _metaclass_cache = NULL;
+              _has_metaclass = false;
+            }
 
             if(_method_cache) {
+              // register as method cache
+              receiver_class->add_cache(_method_ident->name(), this);
+              if(receiver_metaclass) {
+                receiver_metaclass->add_cache(_method_ident->name(), this);
+              }
+
               retval = _method_cache->call(receiver_obj, args, size, scope, scope->current_self());
             } else {
               // no method found -> handle unknown message
@@ -119,6 +133,15 @@ namespace fancy {
         }
 
         _method_ident = Identifier::from_string(str.str());
+      }
+
+      void MessageSend::invalidate_cache()
+      {
+        _method_cache = NULL;
+        _class_cache = NULL;
+        _receiver_cache = NULL;
+        _metaclass_cache = NULL;
+        _has_metaclass = false;
       }
 
     }

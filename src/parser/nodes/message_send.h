@@ -6,6 +6,7 @@
 #include "../../expression.h"
 #include "identifier.h"
 #include "../../callable.h"
+#include "../../method_cache.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ namespace fancy {
         send_arg_node *next;
       };
 
-      class MessageSend : public Expression
+      class MessageSend : public Expression, public MethodCache
       {
       public:
         MessageSend(Expression* receiver, send_arg_node *message_args);
@@ -34,6 +35,8 @@ namespace fancy {
         virtual EXP_TYPE type() const { return EXP_MESSAGESEND; }
         virtual string to_sexp() const;
 
+        virtual void invalidate_cache();
+
       private:
         void init_method_ident();
 
@@ -42,9 +45,9 @@ namespace fancy {
         list< pair<Identifier*, Expression*> > _arg_expressions;
         Callable* _method_cache;
         Class* _class_cache;
+        Class* _metaclass_cache;
         FancyObject* _receiver_cache;
-        unsigned int _class_change_cache;
-        unsigned int _receiver_change_cache;
+        bool _has_metaclass;
       };
 
     }

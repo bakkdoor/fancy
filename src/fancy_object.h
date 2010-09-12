@@ -19,9 +19,6 @@ namespace fancy {
   typedef map<string, FancyObject*> object_map;
   typedef map<string, Callable*> method_map;
 
-#define CHANGED(obj, last_chnum)                \
-      (obj->change_num() != last_chnum)
-
   /**
    * Base class for all built-in object types in Fancy.
    */
@@ -52,6 +49,8 @@ namespace fancy {
      * @return Metaclass object of the object.
      */
     virtual Class* metaclass();
+
+    bool has_metaclass() const { return _has_metaclass; }
 
     /**
      * Returns the value of a slot or nil, if not defined.
@@ -205,15 +204,12 @@ namespace fancy {
      */
     void set_metadata(FancyObject* metadata) { _metadata = metadata; }
 
-    unsigned int change_num() const { return _change_num; }
-
   protected:
     void init_slots();
     Class* _class;
     map<string, FancyObject*> _slots;
     string _docstring;
     FancyObject* _metadata;
-    unsigned int _change_num; // counter for number of method changes (used for method caching)
     bool _has_metaclass;
   };
 

@@ -19,12 +19,9 @@ namespace fancy {
         _operand(operand),
         _method_cache(NULL),
         _class_cache(NULL),
-        _class_change_cache(0),
-        _receiver_change_cache(0)
+        _metaclass_cache(NULL),
+        _has_metaclass(false)
       {
-        // assert(receiver);
-        // assert(operator_name);
-        // assert(operand);
       }
 
       FancyObject* OperatorSend::eval(Scope *scope)
@@ -32,26 +29,39 @@ namespace fancy {
         FancyObject* receiver_obj = _receiver->eval(scope);
         Class* receiver_class = receiver_obj->get_class();
         FancyObject* operand = _operand->eval(scope);
+        Class* receiver_metaclass = NULL;
+        if(receiver_obj->has_metaclass()) {
+          receiver_metaclass = receiver_obj->metaclass();
+        }
 
         scope->set_current_sender(scope->current_self());
 
-        // check for class cache
-        if(_class_cache == receiver_class
+        if(_method_cache && _class_cache && _receiver_cache
+           && _class_cache == receiver_class
            && _receiver_cache == receiver_obj
-           && !CHANGED(receiver_obj, _receiver_change_cache)
-           && !CHANGED(receiver_class, _class_change_cache)) {
-          if(_method_cache) {
-            return _method_cache->call(receiver_obj, &operand, 1, scope, scope->current_self());
-          }
+           && _metaclass_cache == receiver_metaclass) {
+          return _method_cache->call(receiver_obj, &operand, 1, scope, scope->current_self());
         } else {
           // receiver object or class changed -> cache invalidated
           _receiver_cache = receiver_obj;
           _class_cache = receiver_class;
           _method_cache = receiver_obj->get_method(_operator_name->name());
-          _class_change_cache = receiver_class->change_num();
-          _receiver_change_cache = receiver_obj->change_num();
+
+          if(receiver_obj->has_metaclass()) {
+            _metaclass_cache = receiver_obj->metaclass();
+            _has_metaclass = true;
+          } else {
+            _metaclass_cache = NULL;
+            _has_metaclass = false;
+          }
 
           if(_method_cache) {
+            // register as method cache
+            receiver_class->add_cache(_operator_name->name(), this);
+            if(receiver_metaclass) {
+              receiver_metaclass->add_cache(_operator_name->name(), this);
+            }
+
             return _method_cache->call(receiver_obj, &operand, 1, scope, scope->current_self());
           }
         }
@@ -69,6 +79,15 @@ namespace fancy {
         s << _operand->to_sexp() << "]";
 
         return s.str();
+      }
+
+      void OperatorSend::invalidate_cache()
+      {
+        _method_cache = NULL;
+        _class_cache = NULL;
+        _receiver_cache = NULL;
+        _metaclass_cache = NULL;
+        _has_metaclass = false;
       }
 
     }

@@ -93,21 +93,21 @@ namespace fancy {
   {
     assert(klass);
     _included_classes.insert(klass);
-    _change_num++;
+    invalidate_all_caches();
   }
 
   void Class::def_method(const string &name, Callable* method)
   {
     assert(method);
     _instance_methods[name] = method;
-    _change_num++;
+    invalidate_caches(name);
   }
 
   bool Class::undef_method(const string &name)
   {
     if(_instance_methods.find(name) != _instance_methods.end()) {
       _instance_methods.erase(name);
-      _change_num++;
+      invalidate_caches(name);
       return true;
     }
     return false;
@@ -118,7 +118,7 @@ namespace fancy {
     assert(method);
     method->set_private();
     _instance_methods[name] = method;
-    _change_num++;
+    invalidate_caches(name);
   }
 
   void Class::def_protected_method(const string &name, Callable* method)
@@ -126,7 +126,7 @@ namespace fancy {
     assert(method);
     method->set_protected();
     _instance_methods[name] = method;
-    _change_num++;
+    invalidate_caches(name);
   }
 
   void Class::def_class_method(const string &name, Callable* method)
@@ -134,7 +134,6 @@ namespace fancy {
     assert(method);
     // class methods are nothing else than singleton methods on class objects :)
     this->def_singleton_method(name, method);
-    _change_num++;
   }
 
   bool Class::undef_class_method(const string &name)
@@ -146,14 +145,12 @@ namespace fancy {
   {
     assert(method);
     this->def_private_singleton_method(name, method);
-    _change_num++;
   }
 
   void Class::def_protected_class_method(const string &name, Callable* method)
   {
     assert(method);
     this->def_protected_singleton_method(name, method);
-    _change_num++;
   }
 
   FancyObject* Class::equal(FancyObject* other) const
@@ -281,5 +278,46 @@ namespace fancy {
     }
     return nested_classes;
   }
+  void Class::add_cache(string method_name, MethodCache* cache)
+  {
+    if(cache) {
+      map<string, list<MethodCache*> >::iterator it = _method_caches.find(method_name);
+      if(it != _method_caches.end()) {
+        it->second.push_back(cache);
+      } else {
+        list<MethodCache*> caches;
+        caches.push_back(cache);
+        _method_caches[method_name] = caches;
+      }
+    }
+  }
 
+  void Class::invalidate_caches(string method_name)
+  {
+    map<string, list<MethodCache*> >::iterator cache_it = _method_caches.find(method_name);
+    if(cache_it != _method_caches.end()) {
+      for(list<MethodCache*>::iterator it = cache_it->second.begin();
+          it != cache_it->second.end();
+          it++) {
+        (*it)->invalidate_cache();
+      }
+    }
+    // delete all MethodCaches for method_name
+    _method_caches.erase(method_name);
+  }
+
+  void Class::invalidate_all_caches()
+  {
+    for(map<string, list<MethodCache*> >::iterator it = _method_caches.begin();
+        it != _method_caches.end();
+        it++) {
+      for(list<MethodCache*>::iterator it2 = it->second.begin();
+          it2 != it->second.end();
+          it2++) {
+        (*it2)->invalidate_cache();
+      }
+    }
+    // delete all MethodCaches from map
+    _method_caches.clear();
+  }
 }

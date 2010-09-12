@@ -5,8 +5,10 @@
 #include <set>
 #include <map>
 #include <string>
+#include <list>
 
 #include "fancy_object.h"
+#include "method_cache.h"
 
 using namespace std;
 
@@ -227,6 +229,10 @@ namespace fancy {
     Class* outer_class() const { return _outer_class; }
     void set_outer_class(Class* c) { _outer_class = c; }
 
+    void add_cache(string method_name, MethodCache* cache);
+    void invalidate_caches(string method_name);
+    void invalidate_all_caches();
+
   private:
     string _name;
     vector<string> _instance_slotnames;
@@ -236,6 +242,7 @@ namespace fancy {
     map<string, Callable*> _instance_methods;
     map<string, Class*> _nested_classes;
     Class* _outer_class; // can be NULL, if class is not nested
+    map<string, list<MethodCache*> > _method_caches;
   };
 
 }
