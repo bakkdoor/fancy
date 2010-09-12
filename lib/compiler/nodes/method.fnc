@@ -1,6 +1,7 @@
 def class AST {
   def class Method : Node {
-    read_slots: ['ident, 'args, 'body, 'is_protected, 'is_private]
+    read_slots: ['ident, 'args, 'body]
+    read_write_slots: ['is_protected, 'is_private]
 
     def initialize: ident args: args body: body {
       @ident = ident

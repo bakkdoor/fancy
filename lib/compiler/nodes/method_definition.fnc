@@ -30,7 +30,7 @@ def class AST {
 
       MethodDefinition output: out method: @method indent: ilvl
 
-      (MethodDefinition output: out docstring: @docstring for: (Identifier new: "self") method: (@method ident) indent: ilvl)
+#      (MethodDefinition output: out docstring: @docstring for: (Identifier new: "self") method: (@method ident) indent: ilvl)
     }
 
     def MethodDefinition output: out method: method indent: ilvl {
