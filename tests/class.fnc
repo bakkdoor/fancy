@@ -147,11 +147,19 @@ FancySpec describe: Class with: |it| {
         super initialize: "SubClass"
         @age = age
       }
+      def initialize {
+        super initialize: "SubClass"
+        @age = 0
+      }
     }
 
     sub = SubClass new: 42
     sub name should == "SubClass"
     sub age should == 42
+
+    sub2 = SubClass new
+    sub2 name should == "SubClass"
+    sub2 age should == 0
   }
 
   it should: "return its superclass" when: {
