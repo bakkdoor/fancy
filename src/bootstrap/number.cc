@@ -297,7 +297,7 @@ namespace fancy {
           }
         }
       } else {
-        for(unsigned int i = 0; i < num1->intval(); i++) {
+        for(int i = 0; i < num1->intval(); i++) {
           FancyObject* block_arg = Number::from_int(i);
           args[0]->send_message("call:", &block_arg, 1, scope, self);
         }
