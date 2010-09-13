@@ -45,7 +45,7 @@ namespace fancy {
         yyparse();
         if(output_sexp)
           (*out_stream) << "]]\n";
-      } catch(FancyException* ex) {
+      } catch(FancyObject* ex) {
         cerr << "\n";
         errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
         errorln(ex->to_s());
@@ -147,7 +147,7 @@ namespace fancy {
       while(true) {
         try {
           yyparse();
-        } catch(FancyException* ex) {
+        } catch(FancyObject* ex) {
           errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
           errorln(ex->to_s());
         }

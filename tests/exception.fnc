@@ -70,4 +70,19 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
+  it should: "raise and catch a custom exception correctly" for: 'raise! when: {
+    def class MyError : StdError{
+      def initialize {
+        super initialize: "MyError message"
+      }
+    }
+
+    try {
+      MyError new raise!
+      nil should == true # will fail
+    } catch MyError => e {
+      e message should == "MyError message"
+    }
+  }
+
 }

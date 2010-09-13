@@ -25,7 +25,7 @@ namespace fancy {
         ~ExceptionHandler() {}
 
         bool can_handle(Class* the_class, Scope *scope);
-        FancyObject* handle(FancyException* exception, Scope *scope);
+        FancyObject* handle(FancyObject* exception, Scope *scope);
 
         Identifier* exception_class_name() const { return _exception_class_name; }
         Identifier* local_name() const { return _local_name; }

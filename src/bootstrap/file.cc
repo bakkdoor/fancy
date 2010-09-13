@@ -127,7 +127,7 @@ Raises an IOError if any File to be deleted does not exist.",
       FancyObject* call_args[1] = { file };
       try {
         block->call(self, call_args, 1, scope, sender);
-      } catch(FancyException* ex) {
+      } catch(FancyObject* ex) {
         file->close();
         throw ex;
       }

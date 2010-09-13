@@ -17,20 +17,10 @@ namespace fancy {
        * Exception class
        */
 
-      DEF_CLASSMETHOD(StdErrorClass,
-                      "new:",
-                      "Exception constructor.",
-                      new);
-
       DEF_METHOD(StdErrorClass,
                  "raise!",
                  "Raises (throws) the Exception up the execution stack, in order to be caught.",
                  raise);
-
-      DEF_METHOD(StdErrorClass,
-                 "message",
-                 "Returns the message (should be a String) of the Exception",
-                 message);
 
       /**
        * MethodNotFoundError class
@@ -45,6 +35,11 @@ namespace fancy {
                  "for_class",
                  "Returns the Class for which the Method wasn not found.",
                  for_class);
+
+      DEF_METHOD(MethodNotFoundErrorClass,
+                 "message",
+                 "Returns the error message.",
+                 message_method_not_found);
 
 
       /**
@@ -65,17 +60,20 @@ namespace fancy {
                  "modes",
                  "Returns the modes Array of the IOError.",
                  modes);
-    }
 
-    /**
-     * Exception class methods
-     */
+      DEF_METHOD(IOErrorClass,
+                 "message",
+                 "Returns the error message.",
+                 message_io_error);
 
-    CLASSMETHOD(StdErrorClass, new)
-    {
-      EXPECT_ARGS("Exception##new:", 1);
-      string message = args[0]->to_s();
-      return new FancyException(message);
+
+      /* DivisionByZeroError */
+
+      DEF_METHOD(DivisionByZeroErrorClass,
+                 "message",
+                 "Returns the error message.",
+                 message_division_by_zero);
+
     }
 
 
@@ -85,25 +83,8 @@ namespace fancy {
 
     METHOD(StdErrorClass, raise)
     {
-      if(FancyException* except = dynamic_cast<FancyException*>(self)) {
-        throw except;
-      } else {
-        cout << "DIDNT raise!" <<endl;
-        cout << "except is: " << self->to_s() << endl;
-        return nil;
-      }
+      throw self;
     }
-
-    METHOD(StdErrorClass, message)
-    {
-      if(FancyException* except = dynamic_cast<FancyException*>(self)) {
-        return FancyString::from_value(except->message());
-      } else {
-        errorln("Not a Exception!");
-        return nil;
-      }
-    }
-
 
     /**
      * MethodNotFoundError instance methods
@@ -123,6 +104,16 @@ namespace fancy {
     {
       if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
         return except->for_class();
+      } else {
+        errorln("Not a MethodNotFoundError!");
+        return nil;
+      }
+    }
+
+    METHOD(MethodNotFoundErrorClass, message_method_not_found)
+    {
+      if(MethodNotFoundError* except = dynamic_cast<MethodNotFoundError*>(self)) {
+        return FancyString::from_value(except->message());
       } else {
         errorln("Not a MethodNotFoundError!");
         return nil;
@@ -153,11 +144,34 @@ namespace fancy {
       }
     }
 
+    METHOD(IOErrorClass, message_io_error)
+    {
+      if(IOError* except = dynamic_cast<IOError*>(self)) {
+        return FancyString::from_value(except->message());
+      } else {
+        errorln("Not an IOError!");
+        return nil;
+      }
+    }
+
     CLASSMETHOD(IOErrorClass, message__filename)
     {
       EXPECT_ARGS("IOError##message:filename::", 2);
       return new IOError(args[0]->to_s(), args[1]->to_s());
     }
+
+    /* DivisionByZeroError */
+
+    METHOD(DivisionByZeroErrorClass, message_division_by_zero)
+    {
+      if(DivisionByZeroError* except = dynamic_cast<DivisionByZeroError*>(self)) {
+        return FancyString::from_value(except->message());
+      } else {
+        errorln("Not an DivisionByZeroError!");
+        return nil;
+      }
+    }
+
 
   }
 }

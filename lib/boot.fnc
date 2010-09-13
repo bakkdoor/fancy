@@ -27,6 +27,7 @@ require: "hash"
 require: "set"
 require: "symbol"
 require: "method"
+require: "std_error"
 
 # version holds fancy's version number
 require: "version"

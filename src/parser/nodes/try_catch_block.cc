@@ -30,7 +30,7 @@ namespace fancy {
         return false;
       }
 
-      FancyObject* ExceptionHandler::handle(FancyException* exception, Scope *scope)
+      FancyObject* ExceptionHandler::handle(FancyObject* exception, Scope *scope)
       {
         // Scope *catch_scope = new Scope(scope);
         Scope catch_scope(scope);
@@ -130,11 +130,11 @@ namespace fancy {
             _body->eval(scope);
             return _finally_block->eval(scope);
           }
-        } catch(FancyException* ex) {
+        } catch(FancyObject* ex) {
           for(list<ExceptionHandler*>::iterator it = _except_handlers.begin();
               it != _except_handlers.end();
               it++) {
-            if((*it)->can_handle(ex->exception_class(), scope)) {
+            if((*it)->can_handle(ex->get_class(), scope)) {
               FancyObject* retval = (*it)->handle(ex, scope);
               // eval finally block if any given
               if(_finally_block) {

@@ -121,8 +121,9 @@ namespace fancy {
         }
         return method->call(this, arguments, argc, scope, sender);
       } else {
-        // no method found -> handle unkown message
-        return handle_unknown_message(method_name, arguments, argc, scope, sender, true);
+        // no method found -> raise exception
+        FancyException* except = new MethodNotFoundError(method_name, superclass);
+        throw except;
       }
     } else {
       // TODO: create a UndefinedSuperClass exception class or so...
