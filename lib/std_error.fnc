@@ -3,4 +3,8 @@ def class StdError {
   def initialize: message {
     @message = message
   }
+
+  def to_s {
+    @message to_s
+  }
 }
