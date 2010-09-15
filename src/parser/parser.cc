@@ -48,7 +48,7 @@ namespace fancy {
       } catch(FancyObject* ex) {
         cerr << "\n";
         errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
-        errorln(ex->to_s());
+        errorln(ex->send_message("to_s", &nil, 0, global_scope, ex)->to_s());
         exit(1);
       }
       pop_buffer();
@@ -149,7 +149,7 @@ namespace fancy {
           yyparse();
         } catch(FancyObject* ex) {
           errorln("GOT UNCAUGHT EXCEPTION, ABORTING.");
-          errorln(ex->to_s());
+          errorln(ex->send_message("to_s", &nil, 0, global_scope, ex)->to_s());
         }
       }
     }

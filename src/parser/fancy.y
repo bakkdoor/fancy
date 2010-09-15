@@ -570,7 +570,16 @@ int yyerror(char *s)
   extern int yylineno;
   extern char *yytext;
 
-  fprintf(stderr, "ERROR [%s:%d] : %s at symbol %s\n", current_file.c_str(), yylineno, s, yytext);
+  string error_msg = "StdError new: (\"ParseError: [\" ++ ";
+  error_msg += "\"" + current_file + "\" ++ \":\" ++ ";
+  error_msg += Number::from_int(yylineno)->to_s() + " ++ \"]\" ++ ";
+  error_msg += " \" at symbol '\" ++ ";
+  string str(yytext);
+  error_msg += "\"" + str + "\" ++ \"'\"";
+  error_msg += ") . raise!";
+
+  parse_string(error_msg, global_scope);
+  /* fprintf(stderr, "ERROR [%s:%d] : %s at symbol %s\n", current_file.c_str(), yylineno, s, yytext); */
   exit(1);
 }
 
