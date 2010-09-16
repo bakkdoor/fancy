@@ -157,4 +157,43 @@ FancySpec describe: Object with: |it| {
     'foo if_nil: { 'is_nil } . should == nil
     "hello, world" if_nil: { 'is_nil } . should == nil
   }
+
+  it should: "work like if_true:" for: 'if:then: when: {
+    if: (4 < 5) then: {
+      4 < 5 should == true
+    }
+  }
+
+  it should: "work like if_true:else: " for: 'if:then:else: when: {
+    if: (4 < 5) then: {
+      4 < 5 should == true
+    } else: {
+      4 < 5 should == nil
+    }
+  }
+
+  it should: "work like while_true:" for: 'while:do: when: {
+    x = 0
+    while: { x < 10 } do: {
+      x < 10 should == true
+      x = x + 1
+    }
+    x == 10 should == true
+  }
+
+  it should: "work like while_false: " for: 'until:do: when: {
+    x = 0
+    until: { x == 10 } do: {
+      x < 10 should == true
+      x = x + 1
+    }
+    x == 10 should == true
+  }
+
+  it should: "work like if_false:: " for: 'unless:do: when: {
+    unless: (4 > 5) do: {
+      5 > 4 should == true
+    }
+  }
+
 }
