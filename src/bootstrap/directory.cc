@@ -26,7 +26,7 @@ namespace fancy {
       if(mkdir(dirname.c_str(), 0777) == 0) {
         return new Directory(dirname);
       } else {
-        throw new IOError("Could not create directory: ", dirname);
+        throw new_io_error("Could not create directory: ", dirname, scope);
       }
     }
 

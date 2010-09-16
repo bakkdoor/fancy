@@ -122,8 +122,7 @@ namespace fancy {
         return method->call(this, arguments, argc, scope, sender);
       } else {
         // no method found -> raise exception
-        FancyException* except = new MethodNotFoundError(method_name, superclass);
-        throw except;
+        throw new_method_not_found_error(method_name, superclass, scope);
       }
     } else {
       // TODO: create a UndefinedSuperClass exception class or so...
@@ -152,9 +151,7 @@ namespace fancy {
     }
 
     // in this case no method is found and we raise a MethodNotFoundError
-    FancyException* except = new MethodNotFoundError(method_name, this->get_class());
-    throw except;
-    return nil;
+    throw new_method_not_found_error(method_name, this->get_class(), scope);
   }
 
   void FancyObject::def_singleton_method(const string &name, Callable* method)

@@ -119,7 +119,8 @@ Raises an IOError if any File to be deleted does not exist.",
 
       if(!file->good()) {
         file->close();
-        throw new IOError("Could not open file: ", filename, modes);
+        string msg = "Could not open file: ";
+        throw new_io_error(msg, filename, modes, scope);
       }
 
       // handle exceptions that get raised within the block and make
@@ -154,7 +155,7 @@ Raises an IOError if any File to be deleted does not exist.",
 
       if(!file->good()) {
         file->close();
-        throw new IOError("Could not open file: ", filename, modes);
+        throw new_io_error("Could not open file: ", filename, modes, scope);
       }
 
       return file;
@@ -175,7 +176,7 @@ Raises an IOError if any File to be deleted does not exist.",
         if(remove(filename->value().c_str()) == 0) {
           return t;
         } else {
-          throw new IOError(string("Could not delete file: "), filename->value());
+          throw new_io_error(string("Could not delete file: "), filename->value(), scope);
         }
       } else if(Array* filenames = dynamic_cast<Array*>(arg)) {
         // Array of filenames
@@ -184,7 +185,7 @@ Raises an IOError if any File to be deleted does not exist.",
           if(remove(filename.c_str()) == 0) {
             return t;
           } else {
-            throw new IOError(string("Could not delete file: "), filename);
+            throw new_io_error(string("Could not delete file: "), filename, scope);
           }
         }
       }
@@ -199,7 +200,7 @@ Raises an IOError if any File to be deleted does not exist.",
       if(rename(oldname.c_str(), newname.c_str()) == 0) {
         return t;
       } else {
-        throw new IOError(string("Could not rename file: "), oldname);
+        throw new_io_error(string("Could not rename file: "), oldname, scope);
       }
     }
 

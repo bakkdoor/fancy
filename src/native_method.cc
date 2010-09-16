@@ -43,13 +43,13 @@ namespace fancy {
 
   FancyObject* NativeMethod::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
   {
-    Callable::check_sender_access(_identifier, self, sender);
+    Callable::check_sender_access(_identifier, self, sender, scope);
     return _func(self, args, argc, scope, sender);
   }
 
   FancyObject* NativeMethod::call(FancyObject* self, Scope *scope, FancyObject* sender)
   {
-    Callable::check_sender_access(_identifier, self, sender);
+    Callable::check_sender_access(_identifier, self, sender, scope);
     return _func(self, 0, 0, scope, sender);
   }
 

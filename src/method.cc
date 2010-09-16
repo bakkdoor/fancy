@@ -42,7 +42,7 @@ namespace fancy {
 
   FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
   {
-    Callable::check_sender_access(_method_ident, self, sender);
+    Callable::check_sender_access(_method_ident, self, sender, scope);
 
     // check if method is empty
     if(_body->size() == 0)
@@ -99,7 +99,7 @@ namespace fancy {
 
   FancyObject* Method::call(FancyObject* self, Scope *scope, FancyObject* sender)
   {
-    Callable::check_sender_access(_method_ident, self, sender);
+    Callable::check_sender_access(_method_ident, self, sender, scope);
 
     // check if method is empty
     if(_body->size() == 0)

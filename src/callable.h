@@ -50,7 +50,7 @@ namespace fancy {
      * @param receiver Receiver of the method call.
      * @param sender Sender, trying to invoke the method.
      */
-    void check_sender_access(const std::string &method_name, FancyObject* receiver, FancyObject* sender);
+    void check_sender_access(const std::string &method_name, FancyObject* receiver, FancyObject* sender, Scope* scope);
 
   private:
     bool _private;

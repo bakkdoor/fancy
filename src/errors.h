@@ -5,10 +5,25 @@
 
 #include "fancy_exception.h"
 #include "class.h"
+#include "string.h"
 
 using namespace std;
 
 namespace fancy {
+
+  FancyObject* new_method_not_found_error(const string& method_name,
+                                          Class* for_class,
+                                          Scope* scope);
+
+  FancyObject* new_method_not_found_error(const string& method_name,
+                                          Class* for_class,
+                                          Scope* scope,
+                                          const string& reason);
+
+  FancyObject* new_division_by_zero_error(Scope* scope);
+
+  FancyObject* new_io_error(const string &message, const string &filename, Scope* scope);
+  FancyObject* new_io_error(const string &message, const string &filename, Array* modes, Scope* scope);
 
   class UnknownIdentifierError : public FancyException
   {
@@ -22,42 +37,6 @@ namespace fancy {
     string _identifier;
   };
 
-  class MethodNotFoundError : public FancyException
-  {
-  public:
-    MethodNotFoundError(const string &method_name, Class* for_class);
-    MethodNotFoundError(const string &method_name, Class* for_class, const string &reason);
-    ~MethodNotFoundError() {}
-
-    string method_name() const { return _method_name; }
-    Class* for_class() const { return _for_class; }
-
-  private:
-    string _method_name;
-    Class* _for_class;
-  };
-
-  class IOError : public FancyException
-  {
-  public:
-    IOError(const string &message, const string &filename);
-    IOError(const string &message, const string &filename, Array* modes);
-    ~IOError() {}
-
-    string filename() const { return _filename; }
-    Array* modes() const { return _modes; }
-
-  private:
-    string _filename;
-    Array* _modes;
-  };
-
-  class DivisionByZeroError : public FancyException
-  {
-  public:
-    DivisionByZeroError();
-    ~DivisionByZeroError() {}
-  };
 }
 
 #endif /* _ERRORS_H_ */
