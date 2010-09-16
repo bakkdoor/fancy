@@ -126,4 +126,10 @@ namespace fancy {
       }
     }
   }
+
+  void Block::set_enclosing_method(Method* method)
+  {
+    Expression::set_enclosing_method(method);
+    _body->set_enclosing_method(method);
+  }
 }

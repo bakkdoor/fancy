@@ -188,8 +188,11 @@ namespace fancy {
       FancyObject* arg1 = args[0];
       FancyObject* arg2 = args[1];
 
-      if(IS_STRING(arg1) && IS_BLOCK(arg2)) {
-        self->def_singleton_method(dynamic_cast<FancyString*>(arg1)->value(), dynamic_cast<Block*>(arg2));
+      if(IS_BLOCK(arg2)) {
+        Method* method = new Method(dynamic_cast<Block*>(arg2));
+        string name = arg1->to_s();
+        method->set_name(name);
+        self->def_singleton_method(name, method);
         return t;
       } else {
         errorln("Object#define_singleton_method:with: expects String and Block arguments.");

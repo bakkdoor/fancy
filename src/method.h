@@ -11,6 +11,8 @@ using namespace fancy::parser::nodes;
 
 namespace fancy {
 
+  class Block;
+
   struct method_arg_node {
   public:
     Identifier* name;
@@ -45,6 +47,12 @@ namespace fancy {
      * Empty Method constructor. Used by subclasses (e.g. NativeMethod).
      */
     Method();
+
+    /**
+     * Uses given Block object as its body.
+     * @param body Block that should be used as the method's body.
+     */
+    Method(Block* body);
 
     ~Method() {}
 
@@ -106,6 +114,7 @@ namespace fancy {
     ExpressionList* _body;
     bool _is_operator;
     string _method_ident;
+    Block* _body_block;
   };
 
 }

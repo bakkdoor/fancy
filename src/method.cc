@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "method.h"
+#include "block.h"
 #include "utils.h"
 #include "bootstrap/core_classes.h"
 #include "parser/nodes/return.h"
@@ -14,7 +15,8 @@ namespace fancy {
   Method::Method(Identifier* op_name, Identifier* op_argname, ExpressionList* body) :
     FancyObject(MethodClass),
     _body(body),
-    _is_operator(true)
+    _is_operator(true),
+    _body_block(NULL)
   {
     _argnames.push_back(pair<Identifier*, Identifier*>(op_name, op_argname));
     init_method_ident();
@@ -27,7 +29,8 @@ namespace fancy {
     FancyObject(MethodClass),
     _argnames(argnames),
     _body(body),
-    _is_operator(false)
+    _is_operator(false),
+    _body_block(NULL)
   {
     init_method_ident();
     init_docstring();
@@ -36,65 +39,86 @@ namespace fancy {
 
   Method::Method() :
     FancyObject(MethodClass),
-    _is_operator(false)
+    _is_operator(false),
+    _body_block(NULL)
   {
+  }
+
+  Method::Method(Block* body) :
+    FancyObject(MethodClass),
+    _body(NULL),
+    _is_operator(false),
+    _body_block(body)
+  {
+    _body_block->set_enclosing_method(this);
   }
 
   FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
   {
     Callable::check_sender_access(_method_ident, self, sender, scope);
-
-    // check if method is empty
-    if(_body->size() == 0)
-      return nil;
-
-    Scope* call_scope = new Scope(self, scope);
-
-    // check amount of given arguments
-    if(_argnames.size() != (unsigned int)argc) {
-      error("Given amount of arguments (")
-        << argc
-        << ") doesn't match expected amount ("
-        << _argnames.size()
-        << ")";
-    } else {
-      // if amount ok, set the parameters to the given arguments
-      list< pair<Identifier*, Identifier*> >::iterator name_it = _argnames.begin();
-      // list<FancyObject*>::iterator arg_it = args.begin();
-      int i = 0;
-
-      while(name_it != _argnames.end() && i < argc) {
-        // name_it->second holds the name of the actual param name
-        // (the first is part of the method name)
-        call_scope->define(name_it->second->name(), args[i]);
-        name_it++;
-        i++;
-      }
-
-      // finally, eval the methods body expression
-      FancyObject* val;
+    if(_body_block) {
       try {
-        val = _body->eval(call_scope);
+        return _body_block->call(self, args, argc, scope, sender);
       } catch(return_value& rv) {
         if(rv.enclosing_method == this) {
           return rv.return_value;
         } else {
-          if(!call_scope->is_closed()) {
-            delete call_scope;
-            call_scope = NULL;
-          }
           throw rv;
         }
       }
+    } else {
+      // check if method is empty
+      if(_body->size() == 0)
+        return nil;
 
-      if(!call_scope->is_closed()) {
-        delete call_scope;
-        call_scope = NULL;
+      Scope* call_scope = new Scope(self, scope);
+
+      // check amount of given arguments
+      if(_argnames.size() != (unsigned int)argc) {
+        error("Given amount of arguments (")
+          << argc
+          << ") doesn't match expected amount ("
+          << _argnames.size()
+          << ")";
+      } else {
+        // if amount ok, set the parameters to the given arguments
+        list< pair<Identifier*, Identifier*> >::iterator name_it = _argnames.begin();
+        // list<FancyObject*>::iterator arg_it = args.begin();
+        int i = 0;
+
+        while(name_it != _argnames.end() && i < argc) {
+          // name_it->second holds the name of the actual param name
+          // (the first is part of the method name)
+          call_scope->define(name_it->second->name(), args[i]);
+          name_it++;
+          i++;
+        }
+
+        // finally, eval the methods body expression
+        FancyObject* val;
+        try {
+          val = _body->eval(call_scope);
+        } catch(return_value& rv) {
+          if(rv.enclosing_method == this) {
+            return rv.return_value;
+          } else {
+            if(!call_scope->is_closed()) {
+              delete call_scope;
+              call_scope = NULL;
+            }
+            throw rv;
+          }
+        }
+
+        if(!call_scope->is_closed()) {
+          delete call_scope;
+          call_scope = NULL;
+        }
+        return val;
       }
-      return val;
-    }
 
-    return nil;
+      return nil;
+    }
   }
 
   FancyObject* Method::call(FancyObject* self, Scope *scope, FancyObject* sender)
@@ -126,6 +150,7 @@ namespace fancy {
       delete call_scope;
       call_scope = NULL;
     }
+
     return val;
   }
 

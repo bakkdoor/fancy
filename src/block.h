@@ -104,6 +104,8 @@ namespace fancy {
 
     parser::nodes::ExpressionList* body() const { return _body; }
 
+    virtual void set_enclosing_method(Method* method);
+
   private:
     void init_orig_block_arg_values();
 

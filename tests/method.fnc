@@ -40,13 +40,41 @@ FancySpec describe: Method with: |it| {
 
     foo: "yay" . should == "returning!"
 
+    # another example
+
     def f: x {
       x < 10 if_true: {
         return: 100
       }
       0
     }
+
     f: 10 . should == 0
     f: 9 . should == 100
+
+    # and another one
+
+    def foo {
+      10 times: |i| {
+        i == 8 if_true: {
+          return: i # nested return
+        }
+      }
+      return: 0
+    }
+
+    self foo should == 8
+  }
+
+  it should: "return only from block-scope not from method-scope" when: {
+    define_singleton_method: "foo" with: {
+      10 times: |i| {
+        i == 8 if_true: {
+          return: i
+        }
+      }
+      0
+    }
+    self foo should == 8
   }
 }
