@@ -22,6 +22,8 @@ namespace fancy {
 
         virtual void invalidate_cache();
 
+        virtual void set_enclosing_method(Method* method);
+
       private:
         Expression* _receiver;
         Identifier* _operator_name;

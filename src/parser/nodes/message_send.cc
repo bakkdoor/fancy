@@ -144,6 +144,16 @@ namespace fancy {
         _has_metaclass = false;
       }
 
+      void MessageSend::set_enclosing_method(Method* method)
+      {
+        Expression::set_enclosing_method(method);
+        _receiver->set_enclosing_method(method);
+        list< pair<Identifier*, Expression*> >::iterator it;
+        for(it = _arg_expressions.begin(); it != _arg_expressions.end(); it++) {
+          it->second->set_enclosing_method(method);
+        }
+      }
+
     }
   }
 }

@@ -53,6 +53,12 @@ namespace fancy {
         return s.str();
       }
 
+      void BlockLiteral::set_enclosing_method(Method* method)
+      {
+        Expression::set_enclosing_method(method);
+        _body->set_enclosing_method(method);
+      }
+
     }
   }
 }

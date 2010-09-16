@@ -36,6 +36,8 @@ namespace fancy {
 
         virtual string to_sexp() const;
 
+        virtual void set_enclosing_method(Method* method);
+
       private:
         list<Identifier*> _argnames;
         ExpressionList* _body;

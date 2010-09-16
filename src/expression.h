@@ -13,6 +13,7 @@ namespace fancy {
 
   class Scope;
   class FancyObject;
+  class Method;
 
   /**
    * Enum holding all possible types of objects/expressions in Fancy.
@@ -69,6 +70,12 @@ namespace fancy {
     virtual EXP_TYPE type() const = 0;
 
     virtual string to_sexp() const = 0;
+
+    virtual void set_enclosing_method(Method* method) { _enclosing_method = method; }
+    Method* enclosing_method() const { return _enclosing_method; }
+
+  protected:
+    Method* _enclosing_method;
   };
 
 }

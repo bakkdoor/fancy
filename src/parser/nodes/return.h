@@ -4,8 +4,16 @@
 #include "../../expression.h"
 
 namespace fancy {
+
+  class Method;
+
   namespace parser {
     namespace nodes {
+
+      struct return_value {
+        Method* enclosing_method;
+        FancyObject* return_value;
+      };
 
       class ReturnStatement : public Expression
       {

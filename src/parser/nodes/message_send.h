@@ -37,6 +37,8 @@ namespace fancy {
 
         virtual void invalidate_cache();
 
+        virtual void set_enclosing_method(Method* method);
+
       private:
         void init_method_ident();
 

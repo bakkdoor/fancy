@@ -30,9 +30,6 @@ namespace fancy {
         list<Expression*>::iterator it;
         for(it = _expressions.begin(); it != _expressions.end(); it++) {
           retval = (*it)->eval(scope);
-          // if(IS_RETURNSTATEMENT((*it))) {
-          //   return retval;
-          // }
         }
         return retval;
       }
@@ -65,6 +62,15 @@ namespace fancy {
           return str->value();
         }
         return "";
+      }
+
+      void ExpressionList::set_enclosing_method(Method* method)
+      {
+        Expression::set_enclosing_method(method);
+        list<Expression*>::iterator it;
+        for(it = _expressions.begin(); it != _expressions.end(); it++) {
+          (*it)->set_enclosing_method(method);
+        }
       }
 
     }

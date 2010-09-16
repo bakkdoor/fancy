@@ -7,6 +7,7 @@
 #include "method.h"
 #include "utils.h"
 #include "bootstrap/core_classes.h"
+#include "parser/nodes/return.h"
 
 namespace fancy {
 
@@ -18,6 +19,7 @@ namespace fancy {
     _argnames.push_back(pair<Identifier*, Identifier*>(op_name, op_argname));
     init_method_ident();
     init_docstring();
+    _body->set_enclosing_method(this);
   }
 
   Method::Method(const list< pair<Identifier*, Identifier*> > argnames,
@@ -29,6 +31,7 @@ namespace fancy {
   {
     init_method_ident();
     init_docstring();
+    _body->set_enclosing_method(this);
   }
 
   Method::Method() :
@@ -69,7 +72,21 @@ namespace fancy {
       }
 
       // finally, eval the methods body expression
-      FancyObject* val = _body->eval(call_scope);
+      FancyObject* val;
+      try {
+        val = _body->eval(call_scope);
+      } catch(return_value& rv) {
+        if(rv.enclosing_method == this) {
+          return rv.return_value;
+        } else {
+          if(!call_scope->is_closed()) {
+            delete call_scope;
+            call_scope = NULL;
+          }
+          throw rv;
+        }
+      }
+
       if(!call_scope->is_closed()) {
         delete call_scope;
         call_scope = NULL;
@@ -89,7 +106,22 @@ namespace fancy {
       return nil;
 
     Scope* call_scope = new Scope(self, scope);
-    FancyObject* val = _body->eval(call_scope);
+
+    FancyObject* val;
+    try {
+      val = _body->eval(call_scope);
+    } catch(return_value& rv) {
+      if(rv.enclosing_method == this) {
+        return rv.return_value;
+      } else {
+        if(!call_scope->is_closed()) {
+          delete call_scope;
+          call_scope = NULL;
+        }
+        throw rv;
+      }
+    }
+
     if(!call_scope->is_closed()) {
       delete call_scope;
       call_scope = NULL;

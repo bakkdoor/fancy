@@ -16,7 +16,10 @@ namespace fancy {
       FancyObject* ReturnStatement::eval(Scope *scope)
       {
         FancyObject* retval = _return_expr->eval(scope);
-        return retval;
+        return_value rv;
+        rv.return_value = retval;
+        rv.enclosing_method = _enclosing_method;
+        throw rv;
       }
 
       string ReturnStatement::to_sexp() const

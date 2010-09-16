@@ -90,6 +90,13 @@ namespace fancy {
         _has_metaclass = false;
       }
 
+      void OperatorSend::set_enclosing_method(Method* method)
+      {
+        Expression::set_enclosing_method(method);
+        _receiver->set_enclosing_method(method);
+        _operand->set_enclosing_method(method);
+      }
+
     }
   }
 }

@@ -9,6 +9,9 @@
 using namespace std;
 
 namespace fancy {
+
+  class Method;
+
   namespace parser {
     namespace nodes {
 
@@ -67,6 +70,8 @@ namespace fancy {
          * @return The DocString of the ExpressionList or the empty String, if none defined.
          */
         string docstring() const;
+
+        virtual void set_enclosing_method(Method* method);
 
       private:
         list<Expression*> _expressions;

@@ -31,4 +31,22 @@ FancySpec describe: Method with: |it| {
     Foo method: "two:args:" . argcount should == 2
     Foo method: "three:args:ok:" . argcount should == 3
   }
+
+  it should: "return the return value" when: {
+    def foo: bar {
+      return: "returning!"
+      bar # will never get executed
+    }
+
+    foo: "yay" . should == "returning!"
+
+    def f: x {
+      x < 10 if_true: {
+        return: 100
+      }
+      0
+    }
+    f: 10 . should == 0
+    f: 9 . should == 100
+  }
 }
