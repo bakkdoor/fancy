@@ -122,4 +122,10 @@ def class Object {
   def unless: cond do: block {
     cond if_false: block
   }
+
+  def method: method_name {
+    "Returns a singleton method for self, if defined."
+
+    self metaclass method: method_name
+  }
 }
