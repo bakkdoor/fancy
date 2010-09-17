@@ -175,7 +175,7 @@ def class Array {
   def to_s {
     "Returns String representation of Array."
 
-    reduce: |x y| { x ++ y } with: ""
+    reduce: |x y| { x ++ y } init_val: ""
   }
 
   def * num {

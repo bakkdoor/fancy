@@ -123,7 +123,7 @@ def class Enumerable {
     coll
   }
 
-  def reduce: block with: init_val {
+  def reduce: block init_val: init_val {
     "Calculates a value based on a given block to be called on an accumulator value and an initial value."
 
     acc = init_val
