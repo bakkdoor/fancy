@@ -69,7 +69,11 @@ namespace fancy {
       _values[index] = value;
       return value;
     } else {
-      return nil;
+      for(unsigned int i = _values.size(); i < index; i++) {
+        _values.push_back(nil);
+      }
+      _values.push_back(value);
+      return value;
     }
   }
 

@@ -25,6 +25,7 @@ namespace fancy {
     virtual FancyObject* eval(Scope *scope);
     virtual EXP_TYPE type() const { return EXP_NIL; }
     virtual string to_s() const { return "nil"; }
+    virtual string inspect() const { return "nil"; }
   };
 
 }
