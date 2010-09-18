@@ -208,19 +208,23 @@ If given an Array of indices, removes all the elements with these indices.",
     METHOD(ArrayClass, each)
     {
       EXPECT_ARGS("Array#each:", 1);
-      if(IS_BLOCK(args[0])) {
-        Array* array = dynamic_cast<Array*>(self);
-        Block* block = dynamic_cast<Block*>(args[0]);
-        FancyObject* retval = nil;
-        int size = array->size();
+      Array* array = dynamic_cast<Array*>(self);
+      FancyObject* retval = nil;
+      int size = array->size();
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
         for(int i = 0; i < size; i++) {
           FancyObject* arr[1] = { array->at(i) };
           retval = block->call(self, arr, 1, scope, sender);
         }
         return retval;
       } else {
-        errorln("Array#each: expects Block argument");
-        return nil;
+        for(int i = 0; i < size; i++) {
+          Array* call_args_arr = new Array();
+          call_args_arr->insert(array->at(i));
+          FancyObject* call_args[1] = { call_args_arr };
+          retval = args[0]->send_message("call:", call_args, 1, scope, self);
+        }
+        return retval;
       }
     }
 
@@ -241,8 +245,8 @@ If given an Array of indices, removes all the elements with these indices.",
           Array* call_args_arr = new Array();
           call_args_arr->insert(array->at(i));
           call_args_arr->insert(Number::from_int(i));
-          FancyObject* args[1] = { call_args_arr };
-          retval = args[0]->send_message("call:", args, 1, scope, self);
+          FancyObject* call_args[1] = { call_args_arr };
+          retval = args[0]->send_message("call:", call_args, 1, scope, self);
         }
         return retval;
       }
@@ -475,10 +479,21 @@ If given an Array of indices, removes all the elements with these indices.",
     {
       EXPECT_ARGS("Array#any?:", 1);
       Array* array = dynamic_cast<Array*>(self);
-      for(unsigned int i = 0; i < array->size(); i++) {
-        FancyObject* block_arg[1] = { array->at(i) };
-        if(args[0]->send_message("call:", block_arg, 1, scope, self) != nil) {
-          return t;
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(int i = 0; i < array->size(); i++) {
+          FancyObject* call_arg[1] = { array->at(i) };
+          if(block->call(self, call_arg, 1, scope, self) != nil) {
+            return t;
+          }
+        }
+      } else {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          Array* block_arg_arr = new Array();
+          block_arg_arr->insert(array->at(i));
+          FancyObject* call_arg[1] = { block_arg_arr };
+          if(args[0]->send_message("call:", call_arg, 1, scope, self) != nil) {
+            return t;
+          }
         }
       }
       return nil;
@@ -488,10 +503,21 @@ If given an Array of indices, removes all the elements with these indices.",
     {
       EXPECT_ARGS("Array#all?:", 1);
       Array* array = dynamic_cast<Array*>(self);
-      for(unsigned int i = 0; i < array->size(); i++) {
-        FancyObject* block_arg[1] = { array->at(i) };
-        if(args[0]->send_message("call:", block_arg, 1, scope, self) == nil) {
-          return nil;
+      if(Block* block = dynamic_cast<Block*>(args[0])) {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          FancyObject* call_arg[1] = { array->at(i) };
+          if(block->call(self, call_arg, 1, scope, self) == nil) {
+            return nil;
+          }
+        }
+      } else {
+        for(unsigned int i = 0; i < array->size(); i++) {
+          Array* block_arg_arr = new Array();
+          block_arg_arr->insert(array->at(i));
+          FancyObject* call_arg[1] = { block_arg_arr };
+          if(args[0]->send_message("call:", call_arg, 1, scope, self) == nil) {
+            return nil;
+          }
         }
       }
       return t;

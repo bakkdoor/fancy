@@ -85,7 +85,7 @@ namespace fancy {
         for(int i = 0; i < size; i++) {
           args_array_arr[i] = args_array->at(i);
         }
-        FancyObject* retval =  block->call(self, args_array_arr, size, scope, sender);
+        FancyObject* retval = block->call(self, args_array_arr, size, scope, sender);
         delete[] args_array_arr; // cleanup  before leave
         return retval;
       } else {
