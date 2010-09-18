@@ -31,6 +31,7 @@ require: "std_error"
 require: "method_not_found"
 require: "division_by_zero"
 require: "io_error"
+require: "type_error"
 
 # version holds fancy's version number
 require: "version"
