@@ -76,7 +76,7 @@ What's still missing?
   - Pattern matching
   - Concurrency stuff (Actor-model based concurrency, Futures etc)
   - Some more advanced stuff, e.g. runtime inspection of method calls
-    via MethodContext etc. (advanced stuff - saved for later)
+    via MethodContext etc. (saved for later)
   - Rubinius VM bytecode compiler
 
 
@@ -90,7 +90,7 @@ How is it implemented?
 
   - It uses the BoehmGC for garbage collection.
 
-  - Currently the lexer & parser are built with flex & bison.
+  - The lexer & parser are built with flex & bison.
 
   - I'm planning to add a bytecode compiler, written in the language
     itself. Right now there's an experimental fancy-written compiler
