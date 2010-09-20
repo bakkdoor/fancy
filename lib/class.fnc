@@ -52,4 +52,9 @@ def class Class {
       }
     }
   }
+
+  def alias_method: new_method_name for: old_method_name {
+    "Defines an alias method for another method."
+    define_method: new_method_name with: (self method: old_method_name)
+  }
 }

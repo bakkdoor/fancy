@@ -173,10 +173,14 @@ second argument to serve as the method's body.",
         method_block->override_self(true);
         dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method_block);
         return t;
-      } else {
-        errorln("Class#define_method:with: expects String and Block arguments.");
-        return nil;
       }
+      if(Method* method = dynamic_cast<Method*>(arg2)) {
+        dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method);
+        return t;
+      }
+
+      errorln("Class#define_method:with: expects String and Callable arguments.");
+      return nil;
     }
 
     METHOD(ClassClass, undefine_method)

@@ -371,4 +371,18 @@ FancySpec describe: Class with: |it| {
     MyOuter::MyInner1 class_method1 should == MyOuter::MyInner1
     MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
+
+  it should: "have an alias method as defined" for: 'alias_method:for: when: {
+    def class AClass {
+      def foo {
+        "in foo!"
+      }
+
+      alias_method: 'bar for: 'foo
+    }
+
+    obj = AClass new
+    obj foo should == "in foo!"
+    obj bar should == "in foo!"
+  }
 }
