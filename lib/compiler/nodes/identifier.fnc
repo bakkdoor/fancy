@@ -1,5 +1,10 @@
 def class AST {
   def class Identifier : Node {
+    """
+    Represents identifiers, like local variables, method & class names
+    etc. in Fancy.
+    """
+
     read_slots: ['name]
     @@name_conversions = <["||" => "or",
                           "&&" => "and",

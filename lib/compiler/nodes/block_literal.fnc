@@ -1,5 +1,9 @@
 def class AST {
   def class BlockLiteral : Node {
+    """
+    Represents block literals in Fancy.
+    """
+
     read_slots: ['args, 'body]
     def initialize: args body: body {
       @args = args

@@ -1,5 +1,9 @@
 def class AST {
   def class MessageSend : Node {
+    """
+    Represents message sends in Fancy.
+    """
+
     read_slots: ['receiver, 'method_ident, 'args]
 
     def initialize: recv method_ident: mident args: args {

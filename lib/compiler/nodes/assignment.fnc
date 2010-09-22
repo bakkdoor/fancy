@@ -1,5 +1,9 @@
 def class AST {
   def class Assignment : Node {
+    """
+    Represents assignments in Fancy.
+    """
+
     read_slots: ['ident, 'expr]
 
     def initialize: ident value: expr {

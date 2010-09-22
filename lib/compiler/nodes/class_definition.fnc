@@ -1,5 +1,9 @@
 def class AST {
   def class ClassDefinition : Node {
+    """
+    Represents class definitions in Fancy.
+    """
+
     read_slots: ['ident, 'superclass_ident, 'body]
     def initialize: ident superclass: superclass_ident body: class_body {
       @ident = ident
