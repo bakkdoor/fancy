@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.65])
+AC_PREREQ([2.59])
 AC_INIT([fancy], [1.0.0], [bugs@fancy-lang.org])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([src/array.cc])
