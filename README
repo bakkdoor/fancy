@@ -27,25 +27,37 @@ implementation can be viewed in lib/fancy_spec.fnc.
 Compiling / Installing from source:
 ------------------------------------
 
-Fancy is currently built using flex & bison for parsing and uses the
-BoehmGC for garbage collection. You'll need the following
-libraries/programms in order to build the sources:
-  - GNU Make
-  - Bison ( version 2.4 and higher )
-  - Flex
-  - libgc ( BoehmGC - It's included in the vendor/ directory
-            but you can also get it here:
-            http://www.hpl.hp.com/personal/Hans_Boehm/gc/ )
+Dependencies:
+------------------------
 
-For example, to build on Ubuntu Linux, run:
+- libgc ( Fancy uses BoehmGC for garbage collection ). 
+- GNU Autotools: autoconf, automake and libtool.
+- GNU Make.
+- GNU Bison ( version 2.4 and higher otherwise you will get a Segmentation fault ).
+- GNU Flex.
+
+NOTE: BoehmGC - It's included in the vendor/gc directory
+           but you can also get it here:
+           http://www.hpl.hp.com/personal/Hans_Boehm/gc/.
+ 
+Given the tools & libraries mentioned above, Fancy _should_ build without problems 
+on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE 
+and Mac OS X 10.5 and 10.6.
+
+Standard building procedure:  
+------------------------
+
+Building Fancy is just that easy:
+  
   $ cd <fancy_source_path>
-  $ sudo apt-get install g++ make bison flex
+  $ ./configure 
   $ make && make test
 
-I've successfully built Fancy on Debian & Ubuntu, OpenSuSE and Mac OS
-X 10.5. Given the tools & libraries mentioned above, it _should_ build
-on most Unix compatible platforms. If you find a system it doesn't
-compile on, let me know.
+NOTE: if you have problems with ./configure script or make utility just try:
+
+  $ autoreconf --install --force
+
+and try again.
 
 ----------------------------
 Some technical information:
@@ -90,7 +102,7 @@ How is it implemented?
 
   - It uses the BoehmGC for garbage collection.
 
-  - The lexer & parser are built with flex & bison.
+  - The lexer & parser are built with GNU Flex & GNU Bison.
 
   - I'm planning to add a bytecode compiler, written in the language
     itself. Right now there's an experimental fancy-written compiler
