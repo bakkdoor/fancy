@@ -118,7 +118,7 @@ int main(int argc, char **argv)
   }
 
   // cout << "heap size: " << GC_get_bytes_since_gc() << endl;
-  // GC_gcollect();
+  GC_gcollect();
   // cout << "heap size after collect: " << GC_get_bytes_since_gc() << endl;
   // cout << "Completed " << GC_gc_no << " collections" <<endl;
   // cout << "Heap size is " << GC_get_heap_size() << endl;
