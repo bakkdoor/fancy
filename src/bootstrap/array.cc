@@ -173,6 +173,11 @@ If given an Array of indices, removes all the elements with these indices.",
                  "reverse",
                  "Returns the reversed version of self.",
                  reverse);
+
+      DEF_METHOD(ArrayClass,
+                 "reverse!",
+                 "Reverses Array in place.",
+                 reverse_in_place);
     }
 
     /**
@@ -618,6 +623,11 @@ If given an Array of indices, removes all the elements with these indices.",
       vector<FancyObject*> arr_vec = dynamic_cast<Array*>(self)->values();
       vector<FancyObject*> reverse(arr_vec.rbegin(), arr_vec.rend());
       return new Array(reverse);
+    }
+
+    METHOD(ArrayClass, reverse_in_place)
+    {
+      return dynamic_cast<Array*>(self)->reverse();
     }
 
   }

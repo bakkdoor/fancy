@@ -197,4 +197,11 @@ namespace fancy {
     return list<FancyObject*>(_values.begin(), _values.end());
   }
 
+  Array* Array::reverse()
+  {
+    vector<FancyObject*> reverse(_values.rbegin(), _values.rend());
+    _values = reverse;
+    return this;
+  }
+
 }

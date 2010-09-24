@@ -313,4 +313,10 @@ FancySpec describe: Array with: |it| {
     [1,2,3] reverse should == [3,2,1]
     1 upto: 10 . reverse should == (10 downto: 1)
   }
+
+  it should: "inverse in-place" for: 'reverse! when: {
+    arr = [1,2,3]
+    arr reverse! should == [3,2,1]
+    arr should == [3,2,1]
+  }
 }
