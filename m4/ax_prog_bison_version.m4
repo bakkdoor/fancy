@@ -47,7 +47,7 @@ AC_DEFUN([AX_PROG_BISON_VERSION],[
         changequote([,])
         AC_MSG_RESULT($bison_version)
 
-	AC_SUBST([BISON_VERSION],[$ax_bison_version])
+	AC_SUBST([BISON_VERSION],[$bison_version])
 
         AX_COMPARE_VERSION([$ax_bison_version],[le],[$bison_version],[
 	    :
