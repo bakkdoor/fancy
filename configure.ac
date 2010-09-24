@@ -8,11 +8,14 @@ AC_CONFIG_SRCDIR([src/array.cc])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
-AC_PROG_YACC
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_LEX
 AC_PROG_MAKE_SET
+AC_PROG_YACC
+AX_PROG_BISON_VERSION([2.4],
+		       [],
+		       [AC_MSG_ERROR([Fancy needs bison version 2.4 or greater],[1])])
 
 # Checks for libraries.
 AC_CHECK_LIB([fl], [yyinput])

@@ -1,5 +1,7 @@
 SUBDIRS = src
 
+ACLOCAL_AMFLAGS = -I m4
+
 fancy: bin/fancy
 
 docs:
