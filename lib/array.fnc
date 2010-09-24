@@ -212,4 +212,15 @@ def class Array {
       count = count + 1
     }
   }
+
+  def NATIVE reverse {
+    size = self size
+    arr = Array new: size
+    idx = 0
+    self size - 1 downto: 0 do_each: |i| {
+      arr at: idx put: (self at: i)
+      idx = idx + 1
+    }
+    arr
+  }
 }

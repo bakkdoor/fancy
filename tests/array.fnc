@@ -308,4 +308,9 @@ FancySpec describe: Array with: |it| {
     arr product should == (arr reduce: '* init_val: 1)
     arr to_s should == (arr reduce: '++ init_val: "")
   }
+
+  it should: "return the reverse of itself" for: 'reverse when: {
+    [1,2,3] reverse should == [3,2,1]
+    1 upto: 10 . reverse should == (10 downto: 1)
+  }
 }
