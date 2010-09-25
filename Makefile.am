@@ -77,7 +77,7 @@ stdlib_bootstrap_files = argv \
 			true_class \
 			version
 
-compiler_bootstrap_files = nodes 
+compiler_bootstrap_files = nodes
 			nodes/array_literal \
 			nodes/assignment \
 			nodes/block_literal \
@@ -106,6 +106,7 @@ bootstrap:
 
 all-clean: clean
 	@cd vendor/gc && make clean
+	@rm Makefile config.h config.status config.log stamp-h1
 
 clean:
 	cd src && make clean > /dev/null

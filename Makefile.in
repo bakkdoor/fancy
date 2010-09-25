@@ -222,7 +222,7 @@ stdlib_bootstrap_files = argv \
 			true_class \
 			version
 
-compiler_bootstrap_files = nodes 
+compiler_bootstrap_files = nodes
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -270,7 +270,7 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in:  $(am__configure_deps) 
+$(srcdir)/config.h.in:  $(am__configure_deps)
 	cd $(top_srcdir) && $(AUTOHEADER)
 	rm -f stamp-h1
 	touch $@
@@ -699,6 +699,7 @@ bootstrap:
 
 all-clean: clean
 	@cd vendor/gc && make clean
+	@rm Makefile config.h config.status config.log stamp-h1
 
 clean:
 	cd src && make clean > /dev/null
