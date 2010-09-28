@@ -56,4 +56,9 @@ namespace fancy {
   {
   }
 
+  string UnknownIdentifierError::to_s() const
+  {
+    return message();
+  }
+
 }
