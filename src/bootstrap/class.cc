@@ -173,11 +173,11 @@ second argument to serve as the method's body.",
         Method* method = new Method(method_block);
         method->set_name(arg1->to_s());
         dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method);
-        return t;
+        return method;
       }
       if(Method* method = dynamic_cast<Method*>(arg2)) {
         dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method);
-        return t;
+        return method;
       }
 
       errorln("Class#define_method:with: expects String and Callable arguments.");
