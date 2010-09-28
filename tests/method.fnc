@@ -77,4 +77,31 @@ FancySpec describe: Method with: |it| {
     }
     self foo should == 8
   }
+
+  def class Foo {
+    def bar {
+    }
+    def private private_bar {
+    }
+    def protected protected_bar {
+    }
+  }
+
+  it should: "be public" for: 'public? when: {
+    Foo method: 'bar . public? should == true
+    Foo method: 'private_bar . public? should == nil
+    Foo method: 'protected_bar . public? should == nil
+  }
+
+  it should: "be private" for: 'private? when: {
+    Foo method: 'bar . private? should == nil
+    Foo method: 'private_bar . private? should == true
+    Foo method: 'protected_bar . private? should == nil
+  }
+
+  it should: "be protected" for: 'protected? when: {
+    Foo method: 'bar . protected? should == nil
+    Foo method: 'private_bar . protected? should == nil
+    Foo method: 'protected_bar . protected? should == true
+  }
 }
