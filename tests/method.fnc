@@ -34,7 +34,7 @@ FancySpec describe: Method with: |it| {
 
   it should: "return the return value" when: {
     def foo: bar {
-      return: "returning!"
+      return "returning!"
       bar # will never get executed
     }
 
@@ -44,7 +44,7 @@ FancySpec describe: Method with: |it| {
 
     def f: x {
       x < 10 if_true: {
-        return: 100
+        return 100
       }
       0
     }
@@ -57,10 +57,10 @@ FancySpec describe: Method with: |it| {
     def foo {
       10 times: |i| {
         i == 8 if_true: {
-          return: i # nested return
+          return i # nested return
         }
       }
-      return: 0
+      return 0
     }
 
     self foo should == 8
@@ -70,7 +70,7 @@ FancySpec describe: Method with: |it| {
     define_singleton_method: "foo" with: {
       10 times: |i| {
         i == 8 if_true: {
-          return: i
+          return i
         }
       }
       0

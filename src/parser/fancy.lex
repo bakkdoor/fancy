@@ -32,7 +32,7 @@ rhash           "]>"
 stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
-return          "return:"
+return          "return"
 require         "require:"
 try             "try"
 catch           "catch"

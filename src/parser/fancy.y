@@ -220,6 +220,9 @@ identifier_list: IDENTIFIER { $$ = ident_node($1, NULL); }
 return_statement: RETURN exp {
                   $$ = new nodes::ReturnStatement($2);
                 }
+                | RETURN {
+                  $$ = new nodes::ReturnStatement(nil);
+                }
                 ;
 
 require_statement: REQUIRE STRING_LITERAL {
