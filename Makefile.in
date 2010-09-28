@@ -166,6 +166,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
 ACLOCAL_AMFLAGS = -I m4
+GCLIB = vendor/gc/.libs/libgccpp.a
 
 test_files = array	\
 	block		\
@@ -244,7 +245,7 @@ compiler_bootstrap_files = nodes 			    \
 			nodes/symbol_literal 		    \
 			nodes/try_catch_block
 
-all: config.h
+all: config.h gc
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -675,7 +676,13 @@ uninstall-am:
 	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am
 
 
-fancy: bin/fancy
+fancy: bin/fancy gc
+
+gc: ${GCLIB}
+
+${GCLIB}:
+	@echo "Compiling GC"
+	@cd vendor/gc && CFLAGS="${GC_CFLAGS} ${CFLAGS}" ./configure --enable-cplusplus --disable-threads -q && make -s
 
 docs:
 	doxygen

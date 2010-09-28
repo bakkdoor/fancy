@@ -1,8 +1,14 @@
 SUBDIRS = src
-
 ACLOCAL_AMFLAGS = -I m4
+GCLIB = vendor/gc/.libs/libgccpp.a
 
-fancy: bin/fancy
+fancy: bin/fancy gc
+
+gc: ${GCLIB}
+
+${GCLIB}:
+	@echo "Compiling GC"
+	@cd vendor/gc && CFLAGS="${GC_CFLAGS} ${CFLAGS}" ./configure --enable-cplusplus --disable-threads -q && make -s
 
 docs:
 	doxygen

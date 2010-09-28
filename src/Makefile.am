@@ -80,13 +80,9 @@ obj_files = $(foreach file, $(files), $(file).o) \
 
 all: ../bin/fancy
 
-../bin/fancy: gc $(obj_files)
+../bin/fancy: $(obj_files)
 	@mkdir -p ../bin/
 	$(CXX) $(CFLAGS) $(obj_files) ../vendor/gc/.libs/libgccpp.a ../vendor/gc/.libs/libgc.a -o ../bin/fancy -lfl
-
-gc: 
-	@echo "compiling GC"
-	@cd ../vendor/gc && CFLAGS="${GC_CFLAGS} ${CFLAGS}" ./configure --enable-cplusplus --disable-threads -q && make -s
 
 main.o: $(foreach file, $(src_files), $(file)) parser/fancy.lex parser/fancy.y
 	$(CXX) $(CFLAGS) -c main.cc -o main.o
