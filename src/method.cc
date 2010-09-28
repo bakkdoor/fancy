@@ -51,6 +51,7 @@ namespace fancy {
     _body_block(body)
   {
     _body_block->set_enclosing_method(this);
+    _body_block->override_self(true);
   }
 
   FancyObject* Method::call(FancyObject* self, FancyObject* *args, int argc, Scope *scope, FancyObject* sender)
