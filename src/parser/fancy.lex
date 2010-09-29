@@ -37,6 +37,7 @@ require         "require:"
 try             "try"
 catch           "catch"
 finally         "finally"
+retry           "retry"
 super           "super"
 private         "private"
 protected       "protected"
@@ -103,6 +104,7 @@ comment         #[^\n]*
 {try}           { return TRY; }
 {catch}         { return CATCH; }
 {finally}       { return FINALLY; }
+{retry}         { return RETRY; }
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }

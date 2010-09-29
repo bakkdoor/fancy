@@ -7,7 +7,7 @@ files = identifier expression_list hash_literal array_literal		\
 class_definition nested_class_definition message_send operator_send	\
 assignment return require method_definition class_method_definition	\
 operator_definition class_operator_definition block_literal		\
-try_catch_block super ruby_args_literal self
+try_catch_block retry super ruby_args_literal self
 
 src_files = $(foreach file, $(files), $(file).cc)
 obj_files = $(foreach file, $(files), $(file).o)
@@ -64,6 +64,9 @@ block_literal.o: block_literal.cc
 
 try_catch_block.o: try_catch_block.cc
 	$(CXX) $(CFLAGS) -c try_catch_block.cc -o try_catch_block.o
+
+retry.o: retry.cc
+	$(CXX) $(CFLAGS) -c retry.cc -o retry.o
 
 super.o: super.cc
 	$(CXX) $(CFLAGS) -c super.cc -o super.o

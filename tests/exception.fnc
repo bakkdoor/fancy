@@ -85,4 +85,18 @@ FancySpec describe: StdError with: {
     }
   }
 
+  it: "should restart itself after being fixed in a catch clause" when: {
+    y = 0
+    x = 0
+    try {
+      x = 10 / y
+    } catch DivisionByZeroError => e {
+      y should == 0
+      x should == 0
+      y = 2
+      retry
+    }
+    y should  == 2
+    x should  == 5
+  }
 }

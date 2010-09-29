@@ -168,6 +168,7 @@ parser_node_files = identifier \
 		operator_definition \
 		class_operator_definition \
 		try_catch_block \
+		retry \
 		super \
 		ruby_args_literal \
 		self
