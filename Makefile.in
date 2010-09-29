@@ -709,7 +709,7 @@ bootstrap:
 
 all-clean: clean
 	@cd vendor/gc && make clean
-	@rm Makefile config.h config.status config.log stamp-h1
+	@rm -f Makefile src/Makefile src/bootstrap/Makefile src/parser/Makefile src/parser/nodes/Makefile config.h config.status config.log stamp-h1
 
 clean:
 	cd src && make clean > /dev/null
