@@ -52,7 +52,7 @@ FancySpec describe: String with: |it| {
   }
 
   it should: "drop all characters upto a whitespace" for: 'drop_while: when: {
-    "hello world" drop_while: |c| { c != " " } . join: "" . should == "world"
+    "hello world" drop_while: |c| { c != " " } . join: "" . should == " world"
   }
 
   it should: "be empty" for: 'empty? when: {

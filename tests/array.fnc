@@ -325,4 +325,13 @@ FancySpec describe: Array with: |it| {
     arr reverse! should == [3,2,1]
     arr should == [3,2,1]
   }
+
+  it should: "take elements from itself as long a block yields true" for: 'take_while: when: {
+    1 upto: 15 . take_while: |x| { x < 10 } . should == (1 upto: 9)
+  }
+
+
+  it should: "drop elements from itself as long a block yields true" for: 'drop_while: when: {
+    1 upto: 15 . drop_while: |x| { x < 10 } . should == (10 upto: 15)
+  }
 }
