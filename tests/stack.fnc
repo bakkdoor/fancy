@@ -1,10 +1,10 @@
-FancySpec describe: Stack with: |it| {
-  it should: "be empty when created" for: '<< when: {
+FancySpec describe: Stack with: {
+  it: "should be empty when created" for: '<< when: {
     s = Stack new
     s empty? should == true
   }
 
-  it should: "return the last inserted element" for: 'pop when: {
+  it: "should return the last inserted element" for: 'pop when: {
     s = Stack new
     s push: 1
     s pop should == 1

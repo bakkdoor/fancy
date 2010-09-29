@@ -1,29 +1,29 @@
-FancySpec describe: Number with: |it| {
-  it should: "add two numbers correctly" for: '+ when: {
+FancySpec describe: Number with: {
+  it: "should add two numbers correctly" for: '+ when: {
     n1 = 20
     n2 = 22
     n1 + n2 should == 42
   }
 
-  it should: "subtract two numbers correctly" for: '- when: {
+  it: "should subtract two numbers correctly" for: '- when: {
     n1 = 20
     n2 = 22
     n1 - n2 should == -2
   }
 
-  it should: "multiply two numbers correctly" for: '* when: {
+  it: "should multiply two numbers correctly" for: '* when: {
     n1 = 20
     n2 = 22
     n1 * n2 should == 440
   }
 
-  it should: "divide two numbers correctly" for: '/ when: {
+  it: "should divide two numbers correctly" for: '/ when: {
     n1 = 20
     n2 = 10
     n1 / n2 should == 2
   }
 
-  it should: "raise an exception when dividing by zero" when: {
+  it: "should raise an exception when dividing by zero" when: {
     try {
       10 / 0
       "This should not happen!" should == nil
@@ -32,34 +32,34 @@ FancySpec describe: Number with: |it| {
     }
   }
 
-  it should: "calculate the correct modulo value" for: 'modulo: when: {
+  it: "should calculate the correct modulo value" for: 'modulo: when: {
     9 % 4 should == 1
     10 modulo: 2 . should == 0
   }
 
-  it should: "be the negation" for: 'negate when: {
+  it: "should be the negation" for: 'negate when: {
     42 negate should == -42
   }
 
-  it should: "be odd" for: 'odd? when: {
+  it: "should be odd" for: 'odd? when: {
     1 odd? should == true
     1 even? should == nil
   }
 
-  it should: "be even" for: 'even? when: {
+  it: "should be even" for: 'even? when: {
     2 odd? should == nil
     2 even? should == true
   }
 
-  it should: "return an array from 0 upto 10" for: 'upto: when: {
+  it: "should return an array from 0 upto 10" for: 'upto: when: {
     0 upto: 10 . should == [0,1,2,3,4,5,6,7,8,9,10]
   }
 
-  it should: "return an array from 10 downto 0" for: 'downto: when: {
+  it: "should return an array from 10 downto 0" for: 'downto: when: {
     10 downto: 0 . should == [10,9,8,7,6,5,4,3,2,1,0]
   }
 
-  it should: "calculate the given power of itself" for: '** when: {
+  it: "should calculate the given power of itself" for: '** when: {
     2 ** 3 should == 8
     2 ** 0 should == 1
     2 ** 1 should == 2
@@ -70,7 +70,7 @@ FancySpec describe: Number with: |it| {
     }
   }
 
-  it should: "be the square of self" for: 'squared when: {
+  it: "should be the square of self" for: 'squared when: {
     5 squared should == 25
     10 squared should == 100
     20 upto: 50 do_each: |i| {
@@ -78,7 +78,7 @@ FancySpec describe: Number with: |it| {
     }
   }
 
-  it should: "be the double value of self" for: 'doubled when: {
+  it: "should be the double value of self" for: 'doubled when: {
     5 doubled should == 10
     10 doubled should == 20
     20 upto: 50 do_each: |i| {
@@ -86,7 +86,7 @@ FancySpec describe: Number with: |it| {
     }
   }
 
-  it should: "be the same when using underscores within the literal" when: {
+  it: "should be the same when using underscores within the literal" when: {
     50000 should == 50_000
     100_000 should == 100000
     100_000 should == 100_000

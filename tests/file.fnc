@@ -1,25 +1,25 @@
-FancySpec describe: File with: |it| {
-  it should: "return an array with the openmodes symbols" for: 'open:modes: when: {
+FancySpec describe: File with: {
+  it: "should return an array with the openmodes symbols" for: 'open:modes: when: {
     file = File open: "README" modes: ['read]
     file modes should == ['read]
     file close
   }
 
-  it should: "be open after opening it and closed after closing" for: 'close when: {
+  it: "should be open after opening it and closed after closing" for: 'close when: {
     file = File open: "README" modes: ['read]
     file open? should == true
     file close
     file open? should == nil
   }
 
-  it should: "be closed when not correctly opened" for: 'open? when: {
+  it: "should be closed when not correctly opened" for: 'open? when: {
     file = File new
     file open? should == nil
     file close
     file open? should == nil
   }
 
-  it should: "write and read from a file correctly" for: 'writeln: when: {
+  it: "should write and read from a file correctly" for: 'writeln: when: {
     filename = "tmp/read_write_test.txt"
     file = File open: filename modes: ['write]
     file writeln: "hello, world!"
@@ -44,7 +44,7 @@ FancySpec describe: File with: |it| {
     Directory exists?: "tmp/" . should == nil
   }
 
-  it should: "raise an IOError exception when trying to open an invalid file" when: {
+  it: "should raise an IOError exception when trying to open an invalid file" when: {
     try {
       file = File open: "/foo/bar/baz" modes: ['read]
       nil should == true # this shouldn't execute
@@ -54,7 +54,7 @@ FancySpec describe: File with: |it| {
     }
   }
 
-  it should: "rename a File" when: {
+  it: "should rename a File" when: {
     dirname = "tmp/"
     filename = dirname ++ "foobar"
 
@@ -75,12 +75,12 @@ FancySpec describe: File with: |it| {
     Directory delete: "tmp/"
   }
 
-  it should: "be a directory" for: 'directory?: when: {
+  it: "should be a directory" for: 'directory?: when: {
     File directory?: "src/" . should == true
     File directory?: "src/bootstrap" . should == true
   }
 
-  it should: "NOT be a directory" for: 'directory?: when: {
+  it: "should NOT be a directory" for: 'directory?: when: {
     File directory?: "src/Makefile" . should == nil
     File directory?: "README" . should == nil
     File directory?: "src/bootstrap/Makefile" . should == nil

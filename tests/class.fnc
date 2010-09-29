@@ -34,15 +34,15 @@ def class ClassWithPrivate {
   }
 }
 
-FancySpec describe: Class with: |it| {
-  it should: "NOT find the method when not mixed-in" for: 'responds_to?: when: {
+FancySpec describe: Class with: {
+  it: "should NOT find the method when not mixed-in" for: 'responds_to?: when: {
     instance = ClassWithMixin new
     instance normal_method . should == 'normal_found
     instance responds_to?: 'normal_method . should == true
     instance responds_to?: 'mixin_method . should == nil
   }
 
-  it should: "find the method when mixed-in" for: 'include: when: {
+  it: "should find the method when mixed-in" for: 'include: when: {
     # => include Mixin into ClassWithMixin
     def class ClassWithMixin {
       include: Mixin
@@ -55,7 +55,7 @@ FancySpec describe: Class with: |it| {
     instance mixin_method . should == 'mixed_in_found
   }
 
-  it should: ("rebind the old class name with ClassWithNoMixin and replace the old normal_method") when: {
+  it: "should rebind the old class name with ClassWithNoMixin and replace the old normal_method" when: {
     instance = ClassWithMixin new
     instance normal_method should == 'normal_found
     # rebind the class to the other class
@@ -64,7 +64,7 @@ FancySpec describe: Class with: |it| {
     instance normal_method should == 'new_normal_found
   }
 
-  it should: "have dynamically generated getter methods" for: 'responds_to?: when: {
+  it: "should have dynamically generated getter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new
     instance responds_to?: 'foo . should == true
     instance responds_to?: 'bar . should == true
@@ -77,7 +77,7 @@ FancySpec describe: Class with: |it| {
     instance responds_to?: "noes:" . should == true
   }
 
-  it should: "find the instance variable correctly" when: {
+  it: "should find the instance variable correctly" when: {
     def class AClass {
       def initialize: foo {
         @foo = foo
@@ -93,7 +93,7 @@ FancySpec describe: Class with: |it| {
     AClass new foo should == nil
   }
 
-  it should: "find the class variable correctly" when: {
+  it: "should find the class variable correctly" when: {
     def class AClass {
       def foo: foo {
         @@foo = foo
@@ -117,7 +117,7 @@ FancySpec describe: Class with: |it| {
     instance1 foo should == str2
   }
 
-  it should: "have correct method overloading for method names with and without an argument" when: {
+  it: "should have correct method overloading for method names with and without an argument" when: {
     def class AClass {
       def foo {
         foo: "None!"
@@ -133,7 +133,7 @@ FancySpec describe: Class with: |it| {
     instance foo: "Test!" . should == "In AClass#foo: with bar = Test!"
   }
 
-  it should: "call superclass method by calling super" when: {
+  it: "should call superclass method by calling super" when: {
     def class SuperClass {
       read_slots: ['name]
       def initialize: name {
@@ -162,7 +162,7 @@ FancySpec describe: Class with: |it| {
     sub2 age should == 0
   }
 
-  it should: "return its superclass" when: {
+  it: "should return its superclass" when: {
     Number superclass should == Object
     Symbol superclass should == Object
     StdError superclass should == Object
@@ -173,7 +173,7 @@ FancySpec describe: Class with: |it| {
     MethodNotFoundError superclass should == StdError
   }
 
-  it should: "create a new Class dynamically" when: {
+  it: "should create a new Class dynamically" when: {
     x = Class new
     x is_a?: Class . should == true
     x new is_a?: x . should == true
@@ -187,7 +187,7 @@ FancySpec describe: Class with: |it| {
     y new is_a?: Object . should == true
   }
 
-  it should: "only be able to call the public method from outside the Class" when: {
+  it: "should only be able to call the public method from outside the Class" when: {
     x = ClassWithPrivate new
     x public_method should == "public!"
     try {
@@ -202,7 +202,7 @@ FancySpec describe: Class with: |it| {
     }
   }
 
-  it should: "be a subclass of another Class" for: 'subclass?: when: {
+  it: "should be a subclass of another Class" for: 'subclass?: when: {
     def class Super {
     }
     def class Sub : Super {
@@ -214,7 +214,7 @@ FancySpec describe: Class with: |it| {
     Super subclass?: Sub . should == nil
   }
 
-  it should: "dynamically create a subclass of another class" for: 'is_a?: when: {
+  it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
     subclass = String subclass: {
       def foo {
         "hello, world!"
@@ -237,7 +237,7 @@ FancySpec describe: Class with: |it| {
     subclass2 new foo should == "hello, world, again!"
   }
 
-  it should: "undefine an instance method" for: 'undefine_method: when: {
+  it: "should undefine an instance method" for: 'undefine_method: when: {
     def class Foo {
       def instance_method {
       "instance method!"
@@ -253,7 +253,7 @@ FancySpec describe: Class with: |it| {
     }
   }
 
-  it should: "undefine a class method" for: 'undefine_class_method: when: {
+  it: "should undefine a class method" for: 'undefine_class_method: when: {
     def class Foo {
       def self class_method {
       "class method!"
@@ -269,7 +269,7 @@ FancySpec describe: Class with: |it| {
     }
   }
 
-  it should: "have nested classes" when: {
+  it: "should have nested classes" when: {
     def class Outer {
       def class Inner {
         def class InnerMost {
@@ -294,7 +294,7 @@ FancySpec describe: Class with: |it| {
     obj foobar . should == "oh no!"
   }
 
-  it should: "not override existing classes with the same name in a nested class" when: {
+  it: "should not override existing classes with the same name in a nested class" when: {
     StdArray = Array
     def class NameSpace {
       def class Array {
@@ -308,7 +308,7 @@ FancySpec describe: Class with: |it| {
     NameSpace::Array should_not == Array
   }
 
-  it should: "return all nested classes of a class" for: 'nested_classes when: {
+  it: "should return all nested classes of a class" for: 'nested_classes when: {
     def class Outer {
     }
     Outer nested_classes should == []
@@ -326,7 +326,7 @@ FancySpec describe: Class with: |it| {
     Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
   }
 
-  it should: "find other nested classes in the same parent class" when: {
+  it: "should find other nested classes in the same parent class" when: {
     def class MyOuter {
       def class Inner1 {
         def method1 {
@@ -346,7 +346,7 @@ FancySpec describe: Class with: |it| {
     MyOuter::Inner2 new method2 should == 'method_2
   }
 
-  it should: "find itself in it's own methods, even if nested into another class" when: {
+  it: "should find itself in it's own methods, even if nested into another class" when: {
     def class MyOuter {
       def class MyInner1 {
         def method1 {
@@ -372,7 +372,7 @@ FancySpec describe: Class with: |it| {
     MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 
-  it should: "have an alias method as defined" for: 'alias_method:for: when: {
+  it: "should have an alias method as defined" for: 'alias_method:for: when: {
     def class AClass {
       def foo {
         "in foo!"

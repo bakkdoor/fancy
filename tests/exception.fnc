@@ -8,8 +8,8 @@ def class Foo {
   }
 }
 
-FancySpec describe: StdError with: |it| {
-  it should: "raise an exception and catch it correctly" for: 'raise! when: {
+FancySpec describe: StdError with: {
+  it: "should raise an exception and catch it correctly" for: 'raise! when: {
     try {
       StdError new: "FAIL!" . raise!
       nil should == true # this should not occur
@@ -18,7 +18,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "raise an exception inside a method and catch it correctly" when: {
+  it: "should raise an exception inside a method and catch it correctly" when: {
     f = Foo new
     f bar: "Don't raise here" . should == 'no_error
     try {
@@ -28,7 +28,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "raise a MethodNotFoundError" when: {
+  it: "should raise a MethodNotFoundError" when: {
     s = 'symbol
     try {
       s this_method_doesnt_exist!
@@ -39,7 +39,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "have access to variables in exception handlers defined in the surrounding scope" when: {
+  it: "should have access to variables in exception handlers defined in the surrounding scope" when: {
     var = 1234
     try {
       var wont_work!
@@ -48,7 +48,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "always evaluate the finally clause" when: {
+  it: "should always evaluate the finally clause" when: {
     try {
       x = 10 / 0 # ouch!
       "This should fail!" should == true # should not get here!
@@ -60,7 +60,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "raise a StdError when raising a String" for: 'raise! when: {
+  it: "should raise a StdError when raising a String" for: 'raise! when: {
     msg = "A Custom Error!"
     try {
       msg raise!
@@ -70,7 +70,7 @@ FancySpec describe: StdError with: |it| {
     }
   }
 
-  it should: "raise and catch a custom exception correctly" for: 'raise! when: {
+  it: "should raise and catch a custom exception correctly" for: 'raise! when: {
     def class MyError : StdError{
       def initialize {
         super initialize: "MyError message"
