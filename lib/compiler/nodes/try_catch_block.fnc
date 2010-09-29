@@ -26,13 +26,12 @@ def class AST {
   }
 
   def class TryCatchBlock : Node {
-    read_write_slots: ['body, 'handlers, 'final]
+    read_slots: ['body, 'handlers, 'final]
 
-    def TryCatchBlock body: b handlers: h final: f {
-      tcb = TryCatchBlock new
-      tcb body: b
-      tcb handlers: h
-      tcb final: f
+    def initialize: body handlers: h final: f {
+      @body = body
+      @handlers = h
+      @final = f
     }
 
     def TryCatchBlock from_sexp: sexp {
@@ -42,7 +41,7 @@ def class AST {
       sexp fourth if_do: |final| {
         f = final second to_ast
       }
-      TryCatchBlock body: b handlers: h final: f
+      TryCatchBlock new: b handlers: h final: f
     }
 
     def to_ruby: out indent: ilvl {
