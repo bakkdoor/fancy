@@ -75,11 +75,11 @@ FancySpec describe: Array with: |it| {
 
   it should: "return all indices for an element as an Array" for: 'indices: when: {
     arr = [1, 2, 'a, 3, 2, 'a]
-    arr indices: 1 . should == [0]
-    arr indices: 2 . should == [1, 4]
-    arr indices: 'a . should == [2, 5]
-    arr indices: 3. should == [3]
-    arr indices: 'foo . should == []
+    arr indices_of: 1 . should == [0]
+    arr indices_of: 2 . should == [1, 4]
+    arr indices_of: 'a . should == [2, 5]
+    arr indices_of: 3. should == [3]
+    arr indices_of: 'foo . should == []
   }
 
   it should: "find the value" for: 'find: when: {
@@ -108,6 +108,12 @@ FancySpec describe: Array with: |it| {
     } . should == nil
 
     arr find: "foobar" . should == nil
+  }
+
+  it should: "find the value via a block" for: 'find_by: when: {
+    arr = [1, 2, 'foo, "yo", nil, true]
+    arr find_by: |x| { x is_a?: String } . should == "yo"
+    arr find_by: |x| { x is_a?: Block } . should == nil
   }
 
   it should: "return the last element" for: 'last when: {

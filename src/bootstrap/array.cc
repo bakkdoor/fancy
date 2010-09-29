@@ -120,9 +120,9 @@ If given an Array of indices, removes all the elements with these indices.",
                  fourth);
 
       DEF_METHOD(ArrayClass,
-                 "indices:",
+                 "indices_of:",
                  "Returns an Array of all indices of this item.",
-                 indices_);
+                 indices_of);
 
       DEF_METHOD(ArrayClass,
                  "indices",
@@ -416,9 +416,9 @@ If given an Array of indices, removes all the elements with these indices.",
       return array->at(3);
     }
 
-    METHOD(ArrayClass, indices_)
+    METHOD(ArrayClass, indices_of)
     {
-      EXPECT_ARGS("Array#indices:", 1);
+      EXPECT_ARGS("Array#indices_of:", 1);
       Array* array = dynamic_cast<Array*>(self);
       vector<FancyObject*> indices;
       FancyObject* eq_args[1] = { args[0] };
