@@ -96,6 +96,8 @@ namespace fancy {
      */
     void override_self(bool do_it) { _override_self = do_it; }
 
+    bool override_self() const { return _override_self; }
+
     /**
      * Indicates, if the body of the block is empty.
      * @return true if the body's block is empty.
