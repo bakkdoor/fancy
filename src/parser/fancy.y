@@ -75,6 +75,7 @@
 %token                  SEMI
 %token                  NL
 %token                  COLON
+%token                  RETURN_LOCAL
 %token                  RETURN
 %token                  REQUIRE
 %token                  TRY
@@ -121,6 +122,7 @@
 %type  <expression>         assignment
 %type  <expression>         multiple_assignment
 %type  <ident_list>         identifier_list
+%type  <expression>         return_local_statement
 %type  <expression>         return_statement
 %type  <expression>         require_statement
 
@@ -188,6 +190,7 @@ code:           statement
                 ;
 
 statement:      assignment
+                | return_local_statement
                 | return_statement
                 | require_statement
                 ;
@@ -216,6 +219,14 @@ multiple_assignment: identifier_list EQUALS exp_comma_list {
 identifier_list: IDENTIFIER { $$ = ident_node($1, NULL); }
                 | identifier_list COMMA IDENTIFIER {
                   $$ = ident_node($3, $1);
+                }
+                ;
+
+return_local_statement: RETURN_LOCAL exp {
+                  $$ = new nodes::ReturnStatement($2, true);
+                }
+                | RETURN {
+                  $$ = new nodes::ReturnStatement(nil, true);
                 }
                 ;
 

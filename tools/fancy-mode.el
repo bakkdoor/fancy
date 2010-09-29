@@ -1099,6 +1099,7 @@ balanced expression is found."
                "finally"
                "retry"
 	       "def"
+               "return_local"
 	       "return"
 	       "super"
                "require:"
@@ -1168,7 +1169,7 @@ balanced expression is found."
      ("^\\s *\\(include\\|alias\\|undef\\).*$" nil decl)
      ("^\\s *\\<\\(def class\\|def actor\\|def\\|module\\)\\>" "[)\n;]" defun)
      ("[^_]\\<\\(match\\|finally\\|catch\\)\\>\\([^_]\\|$\\)" 1 defun)
-     ("[^_]\\<\\(return\\|super\\|catch\\|try\\|finally\\|self\\|nil\\)\\>\\([^_]\\|$\\)" 1 keyword)
+     ("[^_]\\<\\(return_local\\|return\\|super\\|catch\\|try\\|finally\\|self\\|nil\\)\\>\\([^_]\\|$\\)" 1 keyword)
      ("\\$\\(.\\|\\sw+\\)" nil type)
      ("[$@].[a-zA-Z_0-9]*" nil struct)
      ("^__END__" nil label))))

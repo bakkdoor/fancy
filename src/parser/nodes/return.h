@@ -15,10 +15,15 @@ namespace fancy {
         FancyObject* return_value;
       };
 
+      struct local_return_value {
+        FancyObject* return_value;
+      };
+
       class ReturnStatement : public Expression
       {
       public:
         ReturnStatement(Expression* return_expr);
+        ReturnStatement(Expression* return_expr, bool is_local);
         virtual ~ReturnStatement() {}
 
         virtual EXP_TYPE type() const { return EXP_RETURNSTATEMENT; }
@@ -27,6 +32,7 @@ namespace fancy {
 
       private:
         Expression* _return_expr;
+        bool _is_local;
       };
 
     }

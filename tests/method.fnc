@@ -67,7 +67,7 @@ FancySpec describe: Method with: {
   }
 
   it: "should return only from block-scope not from method-scope" when: {
-    define_singleton_method: "foo" with: {
+    def self foo {
       10 times: |i| {
         i == 8 if_true: {
           return i
@@ -76,6 +76,13 @@ FancySpec describe: Method with: {
       0
     }
     self foo should == 8
+  }
+
+  it: "should return locally (from block-scope not from method-scope" when: {
+    def self foo {
+      [1,2,3] select: |x| { return_local x != 3 }
+    }
+    self foo should == [1,2]
   }
 
   def class Foo {

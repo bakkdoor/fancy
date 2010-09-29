@@ -32,6 +32,7 @@ rhash           "]>"
 stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
+return_local    "return_local"
 return          "return"
 require         "require:"
 try             "try"
@@ -99,6 +100,7 @@ comment         #[^\n]*
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return OPERATOR;
                 }
+{return_local}  { return RETURN_LOCAL; }
 {return}        { return RETURN; }
 {require}       { return REQUIRE; }
 {try}           { return TRY; }
