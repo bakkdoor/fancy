@@ -225,7 +225,7 @@ identifier_list: IDENTIFIER { $$ = ident_node($1, NULL); }
 return_local_statement: RETURN_LOCAL exp {
                   $$ = new nodes::ReturnStatement($2, true);
                 }
-                | RETURN {
+                | RETURN_LOCAL {
                   $$ = new nodes::ReturnStatement(nil, true);
                 }
                 ;
