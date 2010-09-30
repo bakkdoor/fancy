@@ -9,6 +9,12 @@ def class AST {
       StringLiteral new: $ sexp second
     }
 
+    def to_ruby_sexp: out {
+      out print: "[:string_lit, "
+      out print: (@string inspect)
+      out print: "]"
+    }
+
     def to_ruby: out indent: ilvl{
       out print: $ " " * ilvl ++ (@string inspect)
     }

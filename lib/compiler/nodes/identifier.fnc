@@ -24,6 +24,12 @@ def class AST {
       "<Identifier: '" ++ @name ++ "'>"
     }
 
+    def to_ruby_sexp: out {
+      out print: "[:identifier, "
+      out print: (@name to_s inspect)
+      out print: "]"
+    }
+
     def to_ruby: out indent: ilvl {
       out print: $ " " * ilvl
       out print: $ self rubyfy

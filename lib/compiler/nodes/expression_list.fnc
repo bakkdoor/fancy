@@ -17,6 +17,15 @@ def class AST {
       self to_s
     }
 
+    def to_ruby_sexp: out {
+      out print: "[:exp_list"
+      @exprs each: |e| {
+        out print: " ,"
+        e to_ruby_sexp: out
+      }
+      out print: "]"
+    }
+
     def to_ruby: out indent: ilvl {
       @exprs each: |e| {
         e to_ruby: out indent: ilvl

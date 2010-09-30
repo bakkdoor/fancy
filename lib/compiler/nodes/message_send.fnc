@@ -19,6 +19,21 @@ def class AST {
       MessageSend new: receiver method_ident: message_name args: args
     }
 
+    def to_ruby_sexp: out {
+      out print: "[:message_send, "
+      @receiver to_ruby_sexp: out
+      out print: ", "
+      @method_ident to_ruby_sexp: out
+      out print: ", "
+      out print: "[:message_args, "
+      @args each: |a| {
+        a to_ruby_sexp: out
+      } in_between: { out print: ", " }
+      out print: "]"
+
+      out print: "]"
+    }
+
     def to_ruby: out indent: ilvl {
       @receiver to_ruby: out indent: ilvl
       out print: "."

@@ -36,3 +36,4 @@ vendor/gc/cord/*.lo
 vendor/gc/libatomic_ops-1.2/src/stamp-h1
 docs/*
 .compiled
+*.rbc
