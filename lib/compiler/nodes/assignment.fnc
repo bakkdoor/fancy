@@ -20,5 +20,14 @@ def class AST {
       out print: " = "
       @expr to_ruby: out
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:assign, "
+      @ident to_ruby_sexp: out
+      out print: ", "
+      @expr to_ruby_sexp: out
+      out print: "]"
+    }
+
   }
 }

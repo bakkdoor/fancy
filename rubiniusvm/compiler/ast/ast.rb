@@ -1,7 +1,7 @@
 module Fancy
   module AST
     Nodes = Hash.new
-    
+
     # Converts a fancy sexp into fancy AST
     def self.from_sexp(sexp)
       name = sexp.first

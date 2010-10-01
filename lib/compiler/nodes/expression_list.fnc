@@ -18,10 +18,11 @@ def class AST {
     }
 
     def to_ruby_sexp: out {
-      out print: "[:exp_list"
+      out print: "[:exp_list, "
       @exprs each: |e| {
-        out print: " ,"
         e to_ruby_sexp: out
+      } in_between: {
+        out print: ", "
       }
       out print: "]"
     }

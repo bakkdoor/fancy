@@ -15,5 +15,11 @@ def class AST {
       @expr to_ruby: out
       out print: $ " + " ++ (ending inspect) ++ ")"
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:require, "
+      @expr to_ruby_sexp: out
+      out print: "]"
+    }
   }
 }

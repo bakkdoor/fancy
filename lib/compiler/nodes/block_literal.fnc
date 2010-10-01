@@ -27,5 +27,17 @@ def class AST {
       @body to_ruby: out
       out print: " }"
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:block_lit, ["
+      @args each: |a| {
+        a to_ruby_sexp: out
+      } in_between: {
+        out print: ", "
+      }
+      out print: "], "
+      @body to_ruby_sexp: out
+      out print: "]"
+    }
   }
 }

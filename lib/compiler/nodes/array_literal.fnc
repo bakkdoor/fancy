@@ -22,5 +22,15 @@ def class AST {
       }
       out print: "]"
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:array_lit, ["
+      @array each: |x| {
+        x to_ast to_ruby_sexp: out
+      } in_between: {
+        out print: ", "
+      }
+      out print: "]]"
+    }
   }
 }
