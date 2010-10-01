@@ -15,6 +15,7 @@ module Rubinius
       end
 
       parser.input file, line
+      parser.print
 
       writer = compiler.writer
       writer.name = output ? output : compiled_name(file)

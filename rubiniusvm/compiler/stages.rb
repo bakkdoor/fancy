@@ -1,6 +1,7 @@
 #
 # Stages for compiling Fancy to Rubinius bytecode.
 #
+require 'forwardable'
 
 module Rubinius
   class Compiler
@@ -52,6 +53,8 @@ module Rubinius
       stage :fancy_file
       next_stage FancyAST
 
+      extend Forwardable
+
       def initialize(compiler, last)
         super
         compiler.parser = self
@@ -62,13 +65,7 @@ module Rubinius
         @next_stage.file = file
       end
 
-      def root(klass)
-        @next_stage.root(klass)
-      end
-
-      def enable_category(category)
-        @next_stage.enable_category(category)
-      end
+      def_delegators :@next_stage, :root, :enable_category, :print
 
       def run
         # Currently we call an external fancy program to output
