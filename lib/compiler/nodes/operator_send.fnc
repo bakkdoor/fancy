@@ -13,5 +13,18 @@ def class AST {
       operand = sexp[3] to_ast
       OperatorSend new: receiver op_ident: op_ident operand: operand
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:message_send, "
+      @receiver to_ruby_sexp: out
+      out print: ", "
+      @op_ident to_ruby_sexp: out
+      out print: ", "
+      out print: "[:message_args, "
+      @operand to_ruby_sexp: out
+      out print: "]"
+
+      out print: "]"
+    }
   }
 }
