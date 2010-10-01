@@ -52,6 +52,7 @@ ARGV for_options: ["--help", "-h"] do: {
    "  -I directory  Add directory to Fancy's LOAD_PATH",
    "  -e 'command'  One line of Fancy code that gets evaluated immediately",
    "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it ",
+   "  -c            Compile given files to Rubinius bytecode",
    "  -rbx          Compile given files to Rubinius bytecode and run it immediately",
    "  --rsexp       Print out the Fancy code within a source file as Ruby S-Expressions instead of evaluating it ",
    "  -o            Output compiled Ruby code to a given file name"] println
@@ -71,6 +72,15 @@ ARGV for_option: "-o" do: |out_file| {
   2 times: { ARGV remove_at: out_file_idx }
 }
 
+ARGV for_option: "-c" do: {
+  ARGV index: "-c" . if_do: |idx| {
+    ARGV[[idx + 1, -1]] each: |filename| {
+      System pipe: ("rbx rubiniusvm/compiler.rb " ++ filename)
+    }
+  }
+  System exit
+}
+
 ARGV for_option: "-rbx" do: {
   ARGV index: "-rbx" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
@@ -78,7 +88,7 @@ ARGV for_option: "-rbx" do: {
       System do: ("rbx rubiniusvm/loader.rb " ++ filename ++ ".compiled.rbc")
     }
   }
-#  System exit
+ System exit
 }
 
 ARGV for_option: "--rsexp" do: {

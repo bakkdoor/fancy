@@ -19,6 +19,7 @@ require: "nodes/assignment"
 require: "nodes/try_catch_block"
 require: "nodes/ruby_args_literal"
 require: "nodes/super"
+require: "nodes/self"
 
 AST::Node register: 'exp_list for_node: AST::ExpressionList
 AST::Node register: 'ident for_node: AST::Identifier
@@ -51,3 +52,4 @@ AST::Node register: 'except_handler for_node: AST::ExceptHandler
 AST::Node register: 'rb_args_lit for_node: AST::RubyArgsLiteral
 
 AST::Node register: 'super for_node: AST::Super
+AST::Node register: 'self for_node: AST::Self

@@ -32,6 +32,11 @@ namespace fancy {
         return EXP_SELF;
       }
 
+      string Self::to_sexp() const
+      {
+        return "['self]";
+      }
+
     }
   }
 }

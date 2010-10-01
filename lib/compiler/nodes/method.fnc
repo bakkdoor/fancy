@@ -23,5 +23,17 @@ def class AST {
     def docstring {
       @body docstring
     }
+
+    def to_ruby_sexp: out {
+      @ident to_ruby_sexp: out
+      out print: ", ["
+      @args each: |a| {
+        a to_ruby_sexp: out
+      } in_between: {
+        out print: ", "
+      }
+      out print: "], "
+      @body to_ruby_sexp: out
+    }
   }
 }

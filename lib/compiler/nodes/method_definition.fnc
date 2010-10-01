@@ -23,6 +23,12 @@ def class AST {
     def to_s {
       "<MethodDefinition: method:" ++ @method ++ ">"
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:method_def, "
+      @method to_ruby_sexp: out
+      out print: "]"
+    }
   }
 
   def class ProtectedMethodDefinition : Node {

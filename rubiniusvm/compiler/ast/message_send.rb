@@ -15,9 +15,9 @@ module Fancy
 
       def bytecode(g)
         # for now simply output self
-        Rubinius::AST::Self.new(1).bytecode(g)
+        # Rubinius::AST::Self.new(1).bytecode(g)
         # when receiver is self we need to enable private dispatch
-        # @receiver.bytecode(g)
+        @receiver.bytecode(g)
         @message_args.bytecode(g)
         pos(g)
         g.allow_private
