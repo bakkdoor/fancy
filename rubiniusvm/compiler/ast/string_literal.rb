@@ -4,7 +4,8 @@ module Fancy
     class StringLiteral < Node
       name :string_lit
 
-      def initialize(string)
+      def initialize(line, string)
+        super(line)
         @string = string
       end
 

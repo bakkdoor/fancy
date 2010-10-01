@@ -9,9 +9,18 @@ module Fancy
       type = Nodes[name]
       raise "Unknown sexp type: #{name}" unless type
       body = rest.map { |e| if e.kind_of?(Array) then from_sexp(e) else e end }
-      ast = type.new(*body)
-      ast.name = name
+      line = 0
+      ast = type.new(line, *body)
       ast
     end
+
+    class Node < Rubinius::AST::Node
+
+      def self.name(name)
+        Nodes[name] = self
+      end
+
+    end
+
   end
 end

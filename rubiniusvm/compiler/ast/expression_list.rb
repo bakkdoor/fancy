@@ -5,7 +5,8 @@ module Fancy
 
       name :exp_list
 
-      def initialize(*expressions)
+      def initialize(line, *expressions)
+        super(line)
         @expressions = expressions
       end
 

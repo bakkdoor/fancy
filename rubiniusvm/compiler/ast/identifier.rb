@@ -4,7 +4,8 @@ module Fancy
     class Identifier < Node
       name :identifier
 
-      def initialize(identifier)
+      def initialize(line, identifier)
+        super(line)
         @identifier = identifier
       end
 

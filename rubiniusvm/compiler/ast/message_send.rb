@@ -5,7 +5,8 @@ module Fancy
 
       name :message_send
 
-      def initialize(receiver, message_name, message_args)
+      def initialize(line, receiver, message_name, message_args)
+        super(line)
         @receiver = receiver
         @message_name = message_name
         @message_args = message_args
@@ -25,7 +26,8 @@ module Fancy
     class MessageArgs < Node
       name :message_args
 
-      def initialize(*args)
+      def initialize(line, *args)
+        super(line)
         @args = args
       end
 
