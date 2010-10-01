@@ -12,7 +12,6 @@ module Fancy
 
       def bytecode(g)
         pos(g)
-        g.push_scope
         @expressions.each do |expr|
           expr.bytecode(g)
         end
