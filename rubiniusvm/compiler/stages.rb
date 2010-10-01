@@ -1,6 +1,6 @@
 #
 # Stages for compiling Fancy to Rubinius bytecode.
-# 
+#
 
 module Rubinius
   class Compiler
@@ -20,7 +20,7 @@ module Rubinius
         @output.close
         run_next
       end
-      
+
     end
 
     # FancySexp -> FancyAST
@@ -41,7 +41,7 @@ module Rubinius
     # FancyFile -> FancySexp
     #
     # This stage produces a fancy sexp using ruby literals.
-    # 
+    #
     class FancyParser < Stage
       stage :fancy_file
       next_stage FancyAST

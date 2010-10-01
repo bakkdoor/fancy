@@ -13,9 +13,13 @@ module Fancy
 
 
       def bytecode(g)
-        raise "IMPLEMENT ME !"
+        # for now simply output self
+        Rubinius::AST::Self.new(1).bytecode(g)
+        # @receiver.bytecode(g)
+        @message_args.bytecode(g)
+        pos(g)
+        g.send @message_name.name, @message_args.size, false
       end
-
     end
 
     class MessageArgs < Node
@@ -23,6 +27,16 @@ module Fancy
 
       def initialize(*args)
         @args = args
+      end
+
+      def bytecode(g)
+        @args.each do |a|
+          a.bytecode(g)
+        end
+      end
+
+      def size
+        @args.size
       end
     end
 
