@@ -15,7 +15,10 @@ module Rubinius
       end
 
       parser.input file, line
+
       parser.print
+      printer = compiler.packager.print
+      printer.bytecode = true
 
       writer = compiler.writer
       writer.name = output ? output : compiled_name(file)
