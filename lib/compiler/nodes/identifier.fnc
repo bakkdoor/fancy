@@ -25,7 +25,7 @@ def class AST {
     }
 
     def to_ruby_sexp: out {
-      out print: "[:identifier, "
+      out print: "[:ident, "
       out print: (@name to_s inspect)
       out print: "]"
     }

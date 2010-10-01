@@ -2,7 +2,7 @@ module Fancy
   module AST
 
     class Identifier < Node
-      name :identifier
+      name :ident
 
       def initialize(line, identifier)
         super(line)

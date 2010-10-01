@@ -21,5 +21,19 @@ def class AST {
     def to_s {
       "<ClassDefinition: ident:'" ++ @ident ++ "' superclass:'" ++ @superclass_ident ++ "' body:" ++ @body ++ ">"
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:class_def, "
+      @ident to_ruby_sexp: out
+      out print: ", "
+      @superclass_ident if_do: {
+        @superclass_ident to_ruby_sexp: out
+      } else: {
+        out print: "[]"
+      }
+      out print: ", "
+      @body to_ruby_sexp: out
+      out print: "]"
+    }
   }
 }
