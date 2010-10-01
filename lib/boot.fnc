@@ -54,7 +54,6 @@ ARGV for_options: ["--help", "-h"] do: {
    "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it ",
    "  -c            Compile given files to Ruby code and output to STDOUT or -o option, if given",
    "  --rsexp       Print out the Fancy code within a source file as Ruby S-Expressions instead of evaluating it ",
-   "  -r            Compile given files to Rubinius bytecode and output to STDOUT or -o option, if given",
    "  -o            Output compiled Ruby code to a given file name"] println
 }
 
@@ -97,16 +96,6 @@ ARGV for_option: "--rsexp" do: {
       exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp")
       exp first eval to_ast to_ruby_sexp: COMPILE_OUT_STREAM
       COMPILE_OUT_STREAM newline
-    }
-  }
-  System exit
-}
-
-ARGV for_option: "-r" do: {
-  require: "lib/rubinius/compiler"
-  ARGV index: "-r" . if_do: |idx| {
-    ARGV[[idx + 1, -1]] each: |filename| {
-      Rubinius::Compiler compile_file: filename
     }
   }
   System exit
