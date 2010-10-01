@@ -4,6 +4,7 @@ module Fancy
 
     # Converts a fancy sexp into fancy AST
     def self.from_sexp(sexp)
+      return nil if sexp.empty?
       name = sexp.first
       rest = sexp[1..-1]
       type = Nodes[name]
