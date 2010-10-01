@@ -14,15 +14,6 @@ def class AST {
       body = sexp fourth to_ast
       ExceptHandler new: class var: var body: body
     }
-
-    def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl ++ "rescue "
-      @class to_ruby: out
-      out print: " => "
-      @var to_ruby: out
-      out newline
-      @body to_ruby: out indent: (ilvl + 2)
-    }
   }
 
   def class TryCatchBlock : Node {
@@ -42,22 +33,6 @@ def class AST {
         f = final second to_ast
       }
       TryCatchBlock new: b handlers: h final: f
-    }
-
-    def to_ruby: out indent: ilvl {
-      out println: $ (" " * ilvl) ++ "begin"
-      @body to_ruby: out indent: (ilvl + 2)
-      out newline
-      @handlers each: |h| {
-        h to_ruby: out indent: ilvl
-        out newline
-      }
-      @final if_do: {
-        out println: $ " " * ilvl ++ "ensure"
-        @final to_ruby: out indent: (ilvl + 2)
-        out newline
-      }
-      out println: $ " " * ilvl ++ "end"
     }
   }
 }

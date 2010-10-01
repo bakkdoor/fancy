@@ -9,13 +9,6 @@ def class AST {
       Require new: $ sexp second to_ast
     }
 
-    def to_ruby: out indent: ilvl {
-      ending = ".fnc.rb"
-      out print: $ " " * ilvl ++ "require ("
-      @expr to_ruby: out
-      out print: $ " + " ++ (ending inspect) ++ ")"
-    }
-
     def to_ruby_sexp: out {
       out print: "[:require, "
       @expr to_ruby_sexp: out

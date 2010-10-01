@@ -33,19 +33,5 @@ def class AST {
 
       out print: "]"
     }
-
-    def to_ruby: out indent: ilvl {
-      @receiver to_ruby: out indent: ilvl
-      out print: "."
-      @method_ident to_ruby: out
-      out print: "("
-
-      # output all args seperated by a comma
-      @args each: |a| {
-        a to_ruby: out
-      } in_between: { out print: ", " }
-
-      out print: ")"
-    }
   }
 }

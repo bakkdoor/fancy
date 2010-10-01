@@ -30,11 +30,6 @@ def class AST {
       out print: "]"
     }
 
-    def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl
-      out print: $ self rubyfy
-    }
-
     def rubyfy {
       namespaced_parts = @name to_s split: "::"
       namespaced_parts = namespaced_parts map: |n| { n to_s split: ":" . select: |x| { x empty? not } . join: "___" }

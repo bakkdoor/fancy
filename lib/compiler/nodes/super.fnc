@@ -4,8 +4,8 @@ def class AST {
       Super new
     }
 
-    def to_ruby: out indent: ilvl {
-      out print: "super"
+    def to_ruby_sexp: out {
+      out print: "[:super]"
     }
   }
 }

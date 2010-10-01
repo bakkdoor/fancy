@@ -15,12 +15,6 @@ def class AST {
       Assignment new: (sexp second to_ast) value: (sexp third to_ast)
     }
 
-    def to_ruby: out indent: ilvl {
-      @ident to_ruby: out indent: ilvl
-      out print: " = "
-      @expr to_ruby: out
-    }
-
     def to_ruby_sexp: out {
       out print: "[:assign, "
       @ident to_ruby_sexp: out

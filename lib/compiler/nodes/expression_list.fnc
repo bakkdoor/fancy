@@ -27,13 +27,6 @@ def class AST {
       out print: "]"
     }
 
-    def to_ruby: out indent: ilvl {
-      @exprs each: |e| {
-        e to_ruby: out indent: ilvl
-      } in_between: {
-        out newline
-      }
-    }
     def docstring {
       @docstring if_nil: {
         @exprs first is_a?: StringLiteral . if_true: {

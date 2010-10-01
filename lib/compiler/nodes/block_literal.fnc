@@ -16,18 +16,6 @@ def class AST {
       BlockLiteral new: args body: body
     }
 
-    def to_ruby: out indent: ilvl {
-      out print: "Proc.new{"
-      @args empty? if_false: {
-        out print: "|"
-        @args each: |a| { a to_ruby: out } in_between: { out print: ", "}
-        out print: "|"
-      }
-      out print: " "
-      @body to_ruby: out
-      out print: " }"
-    }
-
     def to_ruby_sexp: out {
       out print: "[:block_lit, ["
       @args each: |a| {

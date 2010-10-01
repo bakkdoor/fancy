@@ -52,7 +52,7 @@ ARGV for_options: ["--help", "-h"] do: {
    "  -I directory  Add directory to Fancy's LOAD_PATH",
    "  -e 'command'  One line of Fancy code that gets evaluated immediately",
    "  --sexp        Print out the Fancy code within a source file as S-Expressions instead of evaluating it ",
-   "  -c            Compile given files to Ruby code and output to STDOUT or -o option, if given",
+   # "  -c            Compile given files to Ruby code and output to STDOUT or -o option, if given",
    "  --rsexp       Print out the Fancy code within a source file as Ruby S-Expressions instead of evaluating it ",
    "  -o            Output compiled Ruby code to a given file name"] println
 }
@@ -71,23 +71,23 @@ ARGV for_option: "-o" do: |out_file| {
   2 times: { ARGV remove_at: out_file_idx }
 }
 
-ARGV for_option: "-c" do: {
-  require: "lib/compiler/nodes.fnc"
-  ARGV index: "-c" . if_do: |idx| {
-    ARGV[[idx + 1, -1]] each: |filename| {
-    #   contents = File read: filename
-      COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####"
-    #   contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
-    #   COMPILE_OUT_STREAM newline
-    #   COMPILE_OUT_STREAM newline
-      exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp")
-      exp first eval to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
-      COMPILE_OUT_STREAM newline
-      COMPILE_OUT_STREAM newline
-    }
-  }
-  System exit
-}
+# ARGV for_option: "-c" do: {
+#   require: "lib/compiler/nodes.fnc"
+#   ARGV index: "-c" . if_do: |idx| {
+#     ARGV[[idx + 1, -1]] each: |filename| {
+#     #   contents = File read: filename
+#       COMPILE_OUT_STREAM println: $ "#### " ++ filename ++ ": " ++ "####"
+#     #   contents to_sexp to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
+#     #   COMPILE_OUT_STREAM newline
+#     #   COMPILE_OUT_STREAM newline
+#       exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp")
+#       exp first eval to_ast to_ruby: COMPILE_OUT_STREAM indent: 0
+#       COMPILE_OUT_STREAM newline
+#       COMPILE_OUT_STREAM newline
+#     }
+#   }
+#   System exit
+# }
 
 ARGV for_option: "--rsexp" do: {
   require: "lib/compiler/nodes.fnc"

@@ -8,10 +8,5 @@ def class AST {
     def NumberLiteral from_sexp: sexp {
       NumberLiteral new: (sexp second)
     }
-
-    def to_ruby: out indent: ilvl {
-      out print: $ " " * ilvl
-      out print: @num_val
-    }
   }
 }

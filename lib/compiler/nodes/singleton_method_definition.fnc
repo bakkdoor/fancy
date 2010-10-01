@@ -25,17 +25,5 @@ def class AST {
       method = sexp third to_ast
       SingletonMethodDefinition new: obj_ident method: method
     }
-
-    def to_ruby: out indent: ilvl {
-      s = " " * ilvl
-      out print: $ s ++ "def "
-
-      @object_ident to_ruby: out
-      out print: "."
-
-      MethodDefinition output: out method: @method indent: ilvl
-
-#      MethodDefinition output: out docstring: @docstring for: @object_ident method: (@method ident) indent: ilvl
-    }
   }
 }
