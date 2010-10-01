@@ -1,3 +1,8 @@
+Makefile
+config.h
+config.status
+config.log
+stamp-h1
 *.o
 bin/fancy
 *~

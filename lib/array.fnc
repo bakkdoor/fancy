@@ -34,17 +34,11 @@ def class Array {
 
   def index: item {
     "Returns the index of an item (or nil, if it isn't in the Array)."
-
-    found_idx = nil
-    i = 0
-    size = self size
-    { found_idx not and: (i < size) } while_true: {
-      item == (at: i) if_true: {
-        found_idx = i
+    self each_with_index: |x i| {
+      item == (self at: i) if_true: {
+        return i
       }
-      i = i + 1
     }
-    found_idx
   }
 
   def find: item {
@@ -61,18 +55,11 @@ def class Array {
 
   def find_by: block {
     "Like find: but takes a block that gets called with each element to find it."
-
-    found = nil
-    i = 0
-    size = self size
-    { found not and: (i < size) } while_true: {
-      item = block call: [(at: i)]
-      item nil? if_false: {
-        found = at: i
+    self each: |x| {
+      block call: [x] . if_do: {
+        return x
       }
-      i = i + 1
     }
-    found
   }
 
   def values_at: idx_arr {
@@ -154,7 +141,7 @@ def class Array {
   def remove: obj {
     "Removes all occurances of obj in the Array."
 
-    remove_at: (indices: obj)
+    remove_at: (indices_of: obj)
   }
 
   def remove_if: condition {
@@ -211,5 +198,16 @@ def class Array {
       }
       count = count + 1
     }
+  }
+
+  def NATIVE reverse {
+    size = self size
+    arr = Array new: size
+    idx = 0
+    self size - 1 downto: 0 do_each: |i| {
+      arr at: idx put: (self at: i)
+      idx = idx + 1
+    }
+    arr
   }
 }

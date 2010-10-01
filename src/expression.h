@@ -52,6 +52,7 @@ namespace fancy {
     EXP_SCOPE,
     EXP_EXCEPTION,
     EXP_TRYCATCHBLOCK,
+    EXP_RETRY,
     EXP_SUPER,
     EXP_RBARGSLITERAL,
     EXP_SELF

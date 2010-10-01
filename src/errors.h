@@ -33,6 +33,8 @@ namespace fancy {
 
     string identifier() const { return _identifier; }
 
+    virtual string to_s() const;
+
   private:
     string _identifier;
   };

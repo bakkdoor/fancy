@@ -23,6 +23,21 @@ namespace fancy {
                  "argcount",
                  "Returns amount of arguments the Method takes.",
                  argcount);
+
+      DEF_METHOD(MethodClass,
+                 "public?",
+                 "Indicates, if a method is defined as a public method.",
+                 is_public);
+
+      DEF_METHOD(MethodClass,
+                 "private?",
+                 "Indicates, if a method is defined as a private method.",
+                 is_private);
+
+      DEF_METHOD(MethodClass,
+                 "protected?",
+                 "Indicates, if a method is defined as a protected method.",
+                 is_protected);
     }
 
     METHOD(MethodClass, name)
@@ -44,5 +59,30 @@ namespace fancy {
         return nil;
       }
     }
+
+    METHOD(MethodClass, is_public)
+    {
+      if(Method* method = dynamic_cast<Method*>(self)) {
+        return method->is_public() ? t : nil;
+      }
+      return nil;
+    }
+
+    METHOD(MethodClass, is_private)
+    {
+      if(Method* method = dynamic_cast<Method*>(self)) {
+        return method->is_private() ? t : nil;
+      }
+      return nil;
+    }
+
+    METHOD(MethodClass, is_protected)
+    {
+      if(Method* method = dynamic_cast<Method*>(self)) {
+        return method->is_protected() ? t : nil;
+      }
+      return nil;
+    }
+
   }
 }

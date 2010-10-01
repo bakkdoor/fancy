@@ -3,6 +3,7 @@
 #include "../../../vendor/gc/include/gc_allocator.h"
 
 #include "expression_list.h"
+#include "return.h"
 #include "../../string.h"
 #include "../../bootstrap/core_classes.h"
 
@@ -29,7 +30,11 @@ namespace fancy {
         FancyObject* retval = nil;
         list<Expression*>::iterator it;
         for(it = _expressions.begin(); it != _expressions.end(); it++) {
-          retval = (*it)->eval(scope);
+          try {
+            retval = (*it)->eval(scope);
+          } catch(local_return_value &rv) {
+            return rv.return_value;
+          }
         }
         return retval;
       }

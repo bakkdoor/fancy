@@ -1,34 +1,35 @@
 def class FancySpec {
   def initialize: description {
     @description = description
+    @test_obj = description
+    @spec_tests = []
+  }
+
+  def initialize: description test_obj: test_obj {
+    @description = description
     @test_obj = test_obj
     @spec_tests = []
   }
 
-  def test_obj: test_obj {
-    @test_obj = test_obj
-  }
-
   def FancySpec describe: test_obj with: block {
-    it = FancySpec new: test_obj
-    block call: [it]
-    it run
+    spec = FancySpec new: test_obj
+    block call_in_scope_of: spec
+    spec run
   }
 
   def FancySpec describe: description for: test_obj with: block {
-    it = FancySpec new: description
-    it test_obj: test_obj
-    block call: [it]
-    it run
+    spec = FancySpec new: description test_obj: test_obj
+    block call_in_scope_of: spec
+    spec run
   }
 
-  def should: spec_info_string when: spec_block {
+  def it: spec_info_string when: spec_block {
     test = SpecTest new: spec_info_string
     test block: spec_block
     @spec_tests << test
   }
 
-  def should: spec_info_string for: method_name when: spec_block {
+  def it: spec_info_string for: method_name when: spec_block {
     test = SpecTest new: spec_info_string
     test block: spec_block
     try {
@@ -90,14 +91,14 @@ def class SpecTest {
     @@failed_positive size > 0 if_true: {
       any_failure = true
       Console newline
-      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print
+      "> FAILED: " ++ test_obj ++ " " ++ @info_str print
       self print_failed_positive
     }
 
     @@failed_negative size > 0 if_true: {
       any_failure = true
       Console newline
-      "> FAILED: " ++ test_obj ++ " should " ++ @info_str print
+      "> FAILED: " ++ test_obj ++ " " ++ @info_str print
       self print_failed_negative
     }
 

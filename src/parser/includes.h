@@ -20,6 +20,7 @@
 #include "nodes/operator_definition.h"
 #include "nodes/class_operator_definition.h"
 #include "nodes/try_catch_block.h"
+#include "nodes/retry.h"
 #include "nodes/super.h"
 #include "nodes/ruby_args_literal.h"
 #include "nodes/self.h"

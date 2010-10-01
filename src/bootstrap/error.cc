@@ -21,6 +21,11 @@ namespace fancy {
                  "raise!",
                  "Raises (throws) the Exception up the execution stack, in order to be caught.",
                  raise);
+
+      DEF_METHOD(UnknownIdentifierErrorClass,
+                 "to_s",
+                 "Returns String representation of the error.",
+                 to_s);
     }
 
 
@@ -31,6 +36,13 @@ namespace fancy {
     METHOD(StdErrorClass, raise)
     {
       throw self;
+    }
+
+    METHOD(UnknownIdentifierErrorClass, to_s)
+    {
+      if(UnknownIdentifierError* e = dynamic_cast<UnknownIdentifierError*>(self))
+        return FancyString::from_value(e->to_s());
+      return nil;
     }
   }
 }

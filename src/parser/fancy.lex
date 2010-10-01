@@ -32,11 +32,13 @@ rhash           "]>"
 stab            "|"
 arrow           "=>"
 delimiter       [ \n\r\t\(\)]
-return          "return:"
+return_local    "return_local"
+return          "return"
 require         "require:"
 try             "try"
 catch           "catch"
 finally         "finally"
+retry           "retry"
 super           "super"
 private         "private"
 protected       "protected"
@@ -98,11 +100,13 @@ comment         #[^\n]*
                   yylval.expression = fancy::parser::nodes::Identifier::from_string(str);
                   return OPERATOR;
                 }
+{return_local}  { return RETURN_LOCAL; }
 {return}        { return RETURN; }
 {require}       { return REQUIRE; }
 {try}           { return TRY; }
 {catch}         { return CATCH; }
 {finally}       { return FINALLY; }
+{retry}         { return RETRY; }
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }

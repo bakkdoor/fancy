@@ -120,9 +120,9 @@ If given an Array of indices, removes all the elements with these indices.",
                  fourth);
 
       DEF_METHOD(ArrayClass,
-                 "indices:",
+                 "indices_of:",
                  "Returns an Array of all indices of this item.",
-                 indices_);
+                 indices_of);
 
       DEF_METHOD(ArrayClass,
                  "indices",
@@ -168,6 +168,16 @@ If given an Array of indices, removes all the elements with these indices.",
                  "reject!:",
                  "Removes all elements in place, that meet the condition.",
                  reject_in_place);
+
+      DEF_METHOD(ArrayClass,
+                 "reverse",
+                 "Returns the reversed version of self.",
+                 reverse);
+
+      DEF_METHOD(ArrayClass,
+                 "reverse!",
+                 "Reverses Array in place.",
+                 reverse_in_place);
     }
 
     /**
@@ -406,9 +416,9 @@ If given an Array of indices, removes all the elements with these indices.",
       return array->at(3);
     }
 
-    METHOD(ArrayClass, indices_)
+    METHOD(ArrayClass, indices_of)
     {
-      EXPECT_ARGS("Array#indices:", 1);
+      EXPECT_ARGS("Array#indices_of:", 1);
       Array* array = dynamic_cast<Array*>(self);
       vector<FancyObject*> indices;
       FancyObject* eq_args[1] = { args[0] };
@@ -480,7 +490,7 @@ If given an Array of indices, removes all the elements with these indices.",
       EXPECT_ARGS("Array#any?:", 1);
       Array* array = dynamic_cast<Array*>(self);
       if(Block* block = dynamic_cast<Block*>(args[0])) {
-        for(int i = 0; i < array->size(); i++) {
+        for(unsigned int i = 0; i < array->size(); i++) {
           FancyObject* call_arg[1] = { array->at(i) };
           if(block->call(self, call_arg, 1, scope, self) != nil) {
             return t;
@@ -606,6 +616,18 @@ If given an Array of indices, removes all the elements with these indices.",
       FancyObject* arg[1] = { del_idx_array };
       self->send_message("remove_at:", arg, 1, scope, self);
       return self;
+    }
+
+    METHOD(ArrayClass, reverse)
+    {
+      vector<FancyObject*> arr_vec = dynamic_cast<Array*>(self)->values();
+      vector<FancyObject*> reverse(arr_vec.rbegin(), arr_vec.rend());
+      return new Array(reverse);
+    }
+
+    METHOD(ArrayClass, reverse_in_place)
+    {
+      return dynamic_cast<Array*>(self)->reverse();
     }
 
   }

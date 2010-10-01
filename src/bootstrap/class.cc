@@ -170,13 +170,14 @@ second argument to serve as the method's body.",
       FancyObject* arg1 = args[0];
       FancyObject* arg2 = args[1];
       if(Block* method_block = dynamic_cast<Block*>(arg2)) {
-        method_block->override_self(true);
-        dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method_block);
-        return t;
+        Method* method = new Method(method_block);
+        method->set_name(arg1->to_s());
+        dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method);
+        return method;
       }
       if(Method* method = dynamic_cast<Method*>(arg2)) {
         dynamic_cast<Class*>(self)->def_method(arg1->to_s(), method);
-        return t;
+        return method;
       }
 
       errorln("Class#define_method:with: expects String and Callable arguments.");
@@ -243,9 +244,6 @@ second argument to serve as the method's body.",
       if(Class* the_klass = dynamic_cast<Class*>(self)) {
         if(Method* meth = dynamic_cast<Method*>(the_klass->find_method(args[0]->to_s()))) {
           return meth;
-        }
-        if(NativeMethod* native_meth = dynamic_cast<NativeMethod*>(the_klass->find_method(args[0]->to_s()))) {
-          return native_meth;
         }
       }
       return nil;

@@ -158,6 +158,12 @@ namespace fancy {
      */
     vector<FancyObject*> values() const { return _values; }
 
+    /**
+     * Reverses the Array (order of elements) and returns self.
+     * @return The Array itself, but now reversed.
+     */
+    Array* reverse();
+
   private:
     vector<FancyObject*> _values;
   };

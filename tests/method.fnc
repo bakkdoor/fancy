@@ -1,9 +1,9 @@
-FancySpec describe: Method with: |it| {
-  it should: "return a Method object" when: {
+FancySpec describe: Method with: {
+  it: "should return a Method object" when: {
     Array method: "each:" . class should == Method
   }
 
-  it should: "return the (correct) sender object of the MessageSend" when: {
+  it: "should return the (correct) sender object of the MessageSend" when: {
     def class SenderTest {
       def give_me_the_sender! {
         __sender__
@@ -14,7 +14,7 @@ FancySpec describe: Method with: |it| {
     x give_me_the_sender! should == self
   }
 
-  it should: "return the amount of arguments a Method takes" for: 'argcount when: {
+  it: "should return the amount of arguments a Method takes" for: 'argcount when: {
     def class Foo {
       def no_args {
       }
@@ -32,9 +32,9 @@ FancySpec describe: Method with: |it| {
     Foo method: "three:args:ok:" . argcount should == 3
   }
 
-  it should: "return the return value" when: {
+  it: "should return the return value" when: {
     def foo: bar {
-      return: "returning!"
+      return "returning!"
       bar # will never get executed
     }
 
@@ -44,7 +44,7 @@ FancySpec describe: Method with: |it| {
 
     def f: x {
       x < 10 if_true: {
-        return: 100
+        return 100
       }
       0
     }
@@ -57,24 +57,58 @@ FancySpec describe: Method with: |it| {
     def foo {
       10 times: |i| {
         i == 8 if_true: {
-          return: i # nested return
+          return i # nested return
         }
       }
-      return: 0
+      return 0
     }
 
     self foo should == 8
   }
 
-  it should: "return only from block-scope not from method-scope" when: {
-    define_singleton_method: "foo" with: {
+  it: "should return only from block-scope not from method-scope" when: {
+    def self foo {
       10 times: |i| {
         i == 8 if_true: {
-          return: i
+          return i
         }
       }
       0
     }
     self foo should == 8
+  }
+
+  it: "should return locally (from block-scope not from method-scope" when: {
+    def self foo {
+      [1,2,3] select: |x| { return_local x != 3 }
+    }
+    self foo should == [1,2]
+  }
+
+  def class Foo {
+    def bar {
+    }
+    def private private_bar {
+    }
+    def protected protected_bar {
+    }
+  }
+
+  it: "should be public" for: 'public? when: {
+    Foo method: 'bar . public? should == true
+    Foo method: 'private_bar . public? should == nil
+    Foo method: 'protected_bar . public? should == nil
+  }
+
+  it: "should be private" for: 'private? when: {
+    Foo method: 'bar . private? should == nil
+    Foo method: 'private_bar . private? should == true
+    Foo method: 'protected_bar . private? should == nil
+  }
+
+  it: "should be protected" for: 'protected? when: {
+    Foo method: 'bar . protected? should == nil
+    Foo method: 'private_bar . protected? should == nil
+    Foo method: 'protected_bar . protected? should == true
   }
 }

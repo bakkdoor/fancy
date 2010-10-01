@@ -10,25 +10,23 @@ def class Enumerable {
   def any?: condition {
     "Indicates, if any element meets the condition."
 
-    found = nil
     each: |x| {
       condition call: [x] . if_true: {
-        found = true
+        return true
       }
     }
-    found
+    nil
   }
 
   def all?: condition {
     "Indicates, if all elements meet the condition."
 
-    all = true
     each: |x| {
       condition call: [x] . if_false: {
-        all = nil
+        return nil
       }
     }
-    all
+    true
   }
 
   def find: item {
@@ -37,26 +35,24 @@ def class Enumerable {
     item is_a?: Block . if_true: {
       find_by: item
     } else: {
-      found = nil
       each: |x| {
         item == x if_true: {
-          found = x
+          return x
         }
       }
-      found
+      nil
     }
   }
 
   def find_by: block {
     "Similar to 'find:' but takes a block that is called for each element to find it."
 
-    found = nil
     each: |x| {
       block call: [x] . if_do: |item| {
-        found = item
+        return item
       }
     }
-    found
+    nil
   }
 
   def map: block {
@@ -91,16 +87,12 @@ def class Enumerable {
 
   def take_while: condition {
     "Returns a new Array by taking elements from the beginning as long as they meet the given condition block."
-
     coll = []
-    stop = nil
     each: |x| {
-      stop if_false: {
-        condition call: [x] . if_true: {
-          coll << x
-        } else: {
-          stop = true
-        }
+      condition call: [x] . if_true: {
+        coll << x
+      } else: {
+        return coll
       }
     }
     coll
@@ -116,6 +108,10 @@ def class Enumerable {
       drop or: first_check . if_true: {
         drop = condition call: [x]
         first_check = nil
+        # check, if we actually have to insert his one:
+        drop if_false: {
+          coll << x
+        }
       } else: {
         coll << x
       }
@@ -161,7 +157,9 @@ def class Enumerable {
   }
 
   def first {
-    at: 0
+    self each: |x| {
+      return x
+    }
   }
 
   def last {

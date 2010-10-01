@@ -3,7 +3,9 @@
 #include "../../../vendor/gc/include/gc_allocator.h"
 
 #include "try_catch_block.h"
-#include "../../scope.h"
+#include "retry.h"
+#include "../../lexical_scope.h"
+#include "../../bootstrap/core_classes.h"
 
 namespace fancy {
   namespace parser {
@@ -33,7 +35,7 @@ namespace fancy {
       FancyObject* ExceptionHandler::handle(FancyObject* exception, Scope *scope)
       {
         // Scope *catch_scope = new Scope(scope);
-        Scope catch_scope(scope);
+        LexicalScope catch_scope(scope);
         if(_local_name->name() != "") {
           catch_scope.define(_local_name->name(), exception);
         }
@@ -135,7 +137,12 @@ namespace fancy {
               it != _except_handlers.end();
               it++) {
             if((*it)->can_handle(ex->get_class(), scope)) {
-              FancyObject* retval = (*it)->handle(ex, scope);
+              FancyObject* retval = nil;
+              try {
+                retval = (*it)->handle(ex, scope);
+              } catch(retry &e) {
+                return this->eval(scope);
+              }
               // eval finally block if any given
               if(_finally_block) {
                 retval = _finally_block->eval(scope);

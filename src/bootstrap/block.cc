@@ -23,9 +23,19 @@ namespace fancy {
                  call);
 
       DEF_METHOD(BlockClass,
+                 "call_in_scope_of:",
+                 "Calls (evaluates) the Block with no arguments in scope of a given object (acting as self within the Block's body).",
+                 call_in_scope_of);
+
+      DEF_METHOD(BlockClass,
                  "call:",
                  "Calls (evaluates) the Block with the given arguments (single value or Array).",
                  call_with_arg);
+
+      DEF_METHOD(BlockClass,
+                 "call:in_scope_of:",
+                 "Calls (evaluates) the Block with the given arguments (single value or Array) in scope of a given object (acting as self within the Block's body).",
+                 call_with_arg_in_scope_of);
 
       DEF_METHOD(BlockClass,
                  "while_true:",
@@ -73,6 +83,23 @@ namespace fancy {
       return nil;
     }
 
+    METHOD(BlockClass, call_in_scope_of)
+    {
+      EXPECT_ARGS("Block#call_in_scope_of:", 1);
+      Block* block = dynamic_cast<Block*>(self);
+      bool override_self = block->override_self();
+      block->override_self(true);
+      FancyObject* retval = nil;
+      try {
+        retval = block->call(args[0], scope, sender);
+      } catch(FancyObject* e) {
+        block->override_self(override_self);
+        throw e;
+      }
+      block->override_self(override_self);
+      return retval;
+    }
+
     METHOD(BlockClass, call_with_arg)
     {
       EXPECT_ARGS("Block#call:", 1);
@@ -91,6 +118,48 @@ namespace fancy {
       } else {
         FancyObject* call_args[1] = { first_arg };
         return block->call(self, call_args, 1, scope, sender);
+      }
+    }
+
+    METHOD(BlockClass, call_with_arg_in_scope_of)
+    {
+      EXPECT_ARGS("Block#call:in_scope_of:", 2);
+      Block* block = dynamic_cast<Block*>(self);
+      FancyObject* first_arg = args[0];
+      bool override_self = block->override_self();
+      FancyObject* retval = nil;
+
+      if(IS_ARRAY(first_arg)) {
+        Array* args_array = dynamic_cast<Array*>(first_arg);
+        int size = args_array->size();
+        FancyObject* *args_array_arr = new FancyObject*[size];
+        for(int i = 0; i < size; i++) {
+          args_array_arr[i] = args_array->at(i);
+        }
+
+        try {
+          block->override_self(true);
+          retval = block->call(args[1], args_array_arr, size, scope, sender);
+        } catch(FancyObject* e) {
+          delete[] args_array_arr; // cleanup  before leave
+          block->override_self(override_self);
+          throw e;
+        }
+
+        delete[] args_array_arr; // cleanup  before leave
+        block->override_self(override_self);
+        return retval;
+      } else {
+        try {
+          FancyObject* call_args[1] = { first_arg };
+          block->override_self(true);
+          retval = block->call(args[1], call_args, 1, scope, sender);
+        } catch(FancyObject* e) {
+          block->override_self(override_self);
+          throw e;
+        }
+        block->override_self(override_self);
+        return retval;
       }
     }
 

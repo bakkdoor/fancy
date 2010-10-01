@@ -1,5 +1,5 @@
-FancySpec describe: Scope with: |it| {
-  it should: "have the correct value for an identifier after defining it" when: {
+FancySpec describe: Scope with:  {
+  it: "should have the correct value for an identifier after defining it" when: {
     hello should == nil
     __current_scope__ define: "hello" value: 10
     hello should == 10

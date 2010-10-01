@@ -1,23 +1,23 @@
-# Makefile
+SUBDIRS = nodes
 
-OBJS	= bison.o lex.o parser.o
+CC             = @CC@
+CXX             = @CXX@
+CFLAGS         = @CFLAGS@
+CPPFLAGS       = @CPPFLAGS@
 
-CC	= g++
-CFLAGS	= -g -Wall -ansi -pedantic
+obj_files	= bison.o lex.o parser.o
 
-sub_dirs = nodes
-
-all:		subdirs $(OBJS)
+all:		$(obj_files)
 
 lex.o:		lex.c
-		$(CC) $(CFLAGS) -c lex.c -o lex.o
+		$(CXX) $(CFLAGS) -c lex.c -o lex.o
 
 lex.c:		fancy.lex
 		flex fancy.lex
 		cp lex.yy.c lex.c
 
 bison.o:	bison.c
-		$(CC) $(CFLAGS) -c bison.c -o bison.o
+		$(CXX) $(CFLAGS) -c bison.c -o bison.o
 
 bison.c:	fancy.y
 		bison -d -v fancy.y
@@ -28,10 +28,7 @@ lex.o yac.o	: includes.h
 lex.o		: tok.h
 
 parser.o 	: parser.cc
-		$(CC) $(CFLAGS) -c parser.cc -o parser.o
-
-subdirs:
-	$(foreach dir, $(sub_dirs), cd $(dir) && make && cd ..;)
+		$(CXX) $(CFLAGS) -c parser.cc -o parser.o
 
 clean:
 	cd nodes && make clean > /dev/null
