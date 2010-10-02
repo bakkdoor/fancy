@@ -1,4 +1,5 @@
 #!/usr/bin/env rbx
+
 file = ARGV.shift
 
 cl = Rubinius::CodeLoader.new(file)

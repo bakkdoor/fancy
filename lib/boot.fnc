@@ -76,7 +76,7 @@ ARGV for_option: "-o" do: |out_file| {
 ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-      System pipe: ("rbx rubiniusvm/compiler.rb " ++ filename)
+      System pipe: ("rbx rbx/compiler.rb " ++ filename)
     }
   }
   System exit
@@ -85,8 +85,8 @@ ARGV for_option: "-c" do: {
 ARGV for_option: "-rbx" do: {
   ARGV index: "-rbx" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-      System pipe: ("rbx rubiniusvm/compiler.rb " ++ filename)
-      System do: ("rbx rubiniusvm/loader.rb " ++ filename ++ ".compiled.rbc")
+      System pipe: ("rbx rbx/compiler.rb " ++ filename)
+      System do: ("rbx rbx/loader.rb " ++ filename ++ ".compiled.rbc")
     }
   }
  System exit
@@ -108,7 +108,7 @@ ARGV for_option: "--rsexp-nice" do: {
   ARGV index: "--rsexp-nice" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       exp = System pipe: ("bin/fancy --rsexp " ++ filename)
-      System do: ("rbx rubiniusvm/rsexp_pretty_printer.rb " ++ "'" ++ exp ++ "'")
+      System do: ("rbx rbx/rsexp_pretty_printer.rb " ++ "'" ++ exp ++ "'")
     }
   }
   System exit
