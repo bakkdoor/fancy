@@ -17,7 +17,7 @@ def class AST {
     }
 
     def to_ruby_sexp: out {
-      out print: "[:block_lit, ["
+      out print: "[:block_lit, [:block_args, "
       @args each: |a| {
         a to_ruby_sexp: out
       } in_between: {
