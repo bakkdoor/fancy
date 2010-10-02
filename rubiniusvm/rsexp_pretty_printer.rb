@@ -49,3 +49,4 @@ end
 
 print_indented a
 puts
+puts
