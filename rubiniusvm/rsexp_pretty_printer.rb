@@ -29,7 +29,7 @@ def print_indented(to_print, lvl=0)
 
      print "]"
 
-  elsif(to_print.is_a?(Symbol) || to_print.is_a?(String))
+  elsif(to_print)
     puts
     print "  " * lvl
 
@@ -40,6 +40,8 @@ def print_indented(to_print, lvl=0)
       print "'"
       print green to_print.to_s
       print "'"
+    else
+      print green to_print.to_s
     end
 
    end
