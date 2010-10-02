@@ -1,25 +1,23 @@
 module Fancy
   module AST
 
-    class MethodDef < Node
-
-      name :method_def
+    class MethodDef < Rubinius::AST::Define
+      include Rubinius::Compiler::LocalVariables
+      Nodes[:method_def] = self
 
       def initialize(line, method_ident, args, body)
-        super(line)
-        @method_ident = method_ident
-        puts @method_ident.inspect
-        @args = args
+        @line = line
+        @name = method_ident.name.to_sym
+        @arguments = args
         @body = body
       end
+    end
 
-      def bytecode(g)
-        pos(g)
-        @expressions.each do |expr|
-          expr.bytecode(g)
-        end
+    class MethodArgs < Rubinius::AST::FormalArguments
+      Nodes[:args] = self
+      def initialize(line, *args)
+        super(line, args, nil, nil)
       end
-
     end
 
   end

@@ -16,6 +16,11 @@ module Fancy
       def rubyfy(ident)
         ident.split(":").join("_")
       end
+
+      def bytecode(g)
+        Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
+      end
     end
+
   end
 end

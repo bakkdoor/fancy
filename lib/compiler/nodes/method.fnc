@@ -26,9 +26,9 @@ def class AST {
 
     def to_ruby_sexp: out {
       @ident to_ruby_sexp: out
-      out print: ", ["
+      out print: ", [:args, "
       @args each: |a| {
-        a to_ruby_sexp: out
+        out print: $ a name to_s inspect
       } in_between: {
         out print: ", "
       }
