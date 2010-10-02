@@ -103,6 +103,17 @@ ARGV for_option: "--rsexp" do: {
   System exit
 }
 
+ARGV for_option: "--rsexp_pretty" do: {
+  ARGV index: "--rsexp_pretty" . if_do: |idx| {
+    ARGV[[idx + 1, -1]] each: |filename| {
+      exp = System pipe: ("bin/fancy --rsexp " ++ filename)
+      System do: ("rbx rubiniusvm/rsexp_pretty_printer.rb " ++ "'" ++ exp ++ "'")
+      #Console println: exp
+    }
+  }
+  System exit
+}
+
 # close COMPILE_OUT_STREAM if it's a File
 COMPILE_OUT_STREAM != Console if_true: {
   COMPILE_OUT_STREAM close
