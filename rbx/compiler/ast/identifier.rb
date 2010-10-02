@@ -10,11 +10,11 @@ module Fancy
       end
 
       def name
-        rubyfy(@identifier)
+        rubyfy(@identifier).to_sym
       end
 
       def rubyfy(ident)
-        ident.split(":").join("_")
+        ident.split(":").join("__")
       end
 
       def bytecode(g)

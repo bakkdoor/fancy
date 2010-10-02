@@ -9,4 +9,4 @@ require base + '/ast/method_def'
 require base + '/ast/number_literal'
 require base + '/ast/require'
 require base + '/ast/class_def'
-
+require base + '/ast/block'

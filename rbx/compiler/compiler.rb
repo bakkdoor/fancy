@@ -16,7 +16,7 @@ module Rubinius
 
       parser.input file, line
 
-      parser.print
+      # parser.print
       printer = compiler.packager.print
       printer.bytecode = true
 

@@ -16,7 +16,7 @@ module Fancy
     class MethodArgs < Rubinius::AST::FormalArguments
       Nodes[:args] = self
       def initialize(line, *args)
-        super(line, args, nil, nil)
+        super(line, args.map(&:to_sym), nil, nil)
       end
     end
 
