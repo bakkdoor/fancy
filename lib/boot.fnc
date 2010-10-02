@@ -55,7 +55,7 @@ ARGV for_options: ["--help", "-h"] do: {
    "  -c            Compile given files to Rubinius bytecode",
    "  -rbx          Compile given files to Rubinius bytecode and run it immediately",
    "  --rsexp       Print out the Fancy code within a source file as Ruby S-Expressions instead of evaluating it ",
-   "  --rsexp_nice  Same like --rsexp, but with pretty formatting and colors.",
+   "  --rsexp-nice  Same like --rsexp, but with pretty formatting and colors.",
    "  -o            Output compiled Ruby code to a given file name"] println
 }
 
@@ -104,8 +104,8 @@ ARGV for_option: "--rsexp" do: {
   System exit
 }
 
-ARGV for_option: "--rsexp_nice" do: {
-  ARGV index: "--rsexp_nice" . if_do: |idx| {
+ARGV for_option: "--rsexp-nice" do: {
+  ARGV index: "--rsexp-nice" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       exp = System pipe: ("bin/fancy --rsexp " ++ filename)
       System do: ("rbx rubiniusvm/rsexp_pretty_printer.rb " ++ "'" ++ exp ++ "'")
