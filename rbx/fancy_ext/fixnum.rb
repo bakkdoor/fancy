@@ -1,9 +1,8 @@
 class Fixnum
+  alias_method :times_orig, :times
   def times(block)
-    i = 0
-    while i < self
+    times_orig do |i|
       block.call(i)
-      i += 1
     end
   end
 
