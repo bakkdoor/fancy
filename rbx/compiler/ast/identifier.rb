@@ -42,10 +42,10 @@ module Fancy
       def bytecode(g)
         if constant?
           Rubinius::AST::ConstantAccess.new(line, name).bytecode(g)
-        elsif instance_variable?
-          Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         elsif class_variable?
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
+        elsif instance_variable?
+          Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         else
           Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
         end
