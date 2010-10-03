@@ -17,6 +17,10 @@ module Fancy
         @identifier =~ /^@/
       end
 
+      def class_variable?
+        @identifier =~ /^@@/
+      end
+
       def local_variable?
         !(constant? || instance_variable?)
       end
@@ -38,6 +42,8 @@ module Fancy
       def bytecode(g)
         if constant?
           Rubinius::AST::ConstantAccess.new(line, name).bytecode(g)
+        elsif class_variable?
+          Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         else
