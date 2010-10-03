@@ -17,19 +17,12 @@ module Fancy
       end
     end
 
-    class BlockArg
-      attr_accessor :name
-      def initialize(name)
-        @name = name
-      end
-    end
-
     class BlockArgs < Node
       name :block_args
       attr_accessor :args, :block
       def initialize(line, *args)
         super(line)
-        @args = args.map{|a| BlockArg.new(a.name.to_sym)}
+        @args = args.map{|a| a.name.to_sym}
       end
 
       def bytecode(g)
@@ -56,7 +49,7 @@ module Fancy
 
       def create_locals(block)
         @args.each do |a|
-          block.new_local(a.name)
+          block.new_local(a)
         end
       end
     end
