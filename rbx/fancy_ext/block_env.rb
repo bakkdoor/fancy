@@ -4,4 +4,16 @@ class Rubinius::BlockEnvironment
       block.call
     end
   end
+
+  def if(obj)
+    if obj
+      self.call
+    end
+  end
+
+  def unless(obj)
+    unless obj
+      self.call
+    end
+  end
 end

@@ -7,5 +7,11 @@ class Object
     self.to_s + other.to_s
   end
 
+  def if_do(block)
+    if self
+      block.call(self)
+    end
+  end
+
   alias_method :"++", :fancy_concat
 end
