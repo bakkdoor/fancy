@@ -76,7 +76,7 @@ ARGV for_option: "-o" do: |out_file| {
 ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
-      System pipe: ("rbx rbx/compiler.rb " ++ filename)
+      System do: ("rbx rbx/compiler.rb " ++ filename)
     }
   }
   System exit
