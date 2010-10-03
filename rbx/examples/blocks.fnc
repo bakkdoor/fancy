@@ -11,3 +11,11 @@ x = 0
   "in while_true, with x = " ++ x println
   x = x + 1
 }
+
+b = |x, y| {
+  "x is: " ++ (x inspect) println
+  "y is: " ++ (y inspect) println
+  x + y println
+}
+
+b call: [1,2]

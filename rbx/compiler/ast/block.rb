@@ -33,8 +33,16 @@ module Fancy
       end
 
       def bytecode(g)
-        @args.each_with_index do |a, i|
-          g.set_local i
+        if @args.size > 1
+          @args.each_with_index do |a, i|
+            g.shift_array
+            g.set_local i
+            g.pop
+          end
+        else
+          @args.each_with_index do |a, i|
+            g.set_local i
+          end
         end
       end
 
