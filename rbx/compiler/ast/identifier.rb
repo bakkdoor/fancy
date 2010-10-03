@@ -14,7 +14,7 @@ module Fancy
       end
 
       def instance_variable?
-        @identifier[0] == "@"
+        @identifier =~ /^@/
       end
 
       def local_variable?
