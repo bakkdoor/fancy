@@ -6,12 +6,20 @@ module Fancy
 
       def initialize(line, ident, value)
         super(line)
-        @name = ident.name
+        @ident = ident
         @value = value
       end
 
       def bytecode(g)
-        Rubinius::AST::LocalVariableAssignment.new(line, @name, @value).bytecode(g)
+        if @ident.constant?
+          Rubinius::AST::ConstantAssignment.new(line, @ident.name, @value).bytecode(g)
+        elsif @ident.instance_variable?
+          Rubinius::AST::InstanceVariableAssignment.new(line, @ident.name, @value).
+            bytecode(g)
+        else
+          Rubinius::AST::LocalVariableAssignment.new(line, @ident.name, @value).
+            bytecode(g)
+        end
       end
     end
 
