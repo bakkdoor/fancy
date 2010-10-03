@@ -1,5 +1,6 @@
 module Fancy
   module AST
+
     Nodes = Hash.new
 
     # Converts a fancy sexp into fancy AST
@@ -16,11 +17,9 @@ module Fancy
     end
 
     class Node < Rubinius::AST::Node
-
       def self.name(name)
         Nodes[name] = self
       end
-
     end
 
   end

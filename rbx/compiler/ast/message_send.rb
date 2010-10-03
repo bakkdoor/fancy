@@ -2,7 +2,6 @@ module Fancy
   module AST
 
     class MessageSend < Node
-
       name :message_send
 
       def initialize(line, receiver, message_name, message_args)
@@ -11,7 +10,6 @@ module Fancy
         @message_name = message_name
         @message_args = message_args
       end
-
 
       def bytecode(g)
         # for now simply output self

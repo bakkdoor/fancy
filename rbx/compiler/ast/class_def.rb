@@ -1,6 +1,6 @@
 module Fancy
-
   module AST
+
     class ClassDef < Node
       name :class_def
 
@@ -13,12 +13,8 @@ module Fancy
 
       def bytecode(g)
         pos(g)
-
-        
       end
-
     end
 
   end
-
 end

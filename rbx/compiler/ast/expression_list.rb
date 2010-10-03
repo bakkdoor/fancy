@@ -2,7 +2,6 @@ module Fancy
   module AST
 
     class ExpressionList < Node
-
       name :exp_list
 
       def initialize(line, *expressions)
@@ -16,7 +15,6 @@ module Fancy
           expr.bytecode(g)
         end
       end
-
     end
 
   end
