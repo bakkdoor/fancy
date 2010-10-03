@@ -19,7 +19,7 @@ def print_indented(to_print, lvl=0)
      puts
      print "  " * lvl
      print "["
-     print red ":" + to_print.first.to_s
+     print red ":" + to_print.first.to_s if !to_print.empty?
 
      print ", " if to_print.size > 1
 
