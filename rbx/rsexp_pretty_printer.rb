@@ -1,8 +1,6 @@
 #!/usr/bin/env rbx
 # -*- ruby -*-
 
-
-
 a = eval ARGV[0]
 
 def red(str)
@@ -13,7 +11,7 @@ def green(str)
   "\e[32m" + str + "\e[0m"
 end
 
-def print_indented(to_print, lvl=0)
+def print_indented(to_print, lvl=0, comma=false)
 
    if(to_print.is_a? Array)
      puts
@@ -24,10 +22,16 @@ def print_indented(to_print, lvl=0)
      print ", " if to_print.size > 1
 
      1.upto to_print.size do |i|
-      print_indented to_print[i], lvl+1
+      if i < (to_print.size - 1)
+        print_indented to_print[i], lvl+1, true
+      else
+        print_indented to_print[i], lvl+1
+      end
      end
 
      print "]"
+     print "," if comma
+
 
   elsif(to_print)
     puts
