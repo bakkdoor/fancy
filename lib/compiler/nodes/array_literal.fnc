@@ -14,13 +14,13 @@ def class AST {
     }
 
     def to_ruby_sexp: out {
-      out print: "[:array_lit, ["
+      out print: "[:array_lit, "
       @array each: |a| {
-        a to_ruby_sexp: out
+        a to_ast to_ruby_sexp: out
       } in_between: {
         out print: ", "
       }
-      out print: "]]"
+      out print: "]"
     }
   }
 }

@@ -7,6 +7,13 @@ module Fancy
         body = body || Rubinius::AST::NilLiteral.new(line)
         super(line, args, body)
         args.create_locals(self)
+
+        if args.total_args == 0
+          @arguments.prelude = nil
+        end
+        if args.total_args > 1
+          @arguments.prelude = :multi
+        end
       end
     end
 
@@ -29,6 +36,14 @@ module Fancy
         @args.each_with_index do |a, i|
           g.set_local i
         end
+      end
+
+      def total_args
+        @args.size
+      end
+
+      def required_args
+        total_args
       end
 
       def create_locals(block)
