@@ -12,7 +12,8 @@ and many more features yet to be implemented.
 ----------------------------------------------------------------------
 
 It’s still in development, the implementation consisting of an
-interpreter written in C++.
+interpreter written in C++ and an unfinished bytecode compiler for the
+Rubinius VM (http://www.rubini.us).
 
 For some example code (that can be successfully executed), have a look
 at the examples/ directory.
@@ -30,7 +31,7 @@ Compiling / Installing from source:
 Dependencies:
 ------------------------
 
-- libgc ( Fancy uses BoehmGC for garbage collection ). 
+- libgc ( Fancy uses BoehmGC for garbage collection ).
 - GNU Autotools: autoconf, automake and libtool.
 - GNU Make.
 - GNU Bison ( version 2.4 and higher otherwise you will get a Segmentation fault ).
@@ -39,18 +40,18 @@ Dependencies:
 NOTE: BoehmGC - It's included in the vendor/gc directory
            but you can also get it here:
            http://www.hpl.hp.com/personal/Hans_Boehm/gc/.
- 
-Given the tools & libraries mentioned above, Fancy _should_ build without problems 
-on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE 
+
+Given the tools & libraries mentioned above, Fancy _should_ build without problems
+on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
 and Mac OS X 10.5 and 10.6.
 
-Standard building procedure:  
+Standard building procedure:
 ------------------------
 
 Building Fancy is just that easy:
-  
+
   $ cd <fancy_source_path>
-  $ ./configure 
+  $ ./configure
   $ make && make test
 
 NOTE: if you have problems with ./configure script or make utility just try:
@@ -75,11 +76,15 @@ What's already working?
   - Instance & class variable access
   - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
   - Loops
-  - Support for closures (it works but there's definately room for
-    performance improvements)
+  - Support for closures via Blocks (it works but there's definately
+    room for performance improvements)
+  - Local & non-local returns from Blocks & Methods
   - File reading and writing
   - Class-Mixins (including methods of one class into another)
-  - Exception handling
+  - Exception handling (try, catch, finally & retry)
+  - There's also an experimental bytecode compiler for the Rubinius VM
+    (see rbx_bytecode branch). It's still in development and not
+    finished yet.
 
 
 What's still missing?
@@ -89,7 +94,6 @@ What's still missing?
   - Concurrency stuff (Actor-model based concurrency, Futures etc)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (saved for later)
-  - Rubinius VM bytecode compiler
 
 
 How is it implemented?
@@ -104,11 +108,8 @@ How is it implemented?
 
   - The lexer & parser are built with GNU Flex & GNU Bison.
 
-  - I'm planning to add a bytecode compiler, written in the language
-    itself. Right now there's an experimental fancy-written compiler
-    that emits Ruby code to be run on the Rubinius VM. It's not fully
-    finished yet (some built-in classes & methods still need to be
-    implemented) but will be soon.
+  - We're currently working on a bytecode compiler for the Rubinius
+    VM. See the rbx_bytecode branch for our current progress on that.
 
 ----------------------------------------------------------------------
 
