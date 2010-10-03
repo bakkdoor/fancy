@@ -15,6 +15,10 @@ module Fancy
           expr.bytecode(g)
         end
       end
+
+      def empty?
+        @expressions.size == 0
+      end
     end
 
   end

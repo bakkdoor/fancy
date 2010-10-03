@@ -1,18 +1,11 @@
 module Fancy
   module AST
 
-    class ClassDef < Node
-      name :class_def
+    class ClassDef < Rubinius::AST::Class
+      Nodes[:class_def] = self
 
       def initialize(line, name, parent, body)
-        super(line)
-        @name = name
-        @parent = parent
-        @body = body
-      end
-
-      def bytecode(g)
-        pos(g)
+        super(line, name.name, parent, body)
       end
     end
 
