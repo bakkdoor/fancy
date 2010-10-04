@@ -2,6 +2,14 @@ module Rubinius
 
   class Compiler
 
+    def self.fancy_compiled_name(file)
+      if file.suffix? ".fy"
+        file + "c"
+      else
+        file + ".compiled.rbc"
+      end
+    end
+
     def self.compile_fancy_file(file, output = nil, line = 1, transforms = :fancy)
       compiler = new :fancy_file, :compiled_file
 
@@ -21,7 +29,7 @@ module Rubinius
       printer.bytecode = true
 
       writer = compiler.writer
-      writer.name = output ? output : compiled_name(file)
+      writer.name = output ? output : fancy_compiled_name(file)
 
       begin
         compiler.run
