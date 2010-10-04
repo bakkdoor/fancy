@@ -4,6 +4,8 @@ module Fancy
     class Identifier < Node
       name :ident
 
+      attr_reader :identifier
+
       def initialize(line, identifier)
         super(line)
         @identifier = identifier

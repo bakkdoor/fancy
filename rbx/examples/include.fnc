@@ -1,12 +1,12 @@
 def class Hello {
   def hello {
-    "Hello " ++ (self name) . println
+    "Hello " ++ @name println
   }
 }
 
 def class World {
   include: Hello
-  def name { "World" }
+  def initialize { @name = "World" }
 }
 
 World new hello

@@ -12,14 +12,16 @@ module Fancy
       end
 
       def bytecode(g)
-        # for now simply output self
-        # Rubinius::AST::Self.new(1).bytecode(g)
-        # when receiver is self we need to enable private dispatch
         @receiver.bytecode(g)
         @message_args.bytecode(g)
         pos(g)
         g.allow_private
-        g.send @message_name.name.to_sym, @message_args.size, false
+        if @receiver.kind_of?(Rubinius::AST::Self) && @message_name.identifier == "include:"
+          name = :fancy_include
+        else
+          name = @message_name.name.to_sym
+        end
+        g.send name, @message_args.size, false
       end
     end
 
