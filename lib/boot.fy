@@ -86,7 +86,7 @@ ARGV for_option: "-rbx" do: {
   ARGV index: "-rbx" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       System pipe: ("rbx rbx/compiler.rb " ++ filename)
-      System do: ("rbx rbx/loader.rb " ++ filename ++ ".compiled.rbc")
+      System do: ("rbx rbx/loader.rb " ++ filename ++ "c")
     }
   }
  System exit
