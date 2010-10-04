@@ -93,7 +93,7 @@ ARGV for_option: "-rbx" do: {
 }
 
 ARGV for_option: "--rsexp" do: {
-  require: "lib/compiler/nodes.fnc"
+  require: "lib/compiler/nodes.fy"
   ARGV index: "--rsexp" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       exp = System pipe: ("bin/fancy " ++ filename ++ " --sexp")
