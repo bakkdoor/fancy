@@ -43,3 +43,4 @@ docs/*
 .compiled
 *.rbc
 autom4te.cache
+*.fyc
