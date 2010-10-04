@@ -30,7 +30,7 @@ test_files = array	\
 	symbol		\
 	argv		\
 	parsing/sexp	\
-	../rbx/examples_spec
+	rbx_examples
 
 test: fancy
 	@mkdir -p tmp
