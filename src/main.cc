@@ -93,12 +93,12 @@ int main(int argc, char **argv)
   fancy::bootstrap::init_global_scope();
   fancy::Number::init_cache();
 
-  string boot_file = "boot.fnc";
+  string boot_file = "boot.fy";
   string stdlib_path = get_load_path(argc, argv) + "/lib";
   fancy::parser::load_path.push_back(stdlib_path);
 
   int argv_size = prepare_argv(argc, argv);
-  // now, load boot.fnc
+  // now, load boot.fy
   bool tmp = fancy::parser::output_sexp;
   fancy::parser::output_sexp = false; // just for booting phase
   fancy::parser::parse_file(boot_file);

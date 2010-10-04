@@ -34,7 +34,7 @@ test_files = array	\
 test: fancy
 	@mkdir -p tmp
 	@clear
-	@bin/fancy -e "ARGV rest rest each: |f| { require: f }" $(foreach file, $(test_files), tests/$(file).fnc)
+	@bin/fancy -e "ARGV rest rest each: |f| { require: f }" $(foreach file, $(test_files), tests/$(file).fy)
 	@echo
 
 example_files = arithmetic 	    \
@@ -58,9 +58,9 @@ example_files = arithmetic 	    \
 example: fancy
 	@mkdir -p tmp
 	@clear
-	bin/fancy examples/echo.fnc examples/echo.fnc
+	bin/fancy examples/echo.fy examples/echo.fy
 	@echo
-	@$(foreach file, $(example_files),echo "\n\n>> examples/$(file).fnc:\n"; bin/fancy examples/$(file).fnc;)
+	@$(foreach file, $(example_files),echo "\n\n>> examples/$(file).fy:\n"; bin/fancy examples/$(file).fy;)
 
 
 stdlib_bootstrap_files = argv 	    \
@@ -103,13 +103,6 @@ compiler_bootstrap_files = nodes 			    \
 			nodes/string_literal 		    \
 			nodes/symbol_literal 		    \
 			nodes/try_catch_block
-
-bootstrap:
-	@mkdir -p .compiled/lib/compiler/nodes
-	@mkdir -p .compiled/tests/parsing
-	$(foreach file, $(stdlib_bootstrap_files), bin/fancy -c lib/$(file).fnc -o .compiled/lib/$(file).fnc.rb;)
-	$(foreach file, $(compiler_bootstrap_files), bin/fancy -c lib/compiler/$(file).fnc -o .compiled/lib/compiler/$(file).fnc.rb;)
-	$(foreach file, $(test_files), bin/fancy -c tests/$(file).fnc -o .compiled/tests/$(file).fnc.rb;)
 
 all-clean: clean
 	@cd vendor/gc && make clean

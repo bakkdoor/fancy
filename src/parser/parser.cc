@@ -63,9 +63,9 @@ namespace fancy {
 
       // check for file ending
       string filename_with_ending = filename;
-      if(filename_for_path(filename) != "fnc") {
+      if(filename_for_path(filename) != "fy") {
         has_ending = false;
-        filename_with_ending = filename + ".fnc";
+        filename_with_ending = filename + ".fy";
       }
 
       if(!is_whitespace(filepath)) {

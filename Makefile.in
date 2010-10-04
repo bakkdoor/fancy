@@ -690,22 +690,15 @@ docs:
 test: fancy
 	@mkdir -p tmp
 	@clear
-	@bin/fancy -e "ARGV rest rest each: |f| { require: f }" $(foreach file, $(test_files), tests/$(file).fnc)
+	@bin/fancy -e "ARGV rest rest each: |f| { require: f }" $(foreach file, $(test_files), tests/$(file).fy)
 	@echo
 
 example: fancy
 	@mkdir -p tmp
 	@clear
-	bin/fancy examples/echo.fnc examples/echo.fnc
+	bin/fancy examples/echo.fy examples/echo.fy
 	@echo
-	@$(foreach file, $(example_files),echo "\n\n>> examples/$(file).fnc:\n"; bin/fancy examples/$(file).fnc;)
-
-bootstrap:
-	@mkdir -p .compiled/lib/compiler/nodes
-	@mkdir -p .compiled/tests/parsing
-	$(foreach file, $(stdlib_bootstrap_files), bin/fancy -c lib/$(file).fnc -o .compiled/lib/$(file).fnc.rb;)
-	$(foreach file, $(compiler_bootstrap_files), bin/fancy -c lib/compiler/$(file).fnc -o .compiled/lib/compiler/$(file).fnc.rb;)
-	$(foreach file, $(test_files), bin/fancy -c tests/$(file).fnc -o .compiled/tests/$(file).fnc.rb;)
+	@$(foreach file, $(example_files),echo "\n\n>> examples/$(file).fy:\n"; bin/fancy examples/$(file).fy;)
 
 all-clean: clean
 	@cd vendor/gc && make clean
