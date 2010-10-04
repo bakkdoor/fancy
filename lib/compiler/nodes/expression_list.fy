@@ -20,7 +20,11 @@ def class AST {
     def to_ruby_sexp: out {
       out print: "[:exp_list, "
       # output docstring as first expression
-      { StringLiteral new: @docstring . to_ruby_sexp: out } if: @docstring
+      {
+        StringLiteral new: @docstring . to_ruby_sexp: out
+        out print: ", "
+      } if: @docstring
+
       @exprs each: |e| {
         e to_ruby_sexp: out
       } in_between: {
