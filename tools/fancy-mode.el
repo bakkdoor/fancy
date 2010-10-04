@@ -1175,6 +1175,6 @@ balanced expression is found."
      ("^__END__" nil label))))
  )
 
-(add-to-list 'auto-mode-alist '("\\.fnc\\'" . fancy-mode))
+(add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
 
 (provide 'fancy-mode)
