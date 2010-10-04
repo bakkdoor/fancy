@@ -29,7 +29,8 @@ test_files = array	\
 	string		\
 	symbol		\
 	argv		\
-	parsing/sexp
+	parsing/sexp	\
+	../rbx/examples_spec
 
 test: fancy
 	@mkdir -p tmp
