@@ -15,7 +15,7 @@ def arr foobar {
 arr foobar
 
 def Array empty! {
-  ["empty array ;)"]
+  []
 }
 
 Array empty! inspect println

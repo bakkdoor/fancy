@@ -25,7 +25,13 @@ FancySpec describe: "rbx/examples" with: {
 
   example: 'implicit_return should_output: ["Hello!"]
 
-  example: 'blocks should_output: ["0", "1", "1", "2", "3", "4", "in while_true, with x = 0", "in while_true, with x = 1", "in while_true, with x = 2", "in while_true, with x = 3", "x is: 1", "y is: 2", "3"]
+  example: 'blocks should_output: ["0", "1", "1", "2", "3", "4",
+                                   "in while_true, with x = 0",
+                                   "in while_true, with x = 1",
+                                   "in while_true, with x = 2",
+                                   "in while_true, with x = 3",
+                                   "x is: 1",
+                                   "y is: 2", "3"]
 
   example: 'classes should_output: ["Person with name: Christopher"]
 
@@ -33,4 +39,10 @@ FancySpec describe: "rbx/examples" with: {
 
   example: 'inherit should_output: ["Hello World"]
 
+
+  example: 'singleton_methods should_output: ["in singleton_method",
+                                              "foobar: 1",
+                                              "foobar: 2",
+                                              "foobar: 3",
+                                              "[]"]
 }
