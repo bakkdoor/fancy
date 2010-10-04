@@ -19,6 +19,10 @@ module Fancy
       def empty?
         @expressions.size == 0
       end
+
+      def strip_arguments
+        []
+      end
     end
 
   end

@@ -17,13 +17,21 @@ def class AST {
     def initialize: obj_ident method: method {
       @object_ident = obj_ident
       @method = method
-      @init_docstring
+      self init_docstring
     }
 
     def SingletonMethodDefinition from_sexp: sexp {
       obj_ident = sexp second to_ast
       method = sexp third to_ast
       SingletonMethodDefinition new: obj_ident method: method
+    }
+
+    def to_ruby_sexp: out {
+      out print: "[:singleton_method_def, "
+      @object_ident to_ruby_sexp: out
+      out print: ", "
+      @method to_ruby_sexp: out
+      out print: "]"
     }
   }
 }

@@ -2,7 +2,6 @@ module Fancy
   module AST
 
     class MethodDef < Rubinius::AST::Define
-      include Rubinius::Compiler::LocalVariables
       Nodes[:method_def] = self
 
       def initialize(line, method_ident, args, body)
