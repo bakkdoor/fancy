@@ -6,7 +6,7 @@ class Fixnum
     end
   end
 
-  def upto__do_each(max, block)
+  define_method("upto:do_each:") do |max, block|
     self.upto(max) do |i|
       block.call(i)
     end

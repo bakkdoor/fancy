@@ -38,7 +38,15 @@ module Fancy
       end
 
       def rubyfy(ident)
-        ident.split(":").join("__")
+        if ident.split(":").size > 1
+          ident
+        else
+          if ident =~ /:$/
+            ident[0..-2]
+          else
+            ident[0..-1]
+          end
+        end
       end
 
       def bytecode(g)
