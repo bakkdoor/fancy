@@ -3,6 +3,7 @@ module Fancy
     @@load_path = []
     @@compiled = {}
     @@loaded = {}
+    @@current_dir = []
 
     def self.load_error(filename)
       raise "LoadError: Can't find file: #{filename}"
@@ -19,13 +20,20 @@ module Fancy
       return nil
     end
 
+    def self.find_file_in_path(file, path)
+      return find_file(path + "/" + file)
+    end
+
     def self.filename_for(filename)
       if f = find_file(filename)
         return f
       else
+        if f = find_file_in_path(filename, @@current_dir.last)
+          return f
+        end
         @@load_path.each do |p|
           begin
-            if f = find_file(p + "/" + filename)
+            if f = find_file_in_path(filename, p)
               return f
             end
           rescue
@@ -58,6 +66,7 @@ module Fancy
           @@compiled[filename] = true
         end
       end
+      return filename
     end
 
     def self.compile_file!(f)
@@ -68,18 +77,24 @@ module Fancy
         system("bin/fancy -c #{filename} > /dev/null")
         @@compiled[filename] = true
       end
+      return filename
     end
 
 
-    def self.load_compiled_file(filename)
-      file = compiled_filename_for(filename_for(filename))
+    def self.load_compiled_file(filename, find_file = true)
+      file = filename
+      if find_file
+        file = compiled_filename_for(filename_for(filename))
+      end
 
       unless @@loaded[file]
         unless File.exists? file
           load_error file
         end
 
-        @@load_path << File.dirname(file)
+        dirname = File.dirname(file)
+        @@load_path << dirname
+        @@current_dir.push dirname
         @@loaded[file] = true
 
         cl = Rubinius::CodeLoader.new(file)
@@ -89,6 +104,8 @@ module Fancy
         script.file_path = file
 
         MAIN.__send__ :__script__
+
+        @@current_dir.pop
       end
     end
   end
