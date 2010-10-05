@@ -8,5 +8,11 @@ def class AST {
     def RubyArgsLiteral from_sexp: sexp {
       RubyArgsLiteral new: $ sexp second to_ast
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:ruby_args, "
+      @args to_ruby_sexp: out
+      out print: "]"
+    }
   }
 }
