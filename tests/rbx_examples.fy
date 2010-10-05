@@ -50,4 +50,6 @@ FancySpec describe: "rbx/examples" with: {
                                     "367.2323",
                                     "20",
                                     "Now executing from require.fy!"]
+
+  example: 'hashes should_output: ["<[:baz => 42.49, :foo => :bar, :bar => :baz]>"]
 }
