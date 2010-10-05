@@ -1,6 +1,8 @@
+require "set"
+
 module Fancy
   class CodeLoader
-    @@load_path = []
+    @@load_path = Set.new
     @@compiled = {}
     @@loaded = {}
     @@current_dir = []
