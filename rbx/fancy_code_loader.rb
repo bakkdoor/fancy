@@ -2,7 +2,7 @@ require "set"
 
 module Fancy
   class CodeLoader
-    @@load_path = Set.new
+    @@load_path = []
     @@compiled = {}
     @@loaded = {}
     @@current_dir = []
@@ -95,7 +95,7 @@ module Fancy
         end
 
         dirname = File.dirname(file)
-        @@load_path << dirname
+        @@load_path << dirname unless @@load_path.include? dirname
         @@current_dir.push dirname
         @@loaded[file] = true
 
