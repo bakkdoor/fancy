@@ -1,3 +1,3 @@
-require: "rbx/examples/hello.fy"
+require: "hello.fy"
 
 "Now executing from require.fy!" println

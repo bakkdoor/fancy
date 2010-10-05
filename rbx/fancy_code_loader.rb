@@ -1,19 +1,36 @@
 module Fancy
   class CodeLoader
+    @@load_path = []
+
     def self.load_error(filename)
       raise "LoadError: Can't find file: #{filename}"
     end
 
-    def self.filename_for(filename)
+    def self.find_file(filename)
       unless File.exists? filename
         if File.exists?(filename + ".fy")
           return filename + ".fy"
-        else
-          load_error filename
         end
       else
         return filename
       end
+      return nil
+    end
+
+    def self.filename_for(filename)
+      if f = find_file(filename)
+        return f
+      else
+        @@load_path.each do |p|
+          begin
+            if f = find_file(p + "/" + filename)
+              return f
+            end
+          rescue
+          end
+        end
+      end
+      load_error filename
     end
 
     def self.compiled_filename_for(filename)
@@ -41,6 +58,8 @@ module Fancy
 
       unless File.exists? file
         load_error file
+      else
+        @@load_path << File.dirname(filename)
       end
 
       cl = Rubinius::CodeLoader.new(file)
