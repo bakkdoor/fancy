@@ -68,7 +68,7 @@ module Fancy
           @@compiled[filename] = true
         end
       end
-      return filename
+      return compiled_file
     end
 
     def self.compile_file!(f)
@@ -79,7 +79,7 @@ module Fancy
         system("bin/fancy -c #{filename} > /dev/null")
         @@compiled[filename] = true
       end
-      return filename
+      return compiled_file
     end
 
 
