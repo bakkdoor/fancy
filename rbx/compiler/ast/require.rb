@@ -14,7 +14,7 @@ module Fancy
         @string.bytecode(g)
         pos(g)
         g.allow_private
-        g.send :require, 1, false
+        g.send :fancy_require, 1, false
       end
 
     end

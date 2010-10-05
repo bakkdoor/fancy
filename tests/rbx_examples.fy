@@ -45,4 +45,9 @@ FancySpec describe: "rbx/examples" with: {
                                               "foobar: 2",
                                               "foobar: 3",
                                               "[]"]
+
+  example: 'require should_output: ["Hello from Fancy, Rubinius!!",
+                                    "367.2323",
+                                    "20",
+                                    "Now executing from require.fy!"]
 }
