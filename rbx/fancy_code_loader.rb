@@ -1,6 +1,8 @@
 module Fancy
   class CodeLoader
     @@load_path = []
+    @@compiled = {}
+    @@loaded = {}
 
     def self.load_error(filename)
       raise "LoadError: Can't find file: #{filename}"
@@ -44,31 +46,50 @@ module Fancy
       end
     end
 
-    def self.compile_file(f)
+    # optionally compile file, if not done yet
+    def self.optionally_compile_file(f)
       filename = filename_for(f)
       compiled_file = compiled_filename_for(filename)
 
-      unless File.exists? compiled_file
-        system("bin/fancy -c #{filename} > /dev/null")
+      unless @@compiled[filename]
+        unless File.exists? compiled_file
+          system("bin/fancy -c #{filename} > /dev/null")
+        else
+          @@compiled[filename] = true
+        end
       end
     end
+
+    def self.compile_file!(f)
+      filename = filename_for(f)
+      compiled_file = compiled_filename_for(filename)
+
+      unless @@compiled[filename]
+        system("bin/fancy -c #{filename} > /dev/null")
+        @@compiled[filename] = true
+      end
+    end
+
 
     def self.load_compiled_file(filename)
       file = compiled_filename_for(filename_for(filename))
 
-      unless File.exists? file
-        load_error file
-      else
-        @@load_path << File.dirname(filename)
+      unless @@loaded[file]
+        unless File.exists? file
+          load_error file
+        end
+
+        @@load_path << File.dirname(file)
+        @@loaded[file] = true
+
+        cl = Rubinius::CodeLoader.new(file)
+        cm = cl.load_compiled_file(file, 0)
+
+        script = cm.create_script(false)
+        script.file_path = file
+
+        MAIN.__send__ :__script__
       end
-
-      cl = Rubinius::CodeLoader.new(file)
-      cm = cl.load_compiled_file(file, 0)
-
-      script = cm.create_script(false)
-      script.file_path = file
-
-      MAIN.__send__ :__script__
     end
   end
 end
