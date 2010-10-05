@@ -9,5 +9,6 @@ require base + "array"
 require base + "true_class"
 require base + "nil_class"
 require base + "false_class"
+require base + "hash"
 
 NATIVE = Object.new
