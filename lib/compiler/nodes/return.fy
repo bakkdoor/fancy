@@ -10,7 +10,7 @@ def class AST {
     }
 
     def to_ruby_sexp: out {
-      out print: "[:require, "
+      out print: "[:return, "
       @expr to_ruby_sexp: out
       out print: "]"
     }

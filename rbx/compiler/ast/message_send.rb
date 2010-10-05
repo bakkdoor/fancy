@@ -44,7 +44,11 @@ module Fancy
       end
 
       def size
-        @args.size
+        if @args.first.is_a? RubyArgs
+          return @args.first.size
+        else
+          @args.size
+        end
       end
     end
 
