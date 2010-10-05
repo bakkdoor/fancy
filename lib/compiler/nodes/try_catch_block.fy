@@ -14,6 +14,26 @@ def class AST {
       body = sexp fourth to_ast
       ExceptHandler new: class var: var body: body
     }
+
+    def to_ruby_sexp: out {
+      out print: "[:except_handler, "
+      @class to_ruby_sexp: out
+      out print: ", "
+      @var if_do: {
+        @var to_ruby_sexp: out
+      } else: {
+        out print: "nil"
+      }
+
+      out print: ", "
+
+      @body if_do: {
+        @body to_ruby_sexp: out
+      } else: {
+        out print: "nil"
+      }
+      out print: "]"
+    }
   }
 
   def class TryCatchBlock : Node {
@@ -33,6 +53,26 @@ def class AST {
         f = final second to_ast
       }
       TryCatchBlock new: b handlers: h final: f
+    }
+
+    def to_ruby_sexp: out {
+      out print: "[:try_catch_block, "
+      @body to_ruby_sexp: out
+      out print: ", [:handlers, "
+      @handlers each: |h| {
+        h to_ruby_sexp: out
+      } in_between: {
+        out print: ", "
+      }
+      out print: "], "
+
+      @final if_do: {
+        @final to_ruby_sexp: out
+      } else: {
+        out print: "nil"
+      }
+
+      out print: "]"
     }
   }
 }

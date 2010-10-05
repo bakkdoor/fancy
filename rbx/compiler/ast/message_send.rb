@@ -12,16 +12,20 @@ module Fancy
       end
 
       def bytecode(g)
-        @receiver.bytecode(g)
-        @message_args.bytecode(g)
-        pos(g)
-        g.allow_private
-        if @receiver.kind_of?(Rubinius::AST::Self) && @message_name.identifier == "include:"
-          name = :fancy_include
+        if @receiver.is_a? Super
+          SuperSend.new(@line, @message_name, @message_args).bytecode(g)
         else
-          name = @message_name.name.to_sym
+          @receiver.bytecode(g)
+          @message_args.bytecode(g)
+          pos(g)
+          g.allow_private
+          if @receiver.kind_of?(Rubinius::AST::Self) && @message_name.identifier == "include:"
+            name = :fancy_include
+          else
+            name = @message_name.name.to_sym
+          end
+          g.send name, @message_args.size, false
         end
-        g.send name, @message_args.size, false
       end
     end
 
