@@ -1,7 +1,7 @@
 grammar Fancy;
 
 options {
-    language = Java;
+    language = Ruby;
     output = AST;
 }
 
@@ -68,7 +68,7 @@ regexp_lit
 symbol_lit
 	: 	SYMBOL_LIT_TOKEN ->^(SYMBOL_LIT SYMBOL_LIT_TOKEN)
 	;
-	
+
 /****************** identifier ***************/
 identifier
     :  (ID | MEMBER | CLASS_MEMBER) ->^(IDENT ID? MEMBER? CLASS_MEMBER?)
@@ -78,60 +78,60 @@ identifier
 INT_LIT_TOKEN
 	: '-'? (DIGIT | '_')+
 	;
-	
+
 DOUBLE_LIT_TOKEN
-	: INT_LIT_TOKEN '.' DIGIT+ 
+	: INT_LIT_TOKEN '.' DIGIT+
 	;
-	
+
 STRING_LIT_TOKEN
 	: '"' ~('"' | '\n')* '"'
 	;
-	
+
 REGEXP_LIT_TOKEN
 	: 'r{' .* '}'
 	;
-	
+
 ID
 	: (LETTER | DIGIT | SPECIAL)+
 	;
-	
+
 MEMBER
 	: '@' ID
 	;
-	
+
 CLASS_MEMBER
 	: '@@' ID
 	;
-	
+
 OPERATOR
 	:	SPECIAL+ | ('||' SPECIAL*)
 	;
-	
+
 DELIM
 	: (('\r'? '\n')+ | ';') { $channel = HIDDEN; }
 	;
-	
+
 COMMENT
 	: '#' .* ('\r'? '\n') {$channel = HIDDEN;}
 	;
-	
-WS	
+
+WS
 	: (' '|'\r'|'\t'|'\u000C'|'\n') { $channel = HIDDEN; }
 	;
-	
+
 SYMBOL_LIT_TOKEN
 	:	'\'' (ID | MEMBER | CLASS_MEMBER | OPERATOR | ':' | '[]')+
 	;
-	
+
 /***************** fragments ****************/
 fragment SPECIAL
 	: ('-' | '+' | '?' | '!' | '_' | '=' | '*' | '/' | '^' | '>' | '<' | '%' | '&')
 	;
-	
+
 fragment DIGIT
 	: '0'..'9'
 	;
-	
+
 fragment LETTER
 	: 'A'..'Z' | 'a'..'z'
 	;

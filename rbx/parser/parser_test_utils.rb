@@ -13,4 +13,5 @@ module ParserTestUtils
     tree.walk { |e| success = false if e.to_s =~ /^<missing/ }
     success
   end
+
 end
