@@ -53,25 +53,17 @@ int_lit
     : INT_LIT_TOKEN ->^(INT_LIT INT_LIT_TOKEN)
     ;
 
-INT_LIT_TOKEN: '-'? (DIGIT | '_')+  ;
-
 double_lit
     : 	DOUBLE_LIT_TOKEN ->^(DOUBLE_LIT DOUBLE_LIT_TOKEN)
     ;
-
-DOUBLE_LIT_TOKEN: INT_LIT_TOKEN '.' DIGIT+ ;
 
 string_lit
     : 	STRING_LIT_TOKEN ->^(STRING_LIT STRING_LIT_TOKEN)
     ;
 
-STRING_LIT_TOKEN : '"' ~('"' | '\n')* '"';
-
 regexp_lit
 	:	REGEXP_LIT_TOKEN ->^(REGEXP_LIT REGEXP_LIT_TOKEN)
 	;
-	
-REGEXP_LIT_TOKEN: 'r{' .* '}';
 
 symbol_lit
 	: 	SYMBOL_LIT_TOKEN ->^(SYMBOL_LIT SYMBOL_LIT_TOKEN)
@@ -83,27 +75,66 @@ identifier
     ;
 
 /****************** tokens *******************/
+INT_LIT_TOKEN
+	: '-'? (DIGIT | '_')+
+	;
+	
+DOUBLE_LIT_TOKEN
+	: INT_LIT_TOKEN '.' DIGIT+ 
+	;
+	
+STRING_LIT_TOKEN
+	: '"' ~('"' | '\n')* '"'
+	;
+	
+REGEXP_LIT_TOKEN
+	: 'r{' .* '}'
+	;
+	
 ID
-	: (LETTER | DIGIT | SPECIAL)+;
+	: (LETTER | DIGIT | SPECIAL)+
+	;
+	
 MEMBER
-	: '@' ID;
+	: '@' ID
+	;
+	
 CLASS_MEMBER
-	: '@@' ID;
+	: '@@' ID
+	;
+	
 OPERATOR
-	:	SPECIAL+ | ('||' SPECIAL*);
+	:	SPECIAL+ | ('||' SPECIAL*)
+	;
+	
 DELIM
-	: (('\r'? '\n')+ | ';') { $channel = HIDDEN; };
+	: (('\r'? '\n')+ | ';') { $channel = HIDDEN; }
+	;
+	
 COMMENT
-	: '#' .* ('\r'? '\n') {$channel = HIDDEN;};
+	: '#' .* ('\r'? '\n') {$channel = HIDDEN;}
+	;
+	
 WS	
-	: (' '|'\r'|'\t'|'\u000C'|'\n') { $channel = HIDDEN; };
+	: (' '|'\r'|'\t'|'\u000C'|'\n') { $channel = HIDDEN; }
+	;
+	
 SYMBOL_LIT_TOKEN
-	:	'\'' (ID | MEMBER | CLASS_MEMBER | OPERATOR | ':' | '[]')+ ;
+	:	'\'' (ID | MEMBER | CLASS_MEMBER | OPERATOR | ':' | '[]')+
+	;
 	
 /***************** fragments ****************/
-fragment SPECIAL: ('-' | '+' | '?' | '!' | '_' | '=' | '*' | '/' | '^' | '>' | '<' | '%' | '&');
-fragment DIGIT: '0'..'9';
-fragment LETTER: 'A'..'Z' | 'a'..'z';
+fragment SPECIAL
+	: ('-' | '+' | '?' | '!' | '_' | '=' | '*' | '/' | '^' | '>' | '<' | '%' | '&')
+	;
+	
+fragment DIGIT
+	: '0'..'9'
+	;
+	
+fragment LETTER
+	: 'A'..'Z' | 'a'..'z'
+	;
 
 // code
 //     : statement
