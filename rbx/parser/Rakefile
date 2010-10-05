@@ -1,14 +1,21 @@
-desc "Generates lexer and parser from Fancy.g"
-task :default do
-  sh "antlr4ruby Fancy.g"
-end
 
-desc "Removes generated files."
-task :clean do
-  sh "rm Fancy*.rb"
-  sh "rm *.rbc"
-  sh "*.tokens"
-end
+
+  desc "Generates lexer and parser from Fancy.g"
+  task :default do
+    sh "antlr4ruby Fancy.g"
+  end
+
+  desc "Runs the test for the parser."
+  task :test do
+    sh "spec -r parser_test_utils.rb spec"
+  end
+
+  desc "Removes generated files."
+  task :clean do
+    sh "rm Fancy*.rb"
+    sh "rm *.rbc"
+    sh "*.tokens"
+  end
 
 
 
