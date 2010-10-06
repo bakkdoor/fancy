@@ -56,4 +56,6 @@ FancySpec describe: "rbx/examples" with: {
   example: 'hashes should_output: ["<[:baz => 42.49, :foo => :bar, :bar => :baz]>"]
 
   example: 'exception should_output: ["Hola", "Hello", "Adios"]
+
+  example: 'finally should_output: ["Hello", "World"]
 }
