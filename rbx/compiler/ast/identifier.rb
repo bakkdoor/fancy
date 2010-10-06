@@ -27,6 +27,10 @@ module Fancy
         !(constant? || instance_variable?)
       end
 
+      def nested_classname?
+        constant? && @identifier.include?("::")
+      end
+
       def name
         if constant?
           @identifier.to_sym
@@ -50,7 +54,15 @@ module Fancy
       end
 
       def bytecode(g)
-        if constant?
+        if nested_classname?
+          classnames = @identifier.split("::")
+          parent = Identifier.new(@line, classnames.shift)
+          classnames.each do |cn|
+            Rubinius::AST::ScopedConstant.new(@line, parent, cn.to_sym).bytecode(g)
+            child = Identifier.new(@line, cn)
+            parent = child
+          end
+        elsif constant?
           Rubinius::AST::ConstantAccess.new(line, name).bytecode(g)
         elsif class_variable?
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)

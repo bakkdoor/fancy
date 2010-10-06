@@ -35,6 +35,8 @@ FancySpec describe: "rbx/examples" with: {
 
   example: 'classes should_output: ["Person with name: Christopher"]
 
+  example: 'nested_classes should_output: ["foo got: yay!"]
+
   example: 'include should_output: ["Hello World"]
 
   example: 'inherit should_output: ["Hello World"]
