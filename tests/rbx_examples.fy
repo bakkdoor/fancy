@@ -58,4 +58,6 @@ FancySpec describe: "rbx/examples" with: {
   example: 'exception should_output: ["Hola", "Hello", "Adios"]
 
   example: 'finally should_output: ["Hello", "World"]
+
+  example: 'empty_catch should_output: ["Empty catch"]
 }

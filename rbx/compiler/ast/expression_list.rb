@@ -9,6 +9,10 @@ module Fancy
         @expressions = expressions
       end
 
+      def empty?
+        @expressions.empty?
+      end
+
       def bytecode(g)
         pos(g)
         size = @expressions.size

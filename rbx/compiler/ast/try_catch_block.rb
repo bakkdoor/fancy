@@ -8,7 +8,7 @@ module Fancy
         super(line)
         @body = body
         @handlers = handlers
-        @finally = finally
+        @finally = finally || Rubinius::AST::NilLiteral.new(line)
       end
 
       def bytecode(g)
@@ -35,7 +35,7 @@ module Fancy
         @handlers.bytecode(g, finally)
 
         finally.set!
-        @finally.bytecode(g) if @finally
+        @finally.bytecode(g)
 
         done.set!
 
@@ -66,8 +66,9 @@ module Fancy
 
         Fancy::AST::Assignment.new(line, @var, CurrentException.new(line)).bytecode(g)
         g.pop
+
         @body.bytecode(g)
-        g.pop
+        g.pop unless @body.empty?
 
         g.goto finally
         nothing.set!
