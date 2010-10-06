@@ -3,9 +3,7 @@
 StdError = StandardError
 
 class Exception
-
   def raise!
     raise self
   end
-
 end
