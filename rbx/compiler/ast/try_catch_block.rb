@@ -69,7 +69,6 @@ module Fancy
 
         Fancy::AST::Assignment.new(line, @var, CurrentException.new(line)).bytecode(g)
         g.pop
-        p @body
         @body.bytecode(g)
         g.pop
 
