@@ -31,6 +31,14 @@ module Fancy
         constant? && @identifier.include?("::")
       end
 
+      def true?
+        @identifier == "true"
+      end
+
+      def nil?
+        @identifier == "nil"
+      end
+
       def name
         if constant?
           @identifier.to_sym
@@ -68,6 +76,10 @@ module Fancy
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
+        elsif true?
+          g.push_true
+        elsif nil?
+          g.push_nil
         else
           Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
         end
