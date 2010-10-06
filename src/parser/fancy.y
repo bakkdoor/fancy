@@ -491,7 +491,7 @@ try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                 }
                 ;
 
-catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
+catch_blocks:  /* empty */ { $$ = NULL; }
                 | CATCH LCURLY catch_block_body RCURLY {
                   ExpressionList* body = new ExpressionList($3);
                   $$ = except_handler_node(nodes::Identifier::from_string("Exception"), nodes::Identifier::from_string(""), body, 0);
