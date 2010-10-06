@@ -18,9 +18,7 @@ module Fancy
         outer_ex = g.new_stack_local
         g.set_stack_local outer_ex
         g.pop
-        
 
-        
         handler = g.new_label
         finally = g.new_label
         done = g.new_label
@@ -59,7 +57,6 @@ module Fancy
       end
 
       def bytecode(g, finally)
-
         nothing = g.new_label
 
         @condition.bytecode(g)
@@ -72,7 +69,6 @@ module Fancy
         @body.bytecode(g)
         g.pop
 
-
         g.goto finally
         nothing.set!
       end
@@ -80,7 +76,6 @@ module Fancy
     end
 
     class CurrentException < Node
-
       def initialize(line)
         super(line)
       end
@@ -88,7 +83,6 @@ module Fancy
       def bytecode(g)
         g.push_current_exception
       end
-
     end
 
     class Handlers < Node

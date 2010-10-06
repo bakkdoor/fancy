@@ -23,6 +23,8 @@ module Fancy
         @expressions.size == 0
       end
 
+      # This method is only used by Rubinius' compiler classes and
+      # defined to be able to use their bytecode generation toolchain.
       def strip_arguments
         []
       end
