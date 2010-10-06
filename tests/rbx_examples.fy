@@ -54,4 +54,6 @@ FancySpec describe: "rbx/examples" with: {
                                     "Now executing from require.fy!"]
 
   example: 'hashes should_output: ["<[:baz => 42.49, :foo => :bar, :bar => :baz]>"]
+
+  example: 'exception should_output: ["Hola", "Hello", "Adios"]
 }

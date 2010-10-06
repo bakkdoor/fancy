@@ -10,5 +10,6 @@ require base + "true_class"
 require base + "nil_class"
 require base + "false_class"
 require base + "hash"
+require base + "std_error"
 
 NATIVE = Object.new
