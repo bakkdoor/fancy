@@ -1,7 +1,7 @@
 def class Array {
   "Array class. Arrays are dynamically resizable containers with a constant-time index-based access to members."
 
-  include: Enumerable
+  include: FancyEnumerable
 
   def NATIVE [] index {
     """Given an Array of 2 Numbers, it returns the sub-array between the given indices.

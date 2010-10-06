@@ -46,7 +46,7 @@ def class Number {
   }
 }
 
-def class Enumerable {
+def class FancyEnumerable {
   def sum {
     """Calculates the sum of all the elements in the Enumerable
       (assuming them to be Numbers (implementing '+' & '*'))."""

@@ -1,7 +1,7 @@
 def class Hash {
   "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value."
 
-  include: Enumerable
+  include: FancyEnumerable
 
   def [] key {
     "Returns the value for a given key."

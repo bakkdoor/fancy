@@ -1,7 +1,7 @@
 def class Set {
   "A simple Set data structure class."
 
-  include: Enumerable
+  include: FancyEnumerable
   read_slots: ['values]
 
   def initialize: arr {
