@@ -15,5 +15,19 @@ module Fancy
       end
     end
 
+    class ReturnLocal < Node
+      name :return_local
+
+      def initialize(line, expr)
+        super(line)
+        @expr = expr
+      end
+
+      def bytecode(g)
+        @expr.bytecode(g)
+        g.ret
+      end
+    end
+
   end
 end

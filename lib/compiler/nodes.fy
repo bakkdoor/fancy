@@ -45,6 +45,7 @@ AST::Node register: 'private for_node: AST::PrivateMethodDefinition
 
 AST::Node register: 'require for_node: AST::Require
 AST::Node register: 'return for_node: AST::Return
+AST::Node register: 'return_local for_node: AST::ReturnLocal
 AST::Node register: 'assign for_node: AST::Assignment
 AST::Node register: 'try_catch_block for_node: AST::TryCatchBlock
 AST::Node register: 'except_handler for_node: AST::ExceptHandler
