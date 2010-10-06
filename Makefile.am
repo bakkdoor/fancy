@@ -114,7 +114,7 @@ compiler_bootstrap_files = nodes 			    \
 bootstrap: fancy
 	@mkdir -p tmp
 	@clear
-	$(foreach file, $(stdlib_bootstrap_files), bin/fancy -c lib/$(file).fy;)
+	bin/fancy -c lib/*.fy
 	@echo
 
 all-clean: clean
