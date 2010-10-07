@@ -11,4 +11,17 @@ class Hash
     str += "]>"
     str
   end
+
+  alias_method "at:put:", "[]="
+  alias_method :each_orig, :each
+
+  def each(block = nil, &b)
+    if block
+      self.each_orig do |k,v|
+        block.call(k,v)
+      end
+    else
+      self.each_orig(&b)
+    end
+  end
 end
