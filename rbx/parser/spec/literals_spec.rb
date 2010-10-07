@@ -38,6 +38,10 @@ describe Fancy::Parser, "when parsing literals" do
     test_parse("r{some_thing}", :regexp_lit).should be_true
   end
 
+  it "should not parse incorrect regexp literals" do
+    test_parse("r{some_thing}}", :regexp_lit).should be_false
+  end
+
   it "should parse something which is not a regexp literal as regexp_lit" do
     test_parse("aölskjd", :regexp_lit).should be_false
   end

@@ -8,10 +8,14 @@ module ParserTestUtils
   end
 
   def test_parse(input, rule)
-    tree = parse(input, rule).tree
-    success = true
-    tree.walk { |e| success = false if e.to_s =~ /^<missing/ }
-    success
+    tmp = $stderr
+
+    s = StringIO.new
+    $stderr = s
+    tree = parse(input, rule)
+
+    $stderr = tmp
+    s.size == 0
   end
 
 end
