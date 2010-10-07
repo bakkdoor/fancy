@@ -37,7 +37,11 @@ namespace fancy {
 
       string ReturnStatement::to_sexp() const
       {
-        return "['return, " + _return_expr->to_sexp() + "]";
+        if(_is_local) {
+          return "['return_local, " + _return_expr->to_sexp() + "]";
+        } else {
+          return "['return, " + _return_expr->to_sexp() + "]";
+        }
       }
 
     }

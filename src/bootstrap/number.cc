@@ -172,7 +172,7 @@ namespace fancy {
         Number* num1 = dynamic_cast<Number*>(self);
         Number* num2 = dynamic_cast<Number*>(arg);
         if(num2->intval() == 0) {
-          throw new_division_by_zero_error(scope);
+          throw new_zero_division_error(scope);
         } else {
           // always return double number for division
           return Number::from_double(num1->doubleval() / num2->doubleval());

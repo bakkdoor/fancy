@@ -27,7 +27,7 @@ FancySpec describe: Number with: {
     try {
       10 / 0
       "This should not happen!" should == nil
-    } catch DivisionByZeroError => err {
+    } catch ZeroDivisionError => err {
       err message should == "Division by zero!"
     }
   }

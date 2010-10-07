@@ -9,4 +9,8 @@ class Array
       self.each_orig(&b)
     end
   end
+
+  def second
+    self[1]
+  end
 end

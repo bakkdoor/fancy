@@ -34,9 +34,8 @@ namespace fancy {
 
       FancyObject* ExceptionHandler::handle(FancyObject* exception, Scope *scope)
       {
-        // Scope *catch_scope = new Scope(scope);
         LexicalScope catch_scope(scope);
-        if(_local_name->name() != "") {
+        if(_local_name && _local_name->name() != "") {
           catch_scope.define(_local_name->name(), exception);
         }
         return _body->eval(&catch_scope);
@@ -92,9 +91,13 @@ namespace fancy {
         list<ExceptionHandler*>::const_iterator it;
         for(it = _except_handlers.begin(); it != _except_handlers.end(); it++) {
           s << "['except_handler, "
-            << (*it)->exception_class_name()->to_sexp() << ", "
-            << (*it)->local_name()->to_sexp() << ", "
-            << (*it)->body()->to_sexp() << "]";
+            << (*it)->exception_class_name()->to_sexp() << ", ";
+          if((*it)->local_name()) {
+            s << (*it)->local_name()->to_sexp() << ", ";
+          } else {
+            s << "nil, ";
+          }
+          s << (*it)->body()->to_sexp() << "]";
           if(count < size) {
             s << ", ";
           }

@@ -10,14 +10,19 @@ def class AST {
 
     def ExceptHandler from_sexp: sexp {
       class = sexp second to_ast
-      var = sexp third to_ast
+      var = sexp third
+      { var = var to_ast } if: var
       body = sexp fourth to_ast
       ExceptHandler new: class var: var body: body
     }
 
     def to_ruby_sexp: out {
       out print: "[:except_handler, "
-      @class to_ruby_sexp: out
+      @class if_do: {
+        @class to_ruby_sexp: out
+      } else: {
+        out print: "nil"
+      }
       out print: ", "
       @var if_do: {
         @var to_ruby_sexp: out
@@ -73,6 +78,16 @@ def class AST {
       }
 
       out print: "]"
+    }
+  }
+
+  def class Retry : Node {
+    def Retry from_sexp: sexp {
+      Retry new
+    }
+
+    def to_ruby_sexp: out {
+      out print: "[:retry]"
     }
   }
 }

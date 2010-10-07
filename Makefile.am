@@ -63,25 +63,32 @@ example: fancy
 	@echo
 	@$(foreach file, $(example_files),echo "\n\n>> examples/$(file).fy:\n"; bin/fancy examples/$(file).fy;)
 
-
-stdlib_bootstrap_files = argv 	    \
-			boot 	    \
-			array 	    \
-			block 	    \
-			class 	    \
-			compiler    \
-			directory   \
-			enumerable  \
-			fancy_spec  \
-			hash 	    \
-			method 	    \
-			nil_class   \
-			number 	    \
-			object 	    \
-			set 	    \
-			string 	    \
-			symbol 	    \
-			true_class  \
+stdlib_bootstrap_files = argv 			\
+			array 			\
+			block 			\
+			boot 			\
+			class 			\
+			compiler 		\
+			console 		\
+			directory 		\
+			zero_division	 	\
+			enumerable 		\
+			fancy_spec 		\
+			file 			\
+			hash 			\
+			io_error 		\
+			method 			\
+			method_not_found 	\
+			nil_class	 	\
+			number 			\
+			object 			\
+			set 			\
+			stack 			\
+			std_error 		\
+			string 			\
+			symbol 			\
+			true_class 		\
+			type_error 		\
 			version
 
 compiler_bootstrap_files = nodes 			    \
@@ -104,6 +111,11 @@ compiler_bootstrap_files = nodes 			    \
 			nodes/string_literal 		    \
 			nodes/symbol_literal 		    \
 			nodes/try_catch_block
+bootstrap: fancy
+	@mkdir -p tmp
+	@clear
+	bin/fancy -c lib/*.fy
+	@echo
 
 all-clean: clean
 	@cd vendor/gc && make clean

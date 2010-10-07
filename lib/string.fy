@@ -1,5 +1,5 @@
 def class String {
-  include: Enumerable
+  include: FancyEnumerable
 
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.

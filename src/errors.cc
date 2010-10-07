@@ -24,9 +24,9 @@ namespace fancy {
     return err;
   }
 
-  FancyObject* new_division_by_zero_error(Scope* scope)
+  FancyObject* new_zero_division_error(Scope* scope)
   {
-    FancyObject* err = DivisionByZeroErrorClass->create_instance();
+    FancyObject* err = ZeroDivisionErrorClass->create_instance();
     err->send_message("initialize", &nil, 0, scope, err);
     return err;
   }

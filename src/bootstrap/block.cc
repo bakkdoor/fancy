@@ -23,9 +23,9 @@ namespace fancy {
                  call);
 
       DEF_METHOD(BlockClass,
-                 "call_in_scope_of:",
+                 "call_with_receiver:",
                  "Calls (evaluates) the Block with no arguments in scope of a given object (acting as self within the Block's body).",
-                 call_in_scope_of);
+                 call_with_receiver);
 
       DEF_METHOD(BlockClass,
                  "call:",
@@ -33,9 +33,9 @@ namespace fancy {
                  call_with_arg);
 
       DEF_METHOD(BlockClass,
-                 "call:in_scope_of:",
+                 "call:with_receiver:",
                  "Calls (evaluates) the Block with the given arguments (single value or Array) in scope of a given object (acting as self within the Block's body).",
-                 call_with_arg_in_scope_of);
+                 call_with_arg_with_receiver);
 
       DEF_METHOD(BlockClass,
                  "while_true:",
@@ -83,9 +83,9 @@ namespace fancy {
       return nil;
     }
 
-    METHOD(BlockClass, call_in_scope_of)
+    METHOD(BlockClass, call_with_receiver)
     {
-      EXPECT_ARGS("Block#call_in_scope_of:", 1);
+      EXPECT_ARGS("Block#call_with_receiver:", 1);
       Block* block = dynamic_cast<Block*>(self);
       bool override_self = block->override_self();
       block->override_self(true);
@@ -121,9 +121,9 @@ namespace fancy {
       }
     }
 
-    METHOD(BlockClass, call_with_arg_in_scope_of)
+    METHOD(BlockClass, call_with_arg_with_receiver)
     {
-      EXPECT_ARGS("Block#call:in_scope_of:", 2);
+      EXPECT_ARGS("Block#call:with_receiver:", 2);
       Block* block = dynamic_cast<Block*>(self);
       FancyObject* first_arg = args[0];
       bool override_self = block->override_self();

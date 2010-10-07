@@ -491,14 +491,18 @@ try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                 }
                 ;
 
-catch_blocks:  /* empty */ { $$ = except_handler_node(0,0,0,0); }
+catch_blocks:  /* empty */ { $$ = NULL; }
                 | CATCH LCURLY catch_block_body RCURLY {
                   ExpressionList* body = new ExpressionList($3);
-                  $$ = except_handler_node(nodes::Identifier::from_string("Exception"), nodes::Identifier::from_string(""), body, 0);
+                  $$ = except_handler_node(nodes::Identifier::from_string("StdError"), NULL, body, NULL);
+                }
+                | CATCH IDENTIFIER LCURLY catch_block_body RCURLY {
+                  ExpressionList* body = new ExpressionList($4);
+                  $$ = except_handler_node($2, NULL, body, NULL);
                 }
                 | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
                   ExpressionList* body = new ExpressionList($6);
-                  $$ = except_handler_node($2, $4, body, 0);
+                  $$ = except_handler_node($2, $4, body, NULL);
                 }
                 | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
                   ExpressionList* body = new ExpressionList($7);

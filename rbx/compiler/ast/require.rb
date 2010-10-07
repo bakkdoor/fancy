@@ -1,6 +1,6 @@
 module Fancy
-
   module AST
+
     class Require < Node
       name :require
 
@@ -16,9 +16,7 @@ module Fancy
         g.allow_private
         g.send :fancy_require, 1, false
       end
-
     end
 
   end
-
 end

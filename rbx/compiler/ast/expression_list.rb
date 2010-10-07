@@ -9,10 +9,17 @@ module Fancy
         @expressions = expressions
       end
 
+      def empty?
+        @expressions.empty?
+      end
+
       def bytecode(g)
         pos(g)
+        size = @expressions.size
         @expressions.each do |expr|
+          size -= 1
           expr.bytecode(g)
+          g.pop if size > 0
         end
       end
 
@@ -20,6 +27,8 @@ module Fancy
         @expressions.size == 0
       end
 
+      # This method is only used by Rubinius' compiler classes and
+      # defined to be able to use their bytecode generation toolchain.
       def strip_arguments
         []
       end

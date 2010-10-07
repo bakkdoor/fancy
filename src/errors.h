@@ -20,7 +20,7 @@ namespace fancy {
                                           Scope* scope,
                                           const string& reason);
 
-  FancyObject* new_division_by_zero_error(Scope* scope);
+  FancyObject* new_zero_division_error(Scope* scope);
 
   FancyObject* new_io_error(const string &message, const string &filename, Scope* scope);
   FancyObject* new_io_error(const string &message, const string &filename, Array* modes, Scope* scope);

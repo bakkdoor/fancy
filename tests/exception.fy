@@ -52,7 +52,7 @@ FancySpec describe: StdError with: {
     try {
       x = 10 / 0 # ouch!
       "This should fail!" should == true # should not get here!
-    } catch DivisionByZeroError => err {
+    } catch ZeroDivisionError => err {
       err message should == "Division by zero!"
     } finally {
       # this part gets always run :)
@@ -90,7 +90,7 @@ FancySpec describe: StdError with: {
     x = 0
     try {
       x = 10 / y
-    } catch DivisionByZeroError => e {
+    } catch ZeroDivisionError => e {
       y should == 0
       x should == 0
       y = 2

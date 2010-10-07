@@ -13,13 +13,13 @@ def class FancySpec {
 
   def FancySpec describe: test_obj with: block {
     spec = FancySpec new: test_obj
-    block call_in_scope_of: spec
+    block call_with_receiver: spec
     spec run
   }
 
   def FancySpec describe: description for: test_obj with: block {
     spec = FancySpec new: description test_obj: test_obj
-    block call_in_scope_of: spec
+    block call_with_receiver: spec
     spec run
   }
 
@@ -32,13 +32,13 @@ def class FancySpec {
   def it: spec_info_string for: method_name when: spec_block {
     test = SpecTest new: spec_info_string
     test block: spec_block
-    try {
-      @test_obj method: method_name . if_do: |method| {
-        method tests << test
-      }
-    } catch MethodNotFoundError => e {
-      # ignore errors
-    }
+    # try {
+    #   @test_obj method: method_name . if_do: |method| {
+    #     method tests << test
+    #   }
+    # } catch MethodNotFoundError => e {
+    #   # ignore errors
+    # }
     @spec_tests << test
   }
 
@@ -60,6 +60,8 @@ def class FancySpec {
 }
 
 def class SpecTest {
+  @@failed_positive = []
+  @@failed_negative = []
   def SpecTest failed_test: actual_and_expected {
     @@failed_positive << actual_and_expected
   }

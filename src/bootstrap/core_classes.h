@@ -27,7 +27,7 @@ namespace fancy {
   extern Class* UnknownIdentifierErrorClass;
   extern Class* MethodNotFoundErrorClass;
   extern Class* IOErrorClass;
-  extern Class* DivisionByZeroErrorClass;
+  extern Class* ZeroDivisionErrorClass;
 
   extern Class* SystemClass;
 

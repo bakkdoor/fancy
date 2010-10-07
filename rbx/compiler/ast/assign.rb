@@ -16,6 +16,9 @@ module Fancy
         elsif @ident.instance_variable?
           Rubinius::AST::InstanceVariableAssignment.new(line, @ident.name, @value).
             bytecode(g)
+        elsif @ident.class_variable?
+          Rubinius::AST::ClassVariableAssignment.new(line, @ident.name, @value).
+            bytecode(g)
         else
           Rubinius::AST::LocalVariableAssignment.new(line, @ident.name, @value).
             bytecode(g)

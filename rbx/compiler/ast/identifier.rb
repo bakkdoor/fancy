@@ -16,7 +16,7 @@ module Fancy
       end
 
       def instance_variable?
-        @identifier =~ /^@/
+        @identifier =~ /^@/ && !class_variable?
       end
 
       def class_variable?
@@ -27,9 +27,23 @@ module Fancy
         !(constant? || instance_variable?)
       end
 
+      def nested_classname?
+        constant? && @identifier.include?("::")
+      end
+
+      def true?
+        @identifier == "true"
+      end
+
+      def nil?
+        @identifier == "nil"
+      end
+
       def name
         if constant?
           @identifier.to_sym
+        elsif class_variable?
+          @identifier[0..-1].to_sym
         elsif instance_variable?
           @identifier[1..-1].to_sym
         else
@@ -50,12 +64,24 @@ module Fancy
       end
 
       def bytecode(g)
-        if constant?
+        if nested_classname?
+          classnames = @identifier.split("::")
+          parent = Identifier.new(@line, classnames.shift)
+          classnames.each do |cn|
+            Rubinius::AST::ScopedConstant.new(@line, parent, cn.to_sym).bytecode(g)
+            child = Identifier.new(@line, cn)
+            parent = child
+          end
+        elsif constant?
           Rubinius::AST::ConstantAccess.new(line, name).bytecode(g)
         elsif class_variable?
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
+        elsif true?
+          g.push_true
+        elsif nil?
+          g.push_nil
         else
           Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
         end
