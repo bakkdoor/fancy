@@ -13,13 +13,13 @@ def class FancySpec {
 
   def FancySpec describe: test_obj with: block {
     spec = FancySpec new: test_obj
-    block call_in_scope_of: spec
+    block call_with_receiver: spec
     spec run
   }
 
   def FancySpec describe: description for: test_obj with: block {
     spec = FancySpec new: description test_obj: test_obj
-    block call_in_scope_of: spec
+    block call_with_receiver: spec
     spec run
   }
 

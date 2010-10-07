@@ -64,4 +64,6 @@ FancySpec describe: "rbx/examples" with: {
   example: 'retry should_output: ["0", "0", "2", "5"]
 
   example: 'nested_try should_output: ["Propagated exception"]
+
+  example: 'call_with_receiver should_output: ["in Foo#foo!"]
 }

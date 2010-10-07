@@ -25,4 +25,11 @@ class Rubinius::BlockEnvironment
       call_orig *args
     end
   end
+
+  def call_with_receiver(obj)
+    call_under obj, method.scope
+  end
+  define_method("call:with_receiver:") do |args, obj|
+    call_under obj, method.scope, *args
+  end
 end
