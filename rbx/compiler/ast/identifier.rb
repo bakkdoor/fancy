@@ -16,7 +16,7 @@ module Fancy
       end
 
       def instance_variable?
-        @identifier =~ /^@/
+        @identifier =~ /^@/ && !class_variable?
       end
 
       def class_variable?
@@ -42,6 +42,8 @@ module Fancy
       def name
         if constant?
           @identifier.to_sym
+        elsif class_variable?
+          @identifier[0..-1].to_sym
         elsif instance_variable?
           @identifier[1..-1].to_sym
         else

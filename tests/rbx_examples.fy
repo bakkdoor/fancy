@@ -33,7 +33,7 @@ FancySpec describe: "rbx/examples" with: {
                                    "x is: 1",
                                    "y is: 2", "3"]
 
-  example: 'classes should_output: ["Person with name: Christopher"]
+  example: 'classes should_output: ["Person with name: Christopher", "foo"]
 
   example: 'nested_classes should_output: ["foo got: yay!"]
 
