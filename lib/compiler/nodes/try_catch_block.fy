@@ -75,4 +75,14 @@ def class AST {
       out print: "]"
     }
   }
+
+  def class Retry : Node {
+    def Retry from_sexp: sexp {
+      Retry new
+    }
+
+    def to_ruby_sexp: out {
+      out print: "[:retry]"
+    }
+  }
 }

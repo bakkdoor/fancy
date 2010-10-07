@@ -49,6 +49,7 @@ AST::Node register: 'return_local for_node: AST::ReturnLocal
 AST::Node register: 'assign for_node: AST::Assignment
 AST::Node register: 'try_catch_block for_node: AST::TryCatchBlock
 AST::Node register: 'except_handler for_node: AST::ExceptHandler
+AST::Node register: 'retry for_node: AST::Retry
 
 AST::Node register: 'rb_args_lit for_node: AST::RubyArgsLiteral
 

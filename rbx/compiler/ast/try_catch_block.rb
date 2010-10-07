@@ -101,5 +101,17 @@ module Fancy
       end
     end
 
+    class Retry < Node
+      name :retry
+
+      def initialize(line)
+        super(line)
+      end
+
+      def bytecode(g)
+        Rubinius::AST::NilLiteral.new(@line).bytecode(g)
+      end
+    end
+
   end
 end
