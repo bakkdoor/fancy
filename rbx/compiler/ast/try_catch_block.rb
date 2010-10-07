@@ -15,9 +15,19 @@ module Fancy
         pos(g)
 
         g.push_modifiers
+
+        outer_retry = g.new_label
+        this_retry = g.new_label
+        reraise = g.new_label
+
+        # save the current exception into a stack local
+        g.push_exception_state
         outer_ex = g.new_stack_local
         g.set_stack_local outer_ex
         g.pop
+
+        # retry label for re-entering the try body
+        this_retry.set!
 
         handler = g.new_label
         finally = g.new_label
@@ -25,14 +35,101 @@ module Fancy
 
         g.setup_unwind handler, Rubinius::AST::RescueType
 
+        # make a break available to use
+        if current_break = g.break
+          g.break = g.new_label
+        end
+
+        # use lazy label to patch up prematuraly leaving a try body
+        # via retry
+        if outer_retry
+          g.retry = g.new_label
+        end
+
+        # also handle redo unwinding through the rescue
+        if current_redo = g.redo
+          g.redo = g.new_label
+        end
+
         @body.bytecode(g)
 
         g.pop_unwind
         g.pop
         g.goto finally
 
+
+        if current_break
+          if g.break.used?
+            g.break.set!
+            g.pop_unwind
+
+            # Reset the outer exception
+            g.push_stack_local outer_ex
+            g.restore_exception_state
+
+            g.goto current_break
+          end
+
+          g.break = current_break
+        end
+
+        if current_redo
+          if g.redo.used?
+            g.redo.set!
+            g.pop_unwind
+
+            # Reset the outer exception
+            g.push_stack_local outer_ex
+            g.restore_exception_state
+
+            g.goto current_redo
+          end
+
+          g.redo = current_redo
+        end
+
+        if outer_retry
+          if g.retry.used?
+            g.retry.set!
+            g.pop_unwind
+
+            # Reset the outer exception
+            g.push_stack_local outer_ex
+            g.restore_exception_state
+
+            g.goto outer_retry
+          end
+
+          g.retry = outer_retry
+        end
+
+
+        # We jump here if an exception has occurred in the body
         handler.set!
+
+        # Expose the retry label here only, not before this
+        g.retry = this_retry
+
+        # Save exception state to use in reraise
+        g.push_exception_state
+
+        raised_exc_state = g.new_stack_local
+        g.set_stack_local raised_exc_state
+        g.pop
+
+        # Save the current exception, so that calling #=== can't trample
+        # it.
+        g.push_current_exception
+
         @handlers.bytecode(g, finally)
+
+        reraise.set!
+        # remove the exception so we have the state
+        g.pop
+        # restore the state and reraise
+        g.push_stack_local raised_exc_state
+        g.restore_exception_state
+        g.reraise
 
         finally.set!
         @finally.bytecode(g)
@@ -69,6 +166,9 @@ module Fancy
 
         @body.bytecode(g)
         g.pop unless @body.empty?
+
+        g.clear_exception
+        g.pop
 
         g.goto finally
         nothing.set!
@@ -109,7 +209,8 @@ module Fancy
       end
 
       def bytecode(g)
-        Rubinius::AST::NilLiteral.new(@line).bytecode(g)
+        g.pop
+        g.goto g.retry
       end
     end
 
