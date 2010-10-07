@@ -161,8 +161,10 @@ module Fancy
         g.send :===, 1
         g.gif nothing
 
-        Fancy::AST::Assignment.new(line, @var, CurrentException.new(line)).bytecode(g)
-        g.pop
+        if @var
+          Fancy::AST::Assignment.new(line, @var, CurrentException.new(line)).bytecode(g)
+          g.pop
+        end
 
         @body.bytecode(g)
         g.pop unless @body.empty?

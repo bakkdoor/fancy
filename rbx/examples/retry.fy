@@ -2,7 +2,7 @@ y = 0
 x = 0
 try {
   x = 10 / y
-} catch ZeroDivisionError => e {
+} catch ZeroDivisionError {
   y println
   x println
   y = 2
