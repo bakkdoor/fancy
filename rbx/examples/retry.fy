@@ -8,7 +8,7 @@ try {
   y println
   x println
   y = 2
-  retry # not working yet
+  retry
 }
 y println
 x println
