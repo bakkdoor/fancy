@@ -7,6 +7,10 @@ class TrueClass
     block.call
   end
 
+  def if_false(block)
+    nil
+  end
+
   def not
       nil
   end

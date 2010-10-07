@@ -7,6 +7,10 @@ class FalseClass
     nil
   end
 
+  def if_false(block)
+    block.call
+  end
+
   def not
       true
   end
