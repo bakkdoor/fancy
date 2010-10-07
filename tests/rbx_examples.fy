@@ -62,4 +62,6 @@ FancySpec describe: "rbx/examples" with: {
   example: 'empty_catch should_output: ["Empty catch"]
 
   example: 'retry should_output: ["0", "0", "2", "5"]
+
+  example: 'nested_try should_output: ["Propagated exception"]
 }
