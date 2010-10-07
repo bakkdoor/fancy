@@ -37,7 +37,7 @@ namespace fancy {
   Class* UnknownIdentifierErrorClass;
   Class* MethodNotFoundErrorClass;
   Class* IOErrorClass;
-  Class* DivisionByZeroErrorClass;
+  Class* ZeroDivisionErrorClass;
 
   Class* SystemClass;
 
@@ -80,7 +80,7 @@ namespace fancy {
       UnknownIdentifierErrorClass = new Class("UnknownIdentifierError", StdErrorClass);
       MethodNotFoundErrorClass = new Class("MethodNotFoundError", StdErrorClass);
       IOErrorClass = new Class("IOError", StdErrorClass);
-      DivisionByZeroErrorClass = new Class("DivisionByZeroError", StdErrorClass);
+      ZeroDivisionErrorClass = new Class("ZeroDivisionError", StdErrorClass);
 
       SystemClass = new Class("System", ObjectClass);
 
@@ -136,7 +136,7 @@ namespace fancy {
       global_scope->define("UnknownIdentifierError", UnknownIdentifierErrorClass);
       global_scope->define("MethodNotFoundError", MethodNotFoundErrorClass);
       global_scope->define("IOError", IOErrorClass);
-      global_scope->define("DivisionByZeroError", DivisionByZeroErrorClass);
+      global_scope->define("ZeroDivisionError", ZeroDivisionErrorClass);
 
       global_scope->define("System", SystemClass);
 

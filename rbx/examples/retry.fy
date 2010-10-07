@@ -1,5 +1,3 @@
-require: "lib/division_by_zero"
-
 y = 0
 x = 0
 try {

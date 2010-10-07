@@ -71,7 +71,7 @@ stdlib_bootstrap_files = argv 			\
 			compiler 		\
 			console 		\
 			directory 		\
-			division_by_zero 	\
+			zero_division	 	\
 			enumerable 		\
 			fancy_spec 		\
 			file 			\
