@@ -139,7 +139,7 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 files = core_classes \
- 	object \
+	object \
 	class \
 	block \
 	string \
@@ -362,7 +362,7 @@ system.o: system.cc
 	$(CXX) $(CFLAGS) -c system.cc -o system.o
 
 clean:
-	rm -f *.o > /dev/null
+	rm -f *.o
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
