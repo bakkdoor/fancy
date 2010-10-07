@@ -53,11 +53,13 @@ FancySpec describe: "rbx/examples" with: {
                                     "20",
                                     "Now executing from require.fy!"]
 
-  example: 'hashes should_output: ["<[:baz => 42.49, :foo => :bar, :bar => :baz]>"]
+  example: 'hashes should_output: ["bar", "baz", "42.5"]
 
   example: 'exception should_output: ["Hola", "Hello", "Adios"]
 
   example: 'finally should_output: ["Hello", "World"]
 
   example: 'empty_catch should_output: ["Empty catch"]
+
+  example: 'retry should_output: ["0", "0", "2", "5"]
 }
