@@ -10,8 +10,9 @@ program returns [ node ]
     ;
 
 code returns [ node ]
-    :   val=statement { node = val }
-    |   val=expression  { node = val }
+@after { node = val }
+    :   val=statement //{ node = val }
+    |   val=expression  //{ node = val }
     ;
 
 statement returns [ node ]
