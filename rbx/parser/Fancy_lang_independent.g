@@ -2,107 +2,76 @@ grammar Fancy;
 
 options {
     language = Ruby;
+    output = AST;
 }
 
-program returns [ node ]
-    :{node = [:exp_list]} (
-    |   val=code { node << val } (DELIM val=code { node << val })* )
-    ;
-
-code returns [ node ]
-    :   val=statement { node = val }
-    |   val=expression  { node = val }
-    ;
-
-statement returns [ node ]
-    :   val=assignment { node = val }
-    ;
-
-assignment returns [ node ]
-@init { node = [:assign] }
-    :   id=identifier SPACE '=' SPACE exp=expression { node << id; node << exp }
-    ;
-
-expression returns [ node ]
-options {
-    backtrack = true;
+tokens {
+    PROGRAM;
+    IDENT;
+    INT_LIT;
+    DOUBLE_LIT;
+    STRING_LIT;
+    SYMBOL_LIT;
+    REGEXP_LIT;
 }
-@after { node = val }
-    :   val=message_send
-    |   val=operator_send
-    |   val=literal_value
-    |   val=identifier
-    |   '(' val=expression ')'
+
+program
+    :
+    |   code+ (DELIM code)* ->^(PROGRAM code+)
     ;
 
-message_send returns [ node ]
-options {
-    backtrack = true;
-}
-    :   { node = [:message_send] }
-        rcv=receiver SPACE msg=message  { node << rcv; node << msg[0]; node << msg[1] }
-        (SPACE msg=message {node = [:message_send, node, msg[0], msg[1]] })*
+code
+    :   statement
+    |   expression
     ;
 
-operator_send returns [ node ]
-    @init{ node=[:message_send] }
-    :   rcv=receiver SPACE op=OPERATOR SPACE arg=arg_exp
-        { node << rcv; node << [:ident, op.text]; node << [:message_args, arg] }
+statement
+    :   assignment
     ;
 
-receiver returns [ node ]
-    @after{ node = val }
-    :   '(' SPACE? val=expression SPACE? ')'
-    |   val=identifier
-    |   val=literal_value
-    |   'super'                 { val = [:super] }
+assignment
+    :   identifier '='^ expression
     ;
 
-message returns [ node ]
-    :   id=identifier { node = [id, [:message_args]] }
+expression
+    :   literal_value
+    |   identifier
+    |   '('! expression ')'!
     ;
 
-arg_exp returns [ node ]
-    @after{ node = val }
-    :   val=identifier
-    |   '(' SPACE? val=expression SPACE? ')'
-    |   val=literal_value
-    ;
-
-literal_value returns [ node ]
-    @after{ node = lit }
-    :   lit=int_lit
-    |   lit=double_lit
-    |   lit=string_lit
-    |	lit=regexp_lit
-    |	lit=symbol_lit
+literal_value
+    :   int_lit
+    |   double_lit
+    |   string_lit
+    |	regexp_lit
+    |	symbol_lit
     ;
 
 /****************** literals *****************/
 
-int_lit returns [ node ]
-    : INT_LIT_TOKEN  { node = [:int_lit, $INT_LIT_TOKEN.text.gsub(/_/, "")] }
+int_lit
+    : INT_LIT_TOKEN ->^(INT_LIT INT_LIT_TOKEN)
     ;
 
-double_lit returns [ node ]
-    : 	DOUBLE_LIT_TOKEN { node = [:double_lit, $DOUBLE_LIT_TOKEN.text.gsub(/_/, "")] }
+double_lit
+    : 	DOUBLE_LIT_TOKEN ->^(DOUBLE_LIT DOUBLE_LIT_TOKEN)
     ;
 
-string_lit returns [ node ]
-    : 	STRING_LIT_TOKEN { node = [:string_lit, $STRING_LIT_TOKEN.text] }
+string_lit
+    : 	STRING_LIT_TOKEN ->^(STRING_LIT STRING_LIT_TOKEN)
     ;
 
-regexp_lit returns [ node ]
-	:	REGEXP_LIT_TOKEN { node = [:regexp_lit, $REGEXP_LIT_TOKEN.text] }
+regexp_lit
+	:	REGEXP_LIT_TOKEN ->^(REGEXP_LIT REGEXP_LIT_TOKEN)
 	;
 
-symbol_lit returns [ node ]
-	: 	SYMBOL_LIT_TOKEN { node = [:symbol_lit, ":" + $SYMBOL_LIT_TOKEN.text[1..-1]] }
+symbol_lit
+	: 	SYMBOL_LIT_TOKEN ->^(SYMBOL_LIT SYMBOL_LIT_TOKEN)
 	;
 
 /****************** identifier ***************/
-identifier returns [ node ]
-    :  val=(ID | MEMBER | CLASS_MEMBER) { node = [:ident, $val.text] }
+identifier
+    :  (ID | MEMBER | CLASS_MEMBER) ->^(IDENT ID? MEMBER? CLASS_MEMBER?)
     ;
 
 /****************** tokens *******************/
@@ -122,10 +91,6 @@ REGEXP_LIT_TOKEN
 	: 'r{' .* '}'
 	;
 
-OPERATOR
-	:	SPECIAL+ | ('||' SPECIAL*)
-	;
-
 ID
 	: (LETTER | DIGIT | SPECIAL)+
 	;
@@ -138,9 +103,9 @@ CLASS_MEMBER
 	: '@@' ID
 	;
 
-SPACE
-    : ' ' | '\t'
-    ;
+OPERATOR
+	:	SPECIAL+ | ('||' SPECIAL*)
+	;
 
 DELIM
 	: (('\r'? '\n')+ | ';') { $channel = HIDDEN; }
