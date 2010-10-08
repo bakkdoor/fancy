@@ -34,7 +34,6 @@ describe Fancy::Parser, "when parsing literals" do
   end
 
   it "should parse regexp literals" do
-    # TODO: improve this, r{bla{2}} should fail atm, but it does not
     test_parse("r{some_thing}", :regexp_lit).should be_true
   end
 
@@ -45,7 +44,6 @@ describe Fancy::Parser, "when parsing literals" do
   it "should parse something which is not a regexp literal as regexp_lit" do
     test_parse("aölskjd", :regexp_lit).should be_false
   end
-
 
 end
 
