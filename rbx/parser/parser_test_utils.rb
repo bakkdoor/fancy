@@ -1,4 +1,5 @@
 require 'parser'
+require "stringio"
 
 module ParserTestUtils
   def parse(input, rule)
