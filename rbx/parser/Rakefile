@@ -7,7 +7,7 @@
 
   desc "Runs the test for the parser."
   task :test do
-    sh "spec -r parser_test_utils.rb spec"
+    sh "rspec -r parser_test_utils.rb spec"
   end
 
   desc "Removes generated files."
