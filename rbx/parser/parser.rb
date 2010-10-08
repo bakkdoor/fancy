@@ -6,7 +6,7 @@ require 'FancyParser.rb'
 require "../rsexp_pretty_printer"
 
 module Fancy
-  def parse(src, rule=:program)
+  def self.parse(src, rule=:program)
     if File.exists? src
       input = ANTLR3::FileStream.new(src)
     elsif src.is_a? String
