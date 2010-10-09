@@ -115,6 +115,7 @@ bootstrap: fancy
 	@mkdir -p tmp
 	@clear
 	bin/fancy -c lib/*.fy
+	bin/fancy -c lib/rubinius/*.fy
 	@echo
 
 all-clean: clean
