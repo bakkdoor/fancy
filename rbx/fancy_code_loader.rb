@@ -1,4 +1,6 @@
 require "set"
+require "rbx/compiler"
+require "rbx/compiler/command"
 
 module Fancy
   class CodeLoader
@@ -63,7 +65,7 @@ module Fancy
 
       unless @@compiled[filename]
         unless File.exists? compiled_file
-          system("bin/fancy -c #{filename} > /dev/null")
+          system("rbx rbx/compiler.rb #{filename} > /dev/null")
         else
           @@compiled[filename] = true
         end
@@ -76,7 +78,7 @@ module Fancy
       compiled_file = compiled_filename_for(filename)
 
       unless @@compiled[filename]
-        system("bin/fancy -c #{filename} > /dev/null")
+        system("rbx rbx/compiler.rb #{filename} > /dev/null")
         @@compiled[filename] = true
       end
       return compiled_file

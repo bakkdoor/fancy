@@ -1,8 +1,9 @@
 module Fancy
   module Compiler
     class Command
-      def self.run(argv = ARGV)
-        file = argv.first
+      def self.run(argv)
+        puts "ARGV IS: #{ARGV.inspect}"
+        file = ARGV.first
         opt = Rubinius::Options.new "Fancy Rubinius compiler"
         opt.doc "Usage: fancy.rbc [OPTIONS] source.fnc"
         opt.doc ""

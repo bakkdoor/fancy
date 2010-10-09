@@ -22,6 +22,6 @@ require base + '/compiler/stages'
 require base + '/compiler/ast'
 
 if __FILE__ == $0
-   require base + '/compiler/command'
-   Fancy::Compiler::Command.run ARGV
+  require base + '/compiler/command'
+  Fancy::Compiler::Command.run ARGV
 end
