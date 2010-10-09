@@ -11,7 +11,5 @@ require: "rubinius/console"
 require: "rubinius/array"
 require: "rubinius/false_class"
 require: "rubinius/string"
-
-Dir["lib/rubinius/*.fy"] each: |file| {
-  require: file
-}
+require: "rubinius/fixnum"
+require: "rubinius/block"
