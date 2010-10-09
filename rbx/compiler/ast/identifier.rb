@@ -47,18 +47,18 @@ module Fancy
         elsif instance_variable?
           @identifier[1..-1].to_sym
         else
-          rubyfy(@identifier).to_sym
+          @identifier.to_sym
         end
       end
 
-      def rubyfy(ident)
-        if ident.split(":").size > 1
-          ident
+      def rubyfied
+        if @identifier.split(":").size > 1
+          @identifier
         else
-          if ident =~ /:$/
-            ident[0..-2]
+          if @identifier =~ /:$/
+            @identifier[0..-2]
           else
-            ident[0..-1]
+            @identifier[0..-1]
           end
         end
       end

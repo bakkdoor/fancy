@@ -27,8 +27,4 @@ def class Object {
     self to_s + (other to_s)
   }
 
-  def println {
-    puts: self
-  }
-
 }

@@ -1,6 +1,6 @@
-Block = BlockEnvironment
+# Block = BlockEnvironment
 
-def class Block {
+def class BlockEnvironment {
   def if: obj {
     obj nil? if_false: {
       self call
@@ -12,4 +12,8 @@ def class Block {
       self call
     }
   }
+
+  # def call: args{
+  #   call: ~args
+  # }
 }

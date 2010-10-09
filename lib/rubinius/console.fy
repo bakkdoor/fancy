@@ -10,19 +10,19 @@ def class Console {
   def Console print: obj {
     "Prints a given object on STDOUT."
 
-    Kernel print: obj
+    Kernel print: ~[obj]
   }
 
   def Console println: obj {
     "Prints a given object on STDOUT, followed by a newline."
 
-    Kernel puts: obj
+    Kernel puts: ~[obj]
   }
 
   def Console readln: message {
     "Prints a given message to stdout, followed by reading a line from stdin."
 
-    Kernel print: message
+    Kernel print: ~[message]
     Kernel readln chomp
   }
 
@@ -35,6 +35,6 @@ def class Console {
   def Console clear {
     "Clears the console."
 
-    Kernel print: "\033[H\033[2J"
+    Kernel print: ~["\033[H\033[2J"]
   }
 }

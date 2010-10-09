@@ -48,6 +48,10 @@ def class Array {
     }
   }
 
+  def at: idx {
+    ruby: '[] args: [idx]
+  }
+
   def first {
     at: 0
   }
@@ -116,6 +120,10 @@ def class Array {
       }
     }
     tmp
+  }
+
+  def reject!: block {
+    ruby: 'reject! with_block: block
   }
 
 }

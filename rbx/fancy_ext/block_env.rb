@@ -1,20 +1,19 @@
 class Rubinius::BlockEnvironment
-  def while_true(block)
+  define_method("while_true:") do |block|
     while self.call
       block.call
     end
   end
 
-  alias_method :call_orig, :call
-  def call(*args)
+  define_method("call:") do |args|
     if args.first.is_a? Array
-      call_orig *(args.first)
+      call *(args.first)
     else
-      call_orig *args
+      call *args
     end
   end
 
-  def call_with_receiver(obj)
+  define_method("call_with_receiver:") do |obj|
     call_under obj, method.scope
   end
 

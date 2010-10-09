@@ -4,15 +4,19 @@ def class String {
   }
 
   def each: block {
-    self each_char: block
+    self each_char: ~[block]
   }
 
   def at: idx {
     self[idx]
   }
 
+  def split: str {
+    split: ~[str]
+  }
+
   def eval {
-    Kernel eval: self
+    Kernel eval: ~[self]
   }
 
   def eval_global {

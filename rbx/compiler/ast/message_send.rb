@@ -23,9 +23,16 @@ module Fancy
             name = :fancy_include
           else
             name = @message_name.name.to_sym
+            if ruby_send?
+              name = @message_name.rubyfied.to_sym
+            end
           end
           g.send name, @message_args.size, false
         end
+      end
+
+      def ruby_send?
+        @message_args.ruby_args?
       end
     end
 
@@ -44,11 +51,15 @@ module Fancy
       end
 
       def size
-        if @args.first.is_a? RubyArgs
+        if ruby_args?
           return @args.first.size
         else
           @args.size
         end
+      end
+
+      def ruby_args?
+        @args.first.is_a? RubyArgs
       end
     end
 
