@@ -6,24 +6,9 @@ def class Array {
     Array new: ~[size, default] # direct call to Array.new(size, default) in ruby
   }
 
-  # methods already existing on Array in ruby
-  # TODO: Perhaps write better descriptions.
-  method: "each"    . docstring=: "See ruby Array#each"
-  method: "=="      . docstring=: "See ruby Array#=="
-  method: "clear"   . docstring=: "See ruby Array#clear"
-  method: "size"    . docstring=: "See ruby Array#size"
-  method: "at"      . docstring=: "See ruby Array#at"
-  method: "indices" . docstring=: "See ruby Array#indices"
-  method: "first"   . docstring=: "See ruby Array#first"
-  method: "reject!" . docstring=: "See ruby Array#reject!"
-  method: "select"  . docstring=: "See ruby Array#select"
-  method: "<<"      . docstring=: "See ruby Array#<<"
-  method: "last"    . docstring=: "See ruby Array#last"
-
   def append: arr {
     "Appends another Array onto this one."
 
-    # TODO: should this method return a copy, or append to self and return self ?
     arr is_a? Array . if_true: {
       arr each: |other| {
         self << other
@@ -43,6 +28,10 @@ def class Array {
     new
   }
 
+  def each: block {
+    ruby: 'each with_block: block
+  }
+
   def remove_at: obj {
     """Removes an element at a given index.
      If given an Array of indices, removes all the elements with these indices.
@@ -59,6 +48,9 @@ def class Array {
     }
   }
 
+  def first {
+    at: 0
+  }
 
   def second {
     "Returns the second element in the Array"
@@ -75,8 +67,11 @@ def class Array {
     at: 3
   }
 
-  # TODO: rename to "indices_of:" ?
-  def indices: item {
+  def each_with_index: block {
+    ruby: 'each_with_index with_block: block
+  }
+
+  def indices_of: item {
     "Returns an Array of all indices of this item. Empty Array if item does not occur."
 
     tmp = []
@@ -90,34 +85,36 @@ def class Array {
 
   def from: from to: to {
     "Returns sub-array starting at from: and going to to:"
-    # TODO: implement
+
+    ruby: '[] args: [from, to + 1]
   }
 
   def last: count {
     "Returns new Array with last n elements specified."
-    # TODO: implement
+
+    ruby: 'last args: [count]
   }
 
   def any?: block {
     "Takes condition-block and returns true if any element meets it."
-    # TODO: implement
+
+    ruby: 'any? with_block: block
   }
 
   def all?: block {
     "Takes condition-block and returns true if all elements meet it."
-    # TODO: implement
+    ruby: 'all? with_block: block
   }
 
   def select_with_index: block {
     "Same as select, just gets also called with an additional argument for each element's index value."
 
     tmp = []
-    each_with_index: |obj idx| {
+    ruby: 'each_with_index with_block: |obj idx| {
       block call: [obj, idx] . if_true: {
         tmp << obj
       }
     }
-
     tmp
   }
 

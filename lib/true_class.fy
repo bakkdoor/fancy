@@ -15,6 +15,11 @@ def class TrueClass {
     block call
   }
 
+  def if_false: block {
+    "Returns nil."
+    nil
+  }
+
   def nil? {
     "Returns nil."
     nil
@@ -28,5 +33,9 @@ def class TrueClass {
   def true? {
     "Returns true."
     true
+  }
+
+  def not {
+    nil
   }
 }

@@ -5,18 +5,6 @@ class Rubinius::BlockEnvironment
     end
   end
 
-  def if(obj)
-    if obj
-      self.call
-    end
-  end
-
-  def unless(obj)
-    unless obj
-      self.call
-    end
-  end
-
   alias_method :call_orig, :call
   def call(*args)
     if args.first.is_a? Array
@@ -29,6 +17,7 @@ class Rubinius::BlockEnvironment
   def call_with_receiver(obj)
     call_under obj, method.scope
   end
+
   define_method("call:with_receiver:") do |args, obj|
     call_under obj, method.scope, *args
   end

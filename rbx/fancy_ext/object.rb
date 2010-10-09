@@ -1,17 +1,13 @@
 class Object
-  def println
-    puts self
+  define_method("ruby:with_block:") do |method, block|
+    self.call(method,&block)
   end
 
-  def fancy_concat(other)
-    self.to_s + other.to_s
+  define_method("ruby:args:with_block:") do |method, args, block|
+    self.call(method, *args, &block)
   end
 
-  def if_do(block)
-    if self
-      block.call(self)
-    end
+  define_method("ruby:args:") do |method, args|
+    self.call(method, *args)
   end
-
-  alias_method :"++", :fancy_concat
 end

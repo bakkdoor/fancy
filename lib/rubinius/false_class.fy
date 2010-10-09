@@ -1,11 +1,10 @@
-def class NilClass {
-  "NilClass. The class of the singleton nil value."
-
-  def NilClass new {
-    # always return nil singleton object when trying to create a new
-    # NilClass instance
-    nil
-  }
+def class FalseClass {
+  """
+  FalseClass extensions for Fancy on rbx.
+  Since Fancy only has true and nil as the default boolean values,
+  we'll add some extension methods to FalseClass so Fancy can also
+  properly deal with false.
+  """
 
   def if_true: then_block else: else_block {
     "Calls else_block."
@@ -24,12 +23,12 @@ def class NilClass {
 
   def if_nil: block {
     "Calls the block."
-    block call
+    nil
   }
 
   def nil? {
     "Returns true."
-    true
+    nil
   }
 
   def false? {
@@ -43,7 +42,7 @@ def class NilClass {
   }
 
   def to_s {
-    ""
+    "false"
   }
 
   def to_a {
