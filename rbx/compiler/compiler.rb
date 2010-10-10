@@ -10,23 +10,19 @@ module Rubinius
       end
     end
 
-    def self.compile_fancy_file(file, output = nil, line = 1, transforms = :fancy)
+    def self.compile_fancy_file(file, output = nil, line = 1, print = false)
+
       compiler = new :fancy_file, :compiled_file
 
       parser = compiler.parser
       parser.root AST::Script
 
-      if transforms.kind_of? Array
-        transforms.each { |t| parser.enable_category t }
-      else
-        parser.enable_category transforms
-      end
-
       parser.input file, line
 
-      # parser.print
-      printer = compiler.packager.print
-      printer.bytecode = true
+      if print
+        printer = compiler.packager.print
+        printer.bytecode = true
+      end
 
       writer = compiler.writer
       writer.name = output ? output : fancy_compiled_name(file)
