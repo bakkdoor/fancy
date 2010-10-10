@@ -35,6 +35,10 @@ module Fancy
         @identifier == "true"
       end
 
+      def false?
+        @identifier == "false"
+      end
+
       def nil?
         @identifier == "nil"
       end
@@ -80,6 +84,8 @@ module Fancy
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         elsif true?
           g.push_true
+        elsif false?
+          g.push_false
         elsif nil?
           g.push_nil
         else
