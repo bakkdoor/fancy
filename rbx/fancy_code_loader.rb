@@ -47,6 +47,13 @@ module Fancy
       load_error filename
     end
 
+    def self.source_filename_for(filename)
+      if filename =~ /.fyc$/
+        return filename[0..-2]
+      end
+      filename
+    end
+
     def self.compiled_filename_for(filename)
       if filename =~ /.fyc$/
         return filename
@@ -60,11 +67,11 @@ module Fancy
 
     # optionally compile file, if not done yet
     def self.optionally_compile_file(f)
-      filename = filename_for(f)
+      filename = filename_for(source_filename_for(f))
       compiled_file = compiled_filename_for(filename)
-
       unless @@compiled[filename]
-        unless File.exists? compiled_file
+        if !File.exists?(compiled_file) ||
+            File.stat(compiled_file).mtime < File.stat(filename).mtime
           system("rbx rbx/compiler.rb #{filename} > /dev/null")
         else
           @@compiled[filename] = true
@@ -73,23 +80,13 @@ module Fancy
       return compiled_file
     end
 
-    def self.compile_file!(f)
-      filename = filename_for(f)
-      compiled_file = compiled_filename_for(filename)
-
-      unless @@compiled[filename]
-        system("rbx rbx/compiler.rb #{filename} > /dev/null")
-        @@compiled[filename] = true
-      end
-      return compiled_file
-    end
-
-
     def self.load_compiled_file(filename, find_file = true)
       file = filename
       if find_file
         file = compiled_filename_for(filename_for(filename))
       end
+
+      file = optionally_compile_file(file)
 
       unless @@loaded[file]
         unless File.exists? file
