@@ -27,4 +27,8 @@ def class Object {
     self to_s + (other to_s)
   }
 
+  def set_slot: slotname value: val {
+    instance_variable_set: ~["@" ++ slotname, val]
+  }
+
 }

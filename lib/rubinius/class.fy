@@ -4,7 +4,12 @@ def class Class {
   # which then in turn calls the 'initialize' method.
   # This is the other part around the 'initialize' vs 'initialize:'
   # problem. See rbx/compiler/ast/method_def.rb for more information.
-  def new: args{
+  def new: args {
     new: ~[args]
+  }
+
+  def define_method: name with: block {
+    # define_method: ~[name, block]
+    ruby: 'define_method args: [name] with_block: block
   }
 }
