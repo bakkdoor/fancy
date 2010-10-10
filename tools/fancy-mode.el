@@ -1177,4 +1177,8 @@ balanced expression is found."
 
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
 
+;; Ignore .fyc (compiled fancy bytecode) files
+(add-to-list 'completion-ignored-extensions ".fyc")
+
+
 (provide 'fancy-mode)
