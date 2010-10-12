@@ -12,8 +12,8 @@ def class Hash {
     str
   }
 
-  alias_method: ~['at:put:, "[]="]
-  alias_method: ~['at:, '[]]
+  alias_method: 'at:put: for: "[]="
+  alias_method: 'at: for: '[]
 
   def each: block {
     ruby: 'each with_block: block

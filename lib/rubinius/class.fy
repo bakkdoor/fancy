@@ -12,4 +12,8 @@ def class Class {
     # define_method: ~[name, block]
     ruby: 'define_method args: [name] with_block: block
   }
+
+  def alias_method: new for: old {
+    alias_method: ~[new, old]
+  }
 }
