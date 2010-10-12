@@ -1,5 +1,4 @@
 def class Object {
-
   def dclone {
     "Returns a deep clone of self using Ruby's Marshal class."
     Marshal load: $ Marshal dump: self
@@ -31,4 +30,56 @@ def class Object {
     instance_variable_set: ~["@" ++ slotname, val]
   }
 
+  def get_slot: slotname {
+    instance_variable_get: ~["@" ++ slotname]
+  }
+
+  def and: other {
+    """
+    Boolean conjunction.
+    Returns true if self and other are true, otherwise nil.
+    """
+
+    self if_do: {
+      other if_do: {
+        return true
+      }
+    }
+    return false
+  }
+
+  def or: other {
+    """
+    Boolean disjunction.
+    Returns true if either self or other is true, otherwise nil.
+    """
+    self if_do: {
+      return true
+    } else: {
+      other if_do: {
+        return true
+      }
+    }
+    return nil
+  }
+
+  def define_singleton_method: name with: block {
+    self metaclass define_method: name with: block
+  }
+
+  def undefine_singleton_method: name {
+    self metaclass remove_method: ~[name]
+  }
+
+  def is_a?: class {
+    self is_a?: ~[class]
+  }
+
+  def send: message {
+    self send: ~[message]
+  }
+
+  def responds_to?: message {
+    self respond_to?: ~[message]
+  }
 }
