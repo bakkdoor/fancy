@@ -26,4 +26,9 @@ def class String {
   def to_sexp {
     "Not implemented yet!" raise!
   }
+
+  def raise! {
+    "Raises a new StdError with self as the message."
+    StdError new: self . raise!
+  }
 }
