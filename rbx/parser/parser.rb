@@ -11,10 +11,16 @@ module Fancy
   # $$
   module Parser
 
+    extend self # So we can use instance methods directly
+    # eg, in c we could do
+    # $$ = rb_funcall(m_Parser, rb_intern("create_string"), 2, INT2NUM(yylineno), rb_str_new2(yytext))
+
     # Invoked by the parser when it has seen an string
     def create_integer(line, token)
 
     end
+
+    require 'fancy_parser'
 
   end
 

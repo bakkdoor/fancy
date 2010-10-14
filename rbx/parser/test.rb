@@ -7,13 +7,6 @@
 #  rbx test.rb
 # expect it to segfault or worse, hehe
 #
-require 'fancy_parser'
-
-module Fancy
-  module Parser
-    extend self
-  end
-end
-
+require 'parser'
 
 Fancy::Parser.parse_string("1")
