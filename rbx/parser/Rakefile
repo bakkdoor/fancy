@@ -1,0 +1,31 @@
+def _(file); File.expand_path(file, File.dirname(__FILE__)); end
+
+lex_c = file _("lexer.c") => _("fancy.lex") do |task|
+  sh 'flex', '--outfile', task.to_s, task.prerequisites.first
+end
+
+bison_c = file _("bison.c") => _("fancy.y") do |task|
+  sh "bison", "--output", task.to_s, "-d", "-v", task.prerequisites.first
+end
+
+makefile = file _("Makefile") => [_("extconf.rb"), lex_c, bison_c] do |task|
+  ruby task.prerequisites.first
+end
+
+task :bison => bison_c
+task :lex => lex_c
+
+task :compile => makefile do
+  sh 'make'
+end
+
+task :clear do
+  rm_f lex_c.to_s
+  rm_f bison_c.to_s
+  rm_f makefile.to_s
+  rm_f _("bison.h")
+  rm_f _("bison.output")
+end
+
+task :default => :compile
+
