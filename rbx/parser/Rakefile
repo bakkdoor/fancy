@@ -1,34 +1,40 @@
-def _(file); File.expand_path(file, File.dirname(__FILE__)); end
+namespace :parser do
 
-lexer_c = file _("lexer.c") => _("lexer.lex") do |task|
-  sh 'flex', '--outfile', task.to_s, '--header-file=lexer.h',
-  task.prerequisites.first
+  def _(file); File.expand_path(file, File.dirname(__FILE__)); end
+
+  lexer_c = file _("lexer.c") => _("lexer.lex") do |task|
+    sh 'flex', '--outfile', task.to_s, '--header-file=lexer.h',
+    task.prerequisites.first
+  end
+
+  parser_c = file _("parser.c") => _("parser.y") do |task|
+    sh "bison", "--output", task.to_s, "-d", "-v", task.prerequisites.first
+  end
+
+  makefile = file _("Makefile") => [_("extconf.rb"), lexer_c, parser_c] do |task|
+    ruby task.prerequisites.first
+  end
+
+  task :parser => parser_c
+  task :lexer => lexer_c
+
+  task :compile => makefile do
+    sh 'make'
+  end
+
+  task :clean do
+    rm_f lexer_c.to_s
+    rm_f parser_c.to_s
+    rm_f makefile.to_s
+    rm_f _("lexer.h")
+    rm_f _("parser.h")
+    rm_f _("parser.output")
+    rm_f Dir.glob(_("*.{o,so,rbc,log}"))
+  end
+
+  task :default => :compile
+
 end
 
-parser_c = file _("parser.c") => _("parser.y") do |task|
-  sh "bison", "--output", task.to_s, "-d", "-v", task.prerequisites.first
-end
-
-makefile = file _("Makefile") => [_("extconf.rb"), lexer_c, parser_c] do |task|
-  ruby task.prerequisites.first
-end
-
-task :parser => parser_c
-task :lexer => lexer_c
-
-task :compile => makefile do
-  sh 'make'
-end
-
-task :clean do
-  rm_f lexer_c.to_s
-  rm_f parser_c.to_s
-  rm_f makefile.to_s
-  rm_f _("lexer.h")
-  rm_f _("parser.h")
-  rm_f _("parser.output")
-  rm_f Dir.glob(_("*.{o,so,rbc,log}"))
-end
-
-task :default => :compile
-
+task :default => "parser:default"
+task :clean => "parser:clean"

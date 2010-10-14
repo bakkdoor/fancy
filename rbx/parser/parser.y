@@ -5,6 +5,7 @@ int yyerror(char *s);
 int yylex(void);
 
 VALUE fy_terminal_node(char *);
+VALUE fy_terminal_node_from(char *, char*);
 
 extern int yylineno;
 extern char *yytext;
@@ -49,18 +50,27 @@ extern VALUE m_Parser;
 %token                  DOLLAR
 %token                  EQUALS
 %token                  RB_ARGS_PREFIX
+%token                  IDENTIFIER
 
-%token <object>         INTEGER_LITERAL
-%token <object>         DOUBLE_LITERAL
-%token <object>         STRING_LITERAL
-%token <object>         SYMBOL_LITERAL
-%token <object>         REGEXP_LITERAL
-%token <object>         IDENTIFIER
-%token <object>         OPERATOR
+%token                  INTEGER_LITERAL
+%token                  DOUBLE_LITERAL
+%token                  STRING_LITERAL
+%token                  SYMBOL_LITERAL
+%token                  REGEX_LITERAL
+%token                  OPERATOR
 
 %left                   DOT
 %right                  DOLLAR
 
+%type <object>          integer_literal
+%type <object>          double_literal
+%type <object>          string_literal
+%type <object>          symbol_literal
+%type <object>          regex_literal
+%type <object>          operator
+
+
+%type  <object>         identifier
 %type  <object>         literal_value
 %type  <object>         block_literal
 %type  <object>         block_args
@@ -149,11 +159,11 @@ exp:            method_def
                 | operator_send
                 | try_catch_block
                 | literal_value
-                | IDENTIFIER
+                | identifier
                 | LPAREN exp RPAREN { $$ = $2; }
                 ;
 
-assignment:     IDENTIFIER EQUALS space exp {
+assignment:     identifier EQUALS space exp {
                   $$ = rb_funcall(m_Parser, rb_intern("assignment"), 2, $1, $4);
                 }
                 | multiple_assignment
@@ -164,10 +174,20 @@ multiple_assignment: identifier_list EQUALS exp_comma_list {
                 }
                 ;
 
-identifier_list: IDENTIFIER {
-                  $$ = Qnil;
+operator:       OPERATOR {
+                  $$ = fy_terminal_node("operator");
                 }
-                | identifier_list COMMA IDENTIFIER {
+                ;
+
+identifier:     IDENTIFIER {
+                  $$ = fy_terminal_node("identifier");
+                }
+                ;
+
+identifier_list: identifier {
+                  $$ = $1;
+                }
+                | identifier_list COMMA identifier {
                   $$ = Qnil;
                 }
                 ;
@@ -188,10 +208,10 @@ return_statement: RETURN exp {
                 }
                 ;
 
-require_statement: REQUIRE STRING_LITERAL {
+require_statement: REQUIRE string_literal {
                   $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
                 }
-                | REQUIRE IDENTIFIER {
+                | REQUIRE identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
                 }
                 ;
@@ -200,12 +220,12 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: DEFCLASS IDENTIFIER LCURLY class_body RCURLY {
+class_no_super: DEFCLASS identifier LCURLY class_body RCURLY {
                   $$ = Qnil;
                 }
                 ;
 
-class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY class_body RCURLY {
+class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
                   $$ = Qnil;
                 }
                 ;
@@ -233,9 +253,9 @@ method_def:     method_w_args
                 | class_operator_def
                 ;
 
-method_args:    IDENTIFIER COLON IDENTIFIER {
+method_args:    identifier COLON identifier {
                 }
-                | method_args IDENTIFIER COLON IDENTIFIER {
+                | method_args identifier COLON identifier {
                 }
                 ;
 
@@ -257,81 +277,81 @@ method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
                 ;
 
 
-method_no_args: DEF IDENTIFIER LCURLY space method_body space RCURLY {
+method_no_args: DEF identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PRIVATE IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PRIVATE identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PROTECTED IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                ;
-
-class_method_w_args: DEF IDENTIFIER method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF PRIVATE IDENTIFIER method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF PROTECTED IDENTIFIER method_args LCURLY space method_body space RCURLY {
+                | DEF PROTECTED identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
                 ;
 
-class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
+class_method_w_args: DEF identifier method_args LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PRIVATE IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PRIVATE identifier method_args LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PROTECTED IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PROTECTED identifier method_args LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
                 ;
 
-operator_def:   DEF OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+class_method_no_args: DEF identifier identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PRIVATE OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PRIVATE identifier identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PROTECTED OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PROTECTED identifier identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                ;
+
+operator_def:   DEF operator identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF PRIVATE operator identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF PROTECTED operator identifier LCURLY space method_body space RCURLY {
                    $$ = Qnil;
                 }
-                | DEF LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PRIVATE LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PRIVATE LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PROTECTED LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                ;
-
-class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                |DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF PRIVATE IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
-                }
-                | DEF PROTECTED IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
+                | DEF PROTECTED LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
                 ;
 
-message_send:   receiver IDENTIFIER {
+class_operator_def: DEF identifier operator identifier LCURLY space method_body space RCURLY {
                   $$ = Qnil;
+                }
+                |DEF PRIVATE identifier operator identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF PROTECTED identifier operator identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF PRIVATE identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                | DEF PROTECTED identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                  $$ = Qnil;
+                }
+                ;
+
+message_send:   receiver identifier {
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_basic"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | receiver send_args {
                   $$ = Qnil;
@@ -343,10 +363,10 @@ message_send:   receiver IDENTIFIER {
                 ;
 
 
-operator_send:  receiver OPERATOR arg_exp {
+operator_send:  receiver operator arg_exp {
                   $$ = Qnil;
                 }
-                | receiver OPERATOR DOT space arg_exp {
+                | receiver operator DOT space arg_exp {
                   $$ = Qnil;
                 }
                 | receiver LBRACKET exp RBRACKET {
@@ -358,7 +378,9 @@ receiver:       LPAREN space exp space RPAREN {
                   $$ = $3;
                 }
                 | exp
-                | IDENTIFIER
+                | identifier {
+                  $$ = $1;
+                }
                 | SUPER {
                   $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 0);
                 }
@@ -367,21 +389,21 @@ receiver:       LPAREN space exp space RPAREN {
                 }
                 ;
 
-send_args:      IDENTIFIER COLON arg_exp {
+send_args:      identifier COLON arg_exp {
                   $$ = Qnil;
                 }
-                | IDENTIFIER COLON space arg_exp {
+                | identifier COLON space arg_exp {
                   $$ = Qnil;
                 }
-                | send_args IDENTIFIER COLON arg_exp {
+                | send_args identifier COLON arg_exp {
                   $$ = Qnil;
                 }
-                | send_args IDENTIFIER COLON space arg_exp {
+                | send_args identifier COLON space arg_exp {
                   $$ = Qnil;
                 }
                 ;
 
-arg_exp:        IDENTIFIER
+arg_exp:        identifier
                 | LPAREN exp RPAREN {
                   $$ = $2;
                 }
@@ -405,13 +427,13 @@ catch_blocks:  /* empty */ {
                 | CATCH LCURLY catch_block_body RCURLY {
                   $$ = Qnil;
                 }
-                | CATCH IDENTIFIER LCURLY catch_block_body RCURLY {
+                | CATCH identifier LCURLY catch_block_body RCURLY {
                   $$ = Qnil;
                 }
-                | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
+                | CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
                   $$ = Qnil;
                 }
-                | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
+                | catch_blocks CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
                   $$ = Qnil;
                 }
                 ;
@@ -442,17 +464,32 @@ finally_block:  FINALLY LCURLY method_body RCURLY {
                 }
                 ;
 
-literal_value:  INTEGER_LITERAL	{
+integer_literal: INTEGER_LITERAL {
                   $$ = fy_terminal_node("integer_literal");
                 }
-                | DOUBLE_LITERAL {
+                ;
+double_literal: DOUBLE_LITERAL {
                   $$ = fy_terminal_node("double_literal");
                 }
-                | STRING_LITERAL {
+                ;
+string_literal: STRING_LITERAL {
                   $$ = fy_terminal_node("string_literal");
                 }
-                | SYMBOL_LITERAL {
+                ;
+symbol_literal: SYMBOL_LITERAL {
                   $$ = fy_terminal_node("symbol_literal");
+                }
+                ;
+regex_literal: REGEX_LITERAL {
+                  $$ = fy_terminal_node("regex_literal");
+                }
+                ;
+
+literal_value:  integer_literal
+                | double_literal
+                | string_literal
+                | symbol_literal {
+                  $$ = $1;
                 }
                 | hash_literal {
                   $$ = Qnil;
@@ -460,7 +497,7 @@ literal_value:  INTEGER_LITERAL	{
                 | array_literal {
                   $$ = Qnil;
                   }
-                | REGEXP_LITERAL {
+                | regex_literal {
                   $$ = Qnil;
                 }
                 | block_literal {
@@ -511,41 +548,41 @@ block_args:     block_args_with_comma
                 | block_args_without_comma
                 ;
 
-block_args_without_comma: IDENTIFIER {
+block_args_without_comma: identifier {
                   $$ = Qnil;
                 }
-                | block_args IDENTIFIER {
-                  $$ = Qnil;
-                }
-                ;
-
-block_args_with_comma: IDENTIFIER {
-                  $$ = Qnil;
-                }
-                | block_args COMMA IDENTIFIER {
+                | block_args identifier {
                   $$ = Qnil;
                 }
                 ;
 
-key_value_list: SYMBOL_LITERAL space ARROW space exp {
+block_args_with_comma: identifier {
                   $$ = Qnil;
                 }
-                | SYMBOL_LITERAL space ARROW space literal_value {
+                | block_args COMMA identifier {
                   $$ = Qnil;
                 }
-                | STRING_LITERAL space ARROW space literal_value {
+                ;
+
+key_value_list: symbol_literal space ARROW space exp {
                   $$ = Qnil;
                 }
-                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space exp  {
+                | symbol_literal space ARROW space literal_value {
                   $$ = Qnil;
                 }
-                | key_value_list COMMA space STRING_LITERAL space ARROW space exp  {
+                | string_literal space ARROW space literal_value {
                   $$ = Qnil;
                 }
-                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
+                | key_value_list COMMA space symbol_literal space ARROW space exp  {
                   $$ = Qnil;
                 }
-                | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
+                | key_value_list COMMA space string_literal space ARROW space exp  {
+                  $$ = Qnil;
+                }
+                | key_value_list COMMA space symbol_literal space ARROW space literal_value {
+                  $$ = Qnil;
+                }
+                | key_value_list COMMA space symbol_literal space ARROW space literal_value {
                   $$ = Qnil;
                 }
                 ;
@@ -554,6 +591,10 @@ key_value_list: SYMBOL_LITERAL space ARROW space exp {
 
 VALUE fy_terminal_node(char* method) {
   return rb_funcall(m_Parser, rb_intern(method), 2, INT2NUM(yylineno), rb_str_new2(yytext));
+}
+
+VALUE fy_terminal_node_from(char* method, char* text) {
+  return rb_funcall(m_Parser, rb_intern(method), 2, INT2NUM(yylineno), rb_str_new2(text));
 }
 
 int yyerror(char *s)

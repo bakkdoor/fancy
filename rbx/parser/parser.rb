@@ -43,12 +43,21 @@ module Fancy
     end
 
     def symbol_literal(line, yytext)
-      str = yytext[0..-1] # omit the quote
-      Rubinius::AST::SymbolLiteral.new(line, str)
+      str = yytext[1..-1] # omit the quote
+      Rubinius::AST::SymbolLiteral.new(line, str.to_sym)
     end
 
     def parse_error(line, yytext)
       raise ParseError.new "at line #{line}, token: #{yytext}"
+    end
+
+    def identifier(line, yytext)
+      Fancy::AST::Identifier.new(line, yytext)
+    end
+
+    def msg_send_basic(line, receiver, identifier)
+      args = Fancy::AST::MessageArgs.new(line)
+      Fancy::AST::MessageSend.new(line, receiver, identifier, args)
     end
 
 

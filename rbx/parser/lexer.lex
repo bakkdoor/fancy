@@ -116,7 +116,7 @@ comment         #[^\n]*
                 }
 {regexp_lit}    {
                   yylval.object = rb_str_new2(yytext);
-                  return REGEXP_LITERAL;
+                  return REGEX_LITERAL;
                 }
 {comma}         { return COMMA; }
 {semi}          { return SEMI; }
