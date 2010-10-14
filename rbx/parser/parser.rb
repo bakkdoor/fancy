@@ -28,6 +28,11 @@ module Fancy
       Rubinius::AST::FixnumLiteral.new(line, yytext.to_i)
     end
 
+    def symbol_literal(line, yytext)
+      str = yytext[0..-1] # omit the quote
+      Rubinius::AST::SymbolLiteral.new(line, str)
+    end
+
     require 'fancy_parser'
 
   end
