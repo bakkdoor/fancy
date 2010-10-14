@@ -22,6 +22,9 @@ module Rubinius
         run_next
       end
 
+      def input(root_ast)
+        @input = root_ast
+      end
     end
 
     # FancySexp -> FancyAST

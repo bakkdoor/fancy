@@ -45,6 +45,11 @@ module Fancy
       raise ParseError.new "at line #{line}, token: #{yytext}"
     end
 
+    def run_compiler(file = "UNKNOWN_FILE")
+      puts "running compiler for file: #{file}"
+      Rubinius::Compiler.compile_fancy_file_from_ast file, @expr_list
+    end
+
     require 'fancy_parser'
 
   end

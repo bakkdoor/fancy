@@ -11,4 +11,4 @@ require File.expand_path("../compiler.rb", File.dirname(__FILE__))
 require 'parser'
 
 Fancy::Parser.parse_string(ARGV.first || "\"hello\"")
-Fancy::Parser.parse_string("132")
+#Fancy::Parser.parse_string("132")
