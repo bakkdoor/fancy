@@ -1,6 +1,3 @@
-## This file expects rbx/compiler/ast has been loaded
-
-
 module Fancy
 
   # This module has methods that can be used as callbacks from
@@ -11,13 +8,24 @@ module Fancy
   # $$
   module Parser
 
-    extend self # So we can use instance methods directly
-    # eg, in c we could do
-    # $$ = rb_funcall(m_Parser, rb_intern("create_string"), 2, INT2NUM(yylineno), rb_str_new2(yytext))
+    extend self
 
-    # Invoked by the parser when it has seen an string
-    def create_integer(line, token)
+    # For TERMINALS, like INTEGER_LITERAL, STRING_LITERAL, etc
+    # we can create the nodes by manipulaing the yytext
+    # For non-terminals we will see.
 
+    def string_literal(line, yytext)
+      # yytext contains the opening " and the closing "
+      puts "String(#{yytext}) at line #{line}"
+      str = yytext[1..-2]
+      p str
+      Rubinius::AST::StringLiteral.new(line, str)
+    end
+
+
+    def integer_literal(line, yytext)
+      # yytext is an string, so we just call ruby's to_i on it.
+      Rubinius::AST::FixnumLiteral.new(line, yytext.to_i)
     end
 
     require 'fancy_parser'

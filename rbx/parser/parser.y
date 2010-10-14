@@ -106,7 +106,6 @@ int yylex(void);
 
 programm:       /* empty */
                 | code {
-                    printf("CODE !");
                 }
                 | programm delim code {
                 }
@@ -446,16 +445,16 @@ finally_block:  FINALLY LCURLY method_body RCURLY {
                 ;
 
 literal_value:  INTEGER_LITERAL	{
-                  $$ = Qnil;
+                  $$ = fy_terminal_node("integer_literal");
                 }
                 | DOUBLE_LITERAL {
-                  $$ = Qnil;
+                  $$ = fy_terminal_node("double_literal");
                 }
                 | STRING_LITERAL {
-                  $$ = Qnil;
+                  $$ = fy_terminal_node("string_literal");
                 }
                 | SYMBOL_LITERAL {
-                  $$ = Qnil;
+                  $$ = fy_terminal_node("symbol_literal");
                 }
                 | hash_literal {
                   $$ = Qnil;
@@ -554,6 +553,13 @@ key_value_list: SYMBOL_LITERAL space ARROW space exp {
                 ;
 
 %%
+
+VALUE fy_terminal_node(char* method) {
+  extern int yylineno;
+  extern char *yytext;
+  extern VALUE m_Parser;
+  return rb_funcall(m_Parser, rb_intern(method), 2, INT2NUM(yylineno), rb_str_new2(yytext));
+}
 
 int yyerror(char *s)
 {

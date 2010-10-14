@@ -7,6 +7,7 @@
 #  rbx test.rb
 # expect it to segfault or worse, hehe
 #
+require File.expand_path("../compiler.rb", File.dirname(__FILE__))
 require 'parser'
 
-Fancy::Parser.parse_string(ARGV.first || "1")
+Fancy::Parser.parse_string(ARGV.first || "\"hello\"")
