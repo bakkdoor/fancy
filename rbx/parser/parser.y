@@ -154,13 +154,13 @@ exp:            method_def
                 ;
 
 assignment:     IDENTIFIER EQUALS space exp {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("assignment"), 2, $1, $4);
                 }
                 | multiple_assignment
                 ;
 
 multiple_assignment: identifier_list EQUALS exp_comma_list {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("multiple_assignment"), 2, $1, $3);
                 }
                 ;
 
@@ -173,26 +173,26 @@ identifier_list: IDENTIFIER {
                 ;
 
 return_local_statement: RETURN_LOCAL exp {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, $2);
                 }
                 | RETURN_LOCAL {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, Qnil);
                 }
                 ;
 
 return_statement: RETURN exp {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 1, $2);
                 }
                 | RETURN {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 1, Qnil);
                 }
                 ;
 
 require_statement: REQUIRE STRING_LITERAL {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
                 }
                 | REQUIRE IDENTIFIER {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
                 }
                 ;
 
@@ -355,19 +355,15 @@ operator_send:  receiver OPERATOR arg_exp {
                 ;
 
 receiver:       LPAREN space exp space RPAREN {
-                  $$ = Qnil;
+                  $$ = $3;
                 }
-                | exp {
-                  $$ = Qnil;
-                }
-                | IDENTIFIER {
-                  $$ = Qnil;
-                }
+                | exp
+                | IDENTIFIER
                 | SUPER {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 0);
                 }
                 | exp DOT space {
-                  $$ = Qnil;
+                  $$ = $1;
                 }
                 ;
 
@@ -385,18 +381,13 @@ send_args:      IDENTIFIER COLON arg_exp {
                 }
                 ;
 
-arg_exp:        IDENTIFIER {
-                  $$ = Qnil;
-                }
+arg_exp:        IDENTIFIER
                 | LPAREN exp RPAREN {
-                  $$ = Qnil;
+                  $$ = $2;
                 }
-                | literal_value {
-                  $$ = Qnil;
-
-                }
+                | literal_value
                 | DOLLAR exp {
-                  $$ = Qnil;
+                  $$ = $2;
                 }
                 ;
 
@@ -434,7 +425,6 @@ catch_block_body: /* empty */ {
                 }
                 | RETRY {
                   $$ = Qnil;
-
                 }
                 | catch_block_body delim code {
                   $$ = Qnil;
