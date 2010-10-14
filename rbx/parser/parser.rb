@@ -8,6 +8,8 @@ module Fancy
   # $$
   module Parser
 
+    class ParseError < StandardError; end
+
     extend self
 
     # For TERMINALS, like INTEGER_LITERAL, STRING_LITERAL, etc
@@ -31,6 +33,10 @@ module Fancy
     def symbol_literal(line, yytext)
       str = yytext[0..-1] # omit the quote
       Rubinius::AST::SymbolLiteral.new(line, str)
+    end
+
+    def parse_error(line, yytext)
+      raise ParseError.new "at line #{line}, token: #{yytext}"
     end
 
     require 'fancy_parser'

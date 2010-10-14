@@ -307,7 +307,7 @@ operator_def:   DEF OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
 class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
-                | DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
+                |DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
                   $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
@@ -567,16 +567,8 @@ int yyerror(char *s)
 {
   extern int yylineno;
   extern char *yytext;
-
-  VALUE msg = rb_str_new2("Parse Error: ");
-  //  msg = rb_str_concat(msg, rb_str_new2(current_file));
-  msg = rb_str_concat(msg, rb_str_new2(":"));
-  msg = rb_str_concat(msg, rb_funcall(INT2NUM(yylineno), rb_intern("to_s"), 0));
-  msg = rb_str_concat(msg, rb_str_new2(" at symbol '"));
-  msg = rb_str_concat(msg, rb_str_new2(yytext));
-  msg = rb_str_concat(msg, rb_str_new2("'"));
-
-  rb_funcall(msg, rb_intern("raise"), 1, msg);
+  extern VALUE m_Parser;
+  rb_funcall(m_Parser, rb_intern("parse_error"), 2, INT2NUM(yylineno), rb_str_new2(yytext));
   return 1;
 }
 
