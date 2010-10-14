@@ -9,6 +9,10 @@ module Fancy
         @expressions = expressions
       end
 
+      def add_expression(expression)
+        @expressions << expression
+      end
+
       def empty?
         @expressions.empty?
       end

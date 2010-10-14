@@ -10,15 +10,17 @@ module Fancy
 
     extend self
 
+    @expr_list = Fancy::AST::ExpressionList.new
+
     # For TERMINALS, like INTEGER_LITERAL, STRING_LITERAL, etc
     # we can create the nodes by manipulaing the yytext
     # For non-terminals we will see.
 
     def string_literal(line, yytext)
       # yytext contains the opening " and the closing "
-      puts "String(#{yytext}) at line #{line}"
-      str = yytext[1..-2]
-      p str
+      # puts "String(#{yytext}) at line #{line}"
+      # str = yytext[1..-2]
+      # p str
       Rubinius::AST::StringLiteral.new(line, str)
     end
 
@@ -31,6 +33,10 @@ module Fancy
     def symbol_literal(line, yytext)
       str = yytext[0..-1] # omit the quote
       Rubinius::AST::SymbolLiteral.new(line, str)
+    end
+
+    def add_expr(expr)
+      @expr_list.add_expression expr
     end
 
     require 'fancy_parser'

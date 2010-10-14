@@ -6,6 +6,10 @@ int yylex(void);
 
 VALUE fy_terminal_node(char *);
 
+extern int yylineno;
+extern char *yytext;
+extern VALUE m_Parser;
+
 %}
 
 %union{
@@ -108,8 +112,10 @@ VALUE fy_terminal_node(char *);
 
 programm:       /* empty */
                 | code {
+                  rb_funcall(m_Parser, rb_intern("add_expr"), 1, $1);
                 }
                 | programm delim code {
+                  rb_funcall(m_Parser, rb_intern("add_expr"), 1, $3);
                 }
                 | programm delim { }
                 ;
@@ -463,7 +469,7 @@ literal_value:  INTEGER_LITERAL	{
                 }
                 | array_literal {
                   $$ = Qnil;
-                }
+                  }
                 | REGEXP_LITERAL {
                   $$ = Qnil;
                 }
@@ -557,17 +563,11 @@ key_value_list: SYMBOL_LITERAL space ARROW space exp {
 %%
 
 VALUE fy_terminal_node(char* method) {
-  extern int yylineno;
-  extern char *yytext;
-  extern VALUE m_Parser;
   return rb_funcall(m_Parser, rb_intern(method), 2, INT2NUM(yylineno), rb_str_new2(yytext));
 }
 
 int yyerror(char *s)
 {
-  extern int yylineno;
-  extern char *yytext;
-
   VALUE msg = rb_str_new2("Parse Error: ");
   //  msg = rb_str_concat(msg, rb_str_new2(current_file));
   msg = rb_str_concat(msg, rb_str_new2(":"));
