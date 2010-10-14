@@ -8,6 +8,8 @@ module Fancy
   # $$
   module Parser
 
+    class ParseError < StandardError; end
+
     extend self
 
     @expr_list = Fancy::AST::ExpressionList.new
@@ -37,6 +39,10 @@ module Fancy
 
     def add_expr(expr)
       @expr_list.add_expression expr
+    end
+
+    def parse_error(line, yytext)
+      raise ParseError.new "at line #{line}, token: #{yytext}"
     end
 
     require 'fancy_parser'
