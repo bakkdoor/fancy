@@ -1,3 +1,3 @@
 require 'mkmf'
-
-create_makefile('fancy')
+have_library("fl")
+create_makefile('fancy_parser')
