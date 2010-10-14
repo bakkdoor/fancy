@@ -1,7 +1,8 @@
 def _(file); File.expand_path(file, File.dirname(__FILE__)); end
 
 lexer_c = file _("lexer.c") => _("fancy.lex") do |task|
-  sh 'flex', '--outfile', task.to_s, task.prerequisites.first
+  sh 'flex', '--outfile', task.to_s, '--header-file=lexer.h',
+  task.prerequisites.first
 end
 
 parser_c = file _("parser.c") => _("fancy.y") do |task|
@@ -23,6 +24,7 @@ task :clear do
   rm_f lexer_c.to_s
   rm_f parser_c.to_s
   rm_f makefile.to_s
+  rm_f _("lexer.h")
   rm_f _("parser.h")
   rm_f _("parser.output")
   rm_f Dir.glob(_("*.{o,so,rbc,log}"))

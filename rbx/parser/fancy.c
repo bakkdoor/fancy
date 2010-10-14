@@ -1,5 +1,6 @@
 #include "fancy.h"
 #include "ruby.h"
+#include "lexer.h"
 
 void
 Init_fancy_parser() {
