@@ -9,4 +9,4 @@
 #
 require 'parser'
 
-Fancy::Parser.parse_string("1")
+Fancy::Parser.parse_string(ARGV.first || "1")

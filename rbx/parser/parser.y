@@ -44,13 +44,13 @@ int yylex(void);
 %token                  EQUALS
 %token                  RB_ARGS_PREFIX
 
-%token <object>             INTEGER_LITERAL
-%token <object>             DOUBLE_LITERAL
-%token <object>             STRING_LITERAL
-%token <object>             SYMBOL_LITERAL
-%token <object>             REGEXP_LITERAL
-%token <object>             IDENTIFIER
-%token <object>             OPERATOR
+%token <object>         INTEGER_LITERAL
+%token <object>         DOUBLE_LITERAL
+%token <object>         STRING_LITERAL
+%token <object>         SYMBOL_LITERAL
+%token <object>         REGEXP_LITERAL
+%token <object>         IDENTIFIER
+%token <object>         OPERATOR
 
 %left                   DOT
 %right                  DOLLAR
@@ -106,6 +106,7 @@ int yylex(void);
 
 programm:       /* empty */
                 | code {
+                    printf("CODE !");
                 }
                 | programm delim code {
                 }
@@ -553,11 +554,6 @@ key_value_list: SYMBOL_LITERAL space ARROW space exp {
                 ;
 
 %%
-
-void inspect(VALUE value)
-{
-  rb_funcall(value, rb_intern("p"), 1, value);
-}
 
 int yyerror(char *s)
 {

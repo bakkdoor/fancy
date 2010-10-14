@@ -1,11 +1,11 @@
 def _(file); File.expand_path(file, File.dirname(__FILE__)); end
 
-lexer_c = file _("lexer.c") => _("fancy.lex") do |task|
+lexer_c = file _("lexer.c") => _("lexer.lex") do |task|
   sh 'flex', '--outfile', task.to_s, '--header-file=lexer.h',
   task.prerequisites.first
 end
 
-parser_c = file _("parser.c") => _("fancy.y") do |task|
+parser_c = file _("parser.c") => _("parser.y") do |task|
   sh "bison", "--output", task.to_s, "-d", "-v", task.prerequisites.first
 end
 
