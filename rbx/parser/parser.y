@@ -4,6 +4,8 @@
 int yyerror(char *s);
 int yylex(void);
 
+VALUE fy_terminal_node(char *);
+
 %}
 
 %union{
