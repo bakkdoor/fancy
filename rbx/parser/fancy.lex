@@ -1,6 +1,7 @@
 %{
-#include "parser.h"
 #include "ruby.h"
+#include "parser.h"
+
 int yyerror(char *s);
 %}
 

@@ -25,6 +25,7 @@ task :clear do
   rm_f makefile.to_s
   rm_f _("parser.h")
   rm_f _("parser.output")
+  rm_f Dir.glob(_("*.{o,so}"))
 end
 
 task :default => :compile
