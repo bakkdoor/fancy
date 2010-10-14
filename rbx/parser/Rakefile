@@ -20,7 +20,7 @@ task :compile => makefile do
   sh 'make'
 end
 
-task :clear do
+task :clean do
   rm_f lexer_c.to_s
   rm_f parser_c.to_s
   rm_f makefile.to_s
