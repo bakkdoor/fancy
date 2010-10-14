@@ -1,4 +1,5 @@
 %{
+#include "parser.h"
 #include "ruby.h"
 int yyerror(char *s);
 %}
@@ -41,6 +42,7 @@ nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
 regexp_lit      "r{".*"}"
 comma           ,
+
 semi            ;
 equals          =
 colon           :

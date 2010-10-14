@@ -1,7 +1,6 @@
 %{
 #include "ruby.h"
 
-extern VALUE fancy_parse_exception;
 int yyerror(char *s);
 int yylex(void);
 
@@ -9,6 +8,7 @@ int yylex(void);
 
 %union{
   VALUE object;
+  ID    symbol;
 }
 
 %start	programm
@@ -106,10 +106,8 @@ int yylex(void);
 
 programm:       /* empty */
                 | code {
-                  inspect($1);
                 }
                 | programm delim code {
-                  inspect($3);
                 }
                 | programm delim { }
                 ;
@@ -148,46 +146,45 @@ exp:            method_def
                 ;
 
 assignment:     IDENTIFIER EQUALS space exp {
-                  inspect($1);
-                  inspect($4);
+                  $$ = Qnil;
                 }
                 | multiple_assignment
                 ;
 
 multiple_assignment: identifier_list EQUALS exp_comma_list {
-                  inspect($1);
-                  inspect($3);
+                  $$ = Qnil;
                 }
                 ;
 
-identifier_list: IDENTIFIER { $$ = ident_node($1, NULL); }
+identifier_list: IDENTIFIER {
+                  $$ = Qnil;
+                }
                 | identifier_list COMMA IDENTIFIER {
-                  inspect($3);
-                  inspect($1);
+                  $$ = Qnil;
                 }
                 ;
 
 return_local_statement: RETURN_LOCAL exp {
-  //                  $$ = new nodes::ReturnStatement($2, true);
+                  $$ = Qnil;
                 }
                 | RETURN_LOCAL {
-  //             $$ = new nodes::ReturnStatement(nil, true);
+                  $$ = Qnil;
                 }
                 ;
 
 return_statement: RETURN exp {
-                  $$ = new nodes::ReturnStatement($2);
+                  $$ = Qnil;
                 }
                 | RETURN {
-                  $$ = new nodes::ReturnStatement(nil);
+                  $$ = Qnil;
                 }
                 ;
 
 require_statement: REQUIRE STRING_LITERAL {
-                  $$ = new nodes::RequireStatement($2);
+                  $$ = Qnil;
                 }
                 | REQUIRE IDENTIFIER {
-                  $$ = new nodes::RequireStatement($2);
+                  $$ = Qnil;
                 }
                 ;
 
@@ -196,19 +193,27 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEFCLASS IDENTIFIER LCURLY class_body RCURLY {
-                  $$ = new nodes::ClassDefExpr($2, new ExpressionList($4));
+                  $$ = Qnil;
                 }
                 ;
 
 class_super:    DEFCLASS IDENTIFIER COLON IDENTIFIER LCURLY class_body RCURLY {
-                  $$ = new nodes::ClassDefExpr($4, $2, new ExpressionList($6));
+                  $$ = Qnil;
                 }
                 ;
 
-class_body:     /* empty */ { $$ = expr_node(0, 0); }
-                | class_body class_def delim { $$ = expr_node(new nodes::NestedClassDefExpr($2), $1); }
-                | class_body method_def delim { $$ = expr_node($2, $1); }
-                | class_body code delim { $$ = expr_node($2, $1); }
+class_body:     /* empty */ {
+                  $$ = Qnil;
+                }
+                | class_body class_def delim {
+                  $$ = Qnil;
+                }
+                | class_body method_def delim {
+                  $$ = Qnil;
+                }
+                | class_body code delim {
+                  $$ = Qnil;
+                }
                 | class_body delim { } /* empty expressions */
                 ;
 
@@ -221,289 +226,286 @@ method_def:     method_w_args
                 ;
 
 method_args:    IDENTIFIER COLON IDENTIFIER {
-                  method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($1, $3));
                 }
                 | method_args IDENTIFIER COLON IDENTIFIER {
-                  method_args.push_back(pair<nodes::Identifier*, nodes::Identifier*>($2, $4));
                 }
                 ;
 
-method_body:    /* empty */ { $$ = expr_node(0, 0); }
-                | code { $$ = expr_node($1, 0); }
-                | method_body delim code { $$ = expr_node($3, $1); }
+method_body:    /* empty */ { $$ = Qnil; }
+                | code { $$ = Qnil; }
+                | method_body delim code { $$ = Qnil; }
                 | method_body delim { } /* empty expressions */
                 ;
 
 method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
-                  Method* method = new Method(method_args, body);
-                  // TODO: set method_args correctly
-                  $$ = new nodes::MethodDefExpr(method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE method_args LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  Method* method = new Method(method_args, body);
-                  // TODO: set method_args correctly
-                  $$ = new nodes::PrivateMethodDefExpr(method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED method_args LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  Method* method = new Method(method_args, body);
-                  // TODO: set method_args correctly
-                  $$ = new nodes::ProtectedMethodDefExpr(method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 ;
 
 
 method_no_args: DEF IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($5);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::MethodDefExpr($2, method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::PrivateMethodDefExpr($3, method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::ProtectedMethodDefExpr($3, method);
+                  $$ = Qnil;
                 }
                 ;
 
 class_method_w_args: DEF IDENTIFIER method_args LCURLY space method_body space RCURLY {
-                  // TODO: change for class method specific stuff
-                  ExpressionList* body = new ExpressionList($6);
-                  Method* method = new Method(method_args, body);
-                  // TODO: set method_args correctly
-                  $$ = new nodes::ClassMethodDefExpr($2, method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE IDENTIFIER method_args LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method(method_args, body);
-                  $$ = new nodes::PrivateClassMethodDefExpr($3, method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER method_args LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method(method_args, body);
-                  $$ = new nodes::ProtectedClassMethodDefExpr($3, method_args, method);
-                  method_args.clear();
+                  $$ = Qnil;
                 }
                 ;
 
 class_method_no_args: DEF IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
-                  // TODO: change for class method specific stuff
-                  ExpressionList* body = new ExpressionList($6);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::ClassMethodDefExpr($2, $3, method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::PrivateClassMethodDefExpr($3, $4, method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  list< pair<nodes::Identifier*, nodes::Identifier*> > empty_args;
-                  Method* method = new Method(empty_args, body);
-                  $$ = new nodes::ProtectedClassMethodDefExpr($3, $4, method);
+                  $$ = Qnil;
                 }
                 ;
 
 operator_def:   DEF OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  Method* method = new Method($2, $3, body);
-                  $$ = new nodes::OperatorDefExpr($2, method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method($3, $4, body);
-                  $$ = new nodes::PrivateOperatorDefExpr($3, method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method($3, $4, body);
-                  $$ = new nodes::ProtectedOperatorDefExpr($3, method);
+                   $$ = Qnil;
                 }
                 | DEF LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $4, body);
-                  $$ = new nodes::OperatorDefExpr(nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
-                  $$ = new nodes::PrivateOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
-                  $$ = new nodes::ProtectedOperatorDefExpr(nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 ;
 
 class_operator_def: DEF IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  Method* method = new Method($3, $4, body);
-                  $$ = new nodes::ClassOperatorDefExpr($2, $3, method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
-                  Method* method = new Method($4, $5, body);
-                  $$ = new nodes::PrivateClassOperatorDefExpr($3, $4, method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER OPERATOR IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
-                  Method* method = new Method($4, $5, body);
-                  $$ = new nodes::ProtectedClassOperatorDefExpr($3, $4, method);
+                  $$ = Qnil;
                 }
                 | DEF IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($8);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $5, body);
-                  $$ = new nodes::ClassOperatorDefExpr($2, nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 | DEF PRIVATE IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($9);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
-                  $$ = new nodes::PrivateClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 | DEF PROTECTED IDENTIFIER LBRACKET RBRACKET IDENTIFIER LCURLY space method_body space RCURLY {
-                  ExpressionList* body = new ExpressionList($9);
-                  Method* method = new Method(nodes::Identifier::from_string("[]"), $6, body);
-                  $$ = new nodes::ProtectedClassOperatorDefExpr($3, nodes::Identifier::from_string("[]"), method);
+                  $$ = Qnil;
                 }
                 ;
 
-message_send:   receiver IDENTIFIER { $$ = new nodes::MessageSend($1, $2); }
+message_send:   receiver IDENTIFIER {
+                  $$ = Qnil;
+                }
                 | receiver send_args {
-                   $$ = new nodes::MessageSend($1, $2);
+                  $$ = Qnil;
                 }
                 | send_args {
-                   $$ = new nodes::MessageSend(nodes::Self::node(), $1);
+                  $$ = Qnil;
+
                 }
                 ;
 
 
 operator_send:  receiver OPERATOR arg_exp {
-                  $$ = new nodes::OperatorSend($1, $2, $3);
+                  $$ = Qnil;
                 }
                 | receiver OPERATOR DOT space arg_exp {
-                  $$ = new nodes::OperatorSend($1, $2, $5);
+                  $$ = Qnil;
                 }
                 | receiver LBRACKET exp RBRACKET {
-                  $$ = new nodes::OperatorSend($1, nodes::Identifier::from_string("[]"), $3);
+                  $$ = Qnil;
                 }
                 ;
 
-receiver:       LPAREN space exp space RPAREN { $$ = $3; }
-                | exp { $$ = $1; }
-                | IDENTIFIER { $$ = $1; }
-                | SUPER { $$ = new nodes::Super(); }
-                | exp DOT space { $$ = $1; }
+receiver:       LPAREN space exp space RPAREN {
+                  $$ = Qnil;
+                }
+                | exp {
+                  $$ = Qnil;
+                }
+                | IDENTIFIER {
+                  $$ = Qnil;
+                }
+                | SUPER {
+                  $$ = Qnil;
+                }
+                | exp DOT space {
+                  $$ = Qnil;
+                }
                 ;
 
-send_args:      IDENTIFIER COLON arg_exp { $$ = msend_arg_node($1, $3, 0); }
-                | IDENTIFIER COLON space arg_exp { $$ = msend_arg_node($1, $4, 0); }
-                | send_args IDENTIFIER COLON arg_exp { $$ = msend_arg_node($2, $4, $1); }
-                | send_args IDENTIFIER COLON space arg_exp { $$ = msend_arg_node($2, $5, $1); }
+send_args:      IDENTIFIER COLON arg_exp {
+                  $$ = Qnil;
+                }
+                | IDENTIFIER COLON space arg_exp {
+                  $$ = Qnil;
+                }
+                | send_args IDENTIFIER COLON arg_exp {
+                  $$ = Qnil;
+                }
+                | send_args IDENTIFIER COLON space arg_exp {
+                  $$ = Qnil;
+                }
                 ;
 
-arg_exp:        IDENTIFIER { $$ = $1; }
-                | LPAREN exp RPAREN { $$ = $2; }
-                | literal_value { $$ = $1; }
-                | DOLLAR exp { $$ = $2; }
+arg_exp:        IDENTIFIER {
+                  $$ = Qnil;
+                }
+                | LPAREN exp RPAREN {
+                  $$ = Qnil;
+                }
+                | literal_value {
+                  $$ = Qnil;
+
+                }
+                | DOLLAR exp {
+                  $$ = Qnil;
+                }
                 ;
 
 try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
-                  ExpressionList* body = new ExpressionList($3);
-                  $$ = new nodes::TryCatchBlock(body, $5);
+                  $$ = Qnil;
                 }
                 | TRY LCURLY method_body RCURLY catch_blocks finally_block {
-                  ExpressionList* body = new ExpressionList($3);
-                  ExpressionList* finally = new ExpressionList($6);
-                  $$ = new nodes::TryCatchBlock(body, $5, finally);
+                  $$ = Qnil;
                 }
                 ;
 
-catch_blocks:  /* empty */ { $$ = NULL; }
+catch_blocks:  /* empty */ {
+                  $$ = Qnil
+                }
                 | CATCH LCURLY catch_block_body RCURLY {
-                  ExpressionList* body = new ExpressionList($3);
-                  $$ = except_handler_node(nodes::Identifier::from_string("StdError"), NULL, body, NULL);
+                  $$ = Qnil;
                 }
                 | CATCH IDENTIFIER LCURLY catch_block_body RCURLY {
-                  ExpressionList* body = new ExpressionList($4);
-                  $$ = except_handler_node($2, NULL, body, NULL);
+                  $$ = Qnil;
                 }
                 | CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
-                  ExpressionList* body = new ExpressionList($6);
-                  $$ = except_handler_node($2, $4, body, NULL);
+                  $$ = Qnil;
                 }
                 | catch_blocks CATCH IDENTIFIER ARROW IDENTIFIER LCURLY catch_block_body RCURLY {
-                  ExpressionList* body = new ExpressionList($7);
-                  $$ = except_handler_node($3, $5, body, $1);
+                  $$ = Qnil;
                 }
                 ;
 
-catch_block_body: /* empty */ { $$ = expr_node(0, 0); }
-                | code { $$ = expr_node($1, 0); }
-                | RETRY { $$ = expr_node(new nodes::Retry(), 0); }
-                | catch_block_body delim code { $$ = expr_node($3, $1); }
-                | catch_block_body delim RETRY { $$ = expr_node(new nodes::Retry(), $1); }
-                | catch_block_body delim { } /* empty expressions */
+catch_block_body: /* empty */ {
+                  $$ = Qnil
+                }
+                | code {
+                  $$ = Qnil;
+
+                }
+                | RETRY {
+                  $$ = Qnil;
+
+                }
+                | catch_block_body delim code {
+                  $$ = Qnil;
+                }
+                | catch_block_body delim RETRY {
+                  $$ = Qnil;
+                }
+                | catch_block_body delim {
+                  $$ = Qnil;
+                } /* empty expressions */
                 ;
 
 finally_block:  FINALLY LCURLY method_body RCURLY {
-                  $$ = $3;
+                  $$ = Qnil;
                 }
                 ;
 
-literal_value:  INTEGER_LITERAL	{ $$ = $1; }
-                | DOUBLE_LITERAL { $$ = $1; }
-                | STRING_LITERAL { $$ = $1; }
-                | SYMBOL_LITERAL { $$ = $1; }
-                | hash_literal { $$ = $1; }
-                | array_literal { $$ = $1; }
-                | REGEXP_LITERAL { $$ = $1; }
-                | block_literal { $$ = $1; }
+literal_value:  INTEGER_LITERAL	{
+                  $$ = Qnil;
+                }
+                | DOUBLE_LITERAL {
+                  $$ = Qnil;
+                }
+                | STRING_LITERAL {
+                  $$ = Qnil;
+                }
+                | SYMBOL_LITERAL {
+                  $$ = Qnil;
+                }
+                | hash_literal {
+                  $$ = Qnil;
+                }
+                | array_literal {
+                  $$ = Qnil;
+                }
+                | REGEXP_LITERAL {
+                  $$ = Qnil;
+                }
+                | block_literal {
+                  $$ = Qnil;
+                }
                 ;
 
 array_literal:  empty_array
                 | LBRACKET space exp_comma_list space RBRACKET {
-                    $$ = new nodes::ArrayLiteral($3);
+                  $$ = Qnil;
                 }
                 | RB_ARGS_PREFIX array_literal {
-                  $$ = new nodes::RubyArgsLiteral($2);
+                  $$ = Qnil;
                 }
                 ;
 
-exp_comma_list: exp { $$ = expr_node($1, 0); }
-                | exp_comma_list COMMA space exp { $$ = expr_node($4, $1); }
+exp_comma_list: exp {
+                  $$ = Qnil;
+                }
+                | exp_comma_list COMMA space exp {
+                  $$ = Qnil;
+                }
                 | exp_comma_list COMMA { }
                 ;
 
-empty_array:    LBRACKET space RBRACKET { $$ = new nodes::ArrayLiteral(0); }
+empty_array:    LBRACKET space RBRACKET {
+                  $$ = Qnil;
+                }
                 ;
 
-hash_literal:   LHASH space key_value_list space RHASH { $$ = new nodes::HashLiteral($3); }
-                | LHASH space RHASH { $$ = new nodes::HashLiteral(0); }
+hash_literal:   LHASH space key_value_list space RHASH {
+                  $$ = Qnil;
+                }
+                | LHASH space RHASH {
+                  $$ = Qnil;
+                }
                 ;
 
 block_literal:  LCURLY space method_body RCURLY {
-                  $$ = new nodes::BlockLiteral(new ExpressionList($3));
+                  $$ = Qnil;
                 }
                 | STAB block_args STAB space LCURLY space method_body space RCURLY {
-                  $$ = new nodes::BlockLiteral($2, new ExpressionList($7));
+                  $$ = Qnil;
                 }
                 ;
 
@@ -511,28 +513,42 @@ block_args:     block_args_with_comma
                 | block_args_without_comma
                 ;
 
-block_args_without_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
-                | block_args IDENTIFIER { $$ = blk_arg_node($2, $1); }
+block_args_without_comma: IDENTIFIER {
+                  $$ = Qnil;
+                }
+                | block_args IDENTIFIER {
+                  $$ = Qnil;
+                }
                 ;
 
-block_args_with_comma: IDENTIFIER { $$ = blk_arg_node($1, 0); }
-                | block_args COMMA IDENTIFIER { $$ = blk_arg_node($3, $1); }
+block_args_with_comma: IDENTIFIER {
+                  $$ = Qnil;
+                }
+                | block_args COMMA IDENTIFIER {
+                  $$ = Qnil;
+                }
                 ;
 
-key_value_list: SYMBOL_LITERAL space ARROW space exp { $$ = key_val_obj($1, $5, NULL); }
-                | SYMBOL_LITERAL space ARROW space literal_value { $$ = key_val_obj($1, $5, NULL); }
-                | STRING_LITERAL space ARROW space literal_value { $$ = key_val_obj($1, $5, NULL); }
+key_value_list: SYMBOL_LITERAL space ARROW space exp {
+                  $$ = Qnil;
+                }
+                | SYMBOL_LITERAL space ARROW space literal_value {
+                  $$ = Qnil;
+                }
+                | STRING_LITERAL space ARROW space literal_value {
+                  $$ = Qnil;
+                }
                 | key_value_list COMMA space SYMBOL_LITERAL space ARROW space exp  {
-                  $$ = key_val_obj($4, $8, $1);
+                  $$ = Qnil;
                 }
                 | key_value_list COMMA space STRING_LITERAL space ARROW space exp  {
-                  $$ = key_val_obj($4, $8, $1);
+                  $$ = Qnil;
                 }
                 | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
-                  $$ = key_val_obj($4, $8, $1);
+                  $$ = Qnil;
                 }
                 | key_value_list COMMA space SYMBOL_LITERAL space ARROW space literal_value {
-                  $$ = key_val_obj($4, $8, $1);
+                  $$ = Qnil;
                 }
                 ;
 
@@ -549,9 +565,9 @@ int yyerror(char *s)
   extern char *yytext;
 
   VALUE msg = rb_str_new2("Parse Error: ");
-  msg = rb_str_concat(msg, rb_str_new2(current_file));
+  //  msg = rb_str_concat(msg, rb_str_new2(current_file));
   msg = rb_str_concat(msg, rb_str_new2(":"));
-  msg = rb_str_concat(msg, rb_funcall(INT2NUM(yylineno), rb_intern("to_s")));
+  msg = rb_str_concat(msg, rb_funcall(INT2NUM(yylineno), rb_intern("to_s"), 0));
   msg = rb_str_concat(msg, rb_str_new2(" at symbol '"));
   msg = rb_str_concat(msg, rb_str_new2(yytext));
   msg = rb_str_concat(msg, rb_str_new2("'"));
