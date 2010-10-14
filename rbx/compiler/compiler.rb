@@ -10,6 +10,7 @@ module Rubinius
       end
     end
 
+    # Writes the compiled output file
     def self.compile_fancy_file(file, output = nil, line = 1, print = false)
       compiler = new :fancy_file, :compiled_file
 
@@ -33,34 +34,23 @@ module Rubinius
       end
     end
 
-    # => this is somewhat a hack, need to fix this
-    # I haven't looked very much into how exactly the compiler class
-    # deals with the stages etc., so I added a getter for the @start
-    # stage instance var of Rubinius::Compiler, since this is where we
-    # start for now. We should probably go write a seperate Stage
-    # class for the new parser... I feel bad :(
-    class Rubinius::Compiler
-      attr_reader :start
-    end
+    # Returns a compiled method to be loaded by the rbx runtime.
+    def self.compile_fancy_code(code, filename = "(eval)", line = 1, print = false)
+      compiler = new :fancy_code, :compiled_method
 
-    def self.compile_fancy_file_from_ast(file, ast_root, output = nil, line = 1, print = false)
-      compiler = new :fancy_bytecode, :compiled_file
-
-      gen = compiler.start
-      gen.input ast_root
+      parser = compiler.parser
+      parser.root AST::Script
+      parser.input code, filename, line
 
       if print
         printer = compiler.packager.print
         printer.bytecode = true
       end
 
-      writer = compiler.writer
-      writer.name = output ? output : fancy_compiled_name(file)
-
       begin
         compiler.run
       rescue Exception => e
-        compiler_error "Error trying to compile fancy: #{file}", e
+        compiler_error "Error trying to compile fancy: #{filename}", e
       end
     end
 

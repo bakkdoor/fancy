@@ -1,6 +1,8 @@
 require "set"
-require "rbx/compiler"
-require "rbx/compiler/command"
+
+
+require File.dirname(__FILE__) + "/compiler"
+require File.dirname(__FILE__) + "/compiler/command"
 
 module Fancy
   class CodeLoader

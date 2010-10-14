@@ -4,10 +4,13 @@
 require File.dirname(__FILE__) + "/fancy_code_loader"
 require File.dirname(__FILE__) + "/fancy_ext"
 
-file = ARGV.shift
 
 # load fancy's stdlib + rubinius extensions
-Fancy::CodeLoader.load_compiled_file "lib/rubinius.fyc"
+Fancy::CodeLoader.load_compiled_file(File.dirname(__FILE__) + "/../lib/rubinius.fyc")
 
-# load & run file
-Fancy::CodeLoader.load_compiled_file file
+if $0 == __FILE__
+  # load & run file
+  file = ARGV.shift
+  raise "Expected a fancy file to load" unless file
+  Fancy::CodeLoader.load_compiled_file file
+end

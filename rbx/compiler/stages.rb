@@ -48,11 +48,47 @@ module Rubinius
       end
     end
 
+    # Fancy string -> AST
+    class FancyCodeParser < Stage
+      stage :fancy_code
+      next_stage FancyGenerator
+
+      def initialize(compiler, last)
+        super
+        compiler.parser = self
+      end
+
+      def root(root)
+        @root = root
+      end
+
+      def print(bool)
+        @print
+      end
+
+      def input(code, filename="(eval)", line=1)
+        @input = code
+        @filename = filename
+        @line = line
+      end
+
+      def run
+        # FIX-ME currently we dont't use filename, line
+        ast = Fancy::Parser.parse_string(@input)
+        @output = @root.new ast
+        if true || @print
+          require 'pp'
+          pp @output
+        end
+        run_next
+      end
+    end
+
     # FancyFile -> FancySexp
     #
     # This stage produces a fancy sexp using ruby literals.
     #
-    class FancyParser < Stage
+    class FancyFileParser < Stage
       stage :fancy_file
       next_stage FancyAST
 

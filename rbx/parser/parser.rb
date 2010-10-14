@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/fancy_parser'
+
 module Fancy
 
   # This module has methods that can be used as callbacks from
@@ -12,23 +14,31 @@ module Fancy
 
     extend self
 
-    @expr_list = Fancy::AST::ExpressionList.new(1)
+    @expr_stack = []
 
-    # For TERMINALS, like INTEGER_LITERAL, STRING_LITERAL, etc
-    # we can create the nodes by manipulaing the yytext
-    # For non-terminals we will see.
+    def push_expression_list(line = 1)
+      @expr_stack.push Fancy::AST::ExpressionList.new(line)
+    end
+
+    def current_expression_list
+      @expr_stack[-1]
+    end
+
+    def pop_expression_list
+      @expr_stack.pop
+    end
+
+    def add_expr(expr)
+      current_expression_list.add_expression expr
+    end
 
     def string_literal(line, yytext)
-      # yytext contains the opening " and the closing "
-      # puts "String(#{yytext}) at line #{line}"
-      str = yytext[1..-2]
-      # p str
+      str = yytext[1..-2] # omit the starting and ending dquotes
       Rubinius::AST::StringLiteral.new(line, str)
     end
 
 
     def integer_literal(line, yytext)
-      # yytext is an string, so we just call ruby's to_i on it.
       Rubinius::AST::FixnumLiteral.new(line, yytext.to_i)
     end
 
@@ -37,20 +47,10 @@ module Fancy
       Rubinius::AST::SymbolLiteral.new(line, str)
     end
 
-    def add_expr(expr)
-      @expr_list.add_expression expr
-    end
-
     def parse_error(line, yytext)
       raise ParseError.new "at line #{line}, token: #{yytext}"
     end
 
-    def run_compiler(file = "UNKNOWN_FILE")
-      puts "running compiler for file: #{file}"
-      Rubinius::Compiler.compile_fancy_file_from_ast file, @expr_list
-    end
-
-    require 'fancy_parser'
 
   end
 

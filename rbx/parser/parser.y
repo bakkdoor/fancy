@@ -113,7 +113,6 @@ extern VALUE m_Parser;
 programm:       /* empty */
                 | code {
                   rb_funcall(m_Parser, rb_intern("add_expr"), 1, $1);
-                  rb_funcall(m_Parser, rb_intern("run_compiler"), 0);
                 }
                 | programm delim code {
                   rb_funcall(m_Parser, rb_intern("add_expr"), 1, $3);

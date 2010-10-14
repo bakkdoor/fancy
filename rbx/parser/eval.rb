@@ -1,14 +1,21 @@
-# This file will be removed really soon.
-# Its here just to help me run the parser ext.
-#
-# first compile the extension with
-#  rbx -S rake
-# then run this test
-#  rbx test.rb
-# expect it to segfault or worse, hehe
-#
 require File.expand_path("../compiler.rb", File.dirname(__FILE__))
-require 'parser'
+require File.expand_path("parser.rb", File.dirname(__FILE__))
 
-Fancy::Parser.parse_string(ARGV.first || "\"hello\"")
-#Fancy::Parser.parse_string("132")
+
+module Fancy
+  def self.eval(code)
+    compiled_method = Rubinius::Compiler.compile_fancy_code(code)
+  end
+end
+
+if $0 == __FILE__
+  if ARGV.length.zero?
+    Fancy.eval(STDIN.read)
+  else
+    if File.exist?(ARGV.first)
+      Fancy.eval(File.read(ARGV.first))
+    else
+      Fancy.eval(ARGV.first)
+    end
+  end
+end
