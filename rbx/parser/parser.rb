@@ -12,7 +12,7 @@ module Fancy
 
     extend self
 
-    @expr_list = Fancy::AST::ExpressionList.new
+    @expr_list = Fancy::AST::ExpressionList.new(1)
 
     # For TERMINALS, like INTEGER_LITERAL, STRING_LITERAL, etc
     # we can create the nodes by manipulaing the yytext
@@ -21,7 +21,7 @@ module Fancy
     def string_literal(line, yytext)
       # yytext contains the opening " and the closing "
       # puts "String(#{yytext}) at line #{line}"
-      # str = yytext[1..-2]
+      str = yytext[1..-2]
       # p str
       Rubinius::AST::StringLiteral.new(line, str)
     end
