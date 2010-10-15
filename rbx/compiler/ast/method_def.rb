@@ -10,6 +10,24 @@ module Fancy
         @arguments = args
         @body = body
       end
+
+      def bytecode(g)
+        if @name.to_s =~ /^initialize:(\S)+/
+          define_constructor_class_method g
+        end
+        super(g)
+      end
+
+      # defines a class method names "new:foo:" if we're defining a
+      # method named e.g. "initialize:foo:" (a constructor method).
+      def define_constructor_class_method(g)
+        method_ident = Rubinius::AST::StringLiteral.new(@line, @name.to_s[11..-1])
+        ms = MessageSend.new(@line,
+                             Rubinius::AST::Self.new(@line),
+                             Identifier.new(@line, "define_constructor_class_method:"),
+                             MessageArgs.new(@line, method_ident))
+        ms.bytecode(g)
+      end
     end
 
     class MethodArgs < Rubinius::AST::FormalArguments
