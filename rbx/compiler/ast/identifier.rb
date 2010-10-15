@@ -64,9 +64,6 @@ module Fancy
           rubyfied.to_sym
         elsif operator?
           @identifier.to_sym
-        elsif receiver.kind_of?(Rubinius::AST::Self) && @identifier == "include:"
-          # An special case is include:
-          :fancy_include
         elsif @identifier !~ /:$/
           # methods not ending with ':' have ':' prepended instead.
           # so we dont create colissions with existing ruby methods.

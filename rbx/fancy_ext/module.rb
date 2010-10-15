@@ -1,9 +1,10 @@
 class Module
 
   # Fancy version does not restricts to only modules.
-  def fancy_include(*modules)
+  define_method :"include:" do |modules|
+    modules = [modules] unless modules.kind_of?(Array)
     modules.reverse_each do |mod|
-      mod.send :fancy_append_features, self
+      mod.send :"append_features:", self
       mod.send :included, self
     end
   end
@@ -18,7 +19,7 @@ class Module
   #
   # See also #include.
   #
-  def fancy_append_features(klass)
+  define_method :"append_features:" do |klass|
     # check other.frozen
     # taint other from self
 
