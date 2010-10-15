@@ -47,7 +47,7 @@ module Fancy
         if constant?
           @identifier.to_sym
         elsif class_variable?
-          @identifier[2..-1].to_sym
+          @identifier.to_sym
         elsif instance_variable?
           @identifier[1..-1].to_sym
         else
