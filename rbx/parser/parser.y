@@ -175,7 +175,7 @@ multiple_assignment: identifier_list EQUALS exp_comma_list {
                 ;
 
 operator:       OPERATOR {
-                  $$ = fy_terminal_node("operator");
+                  $$ = fy_terminal_node("identifier");
                 }
                 ;
 
