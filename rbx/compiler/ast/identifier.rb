@@ -67,9 +67,6 @@ module Fancy
         elsif receiver.kind_of?(Rubinius::AST::Self) && @identifier == "include:"
           # An special case is include:
           :fancy_include
-        elsif @identifier == "new" || @identifier == "initialize"
-          # special case for creating objects
-          @identifier.to_sym
         elsif @identifier !~ /:$/
           # methods not ending with ':' have ':' prepended instead.
           # so we dont create colissions with existing ruby methods.

@@ -1,5 +1,11 @@
 def class Class {
 
+  def new {
+    obj = self allocate: ~[]
+    obj initialize
+    obj
+  }
+
   # calls initialize:, if defined
   def new: arg {
     obj = self allocate: ~[]
