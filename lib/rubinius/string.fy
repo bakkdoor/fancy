@@ -1,5 +1,8 @@
 def class String {
 
+  # prepend a : to fancy version of ruby methods.
+  alias_method: ":+" for: "+"
+
   def from: from to: to {
     self[~[from, to]]
   }

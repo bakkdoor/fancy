@@ -1,4 +1,11 @@
 def class Hash {
+
+  alias_method: ":size" for: 'size
+  alias_method: ":[]" for: '[]
+  alias_method: 'at:put: for: "[]="
+  alias_method: 'at: for: '[]
+
+
   def inspect {
     str = "<["
     max = self size - 1
@@ -11,9 +18,6 @@ def class Hash {
     str = str + "]>"
     str
   }
-
-  alias_method: 'at:put: for: "[]="
-  alias_method: 'at: for: '[]
 
   def each: block {
     ruby: 'each with_block: block

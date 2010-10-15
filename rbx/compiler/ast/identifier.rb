@@ -62,8 +62,6 @@ module Fancy
       def method_name(receiver = nil, with_ruby_args = false)
         if with_ruby_args
           rubyfied.to_sym
-        elsif operator?
-          @identifier.to_sym
         elsif @identifier !~ /:$/
           # methods not ending with ':' have ':' prepended instead.
           # so we dont create colissions with existing ruby methods.

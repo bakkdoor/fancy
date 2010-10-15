@@ -1,4 +1,12 @@
 def class Fixnum {
+
+  # prepend a : to fancy version of ruby methods.
+  alias_method: ":-" for: "-"
+  alias_method: ":+" for: "+"
+  alias_method: ":<" for: "<"
+  alias_method: ":>" for: ">"
+  alias_method: ":/" for: "/"
+
   def times: block {
     ruby: 'times with_block: block
   }
@@ -7,7 +15,8 @@ def class Fixnum {
     modulo: ~[other]
   }
 
-  alias_method: '% for: "modulo:"
+  # use a : so we dont overwrite ruby's % operator
+  alias_method: ":%" for: "modulo:"
 
   def upto: num {
     i = self
