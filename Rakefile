@@ -28,8 +28,12 @@ task :compile do
   sh 'make'
 end
 
-task :build => :bootstrap
+task :test_native do
+  sh 'make', 'test'
+end
 
-task :default => :build
+task :test => [:test_native, "parser:test"]
+
+task :default => :bootstrap
 
 

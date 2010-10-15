@@ -14,10 +14,7 @@ namespace :parser do
   end
 
   makefile = file _["Makefile"] => [_["extconf.rb"], lexer_c, parser_c] do |task|
-    unless Object.const_defined? :RUBY_ENGINE and RUBY_ENGINE == 'rbx'
-      "Must be running under Rubinius!"
-    end
-    Dir.chdir(_["."]) { ruby '-v', task.prerequisites.first }
+    Dir.chdir(_["."]) { sh 'rbx', task.prerequisites.first }
   end
 
   task :parser => parser_c
@@ -39,6 +36,10 @@ namespace :parser do
   end
 
   task :default => :compile
+
+  task :test => "^default" do
+    sh _['../../bin/fancy'], _['../../tests/rbx_examples_eval.fy']
+  end
 
 end
 

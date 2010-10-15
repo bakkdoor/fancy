@@ -185,7 +185,7 @@ test_files = array	\
 	symbol		\
 	argv		\
 	parsing/sexp	\
-	rbx_examples
+	rbx_examples_comp
 
 example_files = arithmetic	    \
 		armstrong_numbers   \
