@@ -24,7 +24,7 @@ module Fancy
       end
 
       def local_variable?
-        !(constant? || instance_variable?)
+        !(constant? || instance_variable? || class_variable?)
       end
 
       def nested_classname?
@@ -43,6 +43,10 @@ module Fancy
         @identifier == "nil"
       end
 
+      def operator?
+        @identifier !~ /^\w/
+      end
+
       def name
         if constant?
           @identifier.to_sym
@@ -50,6 +54,29 @@ module Fancy
           @identifier.to_sym
         elsif instance_variable?
           @identifier[1..-1].to_sym
+        else
+          @identifier.to_sym
+        end
+      end
+
+      def method_name(receiver = nil, with_ruby_args = false)
+        if with_ruby_args
+          rubyfied.to_sym
+        elsif operator?
+          @identifier.to_sym
+        elsif receiver.kind_of?(Rubinius::AST::Self) && @identifier == "include:"
+          # An special case is include:
+          :fancy_include
+        elsif @identifier == "new" || @identifier == "initialize"
+          # special case for creating objects
+          @identifier.to_sym
+        elsif @identifier !~ /:$/
+          # methods not ending with ':' have ':' prepended instead.
+          # so we dont create colissions with existing ruby methods.
+          # if we dont do this, whenever a ruby library tries to
+          # invoke (say, the print method) it will find the
+          # fancy version (not expecting arguments) and will fail.
+          ":#{@identifier}".to_sym
         else
           @identifier.to_sym
         end

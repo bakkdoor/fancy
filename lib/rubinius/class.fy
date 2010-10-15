@@ -2,7 +2,7 @@ def class Class {
 
   # calls initialize:, if defined
   def new: arg {
-    obj = self allocate
+    obj = self allocate: ~[]
     obj initialize: arg
     obj
   }

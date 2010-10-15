@@ -20,6 +20,7 @@ module Rubinius
       parser.input file, line
 
       if print
+        parser.print
         printer = compiler.packager.print
         printer.bytecode = true
       end
@@ -43,7 +44,7 @@ module Rubinius
       parser.input code, filename, line
 
       if print
-        parser.print true
+        parser.print
         printer = compiler.packager.print
         printer.bytecode = true
       end
@@ -64,7 +65,7 @@ module Rubinius
       parser.input code, filename, line
 
       if print
-        parser.print = true
+        parser.print
         printer = compiler.packager.print
         printer.bytecode = true
       end

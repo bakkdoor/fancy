@@ -7,7 +7,7 @@ module Fancy
       def initialize(line, obj_ident, method_ident, args, body)
         @line = line
         @receiver = obj_ident
-        @name = method_ident.name.to_sym
+        @name = method_ident.method_name(@receiver)
         @arguments = args
         @body = SingletonMethodDefScope.new line, @name, args, body
       end

@@ -1,6 +1,8 @@
-StdError = StandardError
+def class StdError : StandardError {
+  def initialize: msg {
+    self initialize: ~[msg]
+  }
 
-def class Exception {
   def raise! {
     raise: ~[self]
   }

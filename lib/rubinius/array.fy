@@ -9,7 +9,7 @@ def class Array {
   def append: arr {
     "Appends another Array onto this one."
 
-    arr is_a? Array . if_true: {
+    arr is_a?: Array . if_true: {
       arr each: |other| {
         self << other
       }

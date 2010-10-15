@@ -6,7 +6,7 @@ module Fancy
 
       def initialize(line, method_ident, args, body)
         @line = line
-        @name = method_ident.name.to_sym
+        @name = method_ident.method_name
         @arguments = args
         @body = body
       end

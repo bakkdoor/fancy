@@ -1,4 +1,5 @@
 def class String {
+
   def from: from to: to {
     self[~[from, to]]
   }
@@ -16,11 +17,11 @@ def class String {
   }
 
   def eval {
-    Kernel eval: ~[self]
+    Fancy eval: ~[self]
   }
 
   def eval_global {
-    "Not implemented yet!" raise!
+    Fancy eval: ~[self]
   }
 
   def to_sexp {

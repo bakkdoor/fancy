@@ -10,12 +10,12 @@ def class Object {
 
   def println {
     "Same as Console println: self. Prints the object on STDOUT, followed by a newline."
-    Console println: self
+    Console println: $ self to_s
   }
 
   def print {
     "Same as Console print: self. Prints the object on STDOUT."
-    Console print: self
+    Console print: $ self to_s
   }
 
   def != other {

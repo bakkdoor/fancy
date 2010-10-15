@@ -19,14 +19,8 @@ module Fancy
           @message_args.bytecode(g)
           pos(g)
           g.allow_private
-          if @receiver.kind_of?(Rubinius::AST::Self) && @message_name.identifier == "include:"
-            name = :fancy_include
-          else
-            name = @message_name.name.to_sym
-            if ruby_send?
-              name = @message_name.rubyfied.to_sym
-            end
-          end
+
+          name = @message_name.method_name(@receiver, ruby_send?)
           g.send name, @message_args.size, false
         end
       end

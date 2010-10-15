@@ -45,8 +45,6 @@ module Rubinius
 
       def parse
         ast = Fancy::AST.from_sexp @input
-        require 'pp'
-        pp ast
         ast
       end
     end
@@ -65,8 +63,8 @@ module Rubinius
         @root = root
       end
 
-      def print(bool)
-        @print = bool
+      def print
+        @print = true
       end
 
       def input(code, filename="(eval)", line=1)
@@ -80,10 +78,6 @@ module Rubinius
         ast = Fancy::Parser.parse_string(@input)
         @output = @root.new ast
         @output.file = @filename
-        if @print
-          require 'pp'
-          pp @output
-        end
         run_next
       end
     end

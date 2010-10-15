@@ -2,7 +2,7 @@ def class System {
   def System exit {
     "Exit the running Fancy process."
 
-    Kernel exit
+    Kernel exit: ~[]
   }
 
   def System do: command_str {
