@@ -60,6 +60,15 @@ module Fancy
       Fancy::AST::MessageSend.new(line, receiver, identifier, args)
     end
 
+    def oper_send_basic(line, receiver, operator, argument)
+      args = Fancy::AST::MessageArgs.new(line, argument)
+      Fancy::AST::MessageSend.new(line, receiver, operator, args)
+    end
+
+    def assignment(line, identifier, value)
+      Fancy::AST::Assignment.new(line, identifier, value)
+    end
+
 
   end
 

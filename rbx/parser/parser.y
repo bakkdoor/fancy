@@ -164,7 +164,7 @@ exp:            method_def
                 ;
 
 assignment:     identifier EQUALS space exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("assignment"), 2, $1, $4);
+                  $$ = rb_funcall(m_Parser, rb_intern("assignment"), 3, INT2NUM(yylineno), $1, $4);
                 }
                 | multiple_assignment
                 ;
@@ -188,6 +188,7 @@ identifier_list: identifier {
                   $$ = $1;
                 }
                 | identifier_list COMMA identifier {
+                  printf("TODO: identifier_list");
                   $$ = Qnil;
                 }
                 ;
@@ -221,25 +222,31 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEFCLASS identifier LCURLY class_body RCURLY {
+                  printf("TODO: class_no_super");
                   $$ = Qnil;
                 }
                 ;
 
 class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
+                  printf("TODO: class_super");
                   $$ = Qnil;
                 }
                 ;
 
 class_body:     /* empty */ {
+                  printf("TODO: class_body0");
                   $$ = Qnil;
                 }
                 | class_body class_def delim {
+                  printf("TODO: class_sbody1");
                   $$ = Qnil;
                 }
                 | class_body method_def delim {
+                  printf("TODO: class_body2");
                   $$ = Qnil;
                 }
                 | class_body code delim {
+                  printf("TODO: class_body3");
                   $$ = Qnil;
                 }
                 | class_body delim { } /* empty expressions */
@@ -254,14 +261,25 @@ method_def:     method_w_args
                 ;
 
 method_args:    identifier COLON identifier {
+                  printf("TODO: method_args");
                 }
                 | method_args identifier COLON identifier {
+                  printf("TODO: method_args2");
                 }
                 ;
 
-method_body:    /* empty */ { $$ = Qnil; }
-                | code { $$ = Qnil; }
-                | method_body delim code { $$ = Qnil; }
+method_body:    /* empty */ {
+                  printf("TODO: empty_method_body");
+                  $$ = Qnil;
+                }
+                | code {
+                  printf("TODO: method_body code");
+                  $$ = Qnil;
+                }
+                | method_body delim code {
+                  printf("TODO: method_body delim");
+                  $$ = Qnil;
+                }
                 | method_body delim { } /* empty expressions */
                 ;
 
@@ -354,9 +372,11 @@ message_send:   receiver identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("msg_send_basic"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | receiver send_args {
+                  printf("msg send_args");
                   $$ = Qnil;
                 }
                 | send_args {
+                  printf("msg send_args0");
                   $$ = Qnil;
 
                 }
@@ -364,13 +384,13 @@ message_send:   receiver identifier {
 
 
 operator_send:  receiver operator arg_exp {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);
                 }
                 | receiver operator DOT space arg_exp {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $5);
                 }
                 | receiver LBRACKET exp RBRACKET {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, fy_terminal_node_from("identifier", "[]"), $3);
                 }
                 ;
 
@@ -390,76 +410,98 @@ receiver:       LPAREN space exp space RPAREN {
                 ;
 
 send_args:      identifier COLON arg_exp {
+                  printf("sendargs0");
                   $$ = Qnil;
                 }
                 | identifier COLON space arg_exp {
+                  printf("sendargs1");
                   $$ = Qnil;
                 }
                 | send_args identifier COLON arg_exp {
+                  printf("sendargs2");
                   $$ = Qnil;
                 }
                 | send_args identifier COLON space arg_exp {
+                  printf("sendargs3");
                   $$ = Qnil;
                 }
                 ;
 
 arg_exp:        identifier
                 | LPAREN exp RPAREN {
+                  printf("argexp0");
                   $$ = $2;
                 }
-                | literal_value
+                | literal_value {
+                  $$ = $1;
+                }
                 | DOLLAR exp {
+                  printf("argexp2");
                   $$ = $2;
                 }
                 ;
 
 try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
+                  printf("try0");
                   $$ = Qnil;
                 }
                 | TRY LCURLY method_body RCURLY catch_blocks finally_block {
+                  printf("try1");
                   $$ = Qnil;
                 }
                 ;
 
 catch_blocks:  /* empty */ {
+                  printf("catch0");
                   $$ = Qnil
                 }
                 | CATCH LCURLY catch_block_body RCURLY {
+                  printf("catch1");
                   $$ = Qnil;
                 }
                 | CATCH identifier LCURLY catch_block_body RCURLY {
+                  printf("catch2");
                   $$ = Qnil;
                 }
                 | CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
+                  printf("catch3");
                   $$ = Qnil;
                 }
                 | catch_blocks CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
+                  printf("catch4");
                   $$ = Qnil;
                 }
                 ;
 
 catch_block_body: /* empty */ {
+                  printf("cab0");
                   $$ = Qnil
                 }
                 | code {
+                  printf("cab1");
                   $$ = Qnil;
 
                 }
                 | RETRY {
+                  printf("cab2");
                   $$ = Qnil;
                 }
                 | catch_block_body delim code {
+                  printf("cab3");
                   $$ = Qnil;
                 }
                 | catch_block_body delim RETRY {
+                  printf("cab4");
                   $$ = Qnil;
                 }
                 | catch_block_body delim {
+                  printf("cab5");
                   $$ = Qnil;
                 } /* empty expressions */
                 ;
 
 finally_block:  FINALLY LCURLY method_body RCURLY {
+                  printf("finally");
                   $$ = Qnil;
                 }
                 ;
@@ -488,58 +530,61 @@ regex_literal: REGEX_LITERAL {
 literal_value:  integer_literal
                 | double_literal
                 | string_literal
-                | symbol_literal {
-                  $$ = $1;
-                }
-                | hash_literal {
-                  $$ = Qnil;
-                }
-                | array_literal {
-                  $$ = Qnil;
-                  }
-                | regex_literal {
-                  $$ = Qnil;
-                }
+                | symbol_literal
+                | hash_literal
+                | array_literal
+                | regex_literal
                 | block_literal {
-                  $$ = Qnil;
+                  $$ = $1;
                 }
                 ;
 
 array_literal:  empty_array
                 | LBRACKET space exp_comma_list space RBRACKET {
+                  printf("arrayliteral0");
                   $$ = Qnil;
                 }
                 | RB_ARGS_PREFIX array_literal {
+                  printf("arrayliteral1");
                   $$ = Qnil;
                 }
                 ;
 
 exp_comma_list: exp {
+                  printf("expcl0");
                   $$ = Qnil;
                 }
                 | exp_comma_list COMMA space exp {
+                  printf("expcl1");
                   $$ = Qnil;
                 }
-                | exp_comma_list COMMA { }
+                | exp_comma_list COMMA {
+                  printf("expcl2");
+                }
                 ;
 
 empty_array:    LBRACKET space RBRACKET {
+                  printf("empty_ary");
                   $$ = Qnil;
                 }
                 ;
 
 hash_literal:   LHASH space key_value_list space RHASH {
+                  printf("hash_literal0");
                   $$ = Qnil;
                 }
                 | LHASH space RHASH {
+                  printf("hash_literal1");
                   $$ = Qnil;
                 }
                 ;
 
 block_literal:  LCURLY space method_body RCURLY {
+                  printf("block0");
                   $$ = Qnil;
                 }
                 | STAB block_args STAB space LCURLY space method_body space RCURLY {
+                  printf("block1");
                   $$ = Qnil;
                 }
                 ;
@@ -549,40 +594,51 @@ block_args:     block_args_with_comma
                 ;
 
 block_args_without_comma: identifier {
+                  printf("barg0");
                   $$ = Qnil;
                 }
                 | block_args identifier {
+                  printf("barg1");
                   $$ = Qnil;
                 }
                 ;
 
 block_args_with_comma: identifier {
+                  printf("bargc0");
                   $$ = Qnil;
                 }
                 | block_args COMMA identifier {
+                  printf("bargc1");
                   $$ = Qnil;
                 }
                 ;
 
 key_value_list: symbol_literal space ARROW space exp {
+                  printf("kvl0");
                   $$ = Qnil;
                 }
                 | symbol_literal space ARROW space literal_value {
+                  printf("kvl1");
                   $$ = Qnil;
                 }
                 | string_literal space ARROW space literal_value {
+                  printf("kvl2");
                   $$ = Qnil;
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space exp  {
+                  printf("kvl3");
                   $$ = Qnil;
                 }
                 | key_value_list COMMA space string_literal space ARROW space exp  {
+                  printf("kvl4");
                   $$ = Qnil;
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
+                  printf("kvl5");
                   $$ = Qnil;
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
+                  printf("kvl6");
                   $$ = Qnil;
                 }
                 ;
