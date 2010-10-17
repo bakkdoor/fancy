@@ -1,4 +1,7 @@
 module Kernel
+
+  alias_method :":metaclass", :metaclass
+
   def fancy_require(file, compile = false)
     if compile
       file = Fancy::CodeLoader.compile_file! file
