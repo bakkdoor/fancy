@@ -110,6 +110,9 @@ module Fancy
       Fancy::AST::MessageSend.new(line, receiver, name, args)
     end
 
+    def nil_literal(line)
+      Rubinius::AST::NilLiteral.new(line)
+    end
   end
 
 end
