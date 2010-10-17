@@ -55,7 +55,11 @@ module Fancy
     end
 
     def identifier(line, yytext)
-      Fancy::AST::Identifier.new(line, yytext)
+      if yytext == "self"
+        Rubinius::AST::Self.new(line)
+      else
+        Fancy::AST::Identifier.new(line, yytext)
+      end
     end
 
     def msg_send_basic(line, receiver, identifier)
