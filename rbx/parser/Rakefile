@@ -20,7 +20,7 @@ namespace :parser do
   task :parser => parser_c
   task :lexer => lexer_c
 
-  task :compile => makefile do
+  task :compile => [makefile, parser_c, lexer_c] do
     sh 'make', '-C', _["."]
   end
 
