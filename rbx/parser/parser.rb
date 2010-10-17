@@ -183,6 +183,7 @@ module Fancy
     end
 
     def try_catch_finally(line, body, handlers, finally = nil)
+      handlers ||= Fancy::AST::Handlers.new(line)
       Fancy::AST::TryCatchBlock.new(line, body, handlers, finally)
     end
 

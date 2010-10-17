@@ -439,7 +439,7 @@ try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                 ;
 
 catch_blocks:  /* empty */ {
-                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 1, INT2NUM(yylineno));
+                  $$ = Qnil;
                 }
                 | CATCH LCURLY catch_block_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 2, INT2NUM(yylineno), $3);
