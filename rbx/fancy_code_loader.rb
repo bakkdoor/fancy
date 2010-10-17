@@ -34,7 +34,7 @@ module Fancy
       if f = find_file(filename)
         return f
       else
-        if f = find_file_in_path(filename, @@current_dir.last)
+        if @@current_dir.last && f = find_file_in_path(filename, @@current_dir.last)
           return f
         end
         @@load_path.each do |p|

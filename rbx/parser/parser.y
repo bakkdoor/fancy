@@ -197,7 +197,7 @@ return_local_statement: RETURN_LOCAL exp {
                   $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN_LOCAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), Qnil);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -205,7 +205,7 @@ return_statement: RETURN exp {
                   $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 2, INT2NUM(yylineno), Qnil);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 1, INT2NUM(yylineno));
                 }
                 ;
 

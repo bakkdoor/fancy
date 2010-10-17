@@ -193,6 +193,20 @@ module Fancy
       Fancy::AST::HashLiteral.new(line, *key_values)
     end
 
+    def require_stmt(line, identifier)
+      Fancy::AST::Require.new(line, identifier)
+    end
+
+    def return_stmt(line, expr = nil)
+      expr ||= nil_literal(expr)
+      Fancy::AST::Return.new(line, expr)
+    end
+
+    def return_local(line, expr = nil)
+      expr ||= nil_literal(expr)
+      Fancy::AST::Return.new(line, expr)
+    end
+
   end
 
 end
