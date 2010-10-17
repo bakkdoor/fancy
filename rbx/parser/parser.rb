@@ -142,18 +142,8 @@ module Fancy
       Fancy::AST::ExpressionList.new(line, *expressions)
     end
 
-    def expr_list_add(expr_list, expr)
-      expr_list.add_expression expr
-      expr_list
-    end
-
     def class_def(line, identifier, parent, body)
       Fancy::AST::ClassDef.new(line, identifier, parent, body)
-    end
-
-    def class_body(line, expr_list, expr)
-      expr_list.add_expression expr
-      expr_list
     end
 
     def array_empty(line)

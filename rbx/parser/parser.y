@@ -235,13 +235,16 @@ class_body:     /* empty */ {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 1, INT2NUM(yylineno));
                 }
                 | class_body class_def delim {
-                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
+                  rb_funcall($1, rb_intern("add_expression"), 1, $2);
+                  $$ = $1;
                 }
                 | class_body method_def delim {
-                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
+                  rb_funcall($1, rb_intern("add_expression"), 1, $2);
+                  $$ = $1;
                 }
                 | class_body code delim {
-                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
+                  rb_funcall($1, rb_intern("add_expression"), 1, $2);
+                  $$ = $1;
                 }
                 | class_body delim {
                   $$ = $1;
@@ -463,11 +466,13 @@ catch_block_body: /* empty */ {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 2, INT2NUM(yylineno), retry);
                 }
                 | catch_block_body delim code {
-                  $$ = rb_funcall(m_Parser, rb_intern("expr_list_add"), 2, $1, $3);
+                  rb_funcall($1, rb_intern("add_expression"), 1, $3);
+                  $$ = $1;
                 }
                 | catch_block_body delim RETRY {
                   VALUE retry = rb_funcall(m_Parser, rb_intern("retry_exp"), 1, INT2NUM(yylineno));
-                  $$ = rb_funcall(m_Parser, rb_intern("expr_list_add"), 2, $1, retry);
+                  rb_funcall($1, rb_intern("add_expression"), 1, retry);
+                  $$ = $1;
                 }
                 | catch_block_body delim {
                   $$ = $1;
