@@ -97,7 +97,7 @@ module Fancy
     def method_def(line, method_args, method_body)
       name = method_args.map { |a| a.selector.identifier }.join("")
       method_ident = Fancy::AST::Identifier.new(line, name)
-      args = method_args.map { |a| a.selector.identifier }
+      args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
     end
