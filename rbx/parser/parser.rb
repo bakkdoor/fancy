@@ -98,6 +98,16 @@ module Fancy
       ary.push Struct.new(:selector, :value).new(selector, value)
     end
 
+    def operator_def(line, operator, parameter, method_body, access = :public)
+      args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
+      Fancy::AST::MethodDef.new(line, operator, args, method_body)
+    end
+
+    def sin_operator_def(line, identifier, operator, parameter, method_body, access = :public)
+      args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, operator, args, method_body)
+    end
+
     def method_def_no_args(line, method_ident, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line)
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
@@ -109,6 +119,14 @@ module Fancy
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+    end
+
+    def sin_method_def(line, identifier, method_args, method_body, access = :public)
+      name = method_args.map { |a| a.selector.identifier }.join("")
+      method_name = Fancy::AST::Identifier.new(line, name)
+      args = method_args.map { |a| a.variable.identifier }
+      args = Fancy::AST::MethodArgs.new(line, *args)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body)
     end
 
     def sin_method_def_no_args(line, identifier, method_name, method_body, access = :public)
