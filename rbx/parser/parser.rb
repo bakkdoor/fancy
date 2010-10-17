@@ -146,15 +146,11 @@ module Fancy
       Fancy::AST::ClassDef.new(line, identifier, parent, body)
     end
 
-    def array_empty(line)
-      Fancy::AST::ArrayLiteral.new(line)
-    end
-
     def expr_ary(line, exp, ary = [])
       ary.push exp
     end
 
-    def array_literal(line, expr_ary)
+    def array_literal(line, expr_ary = [])
       Fancy::AST::ArrayLiteral.new(line, *expr_ary)
     end
 
@@ -185,6 +181,16 @@ module Fancy
     def try_catch_finally(line, body, handlers, finally = nil)
       handlers ||= Fancy::AST::Handlers.new(line)
       Fancy::AST::TryCatchBlock.new(line, body, handlers, finally)
+    end
+
+    def key_value_list(line, key, value, ary = [])
+      ary.push key
+      ary.push value
+      ary
+    end
+
+    def hash_literal(line, key_values = [])
+      Fancy::AST::HashLiteral.new(line, *key_values)
     end
 
   end

@@ -538,17 +538,15 @@ exp_comma_list: exp {
                 ;
 
 empty_array:    LBRACKET space RBRACKET {
-                  $$ = rb_funcall(m_Parser, rb_intern("array_empty"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("array_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 hash_literal:   LHASH space key_value_list space RHASH {
-                  printf("hash_literal0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
                 }
                 | LHASH space RHASH {
-                  printf("hash_literal1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("hash_literal"), 2, INT2NUM(yylineno));
                 }
                 ;
 
@@ -581,32 +579,25 @@ block_args_with_comma: identifier {
                 ;
 
 key_value_list: symbol_literal space ARROW space exp {
-                  printf("kvl0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
                 }
                 | symbol_literal space ARROW space literal_value {
-                  printf("kvl1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
                 }
                 | string_literal space ARROW space literal_value {
-                  printf("kvl2");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space exp  {
-                  printf("kvl3");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 | key_value_list COMMA space string_literal space ARROW space exp  {
-                  printf("kvl4");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
-                  printf("kvl5");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
-                  printf("kvl6");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 ;
 
