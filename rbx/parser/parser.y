@@ -194,26 +194,26 @@ identifier_list: identifier {
                 ;
 
 return_local_statement: RETURN_LOCAL exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, $2);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN_LOCAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, Qnil);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
 return_statement: RETURN exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 1, $2);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 1, Qnil);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_stmt"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
 require_statement: REQUIRE string_literal {
-                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
+                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
                 }
                 | REQUIRE identifier {
-                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 1, $2);
+                  $$ = rb_funcall(m_Parser, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 
@@ -222,32 +222,30 @@ class_def:      class_no_super
                 ;
 
 class_no_super: DEFCLASS identifier LCURLY class_body RCURLY {
-                  printf("TODO: class_no_super");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $4);
                 }
                 ;
 
 class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
-                  printf("TODO: class_super");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, $4, $6);
                 }
                 ;
 
 class_body:     /* empty */ {
                   printf("TODO: class_body0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | class_body class_def delim {
                   printf("TODO: class_sbody1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | class_body method_def delim {
                   printf("TODO: class_body2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | class_body code delim {
                   printf("TODO: class_body3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | class_body delim { } /* empty expressions */
                 ;
@@ -270,101 +268,101 @@ method_args:    identifier COLON identifier {
 
 method_body:    /* empty */ {
                   printf("TODO: empty_method_body");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | code {
                   printf("TODO: method_body code");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | method_body delim code {
                   printf("TODO: method_body delim");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | method_body delim { } /* empty expressions */
                 ;
 
 method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 
 method_no_args: DEF identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 class_method_w_args: DEF identifier method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE identifier method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED identifier method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 class_method_no_args: DEF identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 operator_def:   DEF operator identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE operator identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED operator identifier LCURLY space method_body space RCURLY {
-                   $$ = Qnil;
+                   $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 class_operator_def: DEF identifier operator identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 |DEF PRIVATE identifier operator identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED identifier operator identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PRIVATE identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | DEF PROTECTED identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -373,11 +371,11 @@ message_send:   receiver identifier {
                 }
                 | receiver send_args {
                   printf("msg send_args");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | send_args {
                   printf("msg send_args0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
 
                 }
                 ;
@@ -411,19 +409,19 @@ receiver:       LPAREN space exp space RPAREN {
 
 send_args:      identifier COLON arg_exp {
                   printf("sendargs0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | identifier COLON space arg_exp {
                   printf("sendargs1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | send_args identifier COLON arg_exp {
                   printf("sendargs2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | send_args identifier COLON space arg_exp {
                   printf("sendargs3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -443,11 +441,11 @@ arg_exp:        identifier
 
 try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
                   printf("try0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | TRY LCURLY method_body RCURLY catch_blocks finally_block {
                   printf("try1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -457,19 +455,19 @@ catch_blocks:  /* empty */ {
                 }
                 | CATCH LCURLY catch_block_body RCURLY {
                   printf("catch1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | CATCH identifier LCURLY catch_block_body RCURLY {
                   printf("catch2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
                   printf("catch3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | catch_blocks CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
                   printf("catch4");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -479,30 +477,30 @@ catch_block_body: /* empty */ {
                 }
                 | code {
                   printf("cab1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
 
                 }
                 | RETRY {
                   printf("cab2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | catch_block_body delim code {
                   printf("cab3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | catch_block_body delim RETRY {
                   printf("cab4");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | catch_block_body delim {
                   printf("cab5");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 } /* empty expressions */
                 ;
 
 finally_block:  FINALLY LCURLY method_body RCURLY {
                   printf("finally");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -542,21 +540,21 @@ literal_value:  integer_literal
 array_literal:  empty_array
                 | LBRACKET space exp_comma_list space RBRACKET {
                   printf("arrayliteral0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | RB_ARGS_PREFIX array_literal {
                   printf("arrayliteral1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 exp_comma_list: exp {
                   printf("expcl0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | exp_comma_list COMMA space exp {
                   printf("expcl1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | exp_comma_list COMMA {
                   printf("expcl2");
@@ -565,27 +563,27 @@ exp_comma_list: exp {
 
 empty_array:    LBRACKET space RBRACKET {
                   printf("empty_ary");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 hash_literal:   LHASH space key_value_list space RHASH {
                   printf("hash_literal0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | LHASH space RHASH {
                   printf("hash_literal1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 block_literal:  LCURLY space method_body RCURLY {
                   printf("block0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | STAB block_args STAB space LCURLY space method_body space RCURLY {
                   printf("block1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -595,51 +593,51 @@ block_args:     block_args_with_comma
 
 block_args_without_comma: identifier {
                   printf("barg0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | block_args identifier {
                   printf("barg1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 block_args_with_comma: identifier {
                   printf("bargc0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | block_args COMMA identifier {
                   printf("bargc1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 
 key_value_list: symbol_literal space ARROW space exp {
                   printf("kvl0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | symbol_literal space ARROW space literal_value {
                   printf("kvl1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | string_literal space ARROW space literal_value {
                   printf("kvl2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space exp  {
                   printf("kvl3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | key_value_list COMMA space string_literal space ARROW space exp  {
                   printf("kvl4");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
                   printf("kvl5");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 | key_value_list COMMA space symbol_literal space ARROW space literal_value {
                   printf("kvl6");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 

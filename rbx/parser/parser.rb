@@ -69,7 +69,9 @@ module Fancy
       Fancy::AST::Assignment.new(line, identifier, value)
     end
 
-
+    def nil_literal(line)
+      Rubinius::AST::NilLiteral.new(line)
+    end
   end
 
 end
