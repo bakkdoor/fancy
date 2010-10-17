@@ -129,8 +129,12 @@ module Fancy
       Fancy::AST::BlockLiteral.new(line, args, block_body)
     end
 
-    def expr_list(line)
-      Fancy::AST::ExpressionList.new(line)
+    def block_args(line, identifier, ary = [])
+      ary.push identifier
+    end
+
+    def expr_list(line, *expressions)
+      Fancy::AST::ExpressionList.new(line, *expressions)
     end
 
     def class_def(line, identifier, parent, body)
@@ -141,6 +145,28 @@ module Fancy
       expr_list.add_expression expr
       expr_list
     end
+
+    def array_empty(line)
+      Fancy::AST::ArrayLiteral.new(line)
+    end
+
+    def expr_ary(line, exp, ary = [])
+      ary.push exp
+    end
+
+    def array_literal(line, expr_ary)
+      Fancy::AST::ArrayLiteral.new(line, *expr_ary)
+    end
+
+    def ruby_args(line, array_literal)
+      Fancy::AST::RubyArgs.new(line, array_literal)
+    end
+
+    def method_body(line, expr_list, code)
+      expr_list.add_expression code
+      expr_list
+    end
+
   end
 
 end

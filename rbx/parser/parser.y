@@ -265,15 +265,13 @@ method_args:    identifier COLON identifier {
                 ;
 
 method_body:    /* empty */ {
-                  printf("TODO: empty_method_body");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 1, INT2NUM(yylineno));
                 }
                 | code {
-                  $$ = $1;
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 2, INT2NUM(yylineno), $1);
                 }
                 | method_body delim code {
-                  printf("TODO: method_body delim");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("method_body"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 | method_body delim { } /* empty expressions */
                 ;
@@ -415,16 +413,16 @@ send_args:      identifier COLON arg_exp {
                 }
                 ;
 
-arg_exp:        identifier
+arg_exp:        identifier {
+                  $$ = $1;
+                }
                 | LPAREN exp RPAREN {
-                  printf("argexp0");
                   $$ = $2;
                 }
                 | literal_value {
                   $$ = $1;
                 }
                 | DOLLAR exp {
-                  printf("argexp2");
                   $$ = $2;
                 }
                 ;
@@ -525,33 +523,30 @@ literal_value:  integer_literal
                 | block_literal
                 ;
 
-array_literal:  empty_array
+array_literal:  empty_array {
+                  $$ = $1;
+                }
                 | LBRACKET space exp_comma_list space RBRACKET {
-                  printf("arrayliteral0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("array_literal"), 2, INT2NUM(yylineno), $3);
                 }
                 | RB_ARGS_PREFIX array_literal {
-                  printf("arrayliteral1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 
 exp_comma_list: exp {
-                  printf("expcl0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
                 }
                 | exp_comma_list COMMA space exp {
-                  printf("expcl1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $4, $1);
                 }
                 | exp_comma_list COMMA {
-                  printf("expcl2");
+                  $$ = $1;
                 }
                 ;
 
 empty_array:    LBRACKET space RBRACKET {
-                  printf("empty_ary");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("array_empty"), 1, INT2NUM(yylineno));
                 }
                 ;
 
@@ -578,22 +573,18 @@ block_args:     block_args_with_comma
                 ;
 
 block_args_without_comma: identifier {
-                  printf("barg0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
                 }
                 | block_args identifier {
-                  printf("barg1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
 block_args_with_comma: identifier {
-                  printf("bargc0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
                 }
                 | block_args COMMA identifier {
-                  printf("bargc1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 
