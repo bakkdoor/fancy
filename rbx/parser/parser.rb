@@ -37,9 +37,12 @@ module Fancy
       Rubinius::AST::StringLiteral.new(line, str)
     end
 
-
     def integer_literal(line, yytext)
       Rubinius::AST::FixnumLiteral.new(line, yytext.to_i)
+    end
+
+    def double_literal(line, yytext)
+      Rubinius::AST::NumberLiteral.new(line, yytext.to_f)
     end
 
     def symbol_literal(line, yytext)
@@ -69,6 +72,43 @@ module Fancy
       Fancy::AST::Assignment.new(line, identifier, value)
     end
 
+    def multiple_assignment(line, identifier, value)
+      raise "Implement multiple_assignment node"
+    end
+
+    def identifier_list(line, identifier_list, identifier)
+      if identifier_list.kind_of?(Array)
+        identifier_list.push(identifier)
+      else
+        [identifier_list, identifier]
+      end
+    end
+
+    def method_args(line, selector, variable, ary = [])
+      selector = Fancy::AST::Identifier.new(selector.line, selector.identifier+":")
+      ary.push Struct.new(:selector, :variable).new(selector, variable)
+    end
+
+    def send_args(line, selector, value, ary = [])
+      selector = Fancy::AST::Identifier.new(selector.line, selector.identifier+":")
+      ary.push Struct.new(:selector, :value).new(selector, value)
+    end
+
+    def method_def(line, method_args, method_body)
+      name = method_args.map { |a| a.selector.identifier }.join("")
+      method_ident = Fancy::AST::Identifier.new(line, name)
+      args = method_args.map { |a| a.selector.identifier }
+      args = Fancy::AST::MethodArgs.new(line, *args)
+      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+    end
+
+    def msg_send_args(line, receiver, method_args)
+      receiver ||= Rubinius::AST::Self.new(line)
+      name = method_args.map { |a| a.selector.identifier }.join("")
+      name = Fancy::AST::Identifier.new(line, name)
+      args = Fancy::AST::MessageArgs.new line, *method_args.map { |a| a.value }
+      Fancy::AST::MessageSend.new(line, receiver, name, args)
+    end
 
   end
 

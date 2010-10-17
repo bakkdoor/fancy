@@ -102,6 +102,7 @@ extern VALUE m_Parser;
 %type  <object>         class_method_no_args
 
 %type  <object>         method_def
+%type  <object>         method_args
 %type  <object>         method_w_args
 %type  <object>         method_no_args
 %type  <object>         operator_def
@@ -170,7 +171,7 @@ assignment:     identifier EQUALS space exp {
                 ;
 
 multiple_assignment: identifier_list EQUALS exp_comma_list {
-                  $$ = rb_funcall(m_Parser, rb_intern("multiple_assignment"), 2, $1, $3);
+                  $$ = rb_funcall(m_Parser, rb_intern("multiple_assignment"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 ;
 
@@ -188,16 +189,15 @@ identifier_list: identifier {
                   $$ = $1;
                 }
                 | identifier_list COMMA identifier {
-                  printf("TODO: identifier_list");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("identifier_list"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 ;
 
 return_local_statement: RETURN_LOCAL exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, $2);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN_LOCAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 1, Qnil);
+                  $$ = rb_funcall(m_Parser, rb_intern("return_local"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
@@ -261,20 +261,18 @@ method_def:     method_w_args
                 ;
 
 method_args:    identifier COLON identifier {
-                  printf("TODO: method_args");
+                  $$ = rb_funcall(m_Parser, rb_intern("method_args"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 | method_args identifier COLON identifier {
-                  printf("TODO: method_args2");
+                  $$ = rb_funcall(m_Parser, rb_intern("method_args"), 4, INT2NUM(yylineno), $2, $4, $1);
                 }
                 ;
 
 method_body:    /* empty */ {
-                  printf("TODO: empty_method_body");
                   $$ = Qnil;
                 }
                 | code {
-                  printf("TODO: method_body code");
-                  $$ = Qnil;
+                  $$ = $1;
                 }
                 | method_body delim code {
                   printf("TODO: method_body delim");
@@ -284,13 +282,13 @@ method_body:    /* empty */ {
                 ;
 
 method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 | DEF PRIVATE method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_private"), 3, INT2NUM(yylineno), $3, $6);
                 }
                 | DEF PROTECTED method_args LCURLY space method_body space RCURLY {
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_protected"), 3, INT2NUM(yylineno), $3, $6);
                 }
                 ;
 
@@ -372,13 +370,10 @@ message_send:   receiver identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("msg_send_basic"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | receiver send_args {
-                  printf("msg send_args");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_args"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | send_args {
-                  printf("msg send_args0");
-                  $$ = Qnil;
-
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_args"), 3, INT2NUM(yylineno), Qnil, $1);
                 }
                 ;
 
@@ -410,20 +405,16 @@ receiver:       LPAREN space exp space RPAREN {
                 ;
 
 send_args:      identifier COLON arg_exp {
-                  printf("sendargs0");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("send_args"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 | identifier COLON space arg_exp {
-                  printf("sendargs1");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("send_args"), 3, INT2NUM(yylineno), $1, $4);
                 }
                 | send_args identifier COLON arg_exp {
-                  printf("sendargs2");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("send_args"), 4, INT2NUM(yylineno), $2, $4, $1);
                 }
                 | send_args identifier COLON space arg_exp {
-                  printf("sendargs3");
-                  $$ = Qnil;
+                  $$ = rb_funcall(m_Parser, rb_intern("send_args"), 4, INT2NUM(yylineno), $2, $5, $1);
                 }
                 ;
 
@@ -534,9 +525,7 @@ literal_value:  integer_literal
                 | hash_literal
                 | array_literal
                 | regex_literal
-                | block_literal {
-                  $$ = $1;
-                }
+                | block_literal
                 ;
 
 array_literal:  empty_array
@@ -644,6 +633,7 @@ key_value_list: symbol_literal space ARROW space exp {
                 ;
 
 %%
+
 
 VALUE fy_terminal_node(char* method) {
   return rb_funcall(m_Parser, rb_intern(method), 2, INT2NUM(yylineno), rb_str_new2(yytext));
