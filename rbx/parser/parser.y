@@ -538,7 +538,7 @@ exp_comma_list: exp {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
                 }
                 | exp_comma_list COMMA space exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $4, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
                 }
                 | exp_comma_list COMMA {
                   $$ = $1;
