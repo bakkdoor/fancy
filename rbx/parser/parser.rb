@@ -98,17 +98,22 @@ module Fancy
       ary.push Struct.new(:selector, :value).new(selector, value)
     end
 
-    def method_def_no_args(line, method_ident, method_body)
+    def method_def_no_args(line, method_ident, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line)
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
     end
 
-    def method_def(line, method_args, method_body)
+    def method_def(line, method_args, method_body, access = :public)
       name = method_args.map { |a| a.selector.identifier }.join("")
       method_ident = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+    end
+
+    def sin_method_def_no_args(line, identifier, method_name, method_body, access = :public)
+      args = Fancy::AST::MethodArgs.new(line)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body)
     end
 
     def msg_send_args(line, receiver, method_args)
@@ -165,6 +170,10 @@ module Fancy
     def method_body(line, expr_list, code)
       expr_list.add_expression code
       expr_list
+    end
+
+    def super_exp(line)
+      Fancy::AST::Super.new(line)
     end
 
   end

@@ -280,10 +280,10 @@ method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("method_def"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 | DEF PRIVATE method_args LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_def_private"), 3, INT2NUM(yylineno), $3, $6);
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def"), 4, INT2NUM(yylineno), $3, $6, rb_intern("private"));
                 }
                 | DEF PROTECTED method_args LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_def_protected"), 3, INT2NUM(yylineno), $3, $6);
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def"), 4, INT2NUM(yylineno), $3, $6, rb_intern("protected"));
                 }
                 ;
 
@@ -292,10 +292,10 @@ method_no_args: DEF identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 | DEF PRIVATE identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args_private"), 3, INT2NUM(yylineno), $3, $6);
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args"), 4, INT2NUM(yylineno), $3, $6, rb_intern("private"));
                 }
                 | DEF PROTECTED identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args_protected"), 3, INT2NUM(yylineno), $3, $6);
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args"), 4, INT2NUM(yylineno), $3, $6, rb_intern("protected"));
                 }
                 ;
 
@@ -311,13 +311,13 @@ class_method_w_args: DEF identifier method_args LCURLY space method_body space R
                 ;
 
 class_method_no_args: DEF identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("sin_method_def_no_args"), 4, INT2NUM(yylineno), $2, $3, $6);
                 }
                 | DEF PRIVATE identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("sin_method_def_no_args"), 5, INT2NUM(yylineno), $3, $4, $7, rb_intern("private"));
                 }
                 | DEF PROTECTED identifier identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("sin_method_def_no_args"), 5, INT2NUM(yylineno), $3, $4, $7, rb_intern("protected"));
                 }
                 ;
 
@@ -392,7 +392,7 @@ receiver:       LPAREN space exp space RPAREN {
                   $$ = $1;
                 }
                 | SUPER {
-                  $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 0);
+                  $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 1, INT2NUM(yylineno));
                 }
                 | exp DOT space {
                   $$ = $1;
