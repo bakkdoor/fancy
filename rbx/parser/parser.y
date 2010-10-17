@@ -232,22 +232,20 @@ class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
                 ;
 
 class_body:     /* empty */ {
-                  printf("TODO: class_body0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 1, INT2NUM(yylineno));
                 }
                 | class_body class_def delim {
-                  printf("TODO: class_sbody1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | class_body method_def delim {
-                  printf("TODO: class_body2");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 | class_body code delim {
-                  printf("TODO: class_body3");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("class_body"), 3, INT2NUM(yylineno), $1, $2);
                 }
-                | class_body delim { } /* empty expressions */
+                | class_body delim {
+                  $$ = $1;
+                } /* empty expressions */
                 ;
 
 method_def:     method_w_args
@@ -293,13 +291,13 @@ method_w_args:  DEF method_args LCURLY space method_body space RCURLY {
 
 
 method_no_args: DEF identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 | DEF PRIVATE identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args_private"), 3, INT2NUM(yylineno), $3, $6);
                 }
                 | DEF PROTECTED identifier LCURLY space method_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args_protected"), 3, INT2NUM(yylineno), $3, $6);
                 }
                 ;
 
@@ -568,12 +566,10 @@ hash_literal:   LHASH space key_value_list space RHASH {
                 ;
 
 block_literal:  LCURLY space method_body RCURLY {
-                  printf("block0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $3);
                 }
                 | STAB block_args STAB space LCURLY space method_body space RCURLY {
-                  printf("block1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $7);
                 }
                 ;
 

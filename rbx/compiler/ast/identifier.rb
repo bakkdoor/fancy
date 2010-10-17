@@ -31,6 +31,10 @@ module Fancy
         constant? && @identifier.include?("::")
       end
 
+      def self?
+        @identifier == "self"
+      end
+
       def true?
         @identifier == "true"
       end
@@ -87,7 +91,9 @@ module Fancy
       end
 
       def bytecode(g)
-        if nested_classname?
+        if self?
+          Rubinius::AST::Self.new(line).bytecode(g)
+        elsif nested_classname?
           classnames = @identifier.split("::")
           parent = Identifier.new(@line, classnames.shift)
           classnames.each do |cn|

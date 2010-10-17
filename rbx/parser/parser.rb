@@ -17,7 +17,7 @@ module Fancy
     @expr_stack = []
 
     def push_expression_list(line = 1)
-      @expr_stack.push Fancy::AST::ExpressionList.new(line)
+      @expr_stack.push expr_list(line)
     end
 
     def current_expression_list
@@ -94,6 +94,11 @@ module Fancy
       ary.push Struct.new(:selector, :value).new(selector, value)
     end
 
+    def method_def_no_args(line, method_ident, method_body)
+      args = Fancy::AST::MethodArgs.new(line)
+      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+    end
+
     def method_def(line, method_args, method_body)
       name = method_args.map { |a| a.selector.identifier }.join("")
       method_ident = Fancy::AST::Identifier.new(line, name)
@@ -112,6 +117,25 @@ module Fancy
 
     def nil_literal(line)
       Rubinius::AST::NilLiteral.new(line)
+    end
+
+    def block_literal(line, block_args, block_body)
+      block_args ||= Array.new
+      args = Fancy::AST::BlockArgs.new line, *block_args
+      Fancy::AST::BlockLiteral.new(line, args, block_body)
+    end
+
+    def expr_list(line)
+      Fancy::AST::ExpressionList.new(line)
+    end
+
+    def class_def(line, identifier, parent, body)
+      Fancy::AST::ClassDef.new(line, identifier, parent, body)
+    end
+
+    def class_body(line, expr_list, expr)
+      expr_list.add_expression expr
+      expr_list
     end
   end
 
