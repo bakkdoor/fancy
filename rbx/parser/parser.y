@@ -428,67 +428,54 @@ arg_exp:        identifier {
                 ;
 
 try_catch_block: TRY LCURLY method_body RCURLY catch_blocks {
-                  printf("try0");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("try_catch_finally"), 3, INT2NUM(yylineno), $3, $5);
                 }
                 | TRY LCURLY method_body RCURLY catch_blocks finally_block {
-                  printf("try1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("try_catch_finally"), 4, INT2NUM(yylineno), $3, $5, $6);
                 }
                 ;
 
 catch_blocks:  /* empty */ {
-                  printf("catch0");
-                  $$ = Qnil
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 1, INT2NUM(yylineno));
                 }
                 | CATCH LCURLY catch_block_body RCURLY {
-                  printf("catch1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 2, INT2NUM(yylineno), $3);
                 }
                 | CATCH identifier LCURLY catch_block_body RCURLY {
-                  printf("catch2");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 3, INT2NUM(yylineno), $4, $2);
                 }
                 | CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
-                  printf("catch3");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 4, INT2NUM(yylineno), $6, $2, $4);
                 }
                 | catch_blocks CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
-                  printf("catch4");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 5, INT2NUM(yylineno), $7, $3, $5, $1);
                 }
                 ;
 
 catch_block_body: /* empty */ {
-                  printf("cab0");
-                  $$ = Qnil
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 1, INT2NUM(yylineno));
                 }
                 | code {
-                  printf("cab1");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
-
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 2, INT2NUM(yylineno), $1);
                 }
                 | RETRY {
-                  printf("cab2");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  VALUE retry = rb_funcall(m_Parser, rb_intern("retry_exp"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list"), 2, INT2NUM(yylineno), retry);
                 }
                 | catch_block_body delim code {
-                  printf("cab3");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list_add"), 2, $1, $3);
                 }
                 | catch_block_body delim RETRY {
-                  printf("cab4");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  VALUE retry = rb_funcall(m_Parser, rb_intern("retry_exp"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_list_add"), 2, $1, retry);
                 }
                 | catch_block_body delim {
-                  printf("cab5");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = $1;
                 } /* empty expressions */
                 ;
 
 finally_block:  FINALLY LCURLY method_body RCURLY {
-                  printf("finally");
-                  $$ = rb_funcall(m_Parser, rb_intern("nil_literal"), 1, INT2NUM(yylineno));
+                  $$ = $3;
                 }
                 ;
 

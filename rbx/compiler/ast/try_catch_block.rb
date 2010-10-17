@@ -201,6 +201,11 @@ module Fancy
           handler.bytecode(g, finally)
         end
       end
+
+      def add_handler(handler)
+        @handlers.push(handler)
+        self
+      end
     end
 
     class Retry < Node

@@ -142,6 +142,11 @@ module Fancy
       Fancy::AST::ExpressionList.new(line, *expressions)
     end
 
+    def expr_list_add(expr_list, expr)
+      expr_list.add_expression expr
+      expr_list
+    end
+
     def class_def(line, identifier, parent, body)
       Fancy::AST::ClassDef.new(line, identifier, parent, body)
     end
@@ -174,6 +179,21 @@ module Fancy
 
     def super_exp(line)
       Fancy::AST::Super.new(line)
+    end
+
+    def retry_exp(line)
+      Fancy::AST::Retry.new(line)
+    end
+
+    def catch_handler(line, body = nil, condition = nil, var = nil, handlers = nil)
+      handlers ||= Fancy::AST::Handlers.new(line)
+      handler = Fancy::AST::ExceptHandler.new(line, condition, var, body)
+      handlers.add_handler handler
+      handlers
+    end
+
+    def try_catch_finally(line, body, handlers, finally = nil)
+      Fancy::AST::TryCatchBlock.new(line, body, handlers, finally)
     end
 
   end
