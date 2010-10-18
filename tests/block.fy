@@ -18,12 +18,6 @@ FancySpec describe: Block with: {
     x should == 10
   }
 
-  it: "should return its arguments as an array of strings" for: 'arguments when: {
-    { } arguments . should == []
-    |x| { } arguments . should == ['x]
-    |x y z| { } arguments . should == ['x, 'y, 'z]
-  }
-
   it: "should return the argument count" for: 'argcount when: {
     { } argcount . should == 0
     |x| { } argcount . should == 1
