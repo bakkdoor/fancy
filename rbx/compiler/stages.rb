@@ -74,8 +74,38 @@ module Rubinius
       end
 
       def run
-        # FIX-ME currently we dont't use filename, line
-        ast = Fancy::Parser.parse_string(@input)
+        ast = Fancy::Parser.parse_string(@input, @line)
+        @output = @root.new ast
+        @output.file = @filename
+        run_next
+      end
+    end
+
+    # Fancy file -> AST
+    class FancyFileParser < Stage
+      stage :fancy_file
+      next_stage FancyGenerator
+
+      def initialize(compiler, last)
+        super
+        compiler.parser = self
+      end
+
+      def root(root)
+        @root = root
+      end
+
+      def print
+        @print = true
+      end
+
+      def input(filename, line=1)
+        @filename = filename
+        @line = line
+      end
+
+      def run
+        ast = Fancy::Parser.parse_file(@filename, @line)
         @output = @root.new ast
         @output.file = @filename
         run_next
@@ -86,8 +116,8 @@ module Rubinius
     #
     # This stage produces a fancy sexp using ruby literals.
     #
-    class FancyFileParser < Stage
-      stage :fancy_file
+    class FancyFileRSexpParser < Stage
+      stage :fancy_file_rsexp
       next_stage FancyAST
 
       extend Forwardable

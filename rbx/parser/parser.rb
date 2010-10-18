@@ -54,6 +54,10 @@ module Fancy
       raise ParseError.new "at line #{line}, token: #{yytext}"
     end
 
+    def file_error(*error)
+      raise ParseError.new error.join(" ")
+    end
+
     def identifier(line, yytext)
       if yytext == "self"
         Rubinius::AST::Self.new(line)
