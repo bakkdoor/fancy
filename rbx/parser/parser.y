@@ -566,7 +566,7 @@ block_args_without_comma: identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
                 }
                 | block_args identifier {
-                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("block_args"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
