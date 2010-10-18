@@ -38,3 +38,4 @@ require: "stack"
 require: "version"
 require: "argv"
 
+require: "rubinius.fy"
