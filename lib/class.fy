@@ -2,7 +2,7 @@ def class Class {
   def define_slot_reader: slotname {
     "Defines a slot reader method with a given name."
 
-    define_method: slotname with: {
+    define_method: (":" ++ slotname) with: {
       get_slot: slotname
     }
   }

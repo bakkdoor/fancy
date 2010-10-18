@@ -38,8 +38,8 @@ FancySpec describe: Class with: {
   it: "should NOT find the method when not mixed-in" for: 'responds_to?: when: {
     instance = ClassWithMixin new
     instance normal_method . should == 'normal_found
-    instance responds_to?: 'normal_method . should == true
-    instance responds_to?: 'mixin_method . should == nil
+    instance responds_to?: ':normal_method . should == true
+    instance responds_to?: ':mixin_method . should == false
   }
 
   it: "should find the method when mixed-in" for: 'include: when: {
@@ -49,8 +49,8 @@ FancySpec describe: Class with: {
     }
 
     instance = ClassWithMixin new
-    instance responds_to?: 'normal_method . should == true
-    instance responds_to?: 'mixin_method . should == true
+    instance responds_to?: ':normal_method . should == true
+    instance responds_to?: ':mixin_method . should == true
     instance normal_method . should == 'normal_found
     instance mixin_method . should == 'mixed_in_found
   }
@@ -66,14 +66,14 @@ FancySpec describe: Class with: {
 
   it: "should have dynamically generated getter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new
-    instance responds_to?: 'foo . should == true
-    instance responds_to?: 'bar . should == true
-    instance responds_to?: 'baz . should == true
+    instance responds_to?: ':foo . should == true
+    instance responds_to?: ':bar . should == true
+    instance responds_to?: ':baz . should == true
     instance responds_to?: "hello:" . should == true
     instance responds_to?: "world:" . should == true
-    instance responds_to?: 'oh . should == true
-    instance responds_to?: "oh" . should == true
-    instance responds_to?: 'noes . should == true
+    instance responds_to?: ':oh . should == true
+    instance responds_to?: ":oh" . should == true
+    instance responds_to?: ':noes . should == true
     instance responds_to?: "noes:" . should == true
   }
 
@@ -133,44 +133,44 @@ FancySpec describe: Class with: {
     instance foo: "Test!" . should == "In AClass#foo: with bar = Test!"
   }
 
-  it: "should call superclass method by calling super" when: {
-    def class SuperClass {
-      read_slots: ['name]
-      def initialize: name {
-        @name = name
-      }
-    }
-    def class SubClass : SuperClass {
-      read_slots: ['age]
+  # it: "should call superclass method by calling super" when: {
+  #   def class SuperClass {
+  #     read_slots: ['name]
+  #     def initialize: name {
+  #       @name = name
+  #     }
+  #   }
+  #   def class SubClass : SuperClass {
+  #     read_slots: ['age]
 
-      def initialize: age {
-        super initialize: "SubClass"
-        @age = age
-      }
-      def initialize {
-        super initialize: "SubClass"
-        @age = 0
-      }
-    }
+  #     def initialize: age {
+  #       super initialize: "SubClass"
+  #       @age = age
+  #     }
+  #     def initialize {
+  #       super initialize: "SubClass"
+  #       @age = 0
+  #     }
+  #   }
 
-    sub = SubClass new: 42
-    sub name should == "SubClass"
-    sub age should == 42
+  #   sub = SubClass new: 42
+  #   sub name should == "SubClass"
+  #   sub age should == 42
 
-    sub2 = SubClass new
-    sub2 name should == "SubClass"
-    sub2 age should == 0
-  }
+  #   sub2 = SubClass new
+  #   sub2 name should == "SubClass"
+  #   sub2 age should == 0
+  # }
 
   it: "should return its superclass" when: {
-    Number superclass should == Object
+    Fixnum superclass should == Integer
     Symbol superclass should == Object
-    StdError superclass should == Object
-    Class superclass should == Object
+    StdError superclass should == StandardError
+    Class superclass should == Module
     Object superclass should == nil
 
-    IOError superclass should == StdError
-    MethodNotFoundError superclass should == StdError
+    IOError superclass should == StandardError
+    NoMethodError superclass should == NameError
   }
 
   it: "should create a new Class dynamically" when: {

@@ -1,5 +1,9 @@
-def class StdError : StandardError {
+def class StandardError {
   ruby_alias: 'message
+
+  def initialize {
+    initialize: ~[]
+  }
 
   def initialize: msg {
     self initialize: ~[msg]
@@ -9,3 +13,5 @@ def class StdError : StandardError {
     raise: ~[self]
   }
 }
+
+StdError = StandardError

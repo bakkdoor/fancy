@@ -12,12 +12,12 @@ FancySpec describe: File with: {
     file open? should == nil
   }
 
-  it: "should be closed when not correctly opened" for: 'open? when: {
-    file = File new
-    file open? should == nil
-    file close
-    file open? should == nil
-  }
+  # it: "should be closed when not correctly opened" for: 'open? when: {
+  #   file = File new
+  #   file open? should == nil
+  #   file close
+  #   file open? should == nil
+  # }
 
   it: "should write and read from a file correctly" for: 'writeln: when: {
     filename = "tmp/read_write_test.txt"
@@ -39,7 +39,7 @@ FancySpec describe: File with: {
 
     # delete file
     File delete: filename
-    File delete: "tmp/"
+    Directory delete: "tmp/"
     File exists?: filename . should == nil
     Directory exists?: "tmp/" . should == nil
   }

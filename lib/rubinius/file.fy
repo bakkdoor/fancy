@@ -8,6 +8,8 @@ def class File {
       'truncate => "w+"]>
 
   ruby_alias: 'eof?
+  ruby_alias: 'close
+  ruby_alias: 'closed?
 
   def File open: filename modes: modes_arr with: block {
     # """
@@ -28,6 +30,13 @@ def class File {
     ruby: 'open args: [filename, modes_str] with_block: block
   }
 
+  def File open: filename modes: modes_arr {
+    modes_str = modes_str: modes_arr
+    f = open: ~[filename, modes_str]
+    f modes: modes_arr
+    f
+  }
+
   def File modes_str: modes_arr {
     str = ""
     modes_arr each: |m| {
@@ -36,7 +45,39 @@ def class File {
     str uniq join: ""
   }
 
+  def File delete: filename {
+    delete: ~[filename]
+  }
+
+  def File directory?: path {
+    directory?: ~[path]
+  }
+
+  def modes {
+    @modes
+  }
+
+  def modes: modes_arr {
+    @modes = modes_arr
+  }
+
   def readln {
     self gets: ~[]
+  }
+
+  def open? {
+    self closed? not
+  }
+
+  def write: str {
+    print: ~[str]
+  }
+
+  def newline {
+    puts: ~[]
+  }
+
+  def directory? {
+    File directory?: ~[self filename]
   }
 }

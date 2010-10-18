@@ -1,4 +1,6 @@
 def class Class {
+  ruby_alias: 'superclass
+
   def new {
     obj = self allocate: ~[]
     obj initialize

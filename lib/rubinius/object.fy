@@ -16,7 +16,8 @@ def class Class {
 
 def class Object {
 
-  ruby_alias: "=="
+  ruby_alias: '==
+  ruby_alias: 'class
 
   def initialize {
     self initialize: ~[]

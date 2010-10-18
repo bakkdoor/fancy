@@ -28,22 +28,22 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should raise a MethodNotFoundError" when: {
-    s = 'symbol
-    try {
-      s this_method_doesnt_exist!
-      nil should == true # should not execute
-    } catch MethodNotFoundError => err {
-      err for_class should == Symbol
-      err method_name should == "this_method_doesnt_exist!"
-    }
-  }
+  # it: "should raise a NoMethodError" when: {
+  #   s = 'symbol
+  #   try {
+  #     s this_method_doesnt_exist!
+  #     nil should == true # should not execute
+  #   } catch NoMethodError => err {
+  #     err for_class should == Symbol
+  #     err method_name should == "this_method_doesnt_exist!"
+  #   }
+  # }
 
   it: "should have access to variables in exception handlers defined in the surrounding scope" when: {
     var = 1234
     try {
       var wont_work!
-    } catch MethodNotFoundError => err {
+    } catch NoMethodError => err {
       var should == 1234
     }
   }
@@ -53,7 +53,7 @@ FancySpec describe: StdError with: {
       x = 10 / 0 # ouch!
       "This should fail!" should == true # should not get here!
     } catch ZeroDivisionError => err {
-      err message should == "Division by zero!"
+      err message should == "divided by 0"
     } finally {
       # this part gets always run :)
       "It works!" should == "It works!"
