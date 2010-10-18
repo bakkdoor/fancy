@@ -7,6 +7,8 @@ def class File {
       'binary => "b",
       'truncate => "w+"]>
 
+  ruby_alias: 'eof?
+
   def File open: filename modes: modes_arr with: block {
     # """
     # Opens a File with a given filename, a modes Array and a block.
@@ -22,14 +24,19 @@ def class File {
     # TODO: how do we deal with Ruby methods that expect a block?
     # We need a way to let the compiler know if the last argument to
     # a method call should be used as the block (in Ruby: &prob_obj)
-    File open: ~[filename, modes_str, block]
+    #File open: ~[filename, modes_str, block]
+    ruby: 'open args: [filename, modes_str] with_block: block
   }
 
-  def modes_str: modes_arr {
+  def File modes_str: modes_arr {
     str = ""
     modes_arr each: |m| {
-      str = str ++ @@open_mode_conversions[m]
+      str = str ++ (@@open_mode_conversions[m])
     }
-    str uniq join
+    str uniq join: ""
+  }
+
+  def readln {
+    self gets: ~[]
   }
 }

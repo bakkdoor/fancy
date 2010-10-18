@@ -1,14 +1,14 @@
 def class String {
 
   # prepend a : to fancy version of ruby methods.
-  alias_method: ":+" for: "+"
+  ruby_alias: '==
 
   def from: from to: to {
     self[~[from, to]]
   }
 
   def each: block {
-    self each_char: ~[block]
+    ruby: 'each args: [""] with_block: block
   }
 
   def at: idx {

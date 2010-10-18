@@ -10,4 +10,8 @@ class Object
   define_method("ruby:args:") do |method, args|
     self.send(method, *args)
   end
+
+  define_method(":to_s") do
+    return self.to_s
+  end
 end
