@@ -1,6 +1,4 @@
 require File.dirname(__FILE__) + "/compiler"
-require File.dirname(__FILE__) + "/parser/parser"
-require File.dirname(__FILE__) + "/loader"
 
 module Fancy
 
@@ -61,13 +59,16 @@ module Fancy
 end
 
 if $0 == __FILE__
+  require File.dirname(__FILE__) + "/loader"
   if ARGV.length.zero?
     Fancy.eval(STDIN.read)
   else
-    if File.exist?(ARGV.first)
-      Fancy.eval(File.read(ARGV.first))
-    else
-      Fancy.eval(ARGV.first)
+    ARGV.each do |arg|
+      if File.exist?(arg)
+        Fancy.eval(File.read(arg))
+      else
+        Fancy.eval(arg)
+      end
     end
   end
 end
