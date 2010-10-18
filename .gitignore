@@ -4,7 +4,6 @@ config.status
 config.log
 stamp-h1
 *.o
-bin/fancy
 *~
 src/parser/bison.c
 src/parser/fancy.output
