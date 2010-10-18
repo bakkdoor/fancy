@@ -1,1 +1,0 @@
-libatomic_ops/src/atomic_ops_sysdeps.S

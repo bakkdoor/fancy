@@ -25,7 +25,6 @@ namespace :parser do
   end
 
   task :clean do
-    sh 'make', '-C', _["."], "clean"
     rm_f lexer_c.to_s
     rm_f parser_c.to_s
     rm_f makefile.to_s
@@ -33,6 +32,7 @@ namespace :parser do
     rm_f _["parser.h"]
     rm_f _["parser.output"]
     rm_f Dir.glob(_["*.{o,so,rbc,log}"])
+    sh 'make', '-C', _["."], "clean" rescue nil
   end
 
   task :default => :compile
