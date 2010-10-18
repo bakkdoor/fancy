@@ -1,4 +1,22 @@
+def class Class {
+  def alias_method: new for: old {
+    alias_method: ~[new, old]
+  }
+}
+
+def class String {
+  alias_method: ":+" for: "+"
+}
+
+def class Class {
+  def ruby_alias: method_name {
+    alias_method: (":" + (method_name to_s)) for: method_name
+  }
+}
+
 def class Object {
+
+  ruby_alias: "=="
 
   def initialize {
     self initialize: ~[]

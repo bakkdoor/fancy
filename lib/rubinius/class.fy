@@ -1,5 +1,4 @@
 def class Class {
-
   def new {
     obj = self allocate: ~[]
     obj initialize
@@ -32,10 +31,6 @@ def class Class {
 
   def undefine_class_method: name {
     undefine_singleton_method: name
-  }
-
-  def alias_method: new for: old {
-    alias_method: ~[new, old]
   }
 
   def subclass: body_block {
