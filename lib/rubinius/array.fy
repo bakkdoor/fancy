@@ -1,5 +1,6 @@
 def class Array {
-  alias_method: ":<<" for: "<<"
+  ruby_alias: '<<
+  ruby_alias: '[]
 
   def Array new: size with: default {
     "Create a new Array with a given size and default-value."
@@ -33,17 +34,17 @@ def class Array {
     ruby: 'each with_block: block
   }
 
-  def remove_at: obj {
+  def remove_at: index {
     """Removes an element at a given index.
      If given an Array of indices, removes all the elements with these indices.
      Returns the deleted object if an index was given, the last deleted object for an Array given."""
 
-    obj is_a?: Number . if_true: {
-      delete_at: obj # call to ruby-Array#delete_at
+    index is_a?: Fixnum . if_true: {
+      delete_at: ~[index] # call to ruby-Array#delete_at
     } else: {
-      obj is_a?: Array . if_true: {
-        obj each: |idx| {
-          delete_at: obj # call to ruby-Array#delete_at
+      index is_a?: Array . if_true: {
+        index each: |idx| {
+          delete_at: ~[index] # call to ruby-Array#delete_at
         }
       }
     }
@@ -73,7 +74,16 @@ def class Array {
   }
 
   def each_with_index: block {
-    ruby: 'each_with_index with_block: block
+    i = 0
+    each: |x| {
+      block call: [x, i]
+      i = i + 1
+    }
+  }
+
+  def index: item {
+    "Returns the index of an item (or nil, if it isn't in the Array)."
+    index: ~[item]
   }
 
   def indices_of: item {

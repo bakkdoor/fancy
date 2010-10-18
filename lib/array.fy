@@ -32,15 +32,6 @@ def class Array {
     }
   }
 
-  def index: item {
-    "Returns the index of an item (or nil, if it isn't in the Array)."
-    self each_with_index: |x i| {
-      item == (self at: i) if_true: {
-        return i
-      }
-    }
-  }
-
   def find: item {
     "Returns the item, if it's in the Array or nil (if not found)."
 
