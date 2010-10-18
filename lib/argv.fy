@@ -5,9 +5,12 @@ def ARGV for_option: op_name do: block {
     block argcount > 0 if_true: {
       ARGV[idx + 1] if_do: |arg| {
         block call: [arg]
+        ARGV remove_at: idx
+        ARGV remove_at: (idx + 1)
       }
     } else: {
       block call
+      ARGV remove_at: idx
     }
   }
 }
@@ -15,20 +18,19 @@ def ARGV for_option: op_name do: block {
 def ARGV for_options: op_names do: block {
   "Runs a given block if any of the given options is in ARGV."
 
-  done = nil
-  i = 0
-  size = op_names size
-  { done not and: (i < size) } while_true: {
+  op_names size times: |i| {
     ARGV index: (op_names[i]) . if_do: |idx| {
       block argcount > 0 if_true: {
         ARGV[idx + 1] if_do: |arg| {
           block call: [arg]
+          ARGV remove_at: idx
+          ARGV remove_at: (idx + 1)
         }
       } else: {
         block call
+        ARGV remove_at: idx
       }
-      done = true
+      return true
     }
-    i = i + 1
   }
 }
