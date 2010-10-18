@@ -11,8 +11,8 @@ module Rubinius
     end
 
     # Writes the compiled output file
-    def self.compile_fancy_file(file, output = nil, line = 1, print = false, parser = :fancy_file)
-      compiler = new parser, :compiled_file
+    def self.compile_fancy_file(file, output = nil, line = 1, print = false)
+      compiler = new :fancy_file, :compiled_file
 
       parser = compiler.parser
       parser.root AST::Script

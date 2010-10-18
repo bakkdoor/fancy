@@ -27,28 +27,6 @@ module Rubinius
       end
     end
 
-    # FancySexp -> FancyAST
-    class FancyAST < Parser
-      stage :fancy_ast
-      next_stage FancyGenerator
-
-      attr_accessor :file
-
-      def initialize(compiler, last)
-        super
-        @processor = nil
-      end
-
-      def default_transforms
-        @transforms.concat AST::Transforms.category(:fancy)
-      end
-
-      def parse
-        ast = Fancy::AST.from_sexp @input
-        ast
-      end
-    end
-
     # Fancy string -> AST
     class FancyCodeParser < Stage
       stage :fancy_code
@@ -110,39 +88,6 @@ module Rubinius
         @output.file = @filename
         run_next
       end
-    end
-
-    # FancyFile -> FancySexp
-    #
-    # This stage produces a fancy sexp using ruby literals.
-    #
-    class FancyFileRSexpParser < Stage
-      stage :fancy_file_rsexp
-      next_stage FancyAST
-
-      extend Forwardable
-
-      def initialize(compiler, last)
-        super
-        compiler.parser = self
-      end
-
-      def input(file, line=1)
-        # TODO: fancy parser does not output line information.
-        @next_stage.file = file
-      end
-
-      def_delegators :@next_stage, :root, :enable_category, :print
-
-      def run
-        # Currently we call an external fancy program to output
-        # Fancy sexp using ruby literals
-        str = `./bin/fancy --rsexp #{@next_stage.file}`
-        sexp = eval(str)
-        @output = sexp
-        run_next
-      end
-
     end
 
   end
