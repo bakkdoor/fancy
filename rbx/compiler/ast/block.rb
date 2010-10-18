@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 module Fancy
   module AST
 
@@ -14,6 +15,7 @@ module Fancy
         if args.total_args > 1
           @arguments.prelude = :multi
         end
+        @arguments.required_args = args.required_args
       end
     end
 
