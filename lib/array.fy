@@ -3,7 +3,7 @@ def class Array {
 
   include: FancyEnumerable
 
-  def NATIVE [] index {
+  def [] index {
     """Given an Array of 2 Numbers, it returns the sub-array between the given indices.
        If given a Number, returns the element at that index."""
 
@@ -47,7 +47,7 @@ def class Array {
   def find_by: block {
     "Like find: but takes a block that gets called with each element to find it."
     self each: |x| {
-      block call: [x] . if_do: {
+      block call: [x] . if_true: {
         return x
       }
     }
@@ -121,12 +121,14 @@ def class Array {
     "Removes all elements in place, that don't meet the condition."
 
     reject!: |x| { condition call: [x] . not }
+    return self
   }
 
   def compact! {
     "Removes all nil-value elements in place."
 
     reject!: |x| { x nil? }
+    return self
   }
 
   def remove: obj {
@@ -138,8 +140,7 @@ def class Array {
   def remove_if: condition {
     "Removes all elements that meet the given condition block."
 
-    remove_at: (select_with_index: condition .
-                map: 'second)
+    remove_at: (select_with_index: condition . map: ':second)
   }
 
   def println {
@@ -191,14 +192,7 @@ def class Array {
     }
   }
 
-  def NATIVE reverse {
-    size = self size
-    arr = Array new: size
-    idx = 0
-    self size - 1 downto: 0 do_each: |i| {
-      arr at: idx put: (self at: i)
-      idx = idx + 1
-    }
-    arr
+  def indices {
+    0 upto: (self size - 1)
   }
 }

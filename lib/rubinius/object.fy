@@ -110,6 +110,10 @@ def class Object {
     self send: ~[message]
   }
 
+  def send: message params: params {
+    ruby: message args: params
+  }
+
   def responds_to?: message {
     self respond_to?: ~[message]
   }

@@ -4,7 +4,7 @@ def class Console {
   def Console newline {
     "Prints a newline to stdout."
 
-    Kernel puts
+    Kernel puts: ~[]
   }
 
   def Console print: obj {

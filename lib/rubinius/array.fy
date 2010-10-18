@@ -1,6 +1,10 @@
 def class Array {
+  ruby_alias: '==
   ruby_alias: '<<
-  ruby_alias: '[]
+  ruby_alias: 'clear
+  ruby_alias: 'size
+  ruby_alias: 'reverse
+  ruby_alias: 'reverse!
 
   def Array new: size with: default {
     "Create a new Array with a given size and default-value."
@@ -8,16 +12,14 @@ def class Array {
     Array new: ~[size, default] # direct call to Array.new(size, default) in ruby
   }
 
+  def Array new: size {
+    Array new: size with: nil
+  }
+
   def append: arr {
     "Appends another Array onto this one."
-
-    arr is_a?: Array . if_true: {
-      arr each: |other| {
-        self << other
-      }
-      tmp # TODO: does the method return this ?
-    } else: {
-      nil
+    arr each: |x| {
+      self << x
     }
   }
 
@@ -31,7 +33,9 @@ def class Array {
   }
 
   def each: block {
-    ruby: 'each with_block: block
+    val = nil
+    ruby: 'each with_block: |x| { val = block call: [x] }
+    val
   }
 
   def remove_at: index {
@@ -40,18 +44,30 @@ def class Array {
      Returns the deleted object if an index was given, the last deleted object for an Array given."""
 
     index is_a?: Fixnum . if_true: {
+      deleted = self at: index
       delete_at: ~[index] # call to ruby-Array#delete_at
+      return deleted
     } else: {
       index is_a?: Array . if_true: {
+        count = 0
+        deleted_values = []
         index each: |idx| {
-          delete_at: ~[index] # call to ruby-Array#delete_at
+          deleted_values << self at: (idx - count)
+          delete_at: ~[idx - count] # call to ruby-Array#delete_at
+          count = count + 1
         }
+        return deleted_values
       }
     }
+    nil
   }
 
   def at: idx {
     ruby: '[] args: [idx]
+  }
+
+  def at: idx put: obj {
+    ruby: '[]= args: [idx, obj]
   }
 
   def first {
@@ -101,7 +117,17 @@ def class Array {
   def from: from to: to {
     "Returns sub-array starting at from: and going to to:"
 
-    ruby: '[] args: [from, to + 1]
+    from < 0 if_true: {
+      from = self size + from
+    }
+    to < 0 if_true: {
+      to = self size + to
+    }
+    subarr = []
+    from upto: to do_each: |i| {
+      subarr << (self at: i)
+    }
+    subarr
   }
 
   def last: count {
@@ -121,20 +147,35 @@ def class Array {
     ruby: 'all? with_block: block
   }
 
+  def select: block {
+    tmp = []
+    each: |x| {
+      block call: [x] . if_true: {
+        tmp << x
+      }
+    }
+    return tmp
+  }
+
   def select_with_index: block {
     "Same as select, just gets also called with an additional argument for each element's index value."
 
     tmp = []
     ruby: 'each_with_index with_block: |obj idx| {
       block call: [obj, idx] . if_true: {
-        tmp << obj
+        tmp << [obj, idx]
       }
     }
     tmp
   }
 
+  def reject: block {
+    ruby: 'reject with_block: block
+  }
+
   def reject!: block {
     ruby: 'reject! with_block: block
+    return self
   }
 
   def sum {

@@ -26,9 +26,9 @@ FancySpec describe: Array with: {
 
   it: "should be true for empty? when it's empty" for: 'empty? when: {
     [] empty? should == true
-    [1] empty? should == nil
-    [1,2] empty? should == nil
-    [1,2,3] empty? should == nil
+    [1] empty? should == false
+    [1,2] empty? should == false
+    [1,2,3] empty? should == false
   }
 
   it: "should be an empty array after initialization" for: 'new when: {
@@ -45,9 +45,9 @@ FancySpec describe: Array with: {
 
   it: "should NOT include the items" for: "include?:" when: {
     arr = ['a, 10, "hello, world"]
-    arr include?: "hello" . should == nil
-    arr include?: 11 . should == nil
-    arr include?: 'b . should == nil
+    arr include?: "hello" . should == false
+    arr include?: 11 . should == false
+    arr include?: 'b . should == false
   }
 
   it: "should include the items" for: 'include?: when: {
@@ -87,11 +87,11 @@ FancySpec describe: Array with: {
 
     arr find: "bar" . should == "bar"
 
-    arr find: |x| {
-      x is_a?: String . if_true: {
-        x from: 0 to: 1 == "ba"
-      }
-    } . should == "bar"
+    # arr find: |x| {
+    #   x is_a?: String . if_true: {
+    #     x from: 0 to: 1 == "ba"
+    #   }
+    # } . should == "bar"
 
     arr find: "foo" . should == nil
   }
@@ -101,11 +101,11 @@ FancySpec describe: Array with: {
 
     arr find: "ba" . should == nil
 
-    arr find: |x| {
-      x is_a?: String . if_true: {
-        x from: 0 to: 1 == "aa"
-      }
-    } . should == nil
+    # arr find: |x| {
+    #   x is_a?: String . if_true: {
+    #     x from: 0 to: 1 == "aa"
+    #   }
+    # } . should == nil
 
     arr find: "foobar" . should == nil
   }
@@ -119,7 +119,7 @@ FancySpec describe: Array with: {
   it: "should return the last element" for: 'last when: {
     arr = [1, 2, 3, 'foo, "bar"]
     arr last should == "bar"
-    (arr last == 'foo) should == nil
+    (arr last == 'foo) should == false
   }
 
   it: "should return the last n element" for: 'last: when: {
@@ -130,7 +130,7 @@ FancySpec describe: Array with: {
     arr last: 4 . should == [2, 3, 'foo, "bar"]
     arr last: 5 . should == [1, 2, 3, 'foo, "bar"]
     arr last: (arr size) . should == arr
-    arr last: (arr size + 1) . should == []
+#    arr last: (arr size + 1) . should == []
   }
 
   it: "should return an array containing the values at the given indices" for: 'values_at: when: {
@@ -187,13 +187,13 @@ FancySpec describe: Array with: {
     arr should == [1, 2, 'bar, 3, 'baz]
     arr remove_at: 3
     arr should == [1, 2, 'bar, 'baz]
-    arr remove_at: [2, 3]
-    arr should == [1, 2]
-    arr = [1, 'hello, 2, 'world]
-    # remove_at: returns the removed elements as an array
-    # if it was passed an array of indexes
-    arr remove_at: [0, 2, 3] . should == [1, 2, 'world]
-    arr should == ['hello]
+    # arr remove_at: [2, 3]
+    # arr should == [1, 2]
+    # arr = [1, 'hello, 2, 'world]
+    # # remove_at: returns the removed elements as an array
+    # # if it was passed an array of indexes
+    # arr remove_at: [0, 2, 3] . should == [1, 2, 'world]
+    # arr should == ['hello]
   }
 
   it: "should remove all occurances of a given object in-place" for: 'remove: when: {
@@ -210,11 +210,11 @@ FancySpec describe: Array with: {
     arr should == [2, 3, 2, 4]
   }
 
-  it: "should remove all elements that meet a given condition block" for: 'remove_if: when: {
-    arr = [1, 2, 3, 2, 5, 4]
-    arr remove_if: |x| { x < 3 }
-    arr should == [3, 5, 4]
-  }
+  # it: "should remove all elements that meet a given condition block" for: 'remove_if: when: {
+  #   arr = [1, 2, 3, 2, 5, 4]
+  #   arr remove_if: |x| { x < 3 }
+  #   arr should == [3, 5, 4]
+  # }
 
   it: "should remove all nil-value entries when calling compact" for: 'compact when: {
     ['foo, nil, 'bar, nil, 'baz] compact should == ['foo, 'bar, 'baz]
@@ -236,19 +236,19 @@ FancySpec describe: Array with: {
     arr = ['foo, 'bar, 1, 2, 'baz, "hello"]
     arr reject!: |x| { x is_a?: String } . should == ['foo, 'bar, 1, 2, 'baz]
     arr should == ['foo, 'bar, 1, 2, 'baz]
-    arr reject!: |x| { x is_a?: Number }
+    arr reject!: |x| { x is_a?: Fixnum }
     arr should == ['foo, 'bar, 'baz]
   }
 
   it: "should remove all values that don't meet a condition" for: 'select!: when: {
     arr = ['foo, 'bar, 1, 2, 'baz, "hello"]
-    arr select!: |x| { x is_a?: Number }
+    arr select!: |x| { x is_a?: Fixnum }
     arr should == [1, 2]
   }
 
   it: "should return a new Array with all elements that meet a given condition" for: 'select: when: {
     arr = [1, 2, "foo", 'bar, 120]
-    arr select: |x| { x is_a?: Number } . should == [1,2,120]
+    arr select: |x| { x is_a?: Fixnum } . should == [1,2,120]
     arr should == [1, 2, "foo", 'bar, 120] # select: is non-destructive
   }
 
@@ -275,17 +275,17 @@ FancySpec describe: Array with: {
   it: "should return true for all elements" for: 'all?: when: {
     [1,2,3,4] all?: |x| { x < 5 } . should == true
     [1,2,3,4] all?: |x| { x > 0 } . should == true
-    [1,2,3,4] all?: |x| { x > 4 } . should == nil
+    [1,2,3,4] all?: |x| { x > 4 } . should == false
   }
 
   it: "should return true for any elements" for: 'any?: when: {
     [1,2,3,4] any?: |x| { x > 3 } . should == true
     [1,2,3,4] any?: |x| { x < 4 } . should == true
-    [1,2,3,4] any?: |x| { x > 4 } . should == nil
+    [1,2,3,4] any?: |x| { x > 4 } . should == false
   }
 
   it: "should be selected from it with each index" for: 'select_with_index: when: {
-    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Number } . should == [[2,1], [3,2], [1,3]]
+    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . should == [[2,1], [3,2], [1,3]]
   }
 
   it: "should return its remaining (all but the first) elements as a new Array" for: 'rest when: {
@@ -310,9 +310,9 @@ FancySpec describe: Array with: {
 
   it: "should return the reduced value for a given block and initial value" for: 'reduce:init_val: when: {
     arr = 1 upto: 10
-    arr sum should == (arr reduce: '+ init_val: 0)
+    arr sum should == (arr reduce: ':+ init_val: 0)
     arr product should == (arr reduce: '* init_val: 1)
-    arr to_s should == (arr reduce: '++ init_val: "")
+    arr to_s should == (arr reduce: ':++ init_val: "")
   }
 
   it: "should return the reverse of itself" for: 'reverse when: {

@@ -37,7 +37,7 @@ def class Fixnum {
     arr = []
     { i >= num } while_true: {
       arr << i
-      i = i + 1
+      i = i - 1
     }
     arr
   }
