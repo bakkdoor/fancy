@@ -83,6 +83,7 @@ ARGV for_options: ["--help", "-h"] do: {
 #   System exit
 # }
 
-file = ARGV first
-Fancy::CodeLoader load_compiled_file: ~[file]
+ARGV first if_do: |file| {
+  Fancy::CodeLoader load_compiled_file: ~[file]
+}
 
