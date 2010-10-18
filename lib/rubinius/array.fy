@@ -1,4 +1,5 @@
 def class Array {
+  alias_method: ":<<" for: "<<"
 
   def Array new: size with: default {
     "Create a new Array with a given size and default-value."
@@ -126,4 +127,17 @@ def class Array {
     ruby: 'reject! with_block: block
   }
 
+  def sum {
+    """Calculates the sum of all the elements in the Enumerable
+      (assuming them to be Numbers (implementing '+' & '*'))."""
+
+    reduce: |x y| { x + y } init_val: 0
+  }
+
+  def product {
+    """Calculates the product of all the elements in the Enumerable
+      (assuming them to be Numbers (implementing '+' & '*'))."""
+
+    reduce: |x y| { x * y } init_val: 1
+  }
 }
