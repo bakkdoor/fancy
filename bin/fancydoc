@@ -1,0 +1,19 @@
+#!/usr/bin/env fancy
+
+ARGV[1] if_do: |ident| {
+  "Documentation for: '" ++ ident ++ "' :" println;
+  ident include?: "#" . if_true: {
+    parts = (ident split: "#");
+    obj = (parts[0]) eval;
+    method = obj method: (parts[1]);
+    method docstring println
+  } else: {
+    obj = ident eval;
+    obj docstring println
+  }
+} else: {
+  ["Prints the documentation string for a given object or one if its methods",
+   "Usage: fancydoc [ObjectIdentifier]",
+   "Usage: fancydoc [ObjectIdentifier]#[MethodName]",
+   "Example: fancydoc Array#each:"] println
+}

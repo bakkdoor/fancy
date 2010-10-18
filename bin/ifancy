@@ -1,0 +1,23 @@
+#!/usr/bin/env fancy
+
+["Welcome to the (still very simple) Fancy REPL",
+ "Fancy " ++ FANCY_VERSION] println
+
+ARGV rest each: |file| {
+  "LOADING: " ++ file println;
+  require: file
+};;
+
+Console newline;
+
+self loop: {
+  try {
+    Console readln: ">> " . if_do: |line| {
+      line eval_global inspect println
+    } else: {
+      System exit
+    }
+  } catch StdError => e {
+    e message println
+  }
+}
