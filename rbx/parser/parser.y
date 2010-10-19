@@ -605,25 +605,10 @@ block_args_with_comma: identifier {
                 }
                 ;
 
-key_value_list: symbol_literal space ARROW space exp {
+key_value_list: exp space ARROW space exp {
                   $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
                 }
-                | symbol_literal space ARROW space literal_value {
-                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
-                }
-                | string_literal space ARROW space literal_value {
-                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
-                }
-                | key_value_list COMMA space symbol_literal space ARROW space exp  {
-                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
-                }
-                | key_value_list COMMA space string_literal space ARROW space exp  {
-                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
-                }
-                | key_value_list COMMA space symbol_literal space ARROW space literal_value {
-                  $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
-                }
-                | key_value_list COMMA space symbol_literal space ARROW space literal_value {
+                | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 ;

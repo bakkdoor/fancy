@@ -52,7 +52,7 @@ FancySpec describe: "rbx/examples" with: {
                                     "20",
                                     "Now executing from require.fy!"]
 
-  example: 'hashes should_output: ["bar", "baz", "42.5"]
+  example: 'hashes should_output: ["bar", "baz", "42.5", "5"]
 
   example: 'exception should_output: ["Hola", "Hello", "Adios"]
 
