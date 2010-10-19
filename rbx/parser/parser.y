@@ -44,13 +44,15 @@ extern VALUE m_Parser;
 %token                  SUPER
 %token                  PRIVATE
 %token                  PROTECTED
-%token                  DEFCLASS
+%token                  CLASS
 %token                  DEF
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
 %token                  RB_ARGS_PREFIX
 %token                  IDENTIFIER
+%token                  CLASS_IDENTIFIER
+%token                  CLASS_NESTED
 
 %token                  INTEGER_LITERAL
 %token                  DOUBLE_LITERAL
@@ -71,6 +73,7 @@ extern VALUE m_Parser;
 
 
 %type  <object>         identifier
+%type  <object>         class_identifier
 %type  <object>         literal_value
 %type  <object>         block_literal
 %type  <object>         block_args
@@ -224,12 +227,18 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: DEFCLASS identifier LCURLY class_body RCURLY {
+class_identifier: CLASS_IDENTIFIER |
+                  CLASS_NESTED {
+                  $$ = fy_terminal_node("identifier");
+                }
+                ;
+
+class_no_super: CLASS class_identifier LCURLY class_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $4);
                 }
                 ;
 
-class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
+class_super:    CLASS class_identifier COLON identifier LCURLY class_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, $4, $6);
                 }
                 ;
