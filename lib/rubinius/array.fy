@@ -8,8 +8,7 @@ def class Array {
 
   def Array new: size with: default {
     "Create a new Array with a given size and default-value."
-
-    Array new: ~[size, default] # direct call to Array.new(size, default) in ruby
+    Array new(size, default)
   }
 
   def Array new: size {
@@ -34,7 +33,7 @@ def class Array {
 
   def each: block {
     val = nil
-    ruby: 'each with_block: |x| { val = block call: [x] }
+    each |x| { val = block call: [x] }
     val
   }
 
@@ -45,7 +44,7 @@ def class Array {
 
     index is_a?: Fixnum . if_true: {
       deleted = self at: index
-      delete_at: ~[index] # call to ruby-Array#delete_at
+      delete_at(index)
       return deleted
     } else: {
       index is_a?: Array . if_true: {
@@ -53,7 +52,7 @@ def class Array {
         deleted_values = []
         index each: |idx| {
           deleted_values << self at: (idx - count)
-          delete_at: ~[idx - count] # call to ruby-Array#delete_at
+          delete_at(idx - count)
           count = count + 1
         }
         return deleted_values
@@ -99,7 +98,7 @@ def class Array {
 
   def index: item {
     "Returns the index of an item (or nil, if it isn't in the Array)."
-    index: ~[item]
+    index(item)
   }
 
   def indices_of: item {
@@ -132,19 +131,17 @@ def class Array {
 
   def last: count {
     "Returns new Array with last n elements specified."
-
-    ruby: 'last args: [count]
+    last(count)
   }
 
   def any?: block {
     "Takes condition-block and returns true if any element meets it."
-
-    ruby: 'any? with_block: block
+    any?(&block)
   }
 
   def all?: block {
     "Takes condition-block and returns true if all elements meet it."
-    ruby: 'all? with_block: block
+    all?(&block)
   }
 
   def select: block {
@@ -161,7 +158,7 @@ def class Array {
     "Same as select, just gets also called with an additional argument for each element's index value."
 
     tmp = []
-    ruby: 'each_with_index with_block: |obj idx| {
+    each_with_index |obj idx| {
       block call: [obj, idx] . if_true: {
         tmp << [obj, idx]
       }
@@ -170,11 +167,11 @@ def class Array {
   }
 
   def reject: block {
-    ruby: 'reject with_block: block
+    reject(&block)
   }
 
   def reject!: block {
-    ruby: 'reject! with_block: block
+    reject!(&block)
     return self
   }
 

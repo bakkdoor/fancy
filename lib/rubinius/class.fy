@@ -2,29 +2,28 @@ def class Class {
   ruby_alias: 'superclass
 
   def new {
-    obj = self allocate: ~[]
+    obj = self allocate()
     obj initialize
     obj
   }
 
   # calls initialize:, if defined
   def new: arg {
-    obj = self allocate: ~[]
+    obj = self allocate()
     obj initialize: arg
     obj
   }
 
   def Class superclass: superclass body: body_block {
-    ruby: 'new args: [superclass] with_block: body_block
+    new(superclass, &body_block)
   }
 
   def define_method: name with: block {
-    # define_method: ~[name, block]
-    ruby: 'define_method args: [name] with_block: block
+    define_method(name, &block)
   }
 
   def undefine_method: name {
-    remove_method: ~[name]
+    remove_method(name)
   }
 
   def define_class_method: name with: block {

@@ -12,11 +12,11 @@ def class Fixnum {
   alias_method: ":===" for: "==="
 
   def times: block {
-    ruby: 'times with_block: block
+    times(&block)
   }
 
   def modulo: other {
-    modulo: ~[other]
+    modulo(other)
   }
 
   # use a : so we dont overwrite ruby's % operator
@@ -43,10 +43,10 @@ def class Fixnum {
   }
 
   def upto: num do_each: block {
-    ruby: 'upto args: [num] with_block: block
+    upto(num, &block)
   }
 
   def downto: num do_each: block {
-    ruby: 'downto args: [num] with_block: block
+    downto(num, &block)
   }
 }

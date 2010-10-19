@@ -1,6 +1,6 @@
 def class Class {
   def alias_method: new for: old {
-    alias_method: ~[new, old]
+    alias_method(new, old)
   }
 }
 
@@ -20,7 +20,7 @@ def class Object {
   ruby_alias: 'class
 
   def initialize {
-    self initialize: ~[]
+    self initialize()
   }
 
   def dclone {
@@ -51,19 +51,19 @@ def class Object {
   }
 
   def to_s {
-    self to_s: ~[]
+    self to_s()
   }
 
   def inspect {
-    self inspect: ~[]
+    self inspect()
   }
 
   def set_slot: slotname value: val {
-    instance_variable_set: ~["@" ++ slotname, val]
+    instance_variable_set("@" ++ slotname, val)
   }
 
   def get_slot: slotname {
-    instance_variable_get: ~["@" ++ slotname]
+    instance_variable_get("@" ++ slotname)
   }
 
   def and: other {
@@ -100,15 +100,15 @@ def class Object {
   }
 
   def undefine_singleton_method: name {
-    self metaclass remove_method: ~[name]
+    self metaclass remove_method(name)
   }
 
   def is_a?: class {
-    self is_a?: ~[class]
+    self is_a?(class)
   }
 
   def send: message {
-    self send: ~[message]
+    self send(message)
   }
 
   def send: message params: params {
@@ -116,6 +116,6 @@ def class Object {
   }
 
   def responds_to?: message {
-    self respond_to?: ~[message]
+    self respond_to?(message)
   }
 }

@@ -8,7 +8,7 @@ def class String {
   }
 
   def each: block {
-    ruby: 'each args: [""] with_block: block
+    each("", &block)
   }
 
   def at: idx {
@@ -16,15 +16,15 @@ def class String {
   }
 
   def split: str {
-    split: ~[str]
+    split(str)
   }
 
   def eval {
-    Fancy eval: ~[self]
+    Fancy eval(self)
   }
 
   def eval_global {
-    Fancy eval: ~[self]
+    Fancy eval(self)
   }
 
   def to_sexp {

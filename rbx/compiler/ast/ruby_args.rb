@@ -7,6 +7,13 @@ module Fancy
       def initialize(line, args, block = nil)
         super(line)
         @args = args
+        # If no block given and last arg is a block identifier
+        if block.nil? &&
+            args.array.last.kind_of?(Fancy::AST::Identifier) &&
+            args.array.last.identifier =~ /^&\w/
+          block = args.array.pop
+          block = Fancy::AST::Identifier.new(block.line, block.identifier[1..-1])
+        end
         @block = block
       end
 

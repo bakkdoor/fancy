@@ -14,10 +14,10 @@ def class Block {
   }
 
   def argcount {
-    self arity: ~[]
+    arity()
   }
 
   # def call: args{
-  #   call: ~args
+  #   call(*args)
   # }
 }

@@ -27,12 +27,12 @@ def class File {
     # We need a way to let the compiler know if the last argument to
     # a method call should be used as the block (in Ruby: &prob_obj)
     #File open: ~[filename, modes_str, block]
-    ruby: 'open args: [filename, modes_str] with_block: block
+    open(filename, modes_str, &block)
   }
 
   def File open: filename modes: modes_arr {
     modes_str = modes_str: modes_arr
-    f = open: ~[filename, modes_str]
+    f = open(filename, modes_str)
     f modes: modes_arr
     f
   }
@@ -46,11 +46,11 @@ def class File {
   }
 
   def File delete: filename {
-    delete: ~[filename]
+    delete(filename)
   }
 
   def File directory?: path {
-    directory?: ~[path]
+    directory?(path)
   }
 
   def modes {
@@ -62,7 +62,7 @@ def class File {
   }
 
   def readln {
-    self gets: ~[]
+    self gets()
   }
 
   def open? {
@@ -70,14 +70,14 @@ def class File {
   }
 
   def write: str {
-    print: ~[str]
+    print(str)
   }
 
   def newline {
-    puts: ~[]
+    puts()
   }
 
   def directory? {
-    File directory?: ~[self filename]
+    File directory?(self filename)
   }
 }

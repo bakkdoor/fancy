@@ -84,6 +84,6 @@ ARGV for_options: ["--help", "-h"] do: {
 # }
 
 ARGV first if_do: |file| {
-  Fancy::CodeLoader load_compiled_file: ~[file]
+  Fancy::CodeLoader load_compiled_file(file)
 }
 

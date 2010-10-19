@@ -20,18 +20,18 @@ def class Hash {
   }
 
   def each: block {
-    ruby: 'each with_block: block
+    each(&block)
   }
 
   def each_key: block {
-    ruby: 'each_key with_block: block
+    each_key(&block)
   }
 
   def each_value: block {
-    ruby: 'each_value with_block: block
+    each_value(&block)
   }
 
   def map: block {
-    ruby: 'map with_block: block
+    map(&block)
   }
 }
