@@ -51,7 +51,7 @@ module Fancy
     end
 
     def parse_error(line, yytext)
-      raise ParseError.new "at line #{line}, token: #{yytext}"
+      raise ParseError.new "Parse error at line #{line}, unexpected character: `#{yytext}'"
     end
 
     def file_error(*error)
@@ -146,6 +146,13 @@ module Fancy
       Fancy::AST::MessageSend.new(line, receiver, name, args)
     end
 
+    def msg_send_ruby(line, receiver, identifier, args = nil)
+      receiver ||= Rubinius::AST::Self.new(line)
+      args ||= ruby_args(line)
+      arguments = Fancy::AST::MessageArgs.new line, args
+      Fancy::AST::MessageSend.new(line, receiver, identifier, arguments)
+    end
+
     def nil_literal(line)
       Rubinius::AST::NilLiteral.new(line)
     end
@@ -176,8 +183,14 @@ module Fancy
       Fancy::AST::ArrayLiteral.new(line, *expr_ary)
     end
 
-    def ruby_args(line, array_literal)
-      Fancy::AST::RubyArgs.new(line, array_literal)
+    def ruby_args(line, array_literal = nil, block = nil)
+      if array_literal.kind_of?(Array)
+         array_literal = Fancy::AST::ArrayLiteral.new(line, *array_literal)
+      end
+      if array_literal.nil?
+         array_literal = Fancy::AST::ArrayLiteral.new(line)
+      end
+      Fancy::AST::RubyArgs.new(line, array_literal, block)
     end
 
     def method_body(line, expr_list, code)

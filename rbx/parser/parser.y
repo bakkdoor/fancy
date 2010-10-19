@@ -109,6 +109,8 @@ extern VALUE m_Parser;
 %type  <object>         class_operator_def
 
 %type  <object>         message_send
+%type  <object>         ruby_send
+%type  <object>         ruby_args
 %type  <object>         operator_send
 %type  <object>         send_args
 %type  <object>         receiver
@@ -158,6 +160,7 @@ exp:            method_def
                 | class_def
                 | message_send
                 | operator_send
+                | ruby_send
                 | try_catch_block
                 | literal_value
                 | identifier
@@ -375,6 +378,33 @@ message_send:   receiver identifier {
                 }
                 ;
 
+ruby_send:      receiver identifier ruby_args {
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
+                }
+                | identifier ruby_args {
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), Qnil, $1, $2);
+                }
+                ;
+
+ruby_args:      LPAREN RPAREN block_literal  {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $3);
+                }
+                | LPAREN exp_comma_list RPAREN block_literal {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $2, $4);
+                }
+                | exp_comma_list block_literal {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $1, $2);
+                }
+                | LPAREN RPAREN {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 1, INT2NUM(yylineno));
+                }
+                | LPAREN exp_comma_list RPAREN {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $2);
+                }
+                | block_literal {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $1);
+                }
+                ;
 
 operator_send:  receiver operator arg_exp {
                   $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);

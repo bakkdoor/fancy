@@ -7,7 +7,7 @@ module Fancy
   # other compiled file.
   def self.eval(code)
     filename = "(fancy-eval)"
-    cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, false) # always print
+    cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, true) # always print
     cl = Rubinius::CodeLoader.new(filename)
 
     script = cm.create_script(false)

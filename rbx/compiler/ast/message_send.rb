@@ -21,8 +21,16 @@ module Fancy
           g.allow_private
 
           name = @message_name.method_name(@receiver, ruby_send?)
-          g.send name, @message_args.size, false
+          if ruby_send_block?
+            g.send_with_block name, @message_args.size, false
+          else
+            g.send name, @message_args.size, false
+          end
         end
+      end
+
+      def ruby_send_block?
+        @message_args.ruby_block?
       end
 
       def ruby_send?
@@ -32,6 +40,8 @@ module Fancy
 
     class MessageArgs < Node
       name :message_args
+
+      attr_reader :args
 
       def initialize(line, *args)
         super(line)
@@ -54,6 +64,10 @@ module Fancy
 
       def ruby_args?
         @args.first.is_a? RubyArgs
+      end
+
+      def ruby_block?
+        ruby_args? && @args.first.has_block?
       end
     end
 
