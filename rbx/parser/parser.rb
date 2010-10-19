@@ -80,8 +80,8 @@ module Fancy
       Fancy::AST::Assignment.new(line, identifier, value)
     end
 
-    def multiple_assignment(line, identifier, value)
-      raise "Implement multiple_assignment node"
+    def multiple_assignment(line, identifiers, values)
+      Fancy::AST::MultipleAssignment.new(line, identifiers, values)
     end
 
     def identifier_list(line, identifier_list, identifier)
