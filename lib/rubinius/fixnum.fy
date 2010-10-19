@@ -12,6 +12,8 @@ def class Fixnum {
   ruby_alias: '===
   ruby_alias: 'chr
   ruby_alias: 'to_i
+  ruby_alias: '**
+  ruby_alias: 'abs
 
   def times: block {
     times(&block)
@@ -50,5 +52,9 @@ def class Fixnum {
 
   def downto: num do_each: block {
     downto(num, &block)
+  }
+
+  def negate {
+    self * -1
   }
 }

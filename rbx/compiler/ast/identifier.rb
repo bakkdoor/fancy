@@ -101,7 +101,6 @@ module Fancy
         elsif class_variable?
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
-          puts "> >>>>>>>>>>>>>>>>>>>>>>>>> instance var: " + name.inspect
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         elsif true?
           g.push_true
