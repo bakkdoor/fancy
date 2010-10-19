@@ -11,9 +11,10 @@ and many more features yet to be implemented.
 
 ----------------------------------------------------------------------
 
-It’s still in development, the implementation consisting of an
-interpreter written in C++ and a working bytecode compiler for the
+It’s still in development, the implementation has evolved from of an
+interpreter written in C++ to a mostly finished bytecode compiler for the
 Rubinius VM (http://www.rubini.us).
+
 We're currently working on bootstrapping the language on the Rubinius VM.
 If you want to help out, feel free to contact us:
 http://github.com/bakkdoor/fancy/wiki/Get-in-touch
@@ -34,15 +35,10 @@ Compiling / Installing from source:
 Dependencies:
 ------------------------
 
-- libgc ( Fancy uses BoehmGC for garbage collection ).
-- GNU Autotools: autoconf, automake and libtool.
-- GNU Make.
+- Rubinius (at least 1.1)
+- Rake.
 - GNU Bison ( version 2.4 and higher otherwise you will get a Segmentation fault ).
 - GNU Flex.
-
-NOTE: BoehmGC - It's included in the vendor/gc directory
-           but you can also get it here:
-           http://www.hpl.hp.com/personal/Hans_Boehm/gc/.
 
 Given the tools & libraries mentioned above, Fancy _should_ build without problems
 on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
@@ -54,18 +50,52 @@ Standard building procedure:
 Building Fancy is just that easy:
 
   $ cd <fancy_source_path>
-  $ ./configure
-  $ make && make test
+  $ rake
 
-NOTE: if you have problems with ./configure script or make utility just try:
+Now run the hello world example:
 
-  $ autoreconf --install --force
-
-and try again.
+  $ ./bin/fancy examples/hello_world.fy
 
 ----------------------------
 Some technical information:
 ----------------------------
+
+As now we are running on the Rubinius VM, Fancy shares the same runtime with ruby.
+Actually all of Fancy is built upon ruby objects, so for example when you open
+the String class in fancy, it's just the Ruby' String. 
+
+Because of this, and because in fancy standard library (lib/*.fy) we can define
+methods with the same name as ruby ones but taking no arguments (example:)
+
+    class Object {
+      def print {
+        "Print itself to the Console."
+        Console print: self
+      }
+    }
+
+We have decided not to overwrite the ruby version. This way all ruby libraries
+can use Ruby's Object#print (that takes any number of args) and work seamlesly.
+
+To meet this goal, the Fancy compiler renames fancy method taking no arguments
+like the previous "print" example, to a method named ":print". Using explicit
+parens syntax will allow you to invoke any ruby method.
+
+   someObject print    # Will actually invoke the Fancy ":print" method
+   someObject print()  # with explicit parens invokes the ruby method.
+
+Ruby method invocation supports passing a block variable to ruby as a proc.
+
+    class Something {
+      def open: block {
+        someRubyMethod(arg0, arg1, &block) 
+      }
+    }
+    something open: |s| { s.work }
+
+    # with this syntax, calling ruby's inject is just as easy.
+    $ this example will print the number 6
+    [1, 2, 3] inject(0) |sum, num| { sum + num } println 
 
 
 What's already working?
@@ -85,9 +115,8 @@ What's already working?
   - File reading and writing
   - Class-Mixins (including methods of one class into another)
   - Exception handling (try, catch, finally & retry)
-  - There's also an experimental bytecode compiler for the Rubinius VM
-    (see rbx_bytecode branch). It's still in development and not
-    finished yet.
+  - Mostly all examples/*.fy files are working now under the Rubinius VM
+    Please feel free to report bugs or better yet, contribute patches.
 
 
 What's still missing?
@@ -102,26 +131,19 @@ What's still missing?
 How is it implemented?
 -----------------------
 
-  - Currently, theres a quite simple interpreter written in
-    non-idiomatic C++.
-    Sorry, I'm not a big C++ programmer. It should be fairly easy to
-    read though.
-
-  - It uses the BoehmGC for garbage collection.
-
   - The lexer & parser are built with GNU Flex & GNU Bison.
+    And used as a ruby c-extension from rubinius.
+    The parser simply invokes methods on Fancy::Parser to build the AST.
 
-  - We're currently working on a bytecode compiler for the Rubinius
-    VM. See the rbx_bytecode branch for our current progress on that.
+  - Once the AST is built, we use Rubinius' excellent compiler chain
+    to compile it to bytecode.
+
+  - The bin/fancy file, is simply a rubinius code loader for .fy files.
 
 ----------------------------------------------------------------------
 
 Copyright:
 -----------
-
-vendor/gc: GC Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
-           For more information see the vendor/gc directory.
-
 
 Fancy is licensed under the terms of the GNU LGPL v3. For more
 information on licensing issues have a look at the LICENSE file.
