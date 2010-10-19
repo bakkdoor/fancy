@@ -471,10 +471,10 @@ catch_blocks:  /* empty */ {
                 | CATCH LCURLY catch_block_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 2, INT2NUM(yylineno), $3);
                 }
-                | CATCH identifier LCURLY catch_block_body RCURLY {
+                | CATCH exp LCURLY catch_block_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 3, INT2NUM(yylineno), $4, $2);
                 }
-                | CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
+                | CATCH exp ARROW identifier LCURLY catch_block_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handler"), 4, INT2NUM(yylineno), $6, $2, $4);
                 }
                 | catch_blocks CATCH identifier ARROW identifier LCURLY catch_block_body RCURLY {
