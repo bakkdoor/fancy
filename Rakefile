@@ -1,4 +1,3 @@
-
 # This will eventually replace our current Makefile, once we can
 # remove all the old c++ code.
 
@@ -19,7 +18,6 @@ end
 fy_files = Dir.glob(_["lib/**/*.fy"]).map { |fy| file fy }
 fyc_files = fy_files.map do |task|
   file "#{task.to_s}c" => [task, fancy_bin] do
-    p task.to_s
     sh 'rbx', _["rbx/compiler.rb"], task.to_s
   end
 end
