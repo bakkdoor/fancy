@@ -38,8 +38,8 @@ FancySpec describe: Class with: {
   it: "should NOT find the method when not mixed-in" for: 'responds_to?: when: {
     instance = ClassWithMixin new
     instance normal_method . should == 'normal_found
-    instance responds_to?: ':normal_method . should == true
-    instance responds_to?: ':mixin_method . should == false
+    instance responds_to?: 'normal_method . should == true
+    instance responds_to?: 'mixin_method . should == false
   }
 
   it: "should find the method when mixed-in" for: 'include: when: {
@@ -49,8 +49,8 @@ FancySpec describe: Class with: {
     }
 
     instance = ClassWithMixin new
-    instance responds_to?: ':normal_method . should == true
-    instance responds_to?: ':mixin_method . should == true
+    instance responds_to?: 'normal_method . should == true
+    instance responds_to?: 'mixin_method . should == true
     instance normal_method . should == 'normal_found
     instance mixin_method . should == 'mixed_in_found
   }
@@ -66,14 +66,14 @@ FancySpec describe: Class with: {
 
   it: "should have dynamically generated getter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new
-    instance responds_to?: ':foo . should == true
-    instance responds_to?: ':bar . should == true
-    instance responds_to?: ':baz . should == true
+    instance responds_to?: 'foo . should == true
+    instance responds_to?: 'bar . should == true
+    instance responds_to?: 'baz . should == true
     instance responds_to?: "hello:" . should == true
     instance responds_to?: "world:" . should == true
-    instance responds_to?: ':oh . should == true
+    instance responds_to?: 'oh . should == true
     instance responds_to?: ":oh" . should == true
-    instance responds_to?: ':noes . should == true
+    instance responds_to?: 'noes . should == true
     instance responds_to?: "noes:" . should == true
   }
 

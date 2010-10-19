@@ -7,7 +7,7 @@ def class Array {
     """Given an Array of 2 Numbers, it returns the sub-array between the given indices.
        If given a Number, returns the element at that index."""
 
-    # if given an Array, interpret it as a from:to: range substring
+    # if given an Array, interpret it as a from:to: range subarray
     index is_a?: Array . if_true: {
       from: (index[0]) to: (index[1])
     } else: {
@@ -140,7 +140,7 @@ def class Array {
   def remove_if: condition {
     "Removes all elements that meet the given condition block."
 
-    remove_at: (select_with_index: condition . map: ':second)
+    remove_at: (select_with_index: condition . map: 'second)
   }
 
   def println {

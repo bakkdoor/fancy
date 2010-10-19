@@ -108,14 +108,23 @@ def class Object {
   }
 
   def send: message {
-    self send(message)
+    self send(message_name: message)
   }
 
   def send: message params: params {
-    ruby: message args: params
+    ruby: (message_name: message) args: params
+  }
+
+  def message_name: symbol {
+    symbol = symbol to_s
+    symbol include?: ":" . if_true: {
+      symbol
+    } else: {
+      ":" ++ symbol
+    }
   }
 
   def responds_to?: message {
-    self respond_to?(message)
+    self respond_to?(message_name: message)
   }
 }
