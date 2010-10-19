@@ -65,4 +65,6 @@ FancySpec describe: "rbx/examples" with: {
   example: 'nested_try should_output: ["Propagated exception"]
 
   example: 'call_with_receiver should_output: ["in Foo#foo!"]
+
+  example: 'ruby_send should_output: ["1", "2", "3", "Heyo", "12"]
 }
