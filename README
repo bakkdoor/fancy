@@ -12,8 +12,11 @@ and many more features yet to be implemented.
 ----------------------------------------------------------------------
 
 It’s still in development, the implementation consisting of an
-interpreter written in C++ and an unfinished bytecode compiler for the
+interpreter written in C++ and a working bytecode compiler for the
 Rubinius VM (http://www.rubini.us).
+We're currently working on bootstrapping the language on the Rubinius VM.
+If you want to help out, feel free to contact us:
+http://github.com/bakkdoor/fancy/wiki/Get-in-touch
 
 For some example code (that can be successfully executed), have a look
 at the examples/ directory.
