@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 module Fancy
   module AST
 
@@ -53,7 +54,7 @@ module Fancy
         elsif class_variable?
           @identifier.to_sym
         elsif instance_variable?
-          @identifier[1..-1].to_sym
+          @identifier.to_sym
         else
           @identifier.to_sym
         end
@@ -100,6 +101,7 @@ module Fancy
         elsif class_variable?
           Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
+          puts "> >>>>>>>>>>>>>>>>>>>>>>>>> instance var: " + name.inspect
           Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         elsif true?
           g.push_true

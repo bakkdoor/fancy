@@ -1,18 +1,6 @@
 def class String {
   include: FancyEnumerable
 
-  def [] index {
-    """Given an Array of 2 Numbers, it returns the substring between the given indices.
-       If given a Number, returns the character at that index."""
-
-    # if given an Array, interpret it as a from:to: range substring
-    index is_a?: Array . if_true: {
-      from: (index[0]) to: (index[1])
-    } else: {
-      at: index
-    }
-  }
-
   def ++ other {
     "Concatenate the String with another String"
 
@@ -28,7 +16,9 @@ def class String {
   def blank? {
     "Indicates, if a String consists only of whitespace."
 
-    all?: 'whitespace?
+    all?: |c| {
+      c whitespace?
+    }
   }
 
   def * num {

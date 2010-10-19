@@ -61,10 +61,6 @@ def class File {
     @modes = modes_arr
   }
 
-  def readln {
-    self gets()
-  }
-
   def open? {
     self closed? not
   }

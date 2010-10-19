@@ -310,9 +310,9 @@ FancySpec describe: Array with: {
 
   it: "should return the reduced value for a given block and initial value" for: 'reduce:init_val: when: {
     arr = 1 upto: 10
-    arr sum should == (arr reduce: ':+ init_val: 0)
+    arr sum should == (arr reduce: '+ init_val: 0)
     arr product should == (arr reduce: '* init_val: 1)
-    arr to_s should == (arr reduce: ':++ init_val: "")
+    arr to_s should == (arr reduce: '++ init_val: "")
   }
 
   it: "should return the reverse of itself" for: 'reverse when: {

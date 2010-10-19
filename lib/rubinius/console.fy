@@ -23,13 +23,13 @@ def class Console {
     "Prints a given message to stdout, followed by reading a line from stdin."
 
     Kernel print(message)
-    Kernel readln chomp
+    Kernel gets() chomp()
   }
 
   def Console readln {
     "Reads a line from STDIN and returns it as a String."
 
-    Kernel readln chomp
+    Kernel gets() chomp()
   }
 
   def Console clear {

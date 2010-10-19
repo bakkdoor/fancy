@@ -5,7 +5,7 @@ FancySpec describe: TrueClass with: {
   }
 
   it: "should be false for calling and: with a nil value" for: 'and: when: {
-    true and: nil . should == nil
+    true and: nil . should == false
   }
 
   it: "should be true for calling && with non-nil value" for: '&& when: {
@@ -14,7 +14,7 @@ FancySpec describe: TrueClass with: {
   }
 
   it: "should be false for calling && with a nil value" for: '&& when: {
-    (true && nil) should == nil
+    (true && nil) should == false
   }
 
   it: "should be true for calling or: with both non-nil values" for: 'or: when: {
@@ -46,11 +46,11 @@ FancySpec describe: TrueClass with: {
   }
 
   it: "should NOT be nil" for: 'nil? when: {
-    true nil? should == nil
+    true nil? should == false
   }
 
   it: "should NOT be false" for: 'false? when: {
-    true false? should == nil
+    true false? should == false
   }
 
   it: "should be true" for: 'true? when: {

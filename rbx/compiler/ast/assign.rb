@@ -26,5 +26,34 @@ module Fancy
       end
     end
 
+    class MultipleAssignment < Node
+
+      class MultipleAssignmentExpr < Node
+        def initialize(line)
+          super(line)
+        end
+        def bytecode(g)
+          g.shift_array
+        end
+      end
+
+      def initialize(line, idents, values)
+        super(line)
+        @idents = idents
+        @values = values
+      end
+
+      def bytecode(g)
+        @values.each do |val|
+          val.bytecode(g)
+        end
+        g.make_array @values.size
+        @idents.each do |ident|
+          Assignment.new(@line, ident, MultipleAssignmentExpr.new(@line)).bytecode(g)
+          g.pop
+        end
+      end
+    end
+
   end
 end

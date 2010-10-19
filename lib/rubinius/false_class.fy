@@ -28,7 +28,7 @@ def class FalseClass {
 
   def nil? {
     "Returns true."
-    nil
+    false
   }
 
   def false? {
@@ -38,7 +38,7 @@ def class FalseClass {
 
   def true? {
     "Returns nil."
-    nil
+    false
   }
 
   def to_s {

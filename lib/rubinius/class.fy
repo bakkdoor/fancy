@@ -19,11 +19,11 @@ def class Class {
   }
 
   def define_method: name with: block {
-    define_method(name, &block)
+    define_method(message_name: name, &block)
   }
 
   def undefine_method: name {
-    remove_method(name)
+    remove_method(message_name: name)
   }
 
   def define_class_method: name with: block {
