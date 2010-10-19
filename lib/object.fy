@@ -87,6 +87,10 @@ def class Object {
     [self]
   }
 
+  def to_i {
+    0
+  }
+
   def NATIVE is_a?: class_obj {
     "Indicates, if an object is an instance of a given Class."
 

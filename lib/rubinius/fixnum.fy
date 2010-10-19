@@ -11,6 +11,7 @@ def class Fixnum {
   ruby_alias: '>=
   ruby_alias: '===
   ruby_alias: 'chr
+  ruby_alias: 'to_i
 
   def times: block {
     times(&block)

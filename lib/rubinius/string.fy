@@ -18,7 +18,7 @@ def class String {
   }
 
   def from: from to: to {
-    self[~[from, to - 1]]
+    self[~[from, to + 1]]
   }
 
   def each: block {
