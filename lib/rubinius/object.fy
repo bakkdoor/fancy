@@ -92,7 +92,7 @@ def class Object {
         return true
       }
     }
-    return nil
+    return false
   }
 
   def define_singleton_method: name with: block {

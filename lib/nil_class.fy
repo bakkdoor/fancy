@@ -39,7 +39,7 @@ def class NilClass {
 
   def true? {
     "Returns nil."
-    nil
+    false
   }
 
   def to_s {

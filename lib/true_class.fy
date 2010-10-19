@@ -22,12 +22,12 @@ def class TrueClass {
 
   def nil? {
     "Returns nil."
-    nil
+    false
   }
 
   def false? {
     "Returns nil."
-    nil
+    false
   }
 
   def true? {
@@ -36,6 +36,6 @@ def class TrueClass {
   }
 
   def not {
-    nil
+    false
   }
 }

@@ -1,15 +1,16 @@
 def class Fixnum {
   # prepend a : to fancy version of ruby methods.
-  alias_method: ":==" for: "=="
-  alias_method: ":-" for: "-"
-  alias_method: ":+" for: "+"
-  alias_method: ":*" for: "*"
-  alias_method: ":/" for: "/"
-  alias_method: ":<" for: "<"
-  alias_method: ":>" for: ">"
-  alias_method: ":<=" for: "<="
-  alias_method: ":>=" for: ">="
-  alias_method: ":===" for: "==="
+  ruby_alias: '==
+  ruby_alias: '-
+  ruby_alias: '+
+  ruby_alias: '*
+  ruby_alias: '/
+  ruby_alias: '<
+  ruby_alias: '>
+  ruby_alias: '<=
+  ruby_alias: '>=
+  ruby_alias: '===
+  ruby_alias: 'chr
 
   def times: block {
     times(&block)

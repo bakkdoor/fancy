@@ -23,7 +23,7 @@ def class FancyEnumerable {
 
     each: |x| {
       condition call: [x] . if_false: {
-        return nil
+        return false
       }
     }
     true
