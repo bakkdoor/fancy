@@ -17,7 +17,7 @@ def class System {
     of the call as a string.
     """
 
-    IO popen(command_str) . readlines
+    IO popen(command_str) . readlines map: |l| { l chomp() }
   }
 
   def System sleep: n_ms {
