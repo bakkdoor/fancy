@@ -91,7 +91,7 @@ Ruby method invocation supports passing a block variable to ruby as a proc.
         someRubyMethod(arg0, arg1, &block) 
       }
     }
-    something open: |s| { s.work }
+    something open: |s| { s work }
 
     # with this syntax, calling ruby's inject is just as easy.
     # this example will print the number 6
