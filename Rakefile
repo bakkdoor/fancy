@@ -24,19 +24,7 @@ end
 
 task :bootstrap => fyc_files
 
-desc "Copy compiled .fyc files from lib/ to rbx/boot so we can bootstrap using them."
-task :bootsave do
-  rm_f _["rbx/boot"], :verbose => false
-  cp_r _["lib"], _["rbx/boot"], :verbose => false
-  rm Dir.glob(_["rbx/boot/**/*.fy"]), :verbose => false
-end
-
-
-task :test_native do
-  sh 'make', 'test'
-end
-
-task :test => [:test_native, "parser:test"]
+task :test => ["parser:test"]
 
 task :default => :bootstrap
 
