@@ -165,7 +165,7 @@ FancySpec describe: Class with: {
   it: "should return its superclass" when: {
     Fixnum superclass should == Integer
     Symbol superclass should == Object
-    StdError superclass should == StandardError
+    StdError superclass should == Exception
     Class superclass should == Module
     Object superclass should == nil
 
