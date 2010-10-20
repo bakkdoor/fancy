@@ -4,8 +4,8 @@ module Fancy
     class ClassDef < Rubinius::AST::Class
       Nodes[:class_def] = self
 
-      def initialize(line, name, parent, body)
-        super(line, name.name, parent, body)
+      def initialize(line, identifier, parent, body)
+        super(line, identifier.name, parent, body)
       end
     end
 

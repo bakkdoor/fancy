@@ -8,7 +8,8 @@ int yyerror(char *s);
 %option yylineno
 
 digit		[0-9]
-capital_letter  [A-Z]
+capital         [A-Z]
+lower           [a-z]
 letter          [A-Za-z]
 special         [-+?!_=*/^><%&]
 operator        ({special}+|"||"{special}*)
@@ -39,10 +40,9 @@ private         "private"
 protected       "protected"
 rb_args_prefix  "~"
 self            "self"
-identifier      @?@?({letter}|{digit}|{special})+
-class_identifier capital_letter({letter}|{digit}|{special})*
-class_nested    (({capital_letter}({letter}|{digit}|{special})*)::)+({capital_letter}({letter}|{digit}|{special})*)
-nested_identifier (({letter}({letter}|{digit}|{special})+)::)+({letter}({letter}|{digit}|{special})+)
+identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special})*
+constant        {capital}({letter}|{digit}|{special})*
+nested_constant ({constant}::)+{constant}
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
 regexp_lit      "r{".*"}"
 comma           ,
@@ -109,17 +109,13 @@ comment         #[^\n]*
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
                 }
-{class_identifier} {
+{constant}      {
                   yylval.object = rb_str_new2(yytext);
-                  return CLASS_IDENTIFIER;
+                  return CONSTANT;
                 }
-{class_nested}  {
+{nested_constant} {
                   yylval.object = rb_str_new2(yytext);
-                  return CLASS_IDENTIFIER;
-                }
-{nested_identifier} {
-                  yylval.object = rb_str_new2(yytext);
-                  return IDENTIFIER;
+                  return CONSTANT;
                 }
 {symbol_lit}    {
                   yylval.object = rb_str_new2(yytext);
