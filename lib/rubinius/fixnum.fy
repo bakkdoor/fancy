@@ -1,5 +1,8 @@
+require: "../number"
+
 class Fixnum {
-  # prepend a : to fancy version of ruby methods.
+  include: Number
+
   ruby_alias: '==
   ruby_alias: '-
   ruby_alias: '+
@@ -13,7 +16,6 @@ class Fixnum {
   ruby_alias: 'chr
   ruby_alias: 'to_i
   ruby_alias: '**
-  ruby_alias: 'abs
 
   def times: block {
     times(&block)
@@ -52,9 +54,5 @@ class Fixnum {
 
   def downto: num do_each: block {
     downto(num, &block)
-  }
-
-  def negate {
-    self * -1
   }
 }
