@@ -49,7 +49,6 @@ extern VALUE m_Parser;
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
-%token                  RB_ARGS_PREFIX
 %token                  IDENTIFIER
 %token                  CONSTANT
 
@@ -574,9 +573,6 @@ array_literal:  empty_array {
                 }
                 | LBRACKET space exp_comma_list space RBRACKET {
                   $$ = rb_funcall(m_Parser, rb_intern("array_literal"), 2, INT2NUM(yylineno), $3);
-                }
-                | RB_ARGS_PREFIX array_literal {
-                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 

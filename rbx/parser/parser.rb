@@ -236,6 +236,11 @@ module Fancy
       Fancy::AST::HashLiteral.new(line, *key_values)
     end
 
+    def regex_literal(line, regexp_str)
+      regexp_str = regexp_str[2..-2]
+      Rubinius::AST::RegexLiteral.new(line, regexp_str, 0)
+    end
+
     def require_stmt(line, identifier)
       Fancy::AST::Require.new(line, identifier)
     end

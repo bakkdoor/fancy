@@ -11,7 +11,7 @@ digit		[0-9]
 capital         [A-Z]
 lower           [a-z]
 letter          [A-Za-z]
-special         [-+?!_=*/^><%&]
+special         [-+?!_=*/^><%&~]
 operator        ({special}+|"||"{special}*)
 int_lit 	-?({digit}|_)+
 double_lit      {int_lit}\.{digit}+
@@ -38,7 +38,6 @@ retry           "retry"
 super           "super"
 private         "private"
 protected       "protected"
-rb_args_prefix  "~"
 self            "self"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special})*
 constant        {capital}({letter}|{digit}|{special})*
@@ -101,7 +100,6 @@ comment         #[^\n]*
 {super}         { return SUPER; }
 {private}       { return PRIVATE; }
 {protected}     { return PROTECTED; }
-{rb_args_prefix} { return RB_ARGS_PREFIX; }
 {self}          {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER; }

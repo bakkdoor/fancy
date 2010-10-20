@@ -4,6 +4,7 @@ class String {
   ruby_alias: '==
   ruby_alias: 'upcase
   ruby_alias: 'downcase
+  ruby_alias: '=~
 
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.
@@ -18,7 +19,7 @@ class String {
   }
 
   def from: from to: to {
-    self[~[from, to + 1]]
+    ruby: '[] args: [from, to + 1]
   }
 
   def each: block {
