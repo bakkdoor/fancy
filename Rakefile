@@ -24,7 +24,12 @@ end
 
 task :bootstrap => fyc_files
 
-task :test => ["parser:test"]
+task :test do
+  Dir.glob("tests/*.fy").each do |t|
+    sh _['bin/fancy'], _[t]
+  end
+end
+
 
 task :default => :bootstrap
 
