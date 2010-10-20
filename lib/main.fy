@@ -35,23 +35,25 @@ ARGV for_option: "-e" do: |eval_string| {
 #   2 times: { ARGV remove_at: out_file_idx }
 # }
 
-# ARGV for_option: "-c" do: {
-#   ARGV index: "-c" . if_do: |idx| {
-#     ARGV[[idx + 1, -1]] each: |filename| {
-#       System do: ("rbx rbx/compiler.rb " ++ filename)
-#     }
-#   }
-#   System exit
-# }
+ARGV for_option: "-c" do: {
+  ARGV index: "-c" . if_do: |idx| {
+    ARGV[[idx + 1, -1]] each: |filename| {
+      "Compiling " ++ filename println
+      System do: ("rbx rbx/compiler.rb " ++ filename)
+    }
+  }
+  System exit
+}
 
-# ARGV for_option: "-cv" do: {
-#   ARGV index: "-cv" . if_do: |idx| {
-#     ARGV[[idx + 1, -1]] each: |filename| {
-#       System do: ("rbx rbx/compiler.rb " ++ filename ++ " -B")
-#     }
-#   }
-#   System exit
-# }
+ARGV for_option: "-cv" do: {
+  ARGV index: "-cv" . if_do: |idx| {
+    ARGV[[idx + 1, -1]] each: |filename| {
+      "Compiling " ++ filename println
+      System do: ("rbx rbx/compiler.rb " ++ filename ++ " -B")
+    }
+  }
+  System exit
+}
 
 # ARGV for_option: "-rbx" do: {
 #   ARGV index: "-rbx" . if_do: |idx| {
