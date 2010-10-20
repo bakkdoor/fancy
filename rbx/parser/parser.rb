@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/fancy_parser'
-require "rubygems"
 
 module Fancy
 
