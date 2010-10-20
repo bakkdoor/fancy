@@ -36,11 +36,6 @@ namespace :parser do
   end
 
   task :default => :compile
-
-  task :test => "^default" do
-    sh _['../../bin/fancy'], _['../../tests/rbx_examples_eval.fy']
-  end
-
 end
 
 task :default => "parser:default"
