@@ -1,20 +1,20 @@
-def class Class {
+class Class {
   def alias_method: new for: old {
     alias_method(new, old)
   }
 }
 
-def class String {
+class String {
   alias_method: ":+" for: "+"
 }
 
-def class Class {
+class Class {
   def ruby_alias: method_name {
     alias_method: (":" + (method_name to_s)) for: method_name
   }
 }
 
-def class Object {
+class Object {
 
   ruby_alias: '==
   ruby_alias: 'class

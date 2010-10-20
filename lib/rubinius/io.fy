@@ -1,4 +1,4 @@
-def class IO {
+class IO {
   ruby_alias: 'readlines
   ruby_alias: 'readline
 

@@ -1,4 +1,4 @@
-def class Foo {
+class Foo {
   def bar: x {
     (x == 'error) . if_true: {
       StdError new: "Some Error" . raise!
@@ -71,7 +71,7 @@ FancySpec describe: StdError with: {
   }
 
   it: "should raise and catch a custom exception correctly" for: 'raise! when: {
-    def class MyError : StdError{
+    class MyError : StdError{
       def initialize {
         super initialize: "MyError message"
       }

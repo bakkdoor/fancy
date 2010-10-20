@@ -25,7 +25,7 @@ FancySpec describe: Object with: {
   }
 
   # it: "should call unkown_message:with_params: when calling an undefined method" when: {
-  #   def class UnknownMessage {
+  #   class UnknownMessage {
   #     def unknown_message: message with_params: params {
   #       "Got: " ++ message ++ " " ++ params
   #     }

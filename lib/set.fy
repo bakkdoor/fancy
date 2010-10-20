@@ -1,4 +1,4 @@
-def class Set {
+class Set {
   "A simple Set data structure class."
 
   include: FancyEnumerable

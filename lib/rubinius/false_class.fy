@@ -1,4 +1,4 @@
-def class FalseClass {
+class FalseClass {
   """
   FalseClass extensions for Fancy on rbx.
   Since Fancy only has true and nil as the default boolean values,

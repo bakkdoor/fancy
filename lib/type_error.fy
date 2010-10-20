@@ -1,4 +1,4 @@
-def class TypeError : StdError {
+class TypeError : StdError {
   read_slots: ['expected_type, 'actual_type]
   def initialize: msg {
     super initialize: msg

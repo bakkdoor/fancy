@@ -1,4 +1,4 @@
-def class Method {
+class Method {
   def tests {
     @tests if_nil: { @tests = [] }
     @tests

@@ -1,6 +1,6 @@
 ## Conway's Game of Life in Fancy :)
 
-def class World {
+class World {
   read_write_slots: ['matrix]
 
   def World with_height: height and_width: width {

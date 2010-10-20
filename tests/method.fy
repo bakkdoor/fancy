@@ -4,7 +4,7 @@ FancySpec describe: Method with: {
   }
 
   it: "should return the (correct) sender object of the MessageSend" when: {
-    def class SenderTest {
+    class SenderTest {
       def give_me_the_sender! {
         __sender__
       }
@@ -15,7 +15,7 @@ FancySpec describe: Method with: {
   }
 
   it: "should return the amount of arguments a Method takes" for: 'argcount when: {
-    def class Foo {
+    class Foo {
       def no_args {
       }
       def one_arg: yo {
@@ -85,7 +85,7 @@ FancySpec describe: Method with: {
     self foo should == [1,2]
   }
 
-  def class Foo {
+  class Foo {
     def bar {
     }
     def private private_bar {

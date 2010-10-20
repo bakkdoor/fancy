@@ -1,4 +1,4 @@
-def class String {
+class String {
   include: FancyEnumerable
 
   def ++ other {

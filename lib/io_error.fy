@@ -1,4 +1,4 @@
-def class IOError : StdError {
+class IOError : StdError {
   read_slots: ['filename, 'modes]
 
   def initialize: message filename: filename {

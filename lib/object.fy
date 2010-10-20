@@ -1,4 +1,4 @@
-def class Object {
+class Object {
   "Root class of Fancy's class hierarchy. All classes inherit from Object."
 
   def loop: block {

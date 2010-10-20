@@ -1,6 +1,6 @@
 block = { self foo }
 
-def class Foo {
+class Foo {
   def foo {
     "in Foo#foo!" println
   }

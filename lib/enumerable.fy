@@ -1,4 +1,4 @@
-def class FancyEnumerable {
+class FancyEnumerable {
   "Mixin-Class with useful methods for collections that implement an 'each:' method."
 
   def include?: item {

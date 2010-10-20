@@ -1,4 +1,4 @@
-def class String {
+class String {
 
   # prepend a : to fancy version of ruby methods.
   ruby_alias: '==

@@ -1,4 +1,4 @@
-def class Directory {
+class Directory {
   def self exists?: dirname {
     "Indicates, if a Directory exists with a given pathname."
     (File exists?: dirname) and: (File directory?: dirname)

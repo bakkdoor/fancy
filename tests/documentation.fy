@@ -6,7 +6,7 @@ FancySpec describe: "DocStrings" with: {
   }
 
   it: "should define a documenation string for a class" when: {
-    def class ClassWithDoc {
+    class ClassWithDoc {
       "This class has a docstring! Yay!"
       def foo {
         "bar!"

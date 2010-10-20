@@ -1,4 +1,4 @@
-def class Float {
+class Float {
   ruby_alias: '+
   ruby_alias: '-
   ruby_alias: '*

@@ -1,4 +1,4 @@
-def class Hash {
+class Hash {
 
   alias_method: ":size" for: 'size
   alias_method: ":[]" for: '[]

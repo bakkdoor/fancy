@@ -1,4 +1,4 @@
-def class Stack {
+class Stack {
   """
   A simple Stack container class.
   """

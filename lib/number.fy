@@ -1,4 +1,4 @@
-def class Number {
+class Number {
   "Number class for all number values (integer & doubles for now)."
 
   def squared {
@@ -46,7 +46,7 @@ def class Number {
   }
 }
 
-def class FancyEnumerable {
+class FancyEnumerable {
   def sum {
     """Calculates the sum of all the elements in the Enumerable
       (assuming them to be Numbers (implementing '+' & '*'))."""

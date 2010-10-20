@@ -1,4 +1,4 @@
-def class Ping {
+class Ping {
   # async method definition
   # gets run, if the message "pong" gets sent asynchronously
   def async pong {
@@ -10,7 +10,7 @@ def class Ping {
   }
 }
 
-def class Pong {
+class Pong {
   def initialize: pong_obj {
     pong_obj @ ping # send "ping" message to pong_obj asynchronously
   }

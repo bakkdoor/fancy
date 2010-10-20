@@ -44,13 +44,14 @@ extern VALUE m_Parser;
 %token                  SUPER
 %token                  PRIVATE
 %token                  PROTECTED
-%token                  DEFCLASS
+%token                  CLASS
 %token                  DEF
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
 %token                  RB_ARGS_PREFIX
 %token                  IDENTIFIER
+%token                  CONSTANT
 
 %token                  INTEGER_LITERAL
 %token                  DOUBLE_LITERAL
@@ -71,6 +72,7 @@ extern VALUE m_Parser;
 
 
 %type  <object>         identifier
+%type  <object>         constant
 %type  <object>         literal_value
 %type  <object>         block_literal
 %type  <object>         block_args
@@ -94,6 +96,7 @@ extern VALUE m_Parser;
 %type  <object>         return_statement
 %type  <object>         require_statement
 
+%type  <object>         const_identifier
 %type  <object>         class_body
 %type  <object>         class_def
 %type  <object>         class_no_super
@@ -183,8 +186,22 @@ operator:       OPERATOR {
                 }
                 ;
 
+constant:       CONSTANT {
+                  $$ = fy_terminal_node("identifier");
+                }
+                ;
+
 identifier:     IDENTIFIER {
                   $$ = fy_terminal_node("identifier");
+                }
+                | CLASS {
+                  $$ = fy_terminal_node_from("identifier", "class");
+                }
+                | DEF {
+                  $$ = fy_terminal_node_from("identifier", "def");
+                }
+                | constant {
+                  $$ = $1;
                 }
                 ;
 
@@ -224,12 +241,20 @@ class_def:      class_no_super
                 | class_super
                 ;
 
-class_no_super: DEFCLASS identifier LCURLY class_body RCURLY {
+const_identifier: constant {
+                  $$ = rb_funcall(m_Parser, rb_intern("const_identifier"), 2, INT2NUM(yylineno), $1);
+                }
+                | const_identifier constant {
+                  $$ = rb_funcall(m_Parser, rb_intern("const_identifier"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                ;
+
+class_no_super: CLASS const_identifier LCURLY class_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $4);
                 }
                 ;
 
-class_super:    DEFCLASS identifier COLON identifier LCURLY class_body RCURLY {
+class_super:    CLASS const_identifier COLON const_identifier LCURLY class_body RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, $4, $6);
                 }
                 ;
@@ -304,6 +329,7 @@ method_no_args: DEF identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("method_def_no_args"), 4, INT2NUM(yylineno), $3, $6, rb_intern("protected"));
                 }
                 ;
+
 
 class_method_w_args: DEF identifier method_args LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_method_def"), 4, INT2NUM(yylineno), $2, $3, $6);

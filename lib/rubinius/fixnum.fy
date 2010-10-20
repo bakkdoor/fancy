@@ -1,4 +1,4 @@
-def class Fixnum {
+class Fixnum {
   # prepend a : to fancy version of ruby methods.
   ruby_alias: '==
   ruby_alias: '-

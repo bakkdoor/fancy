@@ -1,4 +1,4 @@
-def class File {
+class File {
   @@open_mode_conversions =
     <['read => "r",
       'write => "w",

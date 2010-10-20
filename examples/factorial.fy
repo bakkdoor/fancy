@@ -1,4 +1,4 @@
-def class Number {
+class Number {
   def factorial {
     1 upto: self . product
   }

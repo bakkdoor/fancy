@@ -1,4 +1,4 @@
-def class Class {
+class Class {
   ruby_alias: 'superclass
 
   def new {
