@@ -67,7 +67,7 @@ the String class in fancy, it's just the Ruby' String.
 Because of this, and because in fancy standard library (lib/*.fy) we can define
 methods with the same name as ruby ones but taking no arguments (example:)
 
-    def class Object {
+    class Object {
       def print {
         "Print itself to the Console."
         Console print: self
@@ -86,7 +86,7 @@ parens syntax will allow you to invoke any ruby method.
 
 Ruby method invocation supports passing a block variable to ruby as a proc.
 
-    def class Something {
+    class Something {
       def open: block {
         someRubyMethod(arg0, arg1, &block) 
       }
