@@ -1,4 +1,4 @@
-def class Hash {
+class Hash {
   "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value."
 
   include: FancyEnumerable

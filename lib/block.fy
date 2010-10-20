@@ -1,4 +1,4 @@
-def class Block {
+class Block {
   def NATIVE while_true: block {
     """Executes a given Block while self evals to true\nExample:
        i = 0

@@ -1,4 +1,4 @@
-def class Array {
+class Array {
   ruby_alias: '==
   ruby_alias: '<<
   ruby_alias: 'clear

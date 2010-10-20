@@ -2,7 +2,7 @@
 # this isn't to be taken very seriously but it shows some syntax &
 # features of Fancy :)
 
-def class String {
+class String {
   def but_last {
     # same as:  self from: 0 to: -2
     # and:      self from: 0 to: (self size - 2)
@@ -10,7 +10,7 @@ def class String {
   }
 }
 
-def class HTML {
+class HTML {
   def open_tag: name {
     "<" ++ (name but_last) ++ ">"
   }

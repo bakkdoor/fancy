@@ -1,4 +1,4 @@
-def class System {
+class System {
   def System exit {
     "Exit the running Fancy process."
 

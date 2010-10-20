@@ -1,4 +1,4 @@
-def class Symbol {
+class Symbol {
   def call: arg {
     """
     This allows Symbols to be used like Blocks

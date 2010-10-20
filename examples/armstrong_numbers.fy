@@ -2,7 +2,7 @@
 # See http://en.wikipedia.org/wiki/Narcissistic_number for more
 # information.
 
-def class Number {
+class Number {
   def decimals {
     """Returns all decimals of a Number as an Array.
       E.g. 123 decimals # => [1,2,3]"""

@@ -1,10 +1,10 @@
-def class Hello {
+class Hello {
   def hello {
     "Hello " ++ (self name) . println
   }
 }
 
-def class World : Hello {
+class World : Hello {
   def name { "World" }
 }
 

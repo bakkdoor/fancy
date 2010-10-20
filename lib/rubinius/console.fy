@@ -1,4 +1,4 @@
-def class Console {
+class Console {
   "Console class. Used for stdio."
 
   def Console newline {

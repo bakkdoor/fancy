@@ -1,10 +1,10 @@
-def class Hello {
+class Hello {
   def hello {
     "Hello " ++ @name println
   }
 }
 
-def class World {
+class World {
   include: Hello
   def initialize { @name = "World" }
 }

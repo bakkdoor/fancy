@@ -1,4 +1,4 @@
-def class FancySpec {
+class FancySpec {
   def initialize: description {
     @description = description
     @test_obj = description
@@ -59,7 +59,7 @@ def class FancySpec {
   }
 }
 
-def class SpecTest {
+class SpecTest {
   @@failed_positive = []
   @@failed_negative = []
   def SpecTest failed_test: actual_and_expected {
@@ -125,7 +125,7 @@ def class SpecTest {
 
 }
 
-def class PositiveMatcher {
+class PositiveMatcher {
   """PositiveMatcher expects its actual value to be equal to an
      expected value.
      If the values are not equal, a SpecTest failure is generated."""
@@ -162,7 +162,7 @@ def class PositiveMatcher {
   }
 }
 
-def class NegativeMatcher {
+class NegativeMatcher {
   """NegativeMatcher expects its actual value to be unequal to an
      expected value.
      If the values are equal, a SpecTest failure is generated."""
@@ -199,7 +199,7 @@ def class NegativeMatcher {
   }
 }
 
-def class Object {
+class Object {
   def should {
     "Returns a PositiveMatcher for self."
     PositiveMatcher new: self

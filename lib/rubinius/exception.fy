@@ -1,4 +1,4 @@
-def class StandardError {
+class StandardError {
   ruby_alias: 'message
 
   def initialize {

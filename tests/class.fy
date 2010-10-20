@@ -1,16 +1,16 @@
-def class Mixin {
+class Mixin {
   def mixin_method {
     'mixed_in_found
   }
 }
 
-def class ClassWithMixin {
+class ClassWithMixin {
   def normal_method {
     'normal_found
   }
 }
 
-def class ClassWithNoMixin {
+class ClassWithNoMixin {
   read_slots: ['foo, 'bar, 'baz]
   write_slots: ['hello, 'world]
   read_write_slots: ['oh, 'noes]
@@ -20,7 +20,7 @@ def class ClassWithNoMixin {
   }
 }
 
-def class ClassWithPrivate {
+class ClassWithPrivate {
   def public_method {
     "public!"
   }
@@ -44,7 +44,7 @@ FancySpec describe: Class with: {
 
   it: "should find the method when mixed-in" for: 'include: when: {
     # => include Mixin into ClassWithMixin
-    def class ClassWithMixin {
+    class ClassWithMixin {
       include: Mixin
     }
 
@@ -78,7 +78,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should find the instance variable correctly" when: {
-    def class AClass {
+    class AClass {
       def initialize: foo {
         @foo = foo
       }
@@ -94,7 +94,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should find the class variable correctly" when: {
-    def class AClass {
+    class AClass {
       def foo: foo {
         @@foo = foo
       }
@@ -118,7 +118,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should have correct method overloading for method names with and without an argument" when: {
-    def class AClass {
+    class AClass {
       def foo {
         foo: "None!"
       }
@@ -134,13 +134,13 @@ FancySpec describe: Class with: {
   }
 
   # it: "should call superclass method by calling super" when: {
-  #   def class SuperClass {
+  #   class SuperClass {
   #     read_slots: ['name]
   #     def initialize: name {
   #       @name = name
   #     }
   #   }
-  #   def class SubClass : SuperClass {
+  #   class SubClass : SuperClass {
   #     read_slots: ['age]
 
   #     def initialize: age {
@@ -203,9 +203,9 @@ FancySpec describe: Class with: {
   }
 
   it: "should be a subclass of another Class" for: 'subclass?: when: {
-    def class Super {
+    class Super {
     }
-    def class Sub : Super {
+    class Sub : Super {
     }
 
     Super subclass?: Object . should == true
@@ -238,7 +238,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should undefine an instance method" for: 'undefine_method: when: {
-    def class Foo {
+    class Foo {
       def instance_method {
       "instance method!"
       }
@@ -254,7 +254,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should undefine a class method" for: 'undefine_class_method: when: {
-    def class Foo {
+    class Foo {
       def self class_method {
       "class method!"
       }
@@ -270,9 +270,9 @@ FancySpec describe: Class with: {
   }
 
   it: "should have nested classes" when: {
-    def class Outer {
-      def class Inner {
-        def class InnerMost {
+    class Outer {
+      class Inner {
+        class InnerMost {
           def foobar {
             "foobar!"
           }
@@ -286,7 +286,7 @@ FancySpec describe: Class with: {
     obj foobar should == "foobar!"
 
     # change InnerMost#foobar
-    def class Outer::Inner::InnerMost {
+    class Outer::Inner::InnerMost {
       def foobar {
         "oh no!"
       }
@@ -296,8 +296,8 @@ FancySpec describe: Class with: {
 
   it: "should not override existing classes with the same name in a nested class" when: {
     StdArray = Array
-    def class NameSpace {
-      def class Array {
+    class NameSpace {
+      class Array {
         def Array what_am_i {
           "not the same as the standard Array class"
         }
@@ -309,31 +309,31 @@ FancySpec describe: Class with: {
   }
 
   it: "should return all nested classes of a class" for: 'nested_classes when: {
-    def class Outer {
+    class Outer {
     }
     Outer nested_classes should == []
 
-    def class Outer {
-      def class Inner1 {
+    class Outer {
+      class Inner1 {
       }
     }
     Outer nested_classes should == [Outer::Inner1]
 
-    def class Outer {
-      def class Inner2 {
+    class Outer {
+      class Inner2 {
       }
     }
     Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
   }
 
   it: "should find other nested classes in the same parent class" when: {
-    def class MyOuter {
-      def class Inner1 {
+    class MyOuter {
+      class Inner1 {
         def method1 {
           'method_1
         }
       }
-      def class Inner2 {
+      class Inner2 {
         include: Inner1
         def method2 {
           'method_2
@@ -347,8 +347,8 @@ FancySpec describe: Class with: {
   }
 
   it: "should find itself in it's own methods, even if nested into another class" when: {
-    def class MyOuter {
-      def class MyInner1 {
+    class MyOuter {
+      class MyInner1 {
         def method1 {
           MyInner1
         }
@@ -356,7 +356,7 @@ FancySpec describe: Class with: {
           MyInner1
         }
       }
-      def class MyInner2 {
+      class MyInner2 {
         def method2 {
           [MyInner1, MyInner2]
         }
@@ -373,7 +373,7 @@ FancySpec describe: Class with: {
   }
 
   it: "should have an alias method as defined" for: 'alias_method:for: when: {
-    def class AClass {
+    class AClass {
       def foo {
         "in foo!"
       }

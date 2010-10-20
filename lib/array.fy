@@ -1,4 +1,4 @@
-def class Array {
+class Array {
   "Array class. Arrays are dynamically resizable containers with a constant-time index-based access to members."
 
   include: FancyEnumerable

@@ -1,4 +1,4 @@
-def class Bar {
+class Bar {
   def initialize {
     Console println: "In Bar constructor!"
   }
@@ -9,7 +9,7 @@ def class Bar {
   }
 }
 
-def class Foo : Bar {
+class Foo : Bar {
   def initialize: name {
     Console println: "gonna set @name"
     @name = name

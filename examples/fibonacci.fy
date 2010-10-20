@@ -1,4 +1,4 @@
-def class Number {
+class Number {
   def fib {
     self == 0 if_true: {
       0

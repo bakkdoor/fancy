@@ -1,4 +1,4 @@
-def class NilClass {
+class NilClass {
   "NilClass. The class of the singleton nil value."
 
   def NilClass new {

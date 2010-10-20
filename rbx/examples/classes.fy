@@ -1,4 +1,4 @@
-def class Person {
+class Person {
   @@a_classvar = "foo"
   def initialize: name {
     @name = name
@@ -17,7 +17,7 @@ p = Person new: "Christopher"
 p println
 Person class_var println
 
-def class PersonWithAge : Person {
+class PersonWithAge : Person {
   def initialize: name age: age {
     @name = name
     @age = age

@@ -1,5 +1,5 @@
-def class Outer {
-  def class Inner {
+class Outer {
+  class Inner {
     def to_s {
       "Outerr::Inner"
     }

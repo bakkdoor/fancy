@@ -1,4 +1,4 @@
-def class File {
+class File {
   def self exists?: filename {
     "Indicates, if a File exists with a given filename."
     try {

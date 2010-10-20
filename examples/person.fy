@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # (C) 2010 Christopher Bertels <chris@fancy-lang.org>
 
-def class City {
+class City {
   read_slots: ['city]
   def initialize: name {
     @name = name
@@ -12,7 +12,7 @@ def class City {
   }
 }
 
-def class Person {
+class Person {
   # creates getters & setters for slots
   read_write_slots: ['name, 'age, 'city]
 

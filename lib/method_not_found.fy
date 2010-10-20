@@ -1,4 +1,4 @@
-def class MethodNotFoundError : StdError {
+class MethodNotFoundError : StdError {
   read_slots: ['method_name, 'for_class, 'reason]
   def initialize: method_name for_class: class {
     super initialize: ("Method not found: " ++ method_name ++ " for class: " ++ class)

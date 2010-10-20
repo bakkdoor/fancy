@@ -1,4 +1,4 @@
-def class TrueClass {
+class TrueClass {
   def TrueClass new {
     # always return true singleton object when trying to create a new
     # TrueClass instance
