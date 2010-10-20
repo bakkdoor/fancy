@@ -1,6 +1,8 @@
 class IO {
   ruby_alias: 'readlines
   ruby_alias: 'readline
+  ruby_alias: 'read
+  ruby_alias: 'close
 
   def readln {
     self readline
