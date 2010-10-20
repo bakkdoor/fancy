@@ -1,4 +1,5 @@
 require: "boot"
+rb_require: "rbx/eval"
 
 ARGV for_options: ["-v", "--version"] do: {
   "fancy " ++ FANCY_VERSION println
@@ -22,10 +23,10 @@ ARGV for_options: ["--help", "-h"] do: {
    "  -o            Output compiled Ruby code to a given file name"] println
 }
 
-# ARGV for_option: "-e" do: |eval_string| {
-#   eval_string eval
-#   System exit # quit when running with -e
-# }
+ARGV for_option: "-e" do: |eval_string| {
+  eval_string eval
+  System exit # quit when running with -e
+}
 
 # ARGV for_option: "-o" do: |out_file| {
 #   COMPILE_OUT_STREAM = File open: out_file modes: ['write]

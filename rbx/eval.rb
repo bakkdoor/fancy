@@ -5,9 +5,9 @@ module Fancy
 
   # Compile fancy code to a compiled method, and load it just like any
   # other compiled file.
-  def self.eval(code)
+  def self.eval(code, do_print = true)
     filename = "(fancy-eval)"
-    cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, true) # always print
+    cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, do_print)
     cl = Rubinius::CodeLoader.new(filename)
 
     script = cm.create_script(false)

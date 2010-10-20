@@ -35,11 +35,11 @@ class String {
   }
 
   def eval {
-    Fancy eval(self)
+    Fancy eval(self, false)
   }
 
   def eval_global {
-    Fancy eval(self)
+    Fancy eval(self, false)
   }
 
   def to_sexp {
