@@ -28,13 +28,6 @@ ARGV for_option: "-e" do: |eval_string| {
   System exit # quit when running with -e
 }
 
-# ARGV for_option: "-o" do: |out_file| {
-#   COMPILE_OUT_STREAM = File open: out_file modes: ['write]
-#   out_file_idx = ARGV index: "-o"
-#   # remove -o with given arg
-#   2 times: { ARGV remove_at: out_file_idx }
-# }
-
 ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
@@ -54,15 +47,6 @@ ARGV for_option: "-cv" do: {
   }
   System exit
 }
-
-# ARGV for_option: "-rbx" do: {
-#   ARGV index: "-rbx" . if_do: |idx| {
-#     ARGV[[idx + 1, -1]] each: |filename| {
-#       System do: ("rbx rbx/loader.rb " ++ filename)
-#     }
-#   }
-#  System exit
-# }
 
 # ARGV for_option: "--rsexp" do: {
 #   require: "lib/compiler/nodes.fy"
