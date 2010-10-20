@@ -35,7 +35,7 @@ class Class {
   }
 
   def subclass: body_block {
-    Class superclass: self body: body
+    Class superclass: self body: body_block
   }
 
   def nestes_classes {
