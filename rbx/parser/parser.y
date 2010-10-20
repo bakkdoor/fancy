@@ -92,6 +92,7 @@ extern VALUE m_Parser;
 %type  <object>         assignment
 %type  <object>         multiple_assignment
 %type  <object>         identifier_list
+%type  <object>         statement
 %type  <object>         return_local_statement
 %type  <object>         return_statement
 %type  <object>         require_statement
@@ -136,7 +137,7 @@ programm:       /* empty */
                 | programm delim { }
                 ;
 
-delim:          nls
+delim:          NL
                 | SEMI
                 | delim delim
                 ;
@@ -161,13 +162,15 @@ statement:      assignment
 
 exp:            method_def
                 | class_def
+                | const_identifier
                 | message_send
                 | operator_send
                 | ruby_send
                 | try_catch_block
                 | literal_value
                 | identifier
-                | LPAREN exp RPAREN { $$ = $2; }
+                | LPAREN space exp space RPAREN { $$ = $3; }
+                | exp DOT space { $$ = $1; }
                 ;
 
 assignment:     identifier EQUALS space exp {
@@ -199,9 +202,6 @@ identifier:     IDENTIFIER {
                 }
                 | DEF {
                   $$ = fy_terminal_node_from("identifier", "def");
-                }
-                | constant {
-                  $$ = $1;
                 }
                 ;
 
@@ -331,7 +331,7 @@ method_no_args: DEF identifier LCURLY space method_body space RCURLY {
                 ;
 
 
-class_method_w_args: DEF identifier method_args LCURLY space method_body space RCURLY {
+class_method_w_args: DEF receiver method_args LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_method_def"), 4, INT2NUM(yylineno), $2, $3, $6);
                 }
                 | DEF PRIVATE identifier method_args LCURLY space method_body space RCURLY {
@@ -342,7 +342,7 @@ class_method_w_args: DEF identifier method_args LCURLY space method_body space R
                 }
                 ;
 
-class_method_no_args: DEF identifier identifier LCURLY space method_body space RCURLY {
+class_method_no_args: DEF receiver identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_method_def_no_args"), 4, INT2NUM(yylineno), $2, $3, $6);
                 }
                 | DEF PRIVATE identifier identifier LCURLY space method_body space RCURLY {
@@ -373,22 +373,22 @@ operator_def:   DEF operator identifier LCURLY space method_body space RCURLY {
                 }
                 ;
 
-class_operator_def: DEF identifier operator identifier LCURLY space method_body space RCURLY {
+class_operator_def: DEF receiver operator identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 5, INT2NUM(yylineno), $2, $3, $4, $7);
                 }
-                |DEF PRIVATE identifier operator identifier LCURLY space method_body space RCURLY {
+                |DEF PRIVATE receiver operator identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $3, $4, $5, $8, rb_intern("private"));
                 }
-                | DEF PROTECTED identifier operator identifier LCURLY space method_body space RCURLY {
+                | DEF PROTECTED receiver operator identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $3, $4, $5, $8, rb_intern("protected"));
                 }
-                | DEF identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                | DEF receiver LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 5, INT2NUM(yylineno), $2, fy_terminal_node_from("identifier", "[]"), $5, $8);
                 }
-                | DEF PRIVATE identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                | DEF PRIVATE receiver LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $3, fy_terminal_node_from("identifier", "[]"), $6, $9, rb_intern("private"));
                 }
-                | DEF PROTECTED identifier LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
+                | DEF PROTECTED receiver LBRACKET RBRACKET identifier LCURLY space method_body space RCURLY {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $3, fy_terminal_node_from("identifier", "[]"), $6, $9, rb_intern("protected"));
                 }
                 ;
@@ -440,17 +440,10 @@ operator_send:  receiver operator arg_exp {
                 }
                 ;
 
-receiver:       LPAREN space exp space RPAREN {
-                  $$ = $3;
-                }
-                | exp
-                | identifier {
-                  $$ = $1;
-                }
-                | SUPER {
+receiver:       SUPER {
                   $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 1, INT2NUM(yylineno));
                 }
-                | exp DOT space {
+                | exp {
                   $$ = $1;
                 }
                 ;
@@ -618,7 +611,7 @@ block_args:     block_args_with_comma
 block_args_without_comma: identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
                 }
-                | block_args identifier {
+                | block_args_without_comma identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("block_args"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
@@ -626,7 +619,7 @@ block_args_without_comma: identifier {
 block_args_with_comma: identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
                 }
-                | block_args COMMA identifier {
+                | block_args_with_comma COMMA identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("block_args"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;

@@ -58,15 +58,12 @@ module Fancy
       raise ParseError.new error.join(" ")
     end
 
-    def const_identifier(line, name, ary = [])
-      if name.identifier =~ /::/ # if it includes ::, split it
-        name.identifier.split("::").each do |part|
-          ary.push identifier(name.line, part)
-        end
+    def const_identifier(line, identifier, parent = nil)
+      if parent
+        Rubinius::AST::ScopedConstant.new(line, parent, identifier.name)
       else
-        ary.push name
+        identifier
       end
-      ary
     end
 
     def identifier(line, yytext)
@@ -182,15 +179,8 @@ module Fancy
       Fancy::AST::ExpressionList.new(line, *expressions)
     end
 
-    def class_def(line, identifier, parent, body)
-      class_name = identifier.map(&:identifier).join("::")
-      class_name = Fancy::AST::Identifier.new(identifier.first.line, class_name)
-      parent_name = nil
-      if parent
-        parent_name = parent.map(&:identifier).join("::")
-        parent_name = Fancy::AST::Identifier.new(parent.first.line, parent_name)
-      end
-      Fancy::AST::ClassDef.new(line, class_name, parent_name, body)
+    def class_def(line, name, parent, body)
+      Fancy::AST::ClassDef.new(line, name, parent, body)
     end
 
     def expr_ary(line, exp, ary = [])

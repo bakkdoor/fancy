@@ -17,7 +17,7 @@ i = Outer::Inner new
 i println
 
 class Outer InnerTwo {
-  def to_s { "Outer::InnerTwo" }
+  def to_s { "Outer InnerTwo" }
 }
 
 i = Outer InnerTwo new
