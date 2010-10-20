@@ -1,4 +1,4 @@
-class Number {
+class Fixnum {
   def factorial {
     1 upto: self . product
   }
