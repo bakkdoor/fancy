@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/fancy_parser'
+require "rubygems"
 
 module Fancy
 
@@ -34,7 +35,7 @@ module Fancy
 
     def string_literal(line, yytext)
       str = yytext[1..-2] # omit the starting and ending dquotes
-      Rubinius::AST::StringLiteral.new(line, str)
+      Fancy::AST::StringLiteral.new(line, str)
     end
 
     def integer_literal(line, yytext)
