@@ -3,12 +3,14 @@
 class Block {
   def if: obj {
     obj nil? if_false: {
-      self call
+      obj false? if_false: {
+        self call
+      }
     }
   }
 
   def unless: obj {
-    obj nil? if_true: {
+    obj true? if_false: {
       self call
     }
   }

@@ -22,6 +22,10 @@ class Array {
     }
   }
 
+  def include?: obj {
+    self include?(obj)
+  }
+
   def clone {
     "Clones (shallow copy) the Array."
     new = []
