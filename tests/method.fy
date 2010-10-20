@@ -1,6 +1,6 @@
 FancySpec describe: Method with: {
   it: "should return a Method object" when: {
-    Array method: "each:" . class should == Method
+    [1,2,3] method: "each:" . class should == Method
   }
 
   it: "should return the (correct) sender object of the MessageSend" when: {
