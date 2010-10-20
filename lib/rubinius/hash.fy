@@ -4,7 +4,8 @@ class Hash {
   alias_method: ":[]" for: '[]
   alias_method: 'at:put: for: "[]="
   alias_method: 'at: for: '[]
-
+  ruby_alias: 'keys
+  ruby_alias: 'values
 
   def inspect {
     str = "<["
