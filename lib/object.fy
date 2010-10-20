@@ -128,8 +128,8 @@ class Object {
   }
 
   def method: method_name {
-    "Returns a singleton method for self, if defined."
+    "Returns the method with a given name for self, if defined."
 
-    self metaclass method: method_name
+    method(method_name)
   }
 }
