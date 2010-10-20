@@ -596,7 +596,7 @@ hash_literal:   LHASH space key_value_list space RHASH {
                   $$ = rb_funcall(m_Parser, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
                 }
                 | LHASH space RHASH {
-                  $$ = rb_funcall(m_Parser, rb_intern("hash_literal"), 2, INT2NUM(yylineno));
+                  $$ = rb_funcall(m_Parser, rb_intern("hash_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
 

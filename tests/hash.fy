@@ -14,7 +14,7 @@ FancySpec describe: Hash with: {
   it: "should contain one entry" when: {
     hash = <['foo => "bar"]>
     hash size should == 1
-    hash empty? should == nil
+    hash empty? should == false
   }
 
   it: "should contain 10 square values after 10 insertions" for: 'at: when: {
