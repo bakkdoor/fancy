@@ -154,7 +154,7 @@ Also ignores spaces after parenthesis when 'space."
   (let ((index-alist '()) (case-fold-search nil)
 	name next pos decl sing)
     (goto-char beg)
-    (while (re-search-forward "^\\s *\\(\\(def class\\>\\(\\s *<<\\)?\\|module\\>\\)\\s *\\([^\(<\n ]+\\)\\|\\(def\\|alias\\)\\>\\s *\\([^\(\n ]+\\)\\)" end t)
+    (while (re-search-forward "^\\s *\\(\\(class\\>\\(\\s *<<\\)?\\|module\\>\\)\\s *\\([^\(<\n ]+\\)\\|\\(def\\|alias\\)\\>\\s *\\([^\(\n ]+\\)\\)" end t)
       (setq sing (match-beginning 3))
       (setq decl (match-string 5))
       (setq next (match-end 0))
@@ -961,7 +961,7 @@ balanced expression is found."
 	(let ((mlist nil) (indent 0))
 	  ;; get current method (or class/module)
 	  (if (re-search-backward
-	       (concat "^[ \t]*\\(def class\\|def\\|module\\)[ \t]+"
+	       (concat "^[ \t]*\\(class\\|def\\|module\\)[ \t]+"
 		       "\\("
 		       ;; \\. for class method
 			"\\(" fancy-symbol-re "\\|\\." "\\)"
@@ -976,7 +976,7 @@ balanced expression is found."
 	  (while (and (> indent 0)
 		      (re-search-backward
 		       (concat
-			"^[ \t]*\\(def class\\|module\\)[ \t]+"
+			"^[ \t]*\\(class\\|module\\)[ \t]+"
 			"\\([A-Z]" fancy-symbol-re "+\\)")
 		       nil t))
 	    (goto-char (match-beginning 1))
@@ -1098,6 +1098,7 @@ balanced expression is found."
 	       "catch"
                "finally"
                "retry"
+	       "class"
 	       "def"
                "return_local"
 	       "return"
@@ -1167,7 +1168,7 @@ balanced expression is found."
      ("[^a-zA-Z_]\\(\\?\\(\\\\[CM]-\\)*.\\)" 1 string)
      ("^\\s *\\(require\\|load\\).*$" nil include)
      ("^\\s *\\(include\\|alias\\|undef\\).*$" nil decl)
-     ("^\\s *\\<\\(def class\\|def actor\\|def\\|module\\)\\>" "[)\n;]" defun)
+     ("^\\s *\\<\\(class\\|def actor\\|def\\|module\\)\\>" "[)\n;]" defun)
      ("[^_]\\<\\(match\\|finally\\|catch\\)\\>\\([^_]\\|$\\)" 1 defun)
      ("[^_]\\<\\(return_local\\|return\\|super\\|catch\\|try\\|finally\\|self\\|nil\\)\\>\\([^_]\\|$\\)" 1 keyword)
      ("\\$\\(.\\|\\sw+\\)" nil type)
