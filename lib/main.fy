@@ -1,5 +1,5 @@
 require: "boot"
-rb_require: "rbx/eval"
+require("rbx/eval")
 
 ARGV for_options: ["-v", "--version"] do: {
   "fancy " ++ FANCY_VERSION println

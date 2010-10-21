@@ -127,8 +127,4 @@ class Object {
   def responds_to?: message {
     self respond_to?(message_name: message)
   }
-
-  def rb_require: path {
-    require(path)
-  }
 }

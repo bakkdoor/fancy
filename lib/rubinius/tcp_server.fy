@@ -1,4 +1,4 @@
-rb_require: "socket"
+require("socket")
 
 class TCPServer {
   ruby_alias: 'accept

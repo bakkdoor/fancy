@@ -1,4 +1,4 @@
-rb_require: "socket"
+require("socket")
 webserver = TCPServer new("127.0.0.1", 3000)
 loop: {
   session = webserver accept
