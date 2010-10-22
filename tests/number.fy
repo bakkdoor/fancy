@@ -28,7 +28,7 @@ FancySpec describe: Number with: {
       10 / 0
       "This should not happen!" should == nil
     } catch ZeroDivisionError => err {
-      err message should == "Division by zero!"
+      err message should == "divided by 0"
     }
   }
 
@@ -43,11 +43,11 @@ FancySpec describe: Number with: {
 
   it: "should be odd" for: 'odd? when: {
     1 odd? should == true
-    1 even? should == nil
+    1 even? should == false
   }
 
   it: "should be even" for: 'even? when: {
-    2 odd? should == nil
+    2 odd? should == false
     2 even? should == true
   }
 
