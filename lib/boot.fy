@@ -26,11 +26,6 @@ require: "hash"
 require: "set"
 require: "symbol"
 require: "method"
-#require: "std_error"
-#require: "method_not_found"
-#require: "zero_division"
-#require: "io_error"
-#require: "type_error"
 require: "stack"
 
 # version holds fancy's version number
