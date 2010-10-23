@@ -5,6 +5,7 @@ load File.dirname(__FILE__) + "/rbx/parser/Rakefile"
 
 _ = lambda { |f| File.expand_path(f, File.dirname(__FILE__)) }
 
+desc "Deletes all .rbc and .fyc files."
 task :clean do
   rm_f Dir.glob(_["**/*.{rbc,fyc}"])
 end
@@ -22,15 +23,17 @@ fyc_files = fy_files.map do |task|
   end
 end
 
+desc "Compiles the fancy std lib."
 task :bootstrap => fyc_files
 
+desc "Runs the test suite."
 task :test do
   Dir.glob("tests/*.fy").each do |t|
     sh _['bin/fancy'], _[t]
   end
 end
 
-
+desc "Invokes bootstrap."
 task :default => :bootstrap
 
 

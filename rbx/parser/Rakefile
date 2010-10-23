@@ -17,13 +17,18 @@ namespace :parser do
     Dir.chdir(_["."]) { sh 'rbx', task.prerequisites.first }
   end
 
+  desc "Builds the parser."
   task :parser => parser_c
+
+  desc "Builds the lexer."
   task :lexer => lexer_c
 
+  desc "Compiles the generated lexer and parser."
   task :compile => [makefile, parser_c, lexer_c] do
     sh 'make', '-C', _["."]
   end
 
+  desc "Cleans up generated files."
   task :clean do
     rm_f lexer_c.to_s
     rm_f parser_c.to_s
@@ -35,8 +40,10 @@ namespace :parser do
     sh 'make', '-C', _["."], "clean" rescue nil
   end
 
+  desc "Invokes the compile task."
   task :default => :compile
 end
+
 
 task :default => "parser:default"
 task :clean => "parser:clean"
