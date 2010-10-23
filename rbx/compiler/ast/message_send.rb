@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class MessageSend < Node
-      name :message_send
-
       def initialize(line, receiver, message_name, message_args)
         super(line)
         @receiver = receiver
@@ -39,8 +37,6 @@ module Fancy
     end
 
     class MessageArgs < Node
-      name :message_args
-
       attr_reader :args
 
       def initialize(line, *args)

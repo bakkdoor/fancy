@@ -1,9 +1,7 @@
-# -*- coding: undecided -*-
 module Fancy
   module AST
 
     class BlockLiteral < Rubinius::AST::Iter
-      Nodes[:block_lit] = self
       def initialize(line, args, body)
         body = body || Rubinius::AST::NilLiteral.new(line)
         super(line, args, body)
@@ -20,8 +18,8 @@ module Fancy
     end
 
     class BlockArgs < Node
-      name :block_args
       attr_accessor :args, :block
+
       def initialize(line, *args)
         super(line)
         @args = args.map{|a| a.name.to_sym}

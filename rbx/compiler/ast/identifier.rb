@@ -1,10 +1,7 @@
-# -*- coding: undecided -*-
 module Fancy
   module AST
 
     class Identifier < Node
-      name :ident
-
       attr_reader :identifier
 
       def initialize(line, identifier)
@@ -112,7 +109,6 @@ module Fancy
           Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
         end
       end
-
     end
 
   end

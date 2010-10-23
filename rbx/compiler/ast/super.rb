@@ -2,7 +2,6 @@ module Fancy
   module AST
 
     class Super < Node
-      name :super
       def initialize(line)
         super(line)
       end
