@@ -2,16 +2,14 @@ class Class {
   def alias_method: new for: old {
     alias_method(new, old)
   }
+
+  def ruby_alias: method_name {
+    alias_method: (":" + (method_name to_s)) for: method_name
+  }
 }
 
 class String {
   alias_method: ":+" for: "+"
-}
-
-class Class {
-  def ruby_alias: method_name {
-    alias_method: (":" + (method_name to_s)) for: method_name
-  }
 }
 
 class Object {
