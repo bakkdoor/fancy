@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class Return < Node
-      name :return
-
       def initialize(line, expr)
         super(line)
         @expr = expr
@@ -16,8 +14,6 @@ module Fancy
     end
 
     class ReturnLocal < Node
-      name :return_local
-
       def initialize(line, expr)
         super(line)
         @expr = expr

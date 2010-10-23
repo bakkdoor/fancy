@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class RubyArgs < Node
-      name :ruby_args
-
       def initialize(line, args, block = nil)
         super(line)
         @args = args

@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class Require < Node
-      name :require
-
       def initialize(line, string)
         super(line)
         @string = string

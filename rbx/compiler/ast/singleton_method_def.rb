@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class SingletonMethodDef < Rubinius::AST::DefineSingleton
-      Nodes[:singleton_method_def] = self
-
       def initialize(line, obj_ident, method_ident, args, body)
         @line = line
         @receiver = obj_ident

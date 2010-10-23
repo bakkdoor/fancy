@@ -2,8 +2,6 @@ module Fancy
   module AST
 
     class TryCatchBlock < Node
-      name :try_catch_block
-
       def initialize(line, body, handlers, finally)
         super(line)
         @body = body
@@ -144,8 +142,6 @@ module Fancy
     end
 
     class ExceptHandler < Node
-      name :except_handler
-
       def initialize(line, condition, var, body)
         super(line)
         @condition = condition
@@ -189,8 +185,6 @@ module Fancy
     end
 
     class Handlers < Node
-      name :handlers
-
       def initialize(line, *handlers)
         super(line)
         @handlers = handlers
@@ -209,8 +203,6 @@ module Fancy
     end
 
     class Retry < Node
-      name :retry
-
       def initialize(line)
         super(line)
       end

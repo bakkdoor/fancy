@@ -1,8 +1,6 @@
 module Fancy
   module AST
     class StringLiteral < Rubinius::AST::StringLiteral
-      Nodes[:string_lit] = self
-
       def initialize(line, str)
         super(line, unescape_chars(str))
       end
