@@ -43,3 +43,9 @@ docs/*
 *.rbc
 autom4te.cache
 *.fyc
+rbx/parser/fancy_parser.so
+rbx/parser/lexer.c
+rbx/parser/lexer.h
+rbx/parser/parser.c
+rbx/parser/parser.h
+rbx/parser/parser.output
