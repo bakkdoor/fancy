@@ -8,7 +8,7 @@ class File {
       'truncate => "w+"]>
 
   ruby_alias: 'eof?
-  ruby_alias: 'close
+  #ruby_alias: 'close
   ruby_alias: 'closed?
 
   def File open: filename modes: modes_arr with: block {
@@ -23,7 +23,24 @@ class File {
     # """
 
     modes_str = modes_str: modes_arr
-    open(filename, modes_str, &block)
+    try {
+      open(filename, modes_str, &block)
+    } catch Exception => e {
+      IOError new: (e message) filename: filename modes: modes_str . raise!
+    }
+  }
+
+  def File exists?: filename {
+    "Indicates if the file with given filename exists."
+    File exists?(filename)
+  }
+
+  def close{
+    try {
+      close()
+    } catch Exception => e {
+      IOError new: (e message) filename: (self path) . raise
+    }
   }
 
   def File open: filename modes: modes_arr {
@@ -42,7 +59,11 @@ class File {
   }
 
   def File delete: filename {
-    delete(filename)
+    try {
+      delete(filename)
+    } catch Exception => e {
+      IOError new: (e message) filename: filename . raise!
+    }
   }
 
   def File directory?: path {

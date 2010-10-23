@@ -9,7 +9,7 @@ FancySpec describe: File with: {
     file = File open: "README" modes: ['read]
     file open? should == true
     file close
-    file open? should == nil
+    file open? should == false
   }
 
   # it: "should be closed when not correctly opened" for: 'open? when: {
@@ -20,7 +20,7 @@ FancySpec describe: File with: {
   # }
 
   it: "should write and read from a file correctly" for: 'writeln: when: {
-    filename = "tmp/read_write_test.txt"
+    filename = "/tmp/read_write_test.txt"
     file = File open: filename modes: ['write]
     file writeln: "hello, world!"
     file writeln: "line number two"
@@ -39,9 +39,9 @@ FancySpec describe: File with: {
 
     # delete file
     File delete: filename
-    Directory delete: "tmp/"
+    #Directory delete: "tmp/"
     File exists?: filename . should == nil
-    Directory exists?: "tmp/" . should == nil
+    #Directory exists?: "tmp/" . should == nil
   }
 
   it: "should raise an IOError exception when trying to open an invalid file" when: {
