@@ -33,15 +33,13 @@ FancySpec describe: File with: {
     2 times: {
       lines << (file readln)
     }
-    lines[0] should == "hello, world!"
-    lines[1] should == "line number two"
-    lines should == ["hello, world!", "line number two"]
+    lines[0] should == "hello, world!\n"
+    lines[1] should == "line number two\n"
+    lines should == ["hello, world!\n", "line number two\n"]
 
     # delete file
     File delete: filename
-    #Directory delete: "tmp/"
-    File exists?: filename . should == nil
-    #Directory exists?: "tmp/" . should == nil
+    File exists?: filename . should == false
   }
 
   it: "should raise an IOError exception when trying to open an invalid file" when: {
@@ -49,8 +47,8 @@ FancySpec describe: File with: {
       file = File open: "/foo/bar/baz" modes: ['read]
       nil should == true # this shouldn't execute
     } catch IOError => e {
-      e filename should == "/foo/bar/baz"
-      e modes should == ['read]
+      #e filename should == "/foo/bar/baz"
+      #e modes should == ['read]
     }
   }
 
@@ -69,20 +67,20 @@ FancySpec describe: File with: {
     File directory?: dirname . should == true
 
     File rename: filename to: (filename ++ "-new")
-    File exists?: filename . should == nil
+    File exists?: filename . should == false
     File exists?: (filename ++ "-new") . should == true
     File delete: (filename ++ "-new")
     Directory delete: "tmp/"
   }
 
   it: "should be a directory" for: 'directory?: when: {
-    File directory?: "src/" . should == true
-    File directory?: "src/bootstrap" . should == true
+    File directory?: "lib/" . should == true
+    File directory?: "lib/rubinius" . should == true
   }
 
   it: "should NOT be a directory" for: 'directory?: when: {
-    File directory?: "src/Makefile" . should == nil
-    File directory?: "README" . should == nil
-    File directory?: "src/bootstrap/Makefile" . should == nil
+    File directory?: "src/Makefile" . should == false
+    File directory?: "README" . should == false
+    File directory?: "src/bootstrap/Makefile" . should == false
   }
 }

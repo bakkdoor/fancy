@@ -23,10 +23,11 @@ class File {
     # """
 
     modes_str = modes_str: modes_arr
+
     try {
       open(filename, modes_str, &block)
-    } catch Exception => e {
-      IOError new: (e message) filename: filename modes: modes_str . raise!
+    } catch Errno::ENOENT => e {
+      IOError new: (e message) . raise!
     }
   }
 
@@ -38,15 +39,20 @@ class File {
   def close{
     try {
       close()
-    } catch Exception => e {
-      IOError new: (e message) filename: (self path) . raise
+    } catch Errno::ENOENT => e {
+      IOError new: (e message) . raise!
     }
   }
 
   def File open: filename modes: modes_arr {
     modes_str = modes_str: modes_arr
-    f = open(filename, modes_str)
-    f modes: modes_arr
+    f = nil
+    try {
+      f = open(filename, modes_str)
+      f modes: modes_arr
+    } catch Errno::ENOENT => e {
+      IOError new: (e message) . raise!
+    }
     f
   }
 
@@ -61,13 +67,17 @@ class File {
   def File delete: filename {
     try {
       delete(filename)
-    } catch Exception => e {
-      IOError new: (e message) filename: filename . raise!
+    } catch Errno::ENOENT => e {
+      IOError new: (e message) . raise!
     }
   }
 
   def File directory?: path {
     directory?(path)
+  }
+
+  def File rename: old_name to: new_name {
+    File rename(old_name, new_name)
   }
 
   def modes {
