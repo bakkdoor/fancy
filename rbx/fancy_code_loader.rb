@@ -1,6 +1,3 @@
-require "set"
-
-
 require File.dirname(__FILE__) + "/compiler"
 require File.dirname(__FILE__) + "/compiler/command"
 
