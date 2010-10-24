@@ -54,6 +54,7 @@ extern VALUE m_Parser;
 
 %token                  INTEGER_LITERAL
 %token                  HEX_LITERAL
+%token                  OCT_LITERAL
 %token                  BIN_LITERAL
 %token                  DOUBLE_LITERAL
 %token                  STRING_LITERAL
@@ -66,6 +67,7 @@ extern VALUE m_Parser;
 
 %type <object>          integer_literal
 %type <object>          hex_literal
+%type <object>          oct_literal
 %type <object>          bin_literal
 %type <object>          double_literal
 %type <object>          string_literal
@@ -567,6 +569,11 @@ hex_literal:    HEX_LITERAL {
                 }
                 ;
 
+oct_literal:    OCT_LITERAL {
+                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3, INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(8));
+                }
+                ;
+
 bin_literal:    BIN_LITERAL {
                   $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3, INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(2));
                 }
@@ -574,6 +581,7 @@ bin_literal:    BIN_LITERAL {
 
 literal_value:  integer_literal
                 | hex_literal
+                | oct_literal
                 | bin_literal
                 | double_literal
                 | string_literal
