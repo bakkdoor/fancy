@@ -1,7 +1,6 @@
 module Rubinius
 
   class Compiler
-
     def self.fancy_compiled_name(file)
       if file.suffix? ".fy"
         file + "c"
@@ -78,7 +77,6 @@ module Rubinius
         compiler_error "Error trying to compile fancy: #{filename}", e
       end
     end
-
   end
 
 end

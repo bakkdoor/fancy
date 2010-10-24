@@ -91,32 +91,6 @@ class Array {
     join: ""
   }
 
-  def NATIVE each_with_index: block {
-    "Iterate over all elements in Array. Calls a given Block with each element and its index."
-
-    self size times: |idx| {
-      block call: [at: idx, idx]
-    }
-  }
-
-  def NATIVE select_with_index: condition {
-    "Same as select, just gets also called with an additional argument for each element's index value."
-
-    coll = []
-    each_with_index: |x i| {
-      { coll << [x, i] } if: $ condition call: [x, i]
-    }
-    coll
-  }
-
-  def NATIVE reject!: condition {
-    "Removes all elements in place, that meet the condition."
-
-    entries = select_with_index: |x i| { condition call: [x] }
-    remove_at: $ entries map: |e| { e second }
-    self
-  }
-
   def select!: condition {
     "Removes all elements in place, that don't meet the condition."
 

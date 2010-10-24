@@ -91,12 +91,6 @@ class Object {
     0
   }
 
-  def NATIVE is_a?: class_obj {
-    "Indicates, if an object is an instance of a given Class."
-
-    self class subclass?: class_obj
-  }
-
   def || other {
     "Same as Object#or:"
     or: other
