@@ -1,10 +1,8 @@
 require File.dirname(__FILE__) + "/compiler"
 
 module Fancy
-
-
-  # Compile fancy code to a compiled method, and load it just like any
-  # other compiled file.
+  # Compiles fancy code to a compiled method, and load it just like
+  # any other compiled file.
   def self.eval(code, do_print = true)
     filename = "(fancy-eval)"
     cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, do_print)
@@ -16,13 +14,12 @@ module Fancy
     MAIN.__send__ :__script__
   end
 
-  # Now this is how eval should be done,
-  # but currently our FancyGenerator does not take a variable_scope.
-  # we need to fix that. In the mean time, we define the previous
+  # Now this is how eval should be done, but currently our
+  # FancyGenerator does not take a variable_scope.  we need to fix
+  # that. In the mean time, we define the previous
   def self.eval_fixme_(code)
-    # currently we compile to a CompiledMethod
-    # and simply eval it on global scope just like
-    # in file loading
+    # currently we compile to a CompiledMethod and simply eval it on
+    # global scope just like in file loading
 
     # Copied many things from rbx/common/eval.rb
 
