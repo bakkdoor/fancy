@@ -61,7 +61,6 @@ module Fancy
     # E.g. "foo.fyc" => "foo.fy"
     def self.source_filename_for(filename)
       if filename =~ /.compiled.fyc$/
-        puts "returning #{filename[0..-14]}"
         return filename[0..-14]
       elsif filename =~ /.fyc$/
         return filename[0..-2]
