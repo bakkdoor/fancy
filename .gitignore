@@ -49,3 +49,4 @@ rbx/parser/lexer.h
 rbx/parser/parser.c
 rbx/parser/parser.h
 rbx/parser/parser.output
+publish.fy
