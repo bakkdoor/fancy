@@ -37,8 +37,8 @@ module Fancy
       Fancy::AST::StringLiteral.new(line, str)
     end
 
-    def integer_literal(line, yytext)
-      Rubinius::AST::FixnumLiteral.new(line, yytext.to_i)
+    def integer_literal(line, yytext, base = 10)
+      Rubinius::AST::FixnumLiteral.new(line, yytext.to_i(base))
     end
 
     def double_literal(line, yytext)

@@ -8,6 +8,7 @@ int yyerror(char *s);
 %option yylineno
 
 digit		[0-9]
+hexdigit        [0-9a-fA-F]
 capital         [A-Z]
 lower           [a-z]
 letter          [A-Za-z]
@@ -15,6 +16,7 @@ special         [-+?!_=*/^><%&~]
 operator        ({special}+|"||"{special}*)
 int_lit 	[-+]?({digit}|_)+
 double_lit      [-+]?{int_lit}\.{digit}+
+hex_lit         0x{hexdigit}+
 string_lit      \"[^\"\n]*\"
 doc_string      \"\"\"[^\"]*\"\"\"
 lparen          \(
@@ -59,6 +61,10 @@ comment         #[^\n]*
 
 {class}         { return CLASS; }
 {def}           { return DEF; }
+{hex_lit}	{
+                  yylval.object = rb_str_new2(yytext);
+                  return HEX_LITERAL;
+                }
 {int_lit}	{
                   yylval.object = rb_str_new2(yytext);
                   return INTEGER_LITERAL;
