@@ -14,7 +14,7 @@ letter          [A-Za-z]
 special         [-+?!_=*/^><%&~]
 operator        ({special}+|"||"{special}*)
 int_lit 	[-+]?({digit}|_)+
-double_lit      {int_lit}\.{digit}+
+double_lit      [-+]?{int_lit}\.{digit}+
 string_lit      \"[^\"\n]*\"
 doc_string      \"\"\"[^\"]*\"\"\"
 lparen          \(
