@@ -102,6 +102,7 @@ class Object {
   }
 
   def is_a?: class {
+    "Indicates, if an object is an instance of a given Class."
     self is_a?(class)
   }
 

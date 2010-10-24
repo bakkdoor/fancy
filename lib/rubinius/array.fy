@@ -93,6 +93,8 @@ class Array {
   }
 
   def each_with_index: block {
+    "Iterate over all elements in Array. Calls a given Block with each element and its index."
+
     i = 0
     each: |x| {
       block call: [x, i]
