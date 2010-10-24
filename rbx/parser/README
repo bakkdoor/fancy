@@ -1,0 +1,15 @@
+This directory contains all the code that deals with parsing Fancy
+source files (.fy) and creating an object-oriented representation (a
+so-called AST - Sbstract Syntax Tree) from it to be used in the
+compiler for further processing (mostly to .fyc bytecode files).
+
+The parser.y file contains the grammar rules in GNU Bison (YACC
+compatible) syntax, which make up the parser. The parser actions are
+written in C and call out to Ruby methods defined in parser.rb via
+rbx's C-extension interface to build the actual AST objects.
+
+The lexer.y contains the lexer rules in GNU Flex syntax for scanning a
+source file for tokens.
+
+The parser.rb file contains all the methods used by the parser to
+create AST objects.
