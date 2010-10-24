@@ -85,7 +85,8 @@ module Fancy
     def self.load_compiled_file(filename, find_file = true)
       file = filename
       if find_file
-        file = compiled_filename_for(filename_for(filename))
+        filename = filename_for(filename)
+        file = compiled_filename_for(filename)
       end
 
       file = optionally_compile_file(file)
@@ -104,7 +105,7 @@ module Fancy
         cm = cl.load_compiled_file(file, 0)
 
         script = cm.create_script(false)
-        script.file_path = file
+        script.file_path = filename
 
         MAIN.__send__ :__script__
 
