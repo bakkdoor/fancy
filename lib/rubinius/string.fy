@@ -5,6 +5,8 @@ class String {
   ruby_alias: 'upcase
   ruby_alias: 'downcase
   ruby_alias: '=~
+  ruby_alias: 'to_i
+  ruby_alias: 'to_f
 
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.
