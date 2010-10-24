@@ -9,6 +9,7 @@ int yyerror(char *s);
 
 digit		[0-9]
 hexdigit        [0-9a-fA-F]
+bindigit        [01]
 capital         [A-Z]
 lower           [a-z]
 letter          [A-Za-z]
@@ -17,6 +18,7 @@ operator        ({special}+|"||"{special}*)
 int_lit 	[-+]?({digit}|_)+
 double_lit      [-+]?{int_lit}\.{digit}+
 hex_lit         0x{hexdigit}+
+bin_lit         0b{bindigit}+
 string_lit      \"[^\"\n]*\"
 doc_string      \"\"\"[^\"]*\"\"\"
 lparen          \(
@@ -64,6 +66,10 @@ comment         #[^\n]*
 {hex_lit}	{
                   yylval.object = rb_str_new2(yytext);
                   return HEX_LITERAL;
+                }
+{bin_lit}	{
+                  yylval.object = rb_str_new2(yytext);
+                  return BIN_LITERAL;
                 }
 {int_lit}	{
                   yylval.object = rb_str_new2(yytext);
