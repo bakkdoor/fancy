@@ -13,7 +13,7 @@ Console newline;
 self loop: {
   try {
     Console readln: ">> " . if_do: |line| {
-      line eval_global inspect println
+      line eval inspect println
     } else: {
       System exit
     }

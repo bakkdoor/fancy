@@ -5,7 +5,7 @@ module Rubinius
       if file.suffix? ".fy"
         file + "c"
       else
-        file + ".compiled.rbc"
+        file + ".compiled.fyc"
       end
     end
 

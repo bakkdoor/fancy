@@ -60,7 +60,10 @@ module Fancy
     # Returns the source filename for a given filename.
     # E.g. "foo.fyc" => "foo.fy"
     def self.source_filename_for(filename)
-      if filename =~ /.fyc$/
+      if filename =~ /.compiled.fyc$/
+        puts "returning #{filename[0..-14]}"
+        return filename[0..-14]
+      elsif filename =~ /.fyc$/
         return filename[0..-2]
       end
       filename
@@ -75,14 +78,15 @@ module Fancy
       if filename =~ /\.fy$/
         return filename + "c"
       else
-        return (filename + ".compiled.rbc")
+        return (filename + ".compiled.fyc")
       end
     end
 
     # Optionally compiles a file, if not done yet and returns the
     # compiled file's name.
     def self.optionally_compile_file(f)
-      filename = filename_for(source_filename_for(f))
+      source_filename = source_filename_for(f)
+      filename = filename_for(source_filename)
       compiled_file = compiled_filename_for(filename)
       unless @@compiled[filename]
         if !File.exists?(compiled_file) ||
