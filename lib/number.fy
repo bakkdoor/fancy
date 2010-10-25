@@ -1,5 +1,7 @@
 class Number {
-  "Number class for all number values (integer & doubles for now)."
+  """
+  Number is a mixin-class for all number values (integer & floats for now).
+  """
 
   def squared {
     "Returns the square of a Number."
