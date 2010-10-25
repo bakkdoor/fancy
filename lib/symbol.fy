@@ -1,4 +1,11 @@
 class Symbol {
+  """
+  Symbols are unique identifiers and only created once.
+
+  If there are several occurrances of the same Symbol literal within
+  Fancy code, they all refer to the same Symbol object.
+  """
+
   def call: arg {
     """
     This allows Symbols to be used like Blocks

@@ -1,4 +1,13 @@
 class String {
+  """
+  Strings are sequences of characters and behave as such.
+  All literal Strings within Fancy code are instances of the String
+  class.
+
+  They also include FancyEnumerable, which means you can use all the
+  common sequence methods on them, like +map:+, +select:+ etc.
+  """
+
   include: FancyEnumerable
 
   def ++ other {

@@ -1,4 +1,6 @@
 class TrueClass {
+  "TrueClass. The class of the singleton true value."
+
   def TrueClass new {
     # always return true singleton object when trying to create a new
     # TrueClass instance
