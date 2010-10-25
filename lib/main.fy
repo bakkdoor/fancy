@@ -1,3 +1,10 @@
+# main.fy
+# This file gets run directly from bin/fancy.
+# It loads up all the necessary auto-load files by loading lib/boot.fy
+# and handles any given ARGV options.
+# Finally, if any .fy source filename is passed in via ARGV, it is
+# loaded and executed.
+
 require: "boot"
 
 ARGV for_options: ["-v", "--version"] do: {
@@ -42,6 +49,7 @@ ARGV for_option: "-cv" do: {
   System exit
 }
 
+# Load a source file, if any given:
 ARGV first if_do: |file| {
   Fancy::CodeLoader load_compiled_file(file)
 }

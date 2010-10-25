@@ -1,4 +1,11 @@
 class Class {
+  """
+  This class is the class of Class objects - e.g. Object, Array,
+  String etc.
+  Any class in the language is an instance of this class, as in Ruby
+  or Smalltalk.
+  """
+
   def define_slot_reader: slotname {
     "Defines a slot reader method with a given name."
 

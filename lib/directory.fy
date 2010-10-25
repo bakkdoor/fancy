@@ -1,4 +1,9 @@
 class Directory {
+  """
+  Instances of Directory represent Directories in the Filesystem of
+  the Operating System, in which Fancy is being run.
+  """
+
   def self exists?: dirname {
     "Indicates, if a Directory exists with a given pathname."
     (File exists?: dirname) and: (File directory?: dirname)
