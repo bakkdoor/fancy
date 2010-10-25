@@ -1,11 +1,18 @@
 class Array {
-  "Array class. Arrays are dynamically resizable containers with a constant-time index-based access to members."
+  """
+  Array class.
+  Arrays are dynamically resizable containers with a constant-time
+  index-based access to members.
+  """
 
   include: FancyEnumerable
 
   def [] index {
-    """Given an Array of 2 Numbers, it returns the sub-array between the given indices.
-       If given a Number, returns the element at that index."""
+    """
+    Given an Array of 2 Numbers, it returns the sub-array between the
+    given indices.
+    If given a Number, returns the element at that index.
+    """
 
     # if given an Array, interpret it as a from:to: range subarray
     index is_a?: Array . if_true: {
@@ -87,7 +94,7 @@ class Array {
 
   def join {
     "Joins all elements with the empty String."
-    # TODO: this is a hack, somehow it doesn't work with a literal string
+
     join: ""
   }
 
@@ -132,7 +139,10 @@ class Array {
   }
 
   def * num {
-    "Returns a new Array that contains the elements of self num times in a row."
+    """
+    Returns a new Array that contains the elements of self num times
+    in a row.
+    """
 
     arr = []
     num times: {
@@ -156,8 +166,6 @@ class Array {
     count = 0
     size = self size
     each: |x| {
-      # NOTICE:
-      # use [x] instead of x since self is an array already:
       each_block call: [x]
       count == (size - 1) if_false: {
         between_block call
@@ -167,6 +175,8 @@ class Array {
   }
 
   def indices {
+    "Returns an Array of all the indices of an Array."
+
     0 upto: (self size - 1)
   }
 }
