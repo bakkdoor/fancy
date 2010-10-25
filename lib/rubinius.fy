@@ -1,3 +1,10 @@
+# rubinius.fy
+# This file loads all the rubinius-specific class & method definition
+# files from the lib/rubinius/ directory in the correct order.
+
+# NOTE:
+# Don't change the order in here, unless you know what you're doing.
+
 require: "rubinius/object"
 require: "rubinius/class"
 require: "rubinius/console"

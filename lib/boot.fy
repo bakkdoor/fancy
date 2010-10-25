@@ -2,7 +2,7 @@
 # This file gets loaded & run by Fancy automatically.
 # It loads in Fancy's standard library & core classes.
 
-# Note:
+# NOTE:
 # Order DOES matter here, so watch out what you're doing.
 # In general, it's best to add any autoload-files at the end of the
 # current list (if adding them here is really necessary at all).

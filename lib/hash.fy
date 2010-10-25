@@ -1,5 +1,8 @@
 class Hash {
-  "Class for Hashes (HashMaps / Dictionaries). Maps a key to a value."
+  """
+  Class for Hashes (HashMaps / Dictionaries).
+  Maps a key to a value.
+  """
 
   include: FancyEnumerable
 
@@ -40,10 +43,14 @@ class Hash {
   }
 
   def to_a {
+    "Returns an Array of the key-value pairs in a Hash."
+
     map: |pair| { pair }
   }
 
   def to_s {
+    "Returns a string representation of a Hash."
+
     self to_a to_s
   }
 }

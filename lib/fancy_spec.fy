@@ -1,4 +1,10 @@
 class FancySpec {
+  """
+  The FancySpec class is used for defining FancySpec testsuites.
+  Have a look at the tests/ directory to see some examples.
+  """
+
+
   def initialize: description {
     @description = description
     @test_obj = description

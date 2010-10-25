@@ -1,7 +1,7 @@
 class Directory {
   """
-  Instances of Directory represent Directories in the Filesystem of
-  the Operating System, in which Fancy is being run.
+  Instances of Directory represent directories in the filesystem of
+  the operating system, in which Fancy is being run.
   """
 
   def self exists?: dirname {

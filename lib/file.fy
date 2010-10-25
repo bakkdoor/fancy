@@ -1,4 +1,9 @@
 class File {
+  """
+  Instances of File represent files in the filesystem of the operating
+  system on which Fancy is running.
+  """
+
   # def self exists?: filename {
   #   "Indicates, if a File exists with a given filename."
   #   try {
@@ -11,6 +16,11 @@ class File {
   # }
 
   def self read: filename {
+    """
+    Reads all the contens (in ASCII mode) of a given file and returns
+    them as an Array of lines being read.
+    """
+
     lines = []
     File open: filename modes: ['read] with: |f| {
       { f eof? } while_false: {
@@ -21,7 +31,10 @@ class File {
   }
 
   def writeln: x {
-    "Writes a given argument as a String followed by a newline into the File."
+    """
+    Writes a given argument as a String followed by a newline into the
+    File.
+    """
 
     write: x
     self newline
@@ -29,11 +42,13 @@ class File {
 
   def print: x {
     "Same as File#write:."
+
     write: x
   }
 
   def println: x {
     "Same as File#writeln:."
+
     writeln: x
   }
 }
