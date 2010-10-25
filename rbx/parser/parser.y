@@ -119,6 +119,7 @@ extern VALUE m_Parser;
 
 %type  <object>         message_send
 %type  <object>         ruby_send
+%type  <object>         ruby_operator_send
 %type  <object>         ruby_args
 %type  <object>         operator_send
 %type  <object>         send_args
@@ -171,6 +172,7 @@ exp:            method_def
                 | message_send
                 | operator_send
                 | ruby_send
+                | ruby_operator_send
                 | literal_value
                 | any_identifier
                 | LPAREN exp RPAREN { $$ = $2; }
@@ -437,13 +439,18 @@ ruby_args:      LPAREN RPAREN block_literal  {
                 ;
 
 operator_send:  receiver operator arg_exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
                 }
                 | receiver operator DOT space arg_exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $5);
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $5);
                 }
                 | receiver LBRACKET exp RBRACKET {
-                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, fy_terminal_node_from("identifier", "[]"), $3);
+                  $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, fy_terminal_node_from("identifier", "[]"), $3);
+                }
+                ;
+
+ruby_operator_send: receiver operator ruby_args {
+                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);
                 }
                 ;
 
