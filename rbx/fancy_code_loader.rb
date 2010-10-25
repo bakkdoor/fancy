@@ -90,7 +90,7 @@ module Fancy
       unless @@compiled[filename]
         if !File.exists?(compiled_file) ||
             File.stat(compiled_file).mtime < File.stat(filename).mtime
-          system("rbx rbx/compiler.rb #{filename} > /dev/null")
+          system("rbx #{File.dirname(__FILE__)}/compiler.rb #{filename} > /dev/null")
         else
           @@compiled[filename] = true
         end
