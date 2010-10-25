@@ -28,12 +28,12 @@ class Set {
 
   def << value {
     "Insert a value into the Set."
-    { @values << value } unless: (include?: value)
+    { @values << value } unless: (includes?: value)
   }
 
-  def include?: value {
+  def includes?: value {
     "Indicates, if the Set includes a given value."
-    @values include?: value
+    @values includes?: value
   }
 
   def each: block {

@@ -7,22 +7,28 @@ class Array {
   ruby_alias: 'reverse!
 
   def Array new: size with: default {
-    "Create a new Array with a given size and default-value."
+    "Creates a new Array with a given size and default-value."
+
     Array new(size, default)
   }
 
   def Array new: size {
+    "Creates a new Array with a given size (default value is nil)."
+
     Array new: size with: nil
   }
 
   def append: arr {
     "Appends another Array onto this one."
+
     arr each: |x| {
       self << x
     }
   }
 
-  def include?: obj {
+  def includes?: obj {
+    "Indicates, if an Array includes a given value."
+
     self include?(obj)
   }
 

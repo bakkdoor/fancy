@@ -4,7 +4,7 @@ class FancyEnumerable {
   'each:' method.
   """
 
-  def include?: item {
+  def includes?: item {
     "Indicates, if a collection includes a given element."
 
     any?: |x| { item == x }
@@ -137,7 +137,7 @@ class FancyEnumerable {
 
     uniq_vals = []
     each: |x| {
-      uniq_vals include?: x . if_false: {
+      uniq_vals includes?: x . if_false: {
         uniq_vals << x
       }
     }

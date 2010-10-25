@@ -2,7 +2,7 @@
 
 ARGV[1] if_do: |ident| {
   "Documentation for: '" ++ ident ++ "' :" println;
-  ident include?: "#" . if_true: {
+  ident includes?: "#" . if_true: {
     parts = (ident split: "#");
     obj = (parts[0]) eval;
     method = obj method: (parts[1]);

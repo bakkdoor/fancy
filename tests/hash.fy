@@ -83,10 +83,10 @@ FancySpec describe: Hash with: {
     hash map: |pair| { pair[0] } .
       should be: |arr| { arr === ['hello, 'fancy] } # order does not matter
 
-    hash select: |pair| { pair[1] to_s include?: "c" } .
+    hash select: |pair| { pair[1] to_s includes?: "c" } .
       should == [['fancy, "is cool"]]
 
-    hash reject: |pair| { pair[0] to_s include?: "l" } .
+    hash reject: |pair| { pair[0] to_s includes?: "l" } .
       map: 'second . should == ["is cool"]
   }
 
