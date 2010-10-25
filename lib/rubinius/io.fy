@@ -3,6 +3,7 @@ class IO {
   ruby_alias: 'readline
   ruby_alias: 'read
   ruby_alias: 'close
+  ruby_alias: 'eof?
 
   def readln {
     self readline

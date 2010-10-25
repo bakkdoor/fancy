@@ -4,9 +4,9 @@
  "Fancy " ++ FANCY_VERSION] println
 
 ARGV rest each: |file| {
-  "LOADING: " ++ file println;
+  "LOADING: " ++ file println
   require: file
-};;
+}
 
 Console newline;
 
