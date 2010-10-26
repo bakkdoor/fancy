@@ -175,8 +175,10 @@ module Fancy
       ary.push identifier
     end
 
-    def expr_list(line, *expressions)
-      Fancy::AST::ExpressionList.new(line, *expressions)
+    def expr_list(line, expr = nil, expr_list = nil)
+      expr_list = Fancy::AST::ExpressionList.new(line) unless expr_list
+      expr_list.add_expression(expr) if expr
+      expr_list
     end
 
     def class_def(line, name, parent, body)
@@ -201,11 +203,6 @@ module Fancy
       Fancy::AST::RubyArgs.new(line, array_literal, block)
     end
 
-    def method_body(line, expr_list, code)
-      expr_list.add_expression code
-      expr_list
-    end
-
     def super_exp(line)
       Fancy::AST::Super.new(line)
     end
@@ -214,11 +211,14 @@ module Fancy
       Fancy::AST::Retry.new(line)
     end
 
-    def catch_handler(line, body = nil, condition = nil, var = nil, handlers = nil)
+    def catch_handlers(line, handler = nil, handlers = nil)
       handlers ||= Fancy::AST::Handlers.new(line)
-      handler = Fancy::AST::ExceptHandler.new(line, condition, var, body)
-      handlers.add_handler handler
+      handlers.add_handler handler if handler
       handlers
+    end
+
+    def catch_handler(line, body = nil, condition = nil, var = nil)
+      Fancy::AST::ExceptHandler.new(line, condition, var, body)
     end
 
     def try_catch_finally(line, body, handlers, finally = nil)
