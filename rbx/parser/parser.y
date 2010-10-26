@@ -603,8 +603,8 @@ key_value_list: exp space ARROW space exp {
                 }
                 ;
 
-match_expr:     MATCH exp LCURLY space match_body space RCURLY {
-                  $$ = rb_funcall(m_Parser, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $5);
+match_expr:     MATCH exp THIN_ARROW LCURLY space match_body space RCURLY {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $6);
                 }
                 ;
 

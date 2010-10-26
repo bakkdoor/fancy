@@ -1,6 +1,6 @@
 class PatternMatching {
   def match_it: obj {
-    match obj {
+    match obj -> {
       String -> "It's a String!"
     }
   }
