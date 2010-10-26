@@ -94,4 +94,28 @@ FancySpec describe: Number with: {
     100_000.0 should == 100000
     100_999.999 should == 100999.999
   }
+
+  it: "should evaluate octal literals correctly" when: {
+    0o00 should == 0
+    0o01 should == 1
+    0o07 should == 7
+    0o10 should == 8
+    0o70 should == 56
+  }
+
+  it: "should evaluate binary literals correctly" when: {
+    0b00 should == 0
+    0b01 should == 1
+    0b10 should == 2
+    0b11 should == 3
+    0b100 should == 4
+  }
+
+  it: "should evaluate hexadecimal literals correctly" when: {
+    0x00 should == 0
+    0x01 should == 1
+    0x0A should == 10
+    0xA0 should == 160
+    0xFF should == 255
+  }
 }
