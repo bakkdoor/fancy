@@ -195,6 +195,7 @@ exp:            method_def
                 | literal_value
                 | any_identifier
                 | LPAREN exp RPAREN { $$ = $2; }
+                | SUPER { $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 1, INT2NUM(yylineno)); }
                 | exp DOT { $$ = $1 }
                 ;
 
