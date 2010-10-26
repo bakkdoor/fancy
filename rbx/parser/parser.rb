@@ -51,7 +51,7 @@ module Fancy
     end
 
     def parse_error(line, yytext)
-      raise ParseError.new "Parse error at line #{line}, unexpected token: #{yytext inspect}"
+      raise ParseError.new "Parse error at line #{line}, unexpected token: #{yytext.inspect}"
     end
 
     def file_error(*error)
