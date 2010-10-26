@@ -218,6 +218,7 @@ module Fancy
     end
 
     def catch_handler(line, body = nil, condition = nil, var = nil)
+      condition ||= Fancy::AST::Identifier.new(line, "Object")
       Fancy::AST::ExceptHandler.new(line, condition, var, body)
     end
 
