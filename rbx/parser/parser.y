@@ -347,7 +347,8 @@ operator_def:   def operator identifier expression_block {
                   $$ = rb_funcall(m_Parser, rb_intern("operator_def"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
                 }
                 | def LBRACKET RBRACKET identifier expression_block {
-                  $$ = rb_funcall(m_Parser, rb_intern("operator_def"), 5, INT2NUM(yylineno), fy_terminal_node_from("identifier", "[]"), $4, $5, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("operator_def"), 5,
+                                  INT2NUM(yylineno), fy_terminal_node_from("identifier", "[]"), $4, $5, $1);
                 }
                 ;
 
@@ -355,7 +356,8 @@ class_operator_def: def any_identifier operator identifier expression_block {
                   $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $2, $3, $4, $5, $1);
                 }
                 | def any_identifier LBRACKET RBRACKET identifier expression_block {
-                  $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $2, fy_terminal_node_from("identifier", "[]"), $5, $6, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("sin_operator_def"), 6,
+                                  INT2NUM(yylineno), $2, fy_terminal_node_from("identifier", "[]"), $5, $6, $1);
                 }
                 ;
 
@@ -402,7 +404,8 @@ operator_send:  exp operator arg_exp {
                   $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $5);
                 }
                 | exp LBRACKET exp RBRACKET {
-                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, fy_terminal_node_from("identifier", "[]"), $3);
+                  $$ = rb_funcall(m_Parser, rb_intern("oper_send_basic"), 4,
+                                  INT2NUM(yylineno), $1, fy_terminal_node_from("identifier", "[]"), $3);
                 }
                 ;
 
@@ -502,17 +505,20 @@ regex_literal: REGEX_LITERAL {
                 ;
 
 hex_literal:    HEX_LITERAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3, INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(16));
+                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3,
+                                  INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(16));
                 }
                 ;
 
 oct_literal:    OCT_LITERAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3, INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(8));
+                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3,
+                                  INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(8));
                 }
                 ;
 
 bin_literal:    BIN_LITERAL {
-                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3, INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(2));
+                  $$ = rb_funcall(m_Parser, rb_intern("integer_literal"), 3,
+                                  INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(2));
                 }
                 ;
 
