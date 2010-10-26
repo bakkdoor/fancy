@@ -30,6 +30,7 @@ extern VALUE m_Parser;
 %token                  RHASH
 %token                  STAB
 %token                  ARROW
+%token                  THIN_ARROW
 %token                  COMMA
 %token                  SEMI
 %token                  NL
@@ -49,6 +50,7 @@ extern VALUE m_Parser;
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
+%token                  MATCH
 %token                  IDENTIFIER
 %token                  CONSTANT
 
@@ -132,6 +134,10 @@ extern VALUE m_Parser;
 %type  <object>         catch_block
 %type  <object>         non_empty_catch_blocks
 
+%type  <object>         match_expr
+%type  <object>         match_body
+%type  <object>         match_clause
+
 %%
 
 programm:       /*empty*/
@@ -188,6 +194,7 @@ statement:      assignment
 exp:            method_def
                 | class_def
                 | try_catch_block
+                | match_expr
                 | message_send
                 | operator_send
                 | ruby_send
@@ -587,6 +594,30 @@ key_value_list: exp space ARROW space exp {
                 }
                 | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(m_Parser, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
+                }
+                ;
+
+match_expr:     MATCH exp LCURLY space match_body space RCURLY {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $5);
+                }
+                ;
+
+match_body:     match_clause {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_body"), 2, INT2NUM(yylineno), $1);
+                }
+                | delim match_body {
+                  $$ = $2;
+                }
+                | match_body delim {
+                  $$ = $1;
+                }
+                | match_body match_clause {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_body"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                ;
+
+match_clause:   exp THIN_ARROW exp {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_clause"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 ;
 

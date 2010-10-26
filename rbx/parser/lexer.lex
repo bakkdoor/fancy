@@ -33,6 +33,7 @@ lhash           "<["
 rhash           "]>"
 stab            "|"
 arrow           "=>"
+thin_arrow      "->"
 delimiter       [ \n\r\t\(\)]
 return_local    "return_local"
 return          "return"
@@ -45,6 +46,7 @@ super           "super"
 private         "private"
 protected       "protected"
 self            "self"
+match           "match"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special})*
 constant        {capital}({letter}|{digit}|{special})*
 nested_constant ({constant}::)+{constant}
@@ -103,6 +105,7 @@ comment         #[^\n]*
 {rhash}         { return RHASH; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
+{thin_arrow}    { return THIN_ARROW; }
 {equals}        { return EQUALS; }
 {operator}      {
                   yylval.object = rb_str_new2(yytext);
@@ -120,7 +123,11 @@ comment         #[^\n]*
 {protected}     { return PROTECTED; }
 {self}          {
                   yylval.object = rb_str_new2(yytext);
-                  return IDENTIFIER; }
+                  return IDENTIFIER;
+                }
+{match}         {
+                  return MATCH;
+                }
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;

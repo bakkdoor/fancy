@@ -256,6 +256,22 @@ module Fancy
       Fancy::AST::Return.new(line, expr)
     end
 
+    def match_expr(line, expr, body = nil)
+      body ||= Fancy::AST::ExpressionList.new(line)
+      Fancy::AST::Match.new(line, expr, body)
+    end
+
+    def match_body(line, match_clause, match_clauses = nil)
+      if match_clauses.kind_of?(Array)
+        match_clauses.push(match_clause)
+      else
+        [match_clauses, match_clause]
+      end
+    end
+
+    def match_clause(line, match_exp, val_expr)
+      Fancy::AST::MatchClause.new(line, match_exp, val_expr)
+    end
   end
 
 end
