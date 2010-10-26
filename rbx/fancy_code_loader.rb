@@ -90,7 +90,7 @@ module Fancy
       unless @@compiled[filename]
         if !File.exists?(compiled_file) ||
             File.stat(compiled_file).mtime < File.stat(filename).mtime
-          system("rbx #{File.dirname(__FILE__)}/compiler.rb #{filename} > /dev/null")
+          Rubinius::Compiler.compile_fancy_file filename, nil, 1, false
         else
           @@compiled[filename] = true
         end
