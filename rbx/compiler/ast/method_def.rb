@@ -7,6 +7,18 @@ module Fancy
         @name = method_ident.method_name
         @arguments = args
         @body = body
+        generate_ivar_assignment
+      end
+
+      def generate_ivar_assignment
+        @arguments.required.reverse.each do |name|
+          if name.to_s =~ /^@/
+            ident = Fancy::AST::Identifier.new(line, name.to_s)
+            value = Rubinius::AST::LocalVariableAccess.new(line, name)
+            asign = Fancy::AST::Assignment.new(line, ident, value)
+            body.unshift_expression(asign)
+          end
+        end
       end
 
       def bytecode(g)

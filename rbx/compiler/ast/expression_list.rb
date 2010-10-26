@@ -7,6 +7,10 @@ module Fancy
         @expressions = expressions
       end
 
+      def unshift_expression(expression)
+        @expressions.unshift(expression)
+      end
+
       def add_expression(expression)
         @expressions << expression
       end
