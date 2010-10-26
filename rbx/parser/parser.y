@@ -622,7 +622,7 @@ match_body:     match_clause {
                 }
                 ;
 
-match_clause:   exp THIN_ARROW exp {
+match_clause:   exp THIN_ARROW expression_list {
                   $$ = rb_funcall(m_Parser, rb_intern("match_clause"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 ;

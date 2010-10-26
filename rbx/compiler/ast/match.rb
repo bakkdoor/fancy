@@ -13,5 +13,13 @@ module Fancy
       end
     end
 
+    class MatchClause < Node
+      def initialize(line, match_exp, val_exp)
+        super(line)
+        @match_exp = match_exp
+        @val_exp = val_exp
+      end
+    end
+
   end
 end
