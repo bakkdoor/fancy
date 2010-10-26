@@ -47,6 +47,7 @@ private         "private"
 protected       "protected"
 self            "self"
 match           "match"
+case            "case"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special})*
 constant        {capital}({letter}|{digit}|{special})*
 nested_constant ({constant}::)+{constant}
@@ -127,6 +128,9 @@ comment         #[^\n]*
                 }
 {match}         {
                   return MATCH;
+                }
+{case}          {
+                  return CASE;
                 }
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);

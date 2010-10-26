@@ -51,6 +51,7 @@ extern VALUE m_Parser;
 %token                  DOLLAR
 %token                  EQUALS
 %token                  MATCH
+%token                  CASE
 %token                  IDENTIFIER
 %token                  CONSTANT
 
@@ -612,19 +613,13 @@ match_expr:     MATCH exp THIN_ARROW LCURLY space match_body space RCURLY {
 match_body:     match_clause {
                   $$ = rb_funcall(m_Parser, rb_intern("match_body"), 2, INT2NUM(yylineno), $1);
                 }
-                | delim match_body {
-                  $$ = $2;
-                }
-                | match_body delim {
-                  $$ = $1;
-                }
                 | match_body match_clause {
                   $$ = rb_funcall(m_Parser, rb_intern("match_body"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
-match_clause:   exp THIN_ARROW expression_list {
-                  $$ = rb_funcall(m_Parser, rb_intern("match_clause"), 3, INT2NUM(yylineno), $1, $3);
+match_clause:   CASE exp THIN_ARROW expression_list {
+                  $$ = rb_funcall(m_Parser, rb_intern("match_clause"), 3, INT2NUM(yylineno), $2, $4);
                 }
                 ;
 
