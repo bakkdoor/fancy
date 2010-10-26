@@ -34,7 +34,7 @@ class Array {
       self size != (other size) if_true: {
         nil
       } else: {
-        all?: |x| { other include?: x }
+        all?: |x| { other includes?: x }
       }
     }
   }

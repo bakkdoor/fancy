@@ -8,6 +8,6 @@ FancySpec describe: "ARGV & predefined values" with: {
   # }
 
   # it: "should have the __FILE__ value be an element in ARGV" when: {
-  #   ARGV include?: __FILE__ . should == true
+  #   ARGV includes?: __FILE__ . should == true
   # }
 }

@@ -43,18 +43,18 @@ FancySpec describe: Array with: {
     arr at: 0 . should == 'a
   }
 
-  it: "should NOT include the items" for: "include?:" when: {
+  it: "should NOT include the items" for: "includes?:" when: {
     arr = ['a, 10, "hello, world"]
-    arr include?: "hello" . should == false
-    arr include?: 11 . should == false
-    arr include?: 'b . should == false
+    arr includes?: "hello" . should == false
+    arr includes?: 11 . should == false
+    arr includes?: 'b . should == false
   }
 
-  it: "should include the items" for: 'include?: when: {
+  it: "should include the items" for: 'includes?: when: {
     arr = ['a, 10, "hello, world"]
-    arr include?: "hello, world" . should == true
-    arr include?: 10 . should == true
-    arr include?: 'a . should == true
+    arr includes?: "hello, world" . should == true
+    arr includes?: 10 . should == true
+    arr includes?: 'a . should == true
   }
 
   it: "should return the correct index (or nil) for an element" for: 'index: when: {
