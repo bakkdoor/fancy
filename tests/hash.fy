@@ -95,4 +95,8 @@ FancySpec describe: Hash with: {
     <[]> ['foobar] . should == nil
     <['foo => "bar"]> [nil] . should == nil
   }
+
+  it: "should return an Array of the key-value pairs" when: {
+    <['foo => "bar", 'bar => "baz"]> to_a should == [['foo, "bar"], ['bar, "baz"]]
+  }
 }
