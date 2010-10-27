@@ -133,7 +133,7 @@ extern VALUE m_Parser;
 %type  <object>         catch_blocks
 %type  <object>         finally_block
 %type  <object>         catch_block
-%type  <object>         non_empty_catch_blocks
+%type  <object>         required_catch_blocks
 
 %type  <object>         match_expr
 %type  <object>         match_body
@@ -448,7 +448,7 @@ arg_exp:        any_identifier {
 try_catch_block: TRY expression_block catch_blocks finally_block {
                   $$ = rb_funcall(m_Parser, rb_intern("try_catch_finally"), 4, INT2NUM(yylineno), $2, $3, $4);
                 }
-                | TRY expression_block non_empty_catch_blocks {
+                | TRY expression_block required_catch_blocks {
                   $$ = rb_funcall(m_Parser, rb_intern("try_catch_finally"), 3, INT2NUM(yylineno), $2, $3);
                 }
                 ;
@@ -464,10 +464,10 @@ catch_block:    CATCH expression_block  {
                 }
                 ;
 
-non_empty_catch_blocks: catch_block {
+required_catch_blocks: catch_block {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 2, INT2NUM(yylineno), $1);
                 }
-                | non_empty_catch_blocks catch_block {
+                | required_catch_blocks catch_block {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
