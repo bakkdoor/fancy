@@ -99,4 +99,12 @@ FancySpec describe: StdError with: {
     y should  == 2
     x should  == 5
   }
+
+  it: "should always execute the finally block when defined" when: {
+    try {
+      10 / 0 # ZeroDivisionError
+    } finally {
+      true should == true
+    }
+  }
 }

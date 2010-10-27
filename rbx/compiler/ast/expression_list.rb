@@ -38,6 +38,14 @@ module Fancy
       def strip_arguments
         []
       end
+
+      def docstring
+        if @expressions.first.is_a? Rubinius::AST::StringLiteral
+          @expressions.first
+        else
+          Rubinius::AST::StringLiteral.new(@line, "No docstring set")
+        end
+      end
     end
 
   end

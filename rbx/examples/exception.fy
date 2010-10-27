@@ -4,6 +4,6 @@ try {
   "Hi" println
 } catch StdError => e {
   e println
-}  finally {
+} finally {
   "Adios" println
 }

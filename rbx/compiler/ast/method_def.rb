@@ -26,6 +26,20 @@ module Fancy
           define_constructor_class_method g
         end
         super(g)
+#        set_docstring(g)
+      end
+
+      def set_docstring(g)
+        g.push_self
+        g.push_literal @name
+        g.send_stack :"method:", 1
+        docstring.bytecode(g)
+        g.send_stack :"docstring:", 1
+        g.pop
+      end
+
+      def docstring
+        @body.docstring
       end
 
       # defines a class method names "new:foo:" if we're defining a
