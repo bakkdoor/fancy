@@ -14,9 +14,10 @@ bindigit        [01]
 capital         [A-Z]
 lower           [a-z]
 letter          [A-Za-z]
-special         [-+?!_=*/^><%&~]
-operator        ({special}+|"||"{special}*)
-int_lit 	[-+]?({digit}|_)+
+special         [-+?!=*/^><%&~]
+special_under   ({special}|"_")
+operator        ({special}+|"||"{special_under}*)
+int_lit 	[-+]?{digit}({digit}|_{digit})*
 double_lit      {int_lit}\.{digit}+
 hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+
@@ -48,8 +49,8 @@ protected       "protected"
 self            "self"
 match           "match"
 case            "case"
-identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special})*
-constant        {capital}({letter}|{digit}|{special})*
+identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
+constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
 regexp_lit      "r{".*"}"

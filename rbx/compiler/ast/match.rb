@@ -47,6 +47,9 @@ module Fancy
       attr_reader :match_expr, :val_expr
       def initialize(line, match_expr, val_expr)
         super(line)
+        if match_expr.kind_of?(Fancy::AST::Identifier) && match_expr.identifier == "_"
+          match_expr = Fancy::AST::Identifier.new(match_expr.line, "Object")
+        end
         @match_expr = match_expr
         @val_expr = val_expr
       end
