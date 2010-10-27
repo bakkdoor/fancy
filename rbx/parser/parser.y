@@ -472,11 +472,14 @@ non_empty_catch_blocks: catch_block {
                 }
                 ;
 
-catch_blocks:  /* empty */ {
-                  $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 1, INT2NUM(yylineno));
+catch_blocks:   catch_block {
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 2, INT2NUM(yylineno), $1);
                 }
                 | catch_blocks catch_block {
                   $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                | /* empty */ {
+                  $$ = rb_funcall(m_Parser, rb_intern("catch_handlers"), 1, INT2NUM(yylineno));
                 }
                 ;
 
