@@ -24,7 +24,7 @@ module Fancy
         @clauses.each_with_index do |c, i|
           g.dup # save the @expr since we need to reuse it
           c.match_expr.bytecode(g)
-          # use == for now, since === doesn't work as expected so far.
+          g.swap
           g.send :":===", 1
           g.git clause_labels[i]
         end

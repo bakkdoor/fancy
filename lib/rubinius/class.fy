@@ -1,5 +1,6 @@
 class Class {
   ruby_alias: 'superclass
+  ruby_alias: '===
 
   def new {
     obj = self allocate()
