@@ -12,5 +12,3 @@ pm = PatternMatching new
 pm match_it: "foo"
 pm match_it: 42
 pm match_it: 'foo
-
-String === "yeah" println
