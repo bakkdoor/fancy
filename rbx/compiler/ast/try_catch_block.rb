@@ -122,6 +122,9 @@ module Fancy
         @handlers.bytecode(g, finally)
 
         reraise.set!
+        # Execute the finally block before propagating the exception
+        @finally.bytecode(g)
+
         # remove the exception so we have the state
         g.pop
         # restore the state and reraise
