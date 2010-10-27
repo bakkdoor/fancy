@@ -1,8 +1,8 @@
 class PatternMatching {
   def match_it: obj {
-    match obj -> {
+    x = match obj class -> {
       case String -> "It's a String!" println
-      case Number -> "It's a Number!" println
+      case Fixnum -> "It's a Number!" println
     }
   }
 }

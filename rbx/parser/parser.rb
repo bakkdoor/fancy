@@ -256,21 +256,17 @@ module Fancy
       Fancy::AST::Return.new(line, expr)
     end
 
-    def match_expr(line, expr, body = nil)
-      body ||= Fancy::AST::ExpressionList.new(line)
-      Fancy::AST::Match.new(line, expr, body)
+    def match_expr(line, expr, clauses = nil)
+      clauses ||= []
+      Fancy::AST::Match.new(line, expr, clauses)
     end
 
-    def match_body(line, match_clause, match_clauses = nil)
-      if match_clauses.kind_of?(Array)
-        match_clauses.push(match_clause)
-      else
-        [match_clauses, match_clause]
-      end
+    def match_body(line, match_clause, match_clauses = [])
+      match_clauses.push(match_clause)
     end
 
-    def match_clause(line, match_exp, val_expr)
-      Fancy::AST::MatchClause.new(line, match_exp, val_expr)
+    def match_clause(line, match_expr, val_expr)
+      Fancy::AST::MatchClause.new(line, match_expr, val_expr)
     end
   end
 
