@@ -25,7 +25,7 @@ module Fancy
           g.dup # save the @expr since we need to reuse it
           c.match_expr.bytecode(g)
           # use == for now, since === doesn't work as expected so far.
-          g.send :==, 1
+          g.send :":===", 1
           g.git clause_labels[i]
         end
         g.pop
