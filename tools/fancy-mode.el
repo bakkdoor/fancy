@@ -1106,6 +1106,7 @@ balanced expression is found."
                "require:"
                "NATIVE"
                "match"
+               "case"
 	       )
 	     "\\|")
 	    "\\)\\>\\)")
