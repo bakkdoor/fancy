@@ -348,7 +348,7 @@ method_args_default: method_arg_default {
                 ;
 
 method_w_args:  def method_args expression_block {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_def"), 4, INT2NUM(yylineno), $2, $3, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("method_def_expand"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
                 ;
 
@@ -360,7 +360,7 @@ method_no_args: def identifier expression_block {
 
 
 class_method_w_args: def any_identifier method_args expression_block {
-                  $$ = rb_funcall(m_Parser, rb_intern("sin_method_def"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
+                  $$ = rb_funcall(m_Parser, rb_intern("sin_method_def_expand"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
                 }
                 ;
 

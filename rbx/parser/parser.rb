@@ -129,8 +129,8 @@ module Fancy
       method_args.map { |a| a.selector.identifier }.join("")
     end
 
-    # creates the actual MethodDef node
-    def create_method_def(line, method_args, method_body, access)
+    # Creates a single MethodDef node.
+    def method_def(line, method_args, method_body, access)
       name = helper_method_name(method_args)
       method_ident = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
@@ -138,56 +138,50 @@ module Fancy
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
     end
 
-    # Each struct in method_args has a "default" attribute.
-    # If != nil, it means that argument has default value.
-    # The idea here is to generate as many method_defs
-    def expand_method_default(line, method_args, method_body, access)
-      el = Fancy::AST::ExpressionList.new(line)
+    def method_delegators(method_args)
+      # find the first default argument
+      idx = method_args.index { |a| a.default }
+      return unless idx
 
-      defaults = method_args.select { |a| a.default }
-      non_defaults = method_args.select { |a| a.default.nil? }
-      gen_method_count = defaults.size
-      max_size = method_args.size
+      line = method_args.first.selector.line
+      target = helper_method_name(method_args)
 
-      gen_method_count.times do |pos|
-        gen_method_args = non_defaults
-        gen_method_body = Fancy::AST::ExpressionList.new(line)
+      (method_args.size - idx).times do |pos|
 
-        gen_msg_send_params = non_defaults.map{|a| a.variable}
-        gen_msg_send_params += defaults.first(pos + 1).map { |a| a.default }
+        required = method_args[0...idx+pos]
+        default = method_args[idx+pos..-1]
 
-        gen_msg_send_method_name = helper_method_name(non_defaults + [defaults.first])
-        gen_msg_send = Fancy::AST::MessageSend.new(line,
-                                                   Rubinius::AST::Self.new(line),
-                                                   Fancy::AST::Identifier.new(line, gen_msg_send_method_name),
-                                                   Fancy::AST::MessageArgs.new(line, *gen_msg_send_params))
-        gen_method_body.add_expression gen_msg_send
+        params = required.map(&:variable) + default.map(&:default)
 
-        # create generated MethodDef node
-        el.add_expression create_method_def(line, gen_method_args, gen_method_body, access)
+        forward = Fancy::AST::MessageSend.new(line,
+                                              Rubinius::AST::Self.new(line),
+                                              Fancy::AST::Identifier.new(line, target),
+                                              Fancy::AST::MessageArgs.new(line, *params))
+        doc = Fancy::AST::StringLiteral.new(line, "Forward to message #{target}")
+        body = Fancy::AST::ExpressionList.new(line, doc, forward)
 
-        # move first of defaults into non_defaults, since it will be
-        # used as a local var param (not default) in the next
-        # generated method)
-        non_defaults.push defaults.shift
+        yield required, body
       end
-      el
     end
 
 
-    def method_def(line, method_args, method_body, access = :public)
-      expr_list = Fancy::AST::ExpressionList.new(line)
-
-      # If the method has defaults, generate all alternative methods
-      # from it.
-      if method_args.select{|a| a.default}.size > 0
-        expr_list = expand_method_default(line, method_args, method_body, access)
+    # Generate an expression list of method_defs
+    def method_def_expand(line, method_args, method_body, access = :public)
+      defs = []
+      method_delegators(method_args) do |sel, fwd|
+        defs << method_def(line, sel, fwd, access)
       end
+      defs << method_def(line, method_args, method_body, access)
+      Fancy::AST::ExpressionList.new(line, *defs)
+    end
 
-      # Remember we should return the expression list
-      # containing all methods to be defined
-      expr_list.add_expression create_method_def(line, method_args, method_body, access)
-      expr_list
+    def sin_method_def_expand(line, identifier, method_args, method_body, access = :public)
+      defs = []
+      method_delegators(method_args) do |sel, fwd|
+        defs << sin_method_def(line, identifier, sel, fwd, access)
+      end
+      defs << sin_method_def(line, identifier, method_args, method_body, access)
+      Fancy::AST::ExpressionList.new(line, *defs)
     end
 
     def sin_method_def(line, identifier, method_args, method_body, access = :public)
