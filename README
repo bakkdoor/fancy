@@ -61,11 +61,17 @@ Some technical information:
 ----------------------------
 
 As now we are running on the Rubinius VM, Fancy shares the same runtime with ruby.
-Actually all of Fancy is built upon ruby objects, so for example when you open
-the String class in fancy, it's just the Ruby' String. 
+Actually all of Fancy is built upon Ruby objects, so for example when you open
+the String class in Fancy, it's just Ruby's String class.
 
-Because of this, and because in fancy standard library (lib/*.fy) we can define
-methods with the same name as ruby ones but taking no arguments (example:)
+Because of this, and because in Fancy's standard library (lib/*.fy) we
+can define methods with the same name as they're defined in Ruby (but
+taking no arguments), we have decided not to overwrite the Ruby
+version.
+This way all Ruby libraries can use Ruby's Kernel#print (that takes
+any number of args) and work seamlesly.
+
+Here's an example:
 
     class Object {
       def print {
@@ -74,28 +80,26 @@ methods with the same name as ruby ones but taking no arguments (example:)
       }
     }
 
-We have decided not to overwrite the ruby version. This way all ruby libraries
-can use Ruby's Object#print (that takes any number of args) and work seamlesly.
+To meet this goal, the Fancy compiler renames Fancy methods taking no
+arguments (like the previous "print" example) to a method named
+":print". Using explicit parens syntax will allow you to invoke any
+Ruby method.
 
-To meet this goal, the Fancy compiler renames fancy method taking no arguments
-like the previous "print" example, to a method named ":print". Using explicit
-parens syntax will allow you to invoke any ruby method.
+   someObject print    # Will actually invoke the Fancy ":print" method.
+   someObject print()  # With explicit parens invokes the Ruby method.
 
-   someObject print    # Will actually invoke the Fancy ":print" method
-   someObject print()  # with explicit parens invokes the ruby method.
-
-Ruby method invocation supports passing a block variable to ruby as a proc.
+Ruby method invocation supports passing a block variable to Ruby as a proc.
 
     class Something {
       def open: block {
-        someRubyMethod(arg0, arg1, &block) 
+        someRubyMethod(arg0, arg1, &block)
       }
     }
-    something open: |s| { s work }
+    Something new open: |s| { s work }
 
     # with this syntax, calling ruby's inject is just as easy.
-    # this example will print the number 6
-    [1, 2, 3] inject(0) |sum, num| { sum + num } println 
+    # This example will print the number 6
+    [1, 2, 3] inject(0) |sum, num| { sum + num } println
 
 
 What's already working?
@@ -117,12 +121,14 @@ What's already working?
   - Exception handling (try, catch, finally & retry)
   - Mostly all examples/*.fy files are working now under the Rubinius VM
     Please feel free to report bugs or better yet, contribute patches.
+  - Simple pattern matching (work-in-progress)
+  - Calling, using and extending arbitrary Ruby classes and methods
+    (including C-extensions).
 
 
 What's still missing?
 ----------------------
 
-  - Pattern matching
   - Concurrency stuff (Actor-model based concurrency, Futures etc)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (saved for later)
@@ -132,13 +138,14 @@ How is it implemented?
 -----------------------
 
   - The lexer & parser are built with GNU Flex & GNU Bison.
-    And used as a ruby c-extension from rubinius.
+    And used as a Ruby c-extension from rubinius.
     The parser simply invokes methods on Fancy::Parser to build the AST.
+    See: rbx/parser/parser.y & rbx/parser/parser.rb
 
   - Once the AST is built, we use Rubinius' excellent compiler chain
     to compile it to bytecode.
 
-  - The bin/fancy file, is simply a rubinius code loader for .fy files.
+  - The bin/fancy file is simply a rubinius code loader for .fy files.
 
 ----------------------------------------------------------------------
 
