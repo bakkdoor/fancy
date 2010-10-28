@@ -129,44 +129,64 @@ module Fancy
       method_args.map { |a| a.selector.identifier }.join("")
     end
 
-    def expand_method_default(line, method_args, method_body, access)
-      el = Fancy::AST::ExpressionList.new(line)
-      # Each struct in method_args has a "default" attribute.
-      # If != nil, it means that argument has default value.
-      # The idea here is to generate as many method_defs
-      defaults = method_args.select { |a| a.default }
-      non_defaults = method_args.select { |a| a.default.nil? }
-      gen_method_args = (non_defaults + defaults[0..-2])
-      gen_method_body = Fancy::AST::ExpressionList.new(line)
-      gen_msg_send_vars = non_defaults.map{|a| a.variable} + defaults.map{|a| a.default}
-      gen_msg_send = Fancy::AST::MessageSend.new(line,
-                                                 Rubinius::AST::Self.new(line),
-                                                 Fancy::AST::Identifier.new(line, helper_method_name(method_args)),
-                                                 Fancy::AST::MessageArgs.new(line, *gen_msg_send_vars))
-      gen_method_body.add_expression gen_msg_send
-      el.add_expression method_def(line, gen_method_args, gen_method_body, access)
-      el
-    end
-
-    def method_def(line, method_args, method_body, access = :public)
-      # If the method has defaults, generate all alternative methods
-      # from it.
-      if method_args.select{|a| a.default}.size > 0
-        expr_list = expand_method_default(line, method_args, method_body, access)
-      else
-        expr_list = Fancy::AST::ExpressionList.new(line)
-      end
-
-      # This code should be at expand_method_default
+    # creates the actual MethodDef node
+    def create_method_def(line, method_args, method_body, access)
       name = helper_method_name(method_args)
       method_ident = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
-      method = Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+    end
+
+    # Each struct in method_args has a "default" attribute.
+    # If != nil, it means that argument has default value.
+    # The idea here is to generate as many method_defs
+    def expand_method_default(line, method_args, method_body, access)
+      el = Fancy::AST::ExpressionList.new(line)
+
+      defaults = method_args.select { |a| a.default }
+      non_defaults = method_args.select { |a| a.default.nil? }
+      gen_method_count = defaults.size
+      max_size = method_args.size
+
+      gen_method_count.times do |pos|
+        gen_method_args = non_defaults
+        gen_method_body = Fancy::AST::ExpressionList.new(line)
+
+        gen_msg_send_params = non_defaults.map{|a| a.variable}
+        gen_msg_send_params += defaults.first(pos + 1).map { |a| a.default }
+
+        gen_msg_send_method_name = helper_method_name(non_defaults + [defaults.first])
+        gen_msg_send = Fancy::AST::MessageSend.new(line,
+                                                   Rubinius::AST::Self.new(line),
+                                                   Fancy::AST::Identifier.new(line, gen_msg_send_method_name),
+                                                   Fancy::AST::MessageArgs.new(line, *gen_msg_send_params))
+        gen_method_body.add_expression gen_msg_send
+
+        # create generated MethodDef node
+        el.add_expression create_method_def(line, gen_method_args, gen_method_body, access)
+
+        # move first of defaults into non_defaults, since it will be
+        # used as a local var param (not default) in the next
+        # generated method)
+        non_defaults.push defaults.shift
+      end
+      el
+    end
+
+
+    def method_def(line, method_args, method_body, access = :public)
+      expr_list = Fancy::AST::ExpressionList.new(line)
+
+      # If the method has defaults, generate all alternative methods
+      # from it.
+      if method_args.select{|a| a.default}.size > 0
+        expr_list = expand_method_default(line, method_args, method_body, access)
+      end
 
       # Remember we should return the expression list
       # containing all methods to be defined
-      expr_list.add_expression method
+      expr_list.add_expression create_method_def(line, method_args, method_body, access)
       expr_list
     end
 
