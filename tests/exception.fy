@@ -102,9 +102,14 @@ FancySpec describe: StdError with: {
 
   it: "should always execute the finally block when defined" when: {
     try {
-      10 / 0 # ZeroDivisionError
-    } finally {
-      true should == true
+      msg = "Reraise a new Exception :P"
+      try {
+        10 / 0 # ZeroDivisionError
+      } finally {
+        msg raise!
+      }
+    } catch StdError => e {
+      e message should == msg
     }
   }
 }
