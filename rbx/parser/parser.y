@@ -117,6 +117,8 @@ extern VALUE m_Parser;
 %type  <object>         method_def
 %type  <object>         method_args
 %type  <object>         method_arg
+%type  <object>         method_args_default
+%type  <object>         method_arg_default
 %type  <object>         method_w_args
 %type  <object>         method_no_args
 %type  <object>         operator_def
@@ -316,10 +318,7 @@ method_def:     method_w_args
                 | class_operator_def
                 ;
 
-method_arg:     identifier COLON identifier EQUALS exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $3, $5);
-                }
-                | identifier COLON identifier {
+method_arg:     identifier COLON identifier {
                   $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 ;
@@ -327,11 +326,24 @@ method_arg:     identifier COLON identifier EQUALS exp {
 method_args:    method_arg {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
                 }
-                | method_args COMMA space method_arg {
-                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
-                }
                 | method_args method_arg {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                | method_args method_args_default {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                ;
+
+method_arg_default: identifier COLON identifier EQUALS exp {
+                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $3, $5);
+                }
+                ;
+
+method_args_default: method_arg_default {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
+                }
+                | method_args_default COMMA space method_arg_default {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
                 }
                 ;
 
