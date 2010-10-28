@@ -100,9 +100,9 @@ module Fancy
       end
     end
 
-    def method_args(line, selector, variable, ary = [])
+    def method_arg(line, selector, variable, default = nil)
       selector = Fancy::AST::Identifier.new(selector.line, selector.identifier+":")
-      ary.push Struct.new(:selector, :variable).new(selector, variable)
+      Struct.new(:selector, :variable, :default).new(selector, variable, default)
     end
 
     def send_args(line, selector, value, ary = [])
@@ -125,12 +125,30 @@ module Fancy
       Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
     end
 
+    def expand_method_default(line, method_args, method_body, access)
+      el = Fancy::AST::ExpressionList.new(line)
+      # Each struct in method_args has a "default" attribute.
+      # If != nil, it means that argument has default value.
+      # The idea here is to generate as many method_defs
+      defs = method_args.select { |a| a.default }
+      el
+    end
+
     def method_def(line, method_args, method_body, access = :public)
+      # If the method has defaults, generate all alternative methods
+      # from it.
+      expand_method_default(line, method_args, method_body, access)
+
+      # This code should be at expand_method_default
       name = method_args.map { |a| a.selector.identifier }.join("")
       method_ident = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
-      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+      method = Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+
+      # Remember we should return the expression list
+      # containing all methods to be defined
+      method
     end
 
     def sin_method_def(line, identifier, method_args, method_body, access = :public)

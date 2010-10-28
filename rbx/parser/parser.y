@@ -113,6 +113,7 @@ extern VALUE m_Parser;
 
 %type  <object>         method_def
 %type  <object>         method_args
+%type  <object>         method_arg
 %type  <object>         method_w_args
 %type  <object>         method_no_args
 %type  <object>         operator_def
@@ -300,11 +301,22 @@ method_def:     method_w_args
                 | class_operator_def
                 ;
 
-method_args:    identifier COLON identifier {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_args"), 3, INT2NUM(yylineno), $1, $3);
+method_arg:     identifier COLON identifier EQUALS exp {
+                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $3, $5);
                 }
-                | method_args identifier COLON identifier {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_args"), 4, INT2NUM(yylineno), $2, $4, $1);
+                | identifier COLON identifier {
+                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 3, INT2NUM(yylineno), $1, $3);
+                }
+                ;
+
+method_args:    method_arg {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
+                }
+                | method_args COMMA space method_arg {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
+                }
+                | method_args method_arg {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
