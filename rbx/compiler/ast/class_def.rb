@@ -11,8 +11,17 @@ module Fancy
 
       def bytecode(g)
         docstring = body.body.shift_docstring
+        if docstring
+          setdoc = MessageSend.new(line,
+                                   Identifier.new(line, "Fancy::Documentation"),
+                                   Identifier.new(line, "for:is:"),
+                                   MessageArgs.new(line,
+                                                   Rubinius::AST::Self.new(line),
+                                                   docstring))
+          # Replace first string expression to set documentation.
+          body.body.expressions.unshift setdoc
+        end
         super(g)
-        MethodDef.set_docstring(g, docstring, @line)
       end
 
     end
