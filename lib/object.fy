@@ -150,7 +150,7 @@ class Object {
   def method: method_name {
     "Returns the method with a given name for self, if defined."
 
-    method(method_name)
+    method(message_name: method_name)
   }
 
   def documentation {

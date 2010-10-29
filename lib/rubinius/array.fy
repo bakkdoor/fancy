@@ -80,6 +80,7 @@ class Array {
   }
 
   def first {
+    "Returns the first element in the Array."
     at: 0
   }
 
