@@ -75,7 +75,7 @@ FancySpec describe: File with: {
 
   it: "should be a directory" for: 'directory?: when: {
     File directory?: "lib/" . should == true
-    File directory?: "lib/rubinius" . should == true
+    File directory?: "lib/rbx" . should == true
   }
 
   it: "should NOT be a directory" for: 'directory?: when: {

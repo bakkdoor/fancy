@@ -29,8 +29,8 @@ require: "stack"
 require: "version"
 require: "argv"
 
-# rubinius.fy loads all the files in lib/rubinius/ in the correct
+# rbx.fy loads all the files in lib/rbx/ in the correct
 # order, which define all the functionality to let fancy run on rbx.
 # also, they might override functionality defined in lib/ to reuse
 # existing ruby methods etc.
-require: "rubinius.fy"
+require: "rbx.fy"
