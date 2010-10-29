@@ -20,21 +20,11 @@ module Fancy
       end
 
       def bytecode(g, recv)
+        docstring = @body.shift_docstring
         super(g, recv)
-        ms = MessageSend.new(@line, StackTop.new,
-                             Fancy::AST::Identifier.new(@line, "documentation:"),
-                             MessageArgs.new(@line, docstring))
-        ms.bytecode(g)
-        g.pop
+        MethodDef.set_docstring(g, docstring, @line)
       end
 
-      def docstring
-        if @body.expressions.first.is_a? Rubinius::AST::StringLiteral
-          @body.expressions.first
-        else
-          Rubinius::AST::NilLiteral.new(line)
-        end
-      end
     end
 
   end

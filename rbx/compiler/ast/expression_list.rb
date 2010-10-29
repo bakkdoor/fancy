@@ -41,6 +41,15 @@ module Fancy
         []
       end
 
+      # If this expression list contains more than one expression
+      # and the first one is an string literal, it'll be used as doc.
+      # This method removes the first documentation string.
+      def shift_docstring
+        if expressions.first.kind_of? Rubinius::AST::StringLiteral
+          expressions.shift
+        end
+      end
+
     end
 
   end

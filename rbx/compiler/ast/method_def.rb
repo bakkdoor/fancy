@@ -25,24 +25,19 @@ module Fancy
         if @name.to_s =~ /^initialize:(\S)+/
           define_constructor_class_method g
         end
+        docstring = @body.shift_docstring
         super(g)
-        set_docstring(g)
+        MethodDef.set_docstring(g, docstring, @line)
       end
 
-      def set_docstring(g)
-        ms = MessageSend.new(@line, StackTop.new,
-                             Fancy::AST::Identifier.new(@line, "documentation:"),
-                             MessageArgs.new(@line, docstring))
+      def self.set_docstring(g, docstring, line)
+        # prevent invoking documentation: when doesnt makes sense.
+        return unless docstring
+        ms = MessageSend.new(line, StackTop.new,
+                             Fancy::AST::Identifier.new(line, "documentation:"),
+                             MessageArgs.new(line, docstring))
         ms.bytecode(g)
         g.pop
-      end
-
-      def docstring
-        if @body.expressions.first.is_a? Rubinius::AST::StringLiteral
-          @body.expressions.first
-        else
-          Rubinius::AST::NilLiteral.new(line)
-        end
       end
 
       # defines a class method names "new:foo:" if we're defining a
