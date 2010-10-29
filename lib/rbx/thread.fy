@@ -1,5 +1,15 @@
 require("thread")
+
 class Thread {
+  """
+  Thread class.
+  Deals with parallel execution.
+
+  TODO:
+  => Still need to add more Fancy-ish wrapper methods and method
+     documentation.
+  """
+
   ruby_alias: 'abort_on_exception
   ruby_alias: 'join
   ruby_alias: 'run

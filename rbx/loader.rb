@@ -7,7 +7,7 @@ require base + "fancy_code_loader"
 require base + "fancy_ext"
 
 # load fancy's stdlib + rubinius extensions
-Fancy::CodeLoader.load_compiled_file(base + "../lib/rubinius.fyc")
+Fancy::CodeLoader.load_compiled_file(base + "../lib/rbx.fyc")
 
 if $0 == __FILE__
   # load & run file
