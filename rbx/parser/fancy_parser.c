@@ -39,7 +39,7 @@ void
 Init_fancy_parser() {
   VALUE m_Fancy = rb_define_module("Fancy");
   m_Parser = rb_define_module_under(m_Fancy, "Parser");
-  rb_define_method(m_Parser, "parse_string", parse_string, 2);
+  rb_define_method(m_Parser, "parse_string", parse_string, 3);
   rb_define_method(m_Parser, "parse_file", parse_file, 2);
 }
 
