@@ -173,19 +173,19 @@ FancySpec describe: Class with: {
     NoMethodError superclass should == NameError
   }
 
-  it: "should create a new Class dynamically" when: {
-    x = Class new
-    x is_a?: Class . should == true
-    x new is_a?: x . should == true
-    x new is_a?: Object . should == true
-    x new class should == x
+  # it: "should create a new Class dynamically" when: {
+  #   x = Class new
+  #   x is_a?: Class . should == true
+  #   x new is_a?: x . should == true
+  #   x new is_a?: Object . should == true
+  #   x new class should == x
 
-    # Symbol as superclass
-    y = Class new: Symbol
-    y is_a?: Class . should == true
-    y new is_a?: Symbol . should == true
-    y new is_a?: Object . should == true
-  }
+  #   # Symbol as superclass
+  #   y = Class new: Symbol
+  #   y is_a?: Class . should == true
+  #   y new is_a?: Symbol . should == true
+  #   y new is_a?: Object . should == true
+  # }
 
   it: "should only be able to call the public method from outside the Class" when: {
     x = ClassWithPrivate new
@@ -214,85 +214,85 @@ FancySpec describe: Class with: {
     Super subclass?: Sub . should == nil
   }
 
-  it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
-    subclass = String subclass: {
-      def foo {
-        "hello, world!"
-      }
-    }
-    subclass is_a?: Class . should == true
-    subclass subclass?: String . should == true
-    subclass new is_a?: subclass . should == true
-    subclass new foo should == "hello, world!"
+  # it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
+  #   subclass = String subclass: {
+  #     def foo {
+  #       "hello, world!"
+  #     }
+  #   }
+  #   subclass is_a?: Class . should == true
+  #   subclass subclass?: String . should == true
+  #   subclass new is_a?: subclass . should == true
+  #   subclass new foo should == "hello, world!"
 
-    # now the same with Class##new:body:
-    subclass2 = Class superclass: Symbol body: {
-      def foo {
-        "hello, world, again!"
-      }
-    }
-    subclass2 is_a?: Class . should == true
-    subclass2 subclass?: String . should == true
-    subclass2 new is_a?: subclass2 . should == true
-    subclass2 new foo should == "hello, world, again!"
-  }
+  #   # now the same with Class##new:body:
+  #   subclass2 = Class superclass: Symbol body: {
+  #     def foo {
+  #       "hello, world, again!"
+  #     }
+  #   }
+  #   subclass2 is_a?: Class . should == true
+  #   subclass2 subclass?: String . should == true
+  #   subclass2 new is_a?: subclass2 . should == true
+  #   subclass2 new foo should == "hello, world, again!"
+  # }
 
-  it: "should undefine an instance method" for: 'undefine_method: when: {
-    class Foo {
-      def instance_method {
-      "instance method!"
-      }
-    }
-    f = Foo new
-    f instance_method should == "instance method!"
-    Foo undefine_method: 'instance_method . should == true
-    try {
-      f instance_method should == nil # should not get here
-    } catch MethodNotFoundError => e {
-      e method_name should == "instance_method"
-    }
-  }
+  # it: "should undefine an instance method" for: 'undefine_method: when: {
+  #   class Foo {
+  #     def instance_method {
+  #     "instance method!"
+  #     }
+  #   }
+  #   f = Foo new
+  #   f instance_method should == "instance method!"
+  #   Foo undefine_method: 'instance_method . should == true
+  #   try {
+  #     f instance_method should == nil # should not get here
+  #   } catch MethodNotFoundError => e {
+  #     e method_name should == "instance_method"
+  #   }
+  # }
 
-  it: "should undefine a class method" for: 'undefine_class_method: when: {
-    class Foo {
-      def self class_method {
-      "class method!"
-      }
-    }
-    Foo class_method should == "class method!"
-    Foo undefine_method: 'class_method . should == nil
-    Foo undefine_class_method: 'class_method . should == true
-    try {
-      Foo class_method should == nil # should not get here
-    } catch MethodNotFoundError => e {
-      e method_name should == "class_method"
-    }
-  }
+  # it: "should undefine a class method" for: 'undefine_class_method: when: {
+  #   class Foo {
+  #     def self class_method {
+  #     "class method!"
+  #     }
+  #   }
+  #   Foo class_method should == "class method!"
+  #   Foo undefine_method: 'class_method . should == nil
+  #   Foo undefine_class_method: 'class_method . should == true
+  #   try {
+  #     Foo class_method should == nil # should not get here
+  #   } catch MethodNotFoundError => e {
+  #     e method_name should == "class_method"
+  #   }
+  # }
 
-  it: "should have nested classes" when: {
-    class Outer {
-      class Inner {
-        class InnerMost {
-          def foobar {
-            "foobar!"
-          }
-        }
-      }
-    }
-    Outer is_a?: Class . should == true
-    Outer::Inner is_a?: Class . should == true
-    Outer::Inner::InnerMost is_a?: Class . should == true
-    obj = Outer::Inner::InnerMost new
-    obj foobar should == "foobar!"
+  # it: "should have nested classes" when: {
+  #   class Outer {
+  #     class Inner {
+  #       class InnerMost {
+  #         def foobar {
+  #           "foobar!"
+  #         }
+  #       }
+  #     }
+  #   }
+  #   Outer is_a?: Class . should == true
+  #   Outer::Inner is_a?: Class . should == true
+  #   Outer::Inner::InnerMost is_a?: Class . should == true
+  #   obj = Outer::Inner::InnerMost new
+  #   obj foobar should == "foobar!"
 
-    # change InnerMost#foobar
-    class Outer::Inner::InnerMost {
-      def foobar {
-        "oh no!"
-      }
-    }
-    obj foobar . should == "oh no!"
-  }
+  #   # change InnerMost#foobar
+  #   class Outer::Inner::InnerMost {
+  #     def foobar {
+  #       "oh no!"
+  #     }
+  #   }
+  #   obj foobar . should == "oh no!"
+  # }
 
   it: "should not override existing classes with the same name in a nested class" when: {
     StdArray = Array
@@ -308,23 +308,23 @@ FancySpec describe: Class with: {
     NameSpace::Array should_not == Array
   }
 
-  it: "should return all nested classes of a class" for: 'nested_classes when: {
-    class Outer {
-    }
-    Outer nested_classes should == []
+  # it: "should return all nested classes of a class" for: 'nested_classes when: {
+  #   class Outer {
+  #   }
+  #   Outer nested_classes should == []
 
-    class Outer {
-      class Inner1 {
-      }
-    }
-    Outer nested_classes should == [Outer::Inner1]
+  #   class Outer {
+  #     class Inner1 {
+  #     }
+  #   }
+  #   Outer nested_classes should == [Outer::Inner1]
 
-    class Outer {
-      class Inner2 {
-      }
-    }
-    Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
-  }
+  #   class Outer {
+  #     class Inner2 {
+  #     }
+  #   }
+  #   Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
+  # }
 
   it: "should find other nested classes in the same parent class" when: {
     class MyOuter {
@@ -372,17 +372,17 @@ FancySpec describe: Class with: {
     MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 
-  it: "should have an alias method as defined" for: 'alias_method:for: when: {
-    class AClass {
-      def foo {
-        "in foo!"
-      }
+  # it: "should have an alias method as defined" for: 'alias_method:for: when: {
+  #   class AClass {
+  #     def foo {
+  #       "in foo!"
+  #     }
 
-      alias_method: 'bar for: 'foo
-    }
+  #     alias_method: 'bar for: 'foo
+  #   }
 
-    obj = AClass new
-    obj foo should == "in foo!"
-    obj bar should == "in foo!"
-  }
+  #   obj = AClass new
+  #   obj foo should == "in foo!"
+  #   obj bar should == "in foo!"
+  # }
 }
