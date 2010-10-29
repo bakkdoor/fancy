@@ -36,13 +36,6 @@ block = |a, b| {
 
 block documentation println
 
-Fancy Documentation for: foo is: """
- It should be possible to set documentation for any arbitray object.
- Doing so will expose it on the API documents.
- This can be useful for constants, or singleton objects.
-"""
-
-Fancy Documentation for: foo . println
 
 Math PI documentation: "An aproximation of the PI number"
 Math PI documentation println
