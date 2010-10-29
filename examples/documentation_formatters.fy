@@ -18,5 +18,5 @@ Fancy Documentation for: foo is: """
 
 """
 
-Fancy Documentation for: foo with_format: 'markdown . println
+Fancy Documentation for: foo . format: 'markdown . println
 

@@ -42,3 +42,13 @@ Math PI documentation println
 
 Fancy Documentation documentation println
 
+Fancy Documentation for: Foo append: "Re-Openning Foo class to add more docs."
+
+class Foo {
+  """
+     Fancy provides an incremental documentation feature.
+  """
+  self documentation println
+}
+
+

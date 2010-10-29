@@ -1,33 +1,75 @@
 class Fancy Documentation {
 
   """
+   A Fancy Documentation object is a holder for docstrings and specs.
    Keeps a registry of documentation for anything Fancy.
 
    Provides methods for searching and formatting objects' docstrings
    this can be be handy for users of interactive Fancy REPL,
    document generators, instrospection toos, IDEs, anything!.
+
+   This object can be converted to just anything by using its format:
+   method. formatters can be registered with Fancy Documentation formatter:is:
+
+   By default two formatters are defined:
+
+        'fancy    => Returns the Fancy::Documentation object
+        'string   => Returns the docs string representation
+  """
+  read_write_slots: ['object, 'docs, 'specs]
+
+
+  instance_method: 'docs . documentation: """
+     An array of docstrings for the object beind documented.
+
+     We have an array of docstrings because in Fancy, some
+     things like classes can be re-openned and the user may
+     specify new documentation for it each time. Thus we dont
+     want to loose the previous documentation but rather build
+     upon it. That is, fancy supports incremental documentation.
   """
 
-  self for: (method('for:is:)) is: "Sets the documentation for obj."
+  instance_method: 'specs . documentation: """
+     An array of associated Fancy specs for the object
+     being documented.
 
-  def self remove: obj {
-    "Removes the documentation for obj."
-    obj remove_instance_variable('@_fancy_documentation)
-  }
+     Its a lot better to keep the associated specs in
+     Fancy Documentation objects instead of just having them
+     in method instances. This allows us to associate any object
+     with an spec example.
 
-  def self for: obj with_format: format = 'plain {
+     This way you can have a single Fancy spec example that
+     is related to many objects (methods, constants, classes)
+     that are being specified. Later in documentation, we can
+     provide links to all specs where an object is being exercised.
+  """
+
+  def to_s { @docs join: "\n" }
+
+  def format: format {
     """
-      Obtains the documentation for obj.
-
       If format is specified, the documentation string will be
       converted using the corresponding formatter. This allows
       you to extend Fancy documentation system, and produce
       html documents, man pages, or anything you can imagine.
     """
-    doc = obj instance_variable_get('@_fancy_documentation)
-    formatter = self formatter: format
+    formatter = Fancy Documentation formatter: format
     formatter if_false: { "No such documentation format: " ++ format . raise! }
     formatter call: [doc]
+  }
+
+  def self for: obj append: docstring {
+    """
+      Append docstring to the documentation for obj.
+      If obj has no documentation, one is created for it.
+    """
+    doc = self for: obj
+    doc if_do: {
+      doc docs << docstring
+    } else: {
+      doc  = self for: obj is: docstring
+    }
+    doc
   }
 
   def self formatter: name {
@@ -42,25 +84,31 @@ class Fancy Documentation {
 
   def self formatters {
     "Obtain the hash of known documentation formatters."
-    unless: @formatters do: { @formatters = <[ 'plain => |s| {s} ]> }
+    unless: @formatters do: { @formatters = <[]> }
     @formatters
   }
+
+  self formatter: 'fancy  is: |doc| { doc }
+  self formatter: 'string is: |doc| { doc to_s }
+
+  # TODO: implement. Plain is just like string but including spec names.
+  self formatter: 'plain  is: |doc| { doc to_s }
 
 }
 
 class Fancy Documentation BlueCloth {
 
   "A documentation formatter using ruby's BlueCloth markdown"
-  Fancy Documentation formatter: 'bluecloth is: |s| { bluecloth: s }
+  Fancy Documentation formatter: 'bluecloth is: |d| { bluecloth: d }
 
   # Register as default markdown formatter.
-  Fancy Documentation formatter: 'markdown is: |s| { bluecloth: s }
+  Fancy Documentation formatter: 'markdown is: |d| { bluecloth: d }
 
-  def self bluecloth: string {
+  def self bluecloth: doc {
     "Format string as HTML using BlueCloth ruby gem."
     require("rubygems")
     require("bluecloth")
-    BlueCloth.new(string).to_html()
+    BlueCloth.new(doc to_s).to_html()
   }
 
 }

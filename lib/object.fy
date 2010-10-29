@@ -155,7 +155,7 @@ class Object {
 
   def documentation {
     "Returns the documentation string for an Object."
-    Fancy Documentation for: self
+    Fancy Documentation for: self . to_s
   }
 
   def documentation: str {

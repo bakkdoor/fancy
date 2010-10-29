@@ -14,7 +14,7 @@ module Fancy
         if docstring
           setdoc = MessageSend.new(line,
                                    Identifier.new(line, "Fancy::Documentation"),
-                                   Identifier.new(line, "for:is:"),
+                                   Identifier.new(line, "for:append:"),
                                    MessageArgs.new(line,
                                                    Rubinius::AST::Self.new(line),
                                                    docstring))
