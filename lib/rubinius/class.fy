@@ -1,7 +1,6 @@
 class Class {
   ruby_alias: 'superclass
   ruby_alias: '===
-  ruby_alias: 'instance_method
 
   def new {
     obj = self allocate()
@@ -43,4 +42,9 @@ class Class {
   def nestes_classes {
     "Not Yet Implemented" raise!
   }
+
+  def instance_method: name {
+     self instance_method(message_name: name)
+  }
+
 }
