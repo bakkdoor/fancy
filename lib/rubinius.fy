@@ -5,6 +5,7 @@
 # NOTE:
 # Don't change the order in here, unless you know what you're doing.
 
+require: "rubinius/documentation"
 require: "rubinius/object"
 require: "rubinius/class"
 require: "rubinius/console"

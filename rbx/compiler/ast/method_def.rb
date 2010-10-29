@@ -30,12 +30,18 @@ module Fancy
         MethodDef.set_docstring(g, docstring, @line)
       end
 
+
+      # Sets fancy documentation for the object currently
+      # on top of the stack
       def self.set_docstring(g, docstring, line)
         # prevent invoking documentation: when doesnt makes sense.
         return unless docstring
-        ms = MessageSend.new(line, StackTop.new,
-                             Fancy::AST::Identifier.new(line, "documentation:"),
-                             MessageArgs.new(line, docstring))
+        local = StackLocal.new
+        local.set!(g)
+        ms = MessageSend.new(line,
+                             Fancy::AST::Identifier.new(line, "Fancy::Documentation"),
+                             Fancy::AST::Identifier.new(line, "for:is:"),
+                             MessageArgs.new(line, local, docstring))
         ms.bytecode(g)
         g.pop
       end
@@ -52,9 +58,15 @@ module Fancy
       end
     end
 
-    class StackTop
+    class StackLocal
+      def set!(g)
+        # expects value to be on top of stack
+        @local = g.new_stack_local
+        g.set_stack_local @local
+      end
+
       def bytecode(g)
-        g.dup
+        g.push_stack_local @local
       end
     end
 

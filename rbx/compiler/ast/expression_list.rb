@@ -45,7 +45,8 @@ module Fancy
       # and the first one is an string literal, it'll be used as doc.
       # This method removes the first documentation string.
       def shift_docstring
-        if expressions.first.kind_of? Rubinius::AST::StringLiteral
+        if expressions.first.kind_of?(Rubinius::AST::StringLiteral) &&
+            expressions.size > 1
           expressions.shift
         end
       end

@@ -17,8 +17,4 @@ class Class
     end
   end
 
-  define_method("documentation:") do |doc|
-    instance_variable_set(:@_fancy_documentation, doc)
-  end
-
 end

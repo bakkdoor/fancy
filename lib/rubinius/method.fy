@@ -1,29 +1,22 @@
-class Rubinius CompiledMethod {
-  def documentation {
-    @documentation
-  }
-
-  def documentation: str {
-    @documentation = str
-  }
-}
-
 class Method {
   def documentation {
-    self executable() documentation
+    Fancy Documentation for: (self executable())
   }
 
   def documentation: str {
-    self executable() documentation: str
+    Fancy Documentation for: (self executable()) is: str
   }
 }
 
 class UnboundMethod {
+
   def documentation {
-    self executable() documentation
+    Fancy Documentation for: (self executable())
   }
 
   def documentation: str {
-    self executable() documentation: str
+    Fancy Documentation for: (self executable()) is: str
   }
+
 }
+
