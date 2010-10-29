@@ -26,20 +26,23 @@ module Fancy
           define_constructor_class_method g
         end
         super(g)
-#        set_docstring(g)
+        set_docstring(g)
       end
 
       def set_docstring(g)
-        g.push_self
-        g.push_literal @name
-        g.send_stack :"method:", 1
-        docstring.bytecode(g)
-        g.send_stack :"docstring:", 1
+        ms = MessageSend.new(@line, StackTop.new,
+                             Fancy::AST::Identifier.new(@line, "documentation:"),
+                             MessageArgs.new(@line, docstring))
+        ms.bytecode(g)
         g.pop
       end
 
       def docstring
-        @body.docstring
+        if @body.expressions.first.is_a? Rubinius::AST::StringLiteral
+          @body.expressions.first
+        else
+          Rubinius::AST::NilLiteral.new(line)
+        end
       end
 
       # defines a class method names "new:foo:" if we're defining a
@@ -51,6 +54,12 @@ module Fancy
                              Identifier.new(@line, "define_constructor_class_method:"),
                              MessageArgs.new(@line, method_ident))
         ms.bytecode(g)
+      end
+    end
+
+    class StackTop
+      def bytecode(g)
+        g.dup
       end
     end
 

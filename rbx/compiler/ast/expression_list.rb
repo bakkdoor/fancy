@@ -2,6 +2,8 @@ module Fancy
   module AST
 
     class ExpressionList < Node
+      attr_reader :expressions
+
       def initialize(line, *expressions)
         super(line)
         @expressions = expressions
@@ -39,13 +41,6 @@ module Fancy
         []
       end
 
-      def docstring
-        if @expressions.first.is_a? Rubinius::AST::StringLiteral
-          @expressions.first
-        else
-          Rubinius::AST::StringLiteral.new(@line, "No docstring set")
-        end
-      end
     end
 
   end
