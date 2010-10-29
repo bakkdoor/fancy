@@ -16,4 +16,9 @@ class Class
       return obj
     end
   end
+
+  define_method("documentation:") do |doc|
+    instance_variable_set(:@_fancy_documentation, doc)
+  end
+
 end
