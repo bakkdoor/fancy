@@ -10,3 +10,16 @@ class Fancy Documentation {
 
 }
 
+class Fancy Documentation {
+
+  """
+   Keeps a registry of documentation for Fancy objects and filesjus.
+
+   Provides methods for searching and formatting objects' docstrings
+   this maybe be handy for users of interactive Fancy REPL.
+  """
+
+  self for: (method('for:is:)) is: "Sets the documentation for obj"
+  self for: (method('for:)) is: "Obtains the documentation for obj"
+
+}
