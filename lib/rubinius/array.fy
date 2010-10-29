@@ -42,6 +42,8 @@ class Array {
   }
 
   def each: block {
+    "Calls a given Block with each element in the Array."
+
     val = nil
     each |x| { val = block call: [x] }
     val
@@ -72,10 +74,14 @@ class Array {
   }
 
   def at: idx {
+    "Returns the element in the Array at a given index."
+
     ruby: '[] args: [idx]
   }
 
   def at: idx put: obj {
+    "Inserts a given object at a given index (position) in the Array."
+
     ruby: '[]= args: [idx, obj]
   }
 
@@ -158,6 +164,11 @@ class Array {
   }
 
   def select: block {
+    """
+    Returns a new Array with all the elements in self that yield a
+    true-ish value when called with the given Block.
+    """
+
     tmp = []
     each: |x| {
       block call: [x] . if_true: {
@@ -168,7 +179,10 @@ class Array {
   }
 
   def select_with_index: block {
-    "Same as select, just gets also called with an additional argument for each element's index value."
+    """
+    Same as select, just gets also called with an additional argument
+    for each element's index value.
+    """
 
     tmp = []
     each_with_index |obj idx| {
@@ -180,17 +194,26 @@ class Array {
   }
 
   def reject: block {
+    """
+    Returns a new Array with all the elements which yield nil or false
+    when called with the given Block.
+    """
+
     reject(&block)
   }
 
   def reject!: block {
+    "Same as Array#reject: but doing so in-place (destructive)."
+
     reject!(&block)
     return self
   }
 
   def sum {
-    """Calculates the sum of all the elements in the Enumerable
-      (assuming them to be Numbers (implementing '+' & '*'))."""
+    """
+    Calculates the sum of all the elements in the Enumerable
+    (assuming them to be Numbers (implementing '+' & '*')).
+    """
 
     reduce: |x y| { x + y } init_val: 0
   }
