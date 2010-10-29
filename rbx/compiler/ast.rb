@@ -1,5 +1,6 @@
 base = File.dirname(__FILE__)
 Node = Rubinius::AST::Node
+require base + '/ast/script'
 require base + '/ast/expression_list'
 require base + '/ast/message_send'
 require base + '/ast/ruby_args'

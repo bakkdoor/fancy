@@ -5,21 +5,21 @@
 VALUE m_Parser;
 
 VALUE
-parse_string(VALUE self, VALUE code, VALUE lineno) {
-  rb_funcall(m_Parser, rb_intern("push_expression_list"), 0);
+parse_string(VALUE self, VALUE code, VALUE lineno, VALUE filename) {
+  rb_funcall(m_Parser, rb_intern("push_script"), 2, lineno, filename);
   char *str = StringValueCStr(code);
   YY_BUFFER_STATE buffstate = yy_scan_string(str);
   yy_switch_to_buffer(buffstate);
   yylineno = NUM2INT(lineno);
   yyparse();
   yy_delete_buffer(buffstate);
-  VALUE expr_list = rb_funcall(m_Parser, rb_intern("pop_expression_list"), 0);
+  VALUE expr_list = rb_funcall(m_Parser, rb_intern("pop_script"), 0);
   return expr_list;
 }
 
 VALUE
 parse_file(VALUE self, VALUE filename, VALUE lineno) {
-  rb_funcall(m_Parser, rb_intern("push_expression_list"), 0);
+  rb_funcall(m_Parser, rb_intern("push_script"), 2, lineno, filename);
   char *str = StringValueCStr(filename);
   FILE *f = fopen(str, "r");
   if(!f) {
@@ -31,7 +31,7 @@ parse_file(VALUE self, VALUE filename, VALUE lineno) {
   yylineno = NUM2INT(lineno);
   yyparse();
   yy_delete_buffer(buffstate);
-  VALUE expr_list = rb_funcall(m_Parser, rb_intern("pop_expression_list"), 0);
+  VALUE expr_list = rb_funcall(m_Parser, rb_intern("pop_script"), 0);
   return expr_list;
 }
 

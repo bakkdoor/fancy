@@ -52,7 +52,7 @@ module Rubinius
       end
 
       def run
-        ast = Fancy::Parser.parse_string(@input, @line)
+        ast = Fancy::Parser.parse_string(@input, @line, @filename)
         @output = @root.new ast
         @output.file = @filename
         run_next

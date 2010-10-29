@@ -14,22 +14,18 @@ module Fancy
 
     extend self
 
-    @expr_stack = []
+    @script_stack = []
 
-    def push_expression_list(line = 1)
-      @expr_stack.push expr_list(line)
+    def push_script(line, filename)
+      @script_stack.push Fancy::AST::Script.new(line, filename)
     end
 
-    def current_expression_list
-      @expr_stack[-1]
+    def pop_script
+      @script_stack.pop
     end
 
-    def pop_expression_list
-      @expr_stack.pop
-    end
-
-    def add_expr(expr)
-      current_expression_list.add_expression expr
+    def set_script_body(expr)
+      @script_stack.last.body = expr
     end
 
     def string_literal(line, yytext)

@@ -146,7 +146,7 @@ extern VALUE m_Parser;
 
 programm:       /*empty*/
                 | expression_list {
-                  rb_funcall(m_Parser, rb_intern("add_expr"), 1, $1);
+                  rb_funcall(m_Parser, rb_intern("set_script_body"), 1, $1);
                 }
                 ;
 
