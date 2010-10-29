@@ -43,3 +43,6 @@ Fancy Documentation for: foo is: """
 """
 
 Fancy Documentation for: foo . println
+
+Math PI documentation: "An aproximation of the PI number"
+Math PI documentation println

@@ -10,9 +10,3 @@ class Fancy Documentation {
 
 }
 
-class Rubinius CompiledMethod {
-  def documentation {
-    Fancy Documentation for: self
-  }
-}
-

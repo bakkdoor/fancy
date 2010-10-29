@@ -155,11 +155,11 @@ class Object {
 
   def documentation {
     "Returns the documentation string for an Object."
-    @documentation
+    Fancy Documentation for: self
   }
 
   def documentation: str {
     "Sets the documentation string for an Object."
-    @documentation = str
+    Fancy Documentation for: self is: str
   }
 }

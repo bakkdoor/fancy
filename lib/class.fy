@@ -65,11 +65,4 @@ class Class {
     define_method: new_method_name with: (self method: old_method_name)
   }
 
-  def documentation: str {
-     @_fancy_documentation = str
-  }
-
-  def documentation {
-     @_fancy_documentation
-  }
 }

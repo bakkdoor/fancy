@@ -23,11 +23,4 @@ class Block {
   #   call(*args)
   # }
 
-  def documentation {
-    Fancy Documentation for: self
-  }
-
-  def documentation: doc {
-    Fancy Documentation for: self is: doc
-  }
 }
