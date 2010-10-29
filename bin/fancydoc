@@ -6,10 +6,10 @@ ARGV[1] if_do: |ident| {
     parts = (ident split: "#");
     obj = (parts[0]) eval;
     method = obj method: (parts[1]);
-    method docstring println
+    method documentation println
   } else: {
     obj = ident eval;
-    obj docstring println
+    obj documentation println
   }
 } else: {
   ["Prints the documentation string for a given object or one if its methods",

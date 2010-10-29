@@ -152,4 +152,14 @@ class Object {
 
     method(method_name)
   }
+
+  def documentation {
+    "Returns the documentation string for an Object."
+    @documentation
+  }
+
+  def documentation: str {
+    "Sets the documentation string for an Object."
+    @documentation = str
+  }
 }

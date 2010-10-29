@@ -8,9 +8,7 @@ class Rubinius CompiledMethod {
   }
 }
 
-
 class Method {
-
   def documentation {
     self executable() documentation
   }
@@ -18,11 +16,9 @@ class Method {
   def documentation: str {
     self executable() documentation: str
   }
-
 }
 
 class UnboundMethod {
-
   def documentation {
     self executable() documentation
   }
@@ -30,5 +26,4 @@ class UnboundMethod {
   def documentation: str {
     self executable() documentation: str
   }
-
 }
