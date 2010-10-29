@@ -34,7 +34,7 @@ class String {
     "Returns a string that is the num-fold concatenation of itself."
 
     str = ""
-    num times: {
+    num to_i times: {
       str = str ++ self
     }
     str
