@@ -28,3 +28,10 @@ foo method: 'bar: . documentation println
 Foo instance_method: 'foo: . documentation println
 
 Foo documentation println
+
+block = |a, b| {
+  "A block can also have a documentation string, just like methods"
+  a + b
+}
+
+block documentation println

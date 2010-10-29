@@ -22,4 +22,12 @@ class Block {
   # def call: args{
   #   call(*args)
   # }
+
+  def documentation {
+    Fancy Documentation for: self
+  }
+
+  def documentation: doc {
+    Fancy Documentation for: self is: doc
+  }
 }

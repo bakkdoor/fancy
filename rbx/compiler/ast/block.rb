@@ -15,6 +15,12 @@ module Fancy
         end
         @arguments.required_args = args.required_args
       end
+
+      def bytecode(g)
+        docstring = body.shift_docstring
+        super(g)
+        MethodDef.set_docstring(g, docstring, line)
+      end
     end
 
     class BlockArgs < Node
