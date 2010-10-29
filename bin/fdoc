@@ -1,0 +1,15 @@
+#!/usr/bin/env rbx
+# -*- ruby -*-
+
+# fdoc is a documentation generator for fancy.
+# This is a ruby script because we need to setup a hook
+# BEFORE any fancy code is loaded. So we can create
+# documentation for Fancy's builtin objects as well.
+# See fdoc.
+base = File.expand_path("../rbx", File.dirname(__FILE__))
+require File.expand_path("parser/parser", base)
+require File.expand_path("compiler", base)
+require File.expand_path("loader", base)
+
+require File.expand_path("../rbx/eval", base)
+Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/fdoc.fyc", base)

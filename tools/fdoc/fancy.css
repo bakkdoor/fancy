@@ -1,0 +1,24 @@
+.sidebar {
+    float: left;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overlay: auto;
+    width: 15em;
+}
+.sidebar .selectable:hover {
+    background-color: #D0D0D0;
+}
+.sidebar .even {
+
+}
+.sidebar .odd {
+    background-color: #EDF3FE;
+}
+.main {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+

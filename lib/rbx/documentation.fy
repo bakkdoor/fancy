@@ -4,6 +4,18 @@ class Fancy Documentation {
     @docs = [docstring]
   }
 
+  # A list of handlers that would like to get adviced when
+  # an object has been set documentation.
+  @on_documentation_set = []
+
+  def self on_documentation_set: block {
+    @on_documentation_set.unshift(block)
+  }
+
+  def self documentation_for: obj set_to: doc {
+    @on_documentation_set.each |block| { block call: [obj, doc] }
+  }
+
   def self for: obj is: docstring {
     # Create a Fancy::Documentation instance.
     # Note. As we're bootstrapping, we cannot
@@ -15,6 +27,9 @@ class Fancy Documentation {
     doc = self allocate()
     doc send('initialize:, docstring to_s)
     obj instance_variable_set('@_fancy_documentation, doc)
+
+    self documentation_for: obj set_to: doc
+    doc
   }
 
   self for: (instance_method('initialize:)) is: "Create a new documentation object."

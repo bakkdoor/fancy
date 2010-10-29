@@ -50,3 +50,4 @@ rbx/parser/parser.c
 rbx/parser/parser.h
 rbx/parser/parser.output
 publish.fy
+tools/fdoc/fancy.jsonp
