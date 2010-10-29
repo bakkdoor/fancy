@@ -1,8 +1,8 @@
 class Console {
-  "Console class. Used for stdio."
+  "Console class. Used for STDIO."
 
   def Console newline {
-    "Prints a newline to stdout."
+    "Prints a newline to STDOUT."
 
     STDOUT puts()
   }
@@ -20,7 +20,7 @@ class Console {
   }
 
   def Console readln: message {
-    "Prints a given message to stdout, followed by reading a line from stdin."
+    "Prints a given message to STDOUT, followed by reading a line from STDIN."
 
     Console print: message
     STDIN eof? if_true: {
