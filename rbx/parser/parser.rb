@@ -316,8 +316,8 @@ module Fancy
       match_clauses.push(match_clause)
     end
 
-    def match_clause(line, match_expr, val_expr)
-      Fancy::AST::MatchClause.new(line, match_expr, val_expr)
+    def match_clause(line, match_expr, val_expr, match_arg=nil)
+      Fancy::AST::MatchClause.new(line, match_expr, val_expr, match_arg)
     end
   end
 

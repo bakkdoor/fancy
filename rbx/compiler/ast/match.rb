@@ -26,6 +26,14 @@ module Fancy
           c.match_expr.bytecode(g)
           g.swap
           g.send :":===", 1
+
+          # if match_arg is given, get a localvar slot and set the
+          # result of the === call to it
+          if c.match_arg
+            slot = g.state.scope.allocate_slot
+            g.set_local slot
+          end
+
           g.git clause_labels[i]
         end
         g.pop
@@ -44,14 +52,15 @@ module Fancy
     end
 
     class MatchClause < Node
-      attr_reader :match_expr, :val_expr
-      def initialize(line, match_expr, val_expr)
+      attr_reader :match_expr, :val_expr, :match_arg
+      def initialize(line, match_expr, val_expr, match_arg)
         super(line)
         if match_expr.kind_of?(Fancy::AST::Identifier) && match_expr.identifier == "_"
           match_expr = Fancy::AST::Identifier.new(match_expr.line, "Object")
         end
         @match_expr = match_expr
         @val_expr = val_expr
+        @match_arg = match_arg
       end
     end
 
