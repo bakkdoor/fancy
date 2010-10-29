@@ -16,15 +16,18 @@ fancy_bin = file _["bin/fancy"] => src_files do
   task(:compile).invoke
 end
 
-fy_files = Dir.glob(_["lib/**/*.fy"]).map { |fy| file fy }
-fyc_files = fy_files.map do |task|
-  file "#{task.to_s}c" => [task, fancy_bin] do
-    sh 'rbx', _["rbx/compiler.rb"], task.to_s
-  end
-end
+# fy_files = Dir.glob(_["lib/**/*.fy"]).map { |fy| file fy }
+# fyc_files = fy_files.join(" ")#  do |task|
+#   file "#{task.to_s}c" => [task, fancy_bin] do
+#     sh 'rbx', _["rbx/compiler.rb"], task.to_s
+#   end
+# end
+
 
 desc "Compiles the fancy std lib."
-task :bootstrap => fyc_files
+task :bootstrap => [fancy_bin] do
+  sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["lib/**/*.fy"])
+end
 
 desc "Runs the test suite."
 task :test do
