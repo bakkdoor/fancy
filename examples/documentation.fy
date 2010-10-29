@@ -13,8 +13,18 @@ class Foo {
 
 }
 
-Foo new method: 'foo:bar: . documentation println
-Foo new method: 'foo: . documentation println
+foo = Foo new
+
+foo method: 'foo:bar: . documentation println
+foo method: 'foo: . documentation println
+
+def foo bar: n {
+   "A singleton method"
+   n println
+}
+
+foo method: 'bar: . documentation println
+
 Foo instance_method: 'foo: . documentation println
 
 Foo documentation println

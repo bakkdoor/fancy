@@ -18,6 +18,23 @@ module Fancy
         @arguments = args
         @body = body
       end
+
+      def bytecode(g, recv)
+        super(g, recv)
+        ms = MessageSend.new(@line, StackTop.new,
+                             Fancy::AST::Identifier.new(@line, "documentation:"),
+                             MessageArgs.new(@line, docstring))
+        ms.bytecode(g)
+        g.pop
+      end
+
+      def docstring
+        if @body.expressions.first.is_a? Rubinius::AST::StringLiteral
+          @body.expressions.first
+        else
+          Rubinius::AST::NilLiteral.new(line)
+        end
+      end
     end
 
   end
