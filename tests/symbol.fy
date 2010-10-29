@@ -10,8 +10,8 @@ FancySpec describe: Symbol with: {
       should == [2,4]
   }
 
-  # it: "should evaluate itself within the current scope" when: {
-  #   x = 10
-  #   'x eval should == x
-  # }
+  it: "should evaluate itself within the current scope" when: {
+    x = 10
+    'x eval should == x
+  }
 }
