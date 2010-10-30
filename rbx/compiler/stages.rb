@@ -1,7 +1,6 @@
 #
 # Stages for compiling Fancy to Rubinius bytecode.
 #
-require 'forwardable'
 
 module Rubinius
   class Compiler
