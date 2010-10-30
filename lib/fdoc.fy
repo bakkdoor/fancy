@@ -41,12 +41,10 @@ class Fancy FDoc {
     json = JSON new: @documented_objects
     json write: "tools/fdoc/fancy.jsonp"
 
-    notice = ["Open your browser at tools/fdoc/fancy.html."]
-    notice << $ " (" ++ (json classes size) ++ ") classes. "
-    notice << $ " (" ++ (json methods size) ++ ") methods. "
-    notice << $ " (" ++ (json objects size) ++ ") other objects. "
-
-    notice join("\n") println
+    ["Open your browser at tools/fdoc/fancy.html.",
+     " (" ++ (json classes size) ++ ") classes. ",
+     " (" ++ (json methods size) ++ ") methods. ",
+     " (" ++ (json objects size) ++ ") other objects. "] println
   }
 
 
@@ -57,15 +55,15 @@ class Fancy FDoc {
     def initialize: documented {
       @documented_objects = documented
 
-      is_class = |o| { o.kind_of?(Module) }
-      is_method = |o| { o.kind_of?(Rubinius::CompiledMethod) }
+      is_class = |o| { o kind_of?: Module }
+      is_method = |o| { o kind_of?: Rubinius::CompiledMethod }
       all_other = |o| {
         [is_class, is_method] all? |b| { b call: [o] == false }
       }
 
-      @classes = @documented_objects keys select(&is_class)
-      @methods = @documented_objects keys select(&is_method)
-      @objects = @documented_objects keys select(&all_other)
+      @classes = @documented_objects keys select: is_class
+      @methods = @documented_objects keys select: is_method
+      @objects = @documented_objects keys select: all_other
     }
 
     def string_to_json: obj { obj to_s inspect }
