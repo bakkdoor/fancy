@@ -12,7 +12,6 @@
 #
 # This program is indended to be run using rbx.
 
-require 'compiler'
 base = File.dirname(__FILE__)
 require base + '/compiler/compiler'
 require base + '/compiler/stages'
