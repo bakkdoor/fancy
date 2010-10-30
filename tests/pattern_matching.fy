@@ -31,4 +31,13 @@ FancySpec describe: "Pattern Matching" with: {
 
     local_of_case should == nil
   }
+
+  it: "should only bind locals of the match clause to the scope of the match case" when: {
+    match "foobarbaz" -> {
+      case r{foo([a-z]+)baz} -> |local_of_case|
+        local1 = "Hi, I am some local, that should be gone after this block."
+    }
+
+    local1 should == nil
+  }
 }
