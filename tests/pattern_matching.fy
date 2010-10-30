@@ -22,4 +22,13 @@ FancySpec describe: "Pattern Matching" with: {
         matcher[1] should == "bar"
     }
   }
+
+  it: "should only bind given match arg to the scope of the match case" when: {
+    match "foobarbaz" -> {
+      case r{foo([a-z]+)baz} -> |local_of_case|
+        local_of_case == nil . should == false
+    }
+
+    local_of_case should == nil
+  }
 }
