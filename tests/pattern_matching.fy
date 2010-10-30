@@ -14,4 +14,12 @@ FancySpec describe: "Pattern Matching" with: {
     do_match: Object . should == 'anything
     do_match: 32.32 . should == 'anything
   }
+
+  it: "should bind a given match arg, if present, to the result of the match operation" when: {
+    match "foobarbaz" -> {
+      case r{foo([a-z]+)baz} -> |matcher|
+        local1, local2, local3 = 'ignore, 'this_too, 'this_also
+        matcher[1] should == "bar"
+    }
+  }
 }

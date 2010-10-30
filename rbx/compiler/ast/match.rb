@@ -30,8 +30,8 @@ module Fancy
           # if match_arg is given, get a localvar slot and set the
           # result of the === call to it
           if c.match_arg
-            slot = g.state.scope.allocate_slot
-            g.set_local slot
+            var = g.state.scope.new_local c.match_arg
+            g.set_local var.slot
           end
 
           g.git clause_labels[i]
@@ -60,7 +60,11 @@ module Fancy
         end
         @match_expr = match_expr
         @val_expr = val_expr
-        @match_arg = match_arg
+
+        if match_arg
+          # use name so we get the identifier as a symbol
+          @match_arg = match_arg.name
+        end
       end
     end
 
