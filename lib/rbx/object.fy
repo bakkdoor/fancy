@@ -94,7 +94,12 @@ class Object {
 
   def is_a?: class {
     "Indicates, if an object is an instance of a given Class."
-    self is_a?(class)
+    is_a?(class)
+  }
+
+  def kind_of?: class {
+    "Indicates, if an object is an instance of a given Class."
+    kind_of?(class)
   }
 
   def send: message {
