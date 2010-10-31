@@ -29,7 +29,12 @@ module Fancy
     end
 
     def string_literal(line, yytext)
-      str = yytext[1..-2] # omit the starting and ending dquotes
+      str = yytext[1..-2] # omit the starting and ending quotes
+      Fancy::AST::StringLiteral.new(line, str)
+    end
+
+    def multiline_string_literal(line, yytext)
+      str = yytext[3..-4] # omit the starting and ending triple-quotes
       Fancy::AST::StringLiteral.new(line, str)
     end
 

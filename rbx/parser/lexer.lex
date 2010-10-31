@@ -23,7 +23,7 @@ hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+
 oct_lit         0[oO]{octdigit}+
 string_lit      \"[^\"\n]*\"
-doc_string      \"\"\"[^\"]*\"\"\"
+multiline_string \"\"\"[^\"]*\"\"\"
 lparen          \(
 rparen          \)
 lcurly          "{"
@@ -93,9 +93,9 @@ comment         #[^\n]*
                   yylval.object = rb_str_new2(yytext);
                   return STRING_LITERAL;
                 }
-{doc_string}	{
+{multiline_string} {
                   yylval.object = rb_str_new2(yytext);
-                  return STRING_LITERAL;
+                  return MULTI_STRING_LITERAL;
                 }
 {lparen}        { return LPAREN; }
 {rparen}        { return RPAREN; }

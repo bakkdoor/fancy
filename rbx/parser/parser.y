@@ -61,6 +61,7 @@ extern VALUE m_Parser;
 %token                  BIN_LITERAL
 %token                  DOUBLE_LITERAL
 %token                  STRING_LITERAL
+%token                  MULTI_STRING_LITERAL
 %token                  SYMBOL_LITERAL
 %token                  REGEX_LITERAL
 %token                  OPERATOR
@@ -522,6 +523,9 @@ double_literal: DOUBLE_LITERAL {
                 ;
 string_literal: STRING_LITERAL {
                   $$ = fy_terminal_node("string_literal");
+                }
+                | MULTI_STRING_LITERAL {
+                  $$ = fy_terminal_node("multiline_string_literal");
                 }
                 ;
 symbol_literal: SYMBOL_LITERAL {
