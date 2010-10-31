@@ -3,6 +3,8 @@
 # Works as follows:
 #
 #  1. We setup a handler to be invoked every time an object is set documentation
+#     See fdoc_hook.fy, its loaded even before all of lib/rbx/*.fy so we can
+#     Also have documentation for all fancy rubinius.
 #  2. We load boot.fy, so we get documentation for all fancy's lib.
 #  3. We run FDoc main
 #     which can possibly load any file/directory you specify and optionally
@@ -10,16 +12,6 @@
 #  4. Generate output file.
 #     Currently the plan is to output a json formatted object.
 #     To be loaded by an html file and use jquery to build a GUI from it.
-
-class Fancy FDoc {
-  # A hash to keep all objects to extract documentation from.
-  # Having this hash only for FDoc is fine IMHO. As we dont need
-  # to use ObjectSpace or anything like that. Just to produce docs.
-  @documented_objects = <[]>
-  Fancy Documentation on_documentation_set: |object, documentation| {
-    @documented_objects at: object put: documentation
-  }
-}
 
 # Load all of fancy.
 require: "boot"
@@ -107,7 +99,7 @@ class Fancy FDoc {
 
       @classes each: |cls| {
         attr = <[
-          'doc => cls documentation,
+          'doc => Fancy Documentation for: cls . format: 'markdown,
           'instance_methods => cls instance_methods(false),
           'singleton_methods => cls methods(false)
         ]>

@@ -9,7 +9,13 @@
 base = File.expand_path("../rbx", File.dirname(__FILE__))
 require File.expand_path("parser/parser", base)
 require File.expand_path("compiler", base)
-require File.expand_path("loader", base)
-
+require File.expand_path("fancy_code_loader", base)
+require File.expand_path("fancy_ext", base)
 require File.expand_path("../rbx/eval", base)
+
+Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/rbx/documentation.fyc", base)
+Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/fdoc_hook.fyc", base)
+
+Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/rbx.fyc", base)
+
 Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/fdoc.fyc", base)

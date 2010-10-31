@@ -55,7 +55,7 @@ class Fancy Documentation {
     """
     formatter = Fancy Documentation formatter: format
     formatter if_false: { "No such documentation format: " ++ format . raise! }
-    formatter call: [doc]
+    formatter call: [self]
   }
 
   def self for: obj append: docstring {
@@ -91,7 +91,7 @@ class Fancy Documentation {
   self formatter: 'fancy  is: |doc| { doc }
   self formatter: 'string is: |doc| { doc to_s }
 
-  # TODO: implement. Plain is just like string but including spec names.
+  # TODO: implement. Plain is just liinke string but including spec names.
   self formatter: 'plain  is: |doc| { doc to_s }
 
 }

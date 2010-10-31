@@ -32,6 +32,8 @@
     populateClasses();
     $(".sidebar div :even").addClass("even");
     $(".sidebar div :odd").addClass("odd");
+
+    $('.sidebar .theme-roller').themeswitcher();
   }
 
   $(main);
