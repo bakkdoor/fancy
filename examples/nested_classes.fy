@@ -1,3 +1,6 @@
+# nested_classes.fy
+# Example of nested classes in fancy
+
 class Outer {
   class Inner {
     def to_s {
@@ -22,4 +25,3 @@ class Outer InnerTwo {
 
 i = Outer InnerTwo new
 i println
-

@@ -1,3 +1,6 @@
+# methods.fy
+# Examples of methods definitions, and method overriding in fancy
+
 class Foo {
   def bar {
     Console println: "version 1"

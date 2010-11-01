@@ -1,3 +1,4 @@
+# armstrong_numbers.fy
 # Calculates & outputs all Armstrong Numbers between 0 and 10000.
 # See http://en.wikipedia.org/wiki/Narcissistic_number for more
 # information.

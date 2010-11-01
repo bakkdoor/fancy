@@ -1,3 +1,6 @@
+# ruby_file.rb
+# TODO: Add a meaningful header to this example
+
 puts "hello, from ruby =)"
 
 class RubyClass

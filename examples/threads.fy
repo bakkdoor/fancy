@@ -1,3 +1,6 @@
+# threads.fy
+# Example of threads in fancy
+
 require: "thread"
 
 threads = []

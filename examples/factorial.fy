@@ -1,3 +1,6 @@
+# factorial.fy
+# Example of factorial
+
 class Fixnum {
   def factorial {
     1 upto: self . product

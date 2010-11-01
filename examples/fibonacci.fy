@@ -1,3 +1,6 @@
+# fibonacci.fy
+# Example of fibonacci numbers
+
 class Fixnum {
   def fib {
     self == 0 if_true: {

@@ -1,6 +1,5 @@
-# simple html generator example
-# this isn't to be taken very seriously but it shows some syntax &
-# features of Fancy :)
+# html_generator.fy
+# Simple HTML generator written in fancy
 
 class String {
   def but_last {

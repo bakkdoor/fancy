@@ -1,3 +1,6 @@
+# metadata.fy
+# Examples of fancy's built-in object metadata facilities
+
 { Directory create: "tmp/" } unless: $ Directory exists?: "tmp/"
 
 # let's create an object with metadata attached to it

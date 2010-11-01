@@ -1,3 +1,6 @@
+# files.fy
+# File handling examples
+
 {
   Directory create: "tmp/"
 } unless: $ Directory exists?: "tmp/"

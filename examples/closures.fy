@@ -1,3 +1,6 @@
+# closure.fy
+# Example of closures in fancy
+
 # method that returns a closure
 def create_counter: number {
   closure = {
