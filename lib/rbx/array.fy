@@ -5,6 +5,7 @@ class Array {
   ruby_alias: 'size
   ruby_alias: 'reverse
   ruby_alias: 'reverse!
+  ruby_alias: 'sort
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
