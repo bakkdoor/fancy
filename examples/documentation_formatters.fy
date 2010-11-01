@@ -1,3 +1,6 @@
+# documentation_formatters.fy
+# Example of fancy's documentation formatters
+
 foo = Object new
 
 Fancy Documentation for: foo is: """

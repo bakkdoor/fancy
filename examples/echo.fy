@@ -1,4 +1,5 @@
-# echo.fnc - outputs contents of files.
+# echo.fy
+# Outputs contents of files
 
 ARGV[1] if_do: |filename| {
  try {
@@ -11,5 +12,5 @@ ARGV[1] if_do: |filename| {
     "[ERROR] " ++ (e message) println
   }
 } else: {
-  "Usage: fancy echo.fnc [filename]" println
+  "Usage: fancy echo.fy [filename]" println
 }

@@ -1,3 +1,6 @@
+# numbers.fy
+# Examples of fancy's number objects
+
 -10 abs println # prints: 10
 10 abs println # prints: 10
 0 abs println # prints: 0

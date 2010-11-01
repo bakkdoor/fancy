@@ -1,3 +1,6 @@
+# class.fy
+# Example of fancy's classes mechanism
+
 class Bar {
   def initialize {
     Console println: "In Bar constructor!"

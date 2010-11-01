@@ -1,4 +1,5 @@
-# some boolean expressions & logicial operations
+# boolean.fy
+# Example of boolean expressions and logical operations in fancy
 
 true and: true . println # true
 true and: nil . println # nil

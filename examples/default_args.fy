@@ -1,3 +1,6 @@
+# default_args.fy
+# Example of fancy's default arguments
+
 def arg1: arg1 arg2: arg2 = "default_arg2", arg3: arg3 = "default_arg3" {
   "arguments are: " println
   arg1 println

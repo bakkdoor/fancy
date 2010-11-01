@@ -1,3 +1,6 @@
+# pattern_matching.fy
+# Examples of pattern matching facilities in fancy
+
 class PatternMatching {
   def match_it: obj {
     match obj -> {

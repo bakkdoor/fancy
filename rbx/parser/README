@@ -1,6 +1,6 @@
 This directory contains all the code that deals with parsing Fancy
 source files (.fy) and creating an object-oriented representation (a
-so-called AST - Sbstract Syntax Tree) from it to be used in the
+so-called AST - Abstract Syntax Tree) from it to be used in the
 compiler for further processing (mostly to .fyc bytecode files).
 
 The parser.y file contains the grammar rules in GNU Bison (YACC

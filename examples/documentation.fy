@@ -1,3 +1,6 @@
+# documentation.fy
+# Example about fancys built-in documentation facilities
+
 class Foo {
 
   """
