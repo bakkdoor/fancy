@@ -11,7 +11,7 @@
 FancySpec describe: "rbx/examples" with: {
   def example: file should_output: expected {
     it: file when: {
-      out = System pipe: ("bin/fancy rbx/examples/" ++ file ++ ".fy")
+      out = System piperead: ("bin/fancy rbx/examples/" ++ file ++ ".fy")
       out should == expected
     }
   }
