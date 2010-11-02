@@ -3,6 +3,16 @@ require("open-uri")
 
 class Fancy Package {
   class Installer {
+    """
+
+    Fancy Package installer.
+
+    Downloads packages from Github (usually the latest tagged version,
+    if no version is specified, or the latest HEAD revision in the
+    master branch) and install it to the FANCY_PACKAGE_DIR.
+
+    """
+
     DEFAULT_FANCY_ROOT = ENV["HOME"] ++ "/.fancy"
     DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages"
     DEFAULT_PACKAGES_LIB_PATH = DEFAULT_PACKAGES_PATH ++ "/lib"

@@ -3,6 +3,7 @@ require: "package/uninstaller"
 
 class Fancy Package {
   """
+
   The Fancy Package System.
 
   This class is used for installing and uninstalling fancy packages on
@@ -17,6 +18,7 @@ class Fancy Package {
 
   You can then load the package in your source file via
       require: \"mongo.fy\"
+
   """
 
   ENV_PACKAGE_DIR_VAR = "FANCY_PACKAGE_DIR"
