@@ -24,6 +24,13 @@ class Fancy Package {
   ENV_PACKAGE_DIR_VAR = "FANCY_PACKAGE_DIR"
 
   def self install: package_name {
+    """
+    Installs a package with a given name.
+    Expects package_name to be a string in the form of:
+        user/repo
+    Which would get the package code from github.com/user/repo
+    """
+
     Installer new: package_name . run
   }
 
