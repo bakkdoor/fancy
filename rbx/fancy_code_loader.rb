@@ -3,6 +3,9 @@ require File.dirname(__FILE__) + "/compiler/command"
 
 module Fancy
   class CodeLoader
+    SOURCE_FILE_EXTENSION = "fy"
+    COMPILED_FILE_EXTENSION = "fyc"
+
     @@load_path = []
     @@compiled = {}
     @@loaded = {}
@@ -22,20 +25,19 @@ module Fancy
     # Might append a ".fy" extension, if it's missing for the given
     # filename.
     def self.find_file(filename)
+      filename_with_ext = filename + ".#{SOURCE_FILE_EXTENSION}"
       unless File.exists? filename
-        if File.exists?(filename + ".fy")
-          return filename + ".fy"
-        end
+        return filename_with_ext if File.exists? filename_with_ext
       else
         return filename
       end
-      return nil
+      nil
     end
 
     # Finds a file in a given path and returns the filename including
     # the path.
     def self.find_file_in_path(file, path)
-      return find_file(path + "/" + file)
+      find_file(path + "/" + file)
     end
 
     # Tries to find a file with a given name in the LOADPATH array
@@ -64,9 +66,9 @@ module Fancy
     # Returns the source filename for a given filename.
     # E.g. "foo.fyc" => "foo.fy"
     def self.source_filename_for(filename)
-      if filename =~ /.compiled.fyc$/
+      if filename =~ /.compiled.#{COMPILED_FILE_EXTENSION}$/
         return filename[0..-14]
-      elsif filename =~ /.fyc$/
+      elsif filename =~ /.#{COMPILED_FILE_EXTENSION}$/
         return filename[0..-2]
       end
       filename
@@ -75,13 +77,13 @@ module Fancy
     # Returns the compiled filename for a given filename.
     # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.rbc"
     def self.compiled_filename_for(filename)
-      if filename =~ /.fyc$/
+      if filename =~ /.#{COMPILED_FILE_EXTENSION}$/
         return filename
       end
-      if filename =~ /\.fy$/
+      if filename =~ /\.#{SOURCE_FILE_EXTENSION}$/
         return filename + "c"
       else
-        return (filename + ".compiled.fyc")
+        return filename + ".compiled.#{COMPILED_FILE_EXTENSION}"
       end
     end
 
@@ -99,14 +101,13 @@ module Fancy
           @@compiled[filename] = true
         end
       end
-      return compiled_file
+      compiled_file
     end
 
     # Loads a compiled fancy bytecode file.
     # If +find_file+ is set to false, it will just use the given
     # filename without looking up the file in the LOADPATH.
     def self.load_compiled_file(filename, find_file = true)
-      file = filename
       if find_file
         filename = filename_for(filename)
         file = compiled_filename_for(filename)
