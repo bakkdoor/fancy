@@ -16,7 +16,7 @@ class Fancy Package {
   branch) revision.
 
   You can then load the package in your source file via
-      require: ''mongo.fy''
+      require: \"mongo.fy\"
   """
 
   ENV_PACKAGE_DIR_VAR = "FANCY_PACKAGE_DIR"
