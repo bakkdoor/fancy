@@ -31,6 +31,8 @@ require: "argv"
 
 require: "documentation"
 
+require: "package.fy"
+
 # rbx.fy loads all the files in lib/rbx/ in the correct order, which
 # define all the functionality to let fancy run on rbx.
 # also, they might override functionality defined in lib/ to reuse
