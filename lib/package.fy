@@ -2,6 +2,22 @@ require: "package/installer"
 require: "package/uninstaller"
 
 class Fancy Package {
+  """
+  The Fancy Package System.
+
+  This class is used for installing and uninstalling fancy packages on
+  the system.
+
+  Example:
+      $ fancy install bakkdoor/mongo.fy
+
+  Will install the mongo.fy package from http://github.com/bakkdoor/mongo.fy
+  in the latest released version or get the current HEAD (master
+  branch) revision.
+
+  You can then load the package in your source file via
+      require: ''mongo.fy''
+  """
 
   ENV_PACKAGE_DIR_VAR = "FANCY_PACKAGE_DIR"
 
