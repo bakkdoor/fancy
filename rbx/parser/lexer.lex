@@ -22,8 +22,8 @@ double_lit      {int_lit}\.{digit}+
 hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+
 oct_lit         0[oO]{octdigit}+
-string_lit      \"[^\"\n]*\"
-multiline_string \"\"\"[^\"]*\"\"\"
+string_lit      L?\"(\\.|[^\\"])*\"
+multiline_string L?\"\"\"(\\.|[^\\"])*\"\"\"
 lparen          \(
 rparen          \)
 lcurly          "{"
