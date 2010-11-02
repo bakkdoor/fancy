@@ -3,8 +3,9 @@ require("open-uri")
 
 class Fancy Package {
   class Installer {
-    DEFAULT_FANCY_ROOT = ENV["HOME"] ++ "/.fancy/"
-    DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages/"
+    DEFAULT_FANCY_ROOT = ENV["HOME"] ++ "/.fancy"
+    DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages"
+    DEFAULT_PACKAGES_LIB_PATH = DEFAULT_PACKAGES_PATH ++ "/lib"
 
     def initialize: @package_name version: @version = "latest", install_path: @install_path = ENV["FANCY_PACKAGE_DIR"] {
       splitted = @package_name split: "/"
@@ -15,10 +16,11 @@ class Fancy Package {
         @install_path = DEFAULT_PACKAGES_PATH
         Directory create!: DEFAULT_FANCY_ROOT
         Directory create!: DEFAULT_PACKAGES_PATH
-        Directory create!: $ DEFAULT_PACKAGES_PATH ++ "/downloads/"
+        Directory create!: DEFAULT_PACKAGES_LIB_PATH
+        Directory create!: $ DEFAULT_PACKAGES_PATH ++ "/downloads"
       }
 
-      @download_path = @install_path ++ "/downloads/"
+      @download_path = @install_path ++ "/downloads"
     }
 
     def run {

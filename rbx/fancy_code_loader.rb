@@ -8,6 +8,10 @@ module Fancy
     @@loaded = {}
     @@current_dir = []
 
+    def self.push_loadpath path
+      @@load_path << path unless @@load_path.include? path
+    end
+
     # Throws an exception for a given filename that wasn't found and
     # thus could not be loaded.
     def self.load_error(filename)
@@ -116,7 +120,7 @@ module Fancy
         end
 
         dirname = File.dirname(file)
-        @@load_path << dirname unless @@load_path.include? dirname
+        push_loadpath dirname
         @@current_dir.push dirname
         @@loaded[file] = true
 
