@@ -6,11 +6,9 @@
     overlay: auto;
     width: 15em;
 }
-.sidebar .selectable:hover {
+.selectable:hover {
     background-color: #D0D0D0;
-}
-.sidebar .even {
-
+    cursor: pointer;
 }
 .sidebar .odd {
     background-color: #EDF3FE;
@@ -26,4 +24,7 @@
     border: 0;
 }
 
-
+.class-index .instance-methods div {
+    display: inline;
+    margin-left: 0.5em;
+}

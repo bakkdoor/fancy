@@ -19,11 +19,25 @@
 
     $(".classes .selectable").live("click", function(event) {
       event.preventDefault();
-      var selected_class = $(this).text();
-      $(".subject").text(selected_class)
-      $(".content").html(docs.classes[selected_class].doc)
-    })
-  }
+      var class_name = $(this).text();
+      var class = docs.classes[class_name];
+      $(".subject").text(class_name);
+      $(".content").html(class.doc);
+      $(".class-index .instance-methods").html("");
+      var fancyName = function(n) { return n[0] == ":" ? n.substring(1) : n };
+      var firstLetter = function(n){ return n[0] == ":" ? n[1] : n[0]; };
+      var index = _.uniq(_(class.instance_methods).map(firstLetter).sort(), true);
+      $.each(index, function(i, letter) {
+        $("<div>").text(letter).addClass("selectable").
+          appendTo(".class-index .instance-methods");
+      });
+      $(".instance-methods :even").addClass('even');
+      $(".instance-methods :odd").addClass('odd');
+      $.each(class.instance_methods, function(i, name) {
+        console.debug(name);
+      });
+    });
+  };
 
 
   /* the main function */
