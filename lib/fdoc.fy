@@ -29,12 +29,17 @@ class Fancy FDoc {
      any specified FancySpec, and later produce documentation output.
     """
 
+    output_dir = OUTPUT_DIR
+    ARGV for_option: "-o" do: |d| { output_dir = d }
+    require("fileutils")
+    FileUtils mkdir_p(output_dir)
+
     # Currently we just load any files given on ARGV.
     ARGV each: |file| { Fancy CodeLoader load_compiled_file(file) }
 
     # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects
-    json write: (OUTPUT_DIR ++ "fancy.jsonp")
+    json write: (File expand_path("fancy.jsonp", dir))
 
     ["Open your browser at " ++ OUTPUT_DIR ++ "index.html.",
      " " ++ (json classes size) ++ " classes. ",
