@@ -20,6 +20,8 @@ class Fancy FDoc {
 
   "FDoc is an API documentation generator for Fancy."
 
+  OUTPUT_DIR = "doc/api/"
+
   def self main {
     """
      FDoc will load all .fy files you give to it, and optionally run
@@ -29,11 +31,11 @@ class Fancy FDoc {
     # Currently we just load any files given on ARGV.
     ARGV each: |file| { Fancy CodeLoader load_compiled_file(file) }
 
-    # by now simply produce a tools/fdoc/fancy.json file.
+    # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects
-    json write: "tools/fdoc/fancy.jsonp"
+    json write: (OUTPUT_DIR ++ "fancy.jsonp")
 
-    ["Open your browser at tools/fdoc/fancy.html.",
+    ["Open your browser at " ++ OUTPUT_DIR ++ "index.html.",
      " (" ++ (json classes size) ++ ") classes. ",
      " (" ++ (json methods size) ++ ") methods. ",
      " (" ++ (json objects size) ++ ") other objects. "] println
