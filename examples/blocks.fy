@@ -1,3 +1,6 @@
+# blocks.fy
+# Examples of fancy code blocks
+
 x = { Console println: "Println from within block!" }
 x call # calls x and prints: "Println from within block!"
 

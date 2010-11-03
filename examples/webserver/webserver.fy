@@ -1,3 +1,6 @@
+# webserver.fy
+# Example of a simple webserver written in fancy, using Ruby socket library
+
 require("socket")
 webserver = TCPServer new("127.0.0.1", 3000)
 loop: {

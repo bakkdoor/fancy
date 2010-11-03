@@ -1,5 +1,6 @@
-# loads & evals arithmetic.fnc in current directory
-# alternatively you can omit the ".fnc" extension
+# require.fy
+# Examples of fancy code reusing and evaluation facilities
+
 require: "arithmetic.fy"
 
 "in require.fnc!" println

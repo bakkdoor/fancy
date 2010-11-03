@@ -13,7 +13,9 @@ ARGV[1] if_do: |ident| {
   }
 } else: {
   ["Prints the documentation string for a given object or one if its methods",
-   "Usage: fancydoc [ObjectIdentifier]",
-   "Usage: fancydoc [ObjectIdentifier]#[MethodName]",
-   "Example: fancydoc Array#each:"] println
+   "Usage:",
+   "fyi [ObjectIdentifier]",
+   "fyi [ObjectIdentifier]#[MethodName]",
+   "",
+   "Example: fyi Array#each:"] println
 }

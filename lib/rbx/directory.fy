@@ -7,6 +7,14 @@ class Directory {
     }
   }
 
+  def self create!: dirname {
+    try {
+      create: dirname
+    } catch IOError {
+    }
+  }
+
+
   def self delete: dirname {
     try {
       Dir delete(dirname)

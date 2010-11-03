@@ -11,13 +11,22 @@ class System {
     Kernel system(command_str)
   }
 
-  def System pipe: command_str {
+  def System piperead: command_str {
     """
     Runs the given string as a popen() call and returns the output
     of the call as a string.
     """
 
-    IO popen(command_str) . readlines map: |l| { l chomp() }
+    pipe: command_str . readlines map: 'chomp
+  }
+
+  def System pipe: command_str {
+    """
+    Runs the given string as a popen() call and returns a IO handle
+    that can be read from
+    """
+
+    IO popen(command_str)
   }
 
   def System sleep: n_ms {

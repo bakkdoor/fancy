@@ -1,4 +1,5 @@
-## Conway's Game of Life in Fancy :)
+# game_of_life.fy
+# Conway's Game of Life in Fancy :)
 
 class World {
   read_write_slots: ['matrix]

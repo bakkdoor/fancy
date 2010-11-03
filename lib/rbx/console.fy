@@ -26,14 +26,14 @@ class Console {
     STDIN eof? if_true: {
       nil
     } else: {
-      STDIN gets() chomp()
+      STDIN gets() chomp
     }
   }
 
   def Console readln {
     "Reads a line from STDIN and returns it as a String."
 
-    STDIN gets() chomp()
+    STDIN gets() chomp
   }
 
   def Console clear {

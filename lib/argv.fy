@@ -6,7 +6,7 @@ def ARGV for_option: op_name do: block {
       ARGV[idx + 1] if_do: |arg| {
         block call: [arg]
         ARGV remove_at: idx
-        ARGV remove_at: (idx + 1)
+        ARGV remove_at: idx
       }
     } else: {
       block call
@@ -24,7 +24,7 @@ def ARGV for_options: op_names do: block {
         ARGV[idx + 1] if_do: |arg| {
           block call: [arg]
           ARGV remove_at: idx
-          ARGV remove_at: (idx + 1)
+          ARGV remove_at: idx
         }
       } else: {
         block call

@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-# (C) 2010 Christopher Bertels <chris@fancy-lang.org>
+# person.fy
+# Annotated example of fancy's classes mechanism
 
 class City {
   read_slots: ['city]
