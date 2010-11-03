@@ -80,7 +80,6 @@
 
           var content = $("<div>").addClass("docs").addClass("ui-widget-content").html(mdoc.doc || "Not documented").appendTo(method);
 
-          console.debug(name, mdoc.lines);
           if(mdoc.file && /\.fy$/.test(mdoc.file)) {
             $("<a>").attr("href", github_src(mdoc.file, mdoc.lines)).
               attr("target", "_blank").
