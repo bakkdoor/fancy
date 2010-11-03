@@ -115,13 +115,23 @@ class Fancy FDoc {
             mattr at: 'arg put: $ mdoc meta at: 'argnames
           }
         }
+        exec class() == Rubinius CompiledMethod . if_true: {
+          relative_file = exec file()
+          # HACK: We simply delete everything before lib/
+          # TODO: Fix, either use a -r (root) option or use __FILE__
+          relative_file = relative_file to_s gsub(r{.*lib}, "lib")
+          lines = exec lines() to_a()
+          mattr at: 'file put: $ relative_file
+          # TODO calculate line numbers from compiled method
+          # right now we only use the first line of code in the body.
+          mattr at: 'lines put: $ [lines[3], lines[3]]
+        }
         attr[(type ++ "s") intern()] at: n put: mattr
       }
     }
 
     def generate_map {
       map = <['title => "Fancy Documentation", 'date => Time now() to_s(),
-              'github => "http://",
               'classes => <[]>, 'methods => <[]>, 'objects => <[]> ]>
 
       methods = @methods dup()

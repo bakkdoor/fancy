@@ -8,6 +8,10 @@
   var docs;
   fancy.fdoc = function(_docs) { docs = _docs; }
 
+  var github_src = function(file, lines) {
+    return "http://github.com/bakkdoor/fancy/blob/master/"+file+"#L"+lines[0]+"-L"+lines[1];
+  }
+
 
   var fancyName = function(n) { return n[0] == ":" ? n.substring(1) : n };
   var firstLetter = function(n){ return n[0] == ":" ? n[1] : n[0]; };
@@ -74,7 +78,17 @@
           var signature = $("<div>").addClass("signature").addClass("ui-accordion-header ui-state-default").appendTo(method);
           _.each(_.flatten(_.zip(names, args)), function(e){ signature.append(e); });
 
-          $("<div>").addClass("docs").addClass("ui-widget-content").html(mdoc.doc || "Not documented").appendTo(method);
+          var content = $("<div>").addClass("docs").addClass("ui-widget-content").html(mdoc.doc || "Not documented").appendTo(method);
+
+          console.debug(name, mdoc.lines);
+          if(mdoc.file && /\.fy$/.test(mdoc.file)) {
+            $("<a>").attr("href", github_src(mdoc.file, mdoc.lines)).
+              attr("target", "_blank").
+              attr("title", "Source at GitHub").
+              append(
+                $("<img>").attr("src", "http://static.tumblr.com/vwpvxmx/5Wclbbqbj/github.png")
+            ).addClass("github").appendTo(signature)
+          }
         });
       });
 

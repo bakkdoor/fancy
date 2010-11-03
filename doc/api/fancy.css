@@ -77,3 +77,10 @@
 .accordion > div {
     padding: 4px;
 }
+.signature .github {
+    display: none;
+    float: right;
+}
+.method:hover .github {
+    display: inline;
+}
