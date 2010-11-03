@@ -77,21 +77,6 @@ class Array {
     arr append: other_arr
   }
 
-  def join: join_str {
-    """Joins all elements in the Array by a given String.
-       E.g.: [1,2,3] join: ', ' # => '1,2,3'"""
-
-    str = ""
-    max_idx = self size - 1
-    each_with_index: |x i| {
-      str = str ++ x
-      i < max_idx if_true: {
-        str = str ++ join_str
-      }
-    }
-    str
-  }
-
   def join {
     "Joins all elements with the empty String."
 
