@@ -86,7 +86,7 @@ class Fancy FDoc {
         str << ":"
         str << $ to_json: (obj at: i)
       } in_between: { str << ", " }
-      str << ["}"]
+      str << "}"
       str join
     }
 
