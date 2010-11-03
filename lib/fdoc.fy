@@ -39,9 +39,9 @@ class Fancy FDoc {
 
     # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects
-    json write: (File expand_path("fancy.jsonp", dir))
+    json write: (File expand_path("fancy.jsonp", output_dir))
 
-    ["Open your browser at " ++ OUTPUT_DIR ++ "index.html.",
+    ["Open your browser at " ++ output_dir ++ "index.html.",
      " " ++ (json classes size) ++ " classes. ",
      " " ++ (json methods size) ++ " methods. ",
      " " ++ (json objects size) ++ " other objects. "] println
