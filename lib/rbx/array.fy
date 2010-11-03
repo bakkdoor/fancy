@@ -210,6 +210,13 @@ class Array {
     return self
   }
 
+  def join: join_str {
+    """Joins all elements in the Array by a given String.
+       E.g.: [1,2,3] join: ', ' # => '1,2,3'"""
+
+    join(join_str)
+  }
+
   def sum {
     """
     Calculates the sum of all the elements in the Enumerable
