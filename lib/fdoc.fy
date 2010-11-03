@@ -123,8 +123,8 @@ class Fancy FDoc {
           lines = exec lines() to_a()
           mattr at: 'file put: $ relative_file
           # TODO calculate line numbers from compiled method
-          # right now we only use the first line of code in the body.
-          mattr at: 'lines put: $ [lines[3], lines[3]]
+          # right now we export all line numbers to json
+          mattr at: 'lines put: $ lines
         }
         attr[(type ++ "s") intern()] at: n put: mattr
       }

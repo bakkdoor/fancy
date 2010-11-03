@@ -81,7 +81,7 @@
           var content = $("<div>").addClass("docs").addClass("ui-widget-content").html(mdoc.doc || "Not documented").appendTo(method);
 
           if(mdoc.file && /\.fy$/.test(mdoc.file)) {
-            $("<a>").attr("href", github_src(mdoc.file, mdoc.lines)).
+            $("<a>").attr("href", github_src(mdoc.file, [mdoc.lines[3], mdoc.lines[3]])).
               attr("target", "_blank").
               attr("title", "Source at GitHub").
               append(
