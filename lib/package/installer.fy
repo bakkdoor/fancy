@@ -115,6 +115,11 @@ class Fancy Package {
     }
 
     def rename_dir: dirname {
+      """
+      Renames a given directory to a common way within the install path.
+      => It will rename the given dirname to $user/$repo-$version.
+      """
+
       System do: $ ["mv ", @install_path, "/", dirname, " ", @install_path, "/", @user, "_", @repository, "-", @version] join
     }
   }
