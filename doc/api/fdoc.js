@@ -34,9 +34,9 @@
     });
   };
 
-  var populateMethods = function(type, class) {
+  var populateMethods = function(type, cls) {
 
-      var indexed = _.reduce(_.keys(class[type]), function(dict, name) {
+      var indexed = _.reduce(_.keys(cls[type]), function(dict, name) {
         var first = firstLetter(name);
         var ms = dict[first] || [];
         dict[first] = ms;
@@ -60,7 +60,7 @@
         ).addClass("section").appendTo(".content."+type);
         $.each(indexed[letter], function(j, name) {
           var method = $("<div>").addClass("method").appendTo(section);
-          var mdoc = class[type][name] || {};
+          var mdoc = cls[type][name] || {};
           var names = [];
           if(/^:/.test(name)) {
             names = [name.substring(1)]
@@ -121,7 +121,7 @@
       $('.classes .selectable.ui-state-active').removeClass('ui-state-active');
       $(this).addClass('ui-state-active');
       var class_name = $(this).attr("data-class");
-      var class = docs.classes[class_name];
+      var cls = docs.classes[class_name];
 
       $(".subject, .content, .index").html("");
 
@@ -133,11 +133,11 @@
         return ary.concat([name]);
       }, []);
 
-      $(".class.content").html(class.doc);
+      $(".class.content").html(cls.doc);
 
 
-      populateMethods("instance_methods", class);
-      populateMethods("methods", class);
+      populateMethods("instance_methods", cls);
+      populateMethods("methods", cls);
     });
   };
 
