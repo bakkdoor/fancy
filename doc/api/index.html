@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="fancy.css" type="text/css" media="screen">
     <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
     <script type="text/javascript" src="underscore-min.js"></script>
     <script type="text/javascript" src="fdoc.js"></script>
@@ -32,14 +33,23 @@
       </div>
       <div class="main">
         <h1 class="subject">Select an object from the left</h1>
-        <div class="content">
+        <div class="content class">
         </div>
-        <div class="class-index">
-          <h5 class="ui-corner-all ui-tabs-selected">Instance Methods</h5>
-          <div class="instance-methods">
+        <div class="accordion">
+
+          <h3>Instance Methods</h3>
+
+          <div>
+            <div class="index instance_methods"></div>
+            <div class="content instance_methods"></div>
           </div>
-        </div>
-        <div class="class-content">
+
+          <h3>Class Methods</h3>
+          <div>
+            <div class="index methods"></div>
+            <div class="content methods"></div>
+          </div>
+
         </div>
       </div>
     </div>

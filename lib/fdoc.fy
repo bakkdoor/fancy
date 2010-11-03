@@ -37,27 +37,29 @@ class Fancy FDoc {
     json write: (OUTPUT_DIR ++ "fancy.jsonp")
 
     ["Open your browser at " ++ OUTPUT_DIR ++ "index.html.",
-     " (" ++ (json classes size) ++ ") classes. ",
-     " (" ++ (json methods size) ++ ") methods. ",
-     " (" ++ (json objects size) ++ ") other objects. "] println
+     " " ++ (json classes size) ++ " classes. ",
+     " " ++ (json methods size) ++ " methods. ",
+     " " ++ (json objects size) ++ " other objects. "] println
   }
 
 
   class JSON {
 
-    read_slots: ['classes, 'methods, 'objects]
+    read_slots: ['classes, 'methods, 'blocks, 'objects]
 
     def initialize: documented {
       @documented_objects = documented
 
       is_class = |o| { o kind_of?: Module }
-      is_method = |o| { o kind_of?: Rubinius::CompiledMethod }
+      is_method = |o| { o kind_of?: Rubinius CompiledMethod }
+      is_block = |o| { o kind_of?: Rubinius BlockEnvironment }
       all_other = |o| {
-        [is_class, is_method] all? |b| { b call: [o] == false }
+        [is_class, is_method, is_block] all? |b| { b call: [o] == false }
       }
 
       @classes = @documented_objects keys select: is_class
       @methods = @documented_objects keys select: is_method
+      @blocks =  @documented_objects keys select: is_block
       @objects = @documented_objects keys select: all_other
     }
 
@@ -96,29 +98,56 @@ class Fancy FDoc {
       }
     }
 
+    def popuplate_methods: cls on: attr type: type known: methods {
+      cls send(type ++ "s", false) each: |n| {
+        mattr = <[]>
+        exec = cls send(type, n) executable()
+        methods delete(exec)
+        mdoc = Fancy Documentation for: exec
+        mdoc if_do: {
+          mattr at: 'doc put: $ mdoc format: 'markdown
+          mdoc meta if_do: {
+            mattr at: 'arg put: $ mdoc meta at: 'argnames
+          }
+        }
+        attr[(type ++ "s") intern()] at: n put: mattr
+      }
+    }
+
     def generate_map {
       map = <['title => "Fancy Documentation", 'date => Time now() to_s(),
+              'github => "http://",
               'classes => <[]>, 'methods => <[]>, 'objects => <[]> ]>
 
-      @classes each: |cls| {
-        attr = <[
-          'doc => Fancy Documentation for: cls . format: 'markdown,
-          'instance_methods => cls instance_methods(false),
-          'singleton_methods => cls methods(false)
-        ]>
+      methods = @methods dup()
 
-        map['classes] at: (cls name()) put: attr
+      @classes each: |cls| {
+        name = cls name() gsub("::", " ")
+        doc = Fancy Documentation for: cls
+        attr = <[
+          'doc => doc format: 'markdown,
+          'instance_methods => <[]>,
+          'methods => <[]>,
+          'ancestors => cls ancestors() map: |c| { c name() gsub("::", " ") }
+        ]>
+        popuplate_methods: cls on: attr type: 'instance_method known: methods
+        popuplate_methods: cls on: attr type: 'method known: methods
+        map['classes] at: name put: attr
       }
 
-      @methods each: |cm| {
+      methods each: |cm| {
         cls = cm scope() module()
-        full_name = cls name() ++ "#" ++ (cm name())
+        cls_name = cls name() gsub("::", " ")
+        cls_attr = map['classes] at: cls_name
+
+        full_name = cls_name ++ "#" ++ (cm name())
+
         doc = Fancy Documentation for: cm
         attr = <[
-          'name => cls name(),
           'args => doc meta at: 'argnames,
           'doc => doc format: 'markdown
         ]>
+
         map['methods] at: full_name put: attr
       }
 

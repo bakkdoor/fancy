@@ -44,8 +44,8 @@ module Fancy
                             MessageArgs.new(line, local, docstring))
         ms.bytecode(g)
         meta = HashLiteral.new(line,
-          Identifier.new(line, "argnames"),
-          ArrayLiteral.new(line, *argnames.map{ |arg| Identifier.new(line, arg.to_s) })
+          SymbolLiteral.new(line, :argnames),
+          ArrayLiteral.new(line, *argnames.map{|arg|StringLiteral.new(line, arg.to_s)})
         )
         ms = MessageSend.new(line,
                              Nothing.new,
@@ -66,6 +66,8 @@ module Fancy
         ms.bytecode(g)
       end
     end
+
+    SymbolLiteral = Rubinius::AST::SymbolLiteral
 
     class Nothing
       def bytecode(g)

@@ -18,8 +18,7 @@ class Fancy Documentation {
   """
   read_write_slots: ['object, 'docs, 'specs]
 
-
-  instance_method: 'docs . documentation: """
+  instance_method: 'docs . executable() . documentation: """
      An array of docstrings for the object beind documented.
 
      We have an array of docstrings because in Fancy, some
@@ -91,7 +90,7 @@ class Fancy Documentation {
   self formatter: 'fancy  is: |doc| { doc }
   self formatter: 'string is: |doc| { doc to_s }
 
-  # TODO: implement. Plain is just liinke string but including spec names.
+  # TODO: implement. Plain is just like string but including spec names.
   self formatter: 'plain  is: |doc| { doc to_s }
 
 }
