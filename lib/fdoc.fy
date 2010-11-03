@@ -1,24 +1,25 @@
-# FDoc is a tool to generate API documentation from Fancy source.
-#
-# Works as follows:
-#
-#  1. We setup a handler to be invoked every time an object is set documentation
-#     See fdoc_hook.fy, its loaded even before all of lib/rbx/*.fy so we can
-#     Also have documentation for all fancy rubinius.
-#  2. We load boot.fy, so we get documentation for all fancy's lib.
-#  3. We run FDoc main
-#     which can possibly load any file/directory you specify and optionally
-#     run specs, effectively associating them with documented objects.
-#  4. Generate output file.
-#     Currently the plan is to output a json formatted object.
-#     To be loaded by an html file and use jquery to build a GUI from it.
-
 # Load all of fancy.
 require: "boot"
 
 class Fancy FDoc {
+  """
 
-  "FDoc is an API documentation generator for Fancy."
+  FDoc is a tool to generate API documentation from Fancy source.
+
+  Works as follows:
+
+   1. We setup a handler to be invoked every time an object is set documentation
+      See fdoc_hook.fy, its loaded even before all of lib/rbx/*.fy so we can
+      Also have documentation for all fancy rubinius.
+   2. We load boot.fy, so we get documentation for all fancy's lib.
+   3. We run FDoc main
+      which can possibly load any file/directory you specify and optionally
+      run specs, effectively associating them with documented objects.
+   4. Generate output file.
+      Currently the plan is to output a json formatted object.
+      To be loaded by an html file and use jquery to build a GUI from it.
+
+  """
 
   OUTPUT_DIR = "doc/api/"
 
