@@ -1,3 +1,12 @@
+.body {
+    border: 0px;
+    padding: 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100em;
+}
 .sidebar {
     float: left;
     margin: 0;
@@ -5,13 +14,12 @@
     border: 0;
     overlay: auto;
     width: 15em;
+    height: 100%;
 }
 .selectable:hover {
-    background-color: #D0D0D0;
     cursor: pointer;
 }
 .sidebar .odd {
-    background-color: #EDF3FE;
 }
 .sidebar .theme-roller {
     position: absolute;
@@ -20,11 +28,25 @@
 }
 .main {
     margin: 0;
-    padding: 0;
     border: 0;
+    padding: 0;
 }
-
+.content, .class-index, .class-content {
+    margin-left: 16em;
+}
+.filter {
+    border: 0 solid;
+    background-color: transparent;
+}
 .class-index .instance-methods div {
     display: inline;
     margin-left: 0.5em;
+}
+.section > .letter {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }

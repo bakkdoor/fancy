@@ -27,21 +27,30 @@ module Fancy
         end
         docstring = @body.shift_docstring
         super(g)
-        MethodDef.set_docstring(g, docstring, @line)
+        MethodDef.set_docstring(g, docstring, @line, @arguments.names)
       end
 
 
       # Sets fancy documentation for the object currently
       # on top of the stack
-      def self.set_docstring(g, docstring, line)
+      def self.set_docstring(g, docstring, line, argnames = [])
         # prevent invoking documentation: when doesnt makes sense.
         return unless docstring
         local = StackLocal.new
         local.set!(g)
         ms = MessageSend.new(line,
-                             Fancy::AST::Identifier.new(line, "Fancy::Documentation"),
-                             Fancy::AST::Identifier.new(line, "for:is:"),
-                             MessageArgs.new(line, local, docstring))
+                            Identifier.new(line, "Fancy::Documentation"),
+                            Identifier.new(line, "for:is:"),
+                            MessageArgs.new(line, local, docstring))
+        ms.bytecode(g)
+        meta = HashLiteral.new(line,
+          Identifier.new(line, "argnames"),
+          ArrayLiteral.new(line, *argnames.map{ |arg| Identifier.new(line, arg.to_s) })
+        )
+        ms = MessageSend.new(line,
+                             Nothing.new,
+                             Identifier.new(line, "meta:"),
+                             MessageArgs.new(line, meta))
         ms.bytecode(g)
         g.pop
       end
@@ -55,6 +64,11 @@ module Fancy
                              Identifier.new(@line, "define_constructor_class_method:"),
                              MessageArgs.new(@line, method_ident))
         ms.bytecode(g)
+      end
+    end
+
+    class Nothing
+      def bytecode(g)
       end
     end
 

@@ -3,6 +3,7 @@ module Fancy
 
     class BlockLiteral < Rubinius::AST::Iter
       def initialize(line, args, body)
+        @args = args
         body = body || Rubinius::AST::NilLiteral.new(line)
         super(line, args, body)
         args.create_locals(self)
@@ -19,7 +20,7 @@ module Fancy
       def bytecode(g)
         docstring = body.shift_docstring
         super(g)
-        MethodDef.set_docstring(g, docstring, line)
+        MethodDef.set_docstring(g, docstring, line, @args.args)
       end
     end
 

@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-   <link rel="stylesheet" href="fancy.css" type="text/css" media="screen">
-   <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
-   <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
-   <script type="text/javascript" src="http://github.com/documentcloud/underscore/raw/master/underscore-min.js"></script>
-   <script type="text/javascript" src="fdoc.js"></script>
-   <script type="text/javascript" src="fancy.jsonp"></script>
+    <link rel="stylesheet" href="fancy.css" type="text/css" media="screen">
+    <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+    <script type="text/javascript" src="underscore-min.js"></script>
+    <script type="text/javascript" src="fdoc.js"></script>
+    <script type="text/javascript" src="fancy.jsonp"></script>
   </head>
   <body>
-    <div class="sidebar">
-      <div class="top">
-        <div class="search">
-          <span class="ui-state-default ui-corner-all" title="search">
-            <span class="ui-icon ui-icon-search"></span>
-            <input type="text" class="filter" />
+    <div class="body ui-widget-content">
+      <div class="sidebar">
+        <div class="top">
+          <div class="search">
+            <span class="ui-state-default ui-corner-all" title="search">
+              <span class="ui-icon ui-icon-search"></span>
+              <input type="text" class="filter" value="Type to search" />
             <span>
+          </div>
+          <div class="theme-roller"></div>
         </div>
-        <div class="theme-roller"></div>
-      </div>
-      <h5>files</h5>
-      <div class="files">
-      </div>
-      <h5>classes</h5>
-      <div class="classes">
-      </div>
-      <h5>objects</h5>
-      <div class="objects">
-      </div>
-    </div>
-    <div class="main">
-      <h1 class="subject">Select an object from the left</h1>
-      <div class="content">
-      </div>
-      <div class="class-index">
-        <h5>Instance Methods</h5>
-        <div class="instance-methods">
+        <h5>files</h5>
+        <div class="files">
+        </div>
+        <h5>classes</h5>
+        <div class="classes">
+        </div>
+        <h5>objects</h5>
+        <div class="objects">
         </div>
       </div>
-      <div class="class-content">
+      <div class="main">
+        <h1 class="subject">Select an object from the left</h1>
+        <div class="content">
+        </div>
+        <div class="class-index">
+          <h5 class="ui-corner-all ui-tabs-selected">Instance Methods</h5>
+          <div class="instance-methods">
+          </div>
+        </div>
+        <div class="class-content">
+        </div>
       </div>
     </div>
   </body>

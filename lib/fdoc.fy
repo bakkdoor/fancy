@@ -106,6 +106,19 @@ class Fancy FDoc {
 
         map['classes] at: (cls name()) put: attr
       }
+
+      @methods each: |cm| {
+        cls = cm scope() module()
+        full_name = cls name() ++ "#" ++ (cm name())
+        doc = Fancy Documentation for: cm
+        attr = <[
+          'name => cls name(),
+          'args => doc meta at: 'argnames,
+          'doc => doc format: 'markdown
+        ]>
+        map['methods] at: full_name put: attr
+      }
+
       map
     }
 
