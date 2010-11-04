@@ -1,9 +1,6 @@
 class FalseClass {
   """
   FalseClass extensions for Fancy on rbx.
-  Since Fancy only has true and nil as the default boolean values,
-  we'll add some extension methods to FalseClass so Fancy can also
-  properly deal with false.
   """
 
   def if_true: then_block else: else_block {
