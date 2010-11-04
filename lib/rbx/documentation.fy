@@ -20,13 +20,17 @@ class Fancy Documentation {
   }
 
   def self for: obj is: docstring {
-    # Create a Fancy::Documentation instance.
-    # Note. As we're bootstrapping, we cannot
-    # set documentation here as an string literal.
+    """
+    Create a Fancy::Documentation instance.
 
-    # We are the very first thing to load, so just
-    # create a new Fancy::Documentation object
-    # without using new:, and set it as fancy docs.
+    Note: As we're bootstrapping, we cannot set documentation here as
+    an string literal.
+
+    We are the very first thing to load, so just create a new
+    Fancy::Documentation object without using new:, and set it as
+    fancy docs.
+    """
+
     doc = self allocate()
     doc send('initialize:, docstring to_s)
     obj instance_variable_set('@_fancy_documentation, doc)
@@ -39,7 +43,7 @@ class Fancy Documentation {
   self for: (method('for:is:)) is: "Sets the documentation for obj."
 
   def self for: obj {
-    " Obtains the Fancy Documentation for obj."
+    "Obtains the Fancy Documentation for obj."
     doc = obj instance_variable_get('@_fancy_documentation)
   }
 
