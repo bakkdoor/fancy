@@ -18,10 +18,11 @@ class Block {
     """
     Executes a given Block while self evals to nil
     Example:
-        i = 0
-        { i >= 10 } while_false: {
-          i println i = i + 1
-        }
+      i = 0
+      { i >= 10 } while_false: {
+        i println
+        i = i + 1
+      }
     """
 
     { self call not } while_true: block
