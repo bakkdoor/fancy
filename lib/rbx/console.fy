@@ -1,26 +1,40 @@
 class Console {
-  "Console class. Used for STDIO."
+  "Console class. Used for @STDIO."
 
   def Console newline {
-    "Prints a newline to STDOUT."
+    "Prints a newline to @STDOUT."
 
     STDOUT puts()
   }
 
   def Console print: obj {
-    "Prints a given object on STDOUT."
+    """
+    @obj Object to be printed on @STDOUT.
+
+    Prints a given object on @STDOUT.
+    """
 
     STDOUT print(obj)
   }
 
   def Console println: obj {
-    "Prints a given object on STDOUT, followed by a newline."
+    """
+    @obj Object to be printed on @STDOUT, followed by a newline.
+
+    Prints a given object on @STDOUT, followed by a newline.
+    """
 
     STDOUT puts(obj)
   }
 
   def Console readln: message {
-    "Prints a given message to STDOUT, followed by reading a line from STDIN."
+    """
+    @message A @String@ that should be printed to @STDOUT before reading from @STDIN.
+    @return Line (@String@) read from @STDIN.
+
+    Prints a given message to @STDOUT, followed by reading a line from
+    @STDIN.
+    """
 
     Console print: message
     STDIN eof? if_true: {
@@ -31,13 +45,17 @@ class Console {
   }
 
   def Console readln {
-    "Reads a line from STDIN and returns it as a String."
+    """
+    @return Line (@String@) read from @STDIN.
+
+    Reads a line from @STDIN and returns it as a @String@.
+    """
 
     STDIN gets() chomp
   }
 
   def Console clear {
-    "Clears the console."
+    "Clears the @Console@."
 
     STDOUT print("\033[H\033[2J")
   }
