@@ -1,4 +1,11 @@
 class Fancy CodeLoader {
+  """
+  Fancy CodeLoader.
+
+  Is used to load Fancy source (.fy) and compiled (.fyc) files into
+  the runtime.
+  """
+
   def self load_path {
     """
     @return An @Array@ with all the paths in the @LOADPATH.
