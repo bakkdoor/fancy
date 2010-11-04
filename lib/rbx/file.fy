@@ -12,15 +12,21 @@ class File {
   ruby_alias: 'closed?
 
   def File open: filename modes: modes_arr with: block {
-    # """
-    # Opens a File with a given filename, a modes Array and a block.
-    # E.g. to open a File with read access and read all lines and print them to STDOUT:
-    # File open: \"foo.txt\" modes: [:read] with: |f| {
-    #   { f eof? } while_false: {
-    #     f readln println
-    #   }
-    # }
-    # """
+    """
+    @filename Filename to open/create.
+    @modes_arr Array of symbols that describe the desired operations to perform.
+    @block @Block@ that gets called with the @File@ object that has been opened.
+
+    Opens a File with a given @filename, a @modes_arr (@Array@) and a @block.
+
+    E.g. to open a File with read access and read all lines and print them to STDOUT:
+
+      File open: \"foo.txt\" modes: [:read] with: |f| {
+        { f eof? } while_false: {
+          f readln println
+        }
+      }
+    """
 
     modes_str = modes_str: modes_arr
 
@@ -32,11 +38,21 @@ class File {
   }
 
   def File exists?: filename {
-    "Indicates if the file with given filename exists."
+    """
+    @filename Path to file to check for existance.
+    @return @true if @File@ exists, @false otherwise.
+
+    Indicates if the @File@ with the given @filename exists.
+    """
+
     File exists?(filename)
   }
 
-  def close{
+  def close {
+    """
+    Closes an opened @File@.
+    """
+
     try {
       close()
     } catch Errno::ENOENT => e {
@@ -45,6 +61,16 @@ class File {
   }
 
   def File open: filename modes: modes_arr {
+    """
+    @filename Filename to open/create.
+    @modes_arr Array of symbols that describe the desired operations to perform.
+    @return A @File@ instance that represents the opened @File@.
+
+    Similar to open:modes:with: but takes no @Block@ argument to be
+    called with the @File@ instance.
+    Returns the opened @File@ instead and expects the caller to @close it manually.
+    """
+
     modes_str = modes_str: modes_arr
     f = nil
     try {
@@ -57,6 +83,13 @@ class File {
   }
 
   def File modes_str: modes_arr {
+    """
+    @modes_arr Array of symbols that describe the desired operations to perform.
+    @return @String@ that represents the @File@ access modifiers, as used by Ruby.
+
+    Returns the appropriate @String@ representation of the @modes_arr.
+    """
+
     str = ""
     modes_arr each: |m| {
       str = str ++ (@@open_mode_conversions[m])
@@ -65,6 +98,12 @@ class File {
   }
 
   def File delete: filename {
+    """
+    @filename Path to @File@ to be deleted.
+
+    Deletes a @File@ with a given @filename.
+    """
+
     try {
       delete(filename)
     } catch Errno::ENOENT => e {
@@ -73,34 +112,80 @@ class File {
   }
 
   def File directory?: path {
+    """
+    @path Path to check if it's a @Directory@.
+    @return @true, if the @path refers to a @Directory, @false otherwise.
+
+    Indicates, if a given @path refers to a @Directory@.
+    """
+
     directory?(path)
   }
 
   def File rename: old_name to: new_name {
+    """
+    @old_name Path to @File@ to rename.
+    @new_name Path to new filename.
+
+    Renames a @File@ on the filesystem.
+    """
+
     File rename(old_name, new_name)
   }
 
   def modes {
+    """
+    @return @File@ access modes @Array@.
+
+    Returns the @File@ access modes @Array@.
+    """
+
     @modes
   }
 
   def modes: modes_arr {
+    """
+    @modes_arr New @File@ access modes @Array@.
+
+    Sets the @File@ access modes @Array@.
+    """
+
     @modes = modes_arr
   }
 
   def open? {
+    """
+    @return @true, if @File@ opened, @false otherwise.
+
+    Indicates, if a @File@ is opened.
+    """
+
     self closed? not
   }
 
   def write: str {
+    """
+    @str String to be written to a @File@.
+
+    Writes a given @String@ to a @File@.
+    """
+
     print(str)
   }
 
   def newline {
+    "Writes a newline character to the @File@."
+
     puts()
   }
 
   def directory? {
+    """
+    @return @true, if @File@ is a @Directory@, @false otherwise.
+
+    Indicates, if a @File@ is a @Directory@.
+    """
+
     File directory?(self filename)
   }
 }

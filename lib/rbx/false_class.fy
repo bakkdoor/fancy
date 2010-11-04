@@ -50,6 +50,12 @@ class FalseClass {
   }
 
   def not {
+    """
+    @return @true
+
+    Boolean negation of @false => @true.
+    """
+
     true
   }
 }
