@@ -53,7 +53,7 @@ identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
-regexp_lit      "r{".*"}"
+regexp_lit      "/".*"/"
 comma           ,
 
 semi            ;

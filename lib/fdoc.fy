@@ -119,7 +119,7 @@ class Fancy FDoc {
           relative_file = exec file()
           # HACK: We simply delete everything before lib/
           # TODO: Fix, either use a -r (root) option or use __FILE__
-          relative_file = relative_file to_s gsub(r{.*lib}, "lib")
+          relative_file = relative_file to_s gsub(/.*lib/, "lib")
           lines = exec lines() to_a()
           mattr at: 'file put: $ relative_file
           # TODO calculate line numbers from compiled method
@@ -209,7 +209,7 @@ class Fancy FDoc {
       Remove leading white space for multi-line strings.
       This method expects the first character to be an line return.
       """
-      m = r{^(\r?\n)*(\s+)} match(str)
+      m = /^(\r?\n)*(\s+)/ match(str)
       str = str strip()
       m if_do: {
         pattern = "^ {" ++ (m[2] size()) ++ "}"
@@ -267,11 +267,11 @@ class Fancy FDoc {
       @Fancy::FDoc::Formatter~format:@
 
       """
-      str gsub(r{@[A-Z][^\r\n\s]+?@}) |cstr| {
+      str gsub(/@[A-Z][^\r\n\s]+?@/) |cstr| {
        names = cstr slice(1, cstr size() - 2) split("::")
        refs = []
        names each_with_index |name, idx| {
-         n = name split(r{[\#\~]})
+         n = name split(/[\#\~]/)
          clas = names take(idx) + [n[0]] . join(" ")
          html = "<code data-lang=\"fancy\" data-class-ref=\"" ++ .
               clas ++ "\" class=\"class-ref selectable\">" ++ (n[0]) ++ "</code>"
@@ -281,7 +281,7 @@ class Fancy FDoc {
          n[1] . if_do: {
            method = n[1]
            method start_with?(":") . if_do: {
-             method = method sub(r{^:}, "")
+             method = method sub(/^:/, "")
            }
            sigil = ""
            name =~ (Regexp.new("^#")) . if_do: { sigil = "<small>#</small>" }
@@ -301,8 +301,8 @@ class Fancy FDoc {
     }
 
     def self remove_tags: str into: map {
-      ary = str split(r{\r?\n}) map: |line| {
-        m = r{^@([a-z@]\S+?)\s+(.*)} match(line)
+      ary = str split(/\r?\n/) map: |line| {
+        m = /^@([a-z@]\S+?)\s+(.*)/ match(line)
         m if_do: {
           map at: (m[1]) put: (m[2])
           nil
@@ -324,7 +324,7 @@ class Fancy FDoc {
     }
 
     def self create_code: str {
-      str gsub(r{@([^\s,\]\)\}\.]+)},
+      str gsub(/@([^\s,\]\)\}\.]+)/,
                "<code data-lang=\"fancy\">\\1</code>")
     }
 
@@ -336,10 +336,10 @@ class Fancy FDoc {
 
     def self create_method_references: str {
       # First methods ending with :
-      str gsub(r{@([a-z_:]+:)@},
+      str gsub(/@([a-z_:]+:)@/,
                "<code data-lang=\"fancy\" data-method=\"\\1\" class=\"selectable\">\\1</code>") .
       # fancy methods starting with : (argless fancy methods)
-      gsub(r{@:([a-z_]+)@},
+      gsub(/@:([a-z_]+)@/,
            "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>")
     }
 

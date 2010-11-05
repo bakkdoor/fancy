@@ -1,4 +1,4 @@
-regex = r{[a-z]+[A-Z]*foo}
+regex = /[a-z]+[A-Z]*foo/
 str = "heLLofoo"
 
 str =~(regex) if_do: |idx| {

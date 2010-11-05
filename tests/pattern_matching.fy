@@ -17,7 +17,7 @@ FancySpec describe: "Pattern Matching" with: {
 
   it: "should bind a given match arg, if present, to the result of the match operation" when: {
     match "foobarbaz" -> {
-      case r{foo([a-z]+)baz} -> |matcher|
+      case /foo([a-z]+)baz/ -> |matcher|
         local1, local2, local3 = 'ignore, 'this_too, 'this_also
         matcher[1] should == "bar"
     }
@@ -25,7 +25,7 @@ FancySpec describe: "Pattern Matching" with: {
 
   it: "should only bind given match arg to the scope of the match case" when: {
     match "foobarbaz" -> {
-      case r{foo([a-z]+)baz} -> |local_of_case|
+      case /foo([a-z]+)baz/ -> |local_of_case|
         local_of_case == nil . should == false
     }
 
@@ -34,7 +34,7 @@ FancySpec describe: "Pattern Matching" with: {
 
   it: "should only bind locals of the match clause to the scope of the match case" when: {
     match "foobarbaz" -> {
-      case r{foo([a-z]+)baz} -> |local_of_case|
+      case /foo([a-z]+)baz/ -> |local_of_case|
         local1 = "Hi, I am some local, that should be gone after this block."
     }
 
