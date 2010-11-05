@@ -254,8 +254,8 @@ class Fancy FDoc {
 
     def self htmlize: str {
       require("rubygems")
-      require("rdiscount")
-      RDiscount new(str) to_html()
+      require("bluecloth")
+      BlueCloth new(str) to_html()
     }
 
     def self create_method_references: str {
