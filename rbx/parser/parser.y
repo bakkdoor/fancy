@@ -91,6 +91,7 @@ extern VALUE m_Parser;
 %type  <object>         hash_literal
 %type  <object>         array_literal
 %type  <object>         empty_array
+%type  <object>         tuple_literal
 
 %type  <object>         key_value_list
 %type  <object>         exp_comma_list
@@ -566,6 +567,7 @@ literal_value:  integer_literal
                 | array_literal
                 | regex_literal
                 | block_literal
+                | tuple_literal
                 ;
 
 array_literal:  empty_array {
@@ -605,6 +607,11 @@ block_literal:  expression_block {
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(m_Parser, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $5);
+                }
+                ;
+
+tuple_literal:  LPAREN space exp_comma_list space RPAREN {
+                  $$ = rb_funcall(m_Parser, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $3);
                 }
                 ;
 

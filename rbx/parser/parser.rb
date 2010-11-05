@@ -223,6 +223,10 @@ module Fancy
       Fancy::AST::BlockLiteral.new(line, args, block_body)
     end
 
+    def tuple_literal(line, expr_ary = [])
+      Fancy::AST::TupleLiteral.new(line, *expr_ary)
+    end
+
     def block_args(line, identifier, ary = [])
       ary.push identifier
     end
