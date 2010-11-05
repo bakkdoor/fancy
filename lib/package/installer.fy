@@ -5,7 +5,7 @@ class Fancy Package {
   class Installer {
     """
 
-    @Fancy Package@ installer.
+    @Fancy::Package@ installer.
 
     Downloads packages from Github (usually the latest tagged version,
     if no version is specified, or the latest HEAD revision in the
@@ -90,6 +90,7 @@ class Fancy Package {
       """
       Downloads the .tar.gz file from Github with the given version
       (tag or branch name) and saves it to the specified @install_path.
+
 
       The Default install_path is ~/.fancy/packages/.
       If an environment variable @FANCY_PACKAGE_DIR is defined, it

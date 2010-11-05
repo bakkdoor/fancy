@@ -209,10 +209,10 @@ class Fancy FDoc {
       Remove leading white space for multi-line strings.
       This method expects the first character to be an line return.
       """
-      m = r{\r?\n(\s+)} match(str)
+      m = r{^(\r?\n)*(\s+)} match(str)
       str = str strip()
       m if_do: {
-        pattern = "^\\s{" ++ (m[1] size()) ++ "}"
+        pattern = "^ {" ++ (m[2] size()) ++ "}"
         rex = Regexp.new(pattern)
         str = str gsub(rex, "");
       }
@@ -220,13 +220,89 @@ class Fancy FDoc {
     }
 
     def self create_class_references: str {
-      str gsub(r{@([A-Z][^\r\n]+?)@},
-               "<code data-lang=\"fancy\" data-class=\"\\1\" class=\"selectable\">\\1</code>")
+      """
+      Creates class references for Fancy class names.
+
+      A docstring may contain class names sorounded by @
+      without space between the @.
+
+      Nested classes can be indicated by using :: like
+
+        Foo::Bar
+
+      This will create references for both, @Foo and @Bar
+
+      Instance methods should be written:
+
+        Foo::Bar#baz
+
+      Class methods should be written:
+
+        Foo::Bar.baz
+
+      Some examples:
+
+      A simple class reference:
+
+      @Fancy@
+
+      Nested class reference:
+
+      @Fancy::FDoc@
+
+      A fancy method without arguments:
+
+      @Fancy::FDoc::JSON#:generate_map@
+
+      A ruby method reference (will link to ruby docs if available)
+
+      @String#split@
+
+      A fancy method with many arguments:
+
+      @Fancy::Package::Installer#initialize:version:install_path:@
+
+      A singleton method:
+
+      @Fancy::FDoc::Formatter~format:@
+
+      """
+      str gsub(r{@[A-Z][^\r\n\s]+?@}) |cstr| {
+       names = cstr slice(1, cstr size() - 2) split("::")
+       refs = []
+       names each_with_index |name, idx| {
+         n = name split(r{[\#\~]})
+         clas = names take(idx) + [n[0]] . join(" ")
+         html = "<code data-lang=\"fancy\" data-class-ref=\"" ++ .
+              clas ++ "\" class=\"class-ref selectable\">" ++ (n[0]) ++ "</code>"
+         refs << html
+
+         # Generate a reference for last method if availble.
+         n[1] . if_do: {
+           method = n[1]
+           method start_with?(":") . if_do: {
+             method = method sub(r{^:}, "")
+           }
+           sigil = ""
+           name =~ (Regexp.new("^#")) . if_do: { sigil = "<small>#</small>" }
+           type = n[1] include?(":") . if_do: {
+             sigil == "" . if_do: { "singleton-method-ref" } else: { "instance-method-ref" }
+           } else: {
+             sigil == "" . if_do: { "ruby-singleton-method-ref" } else: { "ruby-instance-method-ref" }
+           }
+           html = sigil ++ "<code data-lang=\"fancy\" data-" ++ type ++ "=\"" ++ .
+              (n[1]) ++ "\" " ++ " data-owner-class=\"" ++ clas ++ "\" " ++ .
+              "class=\"" ++ type ++ " selectable\">" ++ method ++ "</code>"
+           refs << html
+         }
+       }
+       refs join(" ")
+      }
     }
 
     def self remove_tags: str into: map {
       ary = str split(r{\r?\n}) map: |line| {
-        m = r{^@(\S+?)\s+(.*)} match(line)
+        m = r{^@([a-z@]\S+?)\s+(.*)} match(line)
         m if_do: {
           map at: (m[1]) put: (m[2])
           nil
@@ -264,19 +340,7 @@ class Fancy FDoc {
                "<code data-lang=\"fancy\" data-method=\"\\1\" class=\"selectable\">\\1</code>") .
       # fancy methods starting with : (argless fancy methods)
       gsub(r{@:([a-z_]+)@},
-           "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>") .
-      # Class methods Foo bar
-      gsub(r{@([A-Z]\w+) ([a-z_:]+)@},
-           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-class-method=\"\\2\" class=\"selectable\">\\1#\\2</code>") .
-      # Class methods Foo :bar
-      gsub(r{@([A-Z]\w+) :([a-z_:]+)@},
-           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-class-method=\":\\2\" class=\"selectable\">\\1 \\2</code>") .
-      # Instance methods Foo#bar
-      gsub(r{@([A-Z]\w+)\#([a-z_:]+)@},
-           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-instance-method=\"\\2\" class=\"selectable\">\\1#\\2</code>") .
-      # Instance methods Foo#:bar
-      gsub(r{@([A-Z]\w+)\#:([a-z_:]+)@},
-           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-instance-method=\":\\2\" class=\"selectable\">\\1#\\2</code>")
+           "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>")
     }
 
   }
