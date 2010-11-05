@@ -1,4 +1,5 @@
-class Rubinius Tuple {
+Tuple = Rubinius Tuple
+class Tuple {
   ruby_alias: 'size
 
   def initialize: size {

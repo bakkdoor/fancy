@@ -1,4 +1,4 @@
-FancySpec describe: Rubinius::Tuple with: {
+FancySpec describe: Tuple with: {
   it: "have the correct amount of elements" for: 'size when: {
     (1,2) size should == 2
     (1,2,3) size should == 3
