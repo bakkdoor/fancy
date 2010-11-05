@@ -114,7 +114,7 @@ class File {
   def File directory?: path {
     """
     @path Path to check if it's a @Directory@.
-    @return @true, if the @path refers to a @Directory, @false otherwise.
+    @return @true, if the @path refers to a @Directory@, @false otherwise.
 
     Indicates, if a given @path refers to a @Directory@.
     """
