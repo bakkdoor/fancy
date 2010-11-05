@@ -1,12 +1,10 @@
 class FancyEnumerable {
   """
-  Mixin-Class with useful methods for collections that implement an
-  'each:' method.
+  Mixin-Class with useful methods for collections that implement an @each:@ method.
   """
 
   def includes?: item {
     "Indicates, if a collection includes a given element."
-
     any?: |x| { item == x }
   }
 
@@ -33,7 +31,7 @@ class FancyEnumerable {
   }
 
   def find: item {
-    "Returns nil, if the given object isn't found, or the object, if it is found."
+    "Returns @nil, if the given object isn't found, or the object, if it is found."
 
     item is_a?: Block . if_true: {
       find_by: item
@@ -48,7 +46,9 @@ class FancyEnumerable {
   }
 
   def find_by: block {
-    "Similar to 'find:' but takes a block that is called for each element to find it."
+    """
+    Similar to @find:@ but takes a block that is called for each element to find it.
+    """
 
     each: |x| {
       block call: [x] . if_do: |item| {
@@ -59,7 +59,7 @@ class FancyEnumerable {
   }
 
   def map: block {
-    "Returns a new Array with the results of calling a given block for every element"
+    "Returns a new @Array@ with the results of calling a given block for every element"
 
     coll = []
     each: |x| {
@@ -69,7 +69,7 @@ class FancyEnumerable {
   }
 
   def select: condition {
-    "Returns a new Array with all elements that meet the given condition block."
+    "Returns a new @Array@ with all elements that meet the given condition block."
 
     coll = []
     each: |x| {
@@ -79,7 +79,7 @@ class FancyEnumerable {
   }
 
   def reject: condition {
-    "Returns a new Array with all elements that don't meet the given condition block."
+    "Returns a new @Array@ with all elements that don't meet the given condition block."
 
     coll = []
     each: |x| {
@@ -89,7 +89,7 @@ class FancyEnumerable {
   }
 
   def take_while: condition {
-    "Returns a new Array by taking elements from the beginning as long as they meet the given condition block."
+    "Returns a new @Array@ by taking elements from the beginning as long as they meet the given condition block."
     coll = []
     each: |x| {
       condition call: [x] . if_true: {
@@ -102,7 +102,7 @@ class FancyEnumerable {
   }
 
   def drop_while: condition {
-    "Returns a new Array by skipping elements from the beginning as long as they meet the given condition block."
+    "Returns a new @Array@ by skipping elements from the beginning as long as they meet the given condition block."
 
     coll = []
     drop = nil
@@ -176,13 +176,13 @@ class FancyEnumerable {
   }
 
   def compact {
-    "Returns a new Array with all values removed that are nil (return true on nil?)."
+    "Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? )."
 
     reject: |x| { x nil? }
   }
 
   def superior_by: comparison_block {
-    "Returns the superiour element in the Enumerable that has met the given comparison block with all other elements."
+    "Returns the superiour element in the @Enumerable that has met the given comparison block with all other elements."
 
     retval = self first
     each: |x| {

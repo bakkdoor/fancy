@@ -84,3 +84,10 @@
 .method:hover .github {
     display: inline;
 }
+.method .doctag > div {
+    display: inline;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    border-left-width: 1px;
+    border-left-style: dotted;
+}

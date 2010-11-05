@@ -2,7 +2,7 @@ class Fancy Package {
   class Uninstaller {
     """
 
-    Fancy Package Uninstaller.
+    @Fancy Package@ Uninstaller.
 
     """
 

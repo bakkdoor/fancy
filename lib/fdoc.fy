@@ -110,7 +110,7 @@ class Fancy FDoc {
         methods delete(exec)
         mdoc = Fancy Documentation for: exec
         mdoc if_do: {
-          mattr at: 'doc put: $ mdoc format: 'markdown
+          mattr at: 'doc put: $ mdoc format: 'fdoc
           mdoc meta if_do: {
             mattr at: 'arg put: $ mdoc meta at: 'argnames
           }
@@ -140,7 +140,7 @@ class Fancy FDoc {
         name = cls name() gsub("::", " ")
         doc = Fancy Documentation for: cls
         attr = <[
-          'doc => doc format: 'markdown,
+          'doc => doc format: 'fdoc,
           'instance_methods => <[]>,
           'methods => <[]>,
           'ancestors => cls ancestors() map: |c| { c name() gsub("::", " ") }
@@ -160,7 +160,7 @@ class Fancy FDoc {
         doc = Fancy Documentation for: cm
         attr = <[
           'args => doc meta at: 'argnames,
-          'doc => doc format: 'markdown
+          'doc => doc format: 'fdoc
         ]>
 
         map['methods] at: full_name put: attr
@@ -175,6 +175,108 @@ class Fancy FDoc {
       json = self to_json: map
       js = "(function() { " ++ name ++ "(" ++ json ++ "); })();"
       File open: filename modes: ['write] with: |out| { out print: js }
+    }
+
+  }
+
+
+  class Formatter {
+    """
+    A documentation formater intended to be used by @FDoc@.
+
+    This formatter makes some transformations on a docstring
+    and then converts it to html using markdown.
+    """
+
+    Fancy Documentation formatter: 'fdoc is: |d| { format: d }
+
+
+    def self format: doc {
+      str = doc to_s
+      tags = <[ ]>
+      str = remove_indentation: str
+      str = remove_tags: str into: tags
+      str = create_tags: str with: tags
+      str = create_class_references: str
+      str = create_method_references: str
+      str = create_code: str
+      str = htmlize: str
+      str
+    }
+
+    def self remove_indentation: str {
+      """
+      Remove leading white space for multi-line strings.
+      This method expects the first character to be an line return.
+      """
+      m = r{\r?\n(\s+)} match(str)
+      str = str strip()
+      m if_do: {
+        pattern = "^\\s{" ++ (m[1] size()) ++ "}"
+        rex = Regexp.new(pattern)
+        str = str gsub(rex, "");
+      }
+      str
+    }
+
+    def self create_class_references: str {
+      str gsub(r{@([A-Z][^\r\n]+?)@},
+               "<code data-lang=\"fancy\" data-class=\"\\1\" class=\"selectable\">\\1</code>")
+    }
+
+    def self remove_tags: str into: map {
+      ary = str split(r{\r?\n}) map: |line| {
+        m = r{^@(\S+?)\s+(.*)} match(line)
+        m if_do: {
+          map at: (m[1]) put: (m[2])
+          nil
+        } else: {
+          line
+        }
+      }
+      ary compact join("\n")
+    }
+
+    def self create_tags: str with: map {
+      tags = map map: |pair| {
+        name = pair[0]
+        value = pair[1]
+        "<div class=\"doctag\"><label> @" ++ name ++ .
+          " </label><div>" ++ value ++ "</div></div>"
+      }
+      str ++ "\n<div class=\"doctags\">" ++ (tags join()) ++ "</div>"
+    }
+
+    def self create_code: str {
+      str gsub(r{@([^\s,\]\)\}\.]+)},
+               "<code data-lang=\"fancy\">\\1</code>")
+    }
+
+    def self htmlize: str {
+      require("rubygems")
+      require("rdiscount")
+      RDiscount new(str) to_html()
+    }
+
+    def self create_method_references: str {
+      # First methods ending with :
+      str gsub(r{@([a-z_:]+:)@},
+               "<code data-lang=\"fancy\" data-method=\"\\1\" class=\"selectable\">\\1</code>") .
+      # fancy methods starting with : (argless fancy methods)
+      gsub(r{@:([a-z_]+)@},
+           "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>") .
+      # Class methods Foo bar
+      gsub(r{@([A-Z]\w+) ([a-z_:]+)@},
+           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-class-method=\"\\2\" class=\"selectable\">\\1#\\2</code>") .
+      # Class methods Foo :bar
+      gsub(r{@([A-Z]\w+) :([a-z_:]+)@},
+           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-class-method=\":\\2\" class=\"selectable\">\\1 \\2</code>") .
+      # Instance methods Foo#bar
+      gsub(r{@([A-Z]\w+)\#([a-z_:]+)@},
+           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-instance-method=\"\\2\" class=\"selectable\">\\1#\\2</code>") .
+      # Instance methods Foo#:bar
+      gsub(r{@([A-Z]\w+)\#:([a-z_:]+)@},
+           "<code data-lang=\"fancy\" data-on-class=\"\\1\" data-instance-method=\":\\2\" class=\"selectable\">\\1#\\2</code>")
     }
 
   }

@@ -28,6 +28,7 @@ class Console {
   }
 
   def Console readln: message {
+
     """
     @message A @String@ that should be printed to @STDOUT before reading from @STDIN.
     @return Line (@String@) read from @STDIN.

@@ -1,7 +1,6 @@
 class Fancy Documentation {
 
   def initialize: docstring {
-    docstring = Docstring transform(docstring)
     @docs = [docstring]
   }
 

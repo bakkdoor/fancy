@@ -5,11 +5,11 @@ class Fancy Package {
   class Installer {
     """
 
-    Fancy Package installer.
+    @Fancy Package@ installer.
 
     Downloads packages from Github (usually the latest tagged version,
     if no version is specified, or the latest HEAD revision in the
-    master branch) and install it to the FANCY_PACKAGE_DIR.
+    master branch) and install it to the @FANCY_PACKAGE_DIR.
 
     """
 
@@ -19,7 +19,7 @@ class Fancy Package {
 
     def initialize: @package_name version: @version = "latest", install_path: @install_path = ENV["FANCY_PACKAGE_DIR"] {
       """
-      Creates a new Package Installer for a given package name, an
+      Creates a new @Package Installer@ for a given package name, an
       optional version (default is 'latest') and an optional
       installation path (default is the standard installation path for
       Fancy packages).
@@ -43,7 +43,7 @@ class Fancy Package {
     def run {
       """
       Runs the installer & installs the package into
-      $FANCY_PACKAGE_DIR.
+      @$FANCY_PACKAGE_DIR.
       """
 
       filename = nil
@@ -92,7 +92,7 @@ class Fancy Package {
       (tag or branch name) and saves it to the specified @install_path.
 
       The Default install_path is ~/.fancy/packages/.
-      If an environment variable 'FANCY_PACKAGE_DIR' is defined, it
+      If an environment variable @FANCY_PACKAGE_DIR is defined, it
       will get used.
       """
 

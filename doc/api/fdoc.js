@@ -138,6 +138,7 @@
 
       populateMethods("instance_methods", cls);
       populateMethods("methods", cls);
+
     });
   };
 

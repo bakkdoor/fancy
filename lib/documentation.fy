@@ -95,19 +95,21 @@ class Fancy Documentation {
 
 }
 
-class Fancy Documentation BlueCloth {
+class Fancy Documentation RDiscount {
 
-  "A documentation formatter using ruby's BlueCloth markdown"
-  Fancy Documentation formatter: 'bluecloth is: |d| { bluecloth: d }
+  "A documentation formatter using ruby's RDiscount markdown"
+  Fancy Documentation formatter: 'rdiscount is: |d| { rdiscount: d }
 
   # Register as default markdown formatter.
-  Fancy Documentation formatter: 'markdown is: |d| { bluecloth: d }
+  Fancy Documentation formatter: 'markdown is: |d| { rdiscount: d }
 
-  def self bluecloth: doc {
+  def self rdiscount: doc {
     "Format string as HTML using BlueCloth ruby gem."
     require("rubygems")
-    require("bluecloth")
-    BlueCloth.new(doc to_s).to_html()
+    require("rdiscount")
+    RDiscount.new(doc to_s).to_html()
   }
 
 }
+
+
