@@ -294,7 +294,7 @@ module Fancy
     end
 
     def regex_literal(line, regexp_str)
-      regexp_str = regexp_str[2..-2]
+      regexp_str = regexp_str[1..-2]
       Rubinius::AST::RegexLiteral.new(line, regexp_str, 0)
     end
 
