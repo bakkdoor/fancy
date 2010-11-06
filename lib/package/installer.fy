@@ -59,6 +59,7 @@ class Fancy Package {
       # now unpack & check for dependencies
       unpack_dir = unpack_file: filename
       rename_dir: unpack_dir
+      self load_fancypack
     }
 
     def latest_tag {
@@ -83,7 +84,7 @@ class Fancy Package {
       to be installed.
       """
 
-      "http://github.com/" ++ @package_name ++ "/tarball/" ++ version
+      "https://github.com/" ++ @package_name ++ "/tarball/" ++ version
     }
 
     def download_tgz: version {
@@ -103,7 +104,7 @@ class Fancy Package {
       filename = [@user, "_", @repository, "-", version, ".tar.gz"] join
 
       # run wget to get the .tar.gz file
-      cmd = ["wget --quiet ", download_url, " -O ", @download_path, "/", filename] join
+      cmd = ["wget --quiet --no-check-certificate ", download_url, " -O ", @download_path, "/", filename] join
       System do: cmd
 
       filename
@@ -115,13 +116,64 @@ class Fancy Package {
       dirname = output readline chomp
     }
 
+    def installed_path {
+      @install_path + "/" + @user + "_" + @repository + "-" + @version
+    }
+
+    def lib_path {
+      @install_path + "/lib"
+    }
+
     def rename_dir: dirname {
       """
       Renames a given directory to a common way within the install path.
       => It will rename the given dirname to $user/$repo-$version.
       """
 
-      System do: $ ["mv ", @install_path, "/", dirname, " ", @install_path, "/", @user, "_", @repository, "-", @version] join
+      System do: $ ["mv ", @install_path, "/", dirname, " ", self installed_path] join
+    }
+
+    def load_fancypack {
+      """
+      Loads the @.fancypack file within the downloaded package directory.
+      If no @.fancypack file is found, raise an error.
+      """
+
+      Dir glob(self installed_path ++ "/*.fancypack") first if_do: |fpackfile| {
+        require: fpackfile
+      }
+
+      Specification[@repository] if_do: |spec| {
+        fulfill_spec: spec
+      } else: {
+        "Something wen't wrong. Did not find a fancypack specification for package: " ++ @repository . raise!
+      }
+    }
+
+    def fulfill_spec: spec {
+      spec include_files empty? if_false: {
+        File open: (self lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
+          spec include_files each: |if| {
+            f write: "require: \""
+            f write: (self installed_path)
+            f write: "/"
+            f write: if
+            f writeln: "\""
+          }
+        }
+      }
+
+      spec dependencies each: |dep| {
+        Package install: dep
+      }
+
+      spec rubygem_dependencies each: |dep| {
+        dep version == 'latest if_true: {
+          System do: $ "gem install " ++ (dep gem_name)
+        } else: {
+          System do: $ "gem install -v=" ++ (dep version) ++ " " ++ (dep gem_name)
+        }
+      }
     }
   }
 }
