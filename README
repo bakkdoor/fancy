@@ -108,7 +108,9 @@ What's already working?
   - Class definitions
     (including nested classes that work like modules / namespaces)
   - Instance & class method definitions
-  - String, Integer, Float, Array, Hash (HashMap) & Block literals
+  - Literal syntax for:
+    - String, Integer, Float, Array, Hash (HashMap), Blocks (closures),
+      Ranges, Tuples, Regular Expressions
   - Method & Operator calls
   - Instance & class variable access
   - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
