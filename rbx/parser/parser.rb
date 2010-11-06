@@ -227,6 +227,10 @@ module Fancy
       Fancy::AST::TupleLiteral.new(line, *expr_ary)
     end
 
+    def range_literal(line, from, to)
+      Fancy::AST::RangeLiteral.new(line, from, to)
+    end
+
     def block_args(line, identifier, ary = [])
       ary.push identifier
     end
