@@ -1,4 +1,4 @@
-;;;
+;;
 ;;;  fancy-mode.el -
 ;;;  fancy-mode is a copy of ruby-mode.el and adapted to fancy's
 ;;;  syntax for highlighting etc.
@@ -1178,6 +1178,7 @@ balanced expression is found."
  )
 
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
+(add-to-list 'auto-mode-alist '("\\.fancypack\\'" . fancy-mode))
 
 ;; Ignore .fyc (compiled fancy bytecode) files
 (add-to-list 'completion-ignored-extensions ".fyc")

@@ -1,5 +1,7 @@
 require: "package/installer"
 require: "package/uninstaller"
+require: "package/dependency"
+require: "package/specification"
 
 class Fancy Package {
   """
