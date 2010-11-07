@@ -38,9 +38,9 @@ class String {
   }
 
   def eval {
-    binding = Binding.setup(Rubinius::VariableScope.of_sender(),
-                            Rubinius::CompiledMethod.of_sender(),
-                            Rubinius::StaticScope.of_sender())
+    binding = Binding setup(Rubinius VariableScope of_sender(),
+                            Rubinius CompiledMethod of_sender(),
+                            Rubinius StaticScope of_sender())
     Fancy eval(self, binding)
   }
 
