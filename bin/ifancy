@@ -1,5 +1,7 @@
 #!/usr/bin/env fancy
 
+require("readline")
+
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy " ++ FANCY_VERSION] println
 
@@ -8,16 +10,33 @@ ARGV rest each: |file| {
   require: file
 }
 
+# handle SIGINT
+trap("INT") {
+  "Quitting." println
+  System exit
+}
+
 Console newline;
 
-self loop: {
-  try {
-    Console readln: ">> " . if_do: |line| {
-      line eval inspect println
-    } else: {
-      System exit
+def double_or_empty?: line {
+  (line =~ /^\s*$/) or: (Readline HISTORY to_a[-2] == line)
+}
+
+try {
+  { Readline readline(">> ", true) } while_do: |line| {
+
+    double_or_empty?: line . if_true: {
+      Readline::HISTORY pop()
     }
-  } catch StdError => e {
-    e message println
+
+    line =~ /^\s*$/ if_false: {
+      try {
+        line eval inspect println
+      } catch Exception => e {
+        e message println
+      }
+    }
   }
+} catch Interrupt => e {
+  System exit
 }
