@@ -53,6 +53,8 @@ identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
 symbol_lit      \'({identifier}|{operator}|:|"[]")+
+ruby_send_open  {identifier}{lparen}
+ruby_oper_open  {operator}{lparen}
 regexp_lit      "/".*"/"
 comma           ,
 
@@ -136,6 +138,14 @@ comment         #[^\n]*
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
+                }
+{ruby_send_open} {
+                  yylval.object = rb_str_new2(yytext);
+                  return RUBY_SEND_OPEN;
+                }
+{ruby_oper_open} {
+                  yylval.object = rb_str_new2(yytext);
+                  return RUBY_OPER_OPEN;
                 }
 {constant}      {
                   yylval.object = rb_str_new2(yytext);

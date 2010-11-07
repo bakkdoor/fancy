@@ -53,6 +53,8 @@ extern VALUE m_Parser;
 %token                  MATCH
 %token                  CASE
 %token                  IDENTIFIER
+%token                  RUBY_SEND_OPEN
+%token                  RUBY_OPER_OPEN
 %token                  CONSTANT
 
 %token                  INTEGER_LITERAL
@@ -128,8 +130,10 @@ extern VALUE m_Parser;
 %type  <object>         class_operator_def
 
 %type  <object>         message_send
+%type  <object>         ruby_send_open
+%type  <object>         ruby_oper_open
 %type  <object>         ruby_send
-%type  <object>         ruby_operator_send
+%type  <object>         ruby_oper_send
 %type  <object>         ruby_args
 %type  <object>         operator_send
 %type  <object>         send_args
@@ -205,7 +209,7 @@ exp:            method_def
                 | message_send
                 | operator_send
                 | ruby_send
-                | ruby_operator_send
+                | ruby_oper_send
                 | literal_value
                 | any_identifier
                 | SUPER { $$ = rb_funcall(m_Parser, rb_intern("super_exp"), 1, INT2NUM(yylineno)); }
@@ -337,16 +341,16 @@ method_args:    method_arg {
                 }
                 ;
 
-method_arg_default: identifier COLON identifier EQUALS exp {
-                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $3, $5);
+method_arg_default: identifier COLON identifier LPAREN space exp space RPAREN {
+                  $$ = rb_funcall(m_Parser, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $3, $6);
                 }
                 ;
 
 method_args_default: method_arg_default {
                   $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
                 }
-                | method_args_default COMMA space method_arg_default {
-                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
+                | method_args_default space method_arg_default {
+                  $$ = rb_funcall(m_Parser, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 
@@ -401,25 +405,43 @@ message_send:   exp identifier {
                 }
                 ;
 
-ruby_send:      exp identifier ruby_args {
+/* ruby_send_open is just an identifier immediatly followed by a left-paren
+   NO SPACE ALLOWED between the identifier and the left-paren. that's why we
+   need a parse rule.
+*/
+ruby_send_open: RUBY_SEND_OPEN {
+                  // remove the trailing left paren and create an identifier.
+                  $$ = fy_terminal_node("ruby_send_open");
+                };
+ruby_oper_open: RUBY_OPER_OPEN {
+                  // remove the trailing left paren and create an identifier.
+                  $$ = fy_terminal_node("ruby_send_open");
+                };
+
+ruby_send:      exp ruby_send_open ruby_args {
                   $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
                 }
-                | identifier ruby_args {
+                | ruby_send_open ruby_args {
                   $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), Qnil, $1, $2);
                 }
                 ;
 
-ruby_args:      LPAREN RPAREN block_literal  {
-                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $3);
+/*
+   The closing part of ruby_send_open.
+   We explicitly require parens for ALL ruby sends now, so there will always be
+   a closing paren.
+*/
+ruby_args:      RPAREN block_literal  {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $2);
                 }
-                | LPAREN exp_comma_list RPAREN block_literal {
-                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $2, $4);
+                | exp_comma_list RPAREN block_literal {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $1, $3);
                 }
-                | LPAREN RPAREN {
+                | RPAREN {
                   $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 1, INT2NUM(yylineno));
                 }
-                | LPAREN exp_comma_list RPAREN {
-                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $2);
+                | exp_comma_list RPAREN {
+                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $1);
                 }
                 ;
 
@@ -435,7 +457,7 @@ operator_send:  exp operator arg_exp {
                 }
                 ;
 
-ruby_operator_send: exp operator ruby_args {
+ruby_oper_send: exp ruby_oper_open ruby_args {
                   $$ = rb_funcall(m_Parser, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
                 }
                 ;

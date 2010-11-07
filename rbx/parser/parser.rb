@@ -67,6 +67,16 @@ module Fancy
       end
     end
 
+    def ruby_send_open(line, yytext)
+      # A ruby send is identified by the parser by seeing an
+      # identifier immediatly followed by a left-paren.
+      # NO SPACE IS ALLOWED BETWEEN THEM.
+      # So the parser gives yytext as the identifier with its
+      # left-paren as last character.
+      # Remove the paren and simply create an identifier.
+      identifier(line, yytext[0..-2])
+    end
+
     def identifier(line, yytext)
       if yytext == "self"
         Rubinius::AST::Self.new(line)

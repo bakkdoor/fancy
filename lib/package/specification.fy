@@ -18,12 +18,12 @@ class Fancy Package {
       @@specs at: @package_name put: self
     }
 
-    def add_dependency: name version: version = 'latest {
+    def add_dependency: name version: version ('latest) {
       dep = Dependency new: name version: version
       @dependencies << dep
     }
 
-    def add_ruby_dependency: gem_name version: version = 'latest {
+    def add_ruby_dependency: gem_name version: version ('latest) {
       dep = RubyDependency new: gem_name version: version
       @rubygem_dependencies << dep
     }

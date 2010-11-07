@@ -170,7 +170,7 @@ class Fancy FDoc {
     }
 
 
-    def write: filename call: name = "fancy.fdoc" {
+    def write: filename call: name ("fancy.fdoc") {
       map = self generate_map
       json = self to_json: map
       js = "(function() { " ++ name ++ "(" ++ json ++ "); })();"
