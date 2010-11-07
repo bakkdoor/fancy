@@ -12,11 +12,11 @@ class Fancy Documentation {
   @on_documentation_set = []
 
   def self on_documentation_set: block {
-    @on_documentation_set.unshift(block)
+    @on_documentation_set unshift(block)
   }
 
   def self documentation_for: obj set_to: doc {
-    @on_documentation_set.each |block| { block call: [obj, doc] }
+    @on_documentation_set each() |block| { block call: [obj, doc] }
   }
 
   def self for: obj is: docstring {

@@ -59,7 +59,7 @@ class Fancy FDoc {
       is_method = |o| { o kind_of?: Rubinius CompiledMethod }
       is_block = |o| { o kind_of?: Rubinius BlockEnvironment }
       all_other = |o| {
-        [is_class, is_method, is_block] all? |b| { b call: [o] == false }
+        [is_class, is_method, is_block] all?() |b| { b call: [o] == false }
       }
 
       @classes = @documented_objects keys select: is_class
@@ -270,7 +270,7 @@ class Fancy FDoc {
       str gsub(/@[A-Z][^\r\n\s]+?@/) |cstr| {
        names = cstr slice(1, cstr size() - 2) split("::")
        refs = []
-       names each_with_index |name, idx| {
+       names each_with_index() |name, idx| {
          n = name split(/[\#\~]/)
          clas = names take(idx) + [n[0]] . join(" ")
          html = "<code data-lang=\"fancy\" data-class-ref=\"" ++ .

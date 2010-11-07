@@ -114,6 +114,6 @@ class Class {
     Returns an instance method for a @Class@ with a given name.
     """
 
-     self instance_method(message_name: name)
+    self instance_method(message_name: name)
   }
 }

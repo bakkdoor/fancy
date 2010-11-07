@@ -8,7 +8,6 @@ class Class {
 
   def define_slot_reader: slotname {
     "Defines a slot reader method with a given name."
-
     define_method: slotname with: {
       get_slot: slotname
     }
@@ -40,7 +39,6 @@ class Class {
 
   def read_write_slots: slots {
     "Defines slot reader & writer methods for all given slotnames."
-
     slots each: |s| {
       define_slot_reader: s
       define_slot_writer: s

@@ -46,7 +46,7 @@ class Array {
     "Calls a given Block with each element in the Array."
 
     val = nil
-    each |x| { val = block call: [x] }
+    each() |x| { val = block call: [x] }
     val
   }
 
