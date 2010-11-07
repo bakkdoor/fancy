@@ -26,7 +26,7 @@ module Fancy
     # filename.
     def self.find_file(filename)
       filename_with_ext = filename + ".#{SOURCE_FILE_EXTENSION}"
-      unless File.exists? filename
+      if !File.exists?(filename) || File.directory?(filename)
         return filename_with_ext if File.exists? filename_with_ext
       else
         return filename
