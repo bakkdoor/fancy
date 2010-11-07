@@ -25,7 +25,11 @@ class String {
   def blank? {
     "Indicates, if a String consists only of whitespace."
 
-    self =~ /^\s*$/
+    self =~ /^\s*$/ if_do: {
+      true
+    } else: {
+      false
+    }
   }
 
   def * num {
