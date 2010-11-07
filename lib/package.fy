@@ -49,6 +49,11 @@ class Fancy Package {
   }
 
   def self add_to_loadpath {
+    """
+    Adds the Fancy Package install dir to the loadpath so you can
+    easily @require: packages into your code.
+    """
+
     root = Fancy Package package_root_dir
     Fancy CodeLoader push_loadpath: root
     Fancy CodeLoader push_loadpath: (root ++ "/lib")
