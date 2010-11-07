@@ -421,9 +421,6 @@ ruby_args:      LPAREN RPAREN block_literal  {
                 | LPAREN exp_comma_list RPAREN {
                   $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $2);
                 }
-                | block_literal {
-                  $$ = rb_funcall(m_Parser, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $1);
-                }
                 ;
 
 operator_send:  exp operator arg_exp {
