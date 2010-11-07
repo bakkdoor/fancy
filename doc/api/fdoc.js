@@ -116,7 +116,19 @@
       }
     });
 
-    $("[data-class]").live("click", function(event) {
+    $("[data-class-ref]").live("click", function(event) {
+      event.preventDefault();
+      var ref = $(this).attr("data-class-ref");
+      var cls = $(".classes [data-class='"+ref+"']");
+      cls.trigger('click');
+      while(!cls.is(":visible")) {
+        par = cls.parent();
+        par.find("> .expand").trigger("click");
+        cls = par;
+      }
+    });
+
+    $(".classes [data-class]").live("click", function(event) {
       event.preventDefault();
       $('.classes .selectable.ui-state-active').removeClass('ui-state-active');
       $(this).addClass('ui-state-active');
@@ -127,7 +139,7 @@
 
       _.reduce(class_name.split(" "), function(ary, name){
         $("<span>").
-          attr("data-class", ary.concat([name]).join(" ")).
+          attr("data-class-ref", ary.concat([name]).join(" ")).
           text(name).addClass("selectable").appendTo($(".subject"));
         $("<span>&nbsp;</span>").appendTo($(".subject"));
         return ary.concat([name]);
