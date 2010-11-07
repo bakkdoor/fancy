@@ -7,4 +7,7 @@ class Symbol {
     Fancy eval(self to_s, binding)
   }
 
+  def inspect {
+    "'" ++ (inspect() from: 1 to: -1)
+  }
 }
