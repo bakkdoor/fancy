@@ -111,4 +111,14 @@ FancySpec describe: Method with: {
   #   Foo method: 'private_bar . protected? should == nil
   #   Foo method: 'protected_bar . protected? should == true
   # }
+
+  it: "should set the default values for optional argument, when not passed in" when: {
+    def foo: arg1 bar: arg2 ("foo") baz: arg3 (nil) {
+      arg1 ++ arg2 ++ arg3
+    }
+
+    foo: "hello" bar: "world" baz: "!" . should == "helloworld!"
+    foo: "hello" bar: "world" . should == "helloworld"
+    foo: "hello"  . should == "hellofoo"
+  }
 }
