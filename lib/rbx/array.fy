@@ -186,7 +186,7 @@ class Array {
     """
 
     tmp = []
-    each_with_index |obj idx| {
+    each_with_index: |obj idx| {
       block call: [obj, idx] . if_true: {
         tmp << [obj, idx]
       }
