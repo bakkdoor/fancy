@@ -33,4 +33,20 @@ class Block {
 
     while_false: block
   }
+
+  def while_do: block {
+    """
+    @block @Block@ to be called with the value of calling @self, when calling @self yields a true-ish value.
+
+    Calls a given @Block@ while calling @self yields a true-ish value
+    (everything not @nil or @false). When calling @block, passed in
+    the return value of calling @self.
+    In that terms, it's similar to @Object#if_do:@
+    """
+
+    val = nil
+    { val = self call } while_true: {
+      block call: [val]
+    }
+  }
 }

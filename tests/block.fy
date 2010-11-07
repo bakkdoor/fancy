@@ -49,6 +49,14 @@ FancySpec describe: Block with: {
     i should == 10
   }
 
+  it: "should call a block while another one is true-ish" for: 'while_do: when: {
+    x = 0
+    { x < 10 } while_do: |val| {
+      val should == true
+      x = x + 1
+    }
+  }
+
   it: "should call itself only when the argument is nil" for: 'unless: when: {
     try {
       { StdError new: "got_run!" . raise! } unless: nil
