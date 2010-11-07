@@ -1,37 +1,16 @@
 require File.dirname(__FILE__) + "/compiler"
 
 module Fancy
-  # Compiles fancy code to a compiled method, and load it just like
-  # any other compiled file.
-  def self.eval(code, do_print = true)
-    filename = "(fancy-eval)"
-    cm = Rubinius::Compiler.compile_fancy_code(code, filename, 1, do_print)
-    cl = Rubinius::CodeLoader.new(filename)
 
-    script = cm.create_script(false)
-    script.file_path = filename
-
-    MAIN.__send__ :__script__
-  end
-
-  # Now this is how eval should be done, but currently our
-  # FancyGenerator does not take a variable_scope.  we need to fix
-  # that. In the mean time, we define the previous
-  def self.eval_fixme_(code)
-    # currently we compile to a CompiledMethod and simply eval it on
-    # global scope just like in file loading
-
+  def self.eval(code, binding = nil, filename = "(fancy-eval)", line = 1)
     # Copied many things from rbx/common/eval.rb
 
-    binding = Binding.setup(Rubinius::VariableScope.of_sender,
-                            Rubinius::CompiledMethod.of_sender,
-                            Rubinius::StaticScope.of_sender)
-
-    # hardcoded filename, fix me!
-    filename = "(fancy-eval)"
+    binding ||= Binding.setup(Rubinius::VariableScope.of_sender,
+                              Rubinius::CompiledMethod.of_sender,
+                              Rubinius::StaticScope.of_sender)
 
     # The compiled method
-    cm = Rubinius::Compiler.compile_fancy_eval(code, binding.variables, filename)
+    cm = Rubinius::Compiler.compile_fancy_eval(code, binding.variables, filename, line)
     cm.scope = binding.static_scope.dup
     cm.name = :__fancy_eval__
 
@@ -41,18 +20,18 @@ module Fancy
 
     cm.scope.script = script
 
-    cm.compile
-
     be = Rubinius::BlockEnvironment.new
     be.under_context binding.variables, cm
 
-    if binding.from_poc?
+    if binding.from_proc?
       be.proc_environment = binding.proc_environment
     end
 
-    be.form_eval!
+    be.from_eval!
+
     be.call
   end
+
 end
 
 if $0 == __FILE__

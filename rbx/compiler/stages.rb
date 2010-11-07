@@ -10,12 +10,17 @@ module Rubinius
       stage :fancy_bytecode
       next_stage Encoder
 
+      attr_accessor :variable_scope
+
       def initialize(compiler, last)
         super
+        @variable_scope = nil
+        compiler.generator = self
       end
 
       def run
         @output = Rubinius::Generator.new
+        @input.variable_scope = @variable_scope
         @input.bytecode @output
         @output.close
         run_next

@@ -38,7 +38,10 @@ class String {
   }
 
   def eval {
-    Fancy eval(self, false)
+    binding = Binding.setup(Rubinius::VariableScope.of_sender(),
+                            Rubinius::CompiledMethod.of_sender(),
+                            Rubinius::StaticScope.of_sender())
+    Fancy eval(self, binding)
   }
 
   def eval_global {

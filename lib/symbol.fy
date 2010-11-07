@@ -20,9 +20,4 @@ class Symbol {
     }
   }
 
-  def eval {
-    "Evaluates the symbol within the current scope."
-
-    self to_s eval
-  }
 }
