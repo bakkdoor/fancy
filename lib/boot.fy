@@ -7,6 +7,12 @@
 # In general, it's best to add any autoload-files at the end of the
 # current list (if adding them here is really necessary at all).
 
+# rbx.fy loads all the files in lib/rbx/ in the correct order, which
+# define all the functionality to let fancy run on rbx.
+# also, they might override functionality defined in lib/ to reuse
+# existing ruby methods etc.
+require: "rbx.fy"
+
 require: "object"
 require: "class"
 require: "true_class"
@@ -32,9 +38,3 @@ require: "argv"
 require: "documentation"
 
 require: "package.fy"
-
-# rbx.fy loads all the files in lib/rbx/ in the correct order, which
-# define all the functionality to let fancy run on rbx.
-# also, they might override functionality defined in lib/ to reuse
-# existing ruby methods etc.
-require: "rbx.fy"
