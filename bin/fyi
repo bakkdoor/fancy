@@ -1,4 +1,5 @@
 #!/usr/bin/env fancy
+# -*- fancy -*-
 
 ARGV[1] if_do: |ident| {
   "Documentation for: '" ++ ident ++ "' :" println;
