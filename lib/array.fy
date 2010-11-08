@@ -28,7 +28,11 @@ class Array {
   }
 
   def === other {
-    "Compares two Arrays where order does not matter."
+    """
+    @other Other @Array@ to compare this one to.
+
+    Compares two Arrays where order does not matter.
+    """
 
     other is_a?: Array . if_true: {
       self size != (other size) if_true: {
@@ -40,7 +44,12 @@ class Array {
   }
 
   def find: item {
-    "Returns the item, if it's in the Array or nil (if not found)."
+    """
+    @item @Object@ / Element to find in the @Array@.
+    @return @item if, it's found in the @Array@, otherwise @nil.
+
+    Returns the item, if it's in the Array or nil (if not found).
+    """
 
     item is_a?: Block . if_true: {
       find_by: item
@@ -52,7 +61,13 @@ class Array {
   }
 
   def find_by: block {
-    "Like find: but takes a block that gets called with each element to find it."
+    """
+    @block @Block@ to be called for each element in the @Array@.
+    @return The first element, for which @block yields @true.
+
+    Like find: but takes a block that gets called with each element to find it.
+    """
+
     self each: |x| {
       block call: [x] . if_true: {
         return x
@@ -61,7 +76,12 @@ class Array {
   }
 
   def values_at: idx_arr {
-    "Returns new Array with elements at given indices."
+    """
+    @idx_arr @Array@ of indices.
+    @return @Array@ of all the items with the given indices in @idx_arr.
+
+    Returns new @Array@ with elements at given indices.
+    """
 
     values = []
     idx_arr each: |idx| {
@@ -71,40 +91,70 @@ class Array {
   }
 
   def >> other_arr {
-    "Returns new Array with elements of other_arr appended to these."
+    """
+    @other_arr @Array@ to be appended to @self.
+    @return New @Array@ with @other_arr and @self appended.
+
+    Returns new Array with elements of other_arr appended to these.
+    """
 
     arr = self clone
     arr append: other_arr
   }
 
   def join {
-    "Joins all elements with the empty String."
+    """
+    @return Elements of @Array@ joined to a @String@.
+
+    Joins all elements with the empty @String@.
+        [\"hello\", \"world\", \"!\"] join # => \"hello, world!\"
+    """
 
     join: ""
   }
 
   def select!: condition {
-    "Removes all elements in place, that don't meet the condition."
+    """
+    @condition A condition @Block@ (or something @Callable) for selecting items from @self.
+    @return @self, but changed with all elements removed that don't yield @true for @condition.
+
+    Removes all elements in place, that don't meet the condition.
+    """
 
     reject!: |x| { condition call: [x] . not }
     return self
   }
 
   def compact! {
-    "Removes all nil-value elements in place."
+    """
+    @return @self
+
+    Removes all nil-value elements in place.
+    """
 
     reject!: |x| { x nil? }
     return self
   }
 
   def remove: obj {
-    "Removes all occurances of obj in the Array."
+    """
+    @obj Object to be removed within @self.
+    @return @self, with all occurances of @obj removed.
+
+    Removes all occurances of obj in the Array.
+    """
 
     remove_at: (indices_of: obj)
   }
 
   def remove_if: condition {
-    "Removes all elements that meet the given condition block."
+    """
+    @condition @Block@ (or @Callable) that indicates, if an element should be removed from @self.
+    @return @self, with all elements removed for which @condition yields true.
+
+    Like @Array#remove:@, but taking a condition @Block@.
+    Removes all elements that meet the given condition @Block@.
+    """
 
     remove_at: (select_with_index: condition . map: 'second)
   }
@@ -118,14 +168,14 @@ class Array {
   }
 
   def to_s {
-    "Returns String representation of Array."
+    "Returns @String@ representation of @Array@."
 
     reduce: |x y| { x ++ y } init_val: ""
   }
 
   def * num {
     """
-    Returns a new Array that contains the elements of self num times
+    Returns a new @Array@ that contains the elements of self num times
     in a row.
     """
 
@@ -137,15 +187,15 @@ class Array {
   }
 
   def + other_arr {
-    "Returns concatenation with another Array."
+    "Returns concatenation with another @Array@."
 
     self clone append: other_arr
   }
 
   def each: each_block in_between: between_block {
     """
-    Similar to Array#each: but calls an additional Block between
-    calling the first Block for each element in self.
+    Similar to @Array#each:@ but calls an additional @Block@ between
+    calling the first @Block@ for each element in self.
     """
 
     count = 0
@@ -160,7 +210,7 @@ class Array {
   }
 
   def indices {
-    "Returns an Array of all the indices of an Array."
+    "Returns an @Array@ of all the indices of an @Array@."
 
     0 upto: (self size - 1)
   }
