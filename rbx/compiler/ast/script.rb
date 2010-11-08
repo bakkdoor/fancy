@@ -12,6 +12,13 @@ module Fancy
 
       def bytecode(g)
         docs, code = body.expressions.partition { |s| s.kind_of?(Rubinius::AST::StringLiteral) }
+
+        if code.empty?
+          # only literal string found, we have to evaluate to it, not
+          # use as documentation.
+          docs, code = [], docs
+        end
+
         code.each { |c| c.bytecode(g) }
 
         # the docs array has top-level expressions that are
