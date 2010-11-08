@@ -1,1 +1,5 @@
-Node = Rubinius::AST::Node
+module Fancy
+  module AST
+    Node = Rubinius::AST::Node
+  end
+end
