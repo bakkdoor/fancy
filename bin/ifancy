@@ -22,7 +22,10 @@ def double_or_empty?: line {
   (line =~ /^\s*$/) or: (Readline HISTORY to_a[-2] == line)
 }
 
+
 try {
+  bnd = binding()
+
   { Readline readline(">> ", true) } while_do: |line| {
 
     double_or_empty?: line . if_true: {
@@ -31,7 +34,7 @@ try {
 
     line =~ /^\s*$/ if_false: {
       try {
-        line eval inspect println
+        Fancy eval(line, bnd) inspect println
       } catch Exception => e {
         e message println
       }
