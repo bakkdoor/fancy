@@ -1,20 +1,37 @@
 class Class {
   """
-  This class is the class of Class objects - e.g. Object, Array,
-  String etc.
+  This class is the class of @Class@ objects - e.g. @Object@, @Array@,
+  @String@ etc.
   Any class in the language is an instance of this class, as in Ruby
   or Smalltalk.
   """
 
   def define_slot_reader: slotname {
-    "Defines a slot reader method with a given name."
+    """
+    @slotname Name of the slot to define a getter method for.
+
+    Defines a slot reader method with a given name.
+    E.g. for a slotname @count it will define the following method:
+        def count {
+          get_slot: 'count
+        }
+    """
+
     define_method: slotname with: {
       get_slot: slotname
     }
   }
 
   def define_slot_writer: slotname {
-    "Defines a slot writer method with a given name."
+    """
+    @slotname Name of the slot to defnie define a setter method for.
+
+    Defines a slot writer method with a given name.
+    E.g. for a slotname @count it will define the following method:
+        def count: c {
+          set_slot: 'count value: c
+        }
+    """
 
     define_method: (slotname to_s + ":") with: |val| {
       set_slot: slotname value: val
@@ -22,7 +39,11 @@ class Class {
   }
 
   def read_slots: slots {
-    "Defines slot reader methods for all given slotnames."
+    """
+    @slots @Array@ of slotnames to define getter methods for.
+
+    Defines slot reader methods for all given slotnames.
+    """
 
     slots each: |s| {
       define_slot_reader: s
@@ -30,7 +51,11 @@ class Class {
   }
 
   def write_slots: slots {
-    "Defines slot writer methods for all given slotnames."
+    """
+    @slots @Array@ of slotnames to define setter methods for.
+
+    Defines slot writer methods for all given slotnames.
+    """
 
     slots each: |s| {
       define_slot_writer: s
@@ -38,7 +63,12 @@ class Class {
   }
 
   def read_write_slots: slots {
-    "Defines slot reader & writer methods for all given slotnames."
+    """
+    @slots @Array@ of slotnames to define getter & setter methods for.
+
+    Defines slot reader & writer methods for all given slotnames.
+    """
+
     slots each: |s| {
       define_slot_reader: s
       define_slot_writer: s
@@ -46,7 +76,12 @@ class Class {
   }
 
   def subclass?: class_obj {
-    "Indicates, if a Class is a subclass of another Class."
+    """
+    @class_obj Class object to check for, if @self is a subclass of @class_obj.
+    @return @true, if @self is a subclass of @class_obj, @false otherwise.
+
+    Indicates, if a Class is a subclass of another Class.
+    """
 
     self == class_obj if_true: {
       true
@@ -59,8 +94,12 @@ class Class {
   }
 
   def alias_method: new_method_name for: old_method_name {
-    "Defines an alias method for another method."
+    """
+    @new_method_name New method name to be used as an alias for @old_method_name.
+    @old_method_name Name of method to alias (must exist in the @Class@).
+
+    Defines an alias method for another method.
+    """
     define_method: new_method_name with: (self method: old_method_name)
   }
-
 }
