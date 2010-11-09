@@ -87,11 +87,11 @@ FancySpec describe: Array with: {
 
     arr find: "bar" . should == "bar"
 
-    # arr find: |x| {
-    #   x is_a?: String . if_true: {
-    #     x from: 0 to: 1 == "ba"
-    #   }
-    # } . should == "bar"
+    arr find: |x| {
+      x is_a?: String . if_true: {
+        x from: 0 to: 1 == "ba"
+      }
+    } . should == "bar"
 
     arr find: "foo" . should == nil
   }
@@ -101,11 +101,11 @@ FancySpec describe: Array with: {
 
     arr find: "ba" . should == nil
 
-    # arr find: |x| {
-    #   x is_a?: String . if_true: {
-    #     x from: 0 to: 1 == "aa"
-    #   }
-    # } . should == nil
+    arr find: |x| {
+      x is_a?: String . if_true: {
+        x from: 0 to: 1 == "aa"
+      }
+    } . should == nil
 
     arr find: "foobar" . should == nil
   }
@@ -130,7 +130,7 @@ FancySpec describe: Array with: {
     arr last: 4 . should == [2, 3, 'foo, "bar"]
     arr last: 5 . should == [1, 2, 3, 'foo, "bar"]
     arr last: (arr size) . should == arr
-#    arr last: (arr size + 1) . should == []
+    arr last: (arr size + 1) . should == arr
   }
 
   it: "should return an array containing the values at the given indices" for: 'values_at: when: {
@@ -187,13 +187,13 @@ FancySpec describe: Array with: {
     arr should == [1, 2, 'bar, 3, 'baz]
     arr remove_at: 3
     arr should == [1, 2, 'bar, 'baz]
-    # arr remove_at: [2, 3]
-    # arr should == [1, 2]
-    # arr = [1, 'hello, 2, 'world]
-    # # remove_at: returns the removed elements as an array
-    # # if it was passed an array of indexes
-    # arr remove_at: [0, 2, 3] . should == [1, 2, 'world]
-    # arr should == ['hello]
+    arr remove_at: [2, 3]
+    arr should == [1, 2]
+    arr = [1, 'hello, 2, 'world]
+    # remove_at: returns the removed elements as an array
+    # if it was passed an array of indexes
+    arr remove_at: [0, 2, 3] . should == [1, 2, 'world]
+    arr should == ['hello]
   }
 
   it: "should remove all occurances of a given object in-place" for: 'remove: when: {
@@ -210,11 +210,11 @@ FancySpec describe: Array with: {
     arr should == [2, 3, 2, 4]
   }
 
-  # it: "should remove all elements that meet a given condition block" for: 'remove_if: when: {
-  #   arr = [1, 2, 3, 2, 5, 4]
-  #   arr remove_if: |x| { x < 3 }
-  #   arr should == [3, 5, 4]
-  # }
+  it: "should remove all elements that meet a given condition block" for: 'remove_if: when: {
+    arr = [1, 2, 3, 2, 5, 4]
+    arr remove_if: |x| { x < 3 }
+    arr should == [3, 5, 4]
+  }
 
   it: "should remove all nil-value entries when calling compact" for: 'compact when: {
     ['foo, nil, 'bar, nil, 'baz] compact should == ['foo, 'bar, 'baz]
