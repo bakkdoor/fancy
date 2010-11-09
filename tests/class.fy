@@ -192,12 +192,12 @@ FancySpec describe: Class with: {
     x public_method should == "public!"
     try {
       x private_method should == nil # should fail
-    } catch MethodNotFoundError => e {
+    } catch NoMethodError => e {
       e method_name should == "private_method"
     }
     try {
       x protected_method should == nil # should fail
-    } catch MethodNotFoundError => e {
+    } catch NoMethodError => e {
       e method_name should == "protected_method"
     }
   }
@@ -248,7 +248,7 @@ FancySpec describe: Class with: {
   #   Foo undefine_method: 'instance_method . should == true
   #   try {
   #     f instance_method should == nil # should not get here
-  #   } catch MethodNotFoundError => e {
+  #   } catch NoMethodError => e {
   #     e method_name should == "instance_method"
   #   }
   # }
@@ -264,7 +264,7 @@ FancySpec describe: Class with: {
   #   Foo undefine_class_method: 'class_method . should == true
   #   try {
   #     Foo class_method should == nil # should not get here
-  #   } catch MethodNotFoundError => e {
+  #   } catch NoMethodError => e {
   #     e method_name should == "class_method"
   #   }
   # }
