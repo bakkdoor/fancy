@@ -2,11 +2,12 @@ module Fancy
   module AST
 
     class MethodDef < Rubinius::AST::Define
-      def initialize(line, method_ident, args, body)
+      def initialize(line, method_ident, args, body, access = :public)
         @line = line
         @name = method_ident.method_name
         @arguments = args
         @body = body
+        @access = access
         generate_ivar_assignment
       end
 
@@ -22,6 +23,10 @@ module Fancy
       end
 
       def bytecode(g)
+        g.push_self
+        g.send @access, 0
+        g.pop
+
         if @name.to_s =~ /^initialize:(\S)+/
           define_constructor_class_method g
         end
