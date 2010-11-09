@@ -101,6 +101,6 @@ class Class {
     Defines an alias method for another method.
     """
 
-    alias_method(message_name: new_method_name, message_name: old_method_name)
+    alias_method_rbx: new_method_name for: old_method_name
   }
 }
