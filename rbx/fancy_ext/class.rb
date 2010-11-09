@@ -17,4 +17,10 @@ class Class
     end
   end
 
+  define_method(":define_forward_method_missing") do
+    define_method("method_missing") do |method_name, *args|
+      self.send("unknown_message:with_params:", method_name, args)
+    end
+  end
+
 end
