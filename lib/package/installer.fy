@@ -169,9 +169,9 @@ class Fancy Package {
 
       spec rubygem_dependencies each: |dep| {
         dep version == 'latest if_true: {
-          System do: $ "gem install " ++ (dep gem_name)
+          System do: $ "rbx gem install " ++ (dep gem_name)
         } else: {
-          System do: $ "gem install -v=" ++ (dep version) ++ " " ++ (dep gem_name)
+          System do: $ "rbx gem install -v=" ++ (dep version) ++ " " ++ (dep gem_name)
         }
       }
     }
