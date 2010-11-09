@@ -31,9 +31,7 @@ end
 
 desc "Runs the test suite."
 task :test do
-  Dir.glob("tests/*.fy").each do |t|
-    sh _['bin/fancy'], _[t]
-  end
+  sh _['bin/fancy -e "ARGV rest rest each: |f| { require: f }" tests/*.fy']
 end
 
 desc "Invokes bootstrap."
