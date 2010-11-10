@@ -66,6 +66,7 @@ def             "def"
 dot             "."
 dollar          "$"
 comment         #[^\n]*
+escaped_newline "\\".*\n
 
 %%
 
@@ -172,6 +173,7 @@ comment         #[^\n]*
 {comment}       {}
 
 [ \t]*		{}
+{escaped_newline} {}
 [\n]		{ return NL; }
 
 .		{ fprintf(stderr, "SCANNER %d", yyerror("")); exit(1);	}
