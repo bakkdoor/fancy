@@ -126,6 +126,6 @@ FancySpec describe: Method with: {
     def multiple_return_values: x {
       (x, x + x, x + x + x)
     }
-    val = multiple_return_values: 3 . should == $ (3, 6, 9)
+    val = multiple_return_values: 3 . should == (3, 6, 9)
   }
 }

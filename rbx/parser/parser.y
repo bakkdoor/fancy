@@ -633,8 +633,8 @@ block_literal:  expression_block {
                 }
                 ;
 
-tuple_literal:  LPAREN space exp_comma_list space RPAREN {
-                  $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $3);
+tuple_literal:  LPAREN exp_comma_list RPAREN {
+                  $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 
