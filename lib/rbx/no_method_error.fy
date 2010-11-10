@@ -1,4 +1,8 @@
 class NoMethodError {
+  """
+  Exception class that gets thrown when a method wasn't found within a class.
+  """
+
   def method_name {
     """
     @return Name of the method not found (as @String@).
