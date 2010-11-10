@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/fancy_parser'
 
 module Fancy
 
@@ -6,26 +5,28 @@ module Fancy
   # the parser, so that we can have a relatively simple fancy.y
   # For example, when the parser sees a literal (or any other node)
   # it just calls methods defined here. that create actual
-  # Fancy::AST nodes, returning them to the parser to be stored on
+  # AST nodes, returning them to the parser to be stored on
   # $$
-  module Parser
+  class Parser
 
     class ParseError < StandardError; end
 
-    extend self
-
-    @script_stack = []
-
-    def push_script(line, filename)
-      @script_stack.push AST::Script.new(line, filename)
+    def self.parse_file(filename, lineno = 1)
+      new(filename, lineno).parse_file.script
     end
 
-    def pop_script
-      @script_stack.pop
+    def self.parse_string(code, lineno = 1, filename = "(eval)")
+      new(filename, lineno).parse_string(code).script
     end
 
-    def set_script_body(expr)
-      @script_stack.last.body = expr
+    attr_reader :filename, :lineno, :script
+
+    def initialize(filename, lineno)
+      @filename, @lineno = filename, lineno
+    end
+
+    def body=(expression_list)
+      @script = AST::Script.new(lineno, filename, expression_list)
     end
 
     def string_literal(line, yytext)
@@ -165,9 +166,9 @@ module Fancy
         params = required.map(&:variable) + default.map(&:default)
 
         forward = AST::MessageSend.new(line,
-                                       AST::Self.new(line),
-                                       AST::Identifier.new(line, target),
-                                       AST::MessageArgs.new(line, *params))
+                                              AST::Self.new(line),
+                                              AST::Identifier.new(line, target),
+                                              AST::MessageArgs.new(line, *params))
         doc = AST::StringLiteral.new(line, "Forward to message #{target}")
         body = AST::ExpressionList.new(line, doc, forward)
 

@@ -3,7 +3,6 @@ module Fancy
 
     class Script < Node
       attr_reader :body, :filename
-      attr_writer :body
 
       @@stack = []
 
@@ -19,9 +18,10 @@ module Fancy
         @@stack.last
       end
 
-      def initialize(line, filename)
+      def initialize(line, filename, body)
         super(line)
         @filename = filename
+        @body = body
       end
 
       def bytecode(g)
