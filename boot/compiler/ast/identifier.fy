@@ -40,18 +40,21 @@ class Fancy AST {
   }
 
   class InstanceVariable : Identifier {
+    def initialize: @string line: @line { super }
     def bytecode: g {
       Rubinius AST InstanceVariableAccess new(@line, self name) bytecode(g)
     }
   }
 
   class ClassVariable : Identifier {
+    def initialize: @string line: @line { super }
     def bytecode: g {
       Rubinius AST ClassVariableAccess new(@line, self name) bytecode(g)
     }
   }
 
   class Constant : Identifier {
+    def initialize: @string line: @line { super }
     def bytecode: g {
        Rubinius AST ConstantAccess new(@line, self name) bytecode(g)
     }
@@ -61,7 +64,7 @@ class Fancy AST {
     def initialize: @string line: @line {
       super
       names = @string split: "::"
-      parent = Constant new: (@names shift) line: line
+      parent = Constant new: (names shift()) line: line
       names each: |name| {
         Rubinius AST ScopedConstant new(@line, parent, name to_sym()) bytecode(g)
         parent = Constant new: name line: @line

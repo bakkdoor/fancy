@@ -4,7 +4,6 @@ class Fancy AST {
     def initialize: @name to: @receiver args: @args line: @line { super }
 
     def bytecode: g {
-      p(@name)
       @receiver is_a?: Super . if_do: {
         SuperSend new: @name args: @args line: @line . bytecode: g
       } else: {

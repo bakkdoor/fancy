@@ -252,6 +252,7 @@ selector:       SELECTOR {
                 };
 
 identifier:     IDENTIFIER {
+                  $$ = fy_terminal_node(self, "ast:identifier:");
                 }
                 | MATCH {
                   $$ = fy_terminal_node_from(self, "ast:identifier:", "match");
@@ -338,13 +339,13 @@ method_arg:     selector identifier {
                 ;
 
 method_args:    method_arg {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | method_args method_arg {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 | method_args method_args_default {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
@@ -354,10 +355,10 @@ method_arg_default: selector identifier LPAREN space exp space RPAREN {
                 ;
 
 method_args_default: method_arg_default {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | method_args_default space method_arg_default {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $3, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 
@@ -453,14 +454,14 @@ ruby_args:      RPAREN block_literal  {
                 ;
 
 operator_send:  exp operator arg_exp {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
                 | exp operator DOT space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $5);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $5, $1);
                 }
                 | exp LBRACKET exp RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4,
-                                  INT2NUM(yylineno), $1, fy_terminal_node_from(self, "ast:identifier:", "[]"), $3);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $1);
                 }
                 ;
 
@@ -557,7 +558,7 @@ string_literal: STRING_LITERAL {
                 }
                 ;
 symbol_literal: SYMBOL_LITERAL {
-                  $$ = fy_terminal_node(self, "symbol");
+                  $$ = fy_terminal_node(self, "ast:symbol:");
                 }
                 ;
 regex_literal: REGEX_LITERAL {
@@ -607,10 +608,10 @@ array_literal:  empty_array {
                 ;
 
 exp_comma_list: exp {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | exp_comma_list COMMA space exp {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $4, $1);
                 }
                 | exp_comma_list COMMA {
                   $$ = $1;
@@ -638,13 +639,13 @@ block_literal:  expression_block {
                 }
                 ;
 
-tuple_literal:  LPAREN space exp_comma_list space RPAREN {
-                  $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $3);
+tuple_literal:  LPAREN exp_comma_list RPAREN {
+                  $$ = rb_funcall(self, rb_intern("ast:tuple:"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 
-range_literal:  LPAREN space exp DOT DOT exp space RPAREN {
-                  $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $3, $6);
+range_literal:  LPAREN exp DOT DOT exp RPAREN {
+                  $$ = rb_funcall(self, rb_intern("ast:range:to:"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 ;
 
