@@ -63,144 +63,144 @@ class FancySpec {
     # }
     Console newline
   }
-}
 
-class SpecTest {
-  @@failed_positive = []
-  @@failed_negative = []
-  def SpecTest failed_test: actual_and_expected {
-    @@failed_positive << actual_and_expected
-  }
 
-  def SpecTest failed_negative_test: value {
-    @@failed_negative << value
-  }
-
-  def initialize: info_str {
-    { @@failed_positive = [] } unless: @@failed_positive
-    { @@failed_negative = [] } unless: @@failed_negative
-    @info_str = info_str
-  }
-
-  def block: block {
-    @block = block
-  }
-
-  def run: test_obj {
+  class SpecTest {
     @@failed_positive = []
     @@failed_negative = []
-    try {
-      @block call
-    } catch IOError => e {
-      SpecTest failed_test: [e, "UNKNOWN"]
+    def SpecTest failed_test: actual_and_expected {
+      @@failed_positive << actual_and_expected
     }
 
-    any_failure = nil
-    @@failed_positive size > 0 if_true: {
-      any_failure = true
-      Console newline
-      "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-      self print_failed_positive
+    def SpecTest failed_negative_test: value {
+      @@failed_negative << value
     }
 
-    @@failed_negative size > 0 if_true: {
-      any_failure = true
-      Console newline
-      "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-      self print_failed_negative
+    def initialize: info_str {
+      { @@failed_positive = [] } unless: @@failed_positive
+      { @@failed_negative = [] } unless: @@failed_negative
+      @info_str = info_str
     }
 
-    { "." print } unless: any_failure
-  }
-
-  def print_failed_positive {
-    " [" ++ (@@failed_positive size) ++ " unexpected values]" println
-    "Got: " println
-    @@failed_positive each: |f| {
-      "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
+    def block: block {
+      @block = block
     }
-  }
 
-  def print_failed_negative {
-    " [" ++ (@@failed_negative size) ++ " unexpected values]" println
-    "Should not have gotten the following values: " println
-    @@failed_negative each: |f| {
-      "     " ++ (f inspect) println
+    def run: test_obj {
+      @@failed_positive = []
+      @@failed_negative = []
+      try {
+        @block call
+      } catch IOError => e {
+        SpecTest failed_test: [e, "UNKNOWN"]
+      }
+
+      any_failure = nil
+      @@failed_positive size > 0 if_true: {
+        any_failure = true
+        Console newline
+        "> FAILED: " ++ test_obj ++ " " ++ @info_str print
+        self print_failed_positive
+      }
+
+      @@failed_negative size > 0 if_true: {
+        any_failure = true
+        Console newline
+        "> FAILED: " ++ test_obj ++ " " ++ @info_str print
+        self print_failed_negative
+      }
+
+      { "." print } unless: any_failure
     }
-  }
 
-}
-
-class PositiveMatcher {
-  """PositiveMatcher expects its actual value to be equal to an
-     expected value.
-     If the values are not equal, a SpecTest failure is generated."""
-
-  def initialize: actual_value {
-    @actual_value = actual_value
-  }
-
-  def == expected_value {
-    @actual_value == expected_value if_false: {
-      SpecTest failed_test: [@actual_value, expected_value]
+    def print_failed_positive {
+      " [" ++ (@@failed_positive size) ++ " unexpected values]" println
+      "Got: " println
+      @@failed_positive each: |f| {
+        "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
+      }
     }
-  }
 
-  def != expected_value {
-    @actual_value != expected_value if_false: {
-      SpecTest failed_negative_test: @actual_value
-    }
-  }
-
-  def unknown_message: msg with_params: params {
-    """Forwardy any other message and parameters to the object itself
-       and checks the return value."""
-
-    @actual_value send: msg params: params . if_false: {
-      SpecTest failed_test: [@actual_value, params first]
+    def print_failed_negative {
+      " [" ++ (@@failed_negative size) ++ " unexpected values]" println
+      "Should not have gotten the following values: " println
+      @@failed_negative each: |f| {
+        "     " ++ (f inspect) println
+      }
     }
   }
 
-  def be: block {
-    block call: [@actual_value] . if_false: {
-      SpecTest failed_test: [@actual_value, nil]
+  class PositiveMatcher {
+    """PositiveMatcher expects its actual value to be equal to an
+       expected value.
+       If the values are not equal, a SpecTest failure is generated."""
+
+    def initialize: actual_value {
+      @actual_value = actual_value
+    }
+
+    def == expected_value {
+      @actual_value == expected_value if_false: {
+        SpecTest failed_test: [@actual_value, expected_value]
+      }
+    }
+
+    def != expected_value {
+      @actual_value != expected_value if_false: {
+        SpecTest failed_negative_test: @actual_value
+      }
+    }
+
+    def unknown_message: msg with_params: params {
+      """Forwardy any other message and parameters to the object itself
+         and checks the return value."""
+
+      @actual_value send: msg params: params . if_false: {
+        SpecTest failed_test: [@actual_value, params first]
+      }
+    }
+
+    def be: block {
+      block call: [@actual_value] . if_false: {
+        SpecTest failed_test: [@actual_value, nil]
+      }
     }
   }
-}
 
-class NegativeMatcher {
-  """NegativeMatcher expects its actual value to be unequal to an
-     expected value.
-     If the values are equal, a SpecTest failure is generated."""
+  class NegativeMatcher {
+    """NegativeMatcher expects its actual value to be unequal to an
+       expected value.
+       If the values are equal, a SpecTest failure is generated."""
 
-  def initialize: actual_value {
-    @actual_value = actual_value
-  }
-
-  def == expected_value {
-    @actual_value == expected_value if_true: {
-      SpecTest failed_negative_test: @actual_value
+    def initialize: actual_value {
+      @actual_value = actual_value
     }
-  }
 
-  def != expected_value {
-    @actual_value != expected_value if_true: {
-      SpecTest failed_test: [@actual_value, expected_value]
+    def == expected_value {
+      @actual_value == expected_value if_true: {
+        SpecTest failed_negative_test: @actual_value
+      }
     }
-  }
 
-  def unknown_message: msg with_params: params {
-    """Forwardy any other message and parameters to the object itself
-       and checks the return value."""
-
-    @actual_value send: msg params: params . if_true: {
-      SpecTest failed_negative_test: @actual_value
+    def != expected_value {
+      @actual_value != expected_value if_true: {
+        SpecTest failed_test: [@actual_value, expected_value]
+      }
     }
-  }
 
-  def be: block {
-    block call: [@actual_value] . if_true: {
-      SpecTest failed_negative_test: @actual_value
+    def unknown_message: msg with_params: params {
+      """Forwardy any other message and parameters to the object itself
+         and checks the return value."""
+
+      @actual_value send: msg params: params . if_true: {
+        SpecTest failed_negative_test: @actual_value
+      }
+    }
+
+    def be: block {
+      block call: [@actual_value] . if_true: {
+        SpecTest failed_negative_test: @actual_value
+      }
     }
   }
 }
@@ -208,11 +208,11 @@ class NegativeMatcher {
 class Object {
   def should {
     "Returns a PositiveMatcher for self."
-    PositiveMatcher new: self
+    FancySpec PositiveMatcher new: self
   }
 
   def should_not {
     "Returns a NegativeMatcher for self."
-    NegativeMatcher new: self
+    FancySpec NegativeMatcher new: self
   }
 }
