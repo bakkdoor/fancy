@@ -235,7 +235,15 @@ module Fancy
     end
 
     def tuple_literal(line, expr_ary = [])
-      AST::TupleLiteral.new(line, *expr_ary)
+      # when we have a tuple with 1 element, it's not actually a tuple
+      # but a grouped expression, e.g. (obj foo: bar)
+      # 1-tuples don't make much sense anyway, so we won't support
+      # them via tuple literal syntax.
+      if expr_ary.size == 1
+        expr_ary.first
+      else
+        AST::TupleLiteral.new(line, *expr_ary)
+      end
     end
 
     def range_literal(line, from, to)

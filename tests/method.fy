@@ -121,4 +121,11 @@ FancySpec describe: Method with: {
     foo: "hello" bar: "world" . should == "helloworld"
     foo: "hello"  . should == "hellofoo"
   }
+
+  it: "should return multiple values (as a Tuple)" when: {
+    def multiple_return_values: x {
+      (x, x + x, x + x + x)
+    }
+    val = multiple_return_values: 3 . should == (3, 6, 9)
+  }
 }

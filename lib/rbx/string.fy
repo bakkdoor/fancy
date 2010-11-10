@@ -22,7 +22,7 @@ class String {
   }
 
   def from: from to: to {
-    ruby: '[] args: [(from .. to )]
+    ruby: '[] args: [(from .. to)]
   }
 
   def each: block {

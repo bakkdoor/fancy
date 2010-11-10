@@ -1,11 +1,15 @@
 class NoMethodError {
+  """
+  Exception class that gets thrown when a method wasn't found within a class.
+  """
+
   def method_name {
-    match self message -> {
-      case /('|`):(.*)'/ -> |matcher|
-         matcher[2]
-      case /('|`)(.*)'/ -> |matcher2|
-         matcher2[2]
-      case _ -> self message
-    }
+    """
+    @return Name of the method not found (as @String@).
+
+    Returns the name of the method that was not found as a @String@.
+    """
+
+    self name to_s from: 1 to: -1
   }
 }
