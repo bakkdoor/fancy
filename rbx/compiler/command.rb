@@ -1,5 +1,5 @@
 module Fancy
-  module Compiler
+  class Compiler
     class Command
       def self.run(argv)
         if argv.first == "--batch"
@@ -16,7 +16,7 @@ module Fancy
 
       def self.do_compile(file, info_output = false)
         puts "Compiling #{file}" if info_output
-        Rubinius::Compiler.compile_fancy_file file, nil, 1, ARGV.include?("-B")
+        Compiler.compile_fancy_file file, nil, 1, ARGV.include?("-B")
       end
     end
   end

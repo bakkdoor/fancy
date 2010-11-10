@@ -10,7 +10,7 @@ module Fancy
                               Rubinius::StaticScope.of_sender)
 
     # The compiled method
-    cm = Rubinius::Compiler.compile_fancy_eval(code, binding.variables, filename, line)
+    cm = Compiler.compile_fancy_eval(code, binding.variables, filename, line)
     cm.scope = binding.static_scope.dup
     cm.name = :__fancy_eval__
 

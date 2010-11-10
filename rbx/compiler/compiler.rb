@@ -1,6 +1,7 @@
-module Rubinius
+module Fancy
 
-  class Compiler
+  class Compiler < Rubinius::Compiler
+
     def self.fancy_compiled_name(file)
       if file.suffix? ".fy"
         file + "c"
@@ -14,7 +15,7 @@ module Rubinius
       compiler = new :fancy_file, :compiled_file
 
       parser = compiler.parser
-      parser.root AST::Script
+      parser.root Rubinius::AST::Script
 
       parser.input file, line
 
@@ -39,7 +40,7 @@ module Rubinius
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root AST::Script
+      parser.root Rubinius::AST::Script
       parser.input code, filename, line
 
       if print
@@ -60,7 +61,7 @@ module Rubinius
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root AST::EvalExpression
+      parser.root Rubinius::AST::EvalExpression
       parser.input code, filename, line
 
       if print

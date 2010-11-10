@@ -1,7 +1,8 @@
 module Fancy
   module AST
-    Node = Rubinius::AST::Node
-    Self = Rubinius::AST::Self
-    FixnumLiteral = Rubinius::AST::FixnumLiteral
+    %w{
+      Node Self ScopedConstant
+      FixnumLiteral RegexLiteral NumberLiteral
+    }.each { |n| const_set(n, Rubinius::AST.const_get(n)) }
   end
 end

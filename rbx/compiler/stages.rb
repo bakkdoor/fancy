@@ -2,13 +2,13 @@
 # Stages for compiling Fancy to Rubinius bytecode.
 #
 
-module Rubinius
+module Fancy
   class Compiler
 
     # FancyAST -> Rubinius Symbolic bytecode
-    class FancyGenerator < Stage
+    class FancyGenerator < Rubinius::Compiler::Stage
       stage :fancy_bytecode
-      next_stage Encoder
+      next_stage Rubinius::Compiler::Encoder
 
       attr_accessor :variable_scope
 
@@ -32,7 +32,7 @@ module Rubinius
     end
 
     # Fancy string -> AST
-    class FancyCodeParser < Stage
+    class FancyCodeParser < Rubinius::Compiler::Stage
       stage :fancy_code
       next_stage FancyGenerator
 
@@ -56,7 +56,7 @@ module Rubinius
       end
 
       def run
-        ast = Fancy::Parser.parse_string(@input, @line, @filename)
+        ast = Parser.parse_string(@input, @line, @filename)
         @output = @root.new ast
         @output.file = @filename
         run_next
@@ -64,7 +64,7 @@ module Rubinius
     end
 
     # Fancy file -> AST
-    class FancyFileParser < Stage
+    class FancyFileParser < Rubinius::Compiler::Stage
       stage :fancy_file
       next_stage FancyGenerator
 
@@ -87,7 +87,7 @@ module Rubinius
       end
 
       def run
-        ast = Fancy::Parser.parse_file(@filename, @line)
+        ast = Parser.parse_file(@filename, @line)
         p ast if @print
         @output = @root.new ast
         @output.file = @filename
