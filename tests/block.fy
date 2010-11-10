@@ -79,4 +79,18 @@ FancySpec describe: Block with: {
     block = |x, y| { x + y }
     block call: [1,2] . should == 3
   }
+
+  it: "should evaluate the blocks in a short-circuiting manner" for: '&& when: {
+    { false } && { false } should == false
+    { true } && { false } should == false
+    { false } && { true } should == false
+    { true } && { true } should == true
+
+    { false } || { false } should == false
+    { false } || { true } should == true
+    { true } || { false } should == true
+    { true } || { true } should == true
+
+    # TODO: Add more useful tests here...
+  }
 }
