@@ -3,7 +3,7 @@
 #include "lexer.h"
 
 
-VALUE
+static VALUE
 parse_string(VALUE self, VALUE code) {
   VALUE lineno = rb_funcall(self, rb_intern("lineno"), 0);
   char *str = StringValueCStr(code);
@@ -15,7 +15,7 @@ parse_string(VALUE self, VALUE code) {
   return self;
 }
 
-VALUE
+static VALUE
 parse_file(VALUE self) {
   VALUE filename = rb_funcall(self, rb_intern("filename"), 0);
   VALUE lineno = rb_funcall(self, rb_intern("lineno"), 0);
