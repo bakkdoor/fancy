@@ -17,7 +17,7 @@ module Fancy
     @script_stack = []
 
     def push_script(line, filename)
-      @script_stack.push Fancy::AST::Script.new(line, filename)
+      @script_stack.push AST::Script.new(line, filename)
     end
 
     def pop_script
@@ -30,25 +30,25 @@ module Fancy
 
     def string_literal(line, yytext)
       str = yytext[1..-2] # omit the starting and ending quotes
-      Fancy::AST::StringLiteral.new(line, str)
+      AST::StringLiteral.new(line, str)
     end
 
     def multiline_string_literal(line, yytext)
       str = yytext[3..-4] # omit the starting and ending triple-quotes
-      Fancy::AST::StringLiteral.new(line, str)
+      AST::StringLiteral.new(line, str)
     end
 
     def integer_literal(line, yytext, base = 10)
-      Rubinius::AST::FixnumLiteral.new(line, yytext.to_i(base))
+      AST::FixnumLiteral.new(line, yytext.to_i(base))
     end
 
     def double_literal(line, yytext)
-      Rubinius::AST::NumberLiteral.new(line, yytext.to_f)
+      AST::NumberLiteral.new(line, yytext.to_f)
     end
 
     def symbol_literal(line, yytext)
       str = yytext[1..-1] # omit the quote
-      Rubinius::AST::SymbolLiteral.new(line, str.to_sym)
+      AST::SymbolLiteral.new(line, str.to_sym)
     end
 
     def parse_error(line, yytext)
@@ -61,7 +61,7 @@ module Fancy
 
     def const_identifier(line, identifier, parent = nil)
       if parent
-        Rubinius::AST::ScopedConstant.new(line, parent, identifier.name)
+        AST::ScopedConstant.new(line, parent, identifier.name)
       else
         identifier
       end
@@ -79,28 +79,28 @@ module Fancy
 
     def identifier(line, yytext)
       if yytext == "self"
-        Rubinius::AST::Self.new(line)
+        AST::Self.new(line)
       else
-        Fancy::AST::Identifier.new(line, yytext)
+        AST::Identifier.new(line, yytext)
       end
     end
 
     def msg_send_basic(line, receiver, identifier)
-      args = Fancy::AST::MessageArgs.new(line)
-      Fancy::AST::MessageSend.new(line, receiver, identifier, args)
+      args = AST::MessageArgs.new(line)
+      AST::MessageSend.new(line, receiver, identifier, args)
     end
 
     def oper_send_basic(line, receiver, operator, argument)
-      args = Fancy::AST::MessageArgs.new(line, argument)
-      Fancy::AST::MessageSend.new(line, receiver, operator, args)
+      args = AST::MessageArgs.new(line, argument)
+      AST::MessageSend.new(line, receiver, operator, args)
     end
 
     def assignment(line, identifier, value)
-      Fancy::AST::Assignment.new(line, identifier, value)
+      AST::Assignment.new(line, identifier, value)
     end
 
     def multiple_assignment(line, identifiers, values)
-      Fancy::AST::MultipleAssignment.new(line, identifiers, values)
+      AST::MultipleAssignment.new(line, identifiers, values)
     end
 
     def identifier_list(line, identifier_list, identifier)
@@ -112,27 +112,27 @@ module Fancy
     end
 
     def send_args(line, selector, value, ary = [])
-      selector = Fancy::AST::Identifier.new(selector.line, selector.identifier+":")
+      selector = AST::Identifier.new(selector.line, selector.identifier+":")
       ary.push Struct.new(:selector, :value).new(selector, value)
     end
 
     def operator_def(line, operator, parameter, method_body, access = :public)
-      args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
-      Fancy::AST::MethodDef.new(line, operator, args, method_body, access)
+      args = AST::MethodArgs.new(line, parameter.identifier)
+      AST::MethodDef.new(line, operator, args, method_body, access)
     end
 
     def sin_operator_def(line, identifier, operator, parameter, method_body, access = :public)
-      args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, operator, args, method_body, access)
+      args = AST::MethodArgs.new(line, parameter.identifier)
+      AST::SingletonMethodDef.new(line, identifier, operator, args, method_body, access)
     end
 
     def method_def_no_args(line, method_ident, method_body, access = :public)
-      args = Fancy::AST::MethodArgs.new(line)
-      Fancy::AST::MethodDef.new(line, method_ident, args, method_body, access)
+      args = AST::MethodArgs.new(line)
+      AST::MethodDef.new(line, method_ident, args, method_body, access)
     end
 
     def method_arg(line, selector, variable, default = nil)
-      selector = Fancy::AST::Identifier.new(selector.line, selector.identifier+":")
+      selector = AST::Identifier.new(selector.line, selector.identifier+":")
       Struct.new(:selector, :variable, :default).new(selector, variable, default)
     end
 
@@ -143,10 +143,10 @@ module Fancy
     # Creates a single MethodDef node.
     def method_def(line, method_args, method_body, access)
       name = helper_method_name(method_args)
-      method_ident = Fancy::AST::Identifier.new(line, name)
+      method_ident = AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
-      args = Fancy::AST::MethodArgs.new(line, *args)
-      Fancy::AST::MethodDef.new(line, method_ident, args, method_body, access)
+      args = AST::MethodArgs.new(line, *args)
+      AST::MethodDef.new(line, method_ident, args, method_body, access)
     end
 
     def method_delegators(method_args)
@@ -164,12 +164,12 @@ module Fancy
 
         params = required.map(&:variable) + default.map(&:default)
 
-        forward = Fancy::AST::MessageSend.new(line,
-                                              Rubinius::AST::Self.new(line),
-                                              Fancy::AST::Identifier.new(line, target),
-                                              Fancy::AST::MessageArgs.new(line, *params))
-        doc = Fancy::AST::StringLiteral.new(line, "Forward to message #{target}")
-        body = Fancy::AST::ExpressionList.new(line, doc, forward)
+        forward = AST::MessageSend.new(line,
+                                       AST::Self.new(line),
+                                       AST::Identifier.new(line, target),
+                                       AST::MessageArgs.new(line, *params))
+        doc = AST::StringLiteral.new(line, "Forward to message #{target}")
+        body = AST::ExpressionList.new(line, doc, forward)
 
         yield required, body
       end
@@ -183,7 +183,7 @@ module Fancy
         defs << method_def(line, sel, fwd, access)
       end
       defs << method_def(line, method_args, method_body, access)
-      Fancy::AST::ExpressionList.new(line, *defs)
+      AST::ExpressionList.new(line, *defs)
     end
 
     def sin_method_def_expand(line, identifier, method_args, method_body, access = :public)
@@ -192,53 +192,53 @@ module Fancy
         defs << sin_method_def(line, identifier, sel, fwd, access)
       end
       defs << sin_method_def(line, identifier, method_args, method_body, access)
-      Fancy::AST::ExpressionList.new(line, *defs)
+      AST::ExpressionList.new(line, *defs)
     end
 
     def sin_method_def(line, identifier, method_args, method_body, access = :public)
       name = method_args.map { |a| a.selector.identifier }.join("")
-      method_name = Fancy::AST::Identifier.new(line, name)
+      method_name = AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
-      args = Fancy::AST::MethodArgs.new(line, *args)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
+      args = AST::MethodArgs.new(line, *args)
+      AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
     end
 
     def sin_method_def_no_args(line, identifier, method_name, method_body, access = :public)
-      args = Fancy::AST::MethodArgs.new(line)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
+      args = AST::MethodArgs.new(line)
+      AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
     end
 
     def msg_send_args(line, receiver, method_args)
-      receiver ||= Rubinius::AST::Self.new(line)
+      receiver ||= AST::Self.new(line)
       name = method_args.map { |a| a.selector.identifier }.join("")
-      name = Fancy::AST::Identifier.new(line, name)
-      args = Fancy::AST::MessageArgs.new line, *method_args.map { |a| a.value }
-      Fancy::AST::MessageSend.new(line, receiver, name, args)
+      name = AST::Identifier.new(line, name)
+      args = AST::MessageArgs.new line, *method_args.map { |a| a.value }
+      AST::MessageSend.new(line, receiver, name, args)
     end
 
     def msg_send_ruby(line, receiver, identifier, args = nil)
-      receiver ||= Rubinius::AST::Self.new(line)
+      receiver ||= AST::Self.new(line)
       args ||= ruby_args(line)
-      arguments = Fancy::AST::MessageArgs.new line, args
-      Fancy::AST::MessageSend.new(line, receiver, identifier, arguments)
+      arguments = AST::MessageArgs.new line, args
+      AST::MessageSend.new(line, receiver, identifier, arguments)
     end
 
     def nil_literal(line)
-      Rubinius::AST::NilLiteral.new(line)
+      AST::NilLiteral.new(line)
     end
 
     def block_literal(line, block_args, block_body)
       block_args ||= Array.new
-      args = Fancy::AST::BlockArgs.new line, *block_args
-      Fancy::AST::BlockLiteral.new(line, args, block_body)
+      args = AST::BlockArgs.new line, *block_args
+      AST::BlockLiteral.new(line, args, block_body)
     end
 
     def tuple_literal(line, expr_ary = [])
-      Fancy::AST::TupleLiteral.new(line, *expr_ary)
+      AST::TupleLiteral.new(line, *expr_ary)
     end
 
     def range_literal(line, from, to)
-      Fancy::AST::RangeLiteral.new(line, from, to)
+      AST::RangeLiteral.new(line, from, to)
     end
 
     def block_args(line, identifier, ary = [])
@@ -246,13 +246,13 @@ module Fancy
     end
 
     def expr_list(line, expr = nil, expr_list = nil)
-      expr_list = Fancy::AST::ExpressionList.new(line) unless expr_list
+      expr_list = AST::ExpressionList.new(line) unless expr_list
       expr_list.add_expression(expr) if expr
       expr_list
     end
 
     def class_def(line, name, parent, body)
-      Fancy::AST::ClassDef.new(line, name, parent, body)
+      AST::ClassDef.new(line, name, parent, body)
     end
 
     def expr_ary(line, exp, ary = [])
@@ -264,41 +264,41 @@ module Fancy
     end
 
     def array_literal(line, expr_ary = [])
-      Fancy::AST::ArrayLiteral.new(line, *expr_ary)
+      AST::ArrayLiteral.new(line, *expr_ary)
     end
 
     def ruby_args(line, array_literal = nil, block = nil)
       if array_literal.kind_of?(Array)
-         array_literal = Fancy::AST::ArrayLiteral.new(line, *array_literal)
+         array_literal = AST::ArrayLiteral.new(line, *array_literal)
       end
       if array_literal.nil?
-         array_literal = Fancy::AST::ArrayLiteral.new(line)
+         array_literal = AST::ArrayLiteral.new(line)
       end
-      Fancy::AST::RubyArgs.new(line, array_literal, block)
+      AST::RubyArgs.new(line, array_literal, block)
     end
 
     def super_exp(line)
-      Fancy::AST::Super.new(line)
+      AST::Super.new(line)
     end
 
     def retry_exp(line)
-      Fancy::AST::Retry.new(line)
+      AST::Retry.new(line)
     end
 
     def catch_handlers(line, handler = nil, handlers = nil)
-      handlers ||= Fancy::AST::Handlers.new(line)
+      handlers ||= AST::Handlers.new(line)
       handlers.add_handler handler if handler
       handlers
     end
 
     def catch_handler(line, body = nil, condition = nil, var = nil)
-      condition ||= Fancy::AST::Identifier.new(line, "Object")
-      Fancy::AST::ExceptHandler.new(line, condition, var, body)
+      condition ||= AST::Identifier.new(line, "Object")
+      AST::ExceptHandler.new(line, condition, var, body)
     end
 
     def try_catch_finally(line, body, handlers, finally = nil)
-      handlers ||= Fancy::AST::Handlers.new(line)
-      Fancy::AST::TryCatchBlock.new(line, body, handlers, finally)
+      handlers ||= AST::Handlers.new(line)
+      AST::TryCatchBlock.new(line, body, handlers, finally)
     end
 
     def key_value_list(line, key, value, ary = [])
@@ -308,31 +308,31 @@ module Fancy
     end
 
     def hash_literal(line, key_values = [])
-      Fancy::AST::HashLiteral.new(line, *key_values)
+      AST::HashLiteral.new(line, *key_values)
     end
 
     def regex_literal(line, regexp_str)
       regexp_str = regexp_str[1..-2]
-      Rubinius::AST::RegexLiteral.new(line, regexp_str, 0)
+      AST::RegexLiteral.new(line, regexp_str, 0)
     end
 
     def require_stmt(line, identifier)
-      Fancy::AST::Require.new(line, identifier)
+      AST::Require.new(line, identifier)
     end
 
     def return_stmt(line, expr = nil)
       expr ||= nil_literal(expr)
-      Fancy::AST::Return.new(line, expr)
+      AST::Return.new(line, expr)
     end
 
     def return_local(line, expr = nil)
       expr ||= nil_literal(expr)
-      Fancy::AST::Return.new(line, expr)
+      AST::Return.new(line, expr)
     end
 
     def match_expr(line, expr, clauses = nil)
       clauses ||= []
-      Fancy::AST::Match.new(line, expr, clauses)
+      AST::Match.new(line, expr, clauses)
     end
 
     def match_body(line, match_clause, match_clauses = [])
@@ -340,7 +340,7 @@ module Fancy
     end
 
     def match_clause(line, match_expr, val_expr, match_arg=nil)
-      Fancy::AST::MatchClause.new(line, match_expr, val_expr, match_arg)
+      AST::MatchClause.new(line, match_expr, val_expr, match_arg)
     end
   end
 
