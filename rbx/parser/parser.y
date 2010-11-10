@@ -638,8 +638,8 @@ tuple_literal:  LPAREN exp_comma_list RPAREN {
                 }
                 ;
 
-range_literal:  LPAREN space exp DOT DOT exp space RPAREN {
-                  $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $3, $6);
+range_literal:  LPAREN exp DOT DOT exp RPAREN {
+                  $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $2, $5);
                 }
                 ;
 
