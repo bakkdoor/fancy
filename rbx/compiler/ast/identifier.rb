@@ -85,7 +85,10 @@ module Fancy
       end
 
       def bytecode(g)
-        if nested_classname?
+        if "__FILE__" == @identifier
+          Rubinius::AST::StringLiteral.new(line, Fancy::AST::Script.current.filename).
+            bytecode(g)
+        elsif nested_classname?
           classnames = @identifier.split("::")
           parent = Identifier.new(@line, classnames.shift)
           classnames.each do |cn|

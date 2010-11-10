@@ -5,26 +5,48 @@ module Fancy
       attr_reader :body, :filename
       attr_writer :body
 
+      @@stack = []
+
+      def push_script
+        @@stack.push self
+      end
+
+      def pop_script
+        @@stack.pop
+      end
+
+      def self.current
+        @@stack.last
+      end
+
       def initialize(line, filename)
         super(line)
         @filename = filename
       end
 
       def bytecode(g)
-        docs, code = body.expressions.partition { |s| s.kind_of?(Rubinius::AST::StringLiteral) }
+        begin
+          push_script
 
-        if code.empty?
-          # only literal string found, we have to evaluate to it, not
-          # use as documentation.
-          docs, code = [], docs
+          docs, code = body.expressions.partition do |s|
+            s.kind_of?(Rubinius::AST::StringLiteral)
+          end
+
+          if code.empty?
+            # only literal string found, we have to evaluate to it, not
+            # use as documentation.
+            docs, code = [], docs
+          end
+
+          code.each { |c| c.bytecode(g) }
+
+          # the docs array has top-level expressions that are
+          # simply string literals, we can use them for file-level
+          # documentation.
+          # TODO: implement file documentation here.
+        ensure
+          pop_script
         end
-
-        code.each { |c| c.bytecode(g) }
-
-        # the docs array has top-level expressions that are
-        # simply string literals, we can use them for file-level
-        # documentation.
-        # TODO: implement file documentation here.
       end
 
     end
