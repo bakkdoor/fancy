@@ -49,4 +49,28 @@ class Block {
       block call: [val]
     }
   }
+
+  def && other_block {
+    """
+    Short-circuiting && (boolean AND).
+    """
+
+    self call if_true: {
+      other_block call
+    } else: {
+      return false
+    }
+  }
+
+  def || other_block {
+    """
+    Short-circuiting || (boolean OR).
+    """
+
+    self call if_true: {
+      return true
+    } else: {
+      other_block call
+    }
+  }
 }
