@@ -100,6 +100,7 @@ class Class {
 
     Defines an alias method for another method.
     """
-    define_method: new_method_name with: (self method: old_method_name)
+
+    alias_method_rbx: new_method_name for: old_method_name
   }
 }

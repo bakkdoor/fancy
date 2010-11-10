@@ -192,12 +192,12 @@ FancySpec describe: Class with: {
     x public_method should == "public!"
     try {
       x private_method should == nil # should fail
-    } catch MethodNotFoundError => e {
+    } catch NoMethodError => e {
       e method_name should == "private_method"
     }
     try {
       x protected_method should == nil # should fail
-    } catch MethodNotFoundError => e {
+    } catch NoMethodError => e {
       e method_name should == "protected_method"
     }
   }
@@ -237,37 +237,45 @@ FancySpec describe: Class with: {
   #   subclass2 new foo should == "hello, world, again!"
   # }
 
-  # it: "should undefine an instance method" for: 'undefine_method: when: {
-  #   class Foo {
-  #     def instance_method {
-  #     "instance method!"
-  #     }
-  #   }
-  #   f = Foo new
-  #   f instance_method should == "instance method!"
-  #   Foo undefine_method: 'instance_method . should == true
-  #   try {
-  #     f instance_method should == nil # should not get here
-  #   } catch MethodNotFoundError => e {
-  #     e method_name should == "instance_method"
-  #   }
-  # }
+  it: "should undefine an instance method" for: 'undefine_method: when: {
+    class Foo {
+      def instance_method {
+        "instance method!"
+      }
+    }
+    f = Foo new
+    f instance_method should == "instance method!"
+    Foo undefine_method: 'instance_method
+    try {
+      f instance_method should == nil # should not get here
+    } catch NoMethodError => e {
+      e method_name should == "instance_method"
+    }
+  }
 
-  # it: "should undefine a class method" for: 'undefine_class_method: when: {
-  #   class Foo {
-  #     def self class_method {
-  #     "class method!"
-  #     }
-  #   }
-  #   Foo class_method should == "class method!"
-  #   Foo undefine_method: 'class_method . should == nil
-  #   Foo undefine_class_method: 'class_method . should == true
-  #   try {
-  #     Foo class_method should == nil # should not get here
-  #   } catch MethodNotFoundError => e {
-  #     e method_name should == "class_method"
-  #   }
-  # }
+  it: "should undefine a class method" for: 'undefine_class_method: when: {
+    class Foo {
+      def self class_method {
+        "class method!"
+      }
+    }
+    Foo class_method should == "class method!"
+
+    try {
+      Foo undefine_method: 'class_method
+      true should == nil # should not happen
+    } catch NameError {
+      true should == true
+    }
+
+    Foo undefine_class_method: 'class_method
+
+    try {
+      Foo class_method should == nil # should not get here
+    } catch NoMethodError => e {
+      e method_name should == "class_method"
+    }
+  }
 
   # it: "should have nested classes" when: {
   #   class Outer {
@@ -372,17 +380,17 @@ FancySpec describe: Class with: {
     MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 
-  # it: "should have an alias method as defined" for: 'alias_method:for: when: {
-  #   class AClass {
-  #     def foo {
-  #       "in foo!"
-  #     }
+  it: "should have an alias method as defined" for: 'alias_method:for: when: {
+    class AClass {
+      def foo {
+        "in foo!"
+      }
 
-  #     alias_method: 'bar for: 'foo
-  #   }
+      alias_method: 'bar for: 'foo
+    }
 
-  #   obj = AClass new
-  #   obj foo should == "in foo!"
-  #   obj bar should == "in foo!"
-  # }
+    obj = AClass new
+    obj foo should == "in foo!"
+    obj bar should == "in foo!"
+  }
 }

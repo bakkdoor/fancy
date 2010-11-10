@@ -81,7 +81,7 @@ class Object {
   }
 
   def undefine_singleton_method: name {
-    self metaclass remove_method(name)
+    self metaclass undefine_method: name
   }
 
   def is_a?: class {

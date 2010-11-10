@@ -2,11 +2,12 @@ module Fancy
   module AST
 
     class MethodDef < Rubinius::AST::Define
-      def initialize(line, method_ident, args, body)
+      def initialize(line, method_ident, args, body, access = :public)
         @line = line
         @name = method_ident.method_name
         @arguments = args
         @body = body
+        @access = access
         generate_ivar_assignment
       end
 
@@ -22,9 +23,17 @@ module Fancy
       end
 
       def bytecode(g)
+        g.push_self
+        g.send @access, 0
+        g.pop
+
         if @name.to_s =~ /^initialize:(\S)+/
           define_constructor_class_method g
         end
+        if @name.to_s =~ /^unknown_message:with_params:$/
+          define_method_missing(g)
+        end
+
         docstring = @body.shift_docstring
         super(g)
         MethodDef.set_docstring(g, docstring, @line, @arguments.names)
@@ -64,6 +73,13 @@ module Fancy
                              Identifier.new(@line, "define_constructor_class_method:"),
                              MessageArgs.new(@line, method_ident))
         ms.bytecode(g)
+      end
+
+      def define_method_missing(g)
+        MessageSend.new(@line,
+                        Rubinius::AST::Self.new(@line),
+                        Identifier.new(@line, "define_forward_method_missing"),
+                        MessageArgs.new(@line)).bytecode(g)
       end
     end
 

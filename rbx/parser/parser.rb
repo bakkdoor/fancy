@@ -118,17 +118,17 @@ module Fancy
 
     def operator_def(line, operator, parameter, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
-      Fancy::AST::MethodDef.new(line, operator, args, method_body)
+      Fancy::AST::MethodDef.new(line, operator, args, method_body, access)
     end
 
     def sin_operator_def(line, identifier, operator, parameter, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line, parameter.identifier)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, operator, args, method_body)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, operator, args, method_body, access)
     end
 
     def method_def_no_args(line, method_ident, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line)
-      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+      Fancy::AST::MethodDef.new(line, method_ident, args, method_body, access)
     end
 
     def method_arg(line, selector, variable, default = nil)
@@ -146,7 +146,7 @@ module Fancy
       method_ident = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
-      Fancy::AST::MethodDef.new(line, method_ident, args, method_body)
+      Fancy::AST::MethodDef.new(line, method_ident, args, method_body, access)
     end
 
     def method_delegators(method_args)
@@ -200,12 +200,12 @@ module Fancy
       method_name = Fancy::AST::Identifier.new(line, name)
       args = method_args.map { |a| a.variable.identifier }
       args = Fancy::AST::MethodArgs.new(line, *args)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
     end
 
     def sin_method_def_no_args(line, identifier, method_name, method_body, access = :public)
       args = Fancy::AST::MethodArgs.new(line)
-      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body)
+      Fancy::AST::SingletonMethodDef.new(line, identifier, method_name, args, method_body, access)
     end
 
     def msg_send_args(line, receiver, method_args)

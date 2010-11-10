@@ -116,4 +116,13 @@ class Class {
 
     self instance_method(message_name: name)
   }
+
+  def alias_method_rbx: new_method_name for: old_method_name {
+    """
+    Rbx specific version of alias_method:for: due to bootstrap order
+    reasons. Should not be used directly.
+    """
+
+    alias_method(message_name: new_method_name, message_name: old_method_name)
+  }
 }

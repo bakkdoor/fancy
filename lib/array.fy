@@ -156,7 +156,8 @@ class Array {
     Removes all elements that meet the given condition @Block@.
     """
 
-    remove_at: (select_with_index: condition . map: 'second)
+    remove_at: (select_with_index: |x i| { condition call: [x] } .
+                map: 'second)
   }
 
   def println {

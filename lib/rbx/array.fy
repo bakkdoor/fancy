@@ -65,7 +65,7 @@ class Array {
         count = 0
         deleted_values = []
         index each: |idx| {
-          deleted_values << self at: (idx - count)
+          deleted_values << (self at: (idx - count))
           delete_at(idx - count)
           count = count + 1
         }

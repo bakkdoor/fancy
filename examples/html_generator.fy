@@ -19,6 +19,7 @@ class HTML {
   }
 
   def unknown_message: name with_params: params {
+    name = name to_s
     str = open_tag: name
 
     body = params first call
