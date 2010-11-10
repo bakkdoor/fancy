@@ -37,12 +37,12 @@ FancySpec describe: Hash with: {
 
   it: "should return all keys" for: 'keys when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
-    hash keys should be: |x| { x === ['foo, 'bar, 'foobar] }
+    hash keys should =? ['foo, 'bar, 'foobar]
   }
 
   it: "should return all values" for: 'values when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
-    hash values should be: |x| { x === ["bar", "baz", 112.21] }
+    hash values should =? ["bar", "baz", 112.21]
   }
 
   it: "should return value by the []-operator" for: "[]" when: {
@@ -80,8 +80,7 @@ FancySpec describe: Hash with: {
   it: "should call most Enumerable methods with each pair" when: {
     hash = <['hello => "world", 'fancy => "is cool"]>
 
-    hash map: |pair| { pair[0] } .
-      should be: |arr| { arr === ['hello, 'fancy] } # order does not matter
+    hash map: |pair| { pair[0] } . should =? ['hello, 'fancy] # order does not matter
 
     hash select: |pair| { pair[1] to_s includes?: "c" } .
       should == [['fancy, "is cool"]]
@@ -97,6 +96,6 @@ FancySpec describe: Hash with: {
   }
 
   it: "should return an Array of the key-value pairs" when: {
-    <['foo => "bar", 'bar => "baz"]> to_a should == [['foo, "bar"], ['bar, "baz"]]
+    <['foo => "bar", 'bar => "baz"]> to_a should =? [['foo, "bar"], ['bar, "baz"]]
   }
 }

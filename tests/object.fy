@@ -24,16 +24,16 @@ FancySpec describe: Object with: {
     { 'a_block } class should == Block
   }
 
-  # it: "should call unkown_message:with_params: when calling an undefined method" when: {
-  #   class UnknownMessage {
-  #     def unknown_message: message with_params: params {
-  #       "Got: " ++ message ++ " " ++ params
-  #     }
-  #   }
+  it: "should call unkown_message:with_params: when calling an undefined method" when: {
+    class UnknownMessage {
+      def unknown_message: message with_params: params {
+        "Got: " ++ message ++ " " ++ params
+      }
+    }
 
-  #   obj = UnknownMessage new
-  #   obj this_is_not_defined: "It's true!" . should == "Got: this_is_not_defined: It's true!"
-  # }
+    obj = UnknownMessage new
+    obj this_is_not_defined: "It's true!" . should == "Got: this_is_not_defined: It's true!"
+  }
 
   it: "should return a correct string representation" when: {
     3 to_s should == "3"
@@ -41,28 +41,17 @@ FancySpec describe: Object with: {
     nil to_s should == ""
   }
 
-  # it: "should return a correct array representation" when: {
-  #   nil to_a should == []
-  #   'foo to_a should == ['foo]
-  #   <['foo => "bar", 'bar => "baz"]> to_a should === [['bar, "baz"], ['foo, "bar"]]
-  # }
+  it: "should return a correct array representation" when: {
+    nil to_a should == []
+    'foo to_a should == ['foo]
+    <['foo => "bar", 'bar => "baz"]> to_a should =? [['bar, "baz"], ['foo, "bar"]]
+  }
 
   it: "should return a correct fixnum representation" when: {
     nil to_i should == 0
     3 to_i should == 3
     3.28437 to_i should == 3
   }
-
-  # it: "should have no metadata initially" when: {
-  #   o = Object new
-  #   o meta should == nil
-  # }
-
-  # it: "should set the metadata correctly" when: {
-  #   o = Object new
-  #   o meta: "foobar"
-  #   o meta should == "foobar"
-  # }
 
   it: "should be an Object of the correct Class (or Superclass)" when: {
     Object new is_a?: Object . should == true
@@ -92,18 +81,18 @@ FancySpec describe: Object with: {
     y should == 'foo
   }
 
-  # it: "should undefine a singleton method" when: {
-  #   def self a_singleton_method {
-  #     "a singleton method!"
-  #   }
-  #   self a_singleton_method should == "a singleton method!"
-  #   self undefine_singleton_method: 'a_singleton_method . should == true
-  #   try {
-  #     self a_singleton_method should == nil # should not get here
-  #   } catch NoMethodError => e {
-  #     e method_name should == "a_singleton_method"
-  #   }
-  # }
+  it: "should undefine a singleton method" when: {
+    def self a_singleton_method {
+      "a singleton method!"
+    }
+    self a_singleton_method should == "a singleton method!"
+    self undefine_singleton_method: 'a_singleton_method
+    try {
+      self a_singleton_method should == nil # should not get here
+    } catch NoMethodError => e {
+      e method_name should == "a_singleton_method"
+    }
+  }
 
   # boolean messages
 
