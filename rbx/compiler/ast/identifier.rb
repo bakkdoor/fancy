@@ -88,6 +88,8 @@ module Fancy
         if "__FILE__" == @identifier
           Rubinius::AST::StringLiteral.new(line, Fancy::AST::Script.current.filename).
             bytecode(g)
+        elsif "__LINE__" == @identifier
+          Rubinius::AST::FixnumLiteral.new(line, line).bytecode(g)
         elsif nested_classname?
           classnames = @identifier.split("::")
           parent = Identifier.new(@line, classnames.shift)
