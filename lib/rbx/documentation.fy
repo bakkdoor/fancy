@@ -1,3 +1,6 @@
+# create the fancy namespace
+class Fancy {}
+
 class Fancy Documentation {
 
   def initialize: docstring {

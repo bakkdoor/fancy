@@ -75,3 +75,6 @@ ARGV first if_do: |file| {
   Fancy CodeLoader load_compiled_file: file
 }
 
+ARGV empty? if_do: {
+  require: "../bin/ifancy"
+}

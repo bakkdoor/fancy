@@ -2,6 +2,7 @@
 # remove all the old c++ code.
 
 load File.dirname(__FILE__) + "/rbx/parser/Rakefile"
+load File.dirname(__FILE__) + "/boot/parser/Rakefile"
 
 _ = lambda { |f| File.expand_path(f, File.dirname(__FILE__)) }
 
@@ -16,17 +17,13 @@ fancy_bin = file _["bin/fancy"] => src_files do
   task(:compile).invoke
 end
 
-# fy_files = Dir.glob(_["lib/**/*.fy"]).map { |fy| file fy }
-# fyc_files = fy_files.join(" ")#  do |task|
-#   file "#{task.to_s}c" => [task, fancy_bin] do
-#     sh 'rbx', _["rbx/compiler.rb"], task.to_s
-#   end
-# end
-
-
 desc "Compiles the fancy std lib."
 task :bootstrap => [fancy_bin] do
   sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["lib/**/*.fy"])
+end
+
+task :boot => [fancy_bin, "parser_ext:default"] do
+  sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["boot/**/*.fy"])
 end
 
 desc "Runs the test suite."

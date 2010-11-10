@@ -1,0 +1,49 @@
+namespace :parser_ext do
+
+  _ = lambda { |file| File.expand_path(file, File.dirname(__FILE__)); }
+
+  lexer_c = file _["lexer.c"] => _["lexer.lex"] do |task|
+    Dir.chdir _["."] do
+      sh 'flex', '--outfile', task.to_s, '--header-file=lexer.h',
+      task.prerequisites.first
+    end
+  end
+
+  parser_c = file _["parser.c"] => _["parser.y"] do |task|
+    Dir.chdir(_["."]) { sh "bison", "--output", task.to_s, "-d", "-v", task.prerequisites.first }
+  end
+
+  makefile = file _["Makefile"] => [_["extconf.rb"], lexer_c, parser_c] do |task|
+    Dir.chdir(_["."]) { sh 'rbx', task.prerequisites.first }
+  end
+
+  desc "Builds the parser."
+  task :parser => parser_c
+
+  desc "Builds the lexer."
+  task :lexer => lexer_c
+
+  desc "Compiles the generated lexer and parser."
+  task :compile => [makefile, parser_c, lexer_c] do
+    sh 'make', '-C', _["."]
+  end
+
+  desc "Cleans up generated files."
+  task :clean do
+    rm_f lexer_c.to_s
+    rm_f parser_c.to_s
+    rm_f makefile.to_s
+    rm_f _["lexer.h"]
+    rm_f _["parser.h"]
+    rm_f _["parser.output"]
+    rm_f Dir.glob(_["*.{o,so,rbc,log}"])
+    sh 'make', '-C', _["."], "clean" rescue nil
+  end
+
+  desc "Invokes the compile task."
+  task :default => :compile
+end
+
+
+task :default => "parser_ext:default"
+task :clean => "parser_ext:clean"

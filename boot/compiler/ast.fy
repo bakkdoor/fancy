@@ -1,0 +1,7 @@
+require: "ast/node"
+require: "ast/script"
+require: "ast/expression_list"
+require: "ast/identifier"
+require: "ast/message_send"
+require: "ast/super"
+require: "ast/literals"

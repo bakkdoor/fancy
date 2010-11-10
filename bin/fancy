@@ -7,4 +7,5 @@ require File.expand_path("compiler", base)
 require File.expand_path("loader", base)
 
 require File.expand_path("../rbx/eval", base)
+
 Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/main.fyc", base)
