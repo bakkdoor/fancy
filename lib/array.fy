@@ -27,7 +27,7 @@ class Array {
     from: 1 to: -1
   }
 
-  def === other {
+  def =? other {
     """
     @other Other @Array@ to compare this one to.
 
