@@ -53,7 +53,10 @@ class Fancy {
       arg_type = ruby if_do: { AST RubyArgs } else: { AST MessageArgs }
       args = arg_type new: [] line: line
       name = message
-      message kind_of?: Array . if_do: {
+      message kind_of?(String) . if_do: {
+        name = AST Identifier new: message line: line
+      }
+      message kind_of?(Array) . if_do: {
         name = message map: |m| { m selector() string } . join
         name = AST Identifier new: name line: line
         args = message map: |m| { m value() }
