@@ -17,4 +17,18 @@ class Tuple {
   def at: idx put: val {
     put(idx, val)
   }
+
+  def == other {
+    other is_a?: Tuple . if_true: {
+      self size == (other size) if_true: {
+        self size times: |i| {
+          self[i] == (other[i]) . if_false: {
+            return false
+          }
+        }
+        return true
+      }
+    }
+    return false
+  }
 }
