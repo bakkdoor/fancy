@@ -363,42 +363,42 @@ method_args_default: method_arg_default {
                 ;
 
 method_w_args:  def method_args expression_block {
-                  $$ = rb_funcall(self, rb_intern("ast:method:expand:"), 4, INT2NUM(yylineno), $2, $3, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:method:expand:access:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
                 ;
 
 
 method_no_args: def identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("method_def_no_args"), 4, INT2NUM(yylineno), $2, $3, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:method:body:access:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
                 ;
 
 
 class_method_w_args: def any_identifier method_args expression_block {
-                  $$ = rb_funcall(self, rb_intern("sin_method_def_expand"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:method:expand:access:owner:"), 5, INT2NUM(yylineno), $3, $4, $1, $2);
                 }
                 ;
 
 class_method_no_args: def any_identifier identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("sin_method_def_no_args"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:method:body:access:owner:"), 5, INT2NUM(yylineno), $3, $4, $1, $2);
                 }
                 ;
 
 operator_def:   def operator identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("operator_def"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
                 }
                 | def LBRACKET RBRACKET identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("operator_def"), 5,
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $4, $5, $1);
                 }
                 ;
 
 class_operator_def: def any_identifier operator identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $2, $3, $4, $5, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6, INT2NUM(yylineno), $3, $4, $5, $1, $2);
                 }
                 | def any_identifier LBRACKET RBRACKET identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("sin_operator_def"), 6,
-                                  INT2NUM(yylineno), $2, fy_terminal_node_from(self, "ast:identifier:", "[]"), $5, $6, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $5, $6, $1, $2);
                 }
                 ;
 

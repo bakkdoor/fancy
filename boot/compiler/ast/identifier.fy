@@ -6,7 +6,7 @@ class Fancy AST {
 
     def name { @string to_sym() }
 
-    def method_name: receiver ruby_send: ruby {
+    def method_name: receiver ruby_send: ruby (false) {
       ruby if_do: {
         @string to_sym()
       } else: {
@@ -31,9 +31,9 @@ class Fancy AST {
 
     def bytecode: g {
       match @string -> {
-        case "true" -> g.push_true
-        case "false" -> g.push_false
-        case "nil" -> g.push_nil
+        case "true" -> g push_true()
+        case "false" -> g push_false()
+        case "nil" -> g push_nil()
         case _ -> Rubinius AST LocalVariableAccess new(@line, self name) bytecode(g)
       }
     }

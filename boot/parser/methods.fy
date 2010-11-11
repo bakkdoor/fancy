@@ -103,19 +103,60 @@ class Fancy {
     }
 
     def method: margs delegators: block {
-      idx = margs index: 'default
-      { return } unless: idx
-      line = margs first selector() line
-      target = method_name: margs
+      idx = margs index() |m| { m default() != nil }
+      idx if_do: {
+        line = margs first selector() line
+        target = method_name: margs
+        (margs size - idx) times: |pos| {
+          required = margs from: 0 to: (idx + pos)
+          default = margs from: (idx+pos) to: -1
+          params = required map: 'variable . + $ default map: 'default
+          forward = AST MessageSend new: (AST Identifier from: target line: line) \
+                                    to:  (AST Self new: line)                     \
+                                    args:(AST MessageArgs new: params line: line) \
+                                    line: line
+          doc = AST StringLiteral new: ("Forward to message " ++ target) line: line
+          body = AST ExpressionList new: [doc, forward] line: line
+          block call: [required, body]
+        }
+      }
     }
 
-    def ast: line method: margs expand: body access: access ('public) {
+    def ast: line oper: op arg: arg body: body access: access ('public) owner: owner (nil) {
+      margs = ast: line param: op var: arg
+      ast: line method: margs body: body access: access owner: owner
+    }
+
+    def ast: line method: margs body: body access: access ('public) owner: owner (nil) {
+      margs is_a?(AST Identifier) . if_do: {
+        args = AST MethodArgs new: [] line: line
+        owner if_do: {
+          AST SingletonMethodDef new: line name: margs args: args \
+                                 body: body access: access owner: owner
+        } else: {
+          AST MethodDef new: line name: margs args: args body: body access: access
+        }
+      } else: {
+        name = method_name: margs
+        name = AST Identifier new: name line: line
+        args = margs map() |m| { m variable() string }
+        args = AST MethodArgs new: args line: line
+        owner if_do: {
+          AST SingletonMethodDef new: line name: name args: args \
+                                 body: body access: access owner: owner
+        } else: {
+          AST MethodDef new: line name: name args: args body: body access: access
+        }
+      }
+    }
+
+    def ast: line method: margs expand: body access: access ('public) owner: owner (nil) {
       defs = []
       method: margs delegators: |sel fwd| {
-        defs << $ ast: line method: sel body: fwd access: access
+        defs << $ ast: line method: sel body: fwd access: access owner: owner
       }
-      defs << $ ast: line method: margs body: body access: access
-      AST ExpressionList new: defs line: line
+      defs << $ ast: line method: margs body: body access: access owner: owner
+      AST ExpressionList new: line list: defs
     }
 
   }
