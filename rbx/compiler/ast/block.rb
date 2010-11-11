@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class BlockLiteral < Rubinius::AST::Iter
       def initialize(line, args, body)

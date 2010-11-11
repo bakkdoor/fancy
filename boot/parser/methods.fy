@@ -46,6 +46,10 @@ class Fancy {
       AST StringLiteral new: str line: line
     }
 
+    def ast: line array: expr_ary {
+      AST ArrayLiteral new: expr_ary line: line
+    }
+
     def ast: line tuple: expr_ary {
       expr_ary size == 1 . if_do: { expr_ary first } else: {
         AST TupleLiteral new: expr_ary line: line
@@ -157,6 +161,10 @@ class Fancy {
       }
       defs << $ ast: line method: margs body: body access: access owner: owner
       AST ExpressionList new: line list: defs
+    }
+
+    def ast: line block: body {
+       AST BlockLiteral new: line args: nil body: body
     }
 
   }

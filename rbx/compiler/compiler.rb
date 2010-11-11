@@ -1,4 +1,4 @@
-module Fancy
+class Fancy
 
   class Compiler < Rubinius::Compiler
 

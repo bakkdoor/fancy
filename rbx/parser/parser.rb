@@ -1,5 +1,5 @@
 
-module Fancy
+class Fancy
 
   # This module has methods that can be used as callbacks from
   # the parser, so that we can have a relatively simple fancy.y

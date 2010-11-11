@@ -603,7 +603,7 @@ array_literal:  empty_array {
                   $$ = $1;
                 }
                 | LBRACKET space exp_comma_list space RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("array_literal"), 2, INT2NUM(yylineno), $3);
+                  $$ = rb_funcall(self, rb_intern("ast:array:"), 2, INT2NUM(yylineno), $3);
                 }
                 ;
 
@@ -619,7 +619,7 @@ exp_comma_list: exp {
                 ;
 
 empty_array:    LBRACKET space RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("array_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:array:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
@@ -632,7 +632,7 @@ hash_literal:   LHASH space key_value_list space RHASH {
                 ;
 
 block_literal:  expression_block {
-                  $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:block:"), 2, INT2NUM(yylineno), $1);
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $5);

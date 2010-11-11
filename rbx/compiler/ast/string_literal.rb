@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
     class StringLiteral < Rubinius::AST::StringLiteral
       def initialize(line, str)
         super(line, unescape_chars(str))

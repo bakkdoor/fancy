@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class RubyArgs < Node
       def initialize(line, args, block = nil)

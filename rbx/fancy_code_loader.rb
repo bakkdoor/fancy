@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + "/compiler"
 require File.dirname(__FILE__) + "/compiler/command"
 
-module Fancy
+class Fancy
   class CodeLoader
     SOURCE_FILE_EXTENSION = "fy"
     COMPILED_FILE_EXTENSION = "fyc"

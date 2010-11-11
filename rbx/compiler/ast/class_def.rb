@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class ClassDef < Rubinius::AST::Class
       def initialize(line, name, parent, body)

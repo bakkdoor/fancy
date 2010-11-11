@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class SingletonMethodDef < Rubinius::AST::DefineSingleton
       def initialize(line, obj_ident, method_ident, args, body, access = :public)

@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class MessageSend < Node
       def initialize(line, receiver, message_name, message_args)
