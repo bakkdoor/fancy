@@ -47,7 +47,10 @@ class Fancy AST {
   }
 
   class ArrayLiteral : Rubinius AST ArrayLiteral {
-    def initialize: @array line: line { initialize(line, @array) }
+    def initialize: @array line: line {
+      @array nil? if_true: { @array = [] }
+      initialize(line, @array)
+    }
     def bytecode: g { bytecode(g) }
   }
 
