@@ -1,7 +1,18 @@
 class Fancy AST {
 
+  class NilLiteral : Rubinius AST NilLiteral {
+    def initialize: @line { initialize(line) }
+    def bytecode: g { bytecode(g) }
+  }
+
   class FixnumLiteral : Rubinius AST FixnumLiteral {
     def initialize: value line: line { initialize(line, value) }
+    def bytecode: g { bytecode(g) }
+  }
+
+  class NumberLiteral : Rubinius AST NumberLiteral {
+    def initialize: value line: line { initialize(line, value) }
+    def bytecode: g { bytecode(g) }
   }
 
   class StringLiteral : Rubinius AST StringLiteral {

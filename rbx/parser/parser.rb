@@ -225,7 +225,7 @@ module Fancy
     end
 
     def nil_literal(line)
-      AST::NilLiteral.new(line)
+      Rubinius::AST::NilLiteral.new(line)
     end
 
     def block_literal(line, block_args, block_body)

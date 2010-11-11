@@ -334,7 +334,7 @@ method_def:     method_w_args
                 ;
 
 method_arg:     selector identifier {
-                  $$ = rb_funcall(self, rb_intern("method_arg"), 3, INT2NUM(yylineno), $1, $2);
+                  $$ = rb_funcall(self, rb_intern("ast:param:var:"), 3, INT2NUM(yylineno), $1, $2);
                 }
                 ;
 
@@ -350,7 +350,7 @@ method_args:    method_arg {
                 ;
 
 method_arg_default: selector identifier LPAREN space exp space RPAREN {
-                  $$ = rb_funcall(self, rb_intern("method_arg"), 4, INT2NUM(yylineno), $1, $2, $5);
+                  $$ = rb_funcall(self, rb_intern("ast:param:var:default:"), 4, INT2NUM(yylineno), $1, $2, $5);
                 }
                 ;
 
@@ -363,7 +363,7 @@ method_args_default: method_arg_default {
                 ;
 
 method_w_args:  def method_args expression_block {
-                  $$ = rb_funcall(self, rb_intern("method_def_expand"), 4, INT2NUM(yylineno), $2, $3, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:method:expand:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
                 ;
 
@@ -547,7 +547,7 @@ integer_literal: INTEGER_LITERAL {
                 }
                 ;
 double_literal: DOUBLE_LITERAL {
-                  $$ = fy_terminal_node(self, "double");
+                  $$ = fy_terminal_node(self, "ast:number:");
                 }
                 ;
 string_literal: STRING_LITERAL {

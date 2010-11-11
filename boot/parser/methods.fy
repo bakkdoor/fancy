@@ -32,6 +32,10 @@ class Fancy {
       AST FixnumLiteral new: (text to_i(base)) line: line
     }
 
+    def ast: line number: text base: base (10) {
+      AST NumberLiteral new: (text to_f()) line: line
+    }
+
     def ast: line symbol: text {
       str = text from: 1 to: -1
       AST SymbolLiteral new: str line: line
@@ -61,9 +65,12 @@ class Fancy {
     def ast: line retry_exp: text { AST Retry new: line }
 
     def ast: line assign: rvalue to: lvalue many: many (false) {
-      p(lvalue)
       ast = many if_do: { AST MultipleAssignment } else: { AST Assignment }
       ast new: rvalue to: lvalue line: line
+    }
+
+    def ast: line param: selector var: variable default: default (nil) {
+      Struct.new('selector, 'variable, 'default) new(selector, variable, default)
     }
 
     def ast: line send: selector arg: value ary: ary ([]) {
@@ -89,6 +96,26 @@ class Fancy {
         args = arg_type new: args line: line
       }
       AST MessageSend new: name to: receiver args: args line: line
+    }
+
+    def method_name: margs {
+      margs map: |a| { a selector() string } . join("")
+    }
+
+    def method: margs delegators: block {
+      idx = margs index: 'default
+      { return } unless: idx
+      line = margs first selector() line
+      target = method_name: margs
+    }
+
+    def ast: line method: margs expand: body access: access ('public) {
+      defs = []
+      method: margs delegators: |sel fwd| {
+        defs << $ ast: line method: sel body: fwd access: access
+      }
+      defs << $ ast: line method: margs body: body access: access
+      AST ExpressionList new: defs line: line
     }
 
   }
