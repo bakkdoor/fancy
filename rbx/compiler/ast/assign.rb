@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class Assignment < Node
       def initialize(line, ident, value)

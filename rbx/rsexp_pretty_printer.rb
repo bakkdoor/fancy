@@ -1,7 +1,7 @@
 #!/usr/bin/env rbx
 # -*- ruby -*-
 
-module Fancy
+class Fancy
   class RSexpPrettyPrinter
 
     def nice(to_print)

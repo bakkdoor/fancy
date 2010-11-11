@@ -1,4 +1,4 @@
-module Fancy
+class Fancy
   class Compiler
     class Command
       def self.run(argv)

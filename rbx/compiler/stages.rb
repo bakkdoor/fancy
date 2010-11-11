@@ -2,7 +2,7 @@
 # Stages for compiling Fancy to Rubinius bytecode.
 #
 
-module Fancy
+class Fancy
   class Compiler
 
     # FancyAST -> Rubinius Symbolic bytecode

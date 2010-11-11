@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class MethodDef < Rubinius::AST::Define
       def initialize(line, method_ident, args, body, access = :public)

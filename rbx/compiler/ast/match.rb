@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class Match < Node
       def initialize(line, expr, clauses)

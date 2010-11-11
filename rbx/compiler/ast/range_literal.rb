@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class RangeLiteral < Node
       attr_accessor :from, :to

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + "/compiler"
 
-module Fancy
+class Fancy
 
   def self.eval(code, binding = nil, filename = "(fancy-eval)", line = 1)
     # Copied many things from rbx/common/eval.rb

@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class ArrayLiteral < Rubinius::AST::ArrayLiteral
       attr_accessor :array

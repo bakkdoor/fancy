@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class TryCatchBlock < Node
       def initialize(line, body, handlers, finally)

@@ -1,5 +1,5 @@
-module Fancy
-  module AST
+class Fancy
+  class AST
 
     class HashLiteral < Rubinius::AST::HashLiteral
       def initialize(line, *array)
