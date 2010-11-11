@@ -81,4 +81,13 @@ class Fancy AST {
     }
   }
 
+  class BlockLiteral : Rubinius AST Iter {
+    def initialize: @line args: @args body: @body (Fancy AST NilLiteral new: line) {
+      initialize(@line, @args, @body)
+    }
+
+    def bytecode: g {
+      bytecode(g)
+    }
+  }
 }

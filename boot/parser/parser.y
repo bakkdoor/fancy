@@ -632,7 +632,7 @@ hash_literal:   LHASH space key_value_list space RHASH {
                 ;
 
 block_literal:  expression_block {
-                  $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:block:"), 2, INT2NUM(yylineno), $1);
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $5);

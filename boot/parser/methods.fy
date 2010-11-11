@@ -159,5 +159,9 @@ class Fancy {
       AST ExpressionList new: line list: defs
     }
 
+    def ast: line block: body {
+       AST BlockLiteral new: line args: nil body: body
+    }
+
   }
 }
