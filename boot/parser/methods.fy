@@ -56,7 +56,7 @@ class Fancy {
     def ast: line array: expr_ary {
       AST ArrayLiteral new: expr_ary line: line
     }
-    
+
     def ast: line hash: key_values {
       AST HashLiteral new: key_values line: line
     }
@@ -175,8 +175,17 @@ class Fancy {
     }
 
     def ast: line block: body {
-       AST BlockLiteral new: line args: nil body: body
+      args = AST BlockArgs new: line
+      AST BlockLiteral new: line args: args body: body
     }
 
+    def ast: line block: body args: args {
+      args = AST BlockArgs new: line args: args
+      AST BlockLiteral new: line args: args body: body
+    }
+
+    def ast: line block_args: ident into: array ([]) {
+      array push(ident)
+    }
   }
 }

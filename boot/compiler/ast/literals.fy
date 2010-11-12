@@ -1,5 +1,4 @@
 class Fancy AST {
-
   class NilLiteral : Rubinius AST NilLiteral {
     def initialize: @line { initialize(line) }
     def bytecode: g { bytecode(g) }
@@ -53,22 +52,12 @@ class Fancy AST {
     }
     def bytecode: g { bytecode(g) }
   }
-  
+
   class HashLiteral : Rubinius AST HashLiteral {
     def initialize: @key_values line: line {
       @key_values nil? if_true: { @key_values = [] }
       initialize(line, @key_values)
     }
     def bytecode: g { bytecode(g) }
-  }
-
-  class BlockLiteral : Rubinius AST Iter {
-    def initialize: @line args: @args body: @body (Fancy AST NilLiteral new: line) {
-      initialize(@line, @args, @body)
-    }
-
-    def bytecode: g {
-      bytecode(g)
-    }
   }
 }
