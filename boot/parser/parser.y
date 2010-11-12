@@ -654,18 +654,18 @@ block_args:     block_args_with_comma
                 ;
 
 block_args_without_comma: identifier {
-                  $$ = rb_funcall(self, rb_intern("ast:block_args:"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | block_args_without_comma identifier {
-                  $$ = rb_funcall(self, rb_intern("ast:block_args:into:"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
 block_args_with_comma: identifier {
-                  $$ = rb_funcall(self, rb_intern("ast:block_args:"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | block_args_with_comma COMMA identifier {
-                  $$ = rb_funcall(self, rb_intern("ast:block_args:into:"), 3, INT2NUM(yylineno), $3, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 

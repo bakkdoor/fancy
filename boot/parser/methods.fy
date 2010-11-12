@@ -184,10 +184,6 @@ class Fancy {
       AST BlockLiteral new: line args: args body: body
     }
 
-    def ast: line block_args: ident into: array ([]) {
-      array push(ident)
-    }
-
     def ast: line class: name parent: parent body: body {
       AST ClassDef new: line name: name parent: parent body: body
     }
