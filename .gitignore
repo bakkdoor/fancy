@@ -32,3 +32,7 @@ boot/parser/parser.output
 publish.fy
 doc/api/fancy.jsonp
 *flymake*
+boot/parser/conftest.dSYM/
+boot/parser/fancy_parser_ext.bundle
+rbx/parser/conftest.dSYM/
+rbx/parser/fancy_parser.bundle
