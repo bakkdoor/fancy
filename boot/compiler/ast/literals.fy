@@ -35,9 +35,9 @@ class Fancy AST {
     def bytecode: g { g push_stack_local(@local) }
   }
 
-  class Self : Node {
-    def initialize: @line { super }
-    def bytecode: g { g push_self() }
+  class Self : Rubinius AST Self {
+    def initialize: line { initialize(line) }
+    def bytecode: g { bytecode(g) }
   }
 
   class SymbolLiteral : Rubinius AST SymbolLiteral {
