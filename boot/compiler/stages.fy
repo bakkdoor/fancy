@@ -51,7 +51,6 @@ class Fancy Compiler Stages {
     def input: @filename line: @line (1) {}
 
     def run {
-      Fancy Parser class println
       ast = Fancy Parser parse_file: @filename line: @line
       @print if_do: { ast inspect println }
       @output = @root new(ast)

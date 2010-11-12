@@ -1,7 +1,7 @@
 class Fancy AST {
 
   class MethodDef : Rubinius AST Define {
-    def initialize: @line name: @name args: @args body: @body access: @access {
+    def initialize: @line name: @name args: @arguments body: @body access: @access {
       @method_name = @name method_name: nil
       # self generate_ivar_assignment # TODO
     }
@@ -14,7 +14,7 @@ class Fancy AST {
       # TODO: constructors and method_missing
 
       # TODO: docstring
-      super bytecode(g)
+      bytecode(g)
     }
   }
 
