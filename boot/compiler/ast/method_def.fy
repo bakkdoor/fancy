@@ -37,7 +37,7 @@ class Fancy AST {
     # defines a class method names "new:foo:" if we're defining a
     # method named e.g. "initialize:foo:" (a constructor method).
     def define_constructor_class_method: g {
-      method_ident = StringLiteral new(@line, @name to_s from: 11 to: 1)
+      method_ident = StringLiteral new(@line, @name to_s from: 11 to: -1)
       ms = MessageSend new: (Identifier from: "define_constructor_class_method:" line: @line) \
                        to: (Self new: @line) \
                        args: (MessageArgs new: [method_ident] line: @line) \
