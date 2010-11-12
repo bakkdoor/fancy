@@ -8,7 +8,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
-      # docstring = body body shift_docstring()
+      # docstring = body() body() shift_docstring()
       # docstring if_do: {
       #   setdoc = MessageSend.new(line,
       #                            Identifier.new(line, "Fancy::Documentation"),
