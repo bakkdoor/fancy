@@ -187,5 +187,9 @@ class Fancy {
     def ast: line block_args: ident into: array ([]) {
       array push(ident)
     }
+
+    def ast: line class: name parent: parent body: body {
+      AST ClassDef new: line name: name parent: parent body: body
+    }
   }
 }

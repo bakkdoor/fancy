@@ -316,12 +316,12 @@ def:            DEF PRIVATE { $$ = rb_intern("private"); }
                 ;
 
 class_no_super: CLASS const_identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), $2, Qnil, $3);
                 }
                 ;
 
 class_super:    CLASS const_identifier COLON const_identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, $4, $5);
+                  $$ = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), $2, $4, $5);
                 }
                 ;
 
