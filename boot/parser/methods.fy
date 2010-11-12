@@ -27,6 +27,15 @@ class Fancy {
         ary << object
       }
     }
+    
+    def ast: line key: key value: value into: ary ([]) {
+      ary nil? if_true: {
+        ary = []
+      }
+      ary << key
+      ary << value
+      ary
+    }
 
     def ast: line fixnum: text base: base (10) {
       AST FixnumLiteral new: (text to_i(base)) line: line
@@ -48,6 +57,10 @@ class Fancy {
 
     def ast: line array: expr_ary {
       AST ArrayLiteral new: expr_ary line: line
+    }
+    
+    def ast: line hash: key_values {
+      AST HashLiteral new: key_values line: line
     }
 
     def ast: line tuple: expr_ary {

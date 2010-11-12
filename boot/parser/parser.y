@@ -624,10 +624,10 @@ empty_array:    LBRACKET space RBRACKET {
                 ;
 
 hash_literal:   LHASH space key_value_list space RHASH {
-                  $$ = rb_funcall(self, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
+                  $$ = rb_funcall(self, rb_intern("ast:hash:"), 2, INT2NUM(yylineno), $3);
                 }
                 | LHASH space RHASH {
-                  $$ = rb_funcall(self, rb_intern("hash_literal"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:hash:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
@@ -670,10 +670,10 @@ block_args_with_comma: identifier {
                 ;
 
 key_value_list: exp space ARROW space exp {
-                  $$ = rb_funcall(self, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
+                  $$ = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), $1, $5, Qnil);
                 }
                 | key_value_list COMMA space exp space ARROW space exp {
-                  $$ = rb_funcall(self, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
                 ;
 
