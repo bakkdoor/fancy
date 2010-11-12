@@ -27,11 +27,9 @@ class Fancy {
         ary << object
       }
     }
-    
-    def ast: line key: key value: value into: ary ([]) {
-      ary nil? if_true: {
-        ary = []
-      }
+
+    def ast: line key: key value: value into: ary {
+      ary nil? if_true: { ary = [] }
       ary << key
       ary << value
       ary
