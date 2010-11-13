@@ -5,10 +5,12 @@ class Fancy AST {
     def bytecode: g {
       ary = ArrayLiteral new: @line array: [FixnumLiteral new: @line value: (@elements size)]
 
+      args = MessageArgs new: @line args: [RubyArgs new: @line args: ary]
+
       ms = MessageSend new:     @line                                            \
                        message: (Identifier from: "new" line: @line)             \
                        to:      (Identifier from: "Rubinius::Tuple" line: @line) \
-                       args:    (RubyArgs new: [ary] line: @line)
+                       args:    args
 
       ms bytecode: g
 

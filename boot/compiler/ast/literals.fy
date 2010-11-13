@@ -46,6 +46,7 @@ class Fancy AST {
   }
 
   class ArrayLiteral : Rubinius AST ArrayLiteral {
+    read_slots: ['array]
     def initialize: line array: @array {
       @array nil? if_true: { @array = [] }
       initialize(line, @array)

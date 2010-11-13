@@ -1,7 +1,7 @@
 class Fancy AST {
 
   class Identifier : Node {
-    read_slots: ['string, 'line]
+    read_slots: ['string, 'line, 'ruby_]
     def initialize: @line string: @string {}
 
     def name {
@@ -65,9 +65,11 @@ class Fancy AST {
 
   class NestedConstant : Identifier {
     def initialize: @line string: @string {
-      super
+    }
+
+    def bytecode: g {
       names = @string split: "::"
-      parent = Constant new: line string: (names shift())
+      parent = Constant new: @line string: (names shift())
       names each: |name| {
         Rubinius AST ScopedConstant new(@line, parent, name to_sym()) bytecode(g)
         parent = Constant new: @line string: name
