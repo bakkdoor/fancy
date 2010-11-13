@@ -11,7 +11,7 @@ class Fancy AST {
       pos(g)
       # g allow_private()
       # ms = MessageSend new: "fancy_require" to: g \ 
-                       args: [1, false] line: line
+      #                 args: [1, false] line: line
       # ms bytecode: g
     }
   }
