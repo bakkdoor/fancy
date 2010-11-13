@@ -567,19 +567,19 @@ regex_literal: REGEX_LITERAL {
                 ;
 
 hex_literal:    HEX_LITERAL {
-                  $$ = rb_funcall(self, rb_intern("integer_literal"), 3,
+                  $$ = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(16));
                 }
                 ;
 
 oct_literal:    OCT_LITERAL {
-                  $$ = rb_funcall(self, rb_intern("integer_literal"), 3,
+                  $$ = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(8));
                 }
                 ;
 
 bin_literal:    BIN_LITERAL {
-                  $$ = rb_funcall(self, rb_intern("integer_literal"), 3,
+                  $$ = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(2));
                 }
                 ;
