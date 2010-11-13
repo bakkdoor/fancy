@@ -291,10 +291,10 @@ return_statement: RETURN exp {
                 ;
 
 require_statement: REQUIRE string_literal {
-                  $$ = rb_funcall(self, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
+                  $$ = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), $2);
                 }
                 | REQUIRE any_identifier {
-                  $$ = rb_funcall(self, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
+                  $$ = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 
