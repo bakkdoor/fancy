@@ -1,11 +1,11 @@
 class Fancy AST {
 
   class MessageSend : Node {
-    def initialize: @name to: @receiver args: @args line: @line { super }
+    def initialize: @line message: @name to: @receiver args: @args { }
 
     def bytecode: g {
       @receiver is_a?: Super . if_do: {
-        SuperSend new: @name args: @args line: @line . bytecode: g
+        SuperSend new: @line message: @name args: @args . bytecode: g
       } else: {
         @receiver bytecode: g
         @args bytecode: g
@@ -25,7 +25,7 @@ class Fancy AST {
   }
 
   class MessageArgs : Node {
-    def initialize: @array line: @line { super }
+    def initialize: @line args: @array { }
 
     def bytecode: g {
       @array each: |a| { a bytecode: g }

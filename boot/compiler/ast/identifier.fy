@@ -2,9 +2,11 @@ class Fancy AST {
 
   class Identifier : Node {
     read_slots: ['string, 'line]
-    def initialize: @string line: @line { super }
+    def initialize: @line string: @string {}
 
-    def name { @string to_sym() }
+    def name {
+      @string to_sym()
+    }
 
     def method_name: receiver ruby_send: ruby (false) {
       ruby if_do: {
@@ -26,7 +28,7 @@ class Fancy AST {
         case /^@/ -> InstanceVariable
         case _ -> Identifier
       }
-      type new: string line: line
+      type new: line string: string
     }
 
     def bytecode: g {
@@ -41,34 +43,34 @@ class Fancy AST {
   }
 
   class InstanceVariable : Identifier {
-    def initialize: @string line: @line { super }
+    def initialize: @line string: @string {}
     def bytecode: g {
       Rubinius AST InstanceVariableAccess new(@line, self name) bytecode(g)
     }
   }
 
   class ClassVariable : Identifier {
-    def initialize: @string line: @line { super }
+    def initialize: @line string: @string {}
     def bytecode: g {
       Rubinius AST ClassVariableAccess new(@line, self name) bytecode(g)
     }
   }
 
   class Constant : Identifier {
-    def initialize: @string line: @line { super }
+    def initialize: @line string: @string {}
     def bytecode: g {
        Rubinius AST ConstantAccess new(@line, self name) bytecode(g)
     }
   }
 
   class NestedConstant : Identifier {
-    def initialize: @string line: @line {
+    def initialize: @line string: @string {
       super
       names = @string split: "::"
-      parent = Constant new: (names shift()) line: line
+      parent = Constant new: line string: (names shift())
       names each: |name| {
         Rubinius AST ScopedConstant new(@line, parent, name to_sym()) bytecode(g)
-        parent = Constant new: name line: @line
+        parent = Constant new: @line string: name
       }
       @scoped = parent
     }

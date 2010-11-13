@@ -38,24 +38,24 @@ class Fancy AST {
     # method named e.g. "initialize:foo:" (a constructor method).
     def define_constructor_class_method: g {
       method_ident = StringLiteral new(@line, @name to_s from: 11 to: -1)
-      ms = MessageSend new: (Identifier from: "define_constructor_class_method:" line: @line) \
-                       to: (Self new: @line) \
-                       args: (MessageArgs new: [method_ident] line: @line) \
-                       line: @line
+      ms = MessageSend new:     @line                                                             \
+                       message: (Identifier from: "define_constructor_class_method:" line: @line) \
+                       to:      (Self new: @line)                                                 \
+                       args:    (MessageArgs new: line args: [method_ident])
       ms bytecode: g
     }
 
     def define_method_missing: g {
-      ms = MessageSend new: (Identifier from: "define_forward_method_missing" line: @line) \
-                       to:  (Self new: @line) \
-                       args: (MessageArgs new: [] line: @line) \
-                       line: @line
+      ms = MessageSend new:     @line                                                          \
+                       message: (Identifier from: "define_forward_method_missing" line: @line) \
+                       to:      (Self new: @line)                                              \
+                       args:    (MessageArgs new: @line args: [])
       ms bytecode: g
     }
   }
 
   class MethodArgs : Rubinius AST FormalArguments {
-    def initialize: @array line: @line {
+    def initialize: @line args: @array{
       initialize(@line, @array map() |a| { a to_sym() }, nil, nil)
     }
   }

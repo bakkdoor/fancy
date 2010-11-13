@@ -36,34 +36,34 @@ class Fancy {
     }
 
     def ast: line fixnum: text base: base (10) {
-      AST FixnumLiteral new: (text to_i(base)) line: line
+      AST FixnumLiteral new: line value: (text to_i(base))
     }
 
     def ast: line number: text base: base (10) {
-      AST NumberLiteral new: (text to_f()) line: line
+      AST NumberLiteral new: line value: (text to_f())
     }
 
     def ast: line symbol: text {
       str = text from: 1 to: -1
-      AST SymbolLiteral new: str line: line
+      AST SymbolLiteral new: line value: str
     }
 
     def ast: line string: text {
       str = text from: 1 to: -2
-      AST StringLiteral new: str line: line
+      AST StringLiteral new: line value: str
     }
 
     def ast: line array: expr_ary {
-      AST ArrayLiteral new: expr_ary line: line
+      AST ArrayLiteral new: line array: expr_ary
     }
 
     def ast: line hash: key_values {
-      AST HashLiteral new: key_values line: line
+      AST HashLiteral new: line entries: key_values
     }
 
     def ast: line tuple: expr_ary {
       expr_ary size == 1 . if_do: { expr_ary first } else: {
-        AST TupleLiteral new: expr_ary line: line
+        AST TupleLiteral new: line entries: expr_ary
       }
     }
 
@@ -81,7 +81,7 @@ class Fancy {
 
     def ast: line assign: rvalue to: lvalue many: many (false) {
       ast = many if_do: { AST MultipleAssignment } else: { AST Assignment }
-      ast new: rvalue to: lvalue line: line
+      ast new: line var: lvalue value: rvalue
     }
 
     def ast: line param: selector var: variable default: default (nil) {
@@ -99,18 +99,18 @@ class Fancy {
 
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (false) {
       arg_type = ruby if_do: { AST RubyArgs } else: { AST MessageArgs }
-      args = arg_type new: [] line: line
+      args = arg_type new: line args: []
       name = message
       message kind_of?(String) . if_do: {
         name = AST Identifier from: message line: line
       }
       message kind_of?(Array) . if_do: {
         name = message map: |m| { m selector() string } . join
-        name = AST Identifier new: name line: line
+        name = AST Identifier new: line string: name
         args = message map: |m| { m value() }
-        args = arg_type new: args line: line
+        args = arg_type new: line args: args
       }
-      AST MessageSend new: name to: receiver args: args line: line
+      AST MessageSend new: line message: name to: receiver args: args
     }
 
     def method_name: margs {
@@ -126,11 +126,13 @@ class Fancy {
           required = margs from: 0 to: (idx + pos)
           default = margs from: (idx+pos) to: -1
           params = required map: 'variable . + $ default map: 'default
-          forward = AST MessageSend new: (AST Identifier from: target line: line) \
+
+          forward = AST MessageSendo new: line \
+                                    message: (AST Identifier from: target line: line) \
                                     to:  (AST Self new: line)                     \
-                                    args:(AST MessageArgs new: params line: line) \
-                                    line: line
-          doc = AST StringLiteral new: ("Forward to message " ++ target) line: line
+                                    args:(AST MessageArgs new: line args: params)
+
+          doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
           body = AST ExpressionList new: [doc, forward] line: line
           block call: [required, body]
         }
@@ -144,7 +146,7 @@ class Fancy {
 
     def ast: line method: margs body: body access: access ('public) owner: owner (nil) {
       margs is_a?(AST Identifier) . if_do: {
-        args = AST MethodArgs new: [] line: line
+        args = AST MethodArgs new: line args: []
         owner if_do: {
           AST SingletonMethodDef new: line name: margs args: args \
                                  body: body access: access owner: owner
@@ -153,9 +155,9 @@ class Fancy {
         }
       } else: {
         name = method_name: margs
-        name = AST Identifier new: name line: line
+        name = AST Identifier new: line string: name
         args = margs map() |m| { m variable() string }
-        args = AST MethodArgs new: args line: line
+        args = AST MethodArgs new: line args: args
         owner if_do: {
           AST SingletonMethodDef new: line name: name args: args \
                                  body: body access: access owner: owner

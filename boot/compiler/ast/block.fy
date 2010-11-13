@@ -1,7 +1,6 @@
 class Fancy AST {
   class BlockLiteral : Rubinius AST Iter {
-    def initialize: @line args: @args body: @body (Fancy AST NilLiteral new: line) {
-      @body if_nil: { @body = Rubinius AST NilLiteral new(line) }
+    def initialize: @line args: @args body: @body (NilLiteral new: line) {
       initialize(@line, @args, @body)
       @args create_locals: self
       @args total_args == 0 if_true: {
@@ -21,13 +20,11 @@ class Fancy AST {
   class BlockArgs : Node {
     read_write_slots: ['args, 'block]
 
-    def initialize: line {
-      initialize(line)
+    def initialize: @line {
       @args = []
     }
 
-    def initialize: line args: @args {
-      initialize(line)
+    def initialize: @line args: @args {
       @args = @args map: |a| { a name to_sym() }
     }
 

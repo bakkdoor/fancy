@@ -1,7 +1,7 @@
 class Fancy AST {
 
   class Assignment : Node {
-    def initialize: @rvalue to: @lvalue line: @line { super }
+    def initialize: @line var: @lvalue value: @rvalue {}
 
     def bytecode: g {
       @lvalue bytecode: g assign: @rvalue

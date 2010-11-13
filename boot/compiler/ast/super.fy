@@ -1,11 +1,11 @@
 class Fancy AST {
 
   class Super : Node {
-    def initialize: @line { super }
+    def initialize: @line { }
   }
 
   class SuperSend : Node {
-    def initialize: @name args: @args line: @line { super }
+    def initialize: @line message: @name args: @args { }
     def bytecode: g {
       pos(g)
       @args bytecode: g

@@ -1,10 +1,10 @@
 class Fancy AST {
   class ClassDef : Rubinius AST Class {
-    def initialize: line name: name parent: parent body: body {
-      name kind_of?: Identifier . if_true: {
-        name = name name
+    def initialize: @line name: @name parent: @parent body: @body {
+      @name kind_of?: Identifier . if_true: {
+        @name = @name name
       }
-      initialize(line, name, parent, body)
+      initialize(@line, @name, @parent, @body)
     }
 
     def bytecode: g {
