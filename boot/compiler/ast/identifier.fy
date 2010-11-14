@@ -22,6 +22,7 @@ class Fancy AST {
 
     def self from: string line: line {
       type = match string -> {
+        case "self" -> return Self new: line
         case /^[A-Z].*::/ -> NestedConstant
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
@@ -36,7 +37,6 @@ class Fancy AST {
         case "true" -> g push_true()
         case "false" -> g push_false()
         case "nil" -> g push_nil()
-        case "self" -> g push_self()
         case _ -> Rubinius AST LocalVariableAccess new(@line, self name) bytecode(g)
       }
     }
