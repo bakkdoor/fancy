@@ -124,7 +124,7 @@ class Fancy {
         target = method_name: margs
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos)
-          default = margs from: (idx+pos) to: -1
+          default = margs from: (idx + pos) to: -1
           params = required map: 'variable . + $ default map: 'default
 
           forward = AST MessageSendo new: line \
