@@ -9,7 +9,8 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       @args bytecode: g
-      g send_super(@name, @args size)
+      name = @name method_name: nil
+      g send_super(name, @args size)
     }
   }
 
