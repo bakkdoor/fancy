@@ -216,8 +216,8 @@ exp:            method_def
                 | ruby_oper_send
                 | literal_value
                 | any_identifier
-                | SUPER { $$ = rb_funcall(self, rb_intern("ast:super_exp:"), 1, INT2NUM(yylineno)); }
-                | RETRY { $$ = rb_funcall(self, rb_intern("ast:retry_exp:"), 1, INT2NUM(yylineno)); }
+                | SUPER { $$ = rb_funcall(self, rb_intern("ast:super_exp:"), 2, INT2NUM(yylineno), Qnil); }
+                | RETRY { $$ = rb_funcall(self, rb_intern("ast:retry_exp:"), 2, INT2NUM(yylineno), Qnil); }
                 | LPAREN space exp space RPAREN {
                   $$ = $3;
                 }
