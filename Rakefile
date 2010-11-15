@@ -1,7 +1,6 @@
 # This will eventually replace our current Makefile, once we can
 # remove all the old c++ code.
 
-load File.dirname(__FILE__) + "/rbx/parser/Rakefile"
 load File.dirname(__FILE__) + "/boot/parser/Rakefile"
 
 _ = lambda { |f| File.expand_path(f, File.dirname(__FILE__)) }
@@ -9,37 +8,17 @@ _ = lambda { |f| File.expand_path(f, File.dirname(__FILE__)) }
 desc "Deletes all .rbc and .fyc files."
 task :clean do
   rm_f Dir.glob(_["**/*.{rbc,fyc}"])
+  rm_f _[".compiled"]
 end
 
-src_files = Dir.glob(_["src/*"]).map { |f| file f }
+desc "Compile the parser extension"
+task :parser => "parser_ext:default"
 
-fancy_bin = file _["bin/fancy"] => src_files do
-  task(:compile).invoke
+desc "Bootstrap fancy into boot/.compiled/ directory"
+task :bootstrap => [:parser] do
+  cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _["boot/.compiled/parser/"]
+  sh 'rbx', _["boot/load.rb"], _["boot/.compiled/compile.fyc"], "--batch", "--source-path", _["lib"], "--output-path", _["boot/.compiled"], *Dir.glob(_["lib/**/*.fy"])
+  sh 'rbx', _["boot/load.rb"], _["boot/.compiled/compile.fyc"], "--batch", "--source-path", _["boot"], "--output-path", _["boot/.compiled"], *Dir.glob(_["boot/**/*.fy"])
 end
-
-desc "Compiles the fancy std lib."
-task :bootstrap => [fancy_bin] do
-  sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["lib/**/*.fy"])
-end
-
-task :boot => [fancy_bin, "parser_ext:default"] do
-  sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["boot/**/*.fy"])
-end
-
-task :boot_lib => [:default, :boot] do
-  mkdir_p _[".boot/parser"]
-  cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _["lib/parser/"]
-  cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _[".boot/parser/"]
-  sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--uselib", "--batch", "--source-path", _["lib"], "--output-path", _[".boot"], *Dir.glob(_["lib/**/*.fy"])
-  sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--uselib", "--batch", "--source-path", _["boot"], "--output-path", _[".boot"], *Dir.glob(_["boot/**/*.fy"])
-end
-
-desc "Runs the test suite."
-task :test do
-  sh _['bin/fancy -e "ARGV rest rest each: |f| { require: f }" tests/*.fy']
-end
-
-desc "Invokes bootstrap."
-task :default => :bootstrap
 
 
