@@ -1,8 +1,7 @@
 class Fancy AST {
 
   class Node : Rubinius AST Node {
-    bytecode = |g| { bytecode: g }
-    define_method('bytecode, &bytecode)
+    define_method('bytecode) |g| { bytecode: g }
   }
 
 }

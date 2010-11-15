@@ -149,7 +149,7 @@ class Fancy {
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos)
           default = margs from: (idx + pos) to: -1
-          params = required map: 'variable . + $ default map: 'default
+          params = required map: |r| { r variable() } . + $ default map: |d| { d default() }
 
           forward = AST MessageSend new: line \
                                     message: (AST Identifier from: target line: line) \
@@ -157,8 +157,8 @@ class Fancy {
                                     args:(AST MessageArgs new: line args: params)
 
           doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
-          body = AST ExpressionList new: [doc, forward] line: line
-          block call: [required, body]
+          body = AST ExpressionList new: line  list: [doc, forward]
+          block call: [[required, body]]
         }
       }
     }

@@ -11,8 +11,8 @@ class Fancy AST {
         name to_s =~ /^@/ if_do: {
           ident = Identifier from: (name to_s) line: @line
           value = Rubinius AST LocalVariableAccess new(@line, name)
-          asign = Assignment new: value to: ident line: @line
-          body unshift_expression(asign)
+          asign = Assignment new: line var: ident value: value
+          @body unshift_expression: asign
         }
       }
     }
