@@ -678,23 +678,23 @@ key_value_list: exp space ARROW space exp {
                 ;
 
 match_expr:     MATCH exp THIN_ARROW LCURLY space match_body space RCURLY {
-                  $$ = rb_funcall(self, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $6);
+                  $$ = rb_funcall(self, rb_intern("ast:match_expr:body:"), 3, INT2NUM(yylineno), $2, $6);
                 }
                 ;
 
 match_body:     match_clause {
-                  $$ = rb_funcall(self, rb_intern("match_body"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | match_body match_clause {
-                  $$ = rb_funcall(self, rb_intern("match_body"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
 match_clause:   CASE exp THIN_ARROW expression_list {
-                  $$ = rb_funcall(self, rb_intern("match_clause"), 3, INT2NUM(yylineno), $2, $4);
+                  $$ = rb_funcall(self, rb_intern("ast:match_clause:body:"), 3, INT2NUM(yylineno), $2, $4);
                 }
                 | CASE exp THIN_ARROW STAB identifier STAB expression_list {
-                  $$ = rb_funcall(self, rb_intern("match_clause"), 4, INT2NUM(yylineno), $2, $7, $5);
+                  $$ = rb_funcall(self, rb_intern("ast:match_clause:body:arg:"), 4, INT2NUM(yylineno), $2, $7, $5);
                 }
                 ;
 

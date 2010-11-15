@@ -45,7 +45,7 @@ class Fancy {
 
     def ast: line symbol: text {
       str = text from: 1 to: -1
-      AST SymbolLiteral new: line value: str
+      AST SymbolLiteral new: line value: (str to_sym())
     }
 
     def ast: line string: text {
@@ -124,7 +124,7 @@ class Fancy {
         target = method_name: margs
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos)
-          default = margs from: (idx+pos) to: -1
+          default = margs from: (idx + pos) to: -1
           params = required map: 'variable . + $ default map: 'default
 
           forward = AST MessageSendo new: line \
@@ -192,6 +192,14 @@ class Fancy {
 
     def ast: line class: name parent: parent body: body {
       AST ClassDef new: line name: name parent: parent body: body
+    }
+
+    def ast: line match_expr: expr body: match_body {
+      AST Match new: line expr: expr body: match_body
+    }
+
+    def ast: line match_clause: expr body: body arg: match_arg (nil) {
+      AST MatchClause new: line expr: expr body: body arg: match_arg
     }
   }
 }
