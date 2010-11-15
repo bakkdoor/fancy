@@ -8,7 +8,7 @@ class Foo {
   it is used as documentation.
   """
 
-  m = def foo: x bar: y = 22 {
+  m = def foo: x bar: y (22) {
     "Prints its own documentation."
     "TODO: obtain methodContext and print own documentation" println
   }
