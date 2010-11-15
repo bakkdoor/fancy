@@ -35,10 +35,8 @@ fancy_parse_file(VALUE self) {
 
 void
 Init_fancy_parser_ext() {
-  VALUE ext = rb_funcall(rb_cModule, rb_intern("new"), 0);
-  rb_define_method(ext, "parse_string:", fancy_parse_string, 1);
-  rb_define_method(ext, ":parse_file", fancy_parse_file, 0);
   VALUE fancy = rb_const_get(rb_cObject, rb_intern("Fancy"));
   VALUE parser = rb_const_get(fancy, rb_intern("Parser"));
-  rb_funcall(parser, rb_intern("include"), 1, ext);
+  rb_define_method(parser, "parse_string:", fancy_parse_string, 1);
+  rb_define_method(parser, ":parse_file", fancy_parse_file, 0);
 }
