@@ -49,6 +49,11 @@ class Fancy {
       AST SymbolLiteral new: line value: (str to_sym())
     }
 
+    def ast: line regexp: text {
+      regexp = text from: 1 to: -2
+      AST RegexpLiteral new: line value: regexp
+    }
+
     def ast: line string: text {
       str = text from: 1 to: -2
       AST StringLiteral new: line value: str
@@ -68,6 +73,10 @@ class Fancy {
       }
     }
 
+    def ast: line range: from to: to {
+      AST RangeLiteral new: line from: from to: to
+    }
+
     def ast: line identifier: text {
       AST Identifier from: text line: line
     }
@@ -79,6 +88,16 @@ class Fancy {
     def ast: line super_exp: text { AST Super new: line }
 
     def ast: line retry_exp: text { AST Retry new: line }
+
+    def ast: line return_stmt: exp {
+      { exp = AST NilLiteral new: exp } if: (exp nil?)
+      AST Return new: line expr: exp
+    }
+
+    def ast: line return_local_stmt: exp {
+      { exp = AST NilLiteral new: exp } if: (exp nil?)
+      AST ReturnLocal new: line expr: exp
+    }
 
     def ast: line assign: rvalue to: lvalue many: many (false) {
       ast = many if_do: { AST MultipleAssignment } else: { AST Assignment }

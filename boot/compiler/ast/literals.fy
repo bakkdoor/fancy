@@ -45,6 +45,11 @@ class Fancy AST {
     def bytecode: g { bytecode(g) }
   }
 
+  class RegexpLiteral : Rubinius AST RegexLiteral  {
+    def initialize: line value: value { initialize(line, value, 0) }
+    def bytecode: g { bytecode(g) }
+  }
+
   class ArrayLiteral : Rubinius AST ArrayLiteral {
     read_slots: ['array]
     def initialize: line array: @array {
