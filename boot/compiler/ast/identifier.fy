@@ -67,14 +67,23 @@ class Fancy AST {
     def initialize: @line string: @string {
     }
 
-    def bytecode: g {
-      names = @string split: "::"
+    def initialize: @line const: const parent: parent {
+      @string = (parent string) ++ "::" ++ (const string)
+    }
+
+    def scoped {
+      names = @string split("::")
       parent = Constant new: @line string: (names shift())
-      names each: |name| {
-        Rubinius AST ScopedConstant new(@line, parent, name to_sym()) bytecode(g)
-        parent = Constant new: @line string: name
+      scoped = nil
+      names each() |name| {
+        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym())
+        parent = scoped
       }
-      @scoped = parent
+      scoped
+    }
+
+    def bytecode: g {
+      self scoped bytecode(g)
     }
   }
 

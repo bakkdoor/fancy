@@ -72,7 +72,7 @@ class Fancy {
     }
 
     def ast: line constant: identifier parent: parent {
-      AST ScopedConstant new: (identifier name) line: line parent: parent
+      AST NestedConstant new: line const: identifier parent: parent
     }
 
     def ast: line super_exp: text { AST Super new: line }
