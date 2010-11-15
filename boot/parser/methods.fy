@@ -244,5 +244,13 @@ class Fancy {
       AST RubyArgs new: line args: args block: block
     }
 
+    def ast: line parse_error: text {
+      ("Parse error near `" ++ text ++ "' at line " ++ line ++ " at " ++ @filename) . raise!
+    }
+
+    def ast: line file_error: text {
+      ("File error `" ++ text ++ "' while trying to parse " ++ @filename) . raise!
+    }
+
   }
 }
