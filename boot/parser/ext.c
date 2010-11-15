@@ -22,7 +22,7 @@ fancy_parse_file(VALUE self) {
   char *str = StringValueCStr(filename);
   FILE *f = fopen(str, "r");
   if(!f) {
-    rb_funcall(self, rb_intern("file_error"), 2, rb_str_new2("Could not open file"), rb_str_new2(str));
+    rb_funcall(self, rb_intern("ast:file_error:"), 2, INT2NUM(0), rb_str_new2("Could not open file"));
     return Qnil;
   }
   YY_BUFFER_STATE buffstate = yy_create_buffer(f, YY_BUF_SIZE);

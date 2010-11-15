@@ -1,6 +1,6 @@
 class Fancy AST {
   class NilLiteral : Rubinius AST NilLiteral {
-    def initialize: @line { initialize(line) }
+    def initialize: line { initialize(line) }
     def bytecode: g { bytecode(g) }
   }
 

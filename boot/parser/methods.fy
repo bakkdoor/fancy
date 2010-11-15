@@ -230,7 +230,7 @@ class Fancy {
       AST ExceptionHandler new: line condition: cond var: var body: expr_list
     }
 
-    def ast: line try_block: body ex_handlers: handlers finally_block: finaly (nil) {
+    def ast: line try_block: body ex_handlers: handlers finally_block: finaly (AST NilLiteral new: line) {
       AST TryCatch new: line body: body handlers: handlers ensure: finaly
     }
 
@@ -242,6 +242,14 @@ class Fancy {
     def ast: line ruby_args: args block: block (nil) {
       args if_do: {} else: { args = [] }
       AST RubyArgs new: line args: args block: block
+    }
+
+    def ast: line parse_error: text {
+      ("Parse error near `" ++ text ++ "' at line " ++ line ++ " at " ++ @filename) . raise!
+    }
+
+    def ast: line file_error: text {
+      ("File error `" ++ text ++ "' while trying to parse " ++ @filename) . raise!
     }
 
   }

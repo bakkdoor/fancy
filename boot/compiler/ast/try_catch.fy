@@ -1,13 +1,13 @@
 class Fancy AST {
   class TryCatch : Node {
 
-    def initialize: @line body: @body handlers: @handlers ensure: @ensure (NilLiteral new: @line) {
-    }
+    def initialize: @line body: @body handlers: @handlers ensure: @ensure {}
 
     def bytecode: g {
       pos(g)
 
       g push_modifiers()
+
 
       outer_retry = g new_label()
       this_retry = g new_label()
@@ -29,13 +29,15 @@ class Fancy AST {
       g setup_unwind(handler, Rubinius AST RescueType)
 
       # make a break available to use
-      current_break = g break() . if_do: { g break=(g new_label()) }
+      current_break = g break()
+      current_break if_do: { g break=(g new_label()) }
 
       # use lazy label to patch up prematuraly leaving a try body via retry
       outer_retry if_do: { g retry=(g new_label()) }
 
       # also handle redo unwinding through the rescue
-      current_redo = g redo() . if_do: { g redo=(g new_label()) }
+      current_redo = g redo()
+      current_redo if_do: { g redo=(g new_label()) }
 
       @body bytecode(g)
 
@@ -106,7 +108,7 @@ class Fancy AST {
       reraise set!()
 
       # execte the finally block before propagating the exception
-      @enrure if_do: { @ensure bytecode: g }
+      @ensure bytecode: g
 
       # remove the exception so we have the state
       g pop()
@@ -116,7 +118,7 @@ class Fancy AST {
       g reraise()
 
       finally_ set!()
-      @enrure if_do: { @ensure bytecode: g }
+      @ensure bytecode: g
 
       done set!()
 
