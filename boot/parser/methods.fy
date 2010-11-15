@@ -73,6 +73,10 @@ class Fancy {
       }
     }
 
+    def ast: line range: from to: to {
+      AST RangeLiteral new: line from: from to: to
+    }
+
     def ast: line identifier: text {
       AST Identifier from: text line: line
     }
