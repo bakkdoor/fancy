@@ -59,10 +59,11 @@ class Fancy
 end
 
 
-require File.expand_path("../rbx/fancy_ext", File.dirname(__FILE__))
-main = ARGV.shift
-lib =  if main.include?(".boot"); "../.boot"; else "../lib"; end
-lib =  File.expand_path(lib, File.dirname(__FILE__))
-Fancy::CodeLoader.load_compiled_file File.expand_path("boot", lib)
-Fancy::CodeLoader.load_compiled_file File.expand_path(main)
-
+if __FILE__ == $0
+  require File.expand_path("../rbx/fancy_ext", File.dirname(__FILE__))
+  main = ARGV.shift
+  lib =  if main.include?(".boot"); "../.boot"; else "../lib"; end
+  lib =  File.expand_path(lib, File.dirname(__FILE__))
+  Fancy::CodeLoader.load_compiled_file File.expand_path("boot", lib)
+  Fancy::CodeLoader.load_compiled_file File.expand_path(main)
+end
