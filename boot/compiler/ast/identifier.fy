@@ -20,8 +20,10 @@ class Fancy AST {
       }
     }
 
-    def self from: string line: line {
+    def self from: string line: line filename: filename (nil) {
       type = match string -> {
+        case "__FILE__" -> return CurrentFile new: line filename: filename
+        case "__LINE__" -> return CurrentLine new: line
         case "self" -> return Self new: line
         case /^[A-Z].*::/ -> NestedConstant
         case /^[A-Z]/ -> Constant

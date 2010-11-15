@@ -78,7 +78,7 @@ class Fancy {
     }
 
     def ast: line identifier: text {
-      AST Identifier from: text line: line
+      AST Identifier from: text line: line filename: @filename
     }
 
     def ast: line constant: identifier parent: parent {

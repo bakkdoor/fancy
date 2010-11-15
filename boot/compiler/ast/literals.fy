@@ -19,6 +19,20 @@ class Fancy AST {
     def bytecode: g { bytecode(g) }
   }
 
+  class CurrentFile : Node {
+    def initialize: @line filename: @filename { }
+    def bytecode: g {
+      StringLiteral new: @line value: @filename . bytecode: g
+    }
+  }
+
+  class CurrentLine : Node {
+    def initialize: @line {}
+    def bytecode: g {
+      FixnumLiteral new: @line value: @line . bytecode: g
+    }
+  }
+
   class Nothing : Node {
     def initialize: @line { }
     def bytecode: g { }
