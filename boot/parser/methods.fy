@@ -230,7 +230,7 @@ class Fancy {
       AST ExceptionHandler new: line condition: cond var: var body: expr_list
     }
 
-    def ast: line try_block: body ex_handlers: handlers finally_block: finaly (nil) {
+    def ast: line try_block: body ex_handlers: handlers finally_block: finaly (AST NilLiteral new: line) {
       AST TryCatch new: line body: body handlers: handlers ensure: finaly
     }
 
