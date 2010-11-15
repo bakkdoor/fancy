@@ -160,7 +160,7 @@ class Fancy AST {
     def bytecode: g { g push_current_exception() }
   }
 
-  class Retry: Node {
+  class Retry : Node {
     def initialize: line {}
     def bytecode: g {
       g pop()
