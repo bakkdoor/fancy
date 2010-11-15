@@ -275,18 +275,18 @@ identifier_list: any_identifier {
                 ;
 
 return_local_statement: RETURN_LOCAL exp {
-                  $$ = rb_funcall(self, rb_intern("return_local"), 2, INT2NUM(yylineno), $2);
+                  $$ = rb_funcall(self, rb_intern("ast:return_local:"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN_LOCAL {
-                  $$ = rb_funcall(self, rb_intern("return_local"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:return_local:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 
 return_statement: RETURN exp {
-                  $$ = rb_funcall(self, rb_intern("return_stmt"), 2, INT2NUM(yylineno), $2);
+                  $$ = rb_funcall(self, rb_intern("ast:return_stmt:"), 2, INT2NUM(yylineno), $2);
                 }
                 | RETURN {
-                  $$ = rb_funcall(self, rb_intern("return_stmt"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:return_stmt:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 

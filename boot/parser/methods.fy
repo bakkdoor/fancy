@@ -89,6 +89,16 @@ class Fancy {
 
     def ast: line retry_exp: text { AST Retry new: line }
 
+    def ast: line return_stmt: exp {
+      { exp = AST NilLiteral new: exp } if: (exp nil?)
+      AST Return new: line expr: exp
+    }
+
+    def ast: line return_local: exp {
+      { exp = AST NilLiteral new: exp } if: (exp nil?)
+      AST ReturnLocal new: line expr: exp
+    }
+
     def ast: line assign: rvalue to: lvalue many: many (false) {
       ast = many if_do: { AST MultipleAssignment } else: { AST Assignment }
       ast new: line var: lvalue value: rvalue
