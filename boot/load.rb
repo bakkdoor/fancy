@@ -1,7 +1,7 @@
 class Fancy
   # This version of Fancy::CodeLoader is used only for bootstrapping
   # This constant needs to be overloaded with fancy version of this.
-  class CodeLoader
+  class BootstrapCodeLoader
 
     class << self
       def path_stack
@@ -54,6 +54,8 @@ class Fancy
       alias_method "require:", :load_compiled_file
     end
   end
+
+  CodeLoader = BootstrapCodeLoader
 end
 
 
