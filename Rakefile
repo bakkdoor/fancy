@@ -27,6 +27,7 @@ task :boot => [fancy_bin, "parser_ext:default"] do
 end
 
 task :boot_lib => [:boot] do
+  mkdir_p _[".boot/parser"]
   cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _["lib/parser/"]
   cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _[".boot/parser/"]
   sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", "--source-path", _["lib"], "--output-path", _[".boot"], *Dir.glob(_["lib/**/*.fy"])
