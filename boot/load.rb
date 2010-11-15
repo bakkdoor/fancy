@@ -1,28 +1,45 @@
-@path = []
-def fancy_require(file)
-  @path.push(File.expand_path(File.dirname(file), @path.last))
+class Fancy
+  # This version of Fancy::CodeLoader is used only for bootstrapping
+  # This constant needs to be overloaded with fancy version of this.
+  class CodeLoader
 
-  file = File.expand_path(File.basename(file), @path.last)
+    class << self
+      def path
+        @path ||= []
+      end
 
-  file = file + "c" if file =~ /.fy$/
-  file = file+".fyc" unless file =~ /\.fyc$/
-  raise "File not found #{file}" unless File.exist?(file)
+      def load_compiled_file(file, find_file = nil)
+        path.push(File.expand_path(File.dirname(file), path.last))
 
-  cl = Rubinius::CodeLoader.new(file)
-  cm = cl.load_compiled_file(file, 0)
+        file = File.expand_path(File.basename(file), path.last)
 
-  source = file.sub(/\.fyc/, ".fy")
+        file = file + "c" if file =~ /.fy$/
+        file = file+".fyc" unless file =~ /\.fyc$/
+        raise "File not found #{file}" unless File.exist?(file)
 
-  script = cm.create_script(false)
-  script.file_path = source
+        cl = Rubinius::CodeLoader.new(file)
+        cm = cl.load_compiled_file(file, 0)
 
-  MAIN.__send__ :__script__
+        source = file.sub(/\.fyc/, ".fy")
 
-  @path.pop
+        script = cm.create_script(false)
+        script.file_path = source
+
+        MAIN.__send__ :__script__
+
+        path.pop
+      end
+
+      alias_method "require:", :load_compiled_file
+    end
+  end
 end
 
+
 require File.expand_path("../rbx/fancy_ext", File.dirname(__FILE__))
-fancy_require "lib/boot"
-main = File.expand_path(ARGV.shift)
-fancy_require main
+main = ARGV.shift
+lib =  if main.include?(".boot"); "../.boot"; else "../lib"; end
+lib =  File.expand_path(lib, File.dirname(__FILE__))
+Fancy::CodeLoader.load_compiled_file File.expand_path("boot", lib)
+Fancy::CodeLoader.load_compiled_file File.expand_path(main)
 
