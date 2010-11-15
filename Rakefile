@@ -26,6 +26,10 @@ task :boot => [fancy_bin, "parser_ext:default"] do
   sh 'rbx', _["rbx/compiler.rb"], "--batch", *Dir.glob(_["boot/**/*.fy"])
 end
 
+task :boot_lib => [:boot] do
+  sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", *Dir.glob(_["lib/**/*.fy"])
+end
+
 desc "Runs the test suite."
 task :test do
   sh _['bin/fancy -e "ARGV rest rest each: |f| { require: f }" tests/*.fy']
