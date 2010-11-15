@@ -94,7 +94,7 @@ class Fancy {
       AST Return new: line expr: exp
     }
 
-    def ast: line return_local: exp {
+    def ast: line return_local_stmt: exp {
       { exp = AST NilLiteral new: exp } if: (exp nil?)
       AST ReturnLocal new: line expr: exp
     }
