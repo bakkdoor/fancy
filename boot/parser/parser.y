@@ -500,40 +500,40 @@ arg_exp:        any_identifier {
                 ;
 
 try_catch_block: TRY expression_block catch_blocks finally_block {
-                  $$ = rb_funcall(self, rb_intern("try_catch_finally"), 4, INT2NUM(yylineno), $2, $3, $4);
+                  $$ = rb_funcall(self, rb_intern("ast:try_block:ex_handlers:finally_block:"), 4, INT2NUM(yylineno), $2, $3, $4);
                 }
                 | TRY expression_block required_catch_blocks {
-                  $$ = rb_funcall(self, rb_intern("try_catch_finally"), 3, INT2NUM(yylineno), $2, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:try_block:ex_handlers:"), 3, INT2NUM(yylineno), $2, $3);
                 }
                 ;
 
 catch_block:    CATCH expression_block  {
-                  $$ = rb_funcall(self, rb_intern("catch_handler"), 2, INT2NUM(yylineno), $2);
+                  $$ = rb_funcall(self, rb_intern("ast:ex_handler:"), 2, INT2NUM(yylineno), $2);
                 }
                 | CATCH exp expression_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handler"), 3, INT2NUM(yylineno), $3, $2);
+                  $$ = rb_funcall(self, rb_intern("ast:ex_handler:cond:"), 3, INT2NUM(yylineno), $3, $2);
                 }
                 | CATCH exp ARROW identifier expression_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handler"), 4, INT2NUM(yylineno), $5, $2, $4);
+                  $$ = rb_funcall(self, rb_intern("ast:ex_handler:cond:var:"), 4, INT2NUM(yylineno), $5, $2, $4);
                 }
                 ;
 
 required_catch_blocks: catch_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handlers"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | required_catch_blocks catch_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handlers"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
 catch_blocks:   catch_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handlers"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | catch_blocks catch_block {
-                  $$ = rb_funcall(self, rb_intern("catch_handlers"), 3, INT2NUM(yylineno), $2, $1);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 | /* empty */ {
-                  $$ = rb_funcall(self, rb_intern("catch_handlers"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 ;
 

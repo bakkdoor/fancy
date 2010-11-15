@@ -24,8 +24,9 @@ class Fancy {
       object kind_of?(Array) . if_do: {
         ary concat(object)
       } else: {
-        ary << object
+        { ary << object } if: object
       }
+      ary
     }
 
     def ast: line key: key value: value into: ary {
@@ -200,6 +201,14 @@ class Fancy {
 
     def ast: line match_clause: expr body: body arg: match_arg (nil) {
       AST MatchClause new: line expr: expr body: body arg: match_arg
+    }
+
+    def ast: line ex_handler: expr_list cond: cond (AST Identifier from: "Object" line: line) var: var (nil) {
+      AST ExceptionHandler new: line condition: cond var: var body: expr_list
+    }
+
+    def ast: line try_block: body ex_handlers: handlers finally_block: finaly (nil) {
+      AST TryCatch new: line body: body handlers: handlers ensure: finaly
     }
   }
 }
