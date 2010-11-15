@@ -1,14 +1,16 @@
 (require 'generic-x)
 
 (define-generic-mode
-  'fancy-mode                         ;; name of the mode to create
-  '("#")                              ;; comments start with '!!'
+  'fancy-mode
+  '("#")                              ;; comments
   '("def" "class" "try" "catch"
     "finally" "retry" "return"
     "return_local" "require:"
-    "match" "case" "->")             ;; some keywords
+    "match" "case" "->")             ;; keywords
 
-  '(("[0-9]+" . 'font-lock-variable-name-face)
+  '(;; fixnums
+    ("[0-9]+" . 'font-lock-variable-name-face)
+    ;; floats
     ("[0-9]+\.[0-9]+" 'font-lock-variable-name-face)
     ;; variables & pseudo variables
     ("\\(^\\|[^_:.@$]\\|\\.\\.\\)\\b\\(super\\|nil\\|self\\|true\\|false\\)\\>" 2 font-lock-variable-name-face)
@@ -30,8 +32,8 @@
     ("\\(^\\|[^_]\\)\\b\\([A-Z]+\\(\\w\\|_\\)*\\)" 2 font-lock-type-face))
 
   '("\\.fy$")                      ;; files for which to activate this mode
-   nil                              ;; other functions to call
-  "A mode for fancy files"            ;; doc string for this mode
+   nil                             ;; other functions to call
+  "A mode for fancy files"         ;; doc string for this mode
 )
 
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
