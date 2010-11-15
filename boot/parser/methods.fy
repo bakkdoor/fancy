@@ -93,14 +93,18 @@ class Fancy {
       ary << $ Struct new('selector, 'value) new(selector, value)
     }
 
-    def ast: line oper: oper arg: arg to: receiver (AST Self new line) ruby: ruby (false) {
+    def ast: line oper: oper arg: arg to: receiver (AST Self new line) {
       message = ast: line send: oper arg: arg
-      ast: line send: message to: receiver ruby: ruby
+      ast: line send: message to: receiver
     }
 
-    def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (false) {
-      arg_type = ruby if_do: { AST RubyArgs } else: { AST MessageArgs }
-      args = arg_type new: line args: []
+    def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
+      args = ruby if_do: {
+        receiver if_do: {} else: { receiver = AST Self new: line }
+        ruby
+      } else: {
+        AST MessageArgs new: line args: []
+      }
       name = message
       message kind_of?(String) . if_do: {
         name = AST Identifier from: message line: line
@@ -109,7 +113,7 @@ class Fancy {
         name = message map: |m| { m selector() string } . join
         name = AST Identifier new: line string: name
         args = message map: |m| { m value() }
-        args = arg_type new: line args: args
+        args = AST MessageArgs new: line args: args
       }
       AST MessageSend new: line message: name to: receiver args: args
     }
@@ -128,7 +132,7 @@ class Fancy {
           default = margs from: (idx + pos) to: -1
           params = required map: 'variable . + $ default map: 'default
 
-          forward = AST MessageSendo new: line \
+          forward = AST MessageSend new: line \
                                     message: (AST Identifier from: target line: line) \
                                     to:  (AST Self new: line)                     \
                                     args:(AST MessageArgs new: line args: params)
@@ -210,5 +214,16 @@ class Fancy {
     def ast: line try_block: body ex_handlers: handlers finally_block: finaly (nil) {
       AST TryCatch new: line body: body handlers: handlers ensure: finaly
     }
+
+    def ast: line ruby_send: text {
+      name = text from: 0 to: -2  # remove the open left paren
+      ast: line identifier: name
+    }
+
+    def ast: line ruby_args: args block: block (nil) {
+      args if_do: {} else: { args = [] }
+      AST RubyArgs new: line args: args block: block
+    }
+
   }
 }

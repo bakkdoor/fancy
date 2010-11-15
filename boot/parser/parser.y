@@ -419,18 +419,18 @@ message_send:   exp identifier {
 */
 ruby_send_open: RUBY_SEND_OPEN {
                   // remove the trailing left paren and create an identifier.
-                  $$ = fy_terminal_node(self, "ruby_send_open");
+                  $$ = fy_terminal_node(self, "ast:ruby_send:");
                 };
 ruby_oper_open: RUBY_OPER_OPEN {
                   // remove the trailing left paren and create an identifier.
-                  $$ = fy_terminal_node(self, "ruby_send_open");
+                  $$ = fy_terminal_node(self, "ast:ruby_send:");
                 };
 
 ruby_send:      exp ruby_send_open ruby_args {
-                  $$ = rb_funcall(self, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $2, $1, $3);
                 }
                 | ruby_send_open ruby_args {
-                  $$ = rb_funcall(self, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), Qnil, $1, $2);
+                  $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $1, Qnil, $2);
                 }
                 ;
 
@@ -440,16 +440,16 @@ ruby_send:      exp ruby_send_open ruby_args {
    a closing paren.
 */
 ruby_args:      RPAREN block_literal  {
-                  $$ = rb_funcall(self, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $2);
+                  $$ = rb_funcall(self, rb_intern("ast:ruby_args:block:"), 3, INT2NUM(yylineno), Qnil, $2);
                 }
                 | exp_comma_list RPAREN block_literal {
-                  $$ = rb_funcall(self, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $1, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:ruby_args:block:"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 | RPAREN {
-                  $$ = rb_funcall(self, rb_intern("ruby_args"), 1, INT2NUM(yylineno));
+                  $$ = rb_funcall(self, rb_intern("ast:ruby_args:"), 2, INT2NUM(yylineno), Qnil);
                 }
                 | exp_comma_list RPAREN {
-                  $$ = rb_funcall(self, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $1);
+                  $$ = rb_funcall(self, rb_intern("ast:ruby_args:"), 2, INT2NUM(yylineno), $1);
                 }
                 ;
 
@@ -466,7 +466,7 @@ operator_send:  exp operator arg_exp {
                 ;
 
 ruby_oper_send: exp ruby_oper_open ruby_args {
-                  $$ = rb_funcall(self, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $2, $1, $3);
                 }
                 ;
 

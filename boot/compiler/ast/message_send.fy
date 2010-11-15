@@ -44,11 +44,11 @@ class Fancy AST {
     }
 
     def ruby_args? {
-      @args first is_a?: RubyArgs
+      is_a?: RubyArgs
     }
 
     def has_block? {
-      { self ruby_args? } && { @args first has_block? }
+      false
     }
   }
 
@@ -56,24 +56,20 @@ class Fancy AST {
   class RubyArgs : MessageArgs {
     def initialize: @line args: @args block: @block (nil) {
       @block nil? if_true: {
-        @args array last kind_of?: Identifier . if_true: {
-          @args array last identifier =~ /^&\w/ if_do:  {
-            @block = @args array pop()
-            @block = Identifier new: (block line) string: (block identifier from: 1 to: -1)
+        @args last kind_of?: Identifier . if_true: {
+          @args last string =~ /^&\w/ if_do:  {
+            @block = @args pop()
+            @block = Identifier new: (@block line) string: (@block string from: 1 to: -1)
           }
         }
       }
     }
 
     def bytecode: g {
-      @args array each: |a| {
+      @args each: |a| {
         a bytecode: g
       }
       { @block bytecode: g } if: @block
-    }
-
-    def size {
-      @args array size
     }
 
     def has_block? {
