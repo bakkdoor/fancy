@@ -47,6 +47,7 @@ class Fancy
 
         MAIN.__send__ :__script__
 
+        file_stack.pop
         path_stack.pop
       end
 
