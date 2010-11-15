@@ -27,8 +27,8 @@ task :boot => [fancy_bin, "parser_ext:default"] do
 end
 
 task :boot_lib => [:boot] do
-  puts "Compiling fancy binaries to #{_['.boot']}"
   sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", "--source-path", _["lib"], "--output-path", _[".boot"], *Dir.glob(_["lib/**/*.fy"])
+  sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", "--source-path", _["boot"], "--output-path", _[".boot"], *Dir.glob(_["boot/**/*.fy"])
 end
 
 desc "Runs the test suite."
