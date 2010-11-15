@@ -4,14 +4,32 @@ class Fancy
   class CodeLoader
 
     class << self
-      def path
-        @path ||= []
+      def path_stack
+        @path_stack ||= []
       end
 
-      def load_compiled_file(file, find_file = nil)
-        path.push(File.expand_path(File.dirname(file), path.last))
+      def file_stack
+        @file_stack ||= []
+      end
 
-        file = File.expand_path(File.basename(file), path.last)
+      # This method may return an Fancy::Script object with source
+      # information.
+      def current_file(compiled_from)
+        # compiled_from is the filename captured at compile time.
+        # ie. the location where the fancy file was compiled from.
+
+        # file_stack.last is the filename being loaded
+        # possibly from a different location than it was compiled from
+
+        # Only return the current file being loaded.
+        file_stack.last
+      end
+      alias_method "current_file:", :current_file
+
+      def load_compiled_file(file, find_file = nil)
+        path_stack.push(File.expand_path(File.dirname(file), path_stack.last))
+
+        file = File.expand_path(File.basename(file), path_stack.last)
 
         file = file + "c" if file =~ /.fy$/
         file = file+".fyc" unless file =~ /\.fyc$/
@@ -22,12 +40,14 @@ class Fancy
 
         source = file.sub(/\.fyc/, ".fy")
 
+        file_stack.push(source)
+
         script = cm.create_script(false)
         script.file_path = source
 
         MAIN.__send__ :__script__
 
-        path.pop
+        path_stack.pop
       end
 
       alias_method "require:", :load_compiled_file

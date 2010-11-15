@@ -22,7 +22,11 @@ class Fancy AST {
   class CurrentFile : Node {
     def initialize: @line filename: @filename { }
     def bytecode: g {
-      StringLiteral new: @line value: @filename . bytecode: g
+      args = MessageArgs new: line args: [StringLiteral new: @line value: @filename]
+      MessageSend new: @line message: (Identifier from: "current_file:" line: @line) \
+                  to: (Identifier from: "Fancy::CodeLoader" line: @line) \
+                  args: args .
+        bytecode: g
     }
   }
 
