@@ -14,7 +14,7 @@ class Block {
   def unless: obj {
     "Opposite of Block#if:. Calls itself if the given object is false-ish."
 
-    obj true? if_false: {
+    (obj nil?) || (obj false?) if_true: {
       self call
     }
   }
