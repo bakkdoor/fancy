@@ -147,7 +147,7 @@ class Fancy {
         line = margs first selector() line
         target = method_name: margs
         (margs size - idx) times: |pos| {
-          required = margs from: 0 to: (idx + pos)
+          required = margs from: 0 to: (idx + pos - 1)
           default = margs from: (idx + pos) to: -1
           params = required map: |r| { r variable() } . + $ default map: |d| { d default() }
 
@@ -254,3 +254,4 @@ class Fancy {
 
   }
 }
+
