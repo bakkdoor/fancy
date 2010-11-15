@@ -146,7 +146,7 @@ class Fancy {
     }
 
     def ast: line oper: op arg: arg body: body access: access ('public) owner: owner (nil) {
-      margs = ast: line param: op var: arg
+      margs = [ast: line param: op var: arg]
       ast: line method: margs body: body access: access owner: owner
     }
 
