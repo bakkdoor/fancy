@@ -29,6 +29,7 @@ end
 task :boot_lib => [:boot] do
   sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", "--source-path", _["lib"], "--output-path", _[".boot"], *Dir.glob(_["lib/**/*.fy"])
   sh 'rbx', _["boot/load.rb"], _["boot/compile.fy"], "--batch", "--source-path", _["boot"], "--output-path", _[".boot"], *Dir.glob(_["boot/**/*.fy"])
+  cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _[".boot/parser/"]
 end
 
 desc "Runs the test suite."
