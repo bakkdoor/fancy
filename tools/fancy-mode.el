@@ -8,7 +8,9 @@
     "return_local" "require:"
     "match" "case" "->")             ;; keywords
 
-  '(;; fixnums
+  '(;; symbols
+    ("\\('\\(\\([^\s\n]+\\|\\]+\\)\\)\\)" 1 font-lock-reference-face)
+    ;; fixnums
     ("[0-9]+" . 'font-lock-variable-name-face)
     ;; floats
     ("[0-9]+\.[0-9]+" 'font-lock-variable-name-face)
@@ -21,11 +23,9 @@
     ;; method definitions
     ("^\\s *def\\s +\\([^( \t\n]+\\)" 1 font-lock-function-name-face)
     ;; message selectors
-    ("\\<[A-z][A-z0-9_-+?!=*/^><%]*:" . font-lock-function-name-face)
+    (" \\<[A-z][A-z0-9_-+?!=*/^><%]*:" . font-lock-function-name-face)
     ;; operators
     ("\\([-+*/~,<>=&!?%^]+ \\)" 1 'font-lock-function-name-face)
-    ;; symbols
-    ("\\(^\\|[^']\\)\\('\\([-+~]@?\\|[/%&|^`]\\|\\*\\*?\\|<\\(<\\|=>?\\)?\\|>[>=]?\\|===?\\|=~\\|\\[\\]=?\\|\\(\\w\\|_\\)+\\([!?=]\\|\\b_*\\)\\|#{[^}\n\\\\]*\\(\\\\.[^}\n\\\\]*\\)*}\\)\\)")
      ;; general delimited string
     ("\\(^\\|[[ \t\n<+(,=]\\)\\(%[xrqQwW]?\\([^<[{(a-zA-Z0-9 \n]\\)[^\n\\\\]*\\(\\\\.[^\n\\\\]*\\)*\\(\\3\\)\\)" (2 font-lock-string-face))
     ;; constants
