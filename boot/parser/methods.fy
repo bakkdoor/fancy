@@ -49,6 +49,11 @@ class Fancy {
       AST SymbolLiteral new: line value: (str to_sym())
     }
 
+    def ast: line regexp: text {
+      regexp = text from: 1 to: -2
+      AST RegexpLiteral new: line value: regexp
+    }
+
     def ast: line string: text {
       str = text from: 1 to: -2
       AST StringLiteral new: line value: str

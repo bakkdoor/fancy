@@ -267,10 +267,10 @@ any_identifier: const_identifier
                 ;
 
 identifier_list: any_identifier {
-                  $$ = $1;
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
                 | identifier_list COMMA any_identifier {
-                  $$ = rb_funcall(self, rb_intern("identifier_list"), 3, INT2NUM(yylineno), $1, $3);
+                  $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 
@@ -562,7 +562,7 @@ symbol_literal: SYMBOL_LITERAL {
                 }
                 ;
 regex_literal: REGEX_LITERAL {
-                  $$ = fy_terminal_node(self, "regex");
+                  $$ = fy_terminal_node(self, "ast:regexp:");
                 }
                 ;
 
