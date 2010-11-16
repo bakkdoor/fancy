@@ -7,15 +7,46 @@ class Fancy {
     the runtime.
     """
 
-    SOURCE_FILE_EXTENSION = "fy"
-    COMPILED_FILE_EXTENSION = "fyc"
+    @file_stack = []
+    @loaded = <[]>
+    @load_path = []
+    self metaclass read_slots: ['file_stack, 'loaded, 'load_path]
 
-    def self load_path {
-      """
-      @return An @Array@ with all the paths in the @LOADPATH.
-      """
+    def self current_file: compiled_from {
+      self file_stack last
+    }
 
-      @@load_path
+    def self source_filename: file {
+      match file -> {
+        case /.*\.compiled\.fyc$/ -> file from: 0 to: -14
+        case /.*\.fyc$/ -> file from: 0 to: -2
+        case /\.fy$/ -> file
+        case _ -> file
+      }
+    }
+
+    def self compiled_filename: file {
+      match file -> {
+        case /\.fyc$/ -> file
+        case /\.fy$/ -> file + "c"
+        case _ -> file + ".compiled.fyc"
+      }
+    }
+
+    def self file_not_found: file {
+      "File not found: " ++ file . raise!
+    }
+
+    def self load_compiled_file: file source: source {
+      """
+        Loads a rubinius bytecode file:
+      """
+      { file_not_found: file } unless: $ File file?(file)
+      cl = Rubinius CodeLoader new(file)
+      cm = cl load_compiled_file(file, 0)
+      script = cm create_script(false)
+      script file_path=(source)
+      MAIN __send__('__script__)
     }
 
     def self push_loadpath: path {
@@ -24,150 +55,106 @@ class Fancy {
 
       Adds a given path to Fancy's @LOADPATH.
       """
-      { @@load_path << path } unless: $ @@load_path includes?: path
+      { self load_path << path } unless: $ self load_path includes?: path
     }
 
-    # Throws an exception for a given filename that wasn't found and
-    # thus could not be loaded.
-    def self load_error: filename {
-      "LoadError: Can't find file: " ++ filename raise!
+    def self find: file path: path {
+      "Find a file in path. Returns nil if not found."
+      found = nil
+      path find() |d| {
+        abs = File expand_path(file, d)
+        File file?(abs) if_do: { found = abs }
+        }
+      found
     }
 
-    # Returns the name of a file or nil, if it doesn't exist.
-    # Might append a ".fy" extension, if it's missing for the given
-    # filename.
-    def self find_file: filename {
-      filename_with_ext = filename ++ "." ++ SOURCE_FILE_EXTENSION
-      { File exists?(filename) } || { File directory?(filename) } if_do: {
-        { return filename_with_ext } if: $ File exists?(filename_with_ext)
-      } else: {
-        return filename
+    def self load: cmp source: src again: again {
+      "Load compiled file @cmp"
+      needed = { again } || { self loaded key?(src) not }
+      needed if_true: {
+        self file_stack push(src)
+        self loaded at: src put: cmp
+        try {
+          load_compiled_file: cmp source: src
+        } finally {
+          self file_stack pop()
+        }
+      }
+      true
+    }
+
+    def self load: abs again: again compile: compile {
+      src = abs
+      cmp = compiled_filename: src
+      File file?(cmp) if_do: { return load: cmp source: src again: again }
+
+      File extname(abs) empty? if_do: {
+        src = abs + ".fy"
+        cmp = compiled_filename: src
+        File file?(cmp) if_do: { return load: cmp source: src again: again }
+      }
+
+      compile if_do: {
+
+        src = abs
+        cmp = compiled_filename: src
+        File file?(abs) if_do: {
+           Compiler compile_file: src to: cmp
+           return load: cmp source: src again: again
+        }
+
+        File extname(abs) empty? if_do: {
+          src = abs + ".fy"
+          cmp = compiled_filename: src
+          File file?(abs) if_do: {
+             Compiler compile_file: src to: cmp
+             return load: cmp source: src again: again
+          }
+        }
+
       }
       nil
     }
 
+    def self load: file again: again find: find compile: compile {
+      base = self file_stack last
+      base if_do: { base = File dirname(base) }
 
-    # Finds a file in a given path and returns the filename including
-    # the path.
-    def self find_file: file in_path: path {
-      find_file: (path + "/" + file)
-    }
+      dir = File expand_path(File dirname(file), base)
+      abs = File expand_path(File basename(file), dir)
 
-    # Tries to find a file with a given name in the LOADPATH array
-    # (all paths that have been seen while loading other files so
-    # far), starting with the @current_dir (the directory, the current
-    # running fancy source file is in).
-    def self filename_for: filename {
-      find_file: filename . if_do: |f| {
-        return f
-      } else: {
-        @@current_dir last if_do: {
-          find_file: filename in_path: (@@current_dir last) . if_do: |f| {
-            return f
-          }
-        }
-        @@load_path each: |p| {
-          try {
-            find_file: filename in_path: p . if_do: |f| {
-              return f
-            }
-          } catch {
-          }
-        }
-      }
-      load_error: filename
-    }
+      loaded = load: abs again: again compile: compile
+      loaded if_do: { return loaded }
 
-    # Returns the source filename for a given filename.
-    # E.g. "foo.fyc" => "foo.fy"
-    def self source_filename_for: filename {
-      regexp = Regexp new(".compiled." ++ COMPILED_FILE_EXTENSION ++ "$")
-      filename =~ regexp . if_do: {
-        return filename from: 0 to: -14
-      } else: {
-        regexp = Regexp new("." ++ COMPILED_FILE_EXTENSION ++ "$")
-        filename =~ regexp if_do: {
-          return filename from: 0 to: -2
-        }
-      }
-      filename
-    }
+      loaded = load: file again: again compile: compile
+      loaded if_do: { return loaded }
 
-
-    # Returns the compiled filename for a given filename.
-    # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.rbc"
-    def self compiled_filename_for: filename {
-      filename =~ (Regexp new("." + COMPILED_FILE_EXTENSION + "$")) if_do: {
-        return filename
-      }
-      filename =~ (Regexp new("." + SOURCE_FILE_EXTENSION + "$")) if_do: {
-        return filename + "c"
-      } else: {
-        return filename + ".compiled." + COMPILED_FILE_EXTENSION
-      }
-    }
-
-    # Optionally compiles a file, if not done yet and returns the
-    # compiled file's name.
-    def self optionally_compile_file: f {
-      source_filename = source_filename_for: f
-      filename = filename_for: source_filename
-      compiled_file = compiled_filename_for: filename
-      @@compiled[filename] true? if_false: {
-        { File exists?(compiled_file) not } || \
-            { File stat(compiled_file) mtime() < (File stat(filename) mtime()) } if_do: {
-          Compiler compile_fancy_file(filename, nil, 1, false)
-        } else: {
-          @@compiled at: filename put: true
-        }
-      }
-      compiled_file
-    }
-
-
-    # Loads a compiled fancy bytecode file.
-    # If +find_file+ is set to false, it will just use the given
-    # filename without looking up the file in the LOADPATH.
-    def self load_compiled_file: filename find_file: find_file (true) {
-      find_file if_do: {
-        filename = filename_for: filename
-        file = compiled_filename_for: filename
+      find if_do: {
+        path = [dir] + $ self load_path
+        f = find: file path: path
+        f if_do: { return load: f again: again compile: compile }
+        f = find: (compiled_filename: file) path: path
+        f if_do: { return load: f again: again compile: compile }
+        f = find: (source_filename: file) path: path
+        f if_do: { return load: f again: again compile: compile }
       }
 
-      file = optionally_compile_file: file
-
-      @@loaded[file] true? if_false: {
-        File exists?(file) if_false: {
-          load_error: file
-        }
-
-        dirname = File dirname(file)
-        push_loadpath: dirname
-        @@current_dir push(dirname)
-        @@loaded at: file put: true
-
-        cl = Rubinius::CodeLoader new(file)
-        cm = cl load_compiled_file(file, 0)
-
-        script = cm create_script(false)
-        script file_path=(filename)
-
-        MAIN __send__('__script__)
-
-        @@current_dir pop()
-      }
+      file_not_found: file
     }
 
-
-    def self load_compiled_file: file {
-      """
-      @file The .fy file to be loaded (and possible compiled first).
-
-      Loads (and optionally compiles it first, if not already done so) a
-      given .fy source file into the runtime.
-      """
-
-      load_compiled_file(file)
+    def self fancy_load: file {
+       load: file again: true  find: true compile: true
     }
+
+    def self fancy_require: file {
+       load: file again: false find: true compile: true
+    }
+
+    self metaclass send('alias_method, "require:", "fancy_require:")
+    self metaclass send('alias_method, "load:", "fancy_load:")
+    self metaclass send('alias_method, "load_compiled_file:", "fancy_load:")
+    self metaclass send('alias_method, "load_compiled_file", "fancy_load:")
+    self metaclass send('alias_method, "push_loadpath", "push_loadpath:")
+
   }
 }

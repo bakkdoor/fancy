@@ -35,7 +35,7 @@ try {
 
     line =~ /^\s*$/ if_false: {
       try {
-        Fancy eval(line, bnd) inspect println
+        Fancy eval: line binding: bnd . inspect println
       } catch Exception => e {
         e message println
       }

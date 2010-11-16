@@ -5,8 +5,6 @@
 # Finally, if any .fy source filename is passed in via ARGV, it is
 # loaded and executed.
 
-require: "boot"
-
 ARGV for_options: ["-v", "--version"] do: {
   "fancy " ++ FANCY_VERSION println
   "(C) 2010 Christopher Bertels <chris@fancy-lang.org>" println

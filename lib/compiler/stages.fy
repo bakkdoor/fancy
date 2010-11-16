@@ -39,6 +39,24 @@ class Fancy Compiler Stages {
 
   }
 
+  class FancyCodeParser : Stage {
+    stage: 'fancy_code next: FancyGenerator
+    read_write_slots: ['root, 'print]
+
+    def initialize: compiler last: last {
+      compiler parser: self
+    }
+
+    def input: @code file: @filename line: @line (1) {}
+
+    def run {
+      ast = Fancy Parser parse_code: @code file: @filename line: @line
+      @print if_do: { ast inspect println }
+      @output = @root new(ast)
+      @output file=(@filename)
+    }
+  }
+
   class FancyFileParser : Stage {
 
     stage: 'fancy_file next: FancyGenerator

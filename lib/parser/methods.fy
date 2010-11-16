@@ -5,6 +5,10 @@ class Fancy {
       new: filename line: line . parse_file . script
     }
 
+    def self parse_code: code file: filename line: line (1) {
+      new: filename line: line . parse_string: code . script
+    }
+
     read_write_slots: ['filename, 'line, 'script]
 
     def initialize: @filename line: @line { }
