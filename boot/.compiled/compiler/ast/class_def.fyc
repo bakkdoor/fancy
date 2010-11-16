@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -356,8 +356,8 @@ I
 I
 6
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 0
 M
@@ -412,8 +412,8 @@ I
 I
 9
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 0
 x
@@ -459,8 +459,8 @@ I
 I
 34
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 5
 x
@@ -535,8 +535,8 @@ I
 I
 8
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 1
 x
@@ -555,8 +555,8 @@ I
 I
 30
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 0
 x
@@ -579,8 +579,8 @@ I
 I
 23
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 0
 x
@@ -607,7 +607,7 @@ I
 I
 1f
 x
-53
-/more/vic/hk/fancy-lang/lib/compiler/ast/class_def.fy
+48
+/more/vic/hk/fancy/lib/compiler/ast/class_def.fy
 p
 0

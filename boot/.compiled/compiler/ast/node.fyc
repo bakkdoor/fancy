@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -220,8 +220,8 @@ I
 I
 c
 x
-48
-/more/vic/hk/fancy-lang/lib/compiler/ast/node.fy
+43
+/more/vic/hk/fancy/lib/compiler/ast/node.fy
 p
 1
 x
@@ -239,8 +239,8 @@ I
 I
 c
 x
-48
-/more/vic/hk/fancy-lang/lib/compiler/ast/node.fy
+43
+/more/vic/hk/fancy/lib/compiler/ast/node.fy
 p
 0
 x
@@ -263,8 +263,8 @@ I
 I
 23
 x
-48
-/more/vic/hk/fancy-lang/lib/compiler/ast/node.fy
+43
+/more/vic/hk/fancy/lib/compiler/ast/node.fy
 p
 0
 x
@@ -291,7 +291,7 @@ I
 I
 1f
 x
-48
-/more/vic/hk/fancy-lang/lib/compiler/ast/node.fy
+43
+/more/vic/hk/fancy/lib/compiler/ast/node.fy
 p
 0

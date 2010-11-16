@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -139,8 +139,8 @@ parser
 n
 n
 s
-39
-/more/vic/hk/fancy-lang/lib/compiler.fy
+34
+/more/vic/hk/fancy/lib/compiler.fy
 x
 13
 current_file:
@@ -259,8 +259,8 @@ e
 I
 1f
 x
-39
-/more/vic/hk/fancy-lang/lib/compiler.fy
+34
+/more/vic/hk/fancy/lib/compiler.fy
 p
 0
 x
@@ -319,7 +319,7 @@ f
 I
 5b
 x
-39
-/more/vic/hk/fancy-lang/lib/compiler.fy
+34
+/more/vic/hk/fancy/lib/compiler.fy
 p
 0
