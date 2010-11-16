@@ -60,8 +60,19 @@ namespace :compiler do
 
   load_rb = _("boot/load.rb")
 
+  boot_parser_e = _("boot/compiler/parser/ext/"+File.basename(parser_e))
+
+  file boot_parser_e => file(parser_e) do
+    mkdir_p File.dirname(boot_parser_e)
+    cp parser_e, boot_parser_e
+  end
+
+  task :clean do
+    rm_f boot_parser_e, :verbose => false
+  end
+
   desc "Compile fancy using the stable compiler (from boot/compiler)."
-  task :compile do
+  task :compile => file(boot_parser_e) do
     cmd = ['rbx', load_rb]
     cmd << _("boot/compiler/boot.fyc")
     cmd << _("boot/compiler/compiler.fyc")
@@ -108,9 +119,7 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
-  task :bootstrap => "parser:compile" do
-    mkdir_p _("boot/compiler/parser/ext")
-    cp parser_e, _("boot/compiler/parser/ext")
+  task :bootstrap => file(boot_parser_e) do
     task(:compile).invoke
     task(:wootstrap).invoke
   end
@@ -124,7 +133,7 @@ task :clean_compiled do
 end
 
 desc "Clean compiled files."
-task :clean => ["parser:clean", :clean_compiled]
+task :clean => ["parser:clean", "compiler:clean", :clean_compiled]
 
 task :compile => ["parser:compile", "compiler:compile"]
 
