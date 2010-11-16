@@ -61,8 +61,8 @@ end
 
 if __FILE__ == $0
   require File.expand_path("fancy_ext", File.dirname(__FILE__))
+  boot = ARGV.shift
   main = ARGV.shift
-  lib =  File.expand_path(".compiled", File.dirname(__FILE__))
-  Fancy::CodeLoader.load_compiled_file File.expand_path("boot", lib)
+  Fancy::CodeLoader.load_compiled_file File.expand_path(boot)
   Fancy::CodeLoader.load_compiled_file File.expand_path(main)
 end

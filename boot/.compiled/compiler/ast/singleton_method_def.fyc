@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -386,8 +386,8 @@ I
 I
 39
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 7
 x
@@ -525,8 +525,8 @@ e
 I
 1d
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 1
 x
@@ -545,8 +545,8 @@ e
 I
 30
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 0
 x
@@ -711,8 +711,8 @@ I
 I
 14
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 4
 x
@@ -801,8 +801,8 @@ I
 I
 14
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 2
 x
@@ -931,8 +931,8 @@ I
 I
 25
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 4
 x
@@ -972,8 +972,8 @@ I
 I
 3b
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 0
 p
@@ -1005,8 +1005,8 @@ I
 I
 44
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 0
 x
@@ -1033,7 +1033,7 @@ I
 I
 1f
 x
-64
-/more/vic/hk/fancy-lang/lib/compiler/ast/singleton_method_def.fy
+59
+/more/vic/hk/fancy/lib/compiler/ast/singleton_method_def.fy
 p
 0

@@ -23,10 +23,10 @@ def compile_fancy(compiler_dir, output_dir)
   end
   lib_fy = Dir.glob(_ "lib/**/*.fy").sort
   lib_fy.unshift "--batch" if RakeFileUtils.verbose_flag
-  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("lib"), '--output-path', _(output_dir), *lib_fy
+  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("lib"), '--output-path', _(output_dir), *lib_fy
   boot_fy = Dir.glob(_ "boot/**/*.fy").sort
   boot_fy.unshift "--batch" if RakeFileUtils.verbose_flag
-  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("boot"), '--output-path', _(output_dir), *boot_fy
+  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("boot"), '--output-path', _(output_dir), *boot_fy
 end
 
 desc "Compile fancy into boot/.compiled dir. (Compiles using current compiler from .compiled)"

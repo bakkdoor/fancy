@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -242,8 +242,8 @@ I
 I
 5
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 1
 x
@@ -264,8 +264,8 @@ I
 I
 15
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 0
 x
@@ -408,8 +408,8 @@ I
 I
 f
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 3
 x
@@ -542,8 +542,8 @@ e
 I
 26
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 2
 x
@@ -565,8 +565,8 @@ e
 I
 30
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 0
 p
@@ -598,8 +598,8 @@ f
 I
 3c
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 0
 x
@@ -626,7 +626,7 @@ I
 I
 1f
 x
-49
-/more/vic/hk/fancy-lang/lib/compiler/ast/super.fy
+44
+/more/vic/hk/fancy/lib/compiler/ast/super.fy
 p
 0

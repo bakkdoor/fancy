@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -285,8 +285,8 @@ I
 I
 12
 x
-51
-/more/vic/hk/fancy-lang/lib/compiler/ast/require.fy
+46
+/more/vic/hk/fancy/lib/compiler/ast/require.fy
 p
 2
 x
@@ -533,8 +533,8 @@ I
 I
 5c
 x
-51
-/more/vic/hk/fancy-lang/lib/compiler/ast/require.fy
+46
+/more/vic/hk/fancy/lib/compiler/ast/require.fy
 p
 2
 x
@@ -556,8 +556,8 @@ I
 I
 30
 x
-51
-/more/vic/hk/fancy-lang/lib/compiler/ast/require.fy
+46
+/more/vic/hk/fancy/lib/compiler/ast/require.fy
 p
 0
 x
@@ -580,8 +580,8 @@ I
 I
 1f
 x
-51
-/more/vic/hk/fancy-lang/lib/compiler/ast/require.fy
+46
+/more/vic/hk/fancy/lib/compiler/ast/require.fy
 p
 0
 x
@@ -608,7 +608,7 @@ I
 I
 1f
 x
-51
-/more/vic/hk/fancy-lang/lib/compiler/ast/require.fy
+46
+/more/vic/hk/fancy/lib/compiler/ast/require.fy
 p
 0

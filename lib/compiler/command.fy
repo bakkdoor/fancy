@@ -21,12 +21,13 @@ class Fancy {
       print = option: argv flag: "-B"
       src_path = option: argv value: "--source-path"
       out_path = option: argv value: "--output-path"
-      argv each: |f| {
+      argv each() |f| {
         o = (out_path && src_path) . if_do: {
           f sub(src_path, out_path) + "c"
         } else: { nil }
         compile: f to: o info: batch print: print
       }
+      batch if_do: { "Compiled " ++ (argv size()) ++ " files." . println }
     }
 
     def self compile: file to: to (nil) info: info (false) print: print (false) {

@@ -1,5 +1,5 @@
 !RBIX
-8876994460201244843
+0
 x
 M
 1
@@ -260,8 +260,8 @@ I
 I
 2f
 x
-41
-/more/vic/hk/fancy-lang/lib/rbx/symbol.fy
+36
+/more/vic/hk/fancy/lib/rbx/symbol.fy
 p
 1
 x
@@ -338,8 +338,8 @@ a
 I
 11
 x
-41
-/more/vic/hk/fancy-lang/lib/rbx/symbol.fy
+36
+/more/vic/hk/fancy/lib/rbx/symbol.fy
 p
 0
 p
@@ -359,8 +359,8 @@ b
 I
 28
 x
-41
-/more/vic/hk/fancy-lang/lib/rbx/symbol.fy
+36
+/more/vic/hk/fancy/lib/rbx/symbol.fy
 p
 0
 x
@@ -379,7 +379,7 @@ c
 I
 1d
 x
-41
-/more/vic/hk/fancy-lang/lib/rbx/symbol.fy
+36
+/more/vic/hk/fancy/lib/rbx/symbol.fy
 p
 0
