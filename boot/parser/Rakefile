@@ -23,9 +23,14 @@ namespace :parser_ext do
   desc "Builds the lexer."
   task :lexer => lexer_c
 
+  task :generate => [makefile, parser_c, lexer_c]
+
   desc "Compiles the generated lexer and parser."
-  task :compile => [makefile, parser_c, lexer_c] do
-    sh 'make', '-C', _["."]
+  task :compile => [makefile] do
+    begin
+      sh 'make', '-C', _["."]
+    rescue
+    end
   end
 
   desc "Cleans up generated files."
@@ -37,7 +42,10 @@ namespace :parser_ext do
     rm_f _["parser.h"]
     rm_f _["parser.output"]
     rm_f Dir.glob(_["*.{o,so,rbc,log}"])
-    sh 'make', '-C', _["."], "clean" rescue nil
+    begin
+      sh 'make', '-C', _["."], "clean"
+    rescue
+    end
   end
 
   desc "Invokes the compile task."
