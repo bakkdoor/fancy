@@ -18,23 +18,12 @@ docs/*
 autom4te.cache
 *.fyc
 *.so
-rbx/parser/lexer.c
-rbx/parser/lexer.h
-rbx/parser/parser.c
-rbx/parser/parser.h
-rbx/parser/parser.output
 boot/parser/fancy_parser_ext.so
-boot/parser/lexer.c
-boot/parser/lexer.h
-boot/parser/parser.c
-boot/parser/parser.h
 boot/parser/parser.output
 publish.fy
 doc/api/fancy.jsonp
 *flymake*
 boot/parser/conftest.dSYM/
 boot/parser/fancy_parser_ext.bundle
-rbx/parser/conftest.dSYM/
-rbx/parser/fancy_parser.bundle
 .boot/*
 
