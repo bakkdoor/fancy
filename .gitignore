@@ -18,12 +18,10 @@ docs/*
 autom4te.cache
 *.fyc
 *.so
-boot/parser/fancy_parser_ext.so
-boot/parser/parser.output
 publish.fy
 doc/api/fancy.jsonp
 *flymake*
-boot/parser/conftest.dSYM/
-boot/parser/fancy_parser_ext.bundle
-.boot/*
+conftest.dSYM/
+*.bundle
+boot/compiler/
 
