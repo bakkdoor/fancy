@@ -21,9 +21,15 @@ def compile_fancy(compiler_dir, output_dir)
     mkdir_p parser_dir, :verbose => false
     cp Dir.glob(_ "boot/parser/fancy_parser_ext.*"), parser_dir
   end
-  lib_fy = Dir.glob(_ "lib/**/*.fy").sort
-  lib_fy.unshift "--batch" if RakeFileUtils.verbose_flag
-  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("lib"), '--output-path', _(output_dir), *lib_fy
+
+  # run each directory seperately (this fixes the crash i get)
+  ["lib/*.fy", "lib/rbx/*.fy", "lib/package/*.fy",
+   "lib/parser/*.fy", "lib/compiler/*.fy", "lib/compiler/ast/*.fy"].each do |path|
+    lib_fy = Dir.glob(_ path).sort
+    lib_fy.unshift "--batch" if RakeFileUtils.verbose_flag
+    sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("lib"), '--output-path', _(output_dir), *lib_fy
+  end
+
   boot_fy = Dir.glob(_ "boot/**/*.fy").sort
   boot_fy.unshift "--batch" if RakeFileUtils.verbose_flag
   sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("boot"), '--output-path', _(output_dir), *boot_fy
