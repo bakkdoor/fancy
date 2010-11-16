@@ -10,7 +10,7 @@ end
 desc "Deletes all .rbc and .fyc files."
 task :clean do
   rm_f Dir.glob(_ "**/*.{rbc,fyc}")
-  rm_f _(".compiled")
+  rm_rf _(".compiled")
 end
 
 desc "Compile the parser extension"

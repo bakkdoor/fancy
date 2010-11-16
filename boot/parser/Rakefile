@@ -53,5 +53,3 @@ namespace :parser_ext do
 end
 
 
-task :default => "parser_ext:default"
-task :clean => "parser_ext:clean"
