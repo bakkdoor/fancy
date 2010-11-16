@@ -8,6 +8,7 @@ end
 dl_ext    = RbConfig::CONFIG['DLEXT']
 ext_dir   = _("lib/parser/ext")
 parser_e  = _("fancy_parser.#{dl_ext}", ext_dir)
+load_rb   = _("boot/load.rb")
 
 namespace :parser do
 
@@ -57,8 +58,6 @@ end
 
 
 namespace :compiler do
-
-  load_rb = _("boot/load.rb")
 
   boot_parser_e = _("boot/compiler/parser/ext/"+File.basename(parser_e))
 
@@ -120,8 +119,10 @@ namespace :compiler do
   end
 
   task :bootstrap => file(boot_parser_e) do
-    task(:compile).invoke
-    task(:wootstrap).invoke
+    ["compiler:compile", "compiler:wootstrap"].each do |t|
+      task(t).reenable
+      task(t).execute
+    end
   end
 
 end
@@ -135,7 +136,26 @@ end
 desc "Clean compiled files."
 task :clean => ["parser:clean", "compiler:clean", :clean_compiled]
 
-task :compile => ["parser:compile", "compiler:compile"]
+task :compile do
+
+  task(:bootstrap).invoke if file(parser_e).needed?
+
+  cmd = ['rbx', load_rb]
+  cmd << _("lib/boot.fyc")
+  cmd << _("lib/compiler.fyc")
+  cmd << _("lib/compiler/command.fyc")
+  cmd << _("boot/compile.fyc")
+  cmd << "--"
+  cmd << "--batch" if RakeFileUtils.verbose_flag == true
+
+  source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
+                  "lib/rbx", "lib/package", "boot"]
+
+  source_dirs.each do |dir|
+    sources = Dir.glob(_("*.fy", dir))
+    sh *(cmd + sources)
+  end
+end
 
 task :bootstrap => [:clean, "compiler:bootstrap"]
 
