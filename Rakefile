@@ -21,4 +21,13 @@ task :bootstrap => [:parser] do
   sh 'rbx', _["boot/load.rb"], _["boot/.compiled/compile.fyc"], "--batch", "--source-path", _["boot"], "--output-path", _["boot/.compiled"], *Dir.glob(_["boot/**/*.fy"])
 end
 
+desc "Compile fancy"
+task :compile => [:parser] do
+  mkdir_p _[".compiled/parser"]
+  cp Dir.glob(_["boot/parser/fancy_parser_ext.*"]), _[".compiled/parser/"]
+  sh 'rbx', _["boot/load.rb"], _["boot/.compiled/compile.fyc"], "--batch", "--source-path", _["lib"], "--output-path", _[".compiled"], *Dir.glob(_["lib/**/*.fy"])
+  sh 'rbx', _["boot/load.rb"], _["boot/.compiled/compile.fyc"], "--batch", "--source-path", _["boot"], "--output-path", _[".compiled"], *Dir.glob(_["boot/**/*.fy"])
+end
+
+task :default => :compile
 
