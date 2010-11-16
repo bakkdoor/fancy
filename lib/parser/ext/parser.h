@@ -96,7 +96,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 18 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/parser.y"
+#line 18 "/more/vic/hk/fancy/lib/parser/ext/parser.y"
 
   VALUE object;
   ID    symbol;
@@ -104,7 +104,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 108 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/parser.h"
+#line 108 "/more/vic/hk/fancy/lib/parser/ext/parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

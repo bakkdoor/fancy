@@ -1,3 +1,5 @@
+require("fileutils")
+
 class Fancy {
   class Compiler Command {
 
@@ -32,7 +34,9 @@ class Fancy {
 
     def self compile: file to: to (nil) info: info (false) print: print (false) {
       info if_do: { "Compiling " ++ file . println }
-      to if_do: { require("fileutils"); FileUtils mkdir_p(File dirname(to)) }
+      to if_do: {
+        FileUtils mkdir_p(File dirname(to))
+      }
       Compiler compile_file: file to: to line: 1 print: print
     }
   }

@@ -61,8 +61,12 @@ end
 
 if __FILE__ == $0
   require File.expand_path("fancy_ext", File.dirname(__FILE__))
-  boot = ARGV.shift
-  main = ARGV.shift
-  Fancy::CodeLoader.load_compiled_file File.expand_path(boot)
-  Fancy::CodeLoader.load_compiled_file File.expand_path(main)
+  # Load files up to the --
+  if dash = ARGV.index("--")
+    load = ARGV.shift(dash + 1)
+    load.pop
+  else
+    load = ARGV.shift(ARGV.length)
+  end
+  load.each { |f| Fancy::CodeLoader.load_compiled_file File.expand_path(f) }
 end

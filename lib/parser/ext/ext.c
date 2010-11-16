@@ -34,7 +34,7 @@ fancy_parse_file(VALUE self) {
 }
 
 void
-Init_fancy_parser_ext() {
+Init_fancy_parser() {
   VALUE fancy = rb_const_get(rb_cObject, rb_intern("Fancy"));
   VALUE parser = rb_const_get(fancy, rb_intern("Parser"));
   rb_define_method(parser, "parse_string:", fancy_parse_string, 1);

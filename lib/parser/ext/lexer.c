@@ -1,6 +1,6 @@
-#line 2 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.c"
+#line 2 "/more/vic/hk/fancy/lib/parser/ext/lexer.c"
 
-#line 4 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.c"
+#line 4 "/more/vic/hk/fancy/lib/parser/ext/lexer.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -727,13 +727,13 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
-#line 2 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 1 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
+#line 2 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 #include "ruby.h"
 #include "parser.h"
 
 int yyerror(char *s);
-#line 737 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.c"
+#line 737 "/more/vic/hk/fancy/lib/parser/ext/lexer.c"
 
 #define INITIAL 0
 
@@ -920,10 +920,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 72 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 72 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 
 
-#line 927 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.c"
+#line 927 "/more/vic/hk/fancy/lib/parser/ext/lexer.c"
 
 	if ( !(yy_init) )
 		{
@@ -1018,17 +1018,17 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 74 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 74 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return CLASS; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 75 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 75 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return DEF; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 76 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 76 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return HEX_LITERAL;
@@ -1036,7 +1036,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 80 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 80 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return OCT_LITERAL;
@@ -1044,7 +1044,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 84 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 84 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return BIN_LITERAL;
@@ -1052,7 +1052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 88 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 88 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return INTEGER_LITERAL;
@@ -1060,7 +1060,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 92 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 92 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return DOUBLE_LITERAL;
@@ -1069,7 +1069,7 @@ YY_RULE_SETUP
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 96 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 96 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return STRING_LITERAL;
@@ -1078,7 +1078,7 @@ YY_RULE_SETUP
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 100 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 100 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return MULTI_STRING_LITERAL;
@@ -1086,67 +1086,67 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 104 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 104 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return LPAREN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 105 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 105 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RPAREN; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 106 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 106 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return LCURLY; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 107 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 107 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RCURLY; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 108 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 108 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return LBRACKET; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 109 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 109 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RBRACKET; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 110 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 110 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return LHASH; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 111 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 111 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RHASH; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 112 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 112 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return STAB; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 113 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 113 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return ARROW; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 114 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 114 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return THIN_ARROW; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 115 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 115 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return EQUALS; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 116 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 116 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return OPERATOR;
@@ -1154,57 +1154,57 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 120 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 120 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RETURN_LOCAL; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 121 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 121 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RETURN; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 122 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 122 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return REQUIRE; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 123 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 123 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return TRY; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 124 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 124 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return CATCH; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 125 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 125 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return FINALLY; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 126 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 126 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return RETRY; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 127 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 127 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return SUPER; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 128 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 128 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return PRIVATE; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 129 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 129 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return PROTECTED; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 130 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 130 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
@@ -1212,21 +1212,21 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 134 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 134 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   return MATCH;
                 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 137 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 137 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   return CASE;
                 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 140 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 140 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
@@ -1234,7 +1234,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 144 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 144 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return SELECTOR;
@@ -1242,7 +1242,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 148 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 148 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return RUBY_SEND_OPEN;
@@ -1250,7 +1250,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 152 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 152 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return RUBY_OPER_OPEN;
@@ -1258,7 +1258,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 156 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 156 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return CONSTANT;
@@ -1266,7 +1266,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 160 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 160 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return CONSTANT;
@@ -1274,7 +1274,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 164 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 164 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return SYMBOL_LITERAL;
@@ -1282,7 +1282,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 168 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 168 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {
                   yylval.object = rb_str_new2(yytext);
                   return REGEX_LITERAL;
@@ -1290,62 +1290,62 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 172 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 172 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return COMMA; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 173 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 173 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return SEMI; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 174 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 174 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return COLON; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 175 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 175 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return DOT; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 176 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 176 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return DOLLAR; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 178 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 178 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 180 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 180 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {}
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
-#line 181 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 181 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 {}
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
-#line 182 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 182 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { return NL; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 184 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 184 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 { fprintf(stderr, "SCANNER %d", yyerror("")); exit(1);	}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 186 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 186 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"
 ECHO;
 	YY_BREAK
-#line 1349 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.c"
+#line 1349 "/more/vic/hk/fancy/lib/parser/ext/lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2355,4 +2355,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 186 "/home/bakkdoor/projekte/fancy/fancy-lang/boot/parser/lexer.lex"
+#line 186 "/more/vic/hk/fancy/lib/parser/ext/lexer.lex"

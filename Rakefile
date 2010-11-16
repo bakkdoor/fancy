@@ -1,49 +1,131 @@
-# This will eventually replace our current Makefile, once we can
-# remove all the old c++ code.
+require 'rbconfig'
 
-load File.dirname(__FILE__) + "/boot/parser/Rakefile"
+def _(f, base = File.dirname(__FILE__))
+  File.expand_path(f, base)
+end
 
-def _(f)
-  File.expand_path(f, File.dirname(__FILE__))
+
+dl_ext    = RbConfig::CONFIG['DLEXT']
+ext_dir   = _("lib/parser/ext")
+parser_e  = _("fancy_parser.#{dl_ext}", ext_dir)
+
+namespace :parser do
+
+  lexer_lex = _("lexer.lex", ext_dir)
+  lexer_c   = _("lexer.c", ext_dir)
+  parser_y  = _("parser.y", ext_dir)
+  parser_c  = _("parser.c", ext_dir)
+  extconf   = _("extconf.rb", ext_dir)
+  makefile  = _("Makefile", ext_dir)
+
+  file lexer_c => file(lexer_lex) do
+    Dir.chdir(ext_dir) do
+      sh 'flex', '--outfile', lexer_c, '--header-file=lexer.h', lexer_lex
+    end
+  end
+
+  file parser_c => file(parser_y) do
+    Dir.chdir(ext_dir) { sh 'bison', '--output', parser_c, '-d', '-v', parser_y }
+  end
+
+  file makefile => file(extconf) do
+    Dir.chdir(ext_dir) { sh 'rbx', extconf }
+  end
+
+  desc "Generate parser source from flex/bison"
+  task :generate => [parser_c, lexer_c, makefile]
+
+  file parser_e => file(makefile) do
+    sh 'make', '-C', ext_dir
+  end
+
+  desc "Compile the parser extension"
+  task :compile => file(parser_e)
+
+  desc "Removed generated parser sources"
+  task :remove do
+    rm_f [_("parser.h", ext_dir), _("lexer.h", ext_dir)], :verbose => false
+    rm_f [makefile, parser_c, lexer_c], :verbose => false
+  end
+
+  desc "Clean compiled files."
+  task :clean do
+    rm_f Dir.glob(_("*.{o,so,rbc,log,output}", ext_dir)), :verbose => false
+  end
+
+end
+
+
+namespace :compiler do
+
+  load_rb = _("boot/load.rb")
+
+  desc "Compile fancy using the stable compiler (from boot/compiler)."
+  task :compile do
+    cmd = ['rbx', load_rb]
+    cmd << _("boot/compiler/boot.fyc")
+    cmd << _("boot/compiler/compiler.fyc")
+    cmd << _("boot/compiler/compiler/command.fyc")
+    cmd << _("boot/compiler/compile.fyc")
+    cmd << "--"
+    cmd << "--batch" if RakeFileUtils.verbose_flag == true
+
+    source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
+                    "lib/rbx", "lib/package", "boot"]
+
+    source_dirs.each do |dir|
+      sources = Dir.glob(_("*.fy", dir))
+      sh *(cmd + sources)
+    end
+  end
+
+  desc "Compile fancy using lib/ compiler into boot/compiler/"
+  task :wootstrap do
+    output = _("boot/.wootstrap")
+
+    cmd = ['rbx', load_rb]
+    cmd << _("lib/boot.fyc")
+    cmd << _("lib/compiler.fyc")
+    cmd << _("lib/compiler/command.fyc")
+    cmd << _("boot/compile.fyc")
+    cmd << "--"
+    cmd << "--batch" if RakeFileUtils.verbose_flag == true
+    cmd << "--output-path" << output
+
+    source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
+                    "lib/rbx", "lib/package", "boot"]
+
+    source_dirs.each do |dir|
+      sources = Dir.glob(_(dir + "/*.fy"))
+      src_path = ["--source-path", _(dir.split("/").first)]
+      sh *(cmd + src_path + sources)
+    end
+
+    mkdir_p _("parser/ext", output)
+    cp parser_e, _("parser/ext", output)
+
+    rm_rf _("boot/compiler")
+    mv _("boot/.wootstrap"), _("boot/compiler")
+  end
+
+  task :bootstrap do
+    task(:compile).invoke
+    task(:wootstrap).invoke
+  end
+
 end
 
 desc "Deletes all .rbc and .fyc files."
-task :clean do
-  rm_f Dir.glob(_ "**/*.{rbc,fyc}")
-  rm_rf _(".compiled")
+task :clean_compiled do
+  compiled = Dir.glob(_ "**/*.{rbc,fyc}", _("{bin,lib,examples,tests,spec}"))
+  rm_f compiled, :verbose => false
 end
 
-desc "Compile the parser extension"
-task :parser => "parser_ext:compile"
+desc "Clean compiled files."
+task :clean => ["parser:clean", :clean_compiled]
 
-def compile_fancy(compiler_dir, output_dir)
-  _("#{compiler_dir}/parser").tap do |parser_dir|
-    mkdir_p parser_dir, :verbose => false
-    cp Dir.glob(_ "boot/parser/fancy_parser_ext.*"), parser_dir
-  end
+task :compile => ["parser:compile", "compiler:compile"]
 
-  # run each directory seperately (this fixes the crash i get)
-  ["lib/*.fy", "lib/rbx/*.fy", "lib/package/*.fy",
-   "lib/parser/*.fy", "lib/compiler/*.fy", "lib/compiler/ast/*.fy"].each do |path|
-    lib_fy = Dir.glob(_ path).sort
-    lib_fy.unshift "--batch" if RakeFileUtils.verbose_flag
-    sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("lib"), '--output-path', _(output_dir), *lib_fy
-  end
-
-  boot_fy = Dir.glob(_ "boot/**/*.fy").sort
-  boot_fy.unshift "--batch" if RakeFileUtils.verbose_flag
-  sh 'rbx', _("boot/load.rb"), _("#{compiler_dir}/boot.fyc"), _("#{compiler_dir}/compile.fyc"), '--source-path', _("boot"), '--output-path', _(output_dir), *boot_fy
-end
-
-desc "Compile fancy into boot/.compiled dir. (Compiles using current compiler from .compiled)"
-task :bootstrap => :parser do
-  compile_fancy ".compiled", "boot/.compiled"
-end
-
-desc "Compile fancy into .compiled dir. (Compiles using staged compiler from boot/.compiled)"
-task :compile => :parser do
-  compile_fancy "boot/.compiled", ".compiled"
-end
+task :bootstrap => [:clean, "compiler:bootstrap"]
 
 task :default => :compile
-
