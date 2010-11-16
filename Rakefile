@@ -108,7 +108,9 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
-  task :bootstrap do
+  task :bootstrap => "parser:compile" do
+    mkdir_p _("boot/compiler/parser/ext")
+    cp parser_e, _("boot/compiler/parser/ext")
     task(:compile).invoke
     task(:wootstrap).invoke
   end
