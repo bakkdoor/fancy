@@ -328,7 +328,7 @@ x
 4
 :new
 i
-21
+22
 7
 0
 64
@@ -343,6 +343,7 @@ i
 15
 20
 0
+47
 49
 2
 0
@@ -397,11 +398,11 @@ I
 I
 d
 I
-12
+13
 I
 e
 I
-15
+16
 x
 35
 /more/vic/hk/fancy/lib/rbx/class.fy
@@ -427,7 +428,7 @@ x
 4
 new:
 i
-23
+24
 7
 0
 64
@@ -444,6 +445,7 @@ i
 1
 20
 0
+47
 49
 2
 1
@@ -503,7 +505,7 @@ I
 I
 1c
 I
-17
+18
 x
 35
 /more/vic/hk/fancy/lib/rbx/class.fy
@@ -958,7 +960,7 @@ x
 9
 subclass:
 i
-14
+15
 7
 0
 64
@@ -969,6 +971,7 @@ i
 5
 20
 0
+47
 49
 3
 2
@@ -1022,7 +1025,7 @@ a
 I
 61
 I
-e
+f
 x
 35
 /more/vic/hk/fancy/lib/rbx/class.fy
@@ -1042,7 +1045,7 @@ x
 15
 :nested_classes
 i
-11
+12
 7
 0
 64
@@ -1050,6 +1053,7 @@ i
 7
 1
 64
+47
 49
 2
 0
@@ -1097,7 +1101,7 @@ I
 I
 6a
 I
-b
+c
 x
 35
 /more/vic/hk/fancy/lib/rbx/class.fy

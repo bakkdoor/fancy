@@ -318,11 +318,12 @@ x
 9
 bytecode:
 i
-8
+9
 39
 0
 20
 0
+47
 49
 1
 1
@@ -359,7 +360,7 @@ I
 I
 9
 I
-8
+9
 x
 45
 /more/vic/hk/fancy/lib/compiler/ast/script.fy

@@ -10,7 +10,8 @@ class Fancy AST {
         @receiver bytecode: g
         @args bytecode: g
         pos(g)
-        @receiver is_a?: Self . if_do: { g allow_private() }
+        # @receiver is_a?: Self . if_do: { g allow_private() }
+        g allow_private()
         sym = @name method_name: @receiver ruby_send: (self ruby_send?)
         self ruby_block? . if_do: {
           g send_with_block(sym, @args size, false)

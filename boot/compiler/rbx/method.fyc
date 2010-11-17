@@ -160,7 +160,7 @@ x
 14
 :documentation
 i
-14
+15
 45
 0
 1
@@ -171,6 +171,7 @@ i
 49
 3
 0
+47
 49
 4
 1
@@ -214,7 +215,7 @@ a
 I
 4
 I
-e
+f
 x
 36
 /more/vic/hk/fancy/lib/rbx/method.fy
@@ -237,7 +238,7 @@ x
 14
 documentation:
 i
-16
+17
 45
 0
 1
@@ -250,6 +251,7 @@ i
 0
 20
 0
+47
 49
 4
 2
@@ -293,7 +295,7 @@ c
 I
 8
 I
-10
+11
 x
 36
 /more/vic/hk/fancy/lib/rbx/method.fy
@@ -403,7 +405,7 @@ x
 14
 :documentation
 i
-14
+15
 45
 0
 1
@@ -414,6 +416,7 @@ i
 49
 3
 0
+47
 49
 4
 1
@@ -457,7 +460,7 @@ a
 I
 f
 I
-e
+f
 x
 36
 /more/vic/hk/fancy/lib/rbx/method.fy
@@ -480,7 +483,7 @@ x
 14
 documentation:
 i
-16
+17
 45
 0
 1
@@ -493,6 +496,7 @@ i
 0
 20
 0
+47
 49
 4
 2
@@ -536,7 +540,7 @@ c
 I
 13
 I
-10
+11
 x
 36
 /more/vic/hk/fancy/lib/rbx/method.fy

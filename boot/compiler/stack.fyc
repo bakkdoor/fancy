@@ -310,7 +310,7 @@ x
 11
 initialize:
 i
-15
+16
 7
 0
 64
@@ -320,6 +320,7 @@ i
 2
 20
 0
+47
 49
 3
 1
@@ -373,7 +374,7 @@ I
 I
 e
 I
-f
+10
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -393,7 +394,7 @@ x
 5
 push:
 i
-12
+13
 7
 0
 64
@@ -402,6 +403,7 @@ i
 1
 20
 0
+47
 49
 2
 1
@@ -445,7 +447,7 @@ I
 I
 13
 I
-c
+d
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -465,7 +467,7 @@ x
 3
 :<<
 i
-12
+13
 7
 0
 64
@@ -474,6 +476,7 @@ i
 1
 20
 0
+47
 49
 2
 1
@@ -517,7 +520,7 @@ I
 I
 19
 I
-c
+d
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -537,7 +540,7 @@ x
 4
 :pop
 i
-19
+21
 7
 0
 64
@@ -550,9 +553,11 @@ i
 2
 0
 79
+47
 49
 3
 1
+47
 49
 4
 1
@@ -602,11 +607,11 @@ I
 I
 1f
 I
-f
+10
 I
 20
 I
-13
+15
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -623,13 +628,14 @@ x
 4
 :top
 i
-10
+11
 7
 0
 64
 15
 39
 1
+47
 49
 2
 0
@@ -673,7 +679,7 @@ I
 I
 25
 I
-a
+b
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -690,13 +696,14 @@ x
 5
 :size
 i
-10
+11
 7
 0
 64
 15
 39
 1
+47
 49
 2
 0
@@ -740,7 +747,7 @@ I
 I
 2b
 I
-a
+b
 x
 31
 /more/vic/hk/fancy/lib/stack.fy
@@ -757,13 +764,14 @@ x
 7
 :empty?
 i
-10
+11
 7
 0
 64
 15
 39
 1
+47
 49
 2
 0
@@ -807,7 +815,7 @@ I
 I
 31
 I
-a
+b
 x
 31
 /more/vic/hk/fancy/lib/stack.fy

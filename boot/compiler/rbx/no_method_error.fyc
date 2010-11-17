@@ -123,7 +123,7 @@ x
 12
 :method_name
 i
-18
+20
 7
 0
 64
@@ -133,11 +133,13 @@ i
 49
 1
 0
+47
 49
 2
 0
 79
 77
+47
 49
 3
 2
@@ -188,11 +190,11 @@ I
 I
 d
 I
-e
+f
 I
 e
 I
-12
+14
 x
 45
 /more/vic/hk/fancy/lib/rbx/no_method_error.fy

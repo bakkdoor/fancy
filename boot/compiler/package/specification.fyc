@@ -382,7 +382,7 @@ x
 16
 initialize:with:
 i
-45
+47
 20
 0
 38
@@ -411,6 +411,7 @@ i
 20
 1
 5
+47
 49
 5
 1
@@ -424,6 +425,7 @@ i
 39
 0
 5
+47
 49
 8
 2
@@ -505,15 +507,15 @@ I
 I
 11
 I
-20
+21
 I
 12
 I
-29
+2a
 I
 13
 I
-2d
+2f
 x
 47
 /more/vic/hk/fancy/lib/package/specification.fy
@@ -608,7 +610,7 @@ x
 23
 add_dependency:version:
 i
-21
+23
 45
 0
 1
@@ -616,6 +618,7 @@ i
 0
 20
 1
+47
 49
 2
 2
@@ -626,6 +629,7 @@ i
 3
 20
 2
+47
 49
 4
 1
@@ -673,7 +677,7 @@ I
 I
 17
 I
-15
+17
 x
 47
 /more/vic/hk/fancy/lib/package/specification.fy
@@ -765,7 +769,7 @@ x
 28
 add_ruby_dependency:version:
 i
-21
+23
 45
 0
 1
@@ -773,6 +777,7 @@ i
 0
 20
 1
+47
 49
 2
 2
@@ -783,6 +788,7 @@ i
 3
 20
 2
+47
 49
 4
 1
@@ -830,7 +836,7 @@ I
 I
 1c
 I
-15
+17
 x
 47
 /more/vic/hk/fancy/lib/package/specification.fy
@@ -856,7 +862,7 @@ x
 3
 :[]
 i
-12
+13
 65
 7
 0
@@ -865,6 +871,7 @@ i
 1
 20
 0
+47
 49
 2
 1
@@ -900,7 +907,7 @@ I
 I
 20
 I
-c
+d
 x
 47
 /more/vic/hk/fancy/lib/package/specification.fy
