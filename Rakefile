@@ -1,5 +1,19 @@
 require 'rbconfig'
 
+def say(*msg)
+  puts(*msg) unless RakeFileUtils.verbose_flag == false
+end
+
+def sh!(*args, &block)
+  old_verbose = RakeFileUtils.verbose_flag
+  begin
+    RakeFileUtils.verbose_flag = nil if RakeFileUtils.verbose_flag == :default
+    sh(*args, &block)
+  ensure
+    RakeFileUtils.verbose_flag = old_verbose
+  end
+end
+
 def _(f, base = File.dirname(__FILE__))
   File.expand_path(f, base)
 end
@@ -21,23 +35,23 @@ namespace :parser do
 
   file lexer_c => file(lexer_lex) do
     Dir.chdir(ext_dir) do
-      sh 'flex', '--outfile', lexer_c, '--header-file=lexer.h', lexer_lex
+      sh! 'flex', '--outfile', lexer_c, '--header-file=lexer.h', lexer_lex
     end
   end
 
   file parser_c => file(parser_y) do
-    Dir.chdir(ext_dir) { sh 'bison', '--output', parser_c, '-d', '-v', parser_y }
+    Dir.chdir(ext_dir) { sh! 'bison', '--output', parser_c, '-d', '-v', parser_y }
   end
 
   file makefile => file(extconf) do
-    Dir.chdir(ext_dir) { sh 'rbx', extconf }
+    Dir.chdir(ext_dir) { sh! 'rbx', extconf }
   end
 
   desc "Generate parser source from flex/bison"
   task :generate => [parser_c, lexer_c, makefile]
 
   file parser_e => file(makefile) do
-    sh 'make', '-C', ext_dir
+    sh! 'make', '-C', ext_dir
   end
 
   desc "Compile the parser extension"
@@ -62,8 +76,8 @@ namespace :compiler do
   boot_parser_e = _("boot/compiler/parser/ext/"+File.basename(parser_e))
 
   file boot_parser_e => file(parser_e) do
-    mkdir_p File.dirname(boot_parser_e)
-    cp parser_e, boot_parser_e
+    mkdir_p File.dirname(boot_parser_e), :verbose => false
+    cp parser_e, boot_parser_e, :verbose => false
   end
 
   task :clean do
@@ -73,6 +87,8 @@ namespace :compiler do
 
   desc "Compile fancy using the stable compiler (from boot/compiler)."
   task :compile => file(boot_parser_e) do
+    say "Compiling fancy using stable compiler."
+
     cmd = ['rbx', load_rb]
     cmd << _("boot/compiler/boot.fyc")
     cmd << _("boot/compiler/compiler.fyc")
@@ -84,7 +100,7 @@ namespace :compiler do
     # this is slow and absurd but it seems to work o___O
     sources = Dir.glob(_("lib/**/*.fy"))
     sources.each do |file|
-      sh *(cmd + [file])
+      sh! *(cmd + [file])
     end
   end
 
@@ -92,6 +108,7 @@ namespace :compiler do
 
   desc "Compile fancy using boot/rbx-compiler into boot/compiler/"
   task :rootstrap => "compiler:rbx_parser:ext" do
+    say "Compiling fancy into boot/compiler using ruby-based compiler from boot/rbx-compiler."
 
     output = _("boot/compiler")
 
@@ -102,18 +119,21 @@ namespace :compiler do
 
     src_path = ["--source-path", _("lib")]
     sources = Dir.glob(_("lib/**/*.fy"))
-    sh *(cmd + src_path + sources)
+    sh! *(cmd + src_path + sources)
 
     src_path = ["--source-path", _("boot")]
     sources = Dir.glob(_("boot/*.fy"))
-    sh *(cmd + src_path + sources)
+    sh! *(cmd + src_path + sources)
 
-    sh "rbx", _("boot/rbx-compiler/compiler.rb"), _("boot/compile.fy")
+    sh! "rbx", _("boot/rbx-compiler/compiler.rb"), _("boot/compile.fy")
 
   end
 
   desc "Compile fancy using lib/ compiler into boot/compiler/"
   task :wootstrap do
+
+    say "Compiling fancy into boot/compiler using development compiler from lib/"
+
     output = _("boot/.wootstrap")
 
     cmd = ['rbx', load_rb]
@@ -133,12 +153,14 @@ namespace :compiler do
       src_path = ["--source-path", _(dir.split("/").first)]
       # same as above. #slowashell
       sources.each do |file|
-        sh *(cmd + src_path + [file])
+        sh! *(cmd + src_path + [file])
       end
     end
 
-    mkdir_p _("parser/ext", output)
-    cp parser_e, _("parser/ext", output)
+    mkdir_p _("parser/ext", output), :verbose => false
+    cp parser_e, _("parser/ext", output), :verbose => false
+
+    say "Using fresh built compiler as `stable compiler' in boot/compiler"
 
     rm_rf _("boot/compiler")
     mv _("boot/.wootstrap"), _("boot/compiler")
@@ -179,13 +201,13 @@ task :compile do
 
   source_dirs.each do |dir|
     sources = Dir.glob(_("*.fy", dir))
-    sh *(cmd + sources)
+    sh! *(cmd + sources)
   end
 end
 
 desc "Runs the test suite."
 task :test do
-  sh _('bin/fancy'),
+  sh! _('bin/fancy'),
   '-e', 'ARGV rest rest each: |f| { require: f }',
   *Dir.glob(_("tests/*.fy"))
 end
