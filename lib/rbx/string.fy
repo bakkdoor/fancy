@@ -41,11 +41,11 @@ class String {
     binding = Binding setup(Rubinius VariableScope of_sender(),
                             Rubinius CompiledMethod of_sender(),
                             Rubinius StaticScope of_sender())
-    Fancy eval(self, binding)
+    Fancy eval: self binding: binding
   }
 
   def eval_global {
-    Fancy eval(self, false)
+    Fancy eval: self
   }
 
   def to_sexp {
