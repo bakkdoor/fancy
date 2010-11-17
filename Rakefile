@@ -108,6 +108,8 @@ namespace :compiler do
     sources = Dir.glob(_("boot/*.fy"))
     sh *(cmd + src_path + sources)
 
+    sh "rbx", _("boot/rbx-compiler/compiler.rb"), _("boot/compile.fy")
+
   end
 
   desc "Compile fancy using lib/ compiler into boot/compiler/"
