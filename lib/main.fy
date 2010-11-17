@@ -24,6 +24,7 @@ ARGV for_options: ["--help", "-h"] do: {
    "Fancy package management:",
    "  install   [packagename] Install a Fancy package with a given name to $FANCYPACK_DIR",
    "  uninstall [packagename] Uninstall a Fancy package with a given name from $FANCYPACK_DIR"] println
+  System exit # quit when running --help
 }
 
 ARGV for_option: "-I" do: |path| {
