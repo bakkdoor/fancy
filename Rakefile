@@ -68,6 +68,7 @@ namespace :compiler do
 
   task :clean do
     rm_f boot_parser_e, :verbose => false
+    rm_rf _("boot/compiler"), :verbose => false
   end
 
   desc "Compile fancy using the stable compiler (from boot/compiler)."
@@ -89,14 +90,10 @@ namespace :compiler do
     end
   end
 
-  rbx_parser_e = _("rbx/parser/fancy_parser.#{dl_ext}")
-  file rbx_parser_e do
-    # Build boot/rx-compiler parser extension
-    Dir.chdir(File.dirname(rbx_parser_e)) { sh 'rake' }
-  end
+  load("boot/rbx-compiler/parser/Rakefile")
 
   desc "Compile fancy using boot/rbx-compiler into boot/compiler/"
-  task :rootstrap => file(rbx_parser_e) do
+  task :rootstrap => "compiler:rbx_parser:ext" do
 
     output = _("boot/compiler")
 
@@ -144,7 +141,7 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
-  task :bootstrap => file(boot_parser_e) do
+  task :bootstrap => ["rbx_parser:ext", file(boot_parser_e)] do
     ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
@@ -155,7 +152,7 @@ end
 
 desc "Deletes all .rbc and .fyc files."
 task :clean_compiled do
-  compiled = Dir.glob(_ "**/*.{rbc,fyc}", _("{bin,lib,examples,tests,spec}"))
+  compiled = Dir.glob(_ "**/*.{rbc,fyc}")
   rm_f compiled, :verbose => false
 end
 
@@ -190,6 +187,6 @@ task :test do
   *Dir.glob(_("tests/*.fy"))
 end
 
-task :bootstrap => [:clean, "compiler:bootstrap"]
+task :bootstrap => ["compiler:bootstrap"]
 
 task :default => :compile

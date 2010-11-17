@@ -1,4 +1,7 @@
-namespace :parser do
+require 'rbconfig'
+dl_ext = RbConfig::CONFIG['DLEXT']
+
+namespace :rbx_parser do
 
   _ = lambda { |file| File.expand_path(file, File.dirname(__FILE__)); }
 
@@ -40,10 +43,12 @@ namespace :parser do
     sh 'make', '-C', _["."], "clean" rescue nil
   end
 
+  parser_e = file _["fancy_parser.#{dl_ext}"] => :compile
+  task :ext => parser_e
+
   desc "Invokes the compile task."
   task :default => :compile
 end
 
 
-task :default => "parser:default"
-task :clean => "parser:clean"
+task :clean => "rbx_parser:clean"
