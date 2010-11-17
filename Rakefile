@@ -81,12 +81,10 @@ namespace :compiler do
     cmd << "--"
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
 
-    source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
-                    "lib/rbx", "lib/package", "boot"]
-
-    source_dirs.each do |dir|
-      sources = Dir.glob(_("*.fy", dir))
-      sh *(cmd + sources)
+    # this is slow and absurd but it seems to work o___O
+    sources = Dir.glob(_("lib/**/*.fy"))
+    sources.each do |file|
+      sh *(cmd + [file])
     end
   end
 
@@ -120,7 +118,7 @@ namespace :compiler do
     cmd << _("lib/boot.fyc")
     cmd << _("lib/compiler.fyc")
     cmd << _("lib/compiler/command.fyc")
-    cmd << _("boot/compile.fyc")
+    cmd << _("boot/compiler/compile.fyc")
     cmd << "--"
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
     cmd << "--output-path" << output
@@ -131,7 +129,10 @@ namespace :compiler do
     source_dirs.each do |dir|
       sources = Dir.glob(_(dir + "/*.fy"))
       src_path = ["--source-path", _(dir.split("/").first)]
-      sh *(cmd + src_path + sources)
+      # same as above. #slowashell
+      sources.each do |file|
+        sh *(cmd + src_path + [file])
+      end
     end
 
     mkdir_p _("parser/ext", output)
