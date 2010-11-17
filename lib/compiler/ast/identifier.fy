@@ -1,15 +1,16 @@
 class Fancy AST {
 
   class Identifier : Node {
-    read_slots: ['string, 'line, 'ruby_]
-    def initialize: @line string: @string {}
+    read_slots: ['string, 'line]
+    read_write_slots: ['ruby_ident]
+    def initialize: @line string: @string ruby_ident: @ruby_ident (false) {}
 
     def name {
       @string to_sym()
     }
 
     def method_name: receiver ruby_send: ruby (false) {
-      ruby if_do: {
+      ruby || @ruby_ident if_do: {
         @string to_sym()
       } else: {
         @string =~ /:$/ . if_do: {
