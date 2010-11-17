@@ -39,7 +39,7 @@ ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       "Compiling " ++ filename println
-      Rubinius Compiler compile_fancy_file(filename, nil, 1, false)
+      Fancy Compiler compile_file: filename to: nil line: 1 print: false
     }
   }
   System exit
@@ -49,7 +49,7 @@ ARGV for_option: "-cv" do: {
   ARGV index: "-cv" . if_do: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       "Compiling " ++ filename println
-      Rubinius Compiler compile_fancy_file(filename, nil, 1, true)
+      Fancy Compiler compile_file: filename to: nil line: 1 print: true
     }
   }
   System exit
