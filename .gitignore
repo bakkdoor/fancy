@@ -14,3 +14,4 @@ doc/api/fancy.jsonp
 conftest.dSYM/
 boot/compiler/
 boot/rbx-compiler/
+publish.fy
