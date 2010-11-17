@@ -89,6 +89,32 @@ namespace :compiler do
     end
   end
 
+  rbx_parser_e = _("rbx/parser/fancy_parser.#{dl_ext}")
+  file rbx_parser_e do
+    # Build boot/rx-compiler parser extension
+    Dir.chdir(File.dirname(rbx_parser_e)) { sh 'rake' }
+  end
+
+  desc "Compile fancy using boot/rbx-compiler into boot/compiler/"
+  task :rootstrap => file(rbx_parser_e) do
+
+    output = _("boot/compiler")
+
+    cmd = ['rbx']
+    cmd << _("boot/rbx-compiler/compiler.rb")
+    cmd << "--batch" if RakeFileUtils.verbose_flag == true
+    cmd << "--output-path" << output
+
+    src_path = ["--source-path", _("lib")]
+    sources = Dir.glob(_("lib/**/*.fy"))
+    sh *(cmd + src_path + sources)
+
+    src_path = ["--source-path", _("boot")]
+    sources = Dir.glob(_("boot/*.fy"))
+    sh *(cmd + src_path + sources)
+
+  end
+
   desc "Compile fancy using lib/ compiler into boot/compiler/"
   task :wootstrap do
     output = _("boot/.wootstrap")
@@ -119,7 +145,7 @@ namespace :compiler do
   end
 
   task :bootstrap => file(boot_parser_e) do
-    ["compiler:compile", "compiler:wootstrap"].each do |t|
+    ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
     end
