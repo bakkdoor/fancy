@@ -198,7 +198,7 @@ def compile(source)
 end
 
 sources = Dir.glob(_("{lib,boot}/**/*.fy")).map { |f| file f }
-compiled = sources.map { |s| file ((s.to_s+"c") => s) { compile s } }
+compiled = sources.map { |s| file((s.to_s+"c") => s) { compile s } }
 
 task :bootstrap_if_needed do
   task(:bootstrap).invoke if file(parser_e).needed?
