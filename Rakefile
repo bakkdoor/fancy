@@ -198,13 +198,13 @@ def compile(source)
 end
 
 sources = Dir.glob(_("{lib,boot}/**/*.fy")).map { |f| file f }
-compiled = sources.map { |s| file((s.to_s+"c") => s) { compile s } }
+compiled = sources.map { |s| file((s.to_s+"c") => [s, file(parser_e)]) { compile s } }
 
 task :bootstrap_if_needed do
-  task(:bootstrap).invoke if file(parser_e).needed?
+  task(:bootstrap).invoke unless File.directory? _("boot/compiler")
 end
 
-task :compile => ([:bootstrap_if_needed] + compiled)
+task :compile => compiled
 
 desc "Runs the test suite."
 task :test do
@@ -215,4 +215,4 @@ end
 
 task :bootstrap => ["compiler:bootstrap"]
 
-task :default => :compile
+task :default => [:bootstrap_if_needed, :compile]
