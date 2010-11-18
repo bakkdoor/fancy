@@ -15,7 +15,7 @@ class Fancy AST {
   }
 
   class StringLiteral : Rubinius AST StringLiteral {
-    def initialize: line value: value { initialize(line, value) }
+    def initialize: line value: value { initialize(line, StringHelper unescape_string(value)) }
     def bytecode: g { bytecode(g) }
   }
 
