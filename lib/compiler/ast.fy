@@ -4,7 +4,7 @@
 
   For example for a source code containing only the following expression:
 
-     Console println: "hello"
+     Console println: hello
 
   An AST tree like the following will be created:
 
@@ -13,12 +13,11 @@
         @expressions:
           - MessageSend
              @receiver:
-               Constant @string: "Console"
+               Constant @string: Console
              @name:
-               Identifier @string: "println:"
+               Identifier @string: println:
              @args:
-               - StringLiteral value: "hello"
-
+               - Identifier @string: hello
 """
 
 require: "ast/node"
