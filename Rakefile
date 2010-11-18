@@ -184,26 +184,27 @@ end
 desc "Clean compiled files."
 task :clean => ["parser:clean", "compiler:clean", :clean_compiled]
 
-task :compile do
 
-  task(:bootstrap).invoke if file(parser_e).needed?
-
-  cmd = ['rbx', load_rb]
+def compile(source)
+  cmd = ['rbx', _("boot/load.rb")]
   cmd << _("lib/boot.fyc")
   cmd << _("lib/compiler.fyc")
   cmd << _("lib/compiler/command.fyc")
   cmd << _("boot/compile.fyc")
   cmd << "--"
   cmd << "--batch" if RakeFileUtils.verbose_flag == true
-
-  source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
-                  "lib/rbx", "lib/package", "boot"]
-
-  source_dirs.each do |dir|
-    sources = Dir.glob(_("*.fy", dir))
-    sh! *(cmd + sources)
-  end
+  cmd << source.to_s
+  sh! *cmd
 end
+
+sources = Dir.glob(_("{lib,boot}/**/*.fy")).map { |f| file f }
+compiled = sources.map { |s| file ((s.to_s+"c") => s) { compile s } }
+
+task :bootstrap_if_needed do
+  task(:bootstrap).invoke if file(parser_e).needed?
+end
+
+task :compile => ([:bootstrap_if_needed] + compiled)
 
 desc "Runs the test suite."
 task :test do
