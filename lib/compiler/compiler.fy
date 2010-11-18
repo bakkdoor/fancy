@@ -5,6 +5,12 @@ class Fancy {
     read_write_slots: ['parser, 'generator, 'packager, 'writer]
 
     def self compiled_name: file {
+     """
+       Returns a the compiled filename for @file
+
+       If file ends with .fy extention the will return with .fyc extension
+       Otherwise it will append .compiled.fyc to the filename.
+     """
       file.suffix?(".fy") if_do: {
         file + "c"
       } else: {
@@ -13,6 +19,7 @@ class Fancy {
     }
 
     def self from: first_stage to: last_stage {
+      "Creates a new compiler from @first_stage to @last_stage"
       new(first_stage, last_stage)
     }
 

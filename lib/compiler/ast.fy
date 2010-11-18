@@ -1,3 +1,26 @@
+"""
+  AST nodes are an object representation of source files.
+
+
+  For example for a source code containing only the following expression:
+
+     Console println: "hello"
+
+  An AST tree like the following will be created:
+
+     Script:
+      @body: ExpressionList
+        @expressions:
+          - MessageSend
+             @receiver:
+               Constant @string: "Console"
+             @name:
+               Identifier @string: "println:"
+             @args:
+               - StringLiteral value: "hello"
+
+"""
+
 require: "ast/node"
 require: "ast/script"
 require: "ast/expression_list"
