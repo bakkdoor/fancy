@@ -7,8 +7,10 @@ class Fancy AST {
 
       args = MessageArgs new: @line args: [RubyArgs new: @line args: ary]
 
+      msg_ident = Identifier from: "new" line: @line
+      msg_ident ruby_ident: true
       ms = MessageSend new:     @line                                            \
-                       message: (Identifier from: "new" line: @line)             \
+                       message: (msg_ident)                                      \
                        to:      (Identifier from: "Rubinius::Tuple" line: @line) \
                        args:    args
 
