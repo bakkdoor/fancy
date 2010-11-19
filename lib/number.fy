@@ -19,7 +19,7 @@ class Number {
   def abs {
     "Returns the absolute (positive) value of a Number."
 
-    self < 0 if_true: {
+    if: (self < 0) then: {
       self * -1
     } else: {
       self

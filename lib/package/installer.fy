@@ -47,8 +47,8 @@ class Fancy Package {
       """
 
       filename = nil
-      @version == "latest" if_true: {
-        self latest_tag if_do: |tag| {
+      if: (@version == "latest") then: {
+        if: (self latest_tag) then: |tag| {
           @version = tag
         } else: {
           @version = "master"
@@ -66,7 +66,7 @@ class Fancy Package {
       "Returns the latest tag (sorted alphabetically)."
 
       tags = self tags
-      tags size > 0 if_true: {
+      if: (tags size > 0) then: {
         tags keys sort last
       }
     }
@@ -168,7 +168,7 @@ class Fancy Package {
       }
 
       spec rubygem_dependencies each: |dep| {
-        dep version == 'latest if_true: {
+        if: (dep version == 'latest) then: {
           System do: $ "rbx gem install " ++ (dep gem_name)
         } else: {
           System do: $ "rbx gem install -v=" ++ (dep version) ++ " " ++ (dep gem_name)

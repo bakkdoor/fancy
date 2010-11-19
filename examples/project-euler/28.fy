@@ -22,7 +22,7 @@ sum = number
 { pas > 0 } while_true: {
   number = number - pas
   sum = sum + number
-  coins == 4 if_true: {
+  if: (coins == 4) then: {
     coins = 1
     pas = pas - 2
   } else: {

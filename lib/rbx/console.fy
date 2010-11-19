@@ -38,7 +38,7 @@ class Console {
     """
 
     Console print: message
-    STDIN eof? if_true: {
+    if: (STDIN eof?) then: {
       nil
     } else: {
       STDIN gets() chomp

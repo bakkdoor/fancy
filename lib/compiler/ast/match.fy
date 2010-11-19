@@ -60,12 +60,12 @@ class Fancy AST {
   class MatchClause : Node {
     read_slots: ['expr, 'body, 'match_arg]
     def initialize: @line expr: @expr body: @body arg: @match_arg {
-      @expr kind_of?: Identifier . if_true: {
-        @expr string == "_" if_true: {
+      if: (@expr kind_of?: Identifier) then: {
+        if: (@expr string == "_") then: {
           @expr = Identifier from: "Object" line: @line
         }
       }
-      @match_arg if_do: {
+      if: @match_arg then: {
         @match_arg = @match_arg name
       }
     }

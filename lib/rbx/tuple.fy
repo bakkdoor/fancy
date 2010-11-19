@@ -56,10 +56,10 @@ class Tuple {
     Compares two @Tuple@s with each other.
     """
 
-    other is_a?: Tuple . if_true: {
-      self size == (other size) if_true: {
+    if: (other is_a?: Tuple) then: {
+      if: (self size == (other size)) then: {
         self size times: |i| {
-          self[i] == (other[i]) . if_false: {
+          unless: (self[i] == (other[i])) do: {
             return false
           }
         }

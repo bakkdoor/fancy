@@ -15,7 +15,7 @@ class Hash {
   def each: block {
     "Calls a given Block with each key and value."
 
-    block argcount == 1 if_true: {
+    if: (block argcount == 1) then: {
       self keys each: |key| {
         block call: [[key, at: key]]
       }

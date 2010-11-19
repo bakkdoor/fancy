@@ -15,7 +15,7 @@ class Array {
     """
 
     # if given an Array, interpret it as a from:to: range subarray
-    index is_a?: Array . if_true: {
+    if: (index is_a?: Array) then: {
       from: (index[0]) to: (index[1])
     } else: {
       at: index
@@ -34,8 +34,8 @@ class Array {
     Compares two Arrays where order does not matter.
     """
 
-    other is_a?: Array . if_true: {
-      self size != (other size) if_true: {
+    if: (other is_a?: Array) then: {
+      if: (self size != (other size)) then: {
         nil
       } else: {
         all?: |x| { other includes?: x }
@@ -51,10 +51,10 @@ class Array {
     Returns the item, if it's in the Array or nil (if not found).
     """
 
-    item is_a?: Block . if_true: {
+    if: (item is_a?: Block) then: {
       find_by: item
     } else: {
-      index: item . if_do: |idx| {
+      if: (index: item) then: |idx| {
         at: idx
       }
     }
@@ -69,7 +69,7 @@ class Array {
     """
 
     self each: |x| {
-      block call: [x] . if_true: {
+      if: (block call: [x]) then: {
         return x
       }
     }

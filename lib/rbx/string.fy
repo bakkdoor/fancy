@@ -14,7 +14,7 @@ class String {
        If given a Number, returns the character at that index."""
 
     # if given an Array, interpret it as a from:to: range substring
-    index is_a?: Array . if_true: {
+    if: (index is_a?: Array) then: {
       from: (index[0]) to: (index[1])
     } else: {
       ruby: '[] args: [index] . chr

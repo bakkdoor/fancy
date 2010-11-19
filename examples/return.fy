@@ -1,7 +1,7 @@
 def foo: block {
   1 upto: 10 do_each: |i| {
     val = block call: [i]
-    block call: [i] . if_true: {
+    if: (block call: [i]) then: {
       return i # non-local return from "foo:"
     }
   }

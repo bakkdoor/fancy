@@ -83,11 +83,11 @@ class Class {
     Indicates, if a Class is a subclass of another Class.
     """
 
-    self == class_obj if_true: {
+    if: (self == class_obj) then: {
       true
     } else: {
       # take care of Object class, as Object is its own superclass
-      self superclass != nil if_true: {
+      unless: (self superclass nil?) do: {
         self superclass subclass?: class_obj
       }
     }

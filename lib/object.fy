@@ -75,7 +75,7 @@ class Object {
   def or_take: other {
     "Returns self if it's non-nil, otherwise returns the given object."
 
-    self nil? if_true: {
+    if: (self nil?) then: {
       other
     } else: {
       self

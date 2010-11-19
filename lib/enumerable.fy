@@ -12,7 +12,7 @@ class FancyEnumerable {
     "Indicates, if any element meets the condition."
 
     each: |x| {
-      condition call: [x] . if_true: {
+      if: (condition call: [x]) then: {
         return true
       }
     }
@@ -33,11 +33,11 @@ class FancyEnumerable {
   def find: item {
     "Returns @nil, if the given object isn't found, or the object, if it is found."
 
-    item is_a?: Block . if_true: {
+    if: (item is_a?: Block) then: {
       find_by: item
     } else: {
       each: |x| {
-        item == x if_true: {
+        if: (item == x) then: {
           return x
         }
       }
@@ -92,7 +92,7 @@ class FancyEnumerable {
     "Returns a new @Array@ by taking elements from the beginning as long as they meet the given condition block."
     coll = []
     each: |x| {
-      condition call: [x] . if_true: {
+      if: (condition call: [x]) then: {
         coll << x
       } else: {
         return coll
@@ -108,11 +108,11 @@ class FancyEnumerable {
     drop = nil
     first_check = true
     each: |x| {
-      drop or: first_check . if_true: {
+      if: (drop or: first_check) then: {
         drop = condition call: [x]
         first_check = nil
         # check, if we actually have to insert his one:
-        drop if_false: {
+        unless: drop do: {
           coll << x
         }
       } else: {
@@ -186,7 +186,7 @@ class FancyEnumerable {
 
     retval = self first
     each: |x| {
-      comparison_block call: [x, retval] . if_true: {
+      if: (comparison_block call: [x, retval]) then: {
         retval = x
       }
     }

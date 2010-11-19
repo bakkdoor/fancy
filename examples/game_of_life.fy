@@ -51,7 +51,7 @@ class World {
 
     @matrix each: |row| {
       row each: |entry| {
-        entry == 0 if_true: {
+        if: (entry == 0) then: {
           "  " print
         } else: {
           ". " print
@@ -95,14 +95,14 @@ class World {
       row each_with_index: |column j| {
         # check amount of neighbors
         n_neighbors = neighbors_of: [i, j]
-        was_alive?: [i,j] . if_true: {
-          n_neighbors <= 1 or: (n_neighbors >= 4) if_true: {
+        if: (was_alive?: [i,j]) then: {
+          if: ({n_neighbors <= 1} || {n_neighbors >= 4}) then: {
             die: [i,j]
           } else: {
             live: [i,j]
           }
         } else: {
-          n_neighbors == 3 if_true: {
+          if: (n_neighbors == 3) then: {
             live: [i,j]
           }
         }

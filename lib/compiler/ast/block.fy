@@ -3,10 +3,10 @@ class Fancy AST {
     def initialize: @line args: @args body: @body (NilLiteral new: line) {
       initialize(@line, @args, @body)
       @args create_locals: self
-      @args total_args == 0 if_true: {
+      if: (@args total_args == 0) then: {
         @arguments prelude=(nil)
       }
-      @args.total_args > 1 if_true: {
+      if: (@args.total_args > 1) then: {
         @arguments prelude=('multi)
       }
       @arguments required_args=(@args required_args)
@@ -29,7 +29,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
-      @args size > 1 if_true: {
+      if: (@args size > 1) then: {
         @args each_with_index: |a i| {
             g shift_array()
             g set_local(i)

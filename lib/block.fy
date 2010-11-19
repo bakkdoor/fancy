@@ -55,7 +55,7 @@ class Block {
     Short-circuiting && (boolean AND).
     """
 
-    self call if_true: {
+    if: (self call) then: {
       other_block call
     } else: {
       return false
@@ -67,7 +67,7 @@ class Block {
     Short-circuiting || (boolean OR).
     """
 
-    self call if_true: {
+    if: (self call) then: {
       return true
     } else: {
       other_block call

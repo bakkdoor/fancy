@@ -16,7 +16,7 @@ class Set {
 
   def == other {
     "Indicates, if two Sets are equal."
-    other is_a?: Set . if_true: {
+    if: (other is_a?: Set) then: {
       @values == (other values)
     }
   }
@@ -42,7 +42,7 @@ class Set {
   }
 
   def unknown_message: msg with_params: params {
-    params empty? if_true: {
+    if: (params empty?) then: {
       @values send: msg
     } else: {
       @values send: msg params: params

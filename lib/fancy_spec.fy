@@ -96,14 +96,14 @@ class FancySpec {
       }
 
       any_failure = nil
-      @@failed_positive size > 0 if_true: {
+      if: (@@failed_positive size > 0) then: {
         any_failure = true
         Console newline
         "> FAILED: " ++ test_obj ++ " " ++ @info_str print
         self print_failed_positive
       }
 
-      @@failed_negative size > 0 if_true: {
+      if: (@@failed_negative size > 0) then: {
         any_failure = true
         Console newline
         "> FAILED: " ++ test_obj ++ " " ++ @info_str print
@@ -177,13 +177,13 @@ class FancySpec {
     }
 
     def == expected_value {
-      @actual_value == expected_value if_true: {
+      if: (@actual_value == expected_value) then: {
         SpecTest failed_negative_test: @actual_value
       }
     }
 
     def != expected_value {
-      @actual_value != expected_value if_true: {
+      if: (@actual_value != expected_value) then: {
         SpecTest failed_test: [@actual_value, expected_value]
       }
     }
@@ -192,13 +192,13 @@ class FancySpec {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""
 
-      @actual_value send: msg params: params . if_true: {
+      if: (@actual_value send: msg params: params) then: {
         SpecTest failed_negative_test: @actual_value
       }
     }
 
     def be: block {
-      block call: [@actual_value] . if_true: {
+      if: (block call: [@actual_value]) then: {
         SpecTest failed_negative_test: @actual_value
       }
     }

@@ -36,8 +36,8 @@ class Fancy AST {
     # and the first one is an string literal, it'll be used as doc.
     # This method removes the first documentation string.
     def shift_docstring {
-      (@expressions first kind_of?(Rubinius AST StringLiteral)) && \
-        (@expressions.size > 1) if_true: {
+      if: ((@expressions first kind_of?(Rubinius AST StringLiteral)) && \
+           (@expressions.size > 1)) then: {
         @expressions shift()
       }
     }

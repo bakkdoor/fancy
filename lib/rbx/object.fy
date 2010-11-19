@@ -104,7 +104,7 @@ class Object {
 
   def message_name: symbol {
     symbol = symbol to_s
-    symbol includes?: ":" . if_true: {
+    if: (symbol includes?: ":") then: {
       symbol
     } else: {
       ":" ++ symbol

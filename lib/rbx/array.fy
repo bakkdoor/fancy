@@ -56,12 +56,12 @@ class Array {
      If given an Array of indices, removes all the elements with these indices.
      Returns the deleted object if an index was given, the last deleted object for an Array given."""
 
-    index is_a?: Fixnum . if_true: {
+    if: (index is_a?: Fixnum) then: {
       deleted = self at: index
       delete_at(index)
       return deleted
     } else: {
-      index is_a?: Array . if_true: {
+      if: (index is_a?: Array) then: {
         count = 0
         deleted_values = []
         index each: |idx| {
@@ -127,7 +127,7 @@ class Array {
 
     tmp = []
     each_with_index: |obj, idx| {
-      item == obj if_true: {
+      if: (item == obj) then: {
         tmp << idx
       }
     }
@@ -137,10 +137,10 @@ class Array {
   def from: from to: to {
     "Returns sub-array starting at from: and going to to:"
 
-    from < 0 if_true: {
+    if: (from < 0) then: {
       from = self size + from
     }
-    to < 0 if_true: {
+    if: (to < 0) then: {
       to = self size + to
     }
     subarr = []
@@ -173,7 +173,7 @@ class Array {
 
     tmp = []
     each: |x| {
-      block call: [x] . if_true: {
+      if: (block call: [x]) then: {
         tmp << x
       }
     }
@@ -188,7 +188,7 @@ class Array {
 
     tmp = []
     each_with_index: |obj idx| {
-      block call: [obj, idx] . if_true: {
+      if: (block call: [obj, idx]) then: {
         tmp << [obj, idx]
       }
     }

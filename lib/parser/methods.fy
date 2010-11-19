@@ -34,7 +34,7 @@ class Fancy {
     }
 
     def ast: line key: key value: value into: ary {
-      ary nil? if_true: { ary = [] }
+      ary if_nil: { ary = [] }
       ary << key
       ary << value
       ary

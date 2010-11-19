@@ -115,7 +115,7 @@ class Fancy FDoc {
             mattr at: 'arg put: $ mdoc meta at: 'argnames
           }
         }
-        exec class() == Rubinius CompiledMethod . if_true: {
+        if: (exec class() == Rubinius CompiledMethod) then: {
           relative_file = exec file()
           # HACK: We simply delete everything before lib/
           # TODO: Fix, either use a -r (root) option or use __FILE__

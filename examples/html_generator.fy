@@ -23,7 +23,7 @@ class HTML {
     str = open_tag: name
 
     body = params first call
-    body is_a?: Array . if_true: {
+    if: (body is_a?: Array) then: {
       body = body join
     }
 

@@ -71,7 +71,7 @@ class Fancy {
     def self load: cmp source: src again: again {
       "Load compiled file @cmp"
       needed = { again } || { self loaded key?(src) not }
-      needed if_true: {
+      if: needed then: {
         self file_stack push(src)
         self loaded at: src put: cmp
         try {
