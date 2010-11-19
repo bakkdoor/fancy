@@ -57,7 +57,7 @@ compiler several times. Once via the bootstrap compiler written in
 Ruby (see boot/rbx-compiler), and then via the self-hosted compiler
 (see lib/compiler/) itself.
 
-Once the bootstrapping process id done, you can run the hello world example:
+Once the bootstrapping process is done, you can run the hello world example:
 
   $ ./bin/fancy examples/hello_world.fy
 
