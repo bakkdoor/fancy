@@ -12,10 +12,10 @@ and many more features yet to be implemented.
 ----------------------------------------------------------------------
 
 It’s still in development, the implementation has evolved from of an
-interpreter written in C++ to a mostly finished bytecode compiler for the
-Rubinius VM (http://www.rubini.us).
+interpreter written in C++ to a fully bootstrapped bytecode compiler
+for the Rubinius VM (http://www.rubini.us).
+You can see the self-hosted compiler implementation in lib/compiler/.
 
-We're currently working on bootstrapping the language on the Rubinius VM.
 If you want to help out, feel free to contact us:
 http://github.com/bakkdoor/fancy/wiki/Get-in-touch
 
@@ -52,7 +52,12 @@ Building Fancy is just that easy:
   $ cd <fancy_source_path>
   $ rake
 
-Now run the hello world example:
+This can take some time, as it compiles Fancy's standard library and
+compiler several times. Once via the bootstrap compiler written in
+Ruby (see boot/rbx-compiler), and then via the self-hosted compiler
+(see lib/compiler/) itself.
+
+Once the bootstrapping process id done, you can run the hello world example:
 
   $ ./bin/fancy examples/hello_world.fy
 
