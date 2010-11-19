@@ -3,8 +3,8 @@ Block = Rubinius::BlockEnvironment
 
 class Block
   define_method("while_true:") do |block|
-    while self.call
-      block.call
+    while tmp = self.call
+      block.call(tmp)
     end
   end
 

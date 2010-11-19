@@ -107,28 +107,12 @@ class Object {
   def if: cond then: block {
     """
     Same as:
-        cond if_true: block
-    """
-    cond if_true: block
-  }
-
-  def if: cond do: block {
-    """
-    Same as:
         cond if_do: block
     """
     cond if_do: block
   }
 
   def if: cond then: then_block else: else_block {
-    """
-    Same as:
-        cond if_true: then_block else: else_block
-    """
-    cond if_true: then_block else: else_block
-  }
-
-  def if: cond do: then_block else: else_block {
     """
     Same as:
         cond if_do: then_block else: else_block
@@ -139,28 +123,28 @@ class Object {
   def while: cond_block do: body_block {
     """
     Same as:
-      cond_block while_true: body_block
+      cond_block while_do: body_block
     """
 
-    cond_block while_true: body_block
+    cond_block while_do: body_block
   }
 
   def until: cond_block do: body_block {
     """
     Same as:
-      cond_block while_false: body_block
+      cond_block until_do: body_block
     """
 
-    cond_block while_false: body_block
+    cond_block until_do: body_block
   }
 
   def unless: cond do: block {
     """
     Same as:
-      cond if_false: block
+      cond if_do: { nil } else: block
     """
 
-    cond if_false: block
+    cond if_do: { nil } else: block
   }
 
   def method: method_name {
