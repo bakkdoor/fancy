@@ -203,7 +203,7 @@ class Array {
     size = self size
     each: |x| {
       each_block call: [x]
-      count == (size - 1) if_false: {
+      unless: (count == (size - 1)) do: {
         between_block call
       }
       count = count + 1

@@ -23,7 +23,7 @@ class FancyEnumerable {
     "Indicates, if all elements meet the condition."
 
     each: |x| {
-      condition call: [x] . if_false: {
+      unless: (condition call: [x]) do: {
         return false
       }
     }
@@ -137,7 +137,7 @@ class FancyEnumerable {
 
     uniq_vals = []
     each: |x| {
-      uniq_vals includes?: x . if_false: {
+      unless: (uniq_vals includes?: x) do: {
         uniq_vals << x
       }
     }

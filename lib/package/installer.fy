@@ -151,7 +151,7 @@ class Fancy Package {
     }
 
     def fulfill_spec: spec {
-      spec include_files empty? if_false: {
+      unless: (spec include_files empty?) do: {
         File open: (self lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
           spec include_files each: |if| {
             f write: "require: \""

@@ -55,7 +55,7 @@ class Fancy AST {
 
   class RubyArgs : MessageArgs {
     def initialize: @line args: @args block: @block (nil) {
-      @args is_a?: Array . if_false: { @args = @args array }
+      { @args = @args array } unless: (@args is_a?: Array)
       @block if_nil: {
         if: (@args last kind_of?: Identifier) then: {
           if: (@args last string =~ /^&\w/) then: {

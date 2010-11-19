@@ -53,7 +53,7 @@ class Fancy Documentation {
       html documents, man pages, or anything you can imagine.
     """
     formatter = Fancy Documentation formatter: format
-    formatter if_false: { "No such documentation format: " ++ format . raise! }
+    { "No such documentation format: " ++ format . raise! } unless: formatter
     formatter call: [self]
   }
 

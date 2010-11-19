@@ -140,13 +140,13 @@ class FancySpec {
     }
 
     def == expected_value {
-      @actual_value == expected_value if_false: {
+      unless: (@actual_value == expected_value) do: {
         SpecTest failed_test: [@actual_value, expected_value]
       }
     }
 
     def != expected_value {
-      @actual_value != expected_value if_false: {
+      unless: (@actual_value != expected_value) do: {
         SpecTest failed_negative_test: @actual_value
       }
     }
@@ -155,13 +155,13 @@ class FancySpec {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""
 
-      @actual_value send: msg params: params . if_false: {
+      unless: (@actual_value send: msg params: params) do: {
         SpecTest failed_test: [@actual_value, params first]
       }
     }
 
     def be: block {
-      block call: [@actual_value] . if_false: {
+      unless: (block call: [@actual_value]) do: {
         SpecTest failed_test: [@actual_value, nil]
       }
     }
