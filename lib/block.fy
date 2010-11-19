@@ -73,4 +73,16 @@ class Block {
       other_block call
     }
   }
+
+  def if: obj {
+    "Calls itself if the given object is true-ish."
+
+    if: obj then: { self call }
+  }
+
+  def unless: obj {
+    "Opposite of Block#if:. Calls itself if the given object is false-ish."
+
+    unless: obj do: { self call }
+  }
 }
