@@ -86,50 +86,56 @@ class Fancy {
     def self load: abs again: again compile: compile {
       src = abs
       cmp = compiled_filename: src
-      File file?(cmp) if_do: { return load: cmp source: src again: again }
+      if: (File file?(cmp)) then: {
+        return load: cmp source: src again: again
+      }
 
       File extname(abs) empty? if_do: {
         src = abs + ".fy"
         cmp = compiled_filename: src
-        File file?(cmp) if_do: { return load: cmp source: src again: again }
+        if: (File file?(cmp)) then: {
+          return load: cmp source: src again: again
+        }
       }
 
-      compile if_do: {
-
+      if: compile then: {
         src = abs
         cmp = compiled_filename: src
-        File file?(abs) if_do: {
+        if: (File file?(abs)) then: {
            Compiler compile_file: src to: cmp
            return load: cmp source: src again: again
         }
 
-        File extname(abs) empty? if_do: {
+        if: (File extname(abs) empty?) then: {
           src = abs + ".fy"
           cmp = compiled_filename: src
-          File file?(abs) if_do: {
+          if: (File file?(abs)) then: {
              Compiler compile_file: src to: cmp
              return load: cmp source: src again: again
           }
         }
-
       }
       nil
     }
 
     def self load: file again: again find: find compile: compile {
       base = self file_stack last
-      base if_do: { base = File dirname(base) }
+      { base = File dirname(base) } if: base
 
       dir = File expand_path(File dirname(file), base)
       abs = File expand_path(File basename(file), dir)
 
       loaded = load: abs again: again compile: compile
-      loaded if_do: { return loaded }
+      if: loaded then: {
+        return loaded
+      }
 
       loaded = load: file again: again compile: compile
-      loaded if_do: { return loaded }
+      if: loaded then: {
+        return loaded
+      }
 
-      find if_do: {
+      if: find then: {
         path = [dir] + $ self load_path
         f = find: file path: path
         f if_do: { return load: f again: again compile: compile }
