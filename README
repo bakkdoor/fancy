@@ -11,7 +11,7 @@ and many more features yet to be implemented.
 
 ----------------------------------------------------------------------
 
-It’s still in development, the implementation has evolved from of an
+It’s still in development, the implementation has evolved from an
 interpreter written in C++ to a fully bootstrapped bytecode compiler
 for the Rubinius VM (http://www.rubini.us).
 You can see the self-hosted compiler implementation in lib/compiler/.
