@@ -4,12 +4,22 @@ class FancyEnumerable {
   """
 
   def includes?: item {
-    "Indicates, if a collection includes a given element."
+    """
+    @item Item to check if it's included in @self.
+    @return @true, if @item in @self, otherwise @false.
+
+    Indicates, if a collection includes a given element.
+    """
     any?: |x| { item == x }
   }
 
   def any?: condition {
-    "Indicates, if any element meets the condition."
+    """
+    @condition @Block@ (or @Callable) that is used to check if any element in @self yields true for it.
+    @return @true, if @condition yields @true for any element, @false otherwise.
+
+    Indicates, if any element meets the condition.
+    """
 
     each: |x| {
       if: (condition call: [x]) then: {
@@ -20,7 +30,10 @@ class FancyEnumerable {
   }
 
   def all?: condition {
-    "Indicates, if all elements meet the condition."
+    """
+    Similar to @FancyEnumerable#any?:@ just checking for all elements.
+    Indicates, if all elements meet the condition.
+    """
 
     each: |x| {
       unless: (condition call: [x]) do: {
