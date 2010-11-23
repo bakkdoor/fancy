@@ -1,8 +1,6 @@
 class Fancy AST {
   class Require : Node {
-    def initialize: @line file: file {
-      initialize(@line)
-      @string = file
+    def initialize: @line file: @string {
     }
 
     def bytecode: g {

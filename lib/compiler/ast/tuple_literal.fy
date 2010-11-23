@@ -5,7 +5,7 @@ class Fancy AST {
     def bytecode: g {
       ary = ArrayLiteral new: @line array: [FixnumLiteral new: @line value: (@elements size)]
 
-      args = MessageArgs new: @line args: [RubyArgs new: @line args: ary]
+      args = RubyArgs new: @line args: ary
 
       msg_ident = Identifier from: "new" line: @line
       msg_ident ruby_ident: true

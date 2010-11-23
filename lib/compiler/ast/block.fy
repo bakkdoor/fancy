@@ -20,11 +20,7 @@ class Fancy AST {
   class BlockArgs : Node {
     read_write_slots: ['args, 'block]
 
-    def initialize: @line {
-      @args = []
-    }
-
-    def initialize: @line args: @args {
+    def initialize: @line args: @args ([]) {
       @args = @args map: |a| { a name to_sym() }
     }
 

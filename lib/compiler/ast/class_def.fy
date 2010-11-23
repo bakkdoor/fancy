@@ -1,7 +1,12 @@
 class Fancy AST {
   class ClassDef : Rubinius AST Class {
     def initialize: @line name: @name parent: @parent body: @body {
-      name = @name is_a?: NestedConstant . if_do: { @name scoped } else: { @name string to_sym() }
+      name = nil
+      if: (@name is_a?: NestedConstant) then: {
+        name = @name scoped
+      } else: {
+        name = @name string to_sym()
+      }
       initialize(@line, name, @parent, @body)
     }
 

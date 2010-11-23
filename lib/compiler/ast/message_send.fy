@@ -4,15 +4,15 @@ class Fancy AST {
     def initialize: @line message: @name to: @receiver args: @args { }
 
     def bytecode: g {
-      @receiver is_a?: Super . if_do: {
+      if: (@receiver is_a?: Super) then: {
         SuperSend new: @line message: @name args: @args . bytecode: g
       } else: {
         @receiver bytecode: g
         @args bytecode: g
         pos(g)
-        @receiver is_a?: Self . if_do: { g allow_private() }
+        { g allow_private() } if: (@receiver is_a?: Self)
         sym = @name method_name: @receiver ruby_send: (self ruby_send?)
-        self ruby_block? . if_do: {
+        if: (self ruby_block?) then: {
           g send_with_block(sym, @args size, false)
         } else: {
           g send(sym, @args size, false)
@@ -20,12 +20,12 @@ class Fancy AST {
       }
     }
 
-    def ruby_send? {
-      @args ruby_args?
+    def ruby_block? {
+      @args has_block?
     }
 
-    def ruby_block? {
-      { self ruby_send? } && { @args has_block? }
+    def ruby_send? {
+      @args ruby_args?
     }
   }
 

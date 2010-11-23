@@ -8,7 +8,7 @@ class Fancy AST {
 
     def generate_ivar_assignment {
       @arguments required() reverse() each: |name| {
-        name to_s =~ /^@/ if_do: {
+        if: (name to_s =~ /^@/) then: {
           ident = Identifier from: (name to_s) line: @line
           value = Rubinius AST LocalVariableAccess new(@line, name)
           asign = Assignment new: line var: ident value: value
