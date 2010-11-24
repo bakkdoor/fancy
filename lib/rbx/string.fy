@@ -37,6 +37,10 @@ class String {
     split(str)
   }
 
+  def split {
+    split()
+  }
+
   def eval {
     binding = Binding setup(Rubinius VariableScope of_sender(),
                             Rubinius CompiledMethod of_sender(),

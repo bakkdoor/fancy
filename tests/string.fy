@@ -88,5 +88,7 @@ FancySpec describe: String with: {
     str split: ", " . should == ["hello", "world", "how are you?"]
     "1,2,3,,4,5" split: "," . should == ["1", "2", "3", "", "4", "5"]
     ",1,2,3,4," split: "," . should == ["", "1", "2", "3", "4"]
+    "foo bar\n baz yo" split should == ["foo", "bar", "baz", "yo"]
+    "foo bar\n baz yo" words should == ["foo", "bar", "baz", "yo"]
   }
 }

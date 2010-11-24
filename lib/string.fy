@@ -42,6 +42,10 @@ class String {
     str
   }
 
+  def words {
+    self split
+  }
+
   def raise! {
     "Raises a new StdError with self as the message."
     StdError new: self . raise!
