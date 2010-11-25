@@ -131,39 +131,40 @@ class Fancy {
     # Loads a compiled fancy bytecode file.
     # If +find_file+ is set to false, it will just use the given
     # filename without looking up the file in the LOADPATH.
-    def self load_compiled_file: filename find_file: find_file (true) {
-      file = filename
+    def self load_compiled_file: source_file find_file: find_file (true) {
+      compiled_file = source_file
+
       if: find_file then: {
-        filename = filename_for: filename
-        file = compiled_filename_for: filename
+        source_file = filename_for: source_file
+        base = @@file_stack last
+        { base = File dirname(base) } if: base
+        dir = File expand_path(File dirname(source_file), base)
+        source_file = File expand_path(File basename(source_file), dir)
+
+        compiled_file = compiled_filename_for: source_file
       }
 
-      file = optionally_compile_file: file
+      compiled_file = optionally_compile_file: compiled_file
 
-      unless: (@@loaded[file]) do: {
-        unless: (File exists?(file)) do: {
-          load_error: file
+      unless: (@@loaded[compiled_file]) do: {
+        unless: (File exists?(compiled_file)) do: {
+          load_error: compiled_file
         }
 
-        dirname = File dirname(file)
+        dirname = File dirname(compiled_file)
         push_loadpath: dirname
         @@current_dir push(dirname)
-        @@loaded at: file put: true
+        @@loaded at: compiled_file put: true
 
-        cl = Rubinius::CodeLoader new(file)
-        cm = cl load_compiled_file(file, 0)
+        cl = Rubinius::CodeLoader new(compiled_file)
+        cm = cl load_compiled_file(compiled_file, 0)
 
         script = cm create_script(false)
-        script file_path=(filename)
+        script file_path=(source_file)
 
 
         try {
-          base = @@file_stack last
-          { base = File dirname(base) } if: base
-          dir = File expand_path(File dirname(filename), base)
-          abs = File expand_path(File basename(filename), dir)
-
-          @@file_stack push(abs)
+          @@file_stack push(source_file)
           MAIN __send__('__script__)
         } finally {
           @@current_dir pop()
