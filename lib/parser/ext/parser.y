@@ -24,8 +24,8 @@ extern char *yytext;
 
 %token                  LPAREN
 %token                  RPAREN
-%token                  LCURLY
 %token                  AT_LCURLY
+%token                  LCURLY
 %token                  RCURLY
 %token                  LBRACKET
 %token                  RBRACKET
@@ -638,14 +638,14 @@ hash_literal:   LHASH space key_value_list space RHASH {
                 }
                 ;
 
-block_literal:  expression_block {
+block_literal:  partial_expression_block {
+                  $$ = rb_funcall(self, rb_intern("ast:partial_block:"), 2, INT2NUM(yylineno), $1);
+                }
+                | expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:block:"), 2, INT2NUM(yylineno), $1);
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:block:args:"), 3, INT2NUM(yylineno), $5, $2);
-                }
-                | partial_expression_block {
-                  $$ = rb_funcall(self, rb_intern("ast:partial_block:"), 2, INT2NUM(yylineno), $1);
                 }
                 ;
 
