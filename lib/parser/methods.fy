@@ -116,7 +116,7 @@ class Fancy {
       ary << $ Struct new('selector, 'value) new(selector, value)
     }
 
-    def ast: line oper: oper arg: arg to: receiver (AST Self new line) {
+    def ast: line oper: oper arg: arg to: receiver (AST Self new: line) {
       message = ast: line send: oper arg: arg
       ast: line send: message to: receiver
     }

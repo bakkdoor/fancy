@@ -12,10 +12,14 @@ class Block
   alias_method :":call", :call
 
   define_method("call:") do |args|
-    if args.first.is_a? Array
-      call *(args.first)
+    if @partial
+      call_under args.first, method.scope, *(args[1..-1])
     else
-      call *args
+      if args.first.is_a? Array
+        call *(args.first)
+      else
+        call *args
+      end
     end
   end
 
@@ -25,5 +29,9 @@ class Block
 
   define_method("call:with_receiver:") do |args, obj|
     call_under obj, method.scope, *args
+  end
+
+  def set_as_partial
+    @partial = true
   end
 end

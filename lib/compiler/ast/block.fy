@@ -10,11 +10,34 @@ class Fancy AST {
         @arguments prelude=('multi)
       }
       @arguments required_args=(@args required_args)
+
+      if: @partial then: {
+        first_expr = @body expressions first
+
+        # if first expression is an identifier, use that as a 0-arg
+        # method name to send to self (via call_with_receiver
+        # (see boot/fancy_ext/block_env.rb).
+        # if first expression is a message send where its receiver is
+        # an identifier, use that as the message name in a send to
+        # self and use the result as the receiver value for the rest.
+
+        match first_expr -> {
+          case Identifier ->
+            @body expressions shift()
+            @body unshift_expression: $ MessageSend new: @line message: first_expr to: (Self new: @line) args: (MessageArgs new: @line args: [])
+          case MessageSend ->
+            match first_expr receiver -> {
+              case Identifier ->
+                first_expr receiver: $ MessageSend new: @line message: (first_expr receiver) to: (Self new: @line) args: (MessageArgs new: @line args: [])
+            }
+        }
+      }
     }
 
     def bytecode: g {
       bytecode(g)
       if: @partial then: {
+        g dup()
         g send('set_as_partial, 0, false)
         g pop()
       }

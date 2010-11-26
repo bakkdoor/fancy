@@ -1,6 +1,7 @@
 class Fancy AST {
 
   class MessageSend : Node {
+    read_write_slots: ['name, 'receiver, 'args]
     def initialize: @line message: @name to: @receiver args: @args { }
 
     def bytecode: g {

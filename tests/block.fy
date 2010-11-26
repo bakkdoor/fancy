@@ -93,4 +93,11 @@ FancySpec describe: Block with: {
 
     # TODO: Add more useful tests here...
   }
+
+  it: "should call the block as a partial block" when: {
+    [1,2,3] map: @{upto: 3} . should == [[1,2,3], [2,3], [3]]
+    [1,2,3] map: @{+ 3} . should == [4,5,6]
+    [1,2,3] map: @{to_s} . should == ["1", "2", "3"]
+    [1,2,3] map: @{to_s * 3} . should == ["111", "222", "333"]
+  }
 }

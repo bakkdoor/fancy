@@ -470,6 +470,9 @@ operator_send:  exp operator arg_exp {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $1);
                 }
+                | operator arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), $1, $2);
+                }
                 ;
 
 ruby_oper_send: exp ruby_oper_open ruby_args {

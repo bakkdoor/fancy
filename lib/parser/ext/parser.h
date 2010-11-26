@@ -41,51 +41,52 @@
    enum yytokentype {
      LPAREN = 258,
      RPAREN = 259,
-     LCURLY = 260,
-     RCURLY = 261,
-     LBRACKET = 262,
-     RBRACKET = 263,
-     LHASH = 264,
-     RHASH = 265,
-     STAB = 266,
-     ARROW = 267,
-     THIN_ARROW = 268,
-     COMMA = 269,
-     SEMI = 270,
-     NL = 271,
-     COLON = 272,
-     RETURN_LOCAL = 273,
-     RETURN = 274,
-     REQUIRE = 275,
-     TRY = 276,
-     CATCH = 277,
-     FINALLY = 278,
-     RETRY = 279,
-     SUPER = 280,
-     PRIVATE = 281,
-     PROTECTED = 282,
-     CLASS = 283,
-     DEF = 284,
-     DOT = 285,
-     DOLLAR = 286,
-     EQUALS = 287,
-     MATCH = 288,
-     CASE = 289,
-     IDENTIFIER = 290,
-     SELECTOR = 291,
-     RUBY_SEND_OPEN = 292,
-     RUBY_OPER_OPEN = 293,
-     CONSTANT = 294,
-     INTEGER_LITERAL = 295,
-     HEX_LITERAL = 296,
-     OCT_LITERAL = 297,
-     BIN_LITERAL = 298,
-     DOUBLE_LITERAL = 299,
-     STRING_LITERAL = 300,
-     MULTI_STRING_LITERAL = 301,
-     SYMBOL_LITERAL = 302,
-     REGEX_LITERAL = 303,
-     OPERATOR = 304
+     AT_LCURLY = 260,
+     LCURLY = 261,
+     RCURLY = 262,
+     LBRACKET = 263,
+     RBRACKET = 264,
+     LHASH = 265,
+     RHASH = 266,
+     STAB = 267,
+     ARROW = 268,
+     THIN_ARROW = 269,
+     COMMA = 270,
+     SEMI = 271,
+     NL = 272,
+     COLON = 273,
+     RETURN_LOCAL = 274,
+     RETURN = 275,
+     REQUIRE = 276,
+     TRY = 277,
+     CATCH = 278,
+     FINALLY = 279,
+     RETRY = 280,
+     SUPER = 281,
+     PRIVATE = 282,
+     PROTECTED = 283,
+     CLASS = 284,
+     DEF = 285,
+     DOT = 286,
+     DOLLAR = 287,
+     EQUALS = 288,
+     MATCH = 289,
+     CASE = 290,
+     IDENTIFIER = 291,
+     SELECTOR = 292,
+     RUBY_SEND_OPEN = 293,
+     RUBY_OPER_OPEN = 294,
+     CONSTANT = 295,
+     INTEGER_LITERAL = 296,
+     HEX_LITERAL = 297,
+     OCT_LITERAL = 298,
+     BIN_LITERAL = 299,
+     DOUBLE_LITERAL = 300,
+     STRING_LITERAL = 301,
+     MULTI_STRING_LITERAL = 302,
+     SYMBOL_LITERAL = 303,
+     REGEX_LITERAL = 304,
+     OPERATOR = 305
    };
 #endif
 
@@ -96,7 +97,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 18 "/more/vic/hk/fancy/lib/parser/ext/parser.y"
+#line 18 "/home/bakkdoor/projekte/fancy/fancy-lang/lib/parser/ext/parser.y"
 
   VALUE object;
   ID    symbol;
@@ -104,7 +105,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 108 "/more/vic/hk/fancy/lib/parser/ext/parser.h"
+#line 109 "/home/bakkdoor/projekte/fancy/fancy-lang/lib/parser/ext/parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
