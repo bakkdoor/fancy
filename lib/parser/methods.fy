@@ -209,6 +209,11 @@ class Fancy {
       AST BlockLiteral new: line args: args body: body
     }
 
+    def ast: line partial_block: body {
+      args = AST BlockArgs new: line
+      AST BlockLiteral new: line args: args body: body partial: true
+    }
+
     def ast: line block: body args: args {
       args = AST BlockArgs new: line args: args
       AST BlockLiteral new: line args: args body: body

@@ -25,6 +25,7 @@ extern char *yytext;
 %token                  LPAREN
 %token                  RPAREN
 %token                  LCURLY
+%token                  AT_LCURLY
 %token                  RCURLY
 %token                  LBRACKET
 %token                  RBRACKET
@@ -106,6 +107,7 @@ extern char *yytext;
 %type  <object>         code
 %type  <object>         expression_list
 %type  <object>         expression_block
+%type  <object>         partial_expression_block
 %type  <object>         exp
 %type  <object>         assignment
 %type  <object>         multiple_assignment
@@ -197,6 +199,11 @@ expression_block: LCURLY space expression_list space RCURLY {
                 }
                 | LCURLY space RCURLY {
                    $$ = rb_funcall(self, rb_intern("ast:exp_list:"), 2, INT2NUM(yylineno), Qnil);
+                }
+                ;
+
+partial_expression_block: AT_LCURLY space expression_list space RCURLY {
+                   $$ = $3;
                 }
                 ;
 
@@ -636,6 +643,9 @@ block_literal:  expression_block {
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:block:args:"), 3, INT2NUM(yylineno), $5, $2);
+                }
+                | partial_expression_block {
+                  $$ = rb_funcall(self, rb_intern("ast:partial_block:"), 2, INT2NUM(yylineno), $1);
                 }
                 ;
 

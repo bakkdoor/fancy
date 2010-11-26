@@ -1,6 +1,6 @@
 class Fancy AST {
   class BlockLiteral : Rubinius AST Iter {
-    def initialize: @line args: @args body: @body (NilLiteral new: line) {
+    def initialize: @line args: @args body: @body (NilLiteral new: line) partial: @partial (false) {
       initialize(@line, @args, @body)
       @args create_locals: self
       if: (@args total_args == 0) then: {
@@ -14,6 +14,10 @@ class Fancy AST {
 
     def bytecode: g {
       bytecode(g)
+      if: @partial then: {
+        g send('set_as_partial, 0, false)
+        g pop()
+      }
     }
   }
 
