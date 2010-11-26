@@ -136,9 +136,8 @@ class Fancy {
 
       if: find_file then: {
         source_file = filename_for: source_file
-        base = @@file_stack last
-        { base = File dirname(base) } if: base
-        dir = File expand_path(File dirname(source_file), base)
+
+        dir = File expand_path(File dirname(source_file), ".")
         source_file = File expand_path(File basename(source_file), dir)
 
         compiled_file = compiled_filename_for: source_file
