@@ -37,7 +37,7 @@ try {
       try {
         Fancy eval: line binding: bnd . inspect println
       } catch Exception => e {
-        e message println
+        e message() println
       }
     }
   }
