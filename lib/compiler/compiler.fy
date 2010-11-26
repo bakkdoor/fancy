@@ -11,7 +11,8 @@ class Fancy {
        If file ends with .fy extention the will return with .fyc extension
        Otherwise it will append .compiled.fyc to the filename.
      """
-      file.suffix?(".fy") if_do: {
+
+      if: (file suffix?(".fy")) then: {
         file + "c"
       } else: {
         file + ".compiled.fyc"
@@ -20,6 +21,7 @@ class Fancy {
 
     def self from: first_stage to: last_stage {
       "Creates a new compiler from @first_stage to @last_stage"
+
       new(first_stage, last_stage)
     }
 
@@ -28,7 +30,7 @@ class Fancy {
       parser = compiler parser
       parser root: Rubinius AST EvalExpression
       parser input: code file: file line: line
-      print if_do: {
+      if: print then: {
         parser print: true
         printer = compiler packager print()
         printer bytecode=(true)
@@ -48,13 +50,17 @@ class Fancy {
       parser = compiler parser
       parser root: Rubinius AST Script
       parser input: file line: line
-      print if_do: {
+      if: print then: {
         parser print: true
         printer = compiler packager print()
         printer bytecode=(true)
       }
       writer = compiler writer
-      writer name=(output if_do: { output } else: { compiled_name: file })
+      if: output then: {
+        writer name=(output)
+      } else: {
+        writer name=(compiled_name: file)
+      }
       try {
         compiler run()
       } catch Exception => e {
