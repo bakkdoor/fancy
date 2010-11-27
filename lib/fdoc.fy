@@ -109,9 +109,9 @@ class Fancy FDoc {
         exec = cls send(type, n) executable()
         methods delete(exec)
         mdoc = Fancy Documentation for: exec
-        mdoc if_do: {
+        if: mdoc then: {
           mattr at: 'doc put: $ mdoc format: 'fdoc
-          mdoc meta if_do: {
+          if: (mdoc meta) then: {
             mattr at: 'arg put: $ mdoc meta at: 'argnames
           }
         }
@@ -211,7 +211,7 @@ class Fancy FDoc {
       """
       m = /^(\r?\n)*(\s+)/ match(str)
       str = str strip()
-      m if_do: {
+      if: m then: {
         pattern = "^ {" ++ (m[2] size()) ++ "}"
         rex = Regexp.new(pattern)
         str = str gsub(rex, "");
@@ -278,18 +278,27 @@ class Fancy FDoc {
          refs << html
 
          # Generate a reference for last method if availble.
-         n[1] . if_do: {
+         if: (n[1]) then: {
            method = n[1]
-           method start_with?(":") . if_do: {
+           if: (method start_with?(":")) then: {
              method = method sub(/^:/, "")
            }
            sigil = ""
            name =~ (Regexp.new("^#")) . if_do: { sigil = "<small>#</small>" }
            type = n[1] include?(":") . if_do: {
-             sigil == "" . if_do: { "singleton-method-ref" } else: { "instance-method-ref" }
+             if: (sigil == "") then: {
+               "singleton-method-ref"
+             } else: {
+               "instance-method-ref"
+             }
            } else: {
-             sigil == "" . if_do: { "ruby-singleton-method-ref" } else: { "ruby-instance-method-ref" }
+             if: (sigil == "") then: {
+               "ruby-singleton-method-ref"
+             } else: {
+               "ruby-instance-method-ref"
+             }
            }
+
            html = sigil ++ "<code data-lang=\"fancy\" data-" ++ type ++ "=\"" ++ .
               (n[1]) ++ "\" " ++ " data-owner-class=\"" ++ clas ++ "\" " ++ .
               "class=\"" ++ type ++ " selectable\">" ++ method ++ "</code>"
@@ -303,7 +312,7 @@ class Fancy FDoc {
     def self remove_tags: str into: map {
       ary = str split(/\r?\n/) map: |line| {
         m = /^@([a-z@]\S+?)\s+(.*)/ match(line)
-        m if_do: {
+        if: m then: {
           map at: (m[1]) put: (m[2])
           nil
         } else: {

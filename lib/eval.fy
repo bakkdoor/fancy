@@ -21,7 +21,7 @@ def Fancy eval: code binding: bnd (nil) file: file ("(fancy-eval)") line: line (
   be = Rubinius BlockEnvironment new()
   be under_context(bnd variables(), cm)
 
-  bnd from_proc?() if_do: {
+  if: (bnd from_proc?()) then: {
     be proc_environment=(bnd proc_environment)
   }
 

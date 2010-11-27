@@ -41,7 +41,7 @@ class Fancy Package {
   }
 
   def self package_root_dir {
-    ENV[ENV_PACKAGE_DIR_VAR] if_do: |path| {
+    if: (ENV[ENV_PACKAGE_DIR_VAR]) then: |path| {
       return path
     } else: {
       return Fancy Package Installer DEFAULT_PACKAGES_PATH
