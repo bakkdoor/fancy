@@ -30,14 +30,14 @@ class Fancy AST {
 
       # make a break available to use
       current_break = g break()
-      current_break if_do: { g break=(g new_label()) }
+      if: current_break then: { g break=(g new_label()) }
 
       # use lazy label to patch up prematuraly leaving a try body via retry
-      outer_retry if_do: { g retry=(g new_label()) }
+      if: outer_retry then: { g retry=(g new_label()) }
 
       # also handle redo unwinding through the rescue
       current_redo = g redo()
-      current_redo if_do: { g redo=(g new_label()) }
+      if: current_redo then: { g redo=(g new_label()) }
 
       @body bytecode(g)
 
@@ -45,8 +45,8 @@ class Fancy AST {
       g pop()
       g goto(finally_)
 
-      current_break if_do: {
-        g break() used?() . if_do: {
+      if: current_break then: {
+        if: (g break() used?()) then: {
           g break() set!()
           g pop_unwind()
 
@@ -59,8 +59,8 @@ class Fancy AST {
         g break=(current_break)
       }
 
-      current_redo if_do: {
-        g redo() used?() . if_do: {
+      if: current_redo then: {
+        if: (g redo() used?()) then: {
           g redo() set!()
           g pop_unwind()
 
@@ -73,8 +73,8 @@ class Fancy AST {
         g redo=(current_redo)
       }
 
-      outer_retry if_do: {
-        g retry() used?() . if_do: {
+      if: outer_retry then: {
+        if: (g retry() used?()) then: {
           g retry() set!()
           g pop_unwind()
 
@@ -138,7 +138,7 @@ class Fancy AST {
       g send('===, 1)
       g gif(nothing)
 
-      @var if_do: {
+      if: @var then: {
         Assignment new: @line var: @var value: (CurrentException new: @line) .
           bytecode: g
         g pop()

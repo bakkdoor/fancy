@@ -26,7 +26,7 @@ class Fancy AST {
 
         # if match_arg is given, get a localvar slot and set the
         # result of the === call to it
-        c match_arg if_do: {
+        if: (c match_arg) then: {
           @match_arg_var = g state() scope() new_local(c match_arg)
           g set_local(@match_arg_var slot())
         }
@@ -44,7 +44,7 @@ class Fancy AST {
 
         # set match_arg local slot to nil, so it's only visible
         # within the case body
-        @match_arg_var if_do: {
+        if: @match_arg_var then: {
           g push_nil()
           g set_local(@match_arg_var slot())
           g pop()
