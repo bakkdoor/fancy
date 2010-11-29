@@ -143,7 +143,7 @@ class Fancy Package {
         require: fpackfile
       }
 
-      Specification[@repository] if_do: |spec| {
+      if: (Specification[@repository]) then: |spec| {
         fulfill_spec: spec
       } else: {
         "Something wen't wrong. Did not find a fancypack specification for package: " ++ @repository . raise!

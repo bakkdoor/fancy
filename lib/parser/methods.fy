@@ -18,14 +18,14 @@ class Fancy {
     }
 
     def ast: line exp_list: expr into: list (AST ExpressionList new: line) {
-      expr if_do: { list expressions << expr }
+      { list expressions << expr } if: expr
       list
     }
 
     def ast: line identity: identity { identity }
 
     def ast: line concat: object into: ary ([]) {
-      object kind_of?(Array) . if_do: {
+      if: (object kind_of?(Array)) then: {
         ary concat(object)
       } else: {
         { ary << object } if: object
@@ -72,7 +72,9 @@ class Fancy {
     }
 
     def ast: line tuple: expr_ary {
-      expr_ary size == 1 . if_do: { expr_ary first } else: {
+      if: (expr_ary size == 1) then: {
+        expr_ary first
+      } else: {
         AST TupleLiteral new: line entries: expr_ary
       }
     }
@@ -123,16 +125,18 @@ class Fancy {
 
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
       args = ruby if_do: {
-        receiver if_do: {} else: { receiver = AST Self new: line }
+        unless: receiver do: {
+          receiver = AST Self new: line
+        }
         ruby
       } else: {
         AST MessageArgs new: line args: []
       }
       name = message
-      message kind_of?(String) . if_do: {
+      if: (message kind_of?(String)) then: {
         name = AST Identifier from: message line: line
       }
-      message kind_of?(Array) . if_do: {
+      if: (message kind_of?(Array)) then: {
         name = message map: |m| { m selector() string } . join
         name = AST Identifier new: line string: name
         args = message map: |m| { m value() }
@@ -147,7 +151,7 @@ class Fancy {
 
     def method: margs delegators: block {
       idx = margs index() |m| { m default() != nil }
-      idx if_do: {
+      if: idx then: {
         line = margs first selector() line
         target = method_name: margs
         (margs size - idx) times: |pos| {
@@ -173,9 +177,9 @@ class Fancy {
     }
 
     def ast: line method: margs body: body access: access ('public) owner: owner (nil) {
-      margs is_a?(AST Identifier) . if_do: {
+      if: (margs is_a?(AST Identifier)) then: {
         args = AST MethodArgs new: line args: []
-        owner if_do: {
+        if: owner then: {
           AST SingletonMethodDef new: line name: margs args: args \
                                  body: body access: access owner: owner
         } else: {
@@ -186,7 +190,7 @@ class Fancy {
         name = AST Identifier new: line string: name
         args = margs map() |m| { m variable() string }
         args = AST MethodArgs new: line args: args
-        owner if_do: {
+        if: owner then: {
           AST SingletonMethodDef new: line name: name args: args \
                                  body: body access: access owner: owner
         } else: {
@@ -249,7 +253,7 @@ class Fancy {
     }
 
     def ast: line ruby_args: args block: block (nil) {
-      args if_do: {} else: { args = [] }
+      { args = [] } unless: args
       AST RubyArgs new: line args: args block: block
     }
 
