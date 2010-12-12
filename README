@@ -73,7 +73,7 @@ Because of this, and because in Fancy's standard library (lib/*.fy) we
 can define methods with the same name as they're defined in Ruby (but
 taking no arguments), we have decided not to overwrite the Ruby
 methods.
-This ensures that all Ruby libraries for example can use Ruby's Kernel#print or 
+This ensures that all Ruby libraries for example can use Ruby's Kernel#print or
 any other method in Ruby's kernel and work seamlesly.
 
 Here's an example:
@@ -159,5 +159,5 @@ How is it implemented?
 Copyright:
 -----------
 
-Fancy is licensed under the terms of the GNU LGPL v3. For more
+Fancy is licensed under the terms of the BSD license. For more
 information on licensing issues have a look at the LICENSE file.
