@@ -49,13 +49,13 @@
 
 ### Literal syntax for: ###
  * Symbols:
-  * `'foo`
-  * `'foo:bar:`
-  * `'baz123!?`
-  * `'*`
-  * `'==`
+   * `'foo`
+   * `'foo:bar:`
+   * `'baz123!?`
+   * `'*`
+   * `'==`
  * Single-line Strings:
-  * `"Hello, World"`
+   * `"Hello, World"`
  * Multi-line Strings (also used for docstrings):
 
         """
@@ -64,30 +64,30 @@
         """
 
  * Integers:
-  * `12312123`
-  * `0xFF` (hexadecimal)
-  * `0o77` (octal)
-  * `0b1010110` (binary)
+   * `12312123`
+   * `0xFF` (hexadecimal)
+   * `0o77` (octal)
+   * `0b1010110` (binary)
  * Floats:
-  * `121231.12312318948`
+   * `121231.12312318948`
  * Arrays:
-  * `[1,2,3]`
-  * `["foo", "bar", 'baz]`
+   * `[1,2,3]`
+   * `["foo", "bar", 'baz]`
  * Hashes (HashMaps):
-  * `<['foo => "bar", "baz" => 123.123]>`
+   * `<['foo => "bar", "baz" => 123.123]>`
  * Blocks (closures):
-  * `|x y| { x + y }` (2 arguments)
-  * `|x, y, z| { x + y + z }` (3 arguments - comma as seperator is optional)
-  * `{ "hello, world" println }` (no arguments)
+   * `|x y| { x + y }` (2 arguments)
+   * `|x, y, z| { x + y + z }` (3 arguments - comma as seperator is optional)
+   * `{ "hello, world" println }` (no arguments)
  * Ranges:
-  * `(1..10)`
-  * `(x..x ** x)`
+   * `(1..10)`
+   * `(x..x ** x)`
  * Tuples:
-  * `(1,2,3)`
-  * `(1, "foo", 'bar, [1.123, "hello"])`
+   * `(1,2,3)`
+   * `(1, "foo", 'bar, [1.123, "hello"])`
  * Regular Expressions:#
-  * `/^([a-z]+[0-9]*)-([0-9]+)$/`
-  * `/^hello, [wW]orld$/`
+   * `/^([a-z]+[0-9]*)-([0-9]+)$/`
+   * `/^hello, [wW]orld$/`
 
 ### Method & Operator calls ###
 
