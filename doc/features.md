@@ -79,6 +79,7 @@
    * `|x y| { x + y }` (2 arguments)
    * `|x, y, z| { x + y + z }` (3 arguments - comma as seperator is optional)
    * `{ "hello, world" println }` (no arguments)
+   * `@{ + 2 }` (partial Block, can be used like this: `[1,2,3] map: @{ + 2 }` and is the same as: `[1,2,3] map: |x| { x + 2 }`
  * Ranges:
    * `(1..10)`
    * `(x..x ** x)`
