@@ -104,7 +104,7 @@
       "Fancy is cool!" println
     }
 
-### Support for closures via Blocks (it works but there's definately room for performance improvements) ###
+### Support for closures via Blocks ###
 
     x = 0
     10 times: {

@@ -120,8 +120,7 @@ What's already working?
   - Instance & class variable access
   - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
   - Loops
-  - Support for closures via Blocks (it works but there's definately
-    room for performance improvements)
+  - Support for closures via Blocks
   - Local & non-local returns from Blocks & Methods
   - File reading and writing
   - Class-Mixins (including methods of one class into another)
