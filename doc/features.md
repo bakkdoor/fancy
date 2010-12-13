@@ -85,7 +85,7 @@
  * Tuples:
    * `(1,2,3)`
    * `(1, "foo", 'bar, [1.123, "hello"])`
- * Regular Expressions:#
+ * Regular Expressions:
    * `/^([a-z]+[0-9]*)-([0-9]+)$/`
    * `/^hello, [wW]orld$/`
 
@@ -176,6 +176,17 @@
       "Got an error: " ++ (e message) println
     } finally {
       # do something important here.
+    }
+
+    # retry example:
+    x = 0
+    try {
+      10 / x println
+    } ZeroDivisionError => e {
+      x = 1 + random: 10    # reset x to be != 0
+      retry                 # and run try block again
+    } finally {
+      "it worked!" println  # this gets run at the end
     }
 
 ### Simple pattern matching (work-in-progress) ###
