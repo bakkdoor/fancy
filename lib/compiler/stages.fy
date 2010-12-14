@@ -51,7 +51,7 @@ class Fancy Compiler Stages {
 
     def run {
       ast = Fancy Parser parse_code: @code file: @filename line: @line
-      if: @print then: { ast inspect println }
+      # if: @print then: { ast inspect println }
       @output = @root new(ast)
       @output file=(@filename)
     }
@@ -70,7 +70,7 @@ class Fancy Compiler Stages {
 
     def run {
       ast = Fancy Parser parse_file: @filename line: @line
-      if: @print then: { ast inspect println }
+      # if: @print then: { ast inspect println }
       @output = @root new(ast)
       @output file=(@filename)
     }
