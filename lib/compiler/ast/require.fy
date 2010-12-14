@@ -8,11 +8,12 @@ class Fancy AST {
       @string bytecode: g
       pos(g)
       g allow_private()
-      ms = MessageSend new: @line \
-                       message: (Identifier from: "require:" line: @line)    \
-                       to: (Identifier from: "Fancy::CodeLoader" line: @line) \
-                       args: (MessageArgs new: @line args: [@string])
-      ms bytecode: g
+      g send('fancy_require, 1, false)
+      # ms = MessageSend new: @line \
+      #                  message: (Identifier from: "require:" line: @line)    \
+      #                  to: (Identifier from: "Fancy::CodeLoader" line: @line) \
+      #                  args: (MessageArgs new: @line args: [@string])
+      # ms bytecode: g
     }
   }
 }
