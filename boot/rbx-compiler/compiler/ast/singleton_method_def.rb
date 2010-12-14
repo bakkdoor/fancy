@@ -28,9 +28,9 @@ class Fancy
       end
 
       def bytecode(g, recv)
-        docstring = @body.shift_docstring
+        #docstring = @body.shift_docstring
         super(g, recv)
-        MethodDef.set_docstring(g, docstring, @line, @arguments.names)
+        #MethodDef.set_docstring(g, docstring, @line, @arguments.names)
       end
 
     end
