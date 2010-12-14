@@ -19,7 +19,7 @@ number = taille ** 2
 coins = 1
 sum = number
 
-{ pas > 0 } while_true: {
+while: { pas > 0 } do: {
   number = number - pas
   sum = sum + number
   if: (coins == 4) then: {

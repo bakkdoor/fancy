@@ -7,7 +7,7 @@
 }
 
 x = 0
-{ x < 4 } while_true: {
+while: { x < 4 } do: {
   "in while_true, with x = " ++ x println
   x = x + 1
 }

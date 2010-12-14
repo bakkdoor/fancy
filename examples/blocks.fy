@@ -9,7 +9,7 @@ y call: [2, 3] # calls y and prints: 5
 
 # prints numbers 0 to 20
 zahl = 0
-{ zahl <= 20 } while_true: {
+while: { zahl <= 20 } do: {
   Console println: zahl
   zahl = zahl + 1
 }

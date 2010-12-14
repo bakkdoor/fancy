@@ -3,14 +3,10 @@
 
 class Fixnum {
   def fib {
-    if: (self == 0) then: {
-      0
-    } else: {
-      if: (self == 1) then: {
-        1
-      } else: {
-        self - 1 fib + (self - 2 fib)
-      }
+    match self -> {
+      case 0 -> 0
+      case 1 -> 1
+      case _ -> self - 1 fib + (self - 2 fib)
     }
   }
 }

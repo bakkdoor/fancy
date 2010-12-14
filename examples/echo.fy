@@ -4,7 +4,7 @@
 ARGV[1] if_do: |filename| {
  try {
     File open: filename modes: ['read] with: |f| {
-      { f eof? } while_false: {
+      until: { f eof? } do: {
         f readln println
       }
     }
