@@ -214,7 +214,8 @@ class Fancy {
     }
 
     def ast: line partial_block: body {
-      args = AST BlockArgs new: line
+      gen_blockarg = AST Identifier generate: line
+      args = AST BlockArgs new: line args: [gen_blockarg]
       AST BlockLiteral new: line args: args body: body partial: true
     }
 

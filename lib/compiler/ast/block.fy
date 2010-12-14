@@ -15,20 +15,22 @@ class Fancy AST {
         first_expr = @body expressions first
 
         # if first expression is an identifier, use that as a 0-arg
-        # method name to send to self (via call_with_receiver
-        # (see boot/fancy_ext/block_env.rb).
+        # method name to send to new receiver (use a generated symbol
+        # name created in lib/parser/methods.fy / Fancy Parser#ast:partial_block:)
         # if first expression is a message send where its receiver is
         # an identifier, use that as the message name in a send to
         # self and use the result as the receiver value for the rest.
-
+        new_receiver = Identifier from: (@args args first to_s) line: @line
         match first_expr -> {
           case Identifier ->
             @body expressions shift()
-            @body unshift_expression: $ MessageSend new: @line message: first_expr to: (Self new: @line) args: (MessageArgs new: @line args: [])
+            @body unshift_expression: $ MessageSend new: @line message: first_expr to: (new_receiver) args: (MessageArgs new: @line args: [])
           case MessageSend ->
             match first_expr receiver -> {
+              case Self ->
+                first_expr receiver: new_receiver
               case Identifier ->
-                first_expr receiver: $ MessageSend new: @line message: (first_expr receiver) to: (Self new: @line) args: (MessageArgs new: @line args: [])
+                first_expr receiver: $ MessageSend new: @line message: (first_expr receiver) to: (new_receiver) args: (MessageArgs new: @line args: [])
             }
         }
       }
@@ -36,11 +38,6 @@ class Fancy AST {
 
     def bytecode: g {
       bytecode(g)
-      if: @partial then: {
-        g dup()
-        g send('set_as_partial, 0, false)
-        g pop()
-      }
     }
   }
 

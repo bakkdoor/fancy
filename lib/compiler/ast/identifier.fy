@@ -3,6 +3,21 @@ class Fancy AST {
   class Identifier : Node {
     read_slots: ['string, 'line]
     read_write_slots: ['ruby_ident]
+
+    @@gen_ident_start = 0
+
+    def Identifier generate: line {
+      """
+      @line Line to be set for generated Identifier.
+      @return New generated Identifier, e.g. \"______gen_ident______1\"
+
+      Generates a new Identifier using a simple counter.
+      """
+
+      @@gen_ident_start = @@gen_ident_start + 1
+      Identifier from: ("______gen_ident______" ++ @@gen_ident_start) line: line
+    }
+
     def initialize: @line string: @string ruby_ident: @ruby_ident (false) {}
 
     def name {
