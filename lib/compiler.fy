@@ -8,7 +8,7 @@ require: "compiler/ast"
 
 require: "parser"
 
-if: (__FILE__ == $0) then: {
+if: (__FILE__ == (ARGV[0])) then: {
   require: "compiler/command"
   Fancy Compiler Command run: ARGV
 }
