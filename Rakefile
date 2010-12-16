@@ -97,10 +97,10 @@ namespace :compiler do
     cmd << "--"
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
 
-    # this is slow and absurd but it seems to work o___O
-    sources = Dir.glob(_("lib/**/*.fy"))
-    sources.each do |file|
-      sh! *(cmd + [file])
+    sources = Dir.glob("lib/**/*.fy")
+    # 15 seems to be a magic number that works without crashing (WTF?!)
+    sources.each_slice(15) do |s|
+      sh! *(cmd + s)
     end
   end
 
@@ -145,17 +145,24 @@ namespace :compiler do
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
     cmd << "--output-path" << output
 
-    source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
-                    "lib/rbx", "lib/package", "boot"]
-
-    source_dirs.each do |dir|
-      sources = Dir.glob(_(dir + "/*.fy"))
-      src_path = ["--source-path", _(dir.split("/").first)]
-      # same as above. #slowashell
-      sources.each do |file|
-        sh! *(cmd + src_path + [file])
-      end
+    sources = Dir.glob("lib/**/*.fy")
+    # 15 seems to be a magic number that works without crashing (WTF?!)
+    sources.each_slice(15) do |s|
+      sh! *(cmd + s)
     end
+
+    # # this is slow and absurd but it seems to work o___O
+    # source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
+    #                 "lib/rbx", "lib/package", "boot"]
+
+    # source_dirs.each do |dir|
+    #   sources = Dir.glob(_(dir + "/*.fy"))
+    #   src_path = ["--source-path", _(dir.split("/").first)]
+    #   # same as above. #slowashell
+    #   sources.each do |file|
+    #     sh! *(cmd + src_path + [file])
+    #   end
+    # end
 
     mkdir_p _("parser/ext", output), :verbose => false
     cp parser_e, _("parser/ext", output), :verbose => false
