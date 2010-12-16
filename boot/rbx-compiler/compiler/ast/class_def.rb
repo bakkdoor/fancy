@@ -6,7 +6,12 @@ class Fancy
         if name.kind_of?(Fancy::AST::Identifier)
           name = name.name
         end
+
         super(line, name, parent, body)
+
+        if body.empty?
+          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+        end
       end
 
       def bytecode(g)

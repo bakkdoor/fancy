@@ -5,6 +5,11 @@ class Fancy
       def initialize(line, args, body)
         @args = args
         body = body || Rubinius::AST::NilLiteral.new(line)
+
+        if body.empty?
+          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+        end
+
         super(line, args, body)
         args.create_locals(self)
 

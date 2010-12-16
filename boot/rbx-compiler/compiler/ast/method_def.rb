@@ -9,6 +9,10 @@ class Fancy
         @body = body
         @access = access
         generate_ivar_assignment
+
+        if body.empty?
+          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+        end
       end
 
       def generate_ivar_assignment

@@ -1,6 +1,9 @@
 class Fancy AST {
   class BlockLiteral : Rubinius AST Iter {
     def initialize: @line args: @args body: @body (NilLiteral new: line) partial: @partial (false) {
+      if: (@body empty?) then: {
+        @body unshift_expression: $ NilLiteral new: @line
+      }
       initialize(@line, @args, @body)
       @args create_locals: self
       if: (@args total_args == 0) then: {

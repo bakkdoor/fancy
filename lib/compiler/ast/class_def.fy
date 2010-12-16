@@ -7,6 +7,11 @@ class Fancy AST {
       } else: {
         name = @name string to_sym()
       }
+
+      if: (@body empty?) then: {
+        @body unshift_expression: $ NilLiteral new: @line
+      }
+
       initialize(@line, name, @parent, @body)
     }
 
