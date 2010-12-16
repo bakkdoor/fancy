@@ -151,19 +151,6 @@ namespace :compiler do
       sh! *(cmd + s)
     end
 
-    # # this is slow and absurd but it seems to work o___O
-    # source_dirs  = ["lib", "lib/parser", "lib/compiler", "lib/compiler/ast",
-    #                 "lib/rbx", "lib/package", "boot"]
-
-    # source_dirs.each do |dir|
-    #   sources = Dir.glob(_(dir + "/*.fy"))
-    #   src_path = ["--source-path", _(dir.split("/").first)]
-    #   # same as above. #slowashell
-    #   sources.each do |file|
-    #     sh! *(cmd + src_path + [file])
-    #   end
-    # end
-
     mkdir_p _("parser/ext", output), :verbose => false
     cp parser_e, _("parser/ext", output), :verbose => false
 
