@@ -16,6 +16,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       # docstring = body() body() shift_docstring()
       # docstring if_do: {
       #   setdoc = MessageSend.new(line,

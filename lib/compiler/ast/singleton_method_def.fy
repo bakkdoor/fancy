@@ -7,6 +7,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       g push_self()
       g send(@access, 0)
       g pop()
@@ -24,6 +25,7 @@ class Fancy AST {
     }
 
     def bytecode: g receiver: receiver {
+      pos(g)
       docstring = @body shift_docstring
       sup = Rubinius AST DefineSingletonScope instance_method('bytecode)
       sup bind(self) call(g, receiver)

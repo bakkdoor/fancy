@@ -4,6 +4,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       @expr bytecode: g
       g raise_return()
     }
@@ -14,6 +15,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       @expr bytecode: g
       g ret()
     }

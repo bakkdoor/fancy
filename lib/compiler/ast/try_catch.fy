@@ -132,6 +132,7 @@ class Fancy AST {
     def initialize: @line condition: @condition var: @var body: @body {}
 
     def bytecode: g final_tag: final_tag {
+      pos(g)
       nothing = g new_label()
       @condition bytecode: g
       g push_current_exception()
@@ -156,13 +157,17 @@ class Fancy AST {
   }
 
   class CurrentException : Node {
-    def initialize: line {}
-    def bytecode: g { g push_current_exception() }
+    def initialize: @line {}
+    def bytecode: g {
+      pos(g)
+      g push_current_exception()
+    }
   }
 
   class Retry : Node {
-    def initialize: line {}
+    def initialize: @line {}
     def bytecode: g {
+      pos(g)
       g pop()
       g goto(g retry())
     }

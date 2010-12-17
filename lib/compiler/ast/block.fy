@@ -40,6 +40,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       bytecode(g)
     }
   }
@@ -52,6 +53,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       if: (@args size > 1) then: {
         @args each_with_index: |a i| {
             g shift_array()

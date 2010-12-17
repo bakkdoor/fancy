@@ -21,6 +21,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       try {
         self push_script
 

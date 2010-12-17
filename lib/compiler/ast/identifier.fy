@@ -51,6 +51,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       match @string -> {
         case "true" -> g push_true()
         case "false" -> g push_false()
@@ -63,6 +64,7 @@ class Fancy AST {
   class InstanceVariable : Identifier {
     def initialize: @line string: @string {}
     def bytecode: g {
+      pos(g)
       Rubinius AST InstanceVariableAccess new(@line, self name) bytecode(g)
     }
   }
@@ -70,6 +72,7 @@ class Fancy AST {
   class ClassVariable : Identifier {
     def initialize: @line string: @string {}
     def bytecode: g {
+      pos(g)
       Rubinius AST ClassVariableAccess new(@line, self name) bytecode(g)
     }
   }
@@ -77,7 +80,8 @@ class Fancy AST {
   class Constant : Identifier {
     def initialize: @line string: @string {}
     def bytecode: g {
-       Rubinius AST ConstantAccess new(@line, self name) bytecode(g)
+      pos(g)
+      Rubinius AST ConstantAccess new(@line, self name) bytecode(g)
     }
   }
 
@@ -101,6 +105,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       self scoped bytecode(g)
     }
   }

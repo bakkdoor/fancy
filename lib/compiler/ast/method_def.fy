@@ -15,13 +15,14 @@ class Fancy AST {
         if: (name to_s =~ /^@/) then: {
           ident = Identifier from: (name to_s) line: @line
           value = Rubinius AST LocalVariableAccess new(@line, name)
-          asign = Assignment new: line var: ident value: value
+          asign = Assignment new: @line var: ident value: value
           @body unshift_expression: asign
         }
       }
     }
 
     def bytecode: g {
+      pos(g)
       g push_self()
       g send(@access, 0)
       g pop()
@@ -45,7 +46,7 @@ class Fancy AST {
       ms = MessageSend new:     @line                                                             \
                        message: (Identifier from: "define_constructor_class_method:" line: @line) \
                        to:      (Self new: @line)                                                 \
-                       args:    (MessageArgs new: line args: [method_ident])
+                       args:    (MessageArgs new: @line args: [method_ident])
       ms bytecode: g
     }
 

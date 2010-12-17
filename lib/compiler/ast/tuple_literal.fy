@@ -3,6 +3,7 @@ class Fancy AST {
     def initialize: @line entries: @elements { }
 
     def bytecode: g {
+      pos(g)
       ary = ArrayLiteral new: @line array: [FixnumLiteral new: @line value: (@elements size)]
 
       args = RubyArgs new: @line args: ary

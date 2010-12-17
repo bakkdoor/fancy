@@ -5,6 +5,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       ms = MessageSend new: @line                                           \
                        message: (Identifier from: "new:to:" line: @line)    \
                        to: (Identifier from: "Range" line: @line)           \

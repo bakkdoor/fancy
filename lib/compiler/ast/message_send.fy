@@ -5,6 +5,7 @@ class Fancy AST {
     def initialize: @line message: @name to: @receiver args: @args { }
 
     def bytecode: g {
+      pos(g)
       if: (@receiver is_a?: Super) then: {
         SuperSend new: @line message: @name args: @args . bytecode: g
       } else: {
@@ -35,6 +36,7 @@ class Fancy AST {
     def initialize: @line args: @args { }
 
     def bytecode: g {
+      pos(g)
       @args each: |a| {
         a bytecode: g
       }
@@ -68,6 +70,7 @@ class Fancy AST {
     }
 
     def bytecode: g {
+      pos(g)
       @args each: |a| {
         a bytecode: g
       }
