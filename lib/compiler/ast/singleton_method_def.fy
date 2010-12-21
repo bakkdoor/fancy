@@ -29,8 +29,7 @@ class Fancy AST {
       docstring = @body shift_docstring
       sup = Rubinius AST DefineSingletonScope instance_method('bytecode)
       sup bind(self) call(g, receiver)
-      # TODO documentation
-      #      MethodDef set_docstring: g docstring: docstring line: @line names: @arguments names()
+      MethodDef set: g docstring: docstring line: @line argnames: $ @arguments names()
     }
   }
 }

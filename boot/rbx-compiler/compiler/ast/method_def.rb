@@ -38,9 +38,9 @@ class Fancy
           define_method_missing(g)
         end
 
-        #docstring = @body.shift_docstring
+        docstring = @body.shift_docstring
         super(g)
-        # MethodDef.set_docstring(g, docstring, @line, @arguments.names)
+        MethodDef.set_docstring(g, docstring, @line, @arguments.names)
       end
 
 

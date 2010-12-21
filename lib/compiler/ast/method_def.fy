@@ -27,7 +27,6 @@ class Fancy AST {
       g send(@access, 0)
       g pop()
 
-      # TODO: constructors and method_missing
       @name to_s =~ /^initialize:(\S)+/ if_do: {
         define_constructor_class_method: g
       }
@@ -35,8 +34,32 @@ class Fancy AST {
         define_method_missing: g
       }
 
-      # TODO: docstring
+      docstring = @body shift_docstring
       bytecode(g)
+      MethodDef set: g docstring: docstring line: @line argnames: $ @arguments names()
+    }
+
+    # Sets fancy documentation for the object currently
+    # on top of the stack
+    def MethodDef set: g docstring: docstring line: line argnames: argnames {
+      # prevent invoking documentation: when doesnt makes sense.
+      { return nil } unless: docstring
+      local = StackLocal new: line
+      local set: g
+      ms = MessageSend new: line \
+                       message: (Identifier from: "for:is:" line: line) \
+                       to: (Identifier from: "Fancy::Documentation" line: line) \
+                       args: $ MessageArgs new: line args: [local, docstring]
+      ms bytecode: g
+
+      meta = HashLiteral new: line entries: [SymbolLiteral new: line value: 'argnames,
+                                             ArrayLiteral new: line array: $ argnames map: |arg| { StringLiteral new: line value: $ arg to_s }]
+      ms = MessageSend new: line \
+                       message: (Identifier from: "meta:" line: line) \
+                       to: (Nothing new: line) \
+                       args: $ MessageArgs new: line args: [meta]
+      ms bytecode: g
+      g pop()
     }
 
     # defines a class method names "new:foo:" if we're defining a
