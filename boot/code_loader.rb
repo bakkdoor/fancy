@@ -1,8 +1,14 @@
-require File.dirname(__FILE__) + "/rbx-compiler/compiler"
-require File.dirname(__FILE__) + "/rbx-compiler/compiler/command"
+#!/usr/bin/env rbx
+
+base = File.dirname(__FILE__) + "/"
+
+# load in fancy specific extensions
+require base + "fancy_ext"
+
+require base + "/rbx-compiler/compiler"
+require base + "/rbx-compiler/compiler/command"
 
 # only used for bin/fdoc at the moment
-
 # this is just temporary and was copied from and old version
 # of rbx/fancy_code_loader.rb
 
@@ -144,5 +150,16 @@ class Fancy
       end
       alias_method "require:", :load_compiled_file
     end
+  end
+end
+
+if $0 == __FILE__
+  # load & run file
+  file = ARGV.shift
+  raise "Expected a fancy file to load" unless file
+  if File.exists? file
+    Fancy::CodeLoader.load_compiled_file file
+  else
+    Fancy::CodeLoader.load_compiled_file(base + "../lib/main.fyc")
   end
 end
