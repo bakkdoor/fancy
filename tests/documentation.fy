@@ -5,7 +5,7 @@ FancySpec describe: "Documentations" with: {
     Array new method: "each:" . documentation . docs first should == documentation
   }
 
-  it: "should define a documenation string for a class" when: {
+  it: "should define a documenation string for a class and method" when: {
     class ClassWithDoc {
       "This class has a documentation! Yay!"
       def foo {
@@ -15,14 +15,7 @@ FancySpec describe: "Documentations" with: {
     }
     ClassWithDoc documentation should_not == ""
     ClassWithDoc documentation should == "This class has a documentation! Yay!"
-  }
-
-  it: "should define a documenation string for a method" when: {
-    method = def foo {
-      "bar!"
-      nil
-    }
-    method documentation should == "bar!"
+    ClassWithDoc new method: 'foo . documentation docs should == ["bar!"]
   }
 
   it: "should have a documentation string for a method" when: {
