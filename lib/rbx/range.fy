@@ -1,6 +1,7 @@
 class Range {
   ruby_alias: 'to_a
   ruby_alias: '==
+  ruby_alias: '===
 
   include: FancyEnumerable
 
