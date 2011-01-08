@@ -98,19 +98,20 @@ namespace :compiler do
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
 
     sources = Dir.glob("lib/**/*.fy")
-    compiler_files = sources.select{|f| f =~ /^lib\/compiler\//}
-    ast_files = compiler_files.select{|f| f =~ /^lib\/compiler\/ast\//}
-    sources -= compiler_files
-    compiler_files -= ast_files
+    # compiler_files = sources.select{|f| f =~ /^lib\/compiler\//}
+    # ast_files = compiler_files.select{|f| f =~ /^lib\/compiler\/ast\//}
+    # sources -= compiler_files
+    # compiler_files -= ast_files
 
     # 15 seems to be a magic number that works without crashing (WTF?!)
-    sources.each_slice(15) do |s|
-      sh! *(cmd + s)
+    # sources.each_slice(15) do |s|
+    sources.each do |s|
+      sh! *(cmd + [s])
     end
     # compile lib/compiler/*.fy & lib/compiler/ast/*.fy seperately
     # no idea whay, but this way it doesn't fail (occasionally)
-    sh! *(cmd + compiler_files)
-    sh! *(cmd + ast_files)
+    # sh! *(cmd + compiler_files)
+    # sh! *(cmd + ast_files)
   end
 
   load("boot/rbx-compiler/parser/Rakefile")
@@ -156,8 +157,9 @@ namespace :compiler do
 
     sources = Dir.glob("lib/**/*.fy")
     # 15 seems to be a magic number that works without crashing (WTF?!)
-    sources.each_slice(15) do |s|
-      sh! *(cmd + s)
+    # sources.each_slice(15) do |s|
+    sources.each do |s|
+      sh! *(cmd + [s])
     end
 
     mkdir_p _("parser/ext", output), :verbose => false
