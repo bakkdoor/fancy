@@ -31,7 +31,10 @@ class Fancy {
         compile: f to: o info: batch print: print
       }
       if: batch then: {
-        "Compiled " ++ (argv size()) ++ " files." . println
+        size = argv size()
+        files = "file"
+        { files = files + "s" } if: (size > 1)
+        "Compiled " ++ (argv size()) ++ " " ++ files ++ "." . println
       }
     }
 
