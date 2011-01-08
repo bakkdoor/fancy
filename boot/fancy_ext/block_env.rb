@@ -12,7 +12,11 @@ class Block
   alias_method :":call", :call
 
   define_method("call:") do |args|
-    call *args
+    if args.first.is_a?(Array) && args.size == 1
+      call args.first
+    else
+      call *args
+    end
   end
 
   define_method("call_with_receiver:") do |obj|
