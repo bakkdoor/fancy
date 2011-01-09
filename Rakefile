@@ -89,7 +89,7 @@ namespace :compiler do
   task :compile => file(boot_parser_e) do
     say "Compiling fancy using stable compiler."
 
-    cmd = ['rbx', load_rb]
+    cmd = ['rbx -Xint', load_rb]
     cmd << _("boot/compiler/boot.fyc")
     cmd << _("boot/compiler/compiler.fyc")
     cmd << _("boot/compiler/compiler/command.fyc")
@@ -98,20 +98,7 @@ namespace :compiler do
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
 
     sources = Dir.glob("lib/**/*.fy")
-    # compiler_files = sources.select{|f| f =~ /^lib\/compiler\//}
-    # ast_files = compiler_files.select{|f| f =~ /^lib\/compiler\/ast\//}
-    # sources -= compiler_files
-    # compiler_files -= ast_files
-
-    # 15 seems to be a magic number that works without crashing (WTF?!)
-    # sources.each_slice(15) do |s|
-    sources.each do |s|
-      sh! *(cmd + [s])
-    end
-    # compile lib/compiler/*.fy & lib/compiler/ast/*.fy seperately
-    # no idea whay, but this way it doesn't fail (occasionally)
-    # sh! *(cmd + compiler_files)
-    # sh! *(cmd + ast_files)
+    system (cmd + sources).join(" ")
   end
 
   load("boot/rbx-compiler/parser/Rakefile")
@@ -122,18 +109,18 @@ namespace :compiler do
 
     output = _("boot/compiler")
 
-    cmd = ['rbx']
+    cmd = ['rbx -Xint']
     cmd << _("boot/rbx-compiler/compiler.rb")
     cmd << "--batch" if RakeFileUtils.verbose_flag == true
     cmd << "--output-path" << output
 
     src_path = ["--source-path", _("lib")]
     sources = Dir.glob(_("lib/**/*.fy"))
-    sh! *(cmd + src_path + sources)
+    system (cmd + src_path + sources).join(" ")
 
     src_path = ["--source-path", _("boot")]
     sources = Dir.glob(_("boot/*.fy"))
-    sh! *(cmd + src_path + sources)
+    system (cmd + src_path + sources).join(" ")
 
     sh! "rbx", _("boot/rbx-compiler/compiler.rb"), _("boot/compile.fy")
 
@@ -146,7 +133,7 @@ namespace :compiler do
 
     output = _("boot/.wootstrap")
 
-    cmd = ['rbx', load_rb]
+    cmd = ['rbx -Xint', load_rb]
     cmd << _("lib/boot.fyc")
     cmd << _("lib/compiler.fyc")
     cmd << _("lib/compiler/command.fyc")
@@ -156,11 +143,7 @@ namespace :compiler do
     cmd << "--output-path" << output
 
     sources = Dir.glob("lib/**/*.fy")
-    # 15 seems to be a magic number that works without crashing (WTF?!)
-    # sources.each_slice(15) do |s|
-    sources.each do |s|
-      sh! *(cmd + [s])
-    end
+    system (cmd + sources).join(" ")
 
     mkdir_p _("parser/ext", output), :verbose => false
     cp parser_e, _("parser/ext", output), :verbose => false
@@ -172,9 +155,7 @@ namespace :compiler do
 
     # compile tests/*.fy
     say "Compiling test files (tests/*.fy)."
-    Dir.glob("tests/*.fy").each_slice(3) do |test_files|
-      sh! "fancy -c #{test_files.join(' ')}"
-    end
+    sh! "fancy -c tests/*.fy"
   end
 
   task :bootstrap => ["rbx_parser:ext", file(boot_parser_e)] do
@@ -193,7 +174,7 @@ namespace :compiler do
     cmd << _("lib/boot.fyc")
     cmd << _("lib/compiler.fyc")
     cmd << _("lib/compiler/command.fyc")
-    cmd << _("boot/compiler/compile.fyc")
+    cmd << _("boot/compiler/compiler.fyc")
     cmd << "--"
 
     sources.each do |file|
