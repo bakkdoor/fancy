@@ -103,8 +103,8 @@ class Fancy Package {
 
       filename = [@user, "_", @repository, "-", version, ".tar.gz"] join
 
-      # run wget to get the .tar.gz file
-      cmd = ["wget --quiet --no-check-certificate ", download_url, " -O ", @download_path, "/", filename] join
+      # run curl to get the .tar.gz file
+      cmd = ["curl -o ", @download_path, "/", filename, " -L -O ", download_url] join
       System do: cmd
 
       filename
@@ -112,8 +112,9 @@ class Fancy Package {
 
     def unpack_file: filename {
       "Unpacking " ++ filename println
-      output = System pipe: $ ["tar xvf ", @download_path, "/", filename, " -C ", @install_path, "/"] join
-      dirname = output readline chomp
+      System do: $ ["tar xf ", @download_path, "/", filename, " -C ", @install_path, "/"] join
+      output = System pipe: $ ["tar tf ", @download_path, "/", filename] join
+      dirname = output readlines first chomp
     }
 
     def installed_path {
