@@ -152,10 +152,6 @@ namespace :compiler do
 
     rm_rf _("boot/compiler")
     mv _("boot/.wootstrap"), _("boot/compiler")
-
-    # compile tests/*.fy
-    say "Compiling test files (tests/*.fy)."
-    sh! "bin/fancy -c tests/*.fy"
   end
 
   task :bootstrap => ["rbx_parser:ext", file(boot_parser_e)] do
