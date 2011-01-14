@@ -16,6 +16,7 @@ class Fixnum {
   ruby_alias: 'chr
   ruby_alias: 'to_i
   ruby_alias: '**
+  ruby_alias: '&
 
   def times: block {
     times(&block)
