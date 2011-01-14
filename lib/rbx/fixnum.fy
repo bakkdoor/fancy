@@ -56,4 +56,8 @@ class Fixnum {
   def downto: num do_each: block {
     downto(num, &block)
   }
+
+  def to_s: base {
+    to_s(base)
+  }
 }
