@@ -91,4 +91,12 @@ FancySpec describe: String with: {
     "foo bar\n baz yo" split should == ["foo", "bar", "baz", "yo"]
     "foo bar\n baz yo" words should == ["foo", "bar", "baz", "yo"]
   }
+
+  it: "should support basic string interpolation" when: {
+    "hello, #{10 * 10} world!" should == "hello, 100 world!"
+    x = "world"
+    "hello, #{x}!!" should == "hello, world!!"
+
+    "hello, #{x}, Fancy #{'rocks to_s upcase}!!" should == "hello, world, Fancy ROCKS!!"
+  }
 }

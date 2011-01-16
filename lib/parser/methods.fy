@@ -60,7 +60,33 @@ class Fancy {
 
     def ast: line string: text {
       str = text from: 1 to: -2
-      AST StringLiteral new: line value: str
+      match str -> {
+        # OK, I know this is ugly. But it works for now, so let's just go with it.
+        # TODO: Clean this up or make it simpler...
+
+        # this case handles string interpolation
+        case /(.*)#{(.*)}(.*)/ -> |matches|
+          prefix = matches[1]
+          interpol_str = matches[2]
+          suffix = matches[3]
+
+          binding = AST MessageSend new: line message: (ast: line identifier: "binding") to: (AST Self new: line) args: (AST RubyArgs new: line args: [])
+          evalstr = AST StringLiteral new: line value: interpol_str
+          msg = ast: line identifier: "eval:binding:"
+          binding_send = AST MessageSend new: line message: msg to: (ast: line identifier: "Fancy") \
+                                         args: (AST MessageArgs new: line args: [evalstr, binding])
+
+          prefix_str = ast: line string: (" " + prefix + " ") # hack, pre- & append " " since it gets removed
+          suffix_str = ast: line string: (" " + suffix + " ")
+          # create messagesend to concatenate:
+          concat_ident = ast: line identifier: "++"
+          concat_prefix_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [binding_send])
+          concat_suffix_send = AST MessageSend new: line message: concat_ident to: concat_prefix_send args: (AST MessageArgs new: line args: [suffix_str])
+
+          concat_suffix_send # this shall get returned, yo
+        case _ ->
+          AST StringLiteral new: line value: str
+      }
     }
 
     def ast: line array: expr_ary {
