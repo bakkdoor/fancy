@@ -193,23 +193,6 @@ class Array {
     self clone append: other_arr
   }
 
-  def each: each_block in_between: between_block {
-    """
-    Similar to @Array#each:@ but calls an additional @Block@ between
-    calling the first @Block@ for each element in self.
-    """
-
-    count = 0
-    size = self size
-    each: |x| {
-      each_block call: [x]
-      unless: (count == (size - 1)) do: {
-        between_block call
-      }
-      count = count + 1
-    }
-  }
-
   def indices {
     "Returns an @Array@ of all the indices of an @Array@."
 

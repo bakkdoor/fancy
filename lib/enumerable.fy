@@ -13,6 +13,23 @@ class FancyEnumerable {
     any?: |x| { item == x }
   }
 
+  def each: each_block in_between: between_block {
+    """
+    Similar to @each:@ but calls an additional @Block@ between
+    calling the first @Block@ for each element in self.
+    """
+
+    count = 0
+    size = self size
+    each: |x| {
+      each_block call: [x]
+      unless: (count == (size - 1)) do: {
+        between_block call
+      }
+      count = count + 1
+    }
+  }
+
   def any?: condition {
     """
     @condition @Block@ (or @Callable) that is used to check if any element in @self yields true for it.
