@@ -5,6 +5,8 @@ class Tuple {
   elements.
   """
 
+  include: FancyEnumerable
+
   ruby_alias: 'size
 
   def initialize: size {
@@ -16,6 +18,12 @@ class Tuple {
     """
 
     initialize(size)
+  }
+
+  def each: block {
+    self size times: |i| {
+      block call: [self at: i]
+    }
   }
 
   def [] idx {
@@ -68,4 +76,16 @@ class Tuple {
     }
     return false
   }
+
+  def inspect {
+    str = "("
+    self each: |v| {
+      str = str ++ v
+    } in_between: {
+      str = str ++ ", "
+    }
+    str = str ++ ")"
+    str
+  }
+
 }
