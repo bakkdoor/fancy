@@ -10,11 +10,10 @@ evaluation (as in Ruby & Smalltalk), class-based mixins, (simple)
 pattern matching, runtime introspection & reflection, "monkey
 patching" and much more. It runs on Rubinius, the Ruby VM, and thus
 has first-class integration with Ruby's core library and any
-additional Ruby libraries that run on Rubinius (including most
-C-extensions).
-It will support concurrency via the
-actor-model, including first-class futures and async operation
-semantics built into the language.
+additional Ruby libraries that run on Rubinius, including most
+C-extensions.
+It will support concurrency via the actor-model, including first-class
+futures and async operation semantics built into the language.
 
 ----------------------------------------------------------------------
 
