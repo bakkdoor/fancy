@@ -5,9 +5,16 @@ http://www.fancy-lang.org
 ----------------------------------------------------------------------
 
 Fancy is a dynamic, object-oriented programming language heavily
-inspired by Smalltalk, Ruby and Erlang. It will support dynamic code
-evaluation (as in Ruby & Smalltalk), concurrency via the actor-model
-and many more features yet to be implemented.
+inspired by Smalltalk, Ruby and Erlang. It supports dynamic code
+evaluation (as in Ruby & Smalltalk), class-based mixins, (simple)
+pattern matching, runtime introspection & reflection, "monkey
+patching" and much more. It runs on Rubinius, the Ruby VM, and thus
+has first-class integration with Ruby's core library and any
+additional Ruby libraries that run on Rubinius (including most
+C-extensions).
+It will support concurrency via the
+actor-model, including first-class futures and async operation
+semantics built into the language.
 
 ----------------------------------------------------------------------
 
@@ -19,8 +26,7 @@ You can see the self-hosted compiler implementation in lib/compiler/.
 If you want to help out, feel free to contact us:
 http://github.com/bakkdoor/fancy/wiki/Get-in-touch
 
-For some example code (that can be successfully executed), have a look
-at the examples/ directory.
+For some example code have a look at the examples/ directory.
 
 There's also lots of test coverage code. Have a look at the tests/
 directory for these. The tests are written in FancySpec, a simple
@@ -35,7 +41,10 @@ Compiling / Installing from source:
 Dependencies:
 ------------------------
 
-- Rubinius (at least 1.1)
+- Rubinius.
+  For now you'll need a recent version from the git repository.
+  We suggest using rvm and installing rbx-head.
+  See http://rvm.beginrescueend.com/ for more information.
 - Rake.
 - GNU Bison ( version 2.4 and higher otherwise you will get a Segmentation fault ).
 - GNU Flex.
@@ -52,10 +61,10 @@ Building Fancy is just that easy:
   $ cd <fancy_source_path>
   $ rake
 
-This can take some time, as it compiles Fancy's standard library and
-compiler several times. Once via the bootstrap compiler written in
-Ruby (see boot/rbx-compiler), and then via the self-hosted compiler
-(see lib/compiler/) itself.
+This should go pretty fast. It actually compiles Fancy's standard
+library and compiler several times. Once via the bootstrap compiler
+written in Ruby (see boot/rbx-compiler), and then via the self-hosted
+compiler (see lib/compiler/) itself.
 
 Once the bootstrapping process is done, you can run the hello world example:
 
@@ -65,16 +74,17 @@ Once the bootstrapping process is done, you can run the hello world example:
 Some technical information:
 ----------------------------
 
-As now we are running on the Rubinius VM, Fancy shares the same runtime with Ruby.
-Actually all of Fancy is built upon Ruby objects, so for example when you open
-the String class in Fancy, it's just Ruby's String class.
+As the language is running on the Rubinius VM, Fancy shares the same
+runtime with Ruby. All of Fancy is built upon Ruby objects, so for
+example when you open the String class in Fancy, it's just Ruby's
+String class.
 
 Because of this, and because in Fancy's standard library (lib/*.fy) we
 can define methods with the same name as they're defined in Ruby (but
 taking no arguments), we have decided not to overwrite the Ruby
 methods.
-This ensures that all Ruby libraries for example can use Ruby's Kernel#print or
-any other method in Ruby's kernel and work seamlesly.
+This ensures that all Ruby libraries for example can use Ruby's
+Kernel#print or any other method in Ruby's kernel and work seamlesly.
 
 Here's an example:
 
@@ -144,14 +154,14 @@ How is it implemented?
 -----------------------
 
   - The lexer & parser are built with GNU Flex & GNU Bison.
-    And used as a Ruby c-extension from rubinius.
+    And used as a Ruby c-extension from Rubinius.
     The parser simply invokes methods on Fancy::Parser to build the AST.
     See: rbx/parser/parser.y & rbx/parser/parser.rb
 
   - Once the AST is built, we use Rubinius' excellent compiler chain
     to compile it to bytecode.
 
-  - The bin/fancy file is simply a rubinius code loader for .fy files.
+  - The bin/fancy file is simply a Rubinius code loader for .fy files.
 
 ----------------------------------------------------------------------
 
