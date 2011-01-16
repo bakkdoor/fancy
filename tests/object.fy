@@ -81,6 +81,22 @@ FancySpec describe: Object with: {
     y should == 'foo
   }
 
+  it: "should handle multiple assignment for any collection type implementing 'at:" when: {
+    x, y, z = (1, 2, 3)
+    x should == 1
+    y should == 2
+    z should == 3
+
+    a, b, c = ["a", "b", "c"]
+    a should == "a"
+    b should == "b"
+    c should == "c"
+
+    e, f = ([1,2], "foo")
+    e should == [1,2]
+    f should == "foo"
+  }
+
   it: "should undefine a singleton method" when: {
     def self a_singleton_method {
       "a singleton method!"
