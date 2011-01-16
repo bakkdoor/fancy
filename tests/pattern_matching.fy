@@ -40,4 +40,14 @@ FancySpec describe: "Pattern Matching" with: {
 
     local1 should == nil
   }
+
+  it: "should bind any additional match args to the matched values" when: {
+    str = "foo bar baz"
+    match str -> {
+      case /^foo (.*) (.*)$/ -> |all, match1, match2|
+      all class should == MatchData
+      match1 should == "bar"
+      match2 should == "baz"
+    }
+  }
 }

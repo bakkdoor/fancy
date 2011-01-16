@@ -18,6 +18,8 @@ class Fancy AST {
       # ok, let's emit the bytecode
       @expr bytecode: g
 
+      @match_arg_vars = []
+
       @clauses each_with_index: |c i| {
         g dup() # save the @expr since we need to reuse it
         c expr bytecode: g
@@ -26,9 +28,23 @@ class Fancy AST {
 
         # if match_arg is given, get a localvar slot and set the
         # result of the === call to it
-        if: (c match_arg) then: {
-          @match_arg_var = g state() scope() new_local(c match_arg)
-          g set_local(@match_arg_var slot())
+        if: (c match_args first) then: |marg| {
+          match_arg_var = g state() scope() new_local(marg)
+          @match_arg_vars << match_arg_var
+          g set_local(match_arg_var slot())
+        }
+
+        # for any remaining match arguments, set their values to
+        # whatever matcher[idx] returns (should be the matched data)
+        c match_args rest each_with_index: |match_arg idx| {
+          idx = idx + 1 # we only want from index 1 onwards
+          g dup() # dup the matcher object
+          match_arg_var = g state() scope() new_local(match_arg)
+          @match_arg_vars << match_arg_var
+          FixnumLiteral new: @line value: idx . bytecode: g
+          g send('at:, 1)
+          g set_local(match_arg_var slot())
+          g pop()
         }
 
         g git(clause_labels[i])
@@ -42,11 +58,11 @@ class Fancy AST {
         g pop()
         @clauses[i] body bytecode: g
 
-        # set match_arg local slot to nil, so it's only visible
+        # set match_arg locals slot to nil, so they're only visible
         # within the case body
-        if: @match_arg_var then: {
+        @match_arg_vars each: |marg_var| {
           g push_nil()
-          g set_local(@match_arg_var slot())
+          g set_local(marg_var slot())
           g pop()
         }
 
@@ -58,16 +74,14 @@ class Fancy AST {
   }
 
   class MatchClause : Node {
-    read_slots: ['expr, 'body, 'match_arg]
-    def initialize: @line expr: @expr body: @body arg: @match_arg {
+    read_slots: ['expr, 'body, 'match_args]
+    def initialize: @line expr: @expr body: @body args: @match_args {
       if: (@expr kind_of?: Identifier) then: {
         if: (@expr string == "_") then: {
           @expr = Identifier from: "Object" line: @line
         }
       }
-      if: @match_arg then: {
-        @match_arg = @match_arg name
-      }
+      @match_args = @match_args map: 'name
     }
   }
 

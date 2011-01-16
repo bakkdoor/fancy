@@ -262,8 +262,8 @@ class Fancy {
       AST Match new: line expr: expr body: match_body
     }
 
-    def ast: line match_clause: expr body: body arg: match_arg (nil) {
-      AST MatchClause new: line expr: expr body: body arg: match_arg
+    def ast: line match_clause: expr body: body args: match_args ([]) {
+      AST MatchClause new: line expr: expr body: body args: match_args
     }
 
     def ast: line ex_handler: expr_list cond: cond (AST Identifier from: "Object" line: line) var: var (nil) {

@@ -1,10 +1,9 @@
-
-/* A Bison parser, made by GNU Bison 2.4.1.  */
+/* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2009, 2010 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,7 +45,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.1"
+#define YYBISON_VERSION "2.4.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -84,7 +83,7 @@ extern char *yytext;
 
 
 /* Line 189 of yacc.c  */
-#line 88 "y.tab.c"
+#line 87 "parser.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -161,56 +160,6 @@ extern char *yytext;
      OPERATOR = 305
    };
 #endif
-/* Tokens.  */
-#define LPAREN 258
-#define RPAREN 259
-#define AT_LCURLY 260
-#define LCURLY 261
-#define RCURLY 262
-#define LBRACKET 263
-#define RBRACKET 264
-#define LHASH 265
-#define RHASH 266
-#define STAB 267
-#define ARROW 268
-#define THIN_ARROW 269
-#define COMMA 270
-#define SEMI 271
-#define NL 272
-#define COLON 273
-#define RETURN_LOCAL 274
-#define RETURN 275
-#define REQUIRE 276
-#define TRY 277
-#define CATCH 278
-#define FINALLY 279
-#define RETRY 280
-#define SUPER 281
-#define PRIVATE 282
-#define PROTECTED 283
-#define CLASS 284
-#define DEF 285
-#define DOT 286
-#define DOLLAR 287
-#define EQUALS 288
-#define MATCH 289
-#define CASE 290
-#define IDENTIFIER 291
-#define SELECTOR 292
-#define RUBY_SEND_OPEN 293
-#define RUBY_OPER_OPEN 294
-#define CONSTANT 295
-#define INTEGER_LITERAL 296
-#define HEX_LITERAL 297
-#define OCT_LITERAL 298
-#define BIN_LITERAL 299
-#define DOUBLE_LITERAL 300
-#define STRING_LITERAL 301
-#define MULTI_STRING_LITERAL 302
-#define SYMBOL_LITERAL 303
-#define REGEX_LITERAL 304
-#define OPERATOR 305
-
 
 
 
@@ -227,7 +176,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 231 "y.tab.c"
+#line 180 "parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -239,7 +188,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 243 "y.tab.c"
+#line 192 "parser.c"
 
 #ifdef short
 # undef short
@@ -289,7 +238,7 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if YYENABLE_NLS
+# if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -586,7 +535,7 @@ static const yytype_int8 yyrhs[] =
       55,    61,    -1,   122,    15,    55,    61,    55,    13,    55,
       61,    -1,    34,    61,    14,     6,    55,   124,    55,     7,
       -1,   125,    -1,   124,   125,    -1,    35,    61,    14,    57,
-      -1,    35,    61,    14,    12,    67,    12,    57,    -1
+      -1,    35,    61,    14,    12,   119,    12,    57,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -740,7 +689,7 @@ static const yytype_uint8 yydefact[] =
       84,     0,    85,     9,     0,    78,   156,     0,     9,     0,
        0,     9,   166,    86,     0,     0,   163,     0,   115,     0,
        0,   167,     9,     9,     0,   165,     0,     0,     0,   168,
-      76,   164,   159,     0,   169
+      76,   164,     0,     0,   169
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -761,35 +710,35 @@ static const yytype_int16 yydefgoto[] =
 #define YYPACT_NINF -142
 static const yytype_int16 yypact[] =
 {
-     629,   725,    17,    17,    17,    17,    -9,  -142,  -142,   917,
-     917,    54,    23,  -142,  -142,    26,    87,   917,  -142,  -142,
+     629,   725,     7,     7,     7,     7,    -9,  -142,  -142,   917,
+     917,    54,    23,  -142,  -142,   -19,    87,   917,  -142,  -142,
     -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,
-    -142,  -142,    40,   629,    52,  -142,   629,  -142,  -142,  -142,
+    -142,  -142,    34,   629,    40,  -142,   629,  -142,  -142,  -142,
     1017,  -142,  -142,  1037,  -142,   965,  -142,   -10,    16,  -142,
-    -142,  -142,  -142,    26,     1,  -142,  -142,  -142,  -142,  -142,
-    -142,  -142,  -142,  -142,  -142,   773,  -142,  -142,  -142,    20,
+    -142,  -142,  -142,   -19,     1,  -142,  -142,  -142,  -142,  -142,
+    -142,  -142,  -142,  -142,  -142,   773,  -142,  -142,  -142,    29,
     -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,
-    -142,  -142,  -142,  -142,  -142,  -142,  -142,    52,   917,  1132,
-    -142,    49,   629,   581,   821,   869,  -142,  -142,    59,    65,
+    -142,  -142,  -142,  -142,  -142,  -142,  -142,    40,   917,  1132,
+    -142,    49,   629,   581,   821,   869,  -142,  -142,    59,    28,
       -9,    66,  1017,  1017,  -142,  -142,    74,     4,  -142,  -142,
-    1060,  -142,   629,   629,  -142,     2,  -142,   917,    17,  -142,
-     990,  -142,   773,   773,    20,   917,   917,  -142,  -142,  -142,
-    1037,  -142,    17,    46,   917,  -142,   100,    -9,    -9,    23,
+    1060,  -142,   629,   629,  -142,     2,  -142,   917,     7,  -142,
+     990,  -142,   773,   773,    29,   917,   917,  -142,  -142,  -142,
+    1037,  -142,     7,    46,   917,  -142,    60,    -9,    -9,    23,
      397,  -142,    10,    98,  1017,  -142,    69,   965,  1084,    -5,
     -142,  1172,   629,  -142,   629,  -142,    50,  -142,  1084,    72,
-      17,  -142,    -9,   917,    83,    74,    93,    26,  -142,   105,
-       2,  1099,  -142,    17,  -142,  -142,  -142,   471,   335,  -142,
-     917,  -142,   116,    -9,    23,  -142,  -142,   123,    -9,    23,
+       7,  -142,    -9,   917,    53,    74,    93,   -19,  -142,   101,
+       2,  1099,  -142,     7,  -142,  -142,  -142,   471,   335,  -142,
+     917,  -142,    94,    -9,    23,  -142,  -142,   102,    -9,    23,
       10,  -142,    -9,  -142,  -142,    11,  -142,    98,  1037,  -142,
-     132,   917,   917,    52,   130,   131,   133,   127,    17,   138,
-      23,  -142,  -142,   506,  -142,    23,  -142,  -142,     8,    17,
+     130,   917,   917,    40,   128,   129,   131,   124,     7,   127,
+      23,  -142,  -142,   506,  -142,    23,  -142,  -142,     8,     7,
     -142,  1037,  -142,  1017,    23,  -142,    -9,    23,  -142,  -142,
-     141,    20,  -142,  -142,  -142,   491,  1017,  -142,  -142,  -142,
-      17,   917,  -142,  -142,    -9,  -142,  -142,  -142,   106,  -142,
-    -142,    23,  -142,    17,    -9,  -142,  -142,   917,  1084,    23,
-     917,    15,  -142,  -142,   917,   141,  1017,   148,  -142,  1117,
-     144,  -142,  1084,    17,   677,  -142,   161,   917,    -9,   629,
-    -142,  1017,     9,   629,   629
+     138,    29,  -142,  -142,  -142,   491,  1017,  -142,  -142,  -142,
+       7,   917,  -142,  -142,    -9,  -142,  -142,  -142,   107,  -142,
+    -142,    23,  -142,     7,    -9,  -142,  -142,   917,  1084,    23,
+     917,    15,  -142,  -142,   917,   138,  1017,   136,  -142,  1117,
+     137,  -142,  1084,     7,   677,  -142,   147,   917,    -9,   629,
+    -142,  1017,   149,   629,   629
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -798,10 +747,10 @@ static const yytype_int16 yypgoto[] =
     -142,  -142,    13,     6,    57,   -28,     3,   194,  -142,  -142,
       62,  -142,  -142,    89,   -52,    22,   204,     0,  -142,  -142,
     -142,  -142,  -142,    -8,  -142,  -142,  -142,  -142,  -138,    27,
-     -63,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,   288,
-    -142,  -142,    12,  -142,  -142,   313,    33,  -142,   -43,  -142,
-    -142,  -142,  -142,  -142,   158,  -142,  -142,  -142,  -142,  -142,
-      25,  -142,    14,  -142,  -142,  -141,  -142,  -142,  -142,  -142,
+     -66,  -142,  -142,  -142,  -142,  -142,  -142,  -142,  -142,   288,
+    -142,  -142,     9,  -142,  -142,   313,    33,  -142,   -43,  -142,
+    -142,  -142,  -142,  -142,   157,  -142,  -142,  -142,  -142,  -142,
+      25,  -142,    14,  -142,  -142,  -141,  -142,  -142,  -109,  -142,
     -142,  -142,  -142,  -142,   -91
 };
 
@@ -814,21 +763,21 @@ static const yytype_int16 yytable[] =
 {
       47,   135,   196,    36,   193,   -49,    34,   107,   116,   136,
        3,   104,     8,    33,     3,    91,     3,   -75,     7,     8,
-      96,   283,   167,   132,  -161,    97,   201,    18,     8,     3,
-      96,   133,     8,    47,     8,    97,    47,    18,    19,    34,
-     111,    21,    34,   127,    21,   127,   112,    19,    21,   134,
-     260,    31,   193,   150,   140,   135,   232,    19,    88,    92,
-      93,    94,    95,    89,   151,   151,    21,     8,   129,   114,
-     129,   102,   103,   197,  -161,    96,   138,   160,   131,   110,
+      96,    21,   167,   132,     8,    97,   201,    18,     8,     3,
+      96,   133,     8,    47,   111,    97,    47,    18,    19,    34,
+     160,    21,    34,   127,    21,   127,   112,    19,    21,   134,
+     260,    31,   193,   150,   140,   135,   232,   114,    88,    92,
+      93,    94,    95,    89,   151,   151,    19,     8,   129,   183,
+     129,   102,   103,   197,  -161,    96,   138,  -118,   131,   110,
       97,   162,    18,    96,   151,   116,    21,   208,    97,     8,
       18,   147,    47,    47,    21,   152,   154,   163,    34,    34,
-      27,    28,   130,     2,     3,    33,    33,  -118,   156,   183,
-       6,   219,    47,    47,   108,   109,   163,   215,    34,    34,
+      27,    28,   130,     2,     3,    33,    33,   219,   156,   151,
+       6,   226,    47,    47,   108,   109,   163,   215,    34,    34,
      127,    34,   214,   216,   116,   112,   116,   144,   170,   120,
-     127,   151,   226,   181,   175,   176,   234,   237,   238,    91,
-     240,   260,   239,   137,   253,   129,   147,   127,   182,   242,
-     148,   275,    47,   174,    47,   129,   144,   158,   203,   218,
-     203,   273,   138,   179,   192,   280,   135,   190,   255,   105,
+     127,   175,   176,   181,   234,   237,   238,   240,   242,    91,
+     239,   253,   260,   137,   275,   129,   147,   127,   182,   273,
+     148,   280,    47,   174,    47,   129,   144,   158,   203,   218,
+     203,   283,   138,   179,   192,   255,   135,   190,   105,   282,
      271,     0,   129,     0,     0,     0,    34,     0,   120,   171,
      199,     0,     0,   170,   144,   144,     0,   177,   178,   180,
        0,   120,   120,     0,     0,     0,   144,     0,   127,   120,
@@ -840,13 +789,13 @@ static const yytype_int16 yytable[] =
        0,   116,   231,   254,   249,     0,   116,     0,   139,     0,
      120,     0,     0,   235,   236,   241,   120,   120,     0,     0,
        0,     0,     0,     0,    47,     0,   248,   279,     0,    47,
-      34,     0,     0,    47,    47,    34,   284,    33,     0,    34,
+      34,     0,     0,    47,    47,    34,   284,    33,     0,   203,
       34,     0,     0,   121,     0,     0,    33,   257,     0,     0,
        0,   168,   120,   258,   161,     0,   121,   121,     0,     0,
      264,     0,   120,     0,   121,   267,     0,     0,   270,   266,
        0,     0,   269,     0,   120,   120,   272,     0,   122,   276,
      277,     0,     0,   186,     0,     0,   191,     0,     0,   281,
-       0,   184,   185,   117,   189,     0,     0,   120,   121,     0,
+     210,   184,   185,   117,   189,     0,     0,   120,   121,     0,
        0,     0,   121,   124,     0,   120,     0,   212,   120,     0,
        0,   120,   121,     0,    96,     0,   211,     0,     0,    97,
      120,    18,    19,    20,   119,   121,     0,   122,   225,     0,
@@ -860,7 +809,7 @@ static const yytype_int16 yytable[] =
        0,     0,     0,   268,     0,     0,     0,   124,   265,   122,
        0,   124,   121,     0,     0,   122,   122,     0,     0,     0,
      121,   124,     0,   121,     0,   222,   121,     0,     0,   117,
-       0,     0,   282,     0,   124,   121,     0,     0,     0,     0,
+       0,     0,    98,     0,   124,   121,     0,     0,     0,     0,
      124,   124,     0,     0,     0,   256,     0,     0,     0,   117,
       96,   122,   149,     0,     0,    97,     0,    18,    19,    20,
      119,   122,     3,     0,   117,     0,     0,     0,     0,   244,
@@ -939,21 +888,21 @@ static const yytype_int16 yycheck[] =
 {
        0,    53,   143,     0,   142,    15,     0,    15,    36,     8,
        6,    11,    17,     0,     6,     1,     6,     6,    16,    17,
-      29,    12,    18,    33,    15,    34,    31,    36,    17,     6,
-      29,    15,    17,    33,    17,    34,    36,    36,    37,    33,
-       0,    40,    36,    43,    40,    45,    33,    37,    40,    33,
-      35,    50,   190,     4,    54,   107,   197,    37,     1,     2,
-       3,     4,     5,     1,    15,    15,    40,    17,    43,    17,
-      45,     9,    10,     4,    15,    29,    54,    12,    45,    17,
+      29,    40,    18,    33,    17,    34,    31,    36,    17,     6,
+      29,    15,    17,    33,     0,    34,    36,    36,    37,    33,
+      12,    40,    36,    43,    40,    45,    33,    37,    40,    33,
+      35,    50,   190,     4,    54,   107,   197,    17,     1,     2,
+       3,     4,     5,     1,    15,    15,    37,    17,    43,     9,
+      45,     9,    10,     4,    15,    29,    54,    24,    45,    17,
       34,    15,    36,    29,    15,   113,    40,    15,    34,    17,
       36,    69,    92,    93,    40,    92,    93,    23,    92,    93,
-      46,    47,    45,     5,     6,    92,    93,    24,    94,     9,
-      12,     6,   112,   113,    27,    28,    23,    24,   112,   113,
+      46,    47,    45,     5,     6,    92,    93,     6,    94,    15,
+      12,     9,   112,   113,    27,    28,    23,    24,   112,   113,
      120,   115,   165,   166,   152,   112,   154,    65,   115,    40,
-     130,    15,     9,   133,   122,   123,     4,     7,     7,   125,
-      13,    35,     9,    54,     3,   120,   124,   147,   134,    11,
-      88,     7,   152,   120,   154,   130,    94,    95,   152,   167,
-     154,    13,   140,   130,   142,     4,   218,   140,   231,    11,
+     130,   122,   123,   133,     4,     7,     7,    13,    11,   125,
+       9,     3,    35,    54,     7,   120,   124,   147,   134,    13,
+      88,     4,   152,   120,   154,   130,    94,    95,   152,   167,
+     154,    12,   140,   130,   142,   231,   218,   140,    11,   278,
      261,    -1,   147,    -1,    -1,    -1,   170,    -1,    89,   117,
      147,    -1,    -1,   170,   122,   123,    -1,   125,   126,   132,
       -1,   102,   103,    -1,    -1,    -1,   134,    -1,   198,   110,
@@ -971,7 +920,7 @@ static const yytype_int16 yycheck[] =
      253,    -1,   223,    -1,   110,   258,    -1,    -1,   261,   257,
       -1,    -1,   260,    -1,   235,   236,   264,    -1,    40,   272,
      273,    -1,    -1,   139,    -1,    -1,   142,    -1,    -1,   277,
-      -1,   137,   138,     8,   140,    -1,    -1,   258,   144,    -1,
+     283,   137,   138,     8,   140,    -1,    -1,   258,   144,    -1,
       -1,    -1,   148,    40,    -1,   266,    -1,   163,   269,    -1,
       -1,   272,   158,    -1,    29,    -1,   162,    -1,    -1,    34,
      281,    36,    37,    38,    39,   171,    -1,    89,   184,    -1,
@@ -1092,7 +1041,7 @@ static const yytype_uint8 yystos[] =
       58,    67,    58,     3,    66,    81,     4,    55,    61,    67,
       35,   124,   125,    58,    55,    67,    61,    55,    58,    61,
       55,   125,    61,    13,    14,     7,    55,    55,    12,    57,
-       4,    61,    67,    12,    57
+       4,    61,   119,    12,    57
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1107,9 +1056,18 @@ static const yytype_uint8 yystos[] =
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  */
+   Once GCC version 2 has supplanted version 1, this can go.  However,
+   YYFAIL appears to be in use.  Nevertheless, it is formally deprecated
+   in Bison 2.4.2's NEWS entry, where a plan to phase it out is
+   discussed.  */
 
 #define YYFAIL		goto yyerrlab
+#if defined YYFAIL
+  /* This is here to suppress warnings from the GCC cpp's
+     -Wunused-macros.  Normally we don't worry about that warning, but
+     some users do, and we want to make it easy for users to remove
+     YYFAIL uses, which will produce warnings from Bison 2.5.  */
+#endif
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
@@ -1166,7 +1124,7 @@ while (YYID (0))
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if YYLTYPE_IS_TRIVIAL
+# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)			\
      fprintf (File, "%d.%d-%d.%d",			\
 	      (Loc).first_line, (Loc).first_column,	\
@@ -1911,1068 +1869,1068 @@ yyreduce:
     {
         case 3:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 161 "parser.y"
     {
                   rb_funcall(self, rb_intern("body:"), 1, (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 13:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 183 "parser.y"
     {
                    (yyval.object) = rb_funcall(self, rb_intern("ast:exp_list:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 14:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 186 "parser.y"
     {
                    (yyval.object) = rb_funcall(self, rb_intern("ast:exp_list:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 15:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 189 "parser.y"
     {
                    (yyval.object) = (yyvsp[(2) - (2)].object);
-                }
+                ;}
     break;
 
   case 16:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 192 "parser.y"
     {
                    (yyval.object) = (yyvsp[(1) - (2)].object);
-                }
+                ;}
     break;
 
   case 17:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 197 "parser.y"
     {
                    (yyval.object) = (yyvsp[(3) - (5)].object);
-                }
+                ;}
     break;
 
   case 18:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 200 "parser.y"
     {
                    (yyval.object) = rb_funcall(self, rb_intern("ast:exp_list:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 19:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 205 "parser.y"
     {
                    (yyval.object) = (yyvsp[(3) - (5)].object);
-                }
+                ;}
     break;
 
   case 34:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 226 "parser.y"
-    { (yyval.object) = rb_funcall(self, rb_intern("ast:super_exp:"), 2, INT2NUM(yylineno), Qnil); }
+    { (yyval.object) = rb_funcall(self, rb_intern("ast:super_exp:"), 2, INT2NUM(yylineno), Qnil); ;}
     break;
 
   case 35:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 227 "parser.y"
-    { (yyval.object) = rb_funcall(self, rb_intern("ast:retry_exp:"), 2, INT2NUM(yylineno), Qnil); }
+    { (yyval.object) = rb_funcall(self, rb_intern("ast:retry_exp:"), 2, INT2NUM(yylineno), Qnil); ;}
     break;
 
   case 36:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 228 "parser.y"
     {
                   (yyval.object) = (yyvsp[(3) - (5)].object);
-                }
+                ;}
     break;
 
   case 37:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 231 "parser.y"
     {
                   (yyval.object) = (yyvsp[(1) - (3)].object);
-                }
+                ;}
     break;
 
   case 38:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 236 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:assign:to:"), 3, INT2NUM(yylineno), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object));
-                }
+                ;}
     break;
 
   case 40:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 242 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:assign:to:many:"), 4, INT2NUM(yylineno), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object), Qtrue);
-                }
+                ;}
     break;
 
   case 41:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 247 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:identifier:");
-                }
+                ;}
     break;
 
   case 42:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 252 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:identifier:");
-                }
+                ;}
     break;
 
   case 43:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 257 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:identifier:");
-                }
+                ;}
     break;
 
   case 44:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 261 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:identifier:");
-                }
+                ;}
     break;
 
   case 45:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 264 "parser.y"
     {
                   (yyval.object) = fy_terminal_node_from(self, "ast:identifier:", "match");
-                }
+                ;}
     break;
 
   case 46:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 267 "parser.y"
     {
                   (yyval.object) = fy_terminal_node_from(self, "ast:identifier:", "class");
-                }
+                ;}
     break;
 
   case 49:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 276 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 50:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 279 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 51:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 284 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:return_local_stmt:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 52:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 287 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:return_local_stmt:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 53:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 292 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:return_stmt:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 54:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 295 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:return_stmt:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 55:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 300 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 56:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 303 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 59:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 312 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:identity:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 60:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 315 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:constant:parent:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 61:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 320 "parser.y"
-    { (yyval.object) = rb_intern("private"); }
+    { (yyval.object) = rb_intern("private"); ;}
     break;
 
   case 62:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 321 "parser.y"
-    { (yyval.object) = rb_intern("protected"); }
+    { (yyval.object) = rb_intern("protected"); ;}
     break;
 
   case 63:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 322 "parser.y"
-    { (yyval.object) = rb_intern("public"); }
+    { (yyval.object) = rb_intern("public"); ;}
     break;
 
   case 64:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 325 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), Qnil, (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 65:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 330 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (5)].object), (yyvsp[(4) - (5)].object), (yyvsp[(5) - (5)].object));
-                }
+                ;}
     break;
 
   case 72:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 343 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:param:var:"), 3, INT2NUM(yylineno), (yyvsp[(1) - (2)].object), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 73:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 348 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 74:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 351 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 75:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 354 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 76:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 359 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:param:var:default:"), 4, INT2NUM(yylineno), (yyvsp[(1) - (7)].object), (yyvsp[(2) - (7)].object), (yyvsp[(5) - (7)].object));
-                }
+                ;}
     break;
 
   case 77:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 364 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 78:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 367 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 79:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 372 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:method:expand:access:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 80:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 378 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:method:body:access:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 81:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 384 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:method:expand:access:owner:"), 5, INT2NUM(yylineno), (yyvsp[(3) - (4)].object), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object), (yyvsp[(2) - (4)].object));
-                }
+                ;}
     break;
 
   case 82:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 389 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:method:body:access:owner:"), 5, INT2NUM(yylineno), (yyvsp[(3) - (4)].object), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object), (yyvsp[(2) - (4)].object));
-                }
+                ;}
     break;
 
   case 83:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 394 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5, INT2NUM(yylineno), (yyvsp[(2) - (4)].object), (yyvsp[(3) - (4)].object), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object));
-                }
+                ;}
     break;
 
   case 84:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 397 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), (yyvsp[(4) - (5)].object), (yyvsp[(5) - (5)].object), (yyvsp[(1) - (5)].object));
-                }
+                ;}
     break;
 
   case 85:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 403 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6, INT2NUM(yylineno), (yyvsp[(3) - (5)].object), (yyvsp[(4) - (5)].object), (yyvsp[(5) - (5)].object), (yyvsp[(1) - (5)].object), (yyvsp[(2) - (5)].object));
-                }
+                ;}
     break;
 
   case 86:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 406 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), (yyvsp[(5) - (6)].object), (yyvsp[(6) - (6)].object), (yyvsp[(1) - (6)].object), (yyvsp[(2) - (6)].object));
-                }
+                ;}
     break;
 
   case 87:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 412 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 88:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 415 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 89:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 418 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 90:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 427 "parser.y"
     {
                   // remove the trailing left paren and create an identifier.
                   (yyval.object) = fy_terminal_node(self, "ast:ruby_send:");
-                }
+                ;}
     break;
 
   case 91:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 431 "parser.y"
     {
                   // remove the trailing left paren and create an identifier.
                   (yyval.object) = fy_terminal_node(self, "ast:ruby_send:");
-                }
+                ;}
     break;
 
   case 92:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 436 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(1) - (3)].object), (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 93:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 439 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), (yyvsp[(1) - (2)].object), Qnil, (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 94:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 449 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ruby_args:block:"), 3, INT2NUM(yylineno), Qnil, (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 95:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 452 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ruby_args:block:"), 3, INT2NUM(yylineno), (yyvsp[(1) - (3)].object), (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 96:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 455 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ruby_args:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 97:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 458 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ruby_args:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 98:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 463 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 99:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 466 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (5)].object), (yyvsp[(5) - (5)].object), (yyvsp[(1) - (5)].object));
-                }
+                ;}
     break;
 
   case 100:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 469 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), (yyvsp[(3) - (4)].object), (yyvsp[(1) - (4)].object));
-                }
+                ;}
     break;
 
   case 101:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 473 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), (yyvsp[(1) - (2)].object), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 102:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 478 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(1) - (3)].object), (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 103:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 484 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), (yyvsp[(1) - (2)].object), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 104:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 487 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), (yyvsp[(1) - (3)].object), (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 105:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 490 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 106:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 493 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (4)].object), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object));
-                }
+                ;}
     break;
 
   case 107:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 498 "parser.y"
     {
                   (yyval.object) = (yyvsp[(1) - (1)].object);
-                }
+                ;}
     break;
 
   case 108:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 501 "parser.y"
     {
                   (yyval.object) = (yyvsp[(2) - (3)].object);
-                }
+                ;}
     break;
 
   case 109:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 504 "parser.y"
     {
                   (yyval.object) = (yyvsp[(1) - (1)].object);
-                }
+                ;}
     break;
 
   case 110:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 507 "parser.y"
     {
                   (yyval.object) = (yyvsp[(2) - (2)].object);
-                }
+                ;}
     break;
 
   case 111:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 512 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:try_block:ex_handlers:finally_block:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (4)].object), (yyvsp[(3) - (4)].object), (yyvsp[(4) - (4)].object));
-                }
+                ;}
     break;
 
   case 112:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 515 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:try_block:ex_handlers:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (3)].object), (yyvsp[(3) - (3)].object));
-                }
+                ;}
     break;
 
   case 113:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 520 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ex_handler:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (2)].object));
-                }
+                ;}
     break;
 
   case 114:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 523 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ex_handler:cond:"), 3, INT2NUM(yylineno), (yyvsp[(3) - (3)].object), (yyvsp[(2) - (3)].object));
-                }
+                ;}
     break;
 
   case 115:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 526 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:ex_handler:cond:var:"), 4, INT2NUM(yylineno), (yyvsp[(5) - (5)].object), (yyvsp[(2) - (5)].object), (yyvsp[(4) - (5)].object));
-                }
+                ;}
     break;
 
   case 116:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 531 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 117:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 534 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 118:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 539 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 119:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 542 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 120:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 545 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 121:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 550 "parser.y"
     {
                   (yyval.object) = (yyvsp[(2) - (2)].object);
-                }
+                ;}
     break;
 
   case 122:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 555 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:fixnum:");
-                }
+                ;}
     break;
 
   case 123:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 559 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:number:");
-                }
+                ;}
     break;
 
   case 124:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 563 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:string:");
-                }
+                ;}
     break;
 
   case 125:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 566 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:string:");
-                }
+                ;}
     break;
 
   case 126:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 570 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:symbol:");
-                }
+                ;}
     break;
 
   case 127:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 574 "parser.y"
     {
                   (yyval.object) = fy_terminal_node(self, "ast:regexp:");
-                }
+                ;}
     break;
 
   case 128:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 579 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(16));
-                }
+                ;}
     break;
 
   case 129:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 585 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(8));
-                }
+                ;}
     break;
 
   case 130:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 591 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:fixnum:base:"), 3,
                                   INT2NUM(yylineno), rb_str_new2(yytext), INT2NUM(2));
-                }
+                ;}
     break;
 
   case 144:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 612 "parser.y"
     {
                   (yyval.object) = (yyvsp[(1) - (1)].object);
-                }
+                ;}
     break;
 
   case 145:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 615 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:array:"), 2, INT2NUM(yylineno), (yyvsp[(3) - (5)].object));
-                }
+                ;}
     break;
 
   case 146:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 620 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 147:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 623 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(4) - (4)].object), (yyvsp[(1) - (4)].object));
-                }
+                ;}
     break;
 
   case 148:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 626 "parser.y"
     {
                   (yyval.object) = (yyvsp[(1) - (2)].object);
-                }
+                ;}
     break;
 
   case 149:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 631 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:array:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 150:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 636 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:hash:"), 2, INT2NUM(yylineno), (yyvsp[(3) - (5)].object));
-                }
+                ;}
     break;
 
   case 151:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 639 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:hash:"), 2, INT2NUM(yylineno), Qnil);
-                }
+                ;}
     break;
 
   case 152:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 644 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:partial_block:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 153:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 647 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:block:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 154:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 650 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:block:args:"), 3, INT2NUM(yylineno), (yyvsp[(5) - (5)].object), (yyvsp[(2) - (5)].object));
-                }
+                ;}
     break;
 
   case 155:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 655 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:tuple:"), 2, INT2NUM(yylineno), (yyvsp[(2) - (3)].object));
-                }
+                ;}
     break;
 
   case 156:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 660 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:range:to:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (6)].object), (yyvsp[(5) - (6)].object));
-                }
+                ;}
     break;
 
   case 159:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 669 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 160:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 672 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 161:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 677 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 162:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 680 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(3) - (3)].object), (yyvsp[(1) - (3)].object));
-                }
+                ;}
     break;
 
   case 163:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 685 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), (yyvsp[(1) - (5)].object), (yyvsp[(5) - (5)].object), Qnil);
-                }
+                ;}
     break;
 
   case 164:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 688 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), (yyvsp[(4) - (8)].object), (yyvsp[(8) - (8)].object), (yyvsp[(1) - (8)].object));
-                }
+                ;}
     break;
 
   case 165:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 693 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:match_expr:body:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (8)].object), (yyvsp[(6) - (8)].object));
-                }
+                ;}
     break;
 
   case 166:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 698 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), (yyvsp[(1) - (1)].object));
-                }
+                ;}
     break;
 
   case 167:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 701 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (2)].object), (yyvsp[(1) - (2)].object));
-                }
+                ;}
     break;
 
   case 168:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 706 "parser.y"
     {
                   (yyval.object) = rb_funcall(self, rb_intern("ast:match_clause:body:"), 3, INT2NUM(yylineno), (yyvsp[(2) - (4)].object), (yyvsp[(4) - (4)].object));
-                }
+                ;}
     break;
 
   case 169:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 709 "parser.y"
     {
-                  (yyval.object) = rb_funcall(self, rb_intern("ast:match_clause:body:arg:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (7)].object), (yyvsp[(7) - (7)].object), (yyvsp[(5) - (7)].object));
-                }
+                  (yyval.object) = rb_funcall(self, rb_intern("ast:match_clause:body:args:"), 4, INT2NUM(yylineno), (yyvsp[(2) - (7)].object), (yyvsp[(7) - (7)].object), (yyvsp[(5) - (7)].object));
+                ;}
     break;
 
 
 
-/* Line 1455 of yacc.c  */
-#line 2976 "y.tab.c"
+/* Line 1464 of yacc.c  */
+#line 2934 "parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3183,7 +3141,7 @@ yyreturn:
 
 
 
-/* Line 1675 of yacc.c  */
+/* Line 1684 of yacc.c  */
 #line 714 "parser.y"
 
 
