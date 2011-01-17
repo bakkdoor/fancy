@@ -88,4 +88,35 @@ class Tuple {
     str
   }
 
+  class MatchData {
+    """
+    This class is used for pattern matching against tuples.
+    """
+
+    def initialize: @match_values {
+    }
+
+    def at: idx {
+      @match_values at: idx
+    }
+
+    def [] idx {
+      at: idx
+    }
+  }
+
+  def self === obj {
+    """
+    Matches @Tuple@ class against an object.
+    If the given object is a Tuple instance, return a Tuple MatchData object.
+
+    @obj Object to be matched against
+    @return Tuple MatchData instance containing the values of @obj to be used in pattern matching.
+    """
+
+    if: (obj is_a?: Tuple) then: {
+      MatchData new: $ [obj] + (obj map: 'identity)
+    }
+  }
+
 }

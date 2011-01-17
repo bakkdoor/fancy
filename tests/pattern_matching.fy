@@ -50,4 +50,21 @@ FancySpec describe: "Pattern Matching" with: {
       match2 should == "baz"
     }
   }
+
+  it: "should return an instance of the apropriate MatchData class" when: {
+    def create_tuple: num {
+      (num, num * num) # create a Tuple
+    }
+
+    match create_tuple: 10 -> {
+      case Tuple -> |md, x, y, z|
+        md class should == (Tuple MatchData)
+        # convention: md[0] always holds the entire object that was matched.
+        md[0] should == (create_tuple: 10)
+
+        x should == 10
+        y should == 100
+        z should == nil # tuple only has 2 entries
+    }
+  }
 }

@@ -26,3 +26,15 @@ pm match_it: 42
 pm match_it: 'foo
 
 pm match_with_extract: "Hello : World!"
+
+# more pattern matching:
+
+def do_it: num {
+  (num, num * num)
+}
+
+match do_it: 10 -> {
+  case Tuple -> |_, x, y| # first arg is a Tuple MatchData object (not used here).
+    x inspect println # 10
+    y inspect println # 100
+}
