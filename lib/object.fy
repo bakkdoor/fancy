@@ -162,4 +162,9 @@ class Object {
     "Sets the documentation string for an Object."
     Fancy Documentation for: self is: str
   }
+
+  def identity {
+    "The identity method simply returns self."
+    self
+  }
 }
