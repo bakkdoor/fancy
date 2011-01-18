@@ -1,12 +1,5 @@
 Tuple = Rubinius Tuple
 class Tuple {
-  """
-  Tuples are fixed-size containers providing index-based access to its
-  elements.
-  """
-
-  include: FancyEnumerable
-
   ruby_alias: 'size
 
   def initialize: size {
@@ -18,20 +11,6 @@ class Tuple {
     """
 
     initialize(size)
-  }
-
-  def each: block {
-    self size times: |i| {
-      block call: [self at: i]
-    }
-  }
-
-  def [] idx {
-    """
-    Forwards to @Tuple#at:@.
-    """
-
-    at: idx
   }
 
   def at: idx {
@@ -55,68 +34,4 @@ class Tuple {
     """
     put(idx, val)
   }
-
-  def == other {
-    """
-    @other Other @Tuple@ to compare @self with.
-    @return @true, if tuples are equal element-wise, @false otherwise.
-
-    Compares two @Tuple@s with each other.
-    """
-
-    if: (other is_a?: Tuple) then: {
-      if: (self size == (other size)) then: {
-        self size times: |i| {
-          unless: (self[i] == (other[i])) do: {
-            return false
-          }
-        }
-        return true
-      }
-    }
-    return false
-  }
-
-  def inspect {
-    str = "("
-    self each: |v| {
-      str = str ++ v
-    } in_between: {
-      str = str ++ ", "
-    }
-    str = str ++ ")"
-    str
-  }
-
-  class MatchData {
-    """
-    This class is used for pattern matching against tuples.
-    """
-
-    def initialize: @match_values {
-    }
-
-    def at: idx {
-      @match_values at: idx
-    }
-
-    def [] idx {
-      at: idx
-    }
-  }
-
-  def self === obj {
-    """
-    Matches @Tuple@ class against an object.
-    If the given object is a Tuple instance, return a Tuple MatchData object.
-
-    @obj Object to be matched against
-    @return Tuple MatchData instance containing the values of @obj to be used in pattern matching.
-    """
-
-    if: (obj is_a?: Tuple) then: {
-      MatchData new: $ [obj] + (obj map: 'identity)
-    }
-  }
-
 }

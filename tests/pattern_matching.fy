@@ -58,13 +58,25 @@ FancySpec describe: "Pattern Matching" with: {
 
     match create_tuple: 10 -> {
       case Tuple -> |md, x, y, z|
-        md class should == (Tuple MatchData)
         # convention: md[0] always holds the entire object that was matched.
         md[0] should == (create_tuple: 10)
-
         x should == 10
         y should == 100
         z should == nil # tuple only has 2 entries
+    }
+  }
+
+  it: "should match an array correctly" when: {
+    def create_array: num {
+      [num, num ** 2, num ** 3, num ** 4]
+    }
+
+    match create_array: 2 -> {
+      case Array -> |_, a,b,c,d|
+        a should == 2
+        b should == (2 ** 2)
+        c should == (2 ** 3)
+        d should == (2 ** 4)
     }
   }
 }

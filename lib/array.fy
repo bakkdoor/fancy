@@ -198,4 +198,10 @@ class Array {
 
     0 upto: (self size - 1)
   }
+
+  def Array === object {
+    if: (object is_a?: Array) then: {
+      return [object] + object
+    }
+  }
 }
