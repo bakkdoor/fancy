@@ -14,6 +14,11 @@ class Fancy AST {
         pos(g)
         { g allow_private() } if: (@receiver is_a?: Self)
         sym = @name method_name: @receiver ruby_send: (self ruby_send?)
+        if: (self has_splat?) then: {
+          { g push_nil() } unless: $ self ruby_block?
+          g send_with_splat(sym, @args size, false)
+          return nil
+        }
         if: (self ruby_block?) then: {
           g send_with_block(sym, @args size, false)
         } else: {
@@ -28,6 +33,10 @@ class Fancy AST {
 
     def ruby_send? {
       @args ruby_args?
+    }
+
+    def has_splat? {
+      @args has_splat?
     }
   }
 
@@ -53,6 +62,10 @@ class Fancy AST {
     def has_block? {
       false
     }
+
+    def has_splat? {
+      false
+    }
   }
 
 
@@ -67,6 +80,13 @@ class Fancy AST {
           }
         }
       }
+
+      if: (@args last kind_of?: Identifier) then: {
+        if: (@args last string =~ /^\*\w/) then: {
+          @splat = @args pop()
+          @splat = Identifier new: (@splat line) string: (@splat string from: 1 to: -1)
+        }
+      }
     }
 
     def bytecode: g {
@@ -74,11 +94,16 @@ class Fancy AST {
       @args each: |a| {
         a bytecode: g
       }
+      { @splat bytecode: g; g cast_array() } if: @splat
       { @block bytecode: g } if: @block
     }
 
     def has_block? {
       @block nil? not
+    }
+
+    def has_splat? {
+      @splat nil? not
     }
   }
 
