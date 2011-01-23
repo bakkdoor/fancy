@@ -124,8 +124,9 @@ What's already working?
   - Class definitions
     (including nested classes that work like modules / namespaces)
   - Instance & class method definitions
+  - Default arguments
   - Literal syntax for:
-    - String, Integer, Float, Array, Hash (HashMap), Blocks (closures),
+    - Strings, Symbols, Integers, Floats, Arrays, Hashes (HashMaps), Blocks (closures),
       Ranges, Tuples, Regular Expressions
   - Method & Operator calls
   - Instance & class variable access
@@ -136,11 +137,10 @@ What's already working?
   - File reading and writing
   - Class-Mixins (including methods of one class into another)
   - Exception handling (try, catch, finally & retry)
-  - Mostly all examples/*.fy files are working now under the Rubinius VM
-    Please feel free to report bugs or better yet, contribute patches.
   - Simple pattern matching (work-in-progress)
   - Calling, using and extending arbitrary Ruby classes and methods
-    (including C-extensions).
+    (including C-extensions), as well as passing blocks and splat
+    arguments to Ruby methods.
 
 
 What's still missing?
