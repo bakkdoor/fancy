@@ -5,15 +5,8 @@ class FancySpec {
   """
 
 
-  def initialize: description {
-    @description = description
-    @test_obj = description
-    @spec_tests = []
-  }
-
-  def initialize: description test_obj: test_obj {
-    @description = description
-    @test_obj = test_obj
+  def initialize: @description test_obj: @test_obj (nil) {
+    @test_obj = @description
     @spec_tests = []
   }
 
@@ -30,14 +23,12 @@ class FancySpec {
   }
 
   def it: spec_info_string when: spec_block {
-    test = SpecTest new: spec_info_string
-    test block: spec_block
+    test = SpecTest new: spec_info_string block: spec_block
     @spec_tests << test
   }
 
   def it: spec_info_string for: method_name when: spec_block {
-    test = SpecTest new: spec_info_string
-    test block: spec_block
+    test = SpecTest new: spec_info_string block: spec_block
     # try {
     #   @test_obj method: method_name . if_do: |method| {
     #     method tests << test
@@ -68,6 +59,7 @@ class FancySpec {
   class SpecTest {
     @@failed_positive = []
     @@failed_negative = []
+
     def SpecTest failed_test: actual_and_expected {
       @@failed_positive << actual_and_expected
     }
@@ -76,14 +68,9 @@ class FancySpec {
       @@failed_negative << value
     }
 
-    def initialize: info_str {
+    def initialize: @info_str block: @block {
       { @@failed_positive = [] } unless: @@failed_positive
       { @@failed_negative = [] } unless: @@failed_negative
-      @info_str = info_str
-    }
-
-    def block: block {
-      @block = block
     }
 
     def run: test_obj {
@@ -135,8 +122,7 @@ class FancySpec {
        expected value.
        If the values are not equal, a SpecTest failure is generated."""
 
-    def initialize: actual_value {
-      @actual_value = actual_value
+    def initialize: @actual_value {
     }
 
     def == expected_value {
@@ -172,8 +158,7 @@ class FancySpec {
        expected value.
        If the values are equal, a SpecTest failure is generated."""
 
-    def initialize: actual_value {
-      @actual_value = actual_value
+    def initialize: @actual_value {
     }
 
     def == expected_value {
