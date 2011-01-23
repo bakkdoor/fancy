@@ -32,7 +32,7 @@ For some example code have a look at the examples/ directory.
 There's also lots of test coverage code. Have a look at the tests/
 directory for these. The tests are written in FancySpec, a simple
 testing library (somewhat similar to Ruby's RSpec). FancySpec's
-implementation can be viewed in lib/fancy_spec.fnc.
+implementation can be viewed in lib/fancy_spec.fy.
 
 ----------------------------------------------------------------------
 
