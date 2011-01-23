@@ -5,8 +5,7 @@ class FancySpec {
   """
 
 
-  def initialize: @description test_obj: @test_obj (nil) {
-    @test_obj = @description
+  def initialize: @description test_obj: @test_obj (@description) {
     @spec_tests = []
   }
 
