@@ -37,6 +37,13 @@ FancySpec describe: Number with: {
     10 modulo: 2 . should == 0
   }
 
+  it: "should do proper integer division" for: 'div: when: {
+    50 div: 10 . should == 5
+    55 div: 10 . should == 5
+    5 div: 10 . should == 0
+    ((55 div: 10) * 10) + (55 modulo: 10) should == 55
+  }
+
   it: "should be the negation" for: 'negate when: {
     42 negate should == -42
   }
