@@ -1,6 +1,7 @@
 class Class {
   ruby_alias: 'superclass
   ruby_alias: '===
+  ruby_alias: 'ancestors
 
   def new {
     """

@@ -393,4 +393,17 @@ FancySpec describe: Class with: {
     obj foo should == "in foo!"
     obj bar should == "in foo!"
   }
+
+  it: "should have the correct list of ancestors" for: 'ancestors when: {
+    class A {
+    }
+    class B : A {
+    }
+    class C : B {
+    }
+
+    A ancestors should == [A, Object, Kernel]
+    B ancestors should == [B, A, Object, Kernel]
+    C ancestors should == [C, B, A, Object, Kernel]
+  }
 }
