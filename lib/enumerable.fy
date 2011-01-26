@@ -232,4 +232,22 @@ class FancyEnumerable {
     "Returns the minimum value in the Enumerable (via the '<' comparison message)."
     superior_by: '<
   }
+
+  def partition_by: block {
+    last = block call: [self first]
+    coll = []
+    tmp_coll = []
+    self each: |x| {
+      tmp = block call: [x]
+      if: (tmp != last) then: {
+        coll << tmp_coll
+        tmp_coll = [x]
+      } else: {
+        tmp_coll << x
+      }
+      last = tmp
+    }
+    coll << tmp_coll
+    coll
+  }
 }

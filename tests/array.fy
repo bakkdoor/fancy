@@ -334,4 +334,10 @@ FancySpec describe: Array with: {
   it: "should drop elements from itself as long a block yields true" for: 'drop_while: when: {
     1 upto: 15 . drop_while: |x| { x < 10 } . should == (10 upto: 15)
   }
+
+  it: "should partition an array via a given block" for: 'partition_by: when: {
+    arr = [1,2,2,3,3,3,4,4,4,4,5]
+    arr partition_by: 'identity . should == [[1], [2,2], [3,3,3], [4,4,4,4], [5]]
+    arr partition_by: @{== 2} . should == [[1], [2,2], [3,3,3,4,4,4,4,5]]
+  }
 }
