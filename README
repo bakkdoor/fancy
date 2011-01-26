@@ -85,7 +85,7 @@ can define methods with the same name as they're defined in Ruby (but
 taking no arguments), we have decided not to overwrite the Ruby
 methods.
 This ensures that all Ruby libraries for example can use Ruby's
-Kernel#print or any other method in Ruby's kernel and work seamlesly.
+Kernel#print or any other method in Ruby's kernel and work seamlessly.
 
 Here's an example:
 
