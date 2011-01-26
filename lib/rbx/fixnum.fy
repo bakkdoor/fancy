@@ -18,46 +18,8 @@ class Fixnum {
   ruby_alias: '**
   ruby_alias: '&
 
-  def times: block {
-    times(&block)
-  }
+  alias_method: 'to_s: for: 'to_s
+  alias_method: 'modulo: for: 'modulo
+  alias_method: ":%" for: "modulo:" # use a : so we dont overwrite ruby's % operator
 
-  def modulo: other {
-    modulo(other)
-  }
-
-  # use a : so we dont overwrite ruby's % operator
-  alias_method: ":%" for: "modulo:"
-
-  def upto: num {
-    i = self
-    arr = []
-    { i <= num } while_true: {
-      arr << i
-      i = i + 1
-    }
-    arr
-  }
-
-  def downto: num {
-    i = self
-    arr = []
-    { i >= num } while_true: {
-      arr << i
-      i = i - 1
-    }
-    arr
-  }
-
-  def upto: num do_each: block {
-    upto(num, &block)
-  }
-
-  def downto: num do_each: block {
-    downto(num, &block)
-  }
-
-  def to_s: base {
-    to_s(base)
-  }
 }

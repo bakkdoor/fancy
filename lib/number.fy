@@ -4,6 +4,26 @@ class Number {
   now).
   """
 
+  def upto: num {
+    i = self
+    arr = []
+    while: { i <= num } do: {
+      arr << i
+      i = i + 1
+    }
+    arr
+  }
+
+  def downto: num {
+    i = self
+    arr = []
+    while: { i >= num } do: {
+      arr << i
+      i = i - 1
+    }
+    arr
+  }
+
   def squared {
     "Returns the square of a Number."
 
