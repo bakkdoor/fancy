@@ -152,6 +152,22 @@ class FancyEnumerable {
     coll
   }
 
+  def take: amount {
+    i = 0
+    self take_while: {
+      i = i + 1
+      i <= amount
+    }
+  }
+
+  def drop: amount {
+    i = 0
+    self drop_while: {
+      i = i + 1
+      i <= amount
+    }
+  }
+
   def reduce: block init_val: init_val {
     "Calculates a value based on a given block to be called on an accumulator value and an initial value."
 
