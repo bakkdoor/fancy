@@ -19,3 +19,4 @@ lib/parser/ext/lexer.c
 lib/parser/ext/parser.c
 lib/parser/ext/lexer.h
 lib/parser/ext/parser.h
+lib/parser/ext/parser.output
