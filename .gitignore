@@ -15,3 +15,7 @@ conftest.dSYM/
 boot/compiler/
 boot/rbx-compiler/
 publish.fy
+lib/parser/ext/lexer.c
+lib/parser/ext/parser.c
+lib/parser/ext/lexer.h
+lib/parser/ext/parser.h

@@ -154,7 +154,7 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
-  task :bootstrap => ["rbx_parser:ext", file(boot_parser_e)] do
+  task :bootstrap => ["parser:generate", "rbx_parser:ext", file(boot_parser_e)] do
     ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
@@ -217,7 +217,7 @@ task :clean_compiled do
 end
 
 desc "Clean compiled files."
-task :clean => ["parser:clean", "compiler:clean", :clean_compiled]
+task :clean => ["parser:clean", "parser:remove", "compiler:clean", :clean_compiled]
 
 
 def compile(source)
