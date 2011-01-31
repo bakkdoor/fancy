@@ -109,6 +109,7 @@ extern char *yytext;
 %type  <object>         expression_block
 %type  <object>         partial_expression_block
 %type  <object>         exp
+%type  <object>         primary
 %type  <object>         assignment
 %type  <object>         multiple_assignment
 %type  <object>         identifier_list
@@ -136,6 +137,7 @@ extern char *yytext;
 %type  <object>         class_operator_def
 
 %type  <object>         message_send
+%type  <object>         unary_send
 %type  <object>         ruby_send_open
 %type  <object>         ruby_oper_open
 %type  <object>         ruby_send
@@ -213,21 +215,23 @@ statement:      assignment
                 | require_statement
                 ;
 
-exp:            method_def
+primary:        any_identifier
+                | literal_value
+                | LPAREN space exp space RPAREN {
+                  $$ = $3;
+                }
+                ;
+
+exp:            primary
+                | method_def
                 | class_def
                 | try_catch_block
                 | match_expr
                 | message_send
-                | operator_send
                 | ruby_send
                 | ruby_oper_send
-                | literal_value
-                | any_identifier
                 | SUPER { $$ = rb_funcall(self, rb_intern("ast:super_exp:"), 2, INT2NUM(yylineno), Qnil); }
                 | RETRY { $$ = rb_funcall(self, rb_intern("ast:retry_exp:"), 2, INT2NUM(yylineno), Qnil); }
-                | LPAREN space exp space RPAREN {
-                  $$ = $3;
-                }
                 | exp DOT space {
                   $$ = $1;
                 }
@@ -409,9 +413,31 @@ class_operator_def: def any_identifier operator identifier expression_block {
                 }
                 ;
 
-message_send:   exp identifier {
+unary_send:     exp identifier {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), $2, $1);
                 }
+                | unary_send identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), $2, $1);
+                }
+                ;
+
+operator_send:  exp operator arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $3, $1);
+                }
+                | exp operator DOT space arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $5, $1);
+                }
+                | exp LBRACKET exp RBRACKET {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $1);
+                }
+                | operator arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), $1, $2);
+                }
+                ;
+
+message_send:   unary_send
+                | operator_send
                 | exp send_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), $2, $1);
                 }
@@ -419,6 +445,35 @@ message_send:   exp identifier {
                   $$ = rb_funcall(self, rb_intern("ast:send:"), 2, INT2NUM(yylineno), $1);
                 }
                 ;
+
+send_args:      selector arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), $1, $2);
+                }
+                | selector space arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), $1, $3);
+                }
+                | send_args selector arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), $2, $3, $1);
+                }
+                | send_args selector space arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), $2, $4, $1);
+                }
+                ;
+
+arg_exp:        any_identifier {
+                  $$ = $1;
+                }
+                | LPAREN exp RPAREN {
+                  $$ = $2;
+                }
+                | literal_value {
+                  $$ = $1;
+                }
+                | DOLLAR exp {
+                  $$ = $2;
+                }
+                ;
+
 
 /* ruby_send_open is just an identifier immediatly followed by a left-paren
    NO SPACE ALLOWED between the identifier and the left-paren. that's why we
@@ -460,54 +515,11 @@ ruby_args:      RPAREN block_literal  {
                 }
                 ;
 
-operator_send:  exp operator arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $3, $1);
-                }
-                | exp operator DOT space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4, INT2NUM(yylineno), $2, $5, $1);
-                }
-                | exp LBRACKET exp RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
-                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $1);
-                }
-                | operator arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), $1, $2);
-                }
-                ;
-
 ruby_oper_send: exp ruby_oper_open ruby_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $2, $1, $3);
                 }
                 ;
 
-
-send_args:      selector arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), $1, $2);
-                }
-                | selector space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:send:arg:"), 3, INT2NUM(yylineno), $1, $3);
-                }
-                | send_args selector arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), $2, $3, $1);
-                }
-                | send_args selector space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("ast:send:arg:ary:"), 4, INT2NUM(yylineno), $2, $4, $1);
-                }
-                ;
-
-arg_exp:        any_identifier {
-                  $$ = $1;
-                }
-                | LPAREN exp RPAREN {
-                  $$ = $2;
-                }
-                | literal_value {
-                  $$ = $1;
-                }
-                | DOLLAR exp {
-                  $$ = $2;
-                }
-                ;
 
 try_catch_block: TRY expression_block catch_blocks finally_block {
                   $$ = rb_funcall(self, rb_intern("ast:try_block:ex_handlers:finally_block:"), 4, INT2NUM(yylineno), $2, $3, $4);
