@@ -1,8 +1,6 @@
 # threads.fy
 # Example of threads in fancy
 
-require: "thread"
-
 threads = []
 10 times: |i| {
   t = Thread new: {
