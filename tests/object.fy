@@ -110,6 +110,9 @@ FancySpec describe: Object with: {
     c should == [3,4,5,6,7,8]
     d should == [4,5,6,7,8]
     e should == 5
+
+    _,_,*z = "hello, world!" # ignore first 2 characters
+    z should == "llo, world!"
   }
 
   it: "should undefine a singleton method" when: {
