@@ -4,7 +4,7 @@ class Class {
   }
 
   def ruby_alias: method_name {
-    alias_method: (":" + (method_name to_s)) for: method_name
+    alias_method(":" + (method_name to_s), method_name)
   }
 }
 
