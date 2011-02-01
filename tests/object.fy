@@ -16,6 +16,19 @@ FancySpec describe: Object with: {
     obj get_slot: 'foo . should == "hello, world"
   }
 
+  it: "should undefine a singleton method" when: {
+    def self a_singleton_method {
+      "a singleton method!"
+    }
+    self a_singleton_method should == "a singleton method!"
+    self undefine_singleton_method: 'a_singleton_method
+    try {
+      self a_singleton_method should == nil # should not get here
+    } catch NoMethodError => e {
+      e method_name should == "a_singleton_method"
+    }
+  }
+
   it: "should return its class" when: {
     nil class should == NilClass
     true class should == TrueClass
@@ -61,71 +74,6 @@ FancySpec describe: Object with: {
     1123 is_a?: Object . should == true
     132.123 is_a?: Float . should == true
     132.123 is_a?: Object . should == true
-  }
-
-  it: "should correctly assign multiple values at once" when: {
-    x, y, z = 1, 10, 100
-    x should == 1
-    y should == 10
-    z should == 100
-
-    x, y, z = 'foo, 'bar
-    x should == 'foo
-    y should == 'bar
-    z should == nil
-
-    x = 'foo
-    y = 'bar
-    x, y = y, x
-    x should == 'bar
-    y should == 'foo
-  }
-
-  it: "should handle multiple assignment for any collection type implementing 'at:" when: {
-    x, y, z = (1, 2, 3)
-    x should == 1
-    y should == 2
-    z should == 3
-
-    a, b, c = ["a", "b", "c"]
-    a should == "a"
-    b should == "b"
-    c should == "c"
-
-    e, f = ([1,2], "foo")
-    e should == [1,2]
-    f should == "foo"
-  }
-
-  it: "should handle multiple assignment with splat-identifiers" when: {
-    x,y,z,*rest = [1,2,3,4,5,6,7]
-    x should == 1
-    y should == 2
-    z should == 3
-    rest should == [4,5,6,7]
-
-    a,b,*c,*d,e = [1,2,3,4,5,6,7,8]
-    a should == 1
-    b should == 2
-    c should == [3,4,5,6,7,8]
-    d should == [4,5,6,7,8]
-    e should == 5
-
-    _,_,*z = "hello, world!" # ignore first 2 characters
-    z should == "llo, world!"
-  }
-
-  it: "should undefine a singleton method" when: {
-    def self a_singleton_method {
-      "a singleton method!"
-    }
-    self a_singleton_method should == "a singleton method!"
-    self undefine_singleton_method: 'a_singleton_method
-    try {
-      self a_singleton_method should == nil # should not get here
-    } catch NoMethodError => e {
-      e method_name should == "a_singleton_method"
-    }
   }
 
   # boolean messages
@@ -174,82 +122,4 @@ FancySpec describe: Object with: {
     'foo true? should == nil
     "hello, world" true? should == nil
   }
-
-  it: "should NOT call the block if not nil" for: 'if_nil: when: {
-    'foo if_nil: { 'is_nil } . should == nil
-    "hello, world" if_nil: { 'is_nil } . should == nil
-  }
-
-  it: "should work like if_true:" for: 'if:then: when: {
-    if: (4 < 5) then: {
-      4 < 5 should == true
-    }
-  }
-
-  it: "should work like if_true:else: " for: 'if:then:else: when: {
-    if: (4 < 5) then: {
-      4 < 5 should == true
-    } else: {
-      4 < 5 should == nil
-    }
-  }
-
-  it: "should work like while_true:" for: 'while:do: when: {
-    x = 0
-    while: { x < 10 } do: {
-      x < 10 should == true
-      x = x + 1
-    }
-    x == 10 should == true
-  }
-
-  it: "should work like while_false: " for: 'until:do: when: {
-    x = 0
-    until: { x == 10 } do: {
-      x < 10 should == true
-      x = x + 1
-    }
-    x == 10 should == true
-  }
-
-  it: "should work like if_false:: " for: 'unless:do: when: {
-    unless: (4 > 5) do: {
-      5 > 4 should == true
-    }
-  }
-
-  it: "should only call the block if it's a true-ish value" for: 'if_do: when: {
-    1 if_do: |num| {
-      num * 10
-    } . should == 10
-
-    nil if_do: {
-      "nope"
-    } . should == nil
-
-    false if_do: {
-      "nope again"
-    } . should == nil
-  }
-
-  it: "should call the then_block if it's a true-ish value and call the else_block otherwise" for: 'if_do:else: when: {
-    1 if_do: |num| {
-      num * 10
-    } else: {
-      nil
-    } . should == 10
-
-    nil if_do: {
-      "nope"
-    } else: {
-      "yup"
-    } . should == "yup"
-
-    false if_do: {
-      "nope again"
-    } else: {
-      "yup again"
-    } . should == "yup again"
-  }
-
 }
