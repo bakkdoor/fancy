@@ -12,7 +12,7 @@ class PatternMatching {
 
   def match_with_extract: str {
     match str -> {
-      # m holds the MatchDate object, m1 & m2 the first and second matches
+      # m holds the MatchData object, m1 & m2 the first and second matches
       case /^(.*) : (.*)$/ -> |m, m1, m2|
         "First match: #{m1}" println
         "Second match: #{m2}" println
