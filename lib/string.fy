@@ -50,4 +50,9 @@ class String {
     "Raises a new StdError with self as the message."
     StdError new: self . raise!
   }
+
+  def rest {
+    "Returns a @String@ containing all but the first character."
+    from: 1 to: -1
+  }
 }

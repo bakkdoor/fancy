@@ -23,6 +23,19 @@ class Fancy AST {
       }
     }
 
+    class SplatAssignmentExpr : Node {
+      def initialize: @line start_index: @start_index {
+      }
+
+      def bytecode: g {
+        pos(g)
+        margs = MessageArgs new: @line args: [FixnumLiteral new: @line value: @start_index, FixnumLiteral new: @line value: -1]
+        recv = StackTop new: @line
+        msg = Identifier from: "from:to:" line: @line
+        MessageSend new: @line message: msg to: recv args: margs . bytecode: g
+      }
+    }
+
     def initialize: @line var: @idents value: @values {
     }
 
@@ -37,8 +50,16 @@ class Fancy AST {
         @values first bytecode: g
       }
 
+      max_idx  = @idents size - 1
       @idents each_with_index: |ident idx| {
-        Assignment new: @line var: ident value: (MultipleAssignmentExpr new: @line index: idx) . bytecode: g
+        var = ident
+        value = MultipleAssignmentExpr new: @line index: idx
+        match ident string -> {
+          case /^\*/ ->
+            value = SplatAssignmentExpr new: @line start_index: idx
+            var = Identifier from: (ident string rest) line: (ident line)
+        }
+        Assignment new: @line var: var value: value . bytecode: g
         g pop()
       }
     }

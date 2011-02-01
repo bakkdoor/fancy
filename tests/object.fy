@@ -97,6 +97,21 @@ FancySpec describe: Object with: {
     f should == "foo"
   }
 
+  it: "should handle multiple assignment with splat-identifiers" when: {
+    x,y,z,*rest = [1,2,3,4,5,6,7]
+    x should == 1
+    y should == 2
+    z should == 3
+    rest should == [4,5,6,7]
+
+    a,b,*c,*d,e = [1,2,3,4,5,6,7,8]
+    a should == 1
+    b should == 2
+    c should == [3,4,5,6,7,8]
+    d should == [4,5,6,7,8]
+    e should == 5
+  }
+
   it: "should undefine a singleton method" when: {
     def self a_singleton_method {
       "a singleton method!"
