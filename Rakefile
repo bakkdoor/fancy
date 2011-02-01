@@ -65,7 +65,8 @@ namespace :parser do
 
   desc "Clean compiled files."
   task :clean do
-    rm_f Dir.glob(_("*.{o,so,rbc,log,output}", ext_dir)), :verbose => false
+    rm_f Dir.glob(_("*.{o,so,rbc,log,output,bundle}", ext_dir)), :verbose => false
+    rm_rf [_("conftest.dSYM", ext_dir)], :verbose => true
   end
 
 end
