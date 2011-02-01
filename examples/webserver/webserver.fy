@@ -2,7 +2,10 @@
 # Example of a simple webserver written in fancy, using Ruby socket library
 
 require("socket")
-webserver = TCPServer new("127.0.0.1", 3000)
+host = "127.0.0.1"
+port = 3000
+webserver = TCPServer new(host, port)
+"Webserver running at: #{host}:#{port}" println
 loop: {
   session = webserver accept
   session print: "HTTP/1.1 200/OK\r\nContent-type:text/html\r\n\r\n"

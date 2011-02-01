@@ -6,7 +6,7 @@
 } unless: $ Directory exists?: "tmp/"
 
 File open: "tmp/Hello-World.txt" modes: ['write] with: |f| {
-  f write: "Hello, world" . newline
+  f writeln: "Hello, world"
 }
 
 File delete: "tmp/Hello-World.txt"
