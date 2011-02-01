@@ -6,7 +6,7 @@
   '("def" "class" "try" "catch"
     "finally" "retry" "return"
     "return_local" "require:"
-    "match" "case" "->")             ;; keywords
+    "match" "case" "->" "=>")             ;; keywords
 
   '(;; symbols
     ("\\('\\(\\([^\s\n]+\\|\\]+\\)\\)\\)" 1 font-lock-reference-face)
