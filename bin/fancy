@@ -7,8 +7,8 @@ require File.expand_path("../boot/fancy_ext", base)
 # Use the bootstrapping code loader.
 require File.expand_path("../boot/load", base)
 
+do_retry = true
 begin
-
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/boot", base)
 
   # Remove the bootstrapping code loader
@@ -24,8 +24,13 @@ begin
   # Run main
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/main", base)
 
-rescue
-  puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
-  `cd #{base} && rbx -S rake`
-  retry
+rescue Exception => e
+  if do_retry
+    puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
+    `cd #{base} && rbx -S rake`
+    do_retry = false
+    retry
+  else
+    raise e
+  end
 end
