@@ -24,12 +24,16 @@ begin
   # Run main
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/main", base)
 
-rescue Exception => e
-  if do_retry
-    puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
-    `cd #{base} && rbx -S rake`
-    do_retry = false
-    retry
+rescue RuntimeError => e
+  if e.message =~ /File not found (.*)lib\/boot.fyc/
+    if do_retry
+      puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
+      `cd #{base} && rbx -S rake clean && rbx -S rake`
+      do_retry = false
+      retry
+    else
+      raise e
+    end
   else
     raise e
   end
