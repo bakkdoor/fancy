@@ -10,6 +10,7 @@ class Fancy AST {
       pos(g)
       @args bytecode: g
       name = @name method_name: nil
+      g push_block()
       g send_super(name, @args size)
     }
   }

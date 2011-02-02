@@ -1,3 +1,5 @@
+require: "parse_error"
+
 class Fancy {
   class Parser {
 
@@ -285,11 +287,11 @@ class Fancy {
     }
 
     def ast: line parse_error: text {
-      ("Parse error near `" ++ text ++ "' at line " ++ line ++ " at " ++ @filename) . raise!
+      ParseError new: line message: text filename: @filename . raise!
     }
 
     def ast: line file_error: text {
-      ("File error `" ++ text ++ "' while trying to parse " ++ @filename) . raise!
+      ("File error '" ++ text ++ "' while trying to parse " ++ @filename) . raise!
     }
 
   }

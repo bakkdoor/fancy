@@ -63,6 +63,8 @@ class Fancy {
       }
       try {
         compiler run()
+      } catch Fancy Parser ParseError => e {
+        e raise!
       } catch Exception => e {
         compiler_error("Error trying to compile " ++ file, e)
       }

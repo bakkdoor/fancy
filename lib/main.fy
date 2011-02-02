@@ -72,7 +72,11 @@ Fancy Package add_to_loadpath
 
 # Load a source file, if any given:
 ARGV first if_do: |file| {
-  Fancy CodeLoader load_compiled_file: file
+  try {
+    Fancy CodeLoader load_compiled_file: file
+  } catch Fancy Parser ParseError => e {
+    e message println
+  }
 }
 
 ARGV empty? if_do: {

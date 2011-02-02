@@ -17,6 +17,7 @@ class Fancy
       def bytecode(g)
         pos(g)
         @args.bytecode(g)
+        g.push_block
         g.send_super @method_name, @args.size
       end
     end
