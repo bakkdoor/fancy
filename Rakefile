@@ -83,6 +83,7 @@ namespace :compiler do
 
   task :clean do
     rm_f boot_parser_e, :verbose => false
+    rm_rf _("boot/rbx-compiler/parser/conftest.dSYM")
     rm_rf _("boot/compiler"), :verbose => false
   end
 
