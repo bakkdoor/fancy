@@ -26,6 +26,6 @@ begin
 
 rescue
   puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
-  `cd #{base} && rake`
+  `cd #{base} && rbx -S rake`
   retry
 end
