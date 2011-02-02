@@ -6,8 +6,9 @@
 # loaded and executed.
 
 ARGV for_options: ["-v", "--version"] do: {
-  "fancy " ++ FANCY_VERSION println
-  "(C) 2010 Christopher Bertels <chris@fancy-lang.org>" println
+  "Fancy " ++ FANCY_VERSION println
+  "(C) 2010, 2011 Christopher Bertels <chris@fancy-lang.org>" println
+  System exit
 }
 
 ARGV for_options: ["--help", "-h"] do: {
