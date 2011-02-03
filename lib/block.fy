@@ -85,4 +85,8 @@ class Block {
 
     unless: obj do: { self call }
   }
+
+  def === val {
+    call: [val]
+  }
 }

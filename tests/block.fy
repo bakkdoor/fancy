@@ -100,4 +100,15 @@ FancySpec describe: Block with: {
     [1,2,3] map: @{to_s} . should == ["1", "2", "3"]
     [1,2,3] map: @{to_s * 3} . should == ["111", "222", "333"]
   }
+
+  it: "should execute a match clause if the block returns a true-ish value" for: '=== when: {
+    def do_match: val {
+      match val -> {
+        case |x| { x even? } -> "yup, it's even"
+        case _ -> "nope, not even"
+      }
+    }
+    do_match: 2 . should == "yup, it's even"
+    do_match: 1 . should == "nope, not even"
+  }
 }
