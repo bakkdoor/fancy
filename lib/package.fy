@@ -35,7 +35,6 @@ class Fancy Package {
     """
 
     Installer new: package_name . run
-    Specification save_specs_to: $ self package_list_file
   }
 
   def self uninstall: package_name {

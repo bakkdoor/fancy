@@ -348,8 +348,8 @@ class Fancy
       match_clauses.push(match_clause)
     end
 
-    def match_clause(line, match_expr, val_expr, match_arg=nil)
-      AST::MatchClause.new(line, match_expr, val_expr, match_arg)
+    def match_clause(line, match_expr, val_expr, match_args=[])
+      AST::MatchClause.new(line, match_expr, val_expr, match_args)
     end
   end
 

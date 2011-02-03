@@ -687,7 +687,7 @@ match_body:     match_clause {
 match_clause:   CASE exp THIN_ARROW expression_list {
                   $$ = rb_funcall(self, rb_intern("match_clause"), 3, INT2NUM(yylineno), $2, $4);
                 }
-                | CASE exp THIN_ARROW STAB identifier STAB expression_list {
+                | CASE exp THIN_ARROW STAB block_args STAB expression_list {
                   $$ = rb_funcall(self, rb_intern("match_clause"), 4, INT2NUM(yylineno), $2, $7, $5);
                 }
                 ;

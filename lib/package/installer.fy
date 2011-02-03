@@ -147,6 +147,7 @@ class Fancy Package {
       if: (Specification[@repository]) then: |spec| {
         fulfill_spec: spec
         spec gh_user: @user
+        Specification save: spec to: $ Fancy Package package_list_file
       } else: {
         "Something wen't wrong. Did not find a fancypack specification for package: " ++ @repository . raise!
       }

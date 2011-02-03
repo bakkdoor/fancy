@@ -7,7 +7,7 @@ class Fancy Package {
       File open: @package_list_file modes: ['read] with: |f| {
         f readlines each: |l| {
           match l -> {
-            case /(.*) : version=(.*) url=(.*)/ -> |_, name, version, url|
+            case /name=(.*) version=(.*) url=(.*)/ -> |_, name, version, url|
               "#{name} (#{version})" println
           }
         }

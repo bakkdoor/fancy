@@ -62,7 +62,7 @@ class Fancy
 
     class MatchClause < Node
       attr_reader :match_expr, :val_expr, :match_arg
-      def initialize(line, match_expr, val_expr, match_arg)
+      def initialize(line, match_expr, val_expr, match_args)
         super(line)
         if match_expr.kind_of?(Fancy::AST::Identifier) && match_expr.identifier == "_"
           match_expr = Fancy::AST::Identifier.new(match_expr.line, "Object")
@@ -70,10 +70,9 @@ class Fancy
         @match_expr = match_expr
         @val_expr = val_expr
 
-        if match_arg
-          # use name so we get the identifier as a symbol
-          @match_arg = match_arg.name
-        end
+        # use name so we get the identifier as a symbol
+        # for now, only use the first, we only support 1 match arg in the bootstrap compiler
+        @match_arg = match_args.map(&:name).first
       end
     end
 

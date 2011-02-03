@@ -49,17 +49,23 @@ class Fancy Package {
     }
 
     def to_s {
-      "version=#{@version} url=https://github.com/#{@gh_user}/#{@package_name}"
+      "name=#{@package_name} version=#{@version} url=https://github.com/#{@gh_user}/#{@package_name}"
     }
 
     def self [] package_name {
       @@specs[package_name]
     }
 
-    def self save_specs_to: save_path {
-      File open: save_path modes: ['write] with: |f| {
-        @@specs each: |name spec| {
-          f writeln: "#{name} : #{spec}"
+    def self save: spec to: specs_file {
+      File open: specs_file modes: ['write, 'append] with: |f| {
+        f writeln: $ spec to_s
+      }
+    }
+
+    def self delete: spec_name from: specs_file {
+      File open: specs_file modes: ['read, 'write] with: |f| {
+        f readlines reject: |l| { l includes?: "name=#{spec_name}" } . each: |l| {
+          f writeln: l
         }
       }
     }
