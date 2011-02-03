@@ -178,6 +178,13 @@ class FancyEnumerable {
     acc
   }
 
+  def inject: val into: block {
+    """
+    Same as reduce:init_val: but taking the initial value as first and the reducing block as second parameter.
+    """
+    reduce: block init_val: val
+  }
+
   def uniq {
     "Returns a new Array with all unique values (double entries are skipped)."
 
