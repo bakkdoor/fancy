@@ -3,7 +3,7 @@ class Fancy Package {
     @@specs = <[]>
 
     read_write_slots: ['author, 'email, 'include_files, 'bin_files,
-                       'description, 'homepage, 'version]
+                       'description, 'homepage, 'version, 'gh_user]
 
     read_slots: ['package_name, 'dependencies, 'rubygem_dependencies]
 
@@ -48,8 +48,20 @@ class Fancy Package {
       @rubygem_dependencies << dep
     }
 
+    def to_s {
+      "version=#{@version} url=https://github.com/#{@gh_user}/#{@package_name}"
+    }
+
     def self [] package_name {
       @@specs[package_name]
+    }
+
+    def self save_specs_to: save_path {
+      File open: save_path modes: ['write] with: |f| {
+        @@specs each: |name spec| {
+          f writeln: "#{name} : #{spec}"
+        }
+      }
     }
   }
 }

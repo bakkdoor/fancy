@@ -35,6 +35,7 @@ class Fancy Package {
     """
 
     Installer new: package_name . run
+    Specification save_specs_to: $ self package_list_file
   }
 
   def self uninstall: package_name {
@@ -42,7 +43,7 @@ class Fancy Package {
   }
 
   def self list_packages {
-    Fancy Package List new: (Fancy Package root_dir) . println
+    Fancy Package List new: (self package_list_file) . println
   }
 
   def self root_dir {
@@ -51,6 +52,10 @@ class Fancy Package {
     } else: {
       return Fancy Package Installer DEFAULT_PACKAGES_PATH
     }
+  }
+
+  def self package_list_file {
+    "#{self root_dir}/installed_packages.txt"
   }
 
   def self add_to_loadpath {
