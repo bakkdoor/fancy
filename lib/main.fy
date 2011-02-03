@@ -67,6 +67,11 @@ ARGV for_option: "uninstall" do: |package_name| {
   System exit
 }
 
+ARGV for_option: "list-packages" do: {
+  Fancy Package list_packages
+  System exit
+}
+
 # push package install dir to load_path
 Fancy Package add_to_loadpath
 

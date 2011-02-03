@@ -2,6 +2,7 @@ require: "package/installer"
 require: "package/uninstaller"
 require: "package/dependency"
 require: "package/specification"
+require: "package/list"
 
 class Fancy Package {
   """
@@ -40,7 +41,11 @@ class Fancy Package {
     Uninstaller new: package_name . run
   }
 
-  def self package_root_dir {
+  def self list_packages {
+    Fancy Package List new: (Fancy Package root_dir) . println
+  }
+
+  def self root_dir {
     if: (ENV[ENV_PACKAGE_DIR_VAR]) then: |path| {
       return path
     } else: {
@@ -54,7 +59,7 @@ class Fancy Package {
     easily @require: packages into your code.
     """
 
-    root = Fancy Package package_root_dir
+    root = Fancy Package root_dir
     Fancy CodeLoader push_loadpath: root
     Fancy CodeLoader push_loadpath: (root ++ "/lib")
   }
