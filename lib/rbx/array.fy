@@ -27,6 +27,7 @@ class Array {
     arr each: |x| {
       self << x
     }
+    self
   }
 
   def includes?: obj {
