@@ -8,36 +8,45 @@ class Tuple {
 
   def [] idx {
     """
-    Forwards to @Tuple#at:@.
+    Forwards to @Tuple@#at:.
     """
 
     at: idx
   }
 
   def first {
-    "Returns the first element in the Tuple."
+    "Returns the first element in the @Tuple@."
     at: 0
   }
 
   def second {
-    "Returns the second element in the Tuple."
+    "Returns the second element in the @Tuple@."
     at: 1
   }
 
   def third {
-    "Returns the third element in the Tuple."
+    "Returns the third element in the @Tuple@."
     at: 2
   }
 
   def fourth {
-    "Returns the fourth element in the Tuple"
+    "Returns the fourth element in the @Tuple@"
     at: 3
   }
 
   def each: block {
+    """
+    @block @Block@ to be called for each element in @self.
+    @return Return value of calling @block on the last item in @self.
+
+    Calls a given @Block@ with each element in the @Tuple@.
+    """
+
+    val = nil
     self size times: |i| {
-      block call: [self at: i]
+      val = block call: [self at: i]
     }
+    val
   }
 
   def == other {
@@ -62,6 +71,8 @@ class Tuple {
   }
 
   def inspect {
+    "Returns a @String@ representation of a @Tuple@"
+
     str = "("
     self each: |v| {
       str = str ++ v
