@@ -15,15 +15,23 @@ class Tuple {
   }
 
   def first {
+    "Returns the first element in the Tuple."
     at: 0
   }
 
   def second {
+    "Returns the second element in the Tuple."
     at: 1
   }
 
   def third {
+    "Returns the third element in the Tuple."
     at: 2
+  }
+
+  def fourth {
+    "Returns the fourth element in the Tuple"
+    at: 3
   }
 
   def each: block {

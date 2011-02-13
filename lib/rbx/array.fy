@@ -89,26 +89,6 @@ class Array {
     ruby: '[]= args: [idx, obj]
   }
 
-  def first {
-    "Returns the first element in the Array."
-    at: 0
-  }
-
-  def second {
-    "Returns the second element in the Array"
-    at: 1
-  }
-
-  def third {
-    "Returns the third element in the Array"
-    at: 2
-  }
-
-  def fourth {
-    "Returns the fourth element in the Array"
-    at: 3
-  }
-
   def each_with_index: block {
     "Iterate over all elements in Array. Calls a given Block with each element and its index."
 
