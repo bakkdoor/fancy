@@ -14,6 +14,18 @@ class Tuple {
     at: idx
   }
 
+  def first {
+    at: 0
+  }
+
+  def second {
+    at: 1
+  }
+
+  def third {
+    at: 2
+  }
+
   def each: block {
     self size times: |i| {
       block call: [self at: i]
