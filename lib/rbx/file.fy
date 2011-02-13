@@ -2,7 +2,7 @@ class File {
   @@open_mode_conversions =
     <['read => "r",
       'write => "w",
-      'append => "+",
+      'append => "a",
       'at_end => "a",
       'binary => "b",
       'truncate => "w+"]>
