@@ -57,7 +57,7 @@ class Fancy Package {
     }
 
     def self save: spec to: specs_file {
-      File open: specs_file modes: ['write, 'append] with: |f| {
+      File open: specs_file modes: ['append] with: |f| {
         f writeln: $ spec to_s
       }
     }

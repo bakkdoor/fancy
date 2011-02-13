@@ -26,8 +26,15 @@ class Fancy Package {
       """
 
       splitted = @package_name split: "/"
-      @user = splitted first
-      @repository = splitted second
+      @user, @repository = splitted
+
+      # check for version, e.g. when passing in:
+      # $ fancy install bakkdoor/fyzmq=1.0.1
+      splitted = @repository split: "="
+      if: (splitted size > 1) then: {
+        @repository, @version = splitted
+        @package_name = @user + "/" + @repository
+      }
 
       @install_path if_nil: {
         @install_path = DEFAULT_PACKAGES_PATH
@@ -53,13 +60,24 @@ class Fancy Package {
         } else: {
           @version = "master"
         }
-        filename = self download_tgz: @version
       }
 
-      # now unpack & check for dependencies
-      unpack_dir = unpack_file: filename
-      rename_dir: unpack_dir
-      self load_fancypack
+      plist = List new: (Fancy Package package_list_file)
+      if: (plist has_package?: (@repository, @version)) then: {
+        STDERR println: "Package #{@package_name} with version: #{@version} already installed. Aborting."
+        return nil
+      }
+
+      filename = self download_tgz: @version
+      if: filename then: {
+        # now unpack & check for dependencies
+        unpack_dir = unpack_file: filename
+        rename_dir: unpack_dir
+        self load_fancypack
+      } else: {
+        STDERR println: "Installation aborted."
+        STDERR println: "Got error while trying to install #{@package_name} with version: #{@version}"
+      }
     }
 
     def latest_tag {
@@ -78,13 +96,22 @@ class Fancy Package {
       YAML load_stream(open(url)) documents() first at: "tags"
     }
 
+    def has_version?: version {
+      "Indicates, if a given version is available on Github."
+
+      match version -> {
+        case "master" -> true
+        case _ -> self tags includes?: version
+      }
+    }
+
     def download_url: version {
       """
       Returns the download url for a given version of the package
       to be installed.
       """
 
-      "https://github.com/" ++ @package_name ++ "/tarball/" ++ version
+      { "https://github.com/" ++ @package_name ++ "/tarball/" ++ version } if: $ self has_version?: version
     }
 
     def download_tgz: version {
@@ -98,16 +125,17 @@ class Fancy Package {
       will get used.
       """
 
-      download_url = download_url: version
-      ["Downloading ", @package_name, " version ", version, " from: ", download_url] join println
+      if: (download_url: version) then: |download_url| {
+        ["Downloading ", @package_name, " version ", version, " from: ", download_url] join println
 
-      filename = [@user, "_", @repository, "-", version, ".tar.gz"] join
+        filename = [@user, "_", @repository, "-", version, ".tar.gz"] join
 
-      # run curl to get the .tar.gz file
-      cmd = ["curl -o ", @download_path, "/", filename, " -L -O ", download_url] join
-      System do: cmd
+        # run curl to get the .tar.gz file
+        cmd = ["curl -o ", @download_path, "/", filename, " -L -O ", download_url] join
+        System do: cmd
 
-      filename
+        filename
+      }
     }
 
     def unpack_file: filename {
