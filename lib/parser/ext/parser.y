@@ -576,7 +576,7 @@ string_literal: STRING_LITERAL {
                   $$ = fy_terminal_node(self, "ast:string:");
                 }
                 | MULTI_STRING_LITERAL {
-                  $$ = fy_terminal_node(self, "ast:string:");
+                  $$ = fy_terminal_node(self, "ast:multi_line_string:");
                 }
                 ;
 symbol_literal: SYMBOL_LITERAL {

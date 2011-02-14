@@ -91,6 +91,10 @@ class Fancy {
       }
     }
 
+    def ast: line multi_line_string: string {
+      ast: line string: (string from: 2 to: -3)
+    }
+
     def ast: line array: expr_ary {
       AST ArrayLiteral new: line array: expr_ary
     }
