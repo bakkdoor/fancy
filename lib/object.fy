@@ -54,7 +54,7 @@ class Object {
   def if_do: block {
     "If the object is non-nil, it calls the given block with itself as argument."
 
-    match self -> {
+    match self {
       case nil -> nil
       case false -> nil
       case _ -> block call: [self]
@@ -65,7 +65,7 @@ class Object {
     """If the object is non-nil, it calls the given then_block with itself as argument.
        Otherwise it calls the given else_block."""
 
-    match self -> {
+    match self {
       case nil -> else_block call: [self]
       case false -> else_block call: [self]
       case _ -> then_block call: [self]

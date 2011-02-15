@@ -62,7 +62,7 @@ class Fancy {
 
     def ast: line string: text {
       str = text from: 1 to: -2
-      match str -> {
+      match str {
         # OK, I know this is ugly. But it works for now, so let's just go with it.
         # TODO: Clean this up or make it simpler...
 

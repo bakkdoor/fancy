@@ -92,7 +92,7 @@ class Fancy FDoc {
 
     def to_json: obj {
       # Reimplement now we have pattern matching dispatch.
-      match obj -> {
+      match obj {
         case Hash -> self hash_to_json: obj
         case Array -> self array_to_json: obj
         case Symbol -> self symbol_to_json: obj

@@ -37,7 +37,7 @@ class Fancy AST {
     }
 
     def self from: string line: line filename: filename (nil) {
-      type = match string -> {
+      type = match string {
         case "__FILE__" -> return CurrentFile new: line filename: filename
         case "__LINE__" -> return CurrentLine new: line
         case "self" -> return Self new: line
@@ -52,7 +52,7 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      match @string -> {
+      match @string {
         case "true" -> g push_true()
         case "false" -> g push_false()
         case "nil" -> g push_nil()

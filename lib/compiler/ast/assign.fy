@@ -54,7 +54,7 @@ class Fancy AST {
       @idents each_with_index: |ident idx| {
         var = ident
         value = MultipleAssignmentExpr new: @line index: idx
-        match ident string -> {
+        match ident string {
           case /^\*/ ->
             value = SplatAssignmentExpr new: @line start_index: idx
             var = Identifier from: (ident string rest) line: (ident line)

@@ -103,7 +103,7 @@ FancySpec describe: Block with: {
 
   it: "should execute a match clause if the block returns a true-ish value" for: '=== when: {
     def do_match: val {
-      match val -> {
+      match val {
         case |x| { x even? } -> "yup, it's even"
         case _ -> "nope, not even"
       }

@@ -193,9 +193,9 @@
 ### Simple pattern matching (work-in-progress) ###
 
     def match_it: a_string {
-      match a_string -> {
-        case /^hello, (\S+)!$/ -> |match|
-          "You greeted: " ++ (match[1]) println
+      match a_string {
+        case /^hello, (\S+)!$/ -> |_, name| # _ gets bound to matcher object (not used)
+          "You greeted: #{name}" println
         case _ -> "No match, sorry." println
       }
     }
