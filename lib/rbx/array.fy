@@ -8,6 +8,7 @@ class Array {
   ruby_alias: 'sort
   ruby_alias: 'pop
   ruby_alias: 'last
+  ruby_alias: 'shuffle
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
