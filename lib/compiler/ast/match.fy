@@ -5,6 +5,37 @@ class Fancy AST {
     }
 
 
+    def bytecode: g set_match_args: clause {
+      "Generates bytecode for setting match clause arguments, if needed"
+
+      g dup()
+      skip_create_locals_label = g new_label()
+      g gif(skip_create_locals_label)
+
+      # if match_arg is given, get a localvar slot and set the
+      # result of the === call to it
+      if: (clause match_args first) then: |marg| {
+        match_arg_var = g state() scope() new_local(marg)
+        @match_arg_vars << match_arg_var
+        g set_local(match_arg_var slot())
+      }
+
+      # for any remaining match arguments, set their values to
+      # whatever matcher[idx] returns (should be the matched data)
+      clause match_args rest each_with_index: |match_arg idx| {
+        idx = idx + 1 # we only want from index 1 onwards
+        g dup() # dup the matcher object
+        match_arg_var = g state() scope() new_local(match_arg)
+        @match_arg_vars << match_arg_var
+        FixnumLiteral new: @line value: idx . bytecode: g
+        g send('at:, 1)
+        g set_local(match_arg_var slot())
+        g pop()
+      }
+
+      skip_create_locals_label set!()
+    }
+
     def bytecode: g {
       pos(g)
 
@@ -25,28 +56,7 @@ class Fancy AST {
         c expr bytecode: g
         g swap()
         g send(':===, 1)
-
-        # if match_arg is given, get a localvar slot and set the
-        # result of the === call to it
-        if: (c match_args first) then: |marg| {
-          match_arg_var = g state() scope() new_local(marg)
-          @match_arg_vars << match_arg_var
-          g set_local(match_arg_var slot())
-        }
-
-        # for any remaining match arguments, set their values to
-        # whatever matcher[idx] returns (should be the matched data)
-        c match_args rest each_with_index: |match_arg idx| {
-          idx = idx + 1 # we only want from index 1 onwards
-          g dup() # dup the matcher object
-          match_arg_var = g state() scope() new_local(match_arg)
-          @match_arg_vars << match_arg_var
-          FixnumLiteral new: @line value: idx . bytecode: g
-          g send('at:, 1)
-          g set_local(match_arg_var slot())
-          g pop()
-        }
-
+        bytecode: g set_match_args: c
         g git(clause_labels[i])
       }
       g pop()
