@@ -79,4 +79,15 @@ FancySpec describe: "Pattern Matching" with: {
         d should == (2 ** 4)
     }
   }
+
+  it: "should not try to bind the match args if the match failed" when: {
+    ["hello world!", "hello you!", "no hello here!"] each: |str| {
+      match str {
+        case /^hello (.*)$/ -> |_, name|
+          name should_not == nil
+
+        case _ -> name should == nil
+      }
+    }
+  }
 }
