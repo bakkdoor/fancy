@@ -167,4 +167,25 @@ class Object {
     "The identity method simply returns self."
     self
   }
+
+  def returning: value do: block {
+    """
+    @value Value that gets returned at the end.
+    @block A @Block@ that gets called with @value before returning @value.
+    @return @value
+
+    Returns @value after calling @block with it.
+    Useful for returning some object after using it, e.g.:
+
+        # this will return [1,2]
+        returning: [] do: |arr| {
+          arr << 1
+          arr << 2
+        }
+    """
+
+    val = value
+    block call: [val]
+    val
+  }
 }

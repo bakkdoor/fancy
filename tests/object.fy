@@ -122,4 +122,12 @@ FancySpec describe: Object with: {
     'foo true? should == nil
     "hello, world" true? should == nil
   }
+
+  it: "should return the correct value" for: 'returning:do: when: {
+    returning: [] do: |arr| {
+      arr << 1
+      arr << 2
+      arr << 3
+    } . should == [1,2,3]
+  }
 }
