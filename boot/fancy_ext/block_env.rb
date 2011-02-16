@@ -13,7 +13,7 @@ class Block
 
   define_method("call:") do |args|
     if args.size < self.arity
-      raise ArgumentError, "Too few arguments for block: #{args.size} (#{args.inspect}) - Minimum of #{self.arity} expected"
+      raise ArgumentError, "Too few arguments for block: #{args.size} - Minimum of #{self.arity} expected"
     else
       args = args.first(self.arity) if args.size > self.arity
       call *args
