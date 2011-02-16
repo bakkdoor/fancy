@@ -12,10 +12,15 @@ class Block
   alias_method :":call", :call
 
   define_method("call:") do |args|
-    if args.first.is_a?(Array) && args.size == 1
-      call args.first
+    if args.size < self.arity
+      raise ArgumentError, "Too few arguments for block: #{args.size} - Minimum of #{self.arity} expected"
     else
-      call *args
+      if args.first.is_a?(Array) && args.size == 1
+        call args.first
+      else
+        args = args.first(self.arity) if args.size > self.arity
+        call *args
+      end
     end
   end
 
