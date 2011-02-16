@@ -43,8 +43,10 @@ Dependencies:
 ------------------------
 
 - Rubinius.
-  For now you'll need a recent version from the git repository.
-  We suggest using rvm and installing rbx-head.
+  You'll need at least version 1.2.1 for Fancy to work as expected.
+  See http://rubini.us/releases/1.2.1/ for more information.
+  If you want to take advantage of the latest VM improvements, we
+  suggest using rvm and installing rbx-head.
   See http://rvm.beginrescueend.com/ for more information.
 - Rake.
 - GNU Bison ( version 2.4 and higher otherwise you will get a Segmentation fault ).
