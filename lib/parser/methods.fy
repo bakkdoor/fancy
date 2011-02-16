@@ -198,7 +198,7 @@ class Fancy {
 
           doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
           body = AST ExpressionList new: line  list: [doc, forward]
-          block call: [[required, body]]
+          block call: [required, body]
         }
       }
     }
