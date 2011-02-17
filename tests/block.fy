@@ -111,4 +111,20 @@ FancySpec describe: Block with: {
     do_match: 2 . should == "yup, it's even"
     do_match: 1 . should == "nope, not even"
   }
+
+  it: "should return the receiver of a block" for: 'receiver when: {
+    class Foo { def foo { { self } } } # return block
+    f = Foo new
+    f foo receiver should == f
+  }
+
+  it: "should set the receiver correctly to a new value" for: 'receiver: when: {
+    b = { "hey" }
+
+    b receiver: 10
+    b receiver should == 10
+
+    b receiver: "Hello, World!"
+    b receiver should == "Hello, World!"
+  }
 }
