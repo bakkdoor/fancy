@@ -31,6 +31,7 @@ require: "set"
 require: "symbol"
 require: "method"
 require: "stack"
+require: "proxy"
 
 # version holds fancy's version number
 require: "version"

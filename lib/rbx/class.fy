@@ -2,6 +2,8 @@ class Class {
   ruby_alias: 'superclass
   ruby_alias: '===
   ruby_alias: 'ancestors
+  ruby_alias: 'instance_methods
+  ruby_alias: 'methods
 
   def new {
     """
