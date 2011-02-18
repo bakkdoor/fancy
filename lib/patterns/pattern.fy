@@ -25,7 +25,7 @@ class Pattern {
   }
 
   def Pattern wildcard {
-    WildcardPattern new
+    WildcardPattern # defined below
   }
 
   def match_failed_for: val escape: block {
@@ -35,6 +35,17 @@ class Pattern {
   def Pattern keywords: keywords patterns: patterns {
     # TODO
     nil
+  }
+
+  def initialize: @closure {
+  }
+
+  def does_match: value else: block {
+    if: @closure then: {
+      @closure call: [value, block]
+    } else: {
+      "Don't know how to match!" raise!
+    }
   }
 
   def not {
@@ -48,6 +59,10 @@ class Pattern {
   def || alternative_pattern {
     PatternDisjunction new: self with: alternative_pattern
   }
+}
+
+WildcardPattern = Pattern new: |value fail_block| {
+  Binding new: value # always match
 }
 
 class PatternApplication : Pattern {
@@ -74,12 +89,6 @@ class PatternDisjunction : Pattern {
     @pattern does_match: val else: {
       @alternative does_match: val else: fail_block
     }
-  }
-}
-
-class WildcardPattern : Pattern {
-  def does_match: val else: block {
-    true
   }
 }
 
