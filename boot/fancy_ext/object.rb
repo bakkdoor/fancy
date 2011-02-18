@@ -32,3 +32,9 @@ class Object
     Rubinius::VariableScope.of_sender.method_visibility = :protected
   end
 end
+
+class BasicObject
+  instance_methods.each do |m|
+    undef_method(m) if m.to_s !~ /(?:^__|^nil?$|^send$|^object_id$)/
+  end
+end
