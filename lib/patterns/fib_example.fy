@@ -13,7 +13,7 @@ def fib: n {
 # above should be compiled from something like this:
 # def fib: n {
 #   match n {
-#     case <1> | <2> -> n - 1
+#     case <1> || <2> -> n - 1
 #     case <_> -> fib: (n - 2) + (fib: (n - 1))
 #   }
 # }
