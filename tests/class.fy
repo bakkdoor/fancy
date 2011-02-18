@@ -64,7 +64,7 @@ FancySpec describe: Class with: {
     instance normal_method should == 'new_normal_found
   }
 
-  it: "should have dynamically generated getter methods" for: 'responds_to?: when: {
+  it: "should have dynamically generated getter and setter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new
     instance responds_to?: 'foo . should == true
     instance responds_to?: 'bar . should == true
@@ -75,6 +75,45 @@ FancySpec describe: Class with: {
     instance responds_to?: ":oh" . should == true
     instance responds_to?: 'noes . should == true
     instance responds_to?: "noes:" . should == true
+  }
+
+  it: "should define getter methods for single slots" for: 'read_slot: when: {
+    class Getters {
+      read_slot: 'foo
+      read_slot: 'bar
+    }
+
+    g = Getters new
+    g responds_to?: 'foo . should == true
+    g responds_to?: 'foo: . should == false
+    g responds_to?: 'bar . should == true
+    g responds_to?: 'bar: . should == false
+  }
+
+  it: "should define setter methods for single slots" for: 'write_slot: when: {
+    class Setters {
+      write_slot: 'foo
+      write_slot: 'bar
+    }
+
+    s = Setters new
+    s responds_to?: 'foo . should == false
+    s responds_to?: 'foo: . should == true
+    s responds_to?: 'bar . should == false
+    s responds_to?: 'bar: . should == true
+  }
+
+  it: "should define getter & setter methods for single slots" for: 'read_write_slot: when: {
+    class GettersAndSetters {
+      read_write_slot: 'foo
+      read_write_slot: 'bar
+    }
+
+    gs = GettersAndSetters new
+    gs responds_to?: 'foo . should == true
+    gs responds_to?: 'foo: . should == true
+    gs responds_to?: 'bar . should == true
+    gs responds_to?: 'bar: . should == true
   }
 
   it: "should find the instance variable correctly" when: {

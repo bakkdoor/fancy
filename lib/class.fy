@@ -50,6 +50,16 @@ class Class {
     }
   }
 
+  def read_slot: slotname {
+    """
+    @slotname Name of slot to define a getter method for.
+
+    Defines a slot reader method for a given slotname.
+    """
+
+    define_slot_reader: slotname
+  }
+
   def write_slots: slots {
     """
     @slots @Array@ of slotnames to define setter methods for.
@@ -60,6 +70,16 @@ class Class {
     slots each: |s| {
       define_slot_writer: s
     }
+  }
+
+  def write_slot: slotname {
+    """
+    @slotname Name of slot to define a setter method for.
+
+    Defines a slot writer method for a given slotname.
+    """
+
+    define_slot_writer: slotname
   }
 
   def read_write_slots: slots {
@@ -73,6 +93,17 @@ class Class {
       define_slot_reader: s
       define_slot_writer: s
     }
+  }
+
+  def read_write_slot: slotname {
+    """
+    @slotname Name of slot to define getter & setter methods for.
+
+    Defines slot reader & writer methods for a given slotname.
+    """
+
+    define_slot_reader: slotname
+    define_slot_writer: slotname
   }
 
   def subclass?: class_obj {
