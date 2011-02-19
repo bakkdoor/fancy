@@ -5,8 +5,8 @@ require: "pattern"
 # (See comment below)
 
 def fib: n {
-  n case: (((Pattern literal: 1) || (Pattern literal: 2)) ->> { n - 1 }) otherwise: {
-    n case: ((Pattern wildcard) ->> { fib: (n - 2) + (fib: $ n - 1) })
+  n case_of: (((Pattern literal: 1) || (Pattern literal: 2)) ->> { n - 1 }) otherwise: {
+    n case_of: ((Pattern wildcard) ->> { fib: (n - 2) + (fib: $ n - 1) })
   }
 }
 

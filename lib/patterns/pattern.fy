@@ -3,7 +3,7 @@ require: "binding"
 MatchFailure = Binding new: nil
 
 class Object {
-  def case: pattern otherwise: fail_block ({ "Pattern Failed!" raise! }) {
+  def case_of: pattern otherwise: fail_block ({ "Pattern Failed!" raise! }) {
     bind = pattern does_match: self else: { Binding new }
     if: (bind bound?) then: {
       bind value
