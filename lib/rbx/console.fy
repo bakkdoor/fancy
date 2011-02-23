@@ -58,6 +58,6 @@ class Console {
   def Console clear {
     "Clears the @Console@."
 
-    STDOUT print("\033[H\033[2J")
+    Console print: CLEAR_STR
   }
 }
