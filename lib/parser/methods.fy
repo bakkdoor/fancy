@@ -290,6 +290,14 @@ class Fancy {
       AST RubyArgs new: line args: args block: block
     }
 
+    def ast: line quoted: expr {
+      "GOT QUOTE: " ++ (expr inspect) println
+    }
+
+    def ast: line unquoted: expr {
+      "GOT UNQUOTE: " ++ (expr inspect) println
+    }
+
     def ast: line parse_error: text {
       ParseError new: line message: text filename: @filename . raise!
     }

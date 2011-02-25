@@ -70,6 +70,8 @@ extern char *yytext;
 %token                  MULTI_STRING_LITERAL
 %token                  SYMBOL_LITERAL
 %token                  REGEX_LITERAL
+%token                  QUOTE
+%token                  UNQUOTE
 %token                  OPERATOR
 
 %left                   DOT
@@ -146,6 +148,8 @@ extern char *yytext;
 %type  <object>         operator_send
 %type  <object>         send_args
 %type  <object>         arg_exp
+%type  <object>         quoted_expression
+%type  <object>         unquoted_expression
 
 %type  <object>         try_catch_block
 %type  <object>         catch_blocks
@@ -230,10 +234,22 @@ exp:            primary
                 | message_send
                 | ruby_send
                 | ruby_oper_send
+                | quoted_expression
+                | unquoted_expression
                 | SUPER { $$ = rb_funcall(self, rb_intern("ast:super_exp:"), 2, INT2NUM(yylineno), Qnil); }
                 | RETRY { $$ = rb_funcall(self, rb_intern("ast:retry_exp:"), 2, INT2NUM(yylineno), Qnil); }
                 | exp DOT space {
                   $$ = $1;
+                }
+                ;
+
+quoted_expression: QUOTE exp {
+                  $$ = rb_funcall(self, rb_intern("ast:quoted:"), 2, INT2NUM(yylineno), $2);
+                }
+                ;
+
+unquoted_expression: UNQUOTE exp {
+                  $$ = rb_funcall(self, rb_intern("ast:unquoted:"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 

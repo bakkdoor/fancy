@@ -14,7 +14,9 @@ bindigit        [01]
 capital         [A-Z]
 lower           [a-z]
 letter          [A-Za-z]
-special         [-+?!=*/^><%&~]
+quote           `
+unquote         ~
+special         ([-+?!=*/^><%&]|[-+?!=*/^><%&]{unquote})
 special_under   ({special}|"_")
 operator        ({special}+|"||"{special_under}*)
 int_lit 	[-+]?{digit}({digit}|_{digit})*
@@ -115,6 +117,8 @@ escaped_newline "\\".*\n
 {arrow}         { return ARROW; }
 {thin_arrow}    { return THIN_ARROW; }
 {equals}        { return EQUALS; }
+{quote}         { return QUOTE; }
+{unquote}       { return UNQUOTE; }
 {operator}      {
                   yylval.object = rb_str_new2(yytext);
                   return OPERATOR;
