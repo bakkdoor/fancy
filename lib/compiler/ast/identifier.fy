@@ -56,7 +56,13 @@ class Fancy AST {
         case "true" -> g push_true()
         case "false" -> g push_false()
         case "nil" -> g push_nil()
-        case _ -> Rubinius AST LocalVariableAccess new(@line, self name) bytecode(g)
+        case _ ->
+          if: (g state() scope() search_local(self name)) then: {
+            Rubinius AST LocalVariableAccess new(@line, self name) bytecode(g)
+          } else: {
+            ms = MessageSend new: @line message: self to: (Self new: @line) args: (MessageArgs new: @line args: [])
+            ms bytecode: g
+          }
       }
     }
   }
