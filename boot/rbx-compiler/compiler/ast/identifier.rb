@@ -111,7 +111,11 @@ class Fancy
         elsif nil?
           g.push_nil
         else
-          Rubinius::AST::LocalVariableAccess.new(line, name).bytecode(g)
+          if g.state.scope.search_local(name)
+            Rubinius::AST::LocalVariableAccess.new(@line, name).bytecode(g)
+          else
+            MessageSend.new(line, Self.new(line), self, MessageArgs.new(line)).bytecode(g)
+          end
         end
       end
     end
