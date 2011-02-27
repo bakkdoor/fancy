@@ -3,7 +3,7 @@ class Fancy AST {
   class MethodDef : Rubinius AST Define {
     def initialize: @line name: @name args: @arguments body: @body access: @access {
       @name = @name method_name: nil
-      self generate_ivar_assignment
+      generate_ivar_assignment
 
       if: (@body empty?) then: {
         @body unshift_expression: $ NilLiteral new: @line

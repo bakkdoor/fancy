@@ -42,7 +42,7 @@ class Fancy Package {
   }
 
   def self list_packages {
-    Fancy Package List new: (self package_list_file) . println
+    Fancy Package List new: package_list_file . println
   }
 
   def self root_dir {

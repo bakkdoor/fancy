@@ -25,7 +25,7 @@ class Block {
       }
     """
 
-    { self call not } while_true: block
+    { call not } while_true: block
   }
 
   def while_nil: block {
@@ -42,7 +42,7 @@ class Block {
     """
 
     loop: {
-      self call if_do: |val| {
+      call if_do: |val| {
         return val
       } else: {
         block call
@@ -55,7 +55,7 @@ class Block {
     Short-circuiting && (boolean AND).
     """
 
-    if: (self call) then: {
+    if: call then: {
       other_block call
     } else: {
       return false
@@ -67,7 +67,7 @@ class Block {
     Short-circuiting || (boolean OR).
     """
 
-    if: (self call) then: {
+    if: call then: {
       return true
     } else: {
       other_block call
@@ -77,13 +77,13 @@ class Block {
   def if: obj {
     "Calls itself if the given object is true-ish."
 
-    if: obj then: { self call }
+    if: obj then: { call }
   }
 
   def unless: obj {
     "Opposite of Block#if:. Calls itself if the given object is false-ish."
 
-    unless: obj do: { self call }
+    unless: obj do: { call }
   }
 
   def === val {

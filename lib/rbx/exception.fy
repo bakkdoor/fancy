@@ -14,7 +14,7 @@ class StandardError {
     Creates a new Exception with a given message.
     """
 
-    self initialize(msg)
+    initialize(msg)
   }
 
   def raise! {

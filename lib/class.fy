@@ -118,8 +118,8 @@ class Class {
       true
     } else: {
       # take care of Object class, as Object is its own superclass
-      unless: (self superclass nil?) do: {
-        self superclass subclass?: class_obj
+      unless: (superclass nil?) do: {
+        superclass subclass?: class_obj
       }
     }
   }

@@ -16,11 +16,11 @@ class Hash {
     "Calls a given Block with each key and value."
 
     if: (block argcount == 1) then: {
-      self keys each: |key| {
+      keys each: |key| {
         block call: [[key, at: key]]
       }
     } else: {
-      self keys each: |key| {
+      keys each: |key| {
         block call: [key, at: key]
       }
     }
@@ -29,7 +29,7 @@ class Hash {
   def each_key: block {
     "Calls a given Block with each key."
 
-    self keys each: |key| {
+    keys each: |key| {
       block call: [key]
     }
   }
@@ -37,7 +37,7 @@ class Hash {
   def each_value: block {
     "Calls a given Block with each value."
 
-    self values each: |val| {
+    values each: |val| {
       block call: [val]
     }
   }
@@ -51,6 +51,6 @@ class Hash {
   def to_s {
     "Returns a string representation of a Hash."
 
-    self to_a to_s
+    to_a to_s
   }
 }

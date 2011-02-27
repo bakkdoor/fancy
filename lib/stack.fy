@@ -28,7 +28,7 @@ class Stack {
   def pop {
     "Pops the top-of-stack element from the Stack and returns it."
 
-    @arr remove_at: (self size - 1)
+    @arr remove_at: (size - 1)
   }
 
   def top {

@@ -23,7 +23,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       try {
-        self push_script
+        push_script
 
         # docs, code = body.expressions.partition do |s|
         #   s.kind_of?(Rubinius::AST::StringLiteral)
@@ -44,7 +44,7 @@ class Fancy AST {
         # documentation.
         # TODO: implement file documentation here.
       } finally {
-        self pop_script
+        pop_script
       }
     }
   }

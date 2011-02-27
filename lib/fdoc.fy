@@ -93,10 +93,10 @@ class Fancy FDoc {
     def to_json: obj {
       # Reimplement now we have pattern matching dispatch.
       match obj {
-        case Hash -> self hash_to_json: obj
-        case Array -> self array_to_json: obj
-        case Symbol -> self symbol_to_json: obj
-        case String -> self string_to_json: obj
+        case Hash -> hash_to_json: obj
+        case Array -> array_to_json: obj
+        case Symbol -> symbol_to_json: obj
+        case String -> string_to_json: obj
         case Numeric -> obj
         case nil -> "null"
         case _ -> "Dont know how to convert " ++ (obj inspect) ++ " to JSON" raise!
@@ -171,8 +171,8 @@ class Fancy FDoc {
 
 
     def write: filename call: name ("fancy.fdoc") {
-      map = self generate_map
-      json = self to_json: map
+      map = generate_map
+      json = to_json: map
       js = "(function() { " ++ name ++ "(" ++ json ++ "); })();"
       File open: filename modes: ['write] with: |out| { out print: js }
     }

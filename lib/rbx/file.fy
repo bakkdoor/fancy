@@ -160,7 +160,7 @@ class File {
     Indicates, if a @File@ is opened.
     """
 
-    self closed? not
+    closed? not
   }
 
   def write: str {
@@ -186,6 +186,6 @@ class File {
     Indicates, if a @File@ is a @Directory@.
     """
 
-    File directory?(self filename)
+    File directory?(filename)
   }
 }

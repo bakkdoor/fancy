@@ -19,7 +19,7 @@ class Object {
   ruby_alias: 'class
 
   def initialize {
-    self initialize()
+    initialize()
   }
 
   def dclone {
@@ -28,15 +28,15 @@ class Object {
   }
 
   def ++ other {
-    self to_s + (other to_s)
+    to_s + (other to_s)
   }
 
   def to_s {
-    self to_s()
+    to_s()
   }
 
   def inspect {
-    self inspect()
+    inspect()
   }
 
   def set_slot: slotname value: val {
@@ -77,11 +77,11 @@ class Object {
   }
 
   def define_singleton_method: name with: block {
-    self metaclass define_method: name with: block
+    metaclass define_method: name with: block
   }
 
   def undefine_singleton_method: name {
-    self metaclass undefine_method: name
+    metaclass undefine_method: name
   }
 
   def is_a?: class {
@@ -95,7 +95,7 @@ class Object {
   }
 
   def send: message {
-    self send(message_name: message)
+    send(message_name: message)
   }
 
   def send: message params: params {
@@ -112,6 +112,6 @@ class Object {
   }
 
   def responds_to?: message {
-    self respond_to?(message_name: message)
+    respond_to?(message_name: message)
   }
 }

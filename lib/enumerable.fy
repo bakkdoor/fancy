@@ -154,7 +154,7 @@ class FancyEnumerable {
 
   def take: amount {
     i = 0
-    self take_while: {
+    take_while: {
       i = i + 1
       i <= amount
     }
@@ -162,7 +162,7 @@ class FancyEnumerable {
 
   def drop: amount {
     i = 0
-    self drop_while: {
+    drop_while: {
       i = i + 1
       i <= amount
     }
@@ -209,11 +209,11 @@ class FancyEnumerable {
 
   def empty? {
     "Indicates, if the Enumerable is empty (has no elements)."
-    self size == 0
+    size == 0
   }
 
   def first {
-    self each: |x| {
+    each: |x| {
       return x
     }
   }
@@ -237,7 +237,7 @@ class FancyEnumerable {
   def superior_by: comparison_block {
     "Returns the superiour element in the @Enumerable that has met the given comparison block with all other elements."
 
-    retval = self first
+    retval = first
     each: |x| {
       if: (comparison_block call: [x, retval]) then: {
         retval = x
@@ -257,10 +257,10 @@ class FancyEnumerable {
   }
 
   def partition_by: block {
-    last = block call: [self first]
+    last = block call: [first]
     coll = []
     tmp_coll = []
-    self each: |x| {
+    each: |x| {
       tmp = block call: [x]
       if: (tmp != last) then: {
         coll << tmp_coll

@@ -57,8 +57,8 @@ class Fancy AST {
         case "false" -> g push_false()
         case "nil" -> g push_nil()
         case _ ->
-          if: (g state() scope() search_local(self name)) then: {
-            Rubinius AST LocalVariableAccess new(@line, self name) bytecode(g)
+          if: (g state() scope() search_local(name)) then: {
+            Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
           } else: {
             ms = MessageSend new: @line message: self to: (Self new: @line) args: (MessageArgs new: @line args: [])
             ms bytecode: g
@@ -71,7 +71,7 @@ class Fancy AST {
     def initialize: @line string: @string {}
     def bytecode: g {
       pos(g)
-      Rubinius AST InstanceVariableAccess new(@line, self name) bytecode(g)
+      Rubinius AST InstanceVariableAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -79,7 +79,7 @@ class Fancy AST {
     def initialize: @line string: @string {}
     def bytecode: g {
       pos(g)
-      Rubinius AST ClassVariableAccess new(@line, self name) bytecode(g)
+      Rubinius AST ClassVariableAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -87,7 +87,7 @@ class Fancy AST {
     def initialize: @line string: @string {}
     def bytecode: g {
       pos(g)
-      Rubinius AST ConstantAccess new(@line, self name) bytecode(g)
+      Rubinius AST ConstantAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -112,7 +112,7 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      self scoped bytecode(g)
+      scoped bytecode(g)
     }
   }
 

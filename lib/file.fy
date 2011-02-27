@@ -37,7 +37,7 @@ class File {
     """
 
     write: x
-    self newline
+    newline
   }
 
   def print: x {

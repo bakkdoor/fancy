@@ -43,8 +43,8 @@ class Tuple {
     """
 
     val = nil
-    self size times: |i| {
-      val = block call: [self at: i]
+    size times: |i| {
+      val = block call: [at: i]
     }
     val
   }
@@ -58,8 +58,8 @@ class Tuple {
     """
 
     if: (other is_a?: Tuple) then: {
-      if: (self size == (other size)) then: {
-        self size times: |i| {
+      if: (size == (other size)) then: {
+        size times: |i| {
           unless: (self[i] == (other[i])) do: {
             return false
           }
@@ -74,7 +74,7 @@ class Tuple {
     "Returns a @String@ representation of a @Tuple@"
 
     str = "("
-    self each: |v| {
+    each: |v| {
       str = str ++ v
     } in_between: {
       str = str ++ ", "

@@ -12,7 +12,7 @@ class Class {
     Creates a new @Class@ instance by subclassing @Object@.
     """
 
-    obj = self allocate()
+    obj = allocate()
     obj initialize
     obj
   }
@@ -26,7 +26,7 @@ class Class {
     Creates a new @Class@ instance by subclassing @superclass.
     """
 
-    obj = self allocate()
+    obj = allocate()
     obj initialize: superclass
     obj
   }
@@ -117,7 +117,7 @@ class Class {
     Returns an instance method for a @Class@ with a given name.
     """
 
-    self instance_method(message_name: name)
+    instance_method(message_name: name)
   }
 
   def alias_method_rbx: new_method_name for: old_method_name {

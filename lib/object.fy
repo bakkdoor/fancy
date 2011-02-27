@@ -13,12 +13,12 @@ class Object {
 
   def println {
     "Same as Console println: self. Prints the object on STDOUT, followed by a newline."
-    Console println: $ self to_s
+    Console println: to_s
   }
 
   def print {
     "Same as Console print: self. Prints the object on STDOUT."
-    Console print: $ self to_s
+    Console print: to_s
   }
 
   def != other {
@@ -75,7 +75,7 @@ class Object {
   def or_take: other {
     "Returns self if it's non-nil, otherwise returns the given object."
 
-    if: (self nil?) then: {
+    if: nil? then: {
       other
     } else: {
       self

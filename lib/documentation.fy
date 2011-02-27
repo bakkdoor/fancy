@@ -62,23 +62,23 @@ class Fancy Documentation {
       Append docstring to the documentation for obj.
       If obj has no documentation, one is created for it.
     """
-    doc = self for: obj
+    doc = for: obj
     doc if_do: {
       doc docs << docstring
     } else: {
-      doc  = self for: obj is: docstring
+      doc  = for: obj is: docstring
     }
     doc
   }
 
   def self formatter: name {
     "Obtain a formatter by the given name. Returns a callable object"
-    self formatters at: name
+    formatters at: name
   }
 
   def self formatter: name is: callable {
     "Register a callable object as formatter under name."
-    self formatters at: name put: callable
+    formatters at: name put: callable
   }
 
   def self formatters {

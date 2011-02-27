@@ -56,6 +56,6 @@ class Set {
 
   def inspect {
     "Returns a detailed String representation of a Set."
-    self to_s ++ " : Set"
+    to_s ++ " : Set"
   }
 }
