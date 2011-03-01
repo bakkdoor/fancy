@@ -188,4 +188,8 @@ class Object {
     block call: [val]
     val
   }
+
+  def ? future {
+    future value
+  }
 }
