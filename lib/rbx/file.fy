@@ -10,6 +10,7 @@ class File {
   ruby_alias: 'eof?
   #ruby_alias: 'close
   ruby_alias: 'closed?
+  ruby_alias: 'flush
 
   def File open: filename modes: modes_arr with: block {
     """
