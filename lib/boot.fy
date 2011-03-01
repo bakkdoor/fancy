@@ -32,6 +32,8 @@ require: "symbol"
 require: "method"
 require: "stack"
 require: "proxy"
+require: "thread_pool"
+require: "future"
 
 # version holds fancy's version number
 require: "version"

@@ -1,9 +1,7 @@
-require: "thread_pool"
-
 class Future {
-  @@thread_pool = ThreadPool new: 10
-
+  @@thread_pool = nil
   def initialize: @block {
+    { @@thread_pool = ThreadPool new: 10 } unless: @@thread_pool
     @@thread_pool execute: @block
   }
 
