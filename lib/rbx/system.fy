@@ -28,10 +28,4 @@ class System {
 
     IO popen(command_str)
   }
-
-  def System sleep: n_ms {
-    "Sets the Fancy process for a given amount of milliseconds to sleep."
-
-    Kernel sleep(n_ms to_f / 1000)
-  }
 }
