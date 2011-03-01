@@ -155,6 +155,11 @@ class Fancy {
       ast: line send: message to: receiver
     }
 
+    def ast: line future_oper: oper arg: arg to: receiver {
+      oper_send = ast: line oper: oper arg: arg to: receiver
+      AST FutureSend new: line message_send: oper_send
+    }
+
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
       args = ruby if_do: {
         unless: receiver do: {
@@ -175,6 +180,11 @@ class Fancy {
         args = AST MessageArgs new: line args: args
       }
       AST MessageSend new: line message: name to: receiver args: args
+    }
+
+    def ast: line future_send: message to: receiver ruby: ruby (nil) {
+      message_send = ast: line send: message to: receiver ruby: ruby
+      AST FutureSend new: line message_send: message_send
     }
 
     def method_name: margs {
@@ -297,7 +307,6 @@ class Fancy {
     def ast: line file_error: text {
       ("File error '" ++ text ++ "' while trying to parse " ++ @filename) . raise!
     }
-
   }
 }
 
