@@ -81,7 +81,7 @@ class ThreadPool {
 
   # Sleeps and blocks until the task queue is finished executing
   def join {
-    { Thread sleep: 100 } until: { { @queue empty? } && { @executors all? |e| { e active not } } }
+    { Thread sleep: 100 } until: { { @queue empty? } && { @executors all?: |e| { e active not } } }
   }
 
   class Completable {
