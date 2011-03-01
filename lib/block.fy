@@ -50,6 +50,14 @@ class Block {
     }
   }
 
+  def until: block {
+    """
+    Calls @self while @block yields @nil or @false.
+    """
+
+    while: { block call not } do: self
+  }
+
   def && other_block {
     """
     Short-circuiting && (boolean AND).
