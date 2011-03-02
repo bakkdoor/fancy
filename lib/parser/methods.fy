@@ -2,6 +2,8 @@ require: "parse_error"
 
 class Fancy {
   class Parser {
+    SelectorVarDefault = Struct.new('selector, 'variable, 'default)
+    SelectorValue = Struct new('selector, 'value)
 
     def self parse_file: filename line: line (1) {
       new: filename line: line . parse_file . script
@@ -143,11 +145,11 @@ class Fancy {
     }
 
     def ast: line param: selector var: variable default: default (nil) {
-      Struct.new('selector, 'variable, 'default) new(selector, variable, default)
+      SelectorVarDefault new(selector, variable, default)
     }
 
     def ast: line send: selector arg: value ary: ary ([]) {
-      ary << $ Struct new('selector, 'value) new(selector, value)
+      ary << $ SelectorValue new(selector, value)
     }
 
     def ast: line oper: oper arg: arg to: receiver (AST Self new: line) {
