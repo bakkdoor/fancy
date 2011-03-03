@@ -17,6 +17,7 @@ class Object {
   ruby_alias: '==
   ruby_alias: '===
   ruby_alias: 'class
+  ruby_alias: 'inspect
 
   def initialize {
     initialize()
@@ -29,10 +30,6 @@ class Object {
 
   def to_s {
     to_s()
-  }
-
-  def inspect {
-    inspect()
   }
 
   def set_slot: slotname value: val {
