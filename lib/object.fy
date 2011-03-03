@@ -4,6 +4,17 @@ class Object {
   All classes inherit from Object.
   """
 
+  def ++ other {
+    """
+    @other Other object to concatenate its @String value with.
+    @return @String concatenation of @String values of @self and @other.
+
+    Returns the @String concatenation of @self and @other.
+    Calls to_s on @self and @other and concatenates the results to a new @String.
+    """
+    to_s + (other to_s)
+  }
+
   def loop: block {
     "Infinitely calls the block (loops)."
     { true } while_true: {

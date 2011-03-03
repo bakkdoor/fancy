@@ -24,11 +24,7 @@ class Object {
 
   def dclone {
     "Returns a deep clone of self using Ruby's Marshal class."
-    Marshal load: $ Marshal dump: self
-  }
-
-  def ++ other {
-    to_s + (other to_s)
+    Marshal load(Marshal dump(self))
   }
 
   def to_s {
