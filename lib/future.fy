@@ -1,6 +1,7 @@
 class Future {
   @@thread_pool = nil
   @@pool_size = 10
+  WaitInterval = 100
 
   def Future pool: n {
     @@pool_size = match n {
@@ -18,8 +19,14 @@ class Future {
     @@thread_pool execute: @block
   }
 
+  def when_done: block {
+    value if_do: |v| {
+      block call: [v]
+    }
+  }
+
   def value {
-    { Thread sleep: 100 } until: { @block complete? }
+    { Thread sleep: WaitInterval } until: { @block complete? }
     @block completed_value
   }
 }
