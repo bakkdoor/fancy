@@ -44,9 +44,7 @@ class Block {
     loop: {
       call if_do: |val| {
         return val
-      } else: {
-        block call
-      }
+      } else: block
     }
   }
 
@@ -63,9 +61,7 @@ class Block {
     Short-circuiting && (boolean AND).
     """
 
-    if: call then: {
-      other_block call
-    } else: {
+    if: call then: other_block else: {
       return false
     }
   }
@@ -77,21 +73,19 @@ class Block {
 
     if: call then: {
       return true
-    } else: {
-      other_block call
-    }
+    } else: other_block
   }
 
   def if: obj {
     "Calls itself if the given object is true-ish."
 
-    if: obj then: { call }
+    if: obj then: self
   }
 
   def unless: obj {
     "Opposite of Block#if:. Calls itself if the given object is false-ish."
 
-    unless: obj do: { call }
+    unless: obj do: self
   }
 
   def === val {
