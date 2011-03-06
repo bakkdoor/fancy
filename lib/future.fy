@@ -1,7 +1,7 @@
 class Future {
   @@thread_pool = nil
   @@pool_size = 10
-  WaitInterval = 100
+  WaitInterval = 0.1
 
   def Future pool: n {
     @@pool_size = match n {

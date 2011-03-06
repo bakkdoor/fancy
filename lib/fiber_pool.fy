@@ -49,7 +49,7 @@ class FiberPool {
           }
           cleanup_pool
         }
-        Thread sleep: 1000
+        Thread sleep: 1
       }
     }
   }

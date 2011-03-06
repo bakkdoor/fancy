@@ -5,7 +5,7 @@ if: (ARGV[1]) then: |n| {
 
 fs = []
 100 times: |i| {
-  f = { Thread sleep: 500; i println } @ call
+  f = { Thread sleep: 0.5; i println } @ call
   fs << f
 }
 

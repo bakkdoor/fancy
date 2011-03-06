@@ -72,9 +72,9 @@ class Thread {
     start(&block)
   }
 
-  def Thread sleep: n_ms {
-    "Sets the Fancy process for a given amount of milliseconds to sleep."
+  def Thread sleep: seconds {
+    "Sets the Fancy process for a given amount of seconds to sleep."
 
-    Kernel sleep(n_ms to_f / 1000)
+    Kernel sleep(seconds)
   }
 }

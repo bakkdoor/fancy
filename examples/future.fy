@@ -1,15 +1,15 @@
 def foo {
-  Thread sleep: 3000
+  Thread sleep: 3
   "FOO"
 }
 
 def + other {
-  Thread sleep: 1500
+  Thread sleep: 1.5
   "PLUS"
 }
 
 def baz: num {
-  Thread sleep: (num * 500)
+  Thread sleep: (num * 0.5)
   "BAZ"
 }
 

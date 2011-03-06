@@ -6,6 +6,6 @@ def bar {
 
 self @@ bar
 self @@ bar
-Thread sleep: 1000
+Thread sleep: 1
 self @@ bar
 Console readln

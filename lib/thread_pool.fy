@@ -23,7 +23,7 @@ class ThreadPool {
             block completed_value: val
           } else: {
             @active = false
-            Thread sleep: 100
+            Thread sleep: 0.1
           }
         }
       }
@@ -49,7 +49,7 @@ class ThreadPool {
     init_completable: block
 
     if: (@queue_limit > 0) then: {
-      { Thread sleep: 100 } until: { @queue size < @queue_limit }
+      { Thread sleep: 0.1 } until: { @queue size < @queue_limit }
     }
 
     @mutex synchronize() {
@@ -60,7 +60,7 @@ class ThreadPool {
   # Runs the block at some time in the near future, and blocks until complete
   def execute_synchronous: block with_args: args ([]) {
     execute: block with_args: args
-    { Thread sleep: 100 } until: { block complete? }
+    { Thread sleep: 0.1 } until: { block complete? }
     block completed_value
   }
 
@@ -81,7 +81,7 @@ class ThreadPool {
 
   # Sleeps and blocks until the task queue is finished executing
   def join {
-    { Thread sleep: 100 } until: { { @queue empty? } && { @executors all?: |e| { e active not } } }
+    { Thread sleep: 0.1 } until: { { @queue empty? } && { @executors all?: |e| { e active not } } }
   }
 
   class Completable {
