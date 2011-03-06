@@ -27,6 +27,7 @@ multiline_string L?\"\"\"(\\.|[^\\"])*\"\"\"
 lparen          \(
 rparen          \)
 at              @
+atat            @@
 at_lcurly       "@{"
 lcurly          "{"
 rcurly          "}"
@@ -106,6 +107,7 @@ escaped_newline "\\".*\n
 {lparen}        { return LPAREN; }
 {rparen}        { return RPAREN; }
 {at}            { return FUTURE_SEND; }
+{atat}          { return ASYNC_SEND; }
 {at_lcurly}     { return AT_LCURLY; }
 {lcurly}        { return LCURLY; }
 {rcurly}        { return RCURLY; }

@@ -162,6 +162,11 @@ class Fancy {
       AST FutureSend new: line message_send: oper_send
     }
 
+    def ast: line async_oper: oper arg: arg to: receiver {
+      oper_send = ast: line oper: oper arg: arg to: receiver
+      AST AsyncSend new: line message_send: oper_send
+    }
+
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
       args = ruby if_do: {
         unless: receiver do: {
@@ -187,6 +192,11 @@ class Fancy {
     def ast: line future_send: message to: receiver ruby: ruby (nil) {
       message_send = ast: line send: message to: receiver ruby: ruby
       AST FutureSend new: line message_send: message_send
+    }
+
+    def ast: line async_send: message to: receiver ruby: ruby (nil) {
+      message_send = ast: line send: message to: receiver ruby: ruby
+      AST AsyncSend new: line message_send: message_send
     }
 
     def method_name: margs {
