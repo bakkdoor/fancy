@@ -1,29 +1,53 @@
 class FiberPool {
   def initialize {
     @pool = []
-    @current = nil
+    @scheduling = false
+    @mutex = Mutex new()
   }
 
   def size {
-    @pool size
+    @mutex synchronize() {
+      @pool size
+    }
   }
 
   def add: fiber {
-    @pool << fiber
+    @mutex synchronize() {
+      @pool << fiber
+    }
   }
 
   def remove: fiber {
-    @pool remove: fiber
+    @mutex synchronize() {
+      @pool remove: fiber
+    }
+  }
+
+  def scheduling? {
+    @scheduling
+  }
+
+  def pool {
+    @mutex synchronize() {
+      pool = @pool
+    }
+  }
+
+  def cleanup_pool {
+    @mutex synchronize() {
+      @pool select!: 'alive?
+    }
   }
 
   def schedule {
+    @scheduling = true
     Thread new: {
       loop: {
-        while: {@pool size > 0} do: {
-          @pool each: |f| {
+        while: {pool size > 0} do: {
+          pool each: |f| {
             f resume
           }
-          @pool select!: 'alive?
+          cleanup_pool
         }
         Thread sleep: 1000
       }
@@ -35,6 +59,9 @@ class Scheduler {
   @@pool = FiberPool new
   def Scheduler add: fiber {
     @@pool add: fiber
+    unless: (@@pool scheduling?) do: {
+      schedule
+    }
   }
 
   def Scheduler remove: fiber {
