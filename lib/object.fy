@@ -203,4 +203,8 @@ class Object {
   def ? future {
     future value
   }
+
+  def yield {
+    Fiber yield
+  }
 }
