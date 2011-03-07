@@ -45,7 +45,10 @@ class FiberPool {
       loop: {
         while: {pool size > 0} do: {
           pool each: |f| {
-            f resume
+            unless: (f asleep?) do: {
+              sleep_time = f resume
+              { f sleep: sleep_time } if: sleep_time
+            }
           }
           cleanup_pool
         }
@@ -62,6 +65,7 @@ class Scheduler {
     unless: (@@pool scheduling?) do: {
       schedule
     }
+    nil
   }
 
   def Scheduler remove: fiber {
