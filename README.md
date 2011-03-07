@@ -17,6 +17,8 @@ It will support concurrency via the actor-model, including first-class
 futures and async operation semantics built into the language.
 
 For a quick feature overview, have a look at `doc/features.md`
+For a recent version of the code with syntax highlighting look here:
+http://fancy-lang.org/code/
 There's also a work-in-progress tutorial/book on Fancy here:
 https://github.com/fancy-lang/infancy
 
