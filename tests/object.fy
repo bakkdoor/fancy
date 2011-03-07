@@ -101,8 +101,8 @@ FancySpec describe: Object with: {
   }
 
   it: "should be true for calling || with any value" for: '|| when: {
-    ('foo || 'bar) should == true
-    ('foo || nil) should == true
+    ('foo || 'bar) should == 'foo
+    ('foo || nil) should == 'foo
   }
 
   # end boolean messages

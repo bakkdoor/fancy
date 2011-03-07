@@ -106,8 +106,12 @@ class Object {
   }
 
   def || other {
-    "Same as Object#or:"
-    or: other
+    "Returns @ self if self is true-ish, otherwise returns @other"
+    self if_do: {
+      return self
+    } else: {
+      return other
+    }
   }
 
   def && other {

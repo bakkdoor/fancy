@@ -22,11 +22,11 @@ FancySpec describe: NilClass with: {
 
   it: "should be true for calling || with any non-nil value" for: '|| when: {
     (nil || true) should == true
-    (nil || 'foo) should == true
+    (nil || 'foo) should == 'foo
   }
 
   it: "should be nil for calling || with a nil value" for: '|| when: {
-    (nil || nil) should == false
+    (nil || nil) should == nil
   }
 
   it: "should NOT call the block" for: 'if_true: when: {
