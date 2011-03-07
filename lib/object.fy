@@ -207,4 +207,12 @@ class Object {
   def yield {
     Fiber yield
   }
+
+  def yield: values {
+    Fiber yield: values
+  }
+
+  def wait: seconds {
+    Fiber yield: [seconds]
+  }
 }
