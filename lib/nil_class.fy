@@ -53,4 +53,8 @@ class NilClass {
   def not {
     true
   }
+
+  def inspect {
+    "nil"
+  }
 }
