@@ -1,6 +1,7 @@
 Tuple = Rubinius Tuple
 class Tuple {
   ruby_alias: 'size
+  ruby_alias: 'to_a
 
   def initialize: size {
     """
