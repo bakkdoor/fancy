@@ -33,6 +33,7 @@ require: "method"
 require: "stack"
 require: "proxy"
 require: "thread_pool"
+require: "fiber"
 require: "fiber_pool"
 require: "future"
 
