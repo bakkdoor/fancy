@@ -41,11 +41,7 @@ class Block {
     Calls a given Block as long as @self returns @nil or @false.
     """
 
-    loop: {
-      call if_do: |val| {
-        return val
-      } else: block
-    }
+    self while_false: block
   }
 
   def until: block {
@@ -53,7 +49,7 @@ class Block {
     Calls @self while @block yields @nil or @false.
     """
 
-    while: { block call not } do: self
+    { block call not } while_true: self
   }
 
   def && other_block {
@@ -71,8 +67,8 @@ class Block {
     Short-circuiting || (boolean OR).
     """
 
-    if: call then: {
-      return true
+    if: call then: |val| {
+      return val
     } else: other_block
   }
 

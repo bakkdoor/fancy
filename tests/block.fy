@@ -57,6 +57,18 @@ FancySpec describe: Block with: {
     }
   }
 
+  it: "should call another block while a block yields false" for: 'until_do: when: {
+    i = 0
+    { i > 10 } until_do: { i <= 10 should == true; i = i + 1 }
+    i should == 11
+  }
+
+  it: "should call a block until another yields true" for: 'until: when: {
+    i = 0
+    { i <= 10 should == true; i = i + 1 } until: { i > 10 }
+    i should == 11
+  }
+
   it: "should call itself only when the argument is nil" for: 'unless: when: {
     try {
       { StdError new: "got_run!" . raise! } unless: nil
