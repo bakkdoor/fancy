@@ -94,4 +94,8 @@ class String {
     "Raises a new StdError with @self as the message."
     StdError new: self . raise!
   }
+
+  def % values {
+    ruby: '% args: [values to_a]
+  }
 }
