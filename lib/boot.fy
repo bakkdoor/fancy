@@ -1,4 +1,4 @@
-# boot.fnc
+# boot.fy
 # This file gets loaded & run by Fancy automatically.
 # It loads in Fancy's standard library & core classes.
 
