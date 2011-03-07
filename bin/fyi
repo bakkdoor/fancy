@@ -1,17 +1,20 @@
 #!/usr/bin/env fancy
 # -*- fancy -*-
 
-ARGV[1] if_do: |ident| {
-  "Documentation for: '" ++ ident ++ "' :" println;
-  ident includes?: "#" . if_true: {
-    parts = (ident split: "#");
-    obj = (parts[0]) eval;
-    method = obj method: (parts[1]);
-    method documentation println
-  } else: {
-    obj = ident eval;
-    obj documentation println
+if: (ARGV[1]) then: |ident| {
+  "Documentation for: '#{ident}' :" println;
+  if: (ident includes?: "#") then: {
+    parts = ident split: "#"
+    obj = parts[0] eval
+    if: (parts[1]) then: |method_name| {
+      method = obj instance_method: $ parts[1]
+      method documentation println
+      System exit
+    }
   }
+  # just print documentation for class here
+  obj = ident eval
+  obj documentation println
 } else: {
   ["Prints the documentation string for a given object or one if its methods",
    "Usage:",
