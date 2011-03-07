@@ -8,6 +8,7 @@ class String {
   ruby_alias: 'to_i
   ruby_alias: 'to_f
   ruby_alias: 'chomp
+  ruby_alias: 'inspect
 
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.

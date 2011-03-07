@@ -9,6 +9,7 @@ class Array {
   ruby_alias: 'pop
   ruby_alias: 'last
   ruby_alias: 'shuffle
+  ruby_alias: 'inspect
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
