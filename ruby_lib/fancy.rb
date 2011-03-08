@@ -15,11 +15,25 @@ Fancy::CodeLoader.push_loadpath File.expand_path("../lib", base)
 Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/eval", base)
 
 class Object
-  def fy(hash_or_name)
-    if hash_or_name.is_a? Hash
-      self.send("#{hash_or_name.keys.join(':')}:", *hash_or_name.values)
+  def fancy_message_args name_and_args
+    method_name = []
+    args = []
+    name_and_args.each_with_index do |a, i|
+      if i % 2 == 0
+        method_name << a
+      else
+        args << a
+      end
+    end
+    return [method_name.join(":") + ":", args]
+  end
+
+  def fy(*array_or_name)
+    if array_or_name.size > 1
+      message_name, args = fancy_message_args array_or_name
+      self.send(message_name, *args)
     else
-      self.send(":#{hash_or_name}")
+      self.send(":#{array_or_name}")
     end
   end
 
