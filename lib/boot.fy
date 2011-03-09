@@ -36,6 +36,7 @@ require: "thread_pool"
 require: "fiber"
 require: "fiber_pool"
 require: "future"
+require: "struct"
 
 # version holds fancy's version number
 require: "version"
