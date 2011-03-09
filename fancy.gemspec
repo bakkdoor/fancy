@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email = "chris@fancy-lang.org"
 
   files =
-    ["README.md", "LICENSE", "AUTHORS", "Rakefile", "extconf.rb", "ruby_lib/fancy.rb"] +
+    ["README.md", "LICENSE", "AUTHORS", "Rakefile", "boot/extconf.rb", "ruby_lib/fancy.rb"] +
     Dir.glob("lib/**/*.fy") + Dir.glob("lib/parser/ext/**/*") +
     Dir.glob("tests/**/*.fy") + ["tools/fancy-mode.el"] + ["bin/fancy", "bin/fdoc", "bin/fyi", "bin/ifancy"] +
     Dir.glob("examples/**/*.fy") + Dir.glob("doc/**/*")
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = files
   s.require_path = "ruby_lib"
-  s.extensions = 'extconf.rb'
+  s.extensions = 'boot/extconf.rb'
 
   s.executables = ["fancy", "ifancy", "fdoc", "fyi"]
 
