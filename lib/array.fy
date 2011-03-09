@@ -220,6 +220,13 @@ class Array {
   }
 
   def Array === object {
+    """
+    @object Object to match @self against.
+    @return @nil, if no match, matched values (in an @Array) otherwise.
+
+    Matches an @Array against another object.
+    """
+
     if: (object is_a?: Array) then: {
       return [object] + object
     }

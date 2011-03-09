@@ -85,6 +85,13 @@ class Block {
   }
 
   def === val {
+    """
+    @val Other object to match @self against.
+    @return Value of calling @self with @val.
+
+    Matches a @Block against another object by calling @self with @val.
+    """
+
     call: [val]
   }
 }
