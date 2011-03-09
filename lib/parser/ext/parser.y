@@ -534,6 +534,12 @@ ruby_send:      exp ruby_send_open ruby_args {
                 | ruby_send_open ruby_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $1, Qnil, $2);
                 }
+                | exp FUTURE_SEND ruby_send_open ruby_args {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:ruby:"), 4, INT2NUM(yylineno), $3, $1, $4);
+                }
+                | exp ASYNC_SEND ruby_send_open ruby_args {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:ruby:"), 4, INT2NUM(yylineno), $3, $1, $4);
+                }
                 ;
 
 /*
