@@ -4,6 +4,7 @@ Fiber = Rubinius Fiber
 
 class Fiber {
    metaclass ruby_alias: 'yield
+   metaclass ruby_alias: 'current
    ruby_alias: 'resume
    ruby_alias: 'alive?
 
