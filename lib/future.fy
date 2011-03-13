@@ -36,3 +36,20 @@ class Future {
     @block completed_value
   }
 }
+
+class FutureCollection {
+  include: FancyEnumerable
+
+  def initialize: @futures {
+  }
+
+  def each: block {
+    @futures each: |f| {
+      f when_done: block
+    }
+  }
+
+  def await_all {
+    @futures each: 'value
+  }
+}
