@@ -10,6 +10,7 @@ class Array {
   ruby_alias: 'last
   ruby_alias: 'shuffle
   ruby_alias: 'inspect
+  ruby_alias: 'shift
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
@@ -257,19 +258,7 @@ class Array {
     join(join_str)
   }
 
-  def sum {
-    """
-    Calculates the sum of all the elements in the Enumerable
-    (assuming them to be Numbers (implementing '+' & '*')).
-    """
-
-    reduce: |x y| { x + y } init_val: 0
-  }
-
-  def product {
-    """Calculates the product of all the elements in the Enumerable
-      (assuming them to be Numbers (implementing '+' & '*'))."""
-
-    reduce: |x y| { x * y } init_val: 1
+  def unshift: value {
+    unshift(value)
   }
 }
