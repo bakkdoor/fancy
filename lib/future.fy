@@ -21,9 +21,7 @@ class Future {
 
   def when_done: block {
     Future new: {
-      value if_do: |v| {
-        block call: [v]
-      }
+      block call: [value]
     }
   }
 
