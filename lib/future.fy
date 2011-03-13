@@ -20,9 +20,15 @@ class Future {
   }
 
   def when_done: block {
-    value if_do: |v| {
-      block call: [v]
+    Future new: {
+      value if_do: |v| {
+        block call: [v]
+      }
     }
+  }
+
+  def && block {
+    when_done: block
   }
 
   def value {
