@@ -39,7 +39,7 @@ class String {
 
     Calls a given @Block with each character in a @String.
     """
-    split("") each(&block)
+    split("") each: block
   }
 
   def at: idx {

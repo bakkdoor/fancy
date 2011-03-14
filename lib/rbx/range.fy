@@ -10,6 +10,8 @@ class Range {
   }
 
   def each: block {
-    each(&block)
+    val = nil
+    each() |x| { val = block call: [x] }
+    val
   }
 }
