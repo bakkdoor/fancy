@@ -30,6 +30,13 @@ class File {
     lines join: "\n"
   }
 
+  def self touch: filename {
+    file = File expand_path(filename)
+    File open: file modes: ['write] with: |f| {
+      f write: ""
+    }
+  }
+
   def writeln: x {
     """
     Writes a given argument as a String followed by a newline into the

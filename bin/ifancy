@@ -6,6 +6,9 @@ require("readline")
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy " ++ FANCY_VERSION] println
 
+HISTORY_FILE = File expand_path("~/.fancy_history")
+HISTORY = []
+
 ARGV rest each: |file| {
   "LOADING: " ++ file println
   require: file
@@ -14,23 +17,52 @@ ARGV rest each: |file| {
 # handle SIGINT
 trap("INT") {
   "Quitting." println
+  save_history
   System exit
 }
 
 Console newline;
 
 def double_or_empty?: line {
-  (line =~ /^\s*$/) or: (Readline HISTORY to_a[-2] == line)
+  (line =~ /^\s*$/) or: (HISTORY [-2] == line)
 }
 
+def load_history {
+  if: (File exists?: HISTORY_FILE) then: {
+    File open: HISTORY_FILE modes: ['read] with: |f| {
+      f readlines each: |l| {
+        l = l strip()
+        Readline HISTORY <<(l)
+        HISTORY << l
+      }
+    }
+  } else: {
+    File touch: HISTORY_FILE
+  }
+}
+
+def save_history {
+  puts("saving history")
+  unless: @history_saved do: {
+    File open: HISTORY_FILE modes: ['write] with: |f| {
+      HISTORY each: |l| {
+        f writeln: l
+      }
+    }
+    @history_saved = true
+  }
+}
+
+load_history
 
 try {
   bnd = binding()
 
   { Readline readline(">> ", true) } while_do: |line| {
-
+    HISTORY << line
     double_or_empty?: line . if_true: {
       Readline::HISTORY pop()
+      HISTORY pop()
     }
 
     line =~ /^\s*$/ if_false: {
@@ -41,6 +73,8 @@ try {
       }
     }
   }
+  save_history
 } catch Interrupt => e {
+  save_history
   System exit
 }
