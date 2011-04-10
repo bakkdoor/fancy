@@ -2,9 +2,8 @@
 # Annotated example of fancy's classes mechanism
 
 class City {
-  read_slots: ['city]
-  def initialize: name {
-    @name = name
+  read_slots: ['name]
+  def initialize: @name {
   }
 
   def to_s {
