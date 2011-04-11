@@ -133,7 +133,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
   - Calling, using and extending arbitrary Ruby classes and methods
     (including C-extensions), as well as passing blocks and splat
     arguments to Ruby methods.
-  - Futures (`object @ message`)
+  - Futures (`future = object @ message`)
   - Async message sends (`object @@ message`)
 
 
