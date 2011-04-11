@@ -133,9 +133,12 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
   - Calling, using and extending arbitrary Ruby classes and methods
     (including C-extensions), as well as passing blocks and splat
     arguments to Ruby methods.
+  - Futures (`object @ message`)
+  - Async message sends (`object @@ message`)
+
 
 ##What's still missing?
-  - Concurrency stuff (Actor-model based concurrency, Futures etc)
+  - Some concurrency stuff (e.g. language syntax for actors)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (saved for later)
 
