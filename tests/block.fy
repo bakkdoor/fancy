@@ -139,4 +139,26 @@ FancySpec describe: Block with: {
     b receiver: "Hello, World!"
     b receiver should == "Hello, World!"
   }
+
+  it: "should call a block with a different receiver" for: 'call_with_receiver when: {
+    class ClassA {
+      def inspect {
+        "in ClassA#inspect"
+      }
+    }
+    class ClassB {
+      def inspect {
+        "in ClassB#inspect"
+      }
+    }
+    def self inspect {
+      "in self#inspect"
+    }
+    block = {
+      self inspect
+    }
+    block call should == "in self#inspect"
+    block call_with_receiver: (ClassA new) . should == "in ClassA#inspect"
+    block call_with_receiver: (ClassB new) . should == "in ClassB#inspect"
+  }
 }
