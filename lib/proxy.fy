@@ -14,3 +14,20 @@ class ProxyReceiver : BasicObject {
 }
 
 Proxy = ProxyReceiver
+
+class RespondsToProxy : BasicObject {
+  """
+  A RespondsToProxy is a Proxy that forwards any message sent to it to it's @target instance variable
+  only if it responds to that message. Any messages that @target doesn't respond to simply won't be sent
+  and @nil will be returned.
+  """
+
+  def initialize: @target {
+  }
+
+  def unknown_message: msg with_params: params {
+    if: (@target responds_to?: msg) then: {
+      @target send: msg params: params
+    }
+  }
+}

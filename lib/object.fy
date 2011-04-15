@@ -204,6 +204,22 @@ class Object {
     val
   }
 
+  def if_responds? {
+    """
+    @return RespondsToProxy for @self
+
+    Returns a @RespondsToProxy@ for @self that forwards any messages
+    only if @self responds to them.
+
+    Example usage:
+
+        # only send 'some_message: if object responds to it:
+        object if_responds? some_message: some_parameter
+    """
+
+    RespondsToProxy new: self
+  }
+
   def ? future {
     future value
   }

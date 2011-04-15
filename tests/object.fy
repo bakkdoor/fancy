@@ -130,4 +130,16 @@ FancySpec describe: Object with: {
       arr << 3
     } . should == [1,2,3]
   }
+
+  it: "should only call a method if the receiver responds to it using a RespondsToProxy" for: 'if_responds? when: {
+    class SomeClass {
+      def some_method {
+        'it_works!
+      }
+    }
+
+    s = SomeClass new
+    s if_responds? some_method should == 'it_works!
+    s if_responds? some_undefined_method should == nil
+  }
 }
