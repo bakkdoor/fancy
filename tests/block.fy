@@ -161,4 +161,26 @@ FancySpec describe: Block with: {
     block call_with_receiver: (ClassA new) . should == "in ClassA#inspect"
     block call_with_receiver: (ClassB new) . should == "in ClassB#inspect"
   }
+
+  it: "should call a block with arguments and a different receiver" for: 'call:with_receiver: when: {
+    class ClassC {
+      def inspect: x {
+        "in ClassC#inspect: #{x}"
+      }
+    }
+    class ClassD {
+      def inspect: x {
+        "in ClassD#inspect: #{x}"
+      }
+    }
+    def self inspect: x {
+      "in self#inspect: #{x}"
+    }
+    block = |arg| {
+      self inspect: arg
+    }
+    block call: [42] . should == "in self#inspect: 42"
+    block call: [42] with_receiver: (ClassC new) . should == "in ClassC#inspect: 42"
+    block call: [42] with_receiver: (ClassD new) . should == "in ClassD#inspect: 42"
+  }
 }
