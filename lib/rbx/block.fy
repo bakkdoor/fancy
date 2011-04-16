@@ -57,8 +57,8 @@ class Block {
     g goto(loop)
 
     end set!()
-    g.push_nil()
-    g.ret()
+    g push_nil()
+    g ret()
   }
 }
 
