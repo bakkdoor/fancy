@@ -40,8 +40,8 @@ class Block {
   }
 
   dynamic_method('while_true:) |g| {
-    loop = g.new_label()
-    end = g.new_label()
+    loop = g new_label()
+    end = g new_label()
     g total_args=(1)
 
     loop set!()
