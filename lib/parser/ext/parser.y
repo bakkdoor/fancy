@@ -360,6 +360,9 @@ method_args:    method_arg {
                 | method_args method_args_default {
                   $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
+                | method_args_default {
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
+                }
                 ;
 
 method_arg_default: selector identifier LPAREN space exp space RPAREN {

@@ -211,6 +211,10 @@ class Fancy {
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos - 1)
           default = margs from: (idx + pos) to: -1
+          only_default_args = default size == (margs size)
+          if: only_default_args then: {
+            required = []
+          }
           params = required map: |r| { r variable() } . + $ default map: |d| { d default() }
 
           forward = AST MessageSend new: line \
@@ -220,6 +224,13 @@ class Fancy {
 
           doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
           body = AST ExpressionList new: line  list: [doc, forward]
+
+          # use base method name (e.g. "foo:" -> "foo") for the method to be generated
+          # if there are no more arguments left (only default args left)
+          if: only_default_args then: {
+            required = AST Identifier from: (margs first selector() string from: 0 to: -2) line: line
+          }
+
           block call: [required, body]
         }
       }
