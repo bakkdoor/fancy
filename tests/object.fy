@@ -1,12 +1,12 @@
 FancySpec describe: Object with: {
   it: "should dynamically evaluate a message-send with no arguments" when: {
     obj = 42
-    obj send: "to_s" . should == "42"
+    obj send_message: 'to_s . should == "42"
   }
 
   it: "should dynamically evaluate a message-send with a list of arguments" when: {
     obj = "hello, world"
-    obj send: "from:to:" params: [0,4] . should == "hello"
+    obj send_message: 'from:to: with_params: [0,4] . should == "hello"
   }
 
   it: "should dynamically define slotvalues" when: {

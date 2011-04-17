@@ -8,8 +8,8 @@ class ProxyReceiver : BasicObject {
   }
 
   def unknown_message: msg with_params: params {
-    @proxy send: msg params: params
-    @obj send: msg params: params
+    @proxy send_message: msg with_params: params
+    @obj send_message: msg with_params: params
   }
 }
 
@@ -27,7 +27,7 @@ class RespondsToProxy : BasicObject {
 
   def unknown_message: msg with_params: params {
     if: (@target responds_to?: msg) then: {
-      @target send: msg params: params
+      @target send_message: msg with_params: params
     }
   }
 }

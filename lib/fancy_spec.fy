@@ -140,7 +140,7 @@ class FancySpec {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""
 
-      unless: (@actual_value send: msg params: params) do: {
+      unless: (@actual_value send_message: msg with_params: params) do: {
         SpecTest failed_test: [@actual_value, params first]
       }
     }

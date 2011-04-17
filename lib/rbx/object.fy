@@ -87,11 +87,11 @@ class Object {
     kind_of?(class)
   }
 
-  def send: message {
+  def send_message: message {
     send(message_name: message)
   }
 
-  def send: message params: params {
+  def send_message: message with_params: params {
     ruby: (message_name: message) args: params
   }
 

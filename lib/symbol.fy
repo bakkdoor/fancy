@@ -14,9 +14,9 @@ class Symbol {
     """
 
     if: (arg is_a?: Array) then: {
-      arg first send: self params: $ arg rest
+      arg first send_message: self with_params: $ arg rest
     } else: {
-      arg send: self
+      arg send_message: self
     }
   }
 
