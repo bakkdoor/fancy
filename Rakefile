@@ -255,6 +255,14 @@ task :test do
   *Dir.glob(_("tests/*.fy"))
 end
 
+task :tests do
+  task(:test).invoke
+end
+
+task "tests/" do
+  task(:test).invoke
+end
+
 task :bootstrap => ["compiler:bootstrap"]
 
 task :default => [:bootstrap_if_needed, :compile]
