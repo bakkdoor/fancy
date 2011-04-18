@@ -59,6 +59,10 @@ class Pattern {
   def || alternative_pattern {
     PatternDisjunction new: self with: alternative_pattern
   }
+
+  def >> next_pattern {
+    PatternSequence new: self with: next_pattern
+  }
 }
 
 WildcardPattern = Pattern new: |value fail_block| {
@@ -88,6 +92,20 @@ class PatternDisjunction : Pattern {
   def does_match: val else: fail_block {
     @pattern does_match: val else: {
       @alternative does_match: val else: fail_block
+    }
+  }
+}
+
+class PatternSequence : Pattern {
+  def initialize: @pattern with: @next_pattern {
+  }
+
+  def does_match: val else: fail_block {
+    bind = @pattern does_match: val else: { MatchFailure }
+    if: (bind == MatchFailure) then: {
+      match_failed_for: val escape: fail_block
+    } else: {
+      @next_pattern does_match: (bind value) else: fail_block
     }
   }
 }
