@@ -1,12 +1,12 @@
 FancySpec describe: Object with: {
   it: "should dynamically evaluate a message-send with no arguments" when: {
     obj = 42
-    obj send: "to_s" . should == "42"
+    obj send_message: 'to_s . should == "42"
   }
 
   it: "should dynamically evaluate a message-send with a list of arguments" when: {
     obj = "hello, world"
-    obj send: "from:to:" params: [0,4] . should == "hello"
+    obj send_message: 'from:to: with_params: [0,4] . should == "hello"
   }
 
   it: "should dynamically define slotvalues" when: {
@@ -101,8 +101,8 @@ FancySpec describe: Object with: {
   }
 
   it: "should be true for calling || with any value" for: '|| when: {
-    ('foo || 'bar) should == true
-    ('foo || nil) should == true
+    ('foo || 'bar) should == 'foo
+    ('foo || nil) should == 'foo
   }
 
   # end boolean messages
@@ -129,5 +129,17 @@ FancySpec describe: Object with: {
       arr << 2
       arr << 3
     } . should == [1,2,3]
+  }
+
+  it: "should only call a method if the receiver responds to it using a RespondsToProxy" for: 'if_responds? when: {
+    class SomeClass {
+      def some_method {
+        'it_works!
+      }
+    }
+
+    s = SomeClass new
+    s if_responds? some_method should == 'it_works!
+    s if_responds? some_undefined_method should == nil
   }
 }

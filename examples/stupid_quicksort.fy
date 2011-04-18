@@ -1,5 +1,5 @@
 def quicksort: arr {
-  match arr size -> {
+  match arr size {
     case (0..1) -> arr
     case _ ->
       piv = arr at: $ rand(arr size)

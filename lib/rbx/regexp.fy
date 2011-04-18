@@ -4,7 +4,7 @@ class Regexp {
   }
 
   def i {
-    Regexp new(self source(), true)
+    Regexp new(source(), true)
   }
 }
 

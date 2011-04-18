@@ -40,7 +40,7 @@ class World {
 
     display: 0
     amount_generations times: |i| {
-      System sleep: 500 # sleep 500 ms
+      Thread sleep: 0.5 # sleep 500 ms
       self simulate
       display: (i + 1)
     }

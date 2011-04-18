@@ -50,6 +50,16 @@ class Class {
     }
   }
 
+  def read_slot: slotname {
+    """
+    @slotname Name of slot to define a getter method for.
+
+    Defines a slot reader method for a given slotname.
+    """
+
+    define_slot_reader: slotname
+  }
+
   def write_slots: slots {
     """
     @slots @Array@ of slotnames to define setter methods for.
@@ -60,6 +70,16 @@ class Class {
     slots each: |s| {
       define_slot_writer: s
     }
+  }
+
+  def write_slot: slotname {
+    """
+    @slotname Name of slot to define a setter method for.
+
+    Defines a slot writer method for a given slotname.
+    """
+
+    define_slot_writer: slotname
   }
 
   def read_write_slots: slots {
@@ -75,6 +95,17 @@ class Class {
     }
   }
 
+  def read_write_slot: slotname {
+    """
+    @slotname Name of slot to define getter & setter methods for.
+
+    Defines slot reader & writer methods for a given slotname.
+    """
+
+    define_slot_reader: slotname
+    define_slot_writer: slotname
+  }
+
   def subclass?: class_obj {
     """
     @class_obj Class object to check for, if @self is a subclass of @class_obj.
@@ -87,8 +118,8 @@ class Class {
       true
     } else: {
       # take care of Object class, as Object is its own superclass
-      unless: (self superclass nil?) do: {
-        self superclass subclass?: class_obj
+      unless: (superclass nil?) do: {
+        superclass subclass?: class_obj
       }
     }
   }

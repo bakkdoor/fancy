@@ -1,12 +1,12 @@
 FancySpec describe: File with: {
   it: "should return an array with the openmodes symbols" for: 'open:modes: when: {
-    file = File open: "README" modes: ['read]
+    file = File open: "README.md" modes: ['read]
     file modes should == ['read]
     file close
   }
 
   it: "should be open after opening it and closed after closing" for: 'close when: {
-    file = File open: "README" modes: ['read]
+    file = File open: "README.md" modes: ['read]
     file open? should == true
     file close
     file open? should == false

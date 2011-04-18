@@ -6,23 +6,23 @@ class IO {
   ruby_alias: 'eof?
 
   def readln {
-    self readline
+    readline
   }
 
   def println {
-    self puts()
+    puts()
   }
 
   def print: obj {
-    self print(obj)
+    print(obj)
   }
 
   def println: obj {
-    self puts(obj)
+    puts(obj)
   }
 
   def printchar: char {
-    self printc(char)
+    printc(char)
   }
 
   alias_method: 'write: for: 'print:

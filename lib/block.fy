@@ -25,7 +25,7 @@ class Block {
       }
     """
 
-    { self call not } while_true: block
+    { call not } while_true: block
   }
 
   def while_nil: block {
@@ -41,13 +41,15 @@ class Block {
     Calls a given Block as long as @self returns @nil or @false.
     """
 
-    loop: {
-      self call if_do: |val| {
-        return val
-      } else: {
-        block call
-      }
-    }
+    self while_false: block
+  }
+
+  def until: block {
+    """
+    Calls @self while @block yields @nil or @false.
+    """
+
+    { block call not } while_true: self
   }
 
   def && other_block {
@@ -55,9 +57,7 @@ class Block {
     Short-circuiting && (boolean AND).
     """
 
-    if: (self call) then: {
-      other_block call
-    } else: {
+    if: call then: other_block else: {
       return false
     }
   }
@@ -67,26 +67,31 @@ class Block {
     Short-circuiting || (boolean OR).
     """
 
-    if: (self call) then: {
-      return true
-    } else: {
-      other_block call
-    }
+    if: call then: |val| {
+      return val
+    } else: other_block
   }
 
   def if: obj {
     "Calls itself if the given object is true-ish."
 
-    if: obj then: { self call }
+    if: obj then: self
   }
 
   def unless: obj {
     "Opposite of Block#if:. Calls itself if the given object is false-ish."
 
-    unless: obj do: { self call }
+    unless: obj do: self
   }
 
   def === val {
+    """
+    @val Other object to match @self against.
+    @return Value of calling @self with @val.
+
+    Matches a @Block against another object by calling @self with @val.
+    """
+
     call: [val]
   }
 }

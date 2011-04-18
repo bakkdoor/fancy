@@ -184,9 +184,9 @@ class Fancy {
        load_compiled_file: file find_file: true
     }
 
-    self metaclass send('alias_method, "require:", "fancy_require:")
-    self metaclass send('alias_method, "load:", "load_compiled_file:")
-    self metaclass send('alias_method, "load_compiled_file", "load_compiled_file:")
-    self metaclass send('alias_method, "push_loadpath", "push_loadpath:")
+    metaclass send('alias_method, "require:", "fancy_require:")
+    metaclass send('alias_method, "load:", "load_compiled_file:")
+    metaclass send('alias_method, "load_compiled_file", "load_compiled_file:")
+    metaclass send('alias_method, "push_loadpath", "push_loadpath:")
   }
 }

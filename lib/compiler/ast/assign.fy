@@ -68,28 +68,28 @@ class Fancy AST {
   class Identifier {
     def bytecode: g assign: value {
       pos(g)
-      Rubinius AST LocalVariableAssignment new(@line, self name, value) bytecode(g)
+      Rubinius AST LocalVariableAssignment new(@line, name, value) bytecode(g)
     }
   }
 
   class InstanceVariable {
     def bytecode: g assign: value {
       pos(g)
-      Rubinius AST InstanceVariableAssignment new(@line, self name, value) bytecode(g)
+      Rubinius AST InstanceVariableAssignment new(@line, name, value) bytecode(g)
     }
   }
 
   class ClassVariable {
     def bytecode: g assign: value {
       pos(g)
-      Rubinius AST ClassVariableAssignment new(@line, self name, value) bytecode(g)
+      Rubinius AST ClassVariableAssignment new(@line, name, value) bytecode(g)
     }
   }
 
   class Constant {
     def bytecode: g assign: value {
       pos(g)
-      Rubinius AST ConstantAssignment new(@line, self name, value) bytecode(g)
+      Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
     }
   }
 

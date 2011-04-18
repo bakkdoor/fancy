@@ -57,6 +57,18 @@ FancySpec describe: Block with: {
     }
   }
 
+  it: "should call another block while a block yields false" for: 'until_do: when: {
+    i = 0
+    { i > 10 } until_do: { i <= 10 should == true; i = i + 1 }
+    i should == 11
+  }
+
+  it: "should call a block until another yields true" for: 'until: when: {
+    i = 0
+    { i <= 10 should == true; i = i + 1 } until: { i > 10 }
+    i should == 11
+  }
+
   it: "should call itself only when the argument is nil" for: 'unless: when: {
     try {
       { StdError new: "got_run!" . raise! } unless: nil
@@ -126,5 +138,49 @@ FancySpec describe: Block with: {
 
     b receiver: "Hello, World!"
     b receiver should == "Hello, World!"
+  }
+
+  it: "should call a block with a different receiver" for: 'call_with_receiver when: {
+    class ClassA {
+      def inspect {
+        "in ClassA#inspect"
+      }
+    }
+    class ClassB {
+      def inspect {
+        "in ClassB#inspect"
+      }
+    }
+    def self inspect {
+      "in self#inspect"
+    }
+    block = {
+      self inspect
+    }
+    block call should == "in self#inspect"
+    block call_with_receiver: (ClassA new) . should == "in ClassA#inspect"
+    block call_with_receiver: (ClassB new) . should == "in ClassB#inspect"
+  }
+
+  it: "should call a block with arguments and a different receiver" for: 'call:with_receiver: when: {
+    class ClassC {
+      def inspect: x {
+        "in ClassC#inspect: #{x}"
+      }
+    }
+    class ClassD {
+      def inspect: x {
+        "in ClassD#inspect: #{x}"
+      }
+    }
+    def self inspect: x {
+      "in self#inspect: #{x}"
+    }
+    block = |arg| {
+      self inspect: arg
+    }
+    block call: [42] . should == "in self#inspect: 42"
+    block call: [42] with_receiver: (ClassC new) . should == "in ClassC#inspect: 42"
+    block call: [42] with_receiver: (ClassD new) . should == "in ClassD#inspect: 42"
   }
 }

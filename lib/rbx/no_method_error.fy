@@ -10,6 +10,6 @@ class NoMethodError {
     Returns the name of the method that was not found as a @String@.
     """
 
-    self name to_s from: 1 to: -1
+    name to_s from: 1 to: -1
   }
 }

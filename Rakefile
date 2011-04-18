@@ -156,8 +156,13 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
+  task :compile_tests do
+    say "Compiling test files"
+    system("bin/fancy -c tests/*.fy > /dev/null")
+  end
+
   task :bootstrap => ["parser:generate", "rbx_parser:ext", file(boot_parser_e)] do
-    ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
+    ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap", "compiler:compile_tests"].each do |t|
       task(t).reenable
       task(t).execute
     end
@@ -248,6 +253,14 @@ task :test do
   sh! _('bin/fancy'),
   '-e', 'ARGV rest rest each: |f| { require: f }',
   *Dir.glob(_("tests/*.fy"))
+end
+
+task :tests do
+  task(:test).invoke
+end
+
+task "tests/" do
+  task(:test).invoke
 end
 
 task :bootstrap => ["compiler:bootstrap"]

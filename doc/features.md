@@ -200,6 +200,17 @@
       }
     }
 
+### Single and multiple assignment. ###
+
+    x = "foo"
+    x, y = "Hello", "World"
+    x, y = y, x # swap x and y
+
+    # splat assignments for any object supporting range access via
+    # from:to: message
+    a, b, *rest = [1,2,3,4,5,6]   # => a = 1, b = 2, rest = [3,4,5,6]
+    *a, *b = [1,2,3]              # => a = [1,2,3], b = [2,3]
+
 ### Calling, using and extending arbitrary Ruby classes and methods (including C-extensions). ###
 
     require("open3")     # require ruby's open3 library

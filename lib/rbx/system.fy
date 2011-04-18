@@ -1,3 +1,5 @@
+require("open3")
+
 class System {
   def System exit {
     "Exit the running Fancy process."
@@ -22,16 +24,26 @@ class System {
 
   def System pipe: command_str {
     """
-    Runs the given string as a popen() call and returns a IO handle
+    @command_str String to run as a command via popen3()
+    @return @IO@ object representing the command's @STDOUT IO stream.
+
+    Runs the given string as a popen3() call and returns a IO handle
     that can be read from
     """
 
-    IO popen(command_str)
+    in, out, err = Open3 popen3(command_str)
+    return out
   }
 
-  def System sleep: n_ms {
-    "Sets the Fancy process for a given amount of milliseconds to sleep."
+  def System pipe: command_str do: block {
+    """
+    @command_str String to run as a command via popen3()
+    @block @Block@ to be called with @STDIN, @STDOUT and @STDERR.
 
-    Kernel sleep(n_ms / 1000)
+    Runs the given string as a popen3() call, passing in a given @Block@.
+    The @Block@ is expected to take 3 arguments for @STDIN, @STDOUT and @STDERR.
+    """
+
+    Open3 popen3(command_str, &block)
   }
 }

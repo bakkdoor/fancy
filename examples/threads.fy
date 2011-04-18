@@ -7,7 +7,7 @@ threads = []
     "Running Thread #" ++ i println
     i times: {
       "." print
-      System sleep: 1500 # sleep 1,5 sec
+      Thread sleep: 1.5 # sleep 1,5 sec
     }
   }
   threads << t

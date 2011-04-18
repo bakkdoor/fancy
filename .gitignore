@@ -1,4 +1,5 @@
 Makefile
+.DS_Store
 *.o
 *~
 *.log
@@ -20,3 +21,4 @@ lib/parser/ext/parser.c
 lib/parser/ext/lexer.h
 lib/parser/ext/parser.h
 lib/parser/ext/parser.output
+pygments/*

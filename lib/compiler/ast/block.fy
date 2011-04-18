@@ -72,7 +72,7 @@ class Fancy AST {
     }
 
     def required_args {
-      self total_args
+      total_args
     }
 
     def create_locals: block {

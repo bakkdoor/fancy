@@ -6,12 +6,13 @@ class Hash {
   alias_method: 'at: for: '[]
   ruby_alias: 'keys
   ruby_alias: 'values
+  ruby_alias: '==
 
   def inspect {
     str = "<["
-    max = self size - 1
+    max = size - 1
     i = 0
-    self each: |key,val| {
+    each: |key,val| {
       str = str ++ (key inspect) ++ " => " ++ (val inspect)
       { str = str + ", " } if: (i < max)
       i = i + 1

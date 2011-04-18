@@ -13,13 +13,13 @@ class Fancy AST {
         @args bytecode: g
         pos(g)
         { g allow_private() } if: (@receiver is_a?: Self)
-        sym = @name method_name: @receiver ruby_send: (self ruby_send?)
-        if: (self has_splat?) then: {
-          { g push_nil() } unless: $ self ruby_block?
+        sym = @name method_name: @receiver ruby_send: ruby_send?
+        if: has_splat? then: {
+          { g push_nil() } unless: ruby_block?
           g send_with_splat(sym, @args size, false)
           return nil
         }
-        if: (self ruby_block?) then: {
+        if: ruby_block? then: {
           g send_with_block(sym, @args size, false)
         } else: {
           g send(sym, @args size, false)

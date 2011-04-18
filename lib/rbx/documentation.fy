@@ -34,16 +34,16 @@ class Fancy Documentation {
     fancy docs.
     """
 
-    doc = self allocate()
+    doc = allocate()
     doc send('initialize:, docstring to_s)
     obj instance_variable_set('@_fancy_documentation, doc)
 
-    self documentation_for: obj set_to: doc
+    documentation_for: obj set_to: doc
     doc
   }
 
-  self for: (instance_method('initialize:)) is: "Create a new documentation object."
-  self for: (method('for:is:)) is: "Sets the documentation for obj."
+  for: (instance_method('initialize:)) is: "Create a new documentation object."
+  for: (method('for:is:)) is: "Sets the documentation for obj."
 
   def self for: obj {
     "Obtains the Fancy Documentation for obj."
@@ -57,7 +57,7 @@ class Fancy Documentation {
 
   def self for: obj append: docstring {
     "Append docstring to docs."
-    self for: obj is: docstring
+    for: obj is: docstring
   }
 
 }

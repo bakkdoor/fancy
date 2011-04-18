@@ -52,6 +52,12 @@ FancySpec describe: Hash with: {
     hash['foobar] should == 112.21
   }
 
+  it: "should return nil if the key isn't defined" for: '[] when: {
+    <['foo => "bar"]> ['bar] . should == nil
+    <[]> ['foobar] . should == nil
+    <['foo => "bar"]> [nil] . should == nil
+  }
+
   it: "should call the Block for each key and value" for: 'each: when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash each: |key val| {
@@ -89,13 +95,7 @@ FancySpec describe: Hash with: {
       map: 'second . should == ["is cool"]
   }
 
-  it: "should return nil if the key isn't defined" when: {
-    <['foo => "bar"]> ['bar] . should == nil
-    <[]> ['foobar] . should == nil
-    <['foo => "bar"]> [nil] . should == nil
-  }
-
-  it: "should return an Array of the key-value pairs" when: {
+  it: "should return an Array of the key-value pairs" for: 'to_a when: {
     <['foo => "bar", 'bar => "baz"]> to_a should =? [['foo, "bar"], ['bar, "baz"]]
   }
 }

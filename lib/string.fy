@@ -19,7 +19,7 @@ class String {
   def whitespace? {
     "Indicates, if a String is empty or a single whitespace character."
 
-    self empty? or: (self == " ")
+    empty? or: (self == " ")
   }
 
   def blank? {
@@ -43,7 +43,7 @@ class String {
   }
 
   def words {
-    self split
+    split
   }
 
   def raise! {

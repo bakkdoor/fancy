@@ -86,14 +86,14 @@ class FancySpec {
         any_failure = true
         Console newline
         "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-        self print_failed_positive
+        print_failed_positive
       }
 
       if: (@@failed_negative size > 0) then: {
         any_failure = true
         Console newline
         "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-        self print_failed_negative
+        print_failed_negative
       }
 
       { "." print } unless: any_failure
@@ -140,7 +140,7 @@ class FancySpec {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""
 
-      unless: (@actual_value send: msg params: params) do: {
+      unless: (@actual_value send_message: msg with_params: params) do: {
         SpecTest failed_test: [@actual_value, params first]
       }
     }

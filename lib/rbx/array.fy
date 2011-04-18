@@ -9,6 +9,8 @@ class Array {
   ruby_alias: 'pop
   ruby_alias: 'last
   ruby_alias: 'shuffle
+  ruby_alias: 'inspect
+  ruby_alias: 'shift
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
@@ -34,7 +36,7 @@ class Array {
   def includes?: obj {
     "Indicates, if an Array includes a given value."
 
-    self include?(obj)
+    include?(obj)
   }
 
   def clone {
@@ -67,7 +69,7 @@ class Array {
     """
 
     if: (index is_a?: Fixnum) then: {
-      deleted = self at: index
+      deleted = at: index
       delete_at(index)
       return deleted
     } else: {
@@ -75,7 +77,7 @@ class Array {
         count = 0
         deleted_values = []
         index each: |idx| {
-          deleted_values << (self at: (idx - count))
+          deleted_values << (at: (idx - count))
           delete_at(idx - count)
           count = count + 1
         }
@@ -158,14 +160,14 @@ class Array {
     """
 
     if: (from < 0) then: {
-      from = self size + from
+      from = size + from
     }
     if: (to < 0) then: {
-      to = self size + to
+      to = size + to
     }
     subarr = []
     from upto: to do_each: |i| {
-      subarr << (self at: i)
+      subarr << (at: i)
     }
     subarr
   }
@@ -256,19 +258,7 @@ class Array {
     join(join_str)
   }
 
-  def sum {
-    """
-    Calculates the sum of all the elements in the Enumerable
-    (assuming them to be Numbers (implementing '+' & '*')).
-    """
-
-    reduce: |x y| { x + y } init_val: 0
-  }
-
-  def product {
-    """Calculates the product of all the elements in the Enumerable
-      (assuming them to be Numbers (implementing '+' & '*'))."""
-
-    reduce: |x y| { x * y } init_val: 1
+  def unshift: value {
+    unshift(value)
   }
 }

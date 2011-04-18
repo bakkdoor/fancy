@@ -17,26 +17,19 @@ class Object {
   ruby_alias: '==
   ruby_alias: '===
   ruby_alias: 'class
+  ruby_alias: 'inspect
 
   def initialize {
-    self initialize()
+    initialize()
   }
 
   def dclone {
     "Returns a deep clone of self using Ruby's Marshal class."
-    Marshal load: $ Marshal dump: self
-  }
-
-  def ++ other {
-    self to_s + (other to_s)
+    Marshal load(Marshal dump(self))
   }
 
   def to_s {
-    self to_s()
-  }
-
-  def inspect {
-    self inspect()
+    to_s()
   }
 
   def set_slot: slotname value: val {
@@ -77,11 +70,11 @@ class Object {
   }
 
   def define_singleton_method: name with: block {
-    self metaclass define_method: name with: block
+    metaclass define_method: name with: block
   }
 
   def undefine_singleton_method: name {
-    self metaclass undefine_method: name
+    metaclass undefine_method: name
   }
 
   def is_a?: class {
@@ -94,11 +87,11 @@ class Object {
     kind_of?(class)
   }
 
-  def send: message {
-    self send(message_name: message)
+  def send_message: message {
+    send(message_name: message)
   }
 
-  def send: message params: params {
+  def send_message: message with_params: params {
     ruby: (message_name: message) args: params
   }
 
@@ -112,6 +105,6 @@ class Object {
   }
 
   def responds_to?: message {
-    self respond_to?(message_name: message)
+    respond_to?(message_name: message)
   }
 }

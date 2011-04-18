@@ -55,7 +55,7 @@ class Array {
     """
 
     if: (other is_a?: Array) then: {
-      if: (self size != (other size)) then: {
+      if: (size != (other size)) then: {
         nil
       } else: {
         all?: |x| { other includes?: x }
@@ -88,7 +88,7 @@ class Array {
     Like find: but takes a block that gets called with each element to find it.
     """
 
-    self each: |x| {
+    each: |x| {
       if: (block call: [x]) then: {
         return x
       }
@@ -118,7 +118,7 @@ class Array {
     Returns new Array with elements of other_arr appended to these.
     """
 
-    arr = self clone
+    arr = clone
     arr append: other_arr
   }
 
@@ -210,18 +210,41 @@ class Array {
   def + other_arr {
     "Returns concatenation with another @Array@."
 
-    self clone append: other_arr
+    clone append: other_arr
   }
 
   def indices {
     "Returns an @Array@ of all the indices of an @Array@."
 
-    0 upto: (self size - 1)
+    0 upto: (size - 1)
   }
 
   def Array === object {
+    """
+    @object Object to match @self against.
+    @return @nil, if no match, matched values (in an @Array) otherwise.
+
+    Matches an @Array against another object.
+    """
+
     if: (object is_a?: Array) then: {
       return [object] + object
     }
+  }
+
+  def sum {
+    """
+    Calculates the sum of all the elements in the Enumerable
+    (assuming them to be Numbers (implementing '+' & '*')).
+    """
+
+    reduce: |x y| { x + y } init_val: 0
+  }
+
+  def product {
+    """Calculates the product of all the elements in the Enumerable
+      (assuming them to be Numbers (implementing '+' & '*'))."""
+
+    reduce: |x y| { x * y } init_val: 1
   }
 }

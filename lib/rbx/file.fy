@@ -10,6 +10,7 @@ class File {
   ruby_alias: 'eof?
   #ruby_alias: 'close
   ruby_alias: 'closed?
+  ruby_alias: 'flush
 
   def File open: filename modes: modes_arr with: block {
     """
@@ -160,7 +161,7 @@ class File {
     Indicates, if a @File@ is opened.
     """
 
-    self closed? not
+    closed? not
   }
 
   def write: str {
@@ -186,6 +187,6 @@ class File {
     Indicates, if a @File@ is a @Directory@.
     """
 
-    File directory?(self filename)
+    File directory?(filename)
   }
 }

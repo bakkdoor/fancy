@@ -55,7 +55,7 @@ class Fancy Package {
 
       filename = nil
       if: (@version == "latest") then: {
-        if: (self latest_tag) then: |tag| {
+        if: latest_tag then: |tag| {
           @version = tag
         } else: {
           @version = "master"
@@ -68,12 +68,12 @@ class Fancy Package {
         return nil
       }
 
-      filename = self download_tgz: @version
+      filename = download_tgz: @version
       if: filename then: {
         # now unpack & check for dependencies
         unpack_dir = unpack_file: filename
         rename_dir: unpack_dir
-        self load_fancypack
+        load_fancypack
       } else: {
         STDERR println: "Installation aborted."
         STDERR println: "Got error while trying to install #{@package_name} with version: #{@version}"
@@ -101,7 +101,7 @@ class Fancy Package {
 
       match version {
         case "master" -> true
-        case _ -> self tags includes?: version
+        case _ -> tags includes?: version
       }
     }
 
@@ -111,7 +111,7 @@ class Fancy Package {
       to be installed.
       """
 
-      { "https://github.com/" ++ @package_name ++ "/tarball/" ++ version } if: $ self has_version?: version
+      { "https://github.com/" ++ @package_name ++ "/tarball/" ++ version } if: $ has_version?: version
     }
 
     def download_tgz: version {
@@ -159,7 +159,7 @@ class Fancy Package {
       => It will rename the given dirname to $user/$repo-$version.
       """
 
-      System do: $ ["mv ", @install_path, "/", dirname, " ", self installed_path] join
+      System do: $ ["mv ", @install_path, "/", dirname, " ", installed_path] join
     }
 
     def load_fancypack {
@@ -168,7 +168,7 @@ class Fancy Package {
       If no @.fancypack file is found, raise an error.
       """
 
-      Dir glob(self installed_path ++ "/*.fancypack") first if_do: |fpackfile| {
+      Dir glob(installed_path ++ "/*.fancypack") first if_do: |fpackfile| {
         require: fpackfile
       }
 
@@ -183,10 +183,10 @@ class Fancy Package {
 
     def fulfill_spec: spec {
       unless: (spec include_files empty?) do: {
-        File open: (self lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
+        File open: (lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
           spec include_files each: |if| {
             f write: "require: \""
-            f write: (self installed_path)
+            f write: installed_path
             f write: "/"
             f write: if
             f writeln: "\""

@@ -9,7 +9,7 @@
     "match" "case" "->" "=>")             ;; keywords
 
   '(;; symbols
-    ("\\('\\(\\([^\s\n]+\\|\\]+\\)\\)\\)" 1 font-lock-reference-face)
+    ("\\('\\(\\([^\s\n\(\)\{\}]+\\|\\]+\\)\\)\\)" 1 font-lock-reference-face)
     ;; fixnums
     ("[0-9]+" . 'font-lock-variable-name-face)
     ;; floats

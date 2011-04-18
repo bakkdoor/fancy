@@ -4,6 +4,17 @@ class Object {
   All classes inherit from Object.
   """
 
+  def ++ other {
+    """
+    @other Other object to concatenate its @String value with.
+    @return @String concatenation of @String values of @self and @other.
+
+    Returns the @String concatenation of @self and @other.
+    Calls to_s on @self and @other and concatenates the results to a new @String.
+    """
+    to_s + (other to_s)
+  }
+
   def loop: block {
     "Infinitely calls the block (loops)."
     { true } while_true: {
@@ -13,12 +24,12 @@ class Object {
 
   def println {
     "Same as Console println: self. Prints the object on STDOUT, followed by a newline."
-    Console println: $ self to_s
+    Console println: to_s
   }
 
   def print {
     "Same as Console print: self. Prints the object on STDOUT."
-    Console print: $ self to_s
+    Console print: to_s
   }
 
   def != other {
@@ -75,7 +86,7 @@ class Object {
   def or_take: other {
     "Returns self if it's non-nil, otherwise returns the given object."
 
-    if: (self nil?) then: {
+    if: nil? then: {
       other
     } else: {
       self
@@ -95,8 +106,12 @@ class Object {
   }
 
   def || other {
-    "Same as Object#or:"
-    or: other
+    "Returns @ self if self is true-ish, otherwise returns @other"
+    self if_do: {
+      return self
+    } else: {
+      return other
+    }
   }
 
   def && other {
@@ -187,5 +202,37 @@ class Object {
     val = value
     block call: [val]
     val
+  }
+
+  def if_responds? {
+    """
+    @return RespondsToProxy for @self
+
+    Returns a @RespondsToProxy@ for @self that forwards any messages
+    only if @self responds to them.
+
+    Example usage:
+
+        # only send 'some_message: if object responds to it:
+        object if_responds? some_message: some_parameter
+    """
+
+    RespondsToProxy new: self
+  }
+
+  def ? future {
+    future value
+  }
+
+  def yield {
+    Fiber yield
+  }
+
+  def yield: values {
+    Fiber yield: values
+  }
+
+  def wait: seconds {
+    Fiber yield: [seconds]
   }
 }

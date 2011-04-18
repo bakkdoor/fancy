@@ -340,4 +340,24 @@ FancySpec describe: Array with: {
     arr partition_by: 'identity . should == [[1], [2,2], [3,3,3], [4,4,4,4], [5]]
     arr partition_by: @{== 2} . should == [[1], [2,2], [3,3,3,4,4,4,4,5]]
   }
+
+  it: "should remove the first value" for: 'shift when: {
+    a = [1,2,3]
+    a shift should == 1
+    a should == [2,3]
+
+    a = []
+    a shift should == nil
+    a should == []
+  }
+
+  it: "should append a value at the front" for: 'unshift: when: {
+    a = []
+    a unshift: 1 . should == a # should return self
+    a should == [1]
+
+    a = [1,2,3]
+    a unshift: (a shift) . should == a
+    a should == [1,2,3]
+  }
 }

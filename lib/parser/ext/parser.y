@@ -24,6 +24,8 @@ extern char *yytext;
 
 %token                  LPAREN
 %token                  RPAREN
+%token                  FUTURE_SEND
+%token                  ASYNC_SEND
 %token                  AT_LCURLY
 %token                  LCURLY
 %token                  RCURLY
@@ -358,6 +360,9 @@ method_args:    method_arg {
                 | method_args method_args_default {
                   $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
+                | method_args_default {
+                  $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
+                }
                 ;
 
 method_arg_default: selector identifier LPAREN space exp space RPAREN {
@@ -419,6 +424,18 @@ unary_send:     exp identifier {
                 | unary_send identifier {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:"), 3, INT2NUM(yylineno), $2, $1);
                 }
+                | exp FUTURE_SEND identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
+                | unary_send FUTURE_SEND identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
+                | exp ASYNC_SEND identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
+                | unary_send ASYNC_SEND identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
                 ;
 
 operator_send:  exp operator arg_exp {
@@ -434,6 +451,26 @@ operator_send:  exp operator arg_exp {
                 | operator arg_exp {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), $1, $2);
                 }
+                | exp FUTURE_SEND operator arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:future_oper:arg:to:"), 4, INT2NUM(yylineno), $3, $4, $1);
+                }
+                | exp FUTURE_SEND operator DOT space arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:future_oper:arg:to:"), 4, INT2NUM(yylineno), $3, $6, $1);
+                }
+                | exp FUTURE_SEND LBRACKET exp RBRACKET {
+                  $$ = rb_funcall(self, rb_intern("ast:future_oper:arg:to:"), 4,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $4, $1);
+                }
+                | exp ASYNC_SEND operator arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:async_oper:arg:to:"), 4, INT2NUM(yylineno), $3, $4, $1);
+                }
+                | exp ASYNC_SEND operator DOT space arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:async_oper:arg:to:"), 4, INT2NUM(yylineno), $3, $6, $1);
+                }
+                | exp ASYNC_SEND LBRACKET exp RBRACKET {
+                  $$ = rb_funcall(self, rb_intern("ast:async_oper:arg:to:"), 4,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $4, $1);
+                }
                 ;
 
 message_send:   unary_send
@@ -443,6 +480,12 @@ message_send:   unary_send
                 }
                 | send_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:"), 2, INT2NUM(yylineno), $1);
+                }
+                | exp FUTURE_SEND send_args {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
+                | exp ASYNC_SEND send_args {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;
 
@@ -493,6 +536,12 @@ ruby_send:      exp ruby_send_open ruby_args {
                 }
                 | ruby_send_open ruby_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:to:ruby:"), 4, INT2NUM(yylineno), $1, Qnil, $2);
+                }
+                | exp FUTURE_SEND ruby_send_open ruby_args {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:ruby:"), 4, INT2NUM(yylineno), $3, $1, $4);
+                }
+                | exp ASYNC_SEND ruby_send_open ruby_args {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:ruby:"), 4, INT2NUM(yylineno), $3, $1, $4);
                 }
                 ;
 

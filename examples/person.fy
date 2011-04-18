@@ -2,9 +2,8 @@
 # Annotated example of fancy's classes mechanism
 
 class City {
-  read_slots: ['city]
-  def initialize: name {
-    @name = name
+  read_slots: ['name]
+  def initialize: @name {
   }
 
   def to_s {
@@ -24,10 +23,7 @@ class Person {
   # method but having initialize: replaced by new:.
   # So in this case: Person##new:age:city:
   # which calls this instance method internally
-  def initialize: name age: age city: city {
-    @name = name
-    @age = age
-    @city = city
+  def initialize: @name age: @age city: @city {
   }
 
   def go_to: city {
@@ -50,7 +46,7 @@ class Person {
   }
 
   def to_s {
-    "Person: " ++ @name ++ ", " ++ @age ++ " years old, living in " ++ @city
+    "Person: #{@name}, #{@age} years old, living in #{@city}"
   }
 }
 

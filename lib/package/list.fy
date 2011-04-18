@@ -4,7 +4,7 @@ class Fancy Package {
     }
 
     def println {
-      self packages each: |p| {
+      packages each: |p| {
         name, version, url = p
         "#{name} (#{version})" println
       }
@@ -28,7 +28,7 @@ class Fancy Package {
     }
 
     def has_package?: package {
-      self packages any?: |p| { (p first, p second) == (package first, package second) } # ignore url for now
+      packages any?: |p| { (p first, p second) == (package first, package second) } # ignore url for now
     }
   }
 }

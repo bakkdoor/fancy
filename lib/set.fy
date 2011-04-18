@@ -43,9 +43,9 @@ class Set {
 
   def unknown_message: msg with_params: params {
     if: (params empty?) then: {
-      @values send: msg
+      @values send_message: msg
     } else: {
-      @values send: msg params: params
+      @values send_message: msg with_params: params
     }
   }
 
@@ -56,6 +56,6 @@ class Set {
 
   def inspect {
     "Returns a detailed String representation of a Set."
-    self to_s ++ " : Set"
+    to_s ++ " : Set"
   }
 }

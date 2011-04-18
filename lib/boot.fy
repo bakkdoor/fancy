@@ -1,4 +1,4 @@
-# boot.fnc
+# boot.fy
 # This file gets loaded & run by Fancy automatically.
 # It loads in Fancy's standard library & core classes.
 
@@ -32,6 +32,11 @@ require: "symbol"
 require: "method"
 require: "stack"
 require: "proxy"
+require: "thread_pool"
+require: "fiber"
+require: "fiber_pool"
+require: "future"
+require: "struct"
 
 # version holds fancy's version number
 require: "version"

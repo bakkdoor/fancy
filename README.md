@@ -1,9 +1,9 @@
-The Fancy Programming Language
-(C) 2010, 2011 Christopher Bertels <chris@fancy-lang.org>
+#The Fancy Programming Language
+
+(C) 2010, 2011 Christopher Bertels chris@fancy-lang.org
 http://www.fancy-lang.org
 
 ----------------------------------------------------------------------
-
 Fancy is a dynamic, object-oriented programming language heavily
 inspired by Smalltalk, Ruby and Erlang. It supports dynamic code
 evaluation (as in Ruby & Smalltalk), class-based mixins, (simple)
@@ -12,38 +12,33 @@ patching" and much more. It runs on Rubinius, the Ruby VM, and thus
 has first-class integration with Ruby's core library and any
 additional Ruby libraries that run on Rubinius, including most
 C-extensions.
+
 It will support concurrency via the actor-model, including first-class
 futures and async operation semantics built into the language.
 
-For a quick feature overview, have a look at doc/features.md
+For a quick feature overview, have a look at `doc/features.md`
+For a recent version of the code with syntax highlighting look here:
+http://fancy-lang.org/code/
 There's also a work-in-progress tutorial/book on Fancy here:
 https://github.com/fancy-lang/infancy
-
-----------------------------------------------------------------------
 
 It’s still in development, the implementation has evolved from an
 interpreter written in C++ to a fully bootstrapped bytecode compiler
 for the Rubinius VM (http://www.rubini.us).
-You can see the self-hosted compiler implementation in lib/compiler/.
+You can see the self-hosted compiler implementation in `lib/compiler/`.
 
 If you want to help out, feel free to contact us:
 http://github.com/bakkdoor/fancy/wiki/Get-in-touch
 
-For some example code have a look at the examples/ directory.
+For some example code have a look at the `examples/` directory.
 
 There's also lots of test coverage code. Have a look at the tests/
 directory for these. The tests are written in FancySpec, a simple
 testing library (somewhat similar to Ruby's RSpec). FancySpec's
-implementation can be viewed in lib/fancy_spec.fy.
+implementation can be viewed in `lib/fancy_spec.fy`.
 
-----------------------------------------------------------------------
-
-Compiling / Installing from source:
-------------------------------------
-
-Dependencies:
-------------------------
-
+##Compiling / Installing from source:
+###Dependencies:
 - Rubinius.
   You'll need at least version 1.2.1 for Fancy to work as expected.
   See http://rubini.us/releases/1.2.1/ for more information.
@@ -58,27 +53,22 @@ Given the tools & libraries mentioned above, Fancy _should_ build without proble
 on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
 and Mac OS X 10.5 and 10.6.
 
-Standard building procedure:
-------------------------
-
+###Standard building procedure:
 Building Fancy is just that easy:
 
-  $ cd <fancy_source_path>
-  $ rake
+    $ cd <fancy_source_path>
+    $ rake
 
 This should go pretty fast. It actually compiles Fancy's standard
 library and compiler several times. Once via the bootstrap compiler
-written in Ruby (see boot/rbx-compiler), and then via the self-hosted
-compiler (see lib/compiler/) itself.
+written in Ruby (see `boot/rbx-compiler/`), and then via the self-hosted
+compiler (see `lib/compiler/`) itself.
 
 Once the bootstrapping process is done, you can run the hello world example:
 
-  $ ./bin/fancy examples/hello_world.fy
+    $ ./bin/fancy examples/hello_world.fy
 
-----------------------------
-Some technical information:
-----------------------------
-
+##Some technical information:
 As the language is running on the Rubinius VM, Fancy shares the same
 runtime with Ruby. All of Fancy is built upon Ruby objects, so for
 example when you open the String class in Fancy, it's just Ruby's
@@ -105,8 +95,8 @@ arguments (like the previous "print" example) to a method named
 ":print". Using explicit parens syntax will allow you to invoke any
 Ruby method.
 
-   someObject print    # Will actually invoke the Fancy ":print" method.
-   someObject print()  # With explicit parens invokes the Ruby method.
+    someObject print    # Will actually invoke the Fancy ":print" method.
+    someObject print()  # With explicit parens invokes the Ruby method.
 
 Ruby method invocation supports passing a block variable to Ruby as a proc.
 
@@ -122,9 +112,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
     [1, 2, 3] inject(0) |sum, num| { sum + num } println
 
 
-What's already working?
-------------------------
-
+##What's already working?
   - Class definitions
     (including nested classes that work like modules / namespaces)
   - Instance & class method definitions
@@ -145,33 +133,27 @@ What's already working?
   - Calling, using and extending arbitrary Ruby classes and methods
     (including C-extensions), as well as passing blocks and splat
     arguments to Ruby methods.
+  - Futures (`future = object @ message`)
+  - Async message sends (`object @@ message`)
 
 
-What's still missing?
-----------------------
-
-  - Concurrency stuff (Actor-model based concurrency, Futures etc)
+##What's still missing?
+  - Some concurrency stuff (e.g. language syntax for actors)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (saved for later)
 
 
-How is it implemented?
------------------------
-
+##How is it implemented?
   - The lexer & parser are built with GNU Flex & GNU Bison.
     And used as a Ruby c-extension from Rubinius.
     The parser simply invokes methods on Fancy::Parser to build the AST.
-    See: rbx/parser/parser.y & rbx/parser/parser.rb
+    See: `rbx/parser/parser.y` & `rbx/parser/parser.rb`
 
   - Once the AST is built, we use Rubinius' excellent compiler chain
     to compile it to bytecode.
 
-  - The bin/fancy file is simply a Rubinius code loader for .fy files.
+  - The `bin/fancy` file is simply a Rubinius code loader for `.fy` files.
 
-----------------------------------------------------------------------
-
-Copyright:
------------
-
+##Copyright:
 Fancy is licensed under the terms of the BSD license. For more
 information on licensing issues have a look at the LICENSE file.

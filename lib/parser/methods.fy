@@ -2,6 +2,8 @@ require: "parse_error"
 
 class Fancy {
   class Parser {
+    SelectorVarDefault = Struct.new('selector, 'variable, 'default)
+    SelectorValue = Struct new('selector, 'value)
 
     def self parse_file: filename line: line (1) {
       new: filename line: line . parse_file . script
@@ -143,16 +145,26 @@ class Fancy {
     }
 
     def ast: line param: selector var: variable default: default (nil) {
-      Struct.new('selector, 'variable, 'default) new(selector, variable, default)
+      SelectorVarDefault new(selector, variable, default)
     }
 
     def ast: line send: selector arg: value ary: ary ([]) {
-      ary << $ Struct new('selector, 'value) new(selector, value)
+      ary << $ SelectorValue new(selector, value)
     }
 
     def ast: line oper: oper arg: arg to: receiver (AST Self new: line) {
       message = ast: line send: oper arg: arg
       ast: line send: message to: receiver
+    }
+
+    def ast: line future_oper: oper arg: arg to: receiver {
+      oper_send = ast: line oper: oper arg: arg to: receiver
+      AST FutureSend new: line message_send: oper_send
+    }
+
+    def ast: line async_oper: oper arg: arg to: receiver {
+      oper_send = ast: line oper: oper arg: arg to: receiver
+      AST AsyncSend new: line message_send: oper_send
     }
 
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
@@ -177,6 +189,16 @@ class Fancy {
       AST MessageSend new: line message: name to: receiver args: args
     }
 
+    def ast: line future_send: message to: receiver ruby: ruby (nil) {
+      message_send = ast: line send: message to: receiver ruby: ruby
+      AST FutureSend new: line message_send: message_send
+    }
+
+    def ast: line async_send: message to: receiver ruby: ruby (nil) {
+      message_send = ast: line send: message to: receiver ruby: ruby
+      AST AsyncSend new: line message_send: message_send
+    }
+
     def method_name: margs {
       margs map: |a| { a selector() string } . join("")
     }
@@ -189,6 +211,10 @@ class Fancy {
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos - 1)
           default = margs from: (idx + pos) to: -1
+          only_default_args = default size == (margs size)
+          if: only_default_args then: {
+            required = []
+          }
           params = required map: |r| { r variable() } . + $ default map: |d| { d default() }
 
           forward = AST MessageSend new: line \
@@ -198,6 +224,13 @@ class Fancy {
 
           doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
           body = AST ExpressionList new: line  list: [doc, forward]
+
+          # use base method name (e.g. "foo:" -> "foo") for the method to be generated
+          # if there are no more arguments left (only default args left)
+          if: only_default_args then: {
+            required = AST Identifier from: (margs first selector() string from: 0 to: -2) line: line
+          }
+
           block call: [required, body]
         }
       }
@@ -297,7 +330,6 @@ class Fancy {
     def ast: line file_error: text {
       ("File error '" ++ text ++ "' while trying to parse " ++ @filename) . raise!
     }
-
   }
 }
 

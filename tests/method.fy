@@ -122,6 +122,17 @@ FancySpec describe: Method with: {
     foo: "hello"  . should == "hellofoo"
   }
 
+  it: "should have default values for all arguments, if none given" when: {
+    def a: arg1 ("foo") b: arg2 ("bar") c: arg3 ("baz") {
+      [arg1, arg2, arg3]
+    }
+
+    a: "hello" b: "world" c: "!" . should == ["hello", "world", "!"]
+    a: "hello" b: "world" . should == ["hello", "world", "baz"]
+    a: "hello" . should == ["hello", "bar", "baz"]
+    a should == ["foo", "bar", "baz"]
+  }
+
   it: "should return multiple values (as a Tuple)" when: {
     def multiple_return_values: x {
       (x, x + x, x + x + x)

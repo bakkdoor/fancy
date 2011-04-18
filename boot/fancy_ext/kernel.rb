@@ -1,6 +1,10 @@
 module Kernel
-
-  alias_method :":metaclass", :metaclass
+  begin
+    alias_method ":metaclass", :metaclass
+  rescue
+    alias_method :":metaclass", :singleton_class
+    alias_method :metaclass, :singleton_class
+  end
 
   def fancy_require(file, compile = false)
     if compile
