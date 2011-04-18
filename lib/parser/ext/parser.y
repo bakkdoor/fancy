@@ -73,6 +73,7 @@ extern char *yytext;
 %token                  SYMBOL_LITERAL
 %token                  REGEX_LITERAL
 %token                  OPERATOR
+%token                  BACKTICK_LITERAL
 
 %left                   DOT
 %right                  DOLLAR
@@ -158,6 +159,8 @@ extern char *yytext;
 %type  <object>         match_expr
 %type  <object>         match_body
 %type  <object>         match_clause
+
+%type  <object>         backtick_literal
 
 %%
 
@@ -668,6 +671,7 @@ literal_value:  integer_literal
                 | block_literal
                 | tuple_literal
                 | range_literal
+                | backtick_literal
                 ;
 
 array_literal:  empty_array {
@@ -720,6 +724,11 @@ tuple_literal:  LPAREN exp_comma_list RPAREN {
 
 range_literal:  LPAREN exp DOT DOT exp RPAREN {
                   $$ = rb_funcall(self, rb_intern("ast:range:to:"), 3, INT2NUM(yylineno), $2, $5);
+                }
+                ;
+
+backtick_literal: BACKTICK_LITERAL {
+                  $$ = fy_terminal_node(self, "ast:backtick:");
                 }
                 ;
 

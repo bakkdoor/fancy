@@ -23,6 +23,7 @@ hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+
 oct_lit         0[oO]{octdigit}+
 string_lit      L?\"(\\.|[^\\"])*\"
+backtick_lit    L?`(\\.|[^`])*`
 multiline_string L?\"\"\"(\\.|[^\\"])*\"\"\"
 lparen          \(
 rparen          \)
@@ -99,6 +100,10 @@ escaped_newline "\\".*\n
 {string_lit}	{
                   yylval.object = rb_str_new2(yytext);
                   return STRING_LITERAL;
+                }
+{backtick_lit}	{
+                  yylval.object = rb_str_new2(yytext);
+                  return BACKTICK_LITERAL;
                 }
 {multiline_string} {
                   yylval.object = rb_str_new2(yytext);
