@@ -19,4 +19,9 @@ def fib: n {
 # }
 
 n = ARGV second to_i
-fib: n . inspect println
+if: (n > 0) then: {
+  "fib(#{n}) = " print
+  fib: n . inspect println
+} else: {
+  "No positive integer given!" println
+}
