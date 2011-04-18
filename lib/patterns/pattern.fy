@@ -83,6 +83,16 @@ class PatternNegation : Pattern {
   }
 }
 
+class VariablePattern : Pattern {
+  def initialize: @variable {
+  }
+}
+
+class KeywordPattern : Pattern {
+  def initialize: @keywords values: @values {
+  }
+}
+
 class PatternApplication : Pattern {
   def initialize: @pattern with: @closure {
   }
