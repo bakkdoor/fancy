@@ -146,7 +146,7 @@ FancySpec describe: Object with: {
   it: "should call the backtick: method when using the '`' syntax" for: 'backtick: when: {
     `cat #{__FILE__}` should == (File read: __FILE__)
 
-    # override backticks:
+    # override backticks
     def backtick: str {
       str + " - NOT!"
     }

@@ -226,7 +226,7 @@ class Object {
     For example:
         `cat README`
     Gets translated to the following message send:
-        self backticks: \"cat README\"
+        self backtick: \"cat README\"
     Which allows for custom implementations of the backtick: method, if needed.
     This default implementation works the same way as in Ruby, Perl or Bash.
     It returns the output of running the given string on the command line as a @String@.
