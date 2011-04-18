@@ -49,7 +49,7 @@ class Pattern {
   }
 
   def not {
-    # TODO
+    PatternNegation new: self
   }
 
   def ->> closure {
@@ -67,6 +67,20 @@ class Pattern {
 
 WildcardPattern = Pattern new: |value fail_block| {
   Binding new: value # always match
+}
+
+class PatternNegation : Pattern {
+  def initialize: @pattern {
+  }
+
+  def does_match: val else: fail_block {
+    bind = @pattern does_match: val else: { MatchFailure }
+    if: (bind == MatchFailure) then: {
+      Binding new: val
+    } else: {
+      match_failed_for: val escape: fail_block
+    }
+  }
 }
 
 class PatternApplication : Pattern {
