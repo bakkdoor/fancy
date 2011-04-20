@@ -103,7 +103,9 @@ class FancySpec {
       " [" ++ (@@failed_positive size) ++ " unexpected values]" println
       "Got: " println
       @@failed_positive each: |f| {
-        "     " ++ (f first inspect) ++ " instead of: " ++ (f second inspect) println
+        "         " ++ (f first inspect) println
+      "Expected: " println
+        "          " ++ (f second inspect) println
       }
     }
 

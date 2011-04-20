@@ -142,4 +142,15 @@ FancySpec describe: Object with: {
     s if_responds? some_method should == 'it_works!
     s if_responds? some_undefined_method should == nil
   }
+
+  it: "should call the backtick: method when using the '`' syntax" for: 'backtick: when: {
+    `cat #{__FILE__}` should == (File read: __FILE__)
+
+    # override backticks
+    def backtick: str {
+      str + " - NOT!"
+    }
+
+    `ls -al` should == "ls -al - NOT!"
+  }
 }

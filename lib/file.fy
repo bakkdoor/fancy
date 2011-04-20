@@ -27,7 +27,7 @@ class File {
         lines << (f readln)
       }
     }
-    lines join: "\n"
+    lines join
   }
 
   def self touch: filename {

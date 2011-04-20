@@ -97,6 +97,13 @@ class Fancy {
       ast: line string: (string from: 2 to: -3)
     }
 
+    def ast: line backtick: backtick_string {
+      str = ast: line string: backtick_string
+      selector = (ast: line identifier: "backtick:")
+      args = AST MessageArgs new: line args: [str]
+      AST MessageSend new: line message: selector to: (AST Self new: line) args: args
+    }
+
     def ast: line array: expr_ary {
       AST ArrayLiteral new: line array: expr_ary
     }
