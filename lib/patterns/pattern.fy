@@ -86,6 +86,19 @@ class PatternNegation : Pattern {
 class VariablePattern : Pattern {
   def initialize: @variable {
   }
+
+  def does_match: val else: fail_block {
+    if: @value then: {
+      if: (@value == val) then: {
+        Binding new: @value
+      } else: {
+        match_failed_for: val escape: fail_block
+      }
+    } else: {
+      @value = val
+      Binding new: val
+    }
+  }
 }
 
 class KeywordPattern : Pattern {
