@@ -25,7 +25,7 @@ FancySpec describe: Object with: {
     try {
       self a_singleton_method should == nil # should not get here
     } catch NoMethodError => e {
-      e method_name should == "a_singleton_method"
+      e method_name should == 'a_singleton_method
     }
   }
 

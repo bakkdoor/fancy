@@ -232,12 +232,12 @@ FancySpec describe: Class with: {
     try {
       x private_method should == nil # should fail
     } catch NoMethodError => e {
-      e method_name should == "private_method"
+      e method_name should == 'private_method
     }
     try {
       x protected_method should == nil # should fail
     } catch NoMethodError => e {
-      e method_name should == "protected_method"
+      e method_name should == 'protected_method
     }
   }
 
@@ -288,7 +288,7 @@ FancySpec describe: Class with: {
     try {
       f instance_method should == nil # should not get here
     } catch NoMethodError => e {
-      e method_name should == "instance_method"
+      e method_name should == 'instance_method
     }
   }
 
@@ -312,7 +312,7 @@ FancySpec describe: Class with: {
     try {
       Foo class_method should == nil # should not get here
     } catch NoMethodError => e {
-      e method_name should == "class_method"
+      e method_name should == 'class_method
     }
   }
 
