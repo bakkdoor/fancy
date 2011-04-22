@@ -142,4 +142,11 @@ class Class {
 
     alias_method(message_name: new_method_name, message_name: old_method_name)
   }
+
+  def alias_method: new_method_name for_ruby: ruby_method_name {
+    """
+    Creates a method alias for a Ruby method.
+    """
+    alias_method(message_name: new_method_name, ruby_method_name)
+  }
 }

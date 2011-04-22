@@ -433,6 +433,20 @@ FancySpec describe: Class with: {
     obj bar should == "in foo!"
   }
 
+  it: "should have an alias method for a ruby method defined" for: 'alias_method:for_ruby: when: {
+    try {
+      [] equal?: [1,2] . should == true # should fail
+    } catch NoMethodError => e {
+      e method_name should == 'equal?:
+    }
+
+    class Array {
+      alias_method: 'equal?: for_ruby: 'equal?
+    }
+
+    [] equal?: [1,2] . should == false
+  }
+
   it: "should have the correct list of ancestors" for: 'ancestors when: {
     class A {
     }
