@@ -44,6 +44,20 @@ class Class {
     new(superclass, &body_block)
   }
 
+  def initialize {
+    """
+    Initializes a @Class@ with @Object@ set as superclass (default superclass).
+    """
+    initialize: Object
+  }
+
+  def initialize: superclass {
+    """
+    Initializes a @Class@ with a superclass.
+    """
+    initialize(superclass)
+  }
+
   def define_method: name with: block {
     """
     @name Name of the method to be defined.

@@ -172,34 +172,34 @@ FancySpec describe: Class with: {
     instance foo: "Test!" . should == "In AClass#foo: with bar = Test!"
   }
 
-  # it: "should call superclass method by calling super" when: {
-  #   class SuperClass {
-  #     read_slots: ['name]
-  #     def initialize: name {
-  #       @name = name
-  #     }
-  #   }
-  #   class SubClass : SuperClass {
-  #     read_slots: ['age]
+  it: "should call superclass method by using super" when: {
+    class SuperClass {
+      read_slots: ['name]
+      def initialize: name {
+        @name = name
+      }
+    }
+    class SubClass : SuperClass {
+      read_slots: ['age]
 
-  #     def initialize: age {
-  #       super initialize: "SubClass"
-  #       @age = age
-  #     }
-  #     def initialize {
-  #       super initialize: "SubClass"
-  #       @age = 0
-  #     }
-  #   }
+      def initialize: age {
+        super initialize: "SubClass"
+        @age = age
+      }
 
-  #   sub = SubClass new: 42
-  #   sub name should == "SubClass"
-  #   sub age should == 42
+      def initialize {
+        initialize: 0
+      }
+    }
 
-  #   sub2 = SubClass new
-  #   sub2 name should == "SubClass"
-  #   sub2 age should == 0
-  # }
+    sub = SubClass new: 42
+    sub name should == "SubClass"
+    sub age should == 42
+
+    sub2 = SubClass new
+    sub2 name should == "SubClass"
+    sub2 age should == 0
+  }
 
   it: "should return its superclass" when: {
     Fixnum superclass should == Integer
@@ -212,19 +212,19 @@ FancySpec describe: Class with: {
     NoMethodError superclass should == NameError
   }
 
-  # it: "should create a new Class dynamically" when: {
-  #   x = Class new
-  #   x is_a?: Class . should == true
-  #   x new is_a?: x . should == true
-  #   x new is_a?: Object . should == true
-  #   x new class should == x
+  it: "should create a new Class dynamically" when: {
+    x = Class new
+    x is_a?: Class . should == true
+    x new is_a?: x . should == true
+    x new is_a?: Object . should == true
+    x new class should == x
 
-  #   # Symbol as superclass
-  #   y = Class new: Symbol
-  #   y is_a?: Class . should == true
-  #   y new is_a?: Symbol . should == true
-  #   y new is_a?: Object . should == true
-  # }
+    # Symbol as superclass
+    y = Class new: String
+    y is_a?: Class . should == true
+    y new is_a?: String . should == true
+    # y new is_a?: Object . should == true
+  }
 
   it: "should only be able to call the public method from outside the Class" when: {
     x = ClassWithPrivate new
@@ -253,28 +253,28 @@ FancySpec describe: Class with: {
     Super subclass?: Sub . should == nil
   }
 
-  # it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
-  #   subclass = String subclass: {
-  #     def foo {
-  #       "hello, world!"
-  #     }
-  #   }
-  #   subclass is_a?: Class . should == true
-  #   subclass subclass?: String . should == true
-  #   subclass new is_a?: subclass . should == true
-  #   subclass new foo should == "hello, world!"
+  it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
+    subclass = String subclass: {
+      def foo {
+        "hello, world!"
+      }
+    }
+    subclass is_a?: Class . should == true
+    subclass subclass?: String . should == true
+    subclass new is_a?: subclass . should == true
+    subclass new foo should == "hello, world!"
 
-  #   # now the same with Class##new:body:
-  #   subclass2 = Class superclass: Symbol body: {
-  #     def foo {
-  #       "hello, world, again!"
-  #     }
-  #   }
-  #   subclass2 is_a?: Class . should == true
-  #   subclass2 subclass?: String . should == true
-  #   subclass2 new is_a?: subclass2 . should == true
-  #   subclass2 new foo should == "hello, world, again!"
-  # }
+    # now the same with Class##new:body:
+    subclass2 = Class superclass: String body: {
+      def foo {
+        "hello, world, again!"
+      }
+    }
+    subclass2 is_a?: Class . should == true
+    subclass2 subclass?: String . should == true
+    subclass2 new is_a?: subclass2 . should == true
+    subclass2 new foo should == "hello, world, again!"
+  }
 
   it: "should undefine an instance method" for: 'undefine_method: when: {
     class Foo {
@@ -316,30 +316,30 @@ FancySpec describe: Class with: {
     }
   }
 
-  # it: "should have nested classes" when: {
-  #   class Outer {
-  #     class Inner {
-  #       class InnerMost {
-  #         def foobar {
-  #           "foobar!"
-  #         }
-  #       }
-  #     }
-  #   }
-  #   Outer is_a?: Class . should == true
-  #   Outer::Inner is_a?: Class . should == true
-  #   Outer::Inner::InnerMost is_a?: Class . should == true
-  #   obj = Outer::Inner::InnerMost new
-  #   obj foobar should == "foobar!"
+  it: "should have nested classes" when: {
+    class Outer {
+      class Inner {
+        class InnerMost {
+          def foobar {
+            "foobar!"
+          }
+        }
+      }
+    }
+    Outer is_a?: Class . should == true
+    Outer::Inner is_a?: Class . should == true
+    Outer::Inner::InnerMost is_a?: Class . should == true
+    obj = Outer::Inner::InnerMost new
+    obj foobar should == "foobar!"
 
-  #   # change InnerMost#foobar
-  #   class Outer::Inner::InnerMost {
-  #     def foobar {
-  #       "oh no!"
-  #     }
-  #   }
-  #   obj foobar . should == "oh no!"
-  # }
+    # change InnerMost#foobar
+    class Outer::Inner::InnerMost {
+      def foobar {
+        "oh no!"
+      }
+    }
+    obj foobar . should == "oh no!"
+  }
 
   it: "should not override existing classes with the same name in a nested class" when: {
     StdArray = Array
