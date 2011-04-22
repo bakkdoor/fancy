@@ -99,4 +99,11 @@ FancySpec describe: String with: {
 
     "hello, #{x}, Fancy #{'rocks to_s upcase}!!" should == "hello, world, Fancy ROCKS!!"
   }
+
+  it: "should return the String as a Symbol" for: 'to_sym when: {
+    "foo" to_sym should == 'foo
+    "foo:bar:" to_sym should == 'foo:bar:
+    "FooBar?!" to_sym should == 'FooBar?!
+    "+-&/^\?a!" to_sym should '+-&/^\?a!
+  }
 }
