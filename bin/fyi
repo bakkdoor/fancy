@@ -1,25 +1,30 @@
 #!/usr/bin/env fancy
 # -*- fancy -*-
 
-if: (ARGV[1]) then: |ident| {
-  "Documentation for: '#{ident}' :" println;
-  if: (ident includes?: "#") then: {
-    parts = ident split: "#"
-    obj = parts[0] eval
-    if: (parts[1]) then: |method_name| {
-      method = obj instance_method: $ parts[1]
-      method documentation println
-      System exit
+try {
+  if: (ARGV[1]) then: |ident| {
+    documentation = nil
+    if: (ident includes?: "#") then: {
+      parts = ident split: "#"
+      obj = parts[0] eval
+      if: (parts[1]) then: |method_name| {
+        method = obj instance_method: $ parts[1]
+        documentation = method documentation
+      }
     }
+    # just print documentation for class here
+    obj = ident eval
+    documentation = obj documentation
+    "Documentation for: '#{ident}':" println
+    documentation println
+  } else: {
+    ["Prints the documentation string for a given object or one if its methods",
+     "Usage:",
+     "fyi [ObjectIdentifier]",
+     "fyi [ObjectIdentifier]#[MethodName]",
+     "",
+     "Example: fyi Array#each:"] println
   }
-  # just print documentation for class here
-  obj = ident eval
-  obj documentation println
-} else: {
-  ["Prints the documentation string for a given object or one if its methods",
-   "Usage:",
-   "fyi [ObjectIdentifier]",
-   "fyi [ObjectIdentifier]#[MethodName]",
-   "",
-   "Example: fyi Array#each:"] println
+} catch Exception => e {
+  "ERROR: #{e message}" println
 }
