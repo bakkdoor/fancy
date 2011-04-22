@@ -1,5 +1,6 @@
 class StandardError {
   ruby_alias: 'message
+  ruby_alias: 'backtrace
 
   def initialize {
     "Creates a new Exception with an empty message."
