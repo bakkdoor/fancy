@@ -78,39 +78,39 @@ FancySpec describe: Method with: {
     foo should == 8
   }
 
-  # it: "should return locally (from block-scope not from method-scope" when: {
-  #   def self foo {
-  #     [1,2,3] select: |x| { return_local x != 3 }
-  #   }
-  #   self foo should == [1,2]
-  # }
+  it: "should return locally (from block-scope not from method-scope" when: {
+    def self foo {
+      [1,2,3] select: |x| { return_local x != 3 }
+    }
+    foo should == [1,2]
+  }
 
-  # class Foo {
-  #   def bar {
-  #   }
-  #   def private private_bar {
-  #   }
-  #   def protected protected_bar {
-  #   }
-  # }
+  class Foo {
+    def bar {
+    }
+    def private private_bar {
+    }
+    def protected protected_bar {
+    }
+  }
 
-  # it: "should be public" for: 'public? when: {
-  #   Foo method: 'bar . public? should == true
-  #   Foo method: 'private_bar . public? should == nil
-  #   Foo method: 'protected_bar . public? should == nil
-  # }
+  it: "should be public" for: 'public? when: {
+    Foo instance_method: 'bar . public? should == true
+    Foo instance_method: 'private_bar . public? should == false
+    Foo instance_method: 'protected_bar . public? should == false
+  }
 
-  # it: "should be private" for: 'private? when: {
-  #   Foo method: 'bar . private? should == nil
-  #   Foo method: 'private_bar . private? should == true
-  #   Foo method: 'protected_bar . private? should == nil
-  # }
+  it: "should be private" for: 'private? when: {
+    Foo instance_method: 'bar . private? should == false
+    Foo instance_method: 'private_bar . private? should == true
+    Foo instance_method: 'protected_bar . private? should == false
+  }
 
-  # it: "should be protected" for: 'protected? when: {
-  #   Foo method: 'bar . protected? should == nil
-  #   Foo method: 'private_bar . protected? should == nil
-  #   Foo method: 'protected_bar . protected? should == true
-  # }
+  it: "should be protected" for: 'protected? when: {
+    Foo instance_method: 'bar . protected? should == false
+    Foo instance_method: 'private_bar . protected? should == false
+    Foo instance_method: 'protected_bar . protected? should == true
+  }
 
   it: "should set the default values for optional argument, when not passed in" when: {
     def foo: arg1 bar: arg2 ("foo") baz: arg3 (nil) {
