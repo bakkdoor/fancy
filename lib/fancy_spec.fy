@@ -105,7 +105,7 @@ class FancySpec {
       @@failed_positive each: |f| {
         "         " ++ (f first inspect) println
       "Expected: " println
-        "          " ++ (f second inspect) println
+        "         " ++ (f second inspect) println
       }
     }
 
@@ -135,6 +135,16 @@ class FancySpec {
     def != expected_value {
       unless: (@actual_value != expected_value) do: {
         SpecTest failed_negative_test: @actual_value
+      }
+    }
+
+    def raise: exception_class {
+      try {
+        @actual_value call
+      } catch exception_class {
+        # ok
+      } catch Exception => e {
+        SpecTest failed_test: [e class, exception_class]
       }
     }
 
@@ -174,11 +184,22 @@ class FancySpec {
       }
     }
 
+    def raise: exception_class {
+      try {
+        @actual_value call
+      } catch exception_class {
+        SpecTest failed_negative_test: [exception_class, nil]
+      } catch Exception => e {
+        true
+        # ok
+      }
+    }
+
     def unknown_message: msg with_params: params {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""
 
-      if: (@actual_value send: msg params: params) then: {
+      if: (@actual_value send_message: msg with_params: params) then: {
         SpecTest failed_negative_test: @actual_value
       }
     }
