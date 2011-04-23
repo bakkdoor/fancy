@@ -15,4 +15,8 @@ class NoMethodError {
       case _ -> name
     }
   }
+
+  def self inspect {
+    "NoMethodError"
+  }
 }
