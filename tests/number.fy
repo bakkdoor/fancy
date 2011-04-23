@@ -24,12 +24,7 @@ FancySpec describe: Number with: {
   }
 
   it: "should raise an exception when dividing by zero" when: {
-    try {
-      10 / 0
-      "This should not happen!" should == nil
-    } catch ZeroDivisionError => err {
-      err message should == "divided by 0"
-    }
+    { 10 / 0 } should raise: ZeroDivisionError
   }
 
   it: "should calculate the correct modulo value" for: 'modulo: when: {

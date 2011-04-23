@@ -70,20 +70,20 @@ FancySpec describe: StdError with: {
     }
   }
 
-  # it: "should raise and catch a custom exception correctly" for: 'raise! when: {
-  #   class MyError : StdError{
-  #     def initialize {
-  #       super initialize: "MyError message"
-  #     }
-  #   }
+  it: "should raise and catch a custom exception correctly" for: 'raise! when: {
+    class MyError : StdError{
+      def initialize {
+        initialize: "MyError message"
+      }
+    }
 
-  #   try {
-  #     MyError new raise!
-  #     nil should == true # will fail
-  #   } catch MyError => e {
-  #     e message should == "MyError message"
-  #   }
-  # }
+    try {
+      MyError new raise!
+      nil should == true # will fail
+    } catch MyError => e {
+      e message should == "MyError message"
+    }
+  }
 
   it: "should restart itself after being fixed in a catch clause" when: {
     y = 0

@@ -12,12 +12,9 @@ FancySpec describe: File with: {
     file open? should == false
   }
 
-  # it: "should be closed when not correctly opened" for: 'open? when: {
-  #   file = File new
-  #   file open? should == nil
-  #   file close
-  #   file open? should == nil
-  # }
+  it: "should be closed when not correctly opened" for: 'open? when: {
+    { file = File new } should raise: ArgumentError
+  }
 
   it: "should write and read from a file correctly" for: 'writeln: when: {
     filename = "/tmp/read_write_test.txt"
@@ -43,13 +40,7 @@ FancySpec describe: File with: {
   }
 
   it: "should raise an IOError exception when trying to open an invalid file" when: {
-    try {
-      file = File open: "/foo/bar/baz" modes: ['read]
-      nil should == true # this shouldn't execute
-    } catch IOError => e {
-      #e filename should == "/foo/bar/baz"
-      #e modes should == ['read]
-    }
+    { file = File open: "/foo/bar/baz" modes: ['read] } should raise: IOError
   }
 
   it: "should rename a File" when: {

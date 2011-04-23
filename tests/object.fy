@@ -22,11 +22,7 @@ FancySpec describe: Object with: {
     }
     self a_singleton_method should == "a singleton method!"
     self undefine_singleton_method: 'a_singleton_method
-    try {
-      self a_singleton_method should == nil # should not get here
-    } catch NoMethodError => e {
-      e method_name should == 'a_singleton_method
-    }
+    { self a_singleton_method } should raise: NoMethodError
   }
 
   it: "should return its class" when: {
