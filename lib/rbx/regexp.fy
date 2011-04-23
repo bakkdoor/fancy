@@ -1,4 +1,7 @@
 class Regexp {
+  ruby_alias: 'inspect
+  ruby_alias: 'to_s
+
   def === string {
     ruby: 'match args: [string]
   }
