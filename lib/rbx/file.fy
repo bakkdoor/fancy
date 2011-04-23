@@ -174,6 +174,14 @@ class File {
     print(str)
   }
 
+  def read: bytes {
+    """
+    @bytes Integer the amount of bytes to read from a @File@.
+    """
+
+    read(bytes)
+  }
+
   def newline {
     "Writes a newline character to the @File@."
 
