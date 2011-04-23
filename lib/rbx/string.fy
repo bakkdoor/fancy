@@ -99,4 +99,8 @@ class String {
   def % values {
     ruby: '% args: [values to_a]
   }
+
+  def unpack: format {
+    unpack(format)
+  }
 }
