@@ -14,6 +14,15 @@ class Number {
     arr
   }
 
+  def upto: num do: block {
+    i = self
+    { i <= num } while_true: {
+      block call: [i]
+      i = i + 1
+    }
+    self
+  }
+
   def downto: num {
     i = self
     arr = []
@@ -22,6 +31,15 @@ class Number {
       i = i - 1
     }
     arr
+  }
+
+  def downto: num do: block {
+    i = self
+    { i >= num } while_do: {
+      block call: [i]
+      i = i - 1
+    }
+    self
   }
 
   def squared {

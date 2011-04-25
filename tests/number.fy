@@ -57,8 +57,20 @@ FancySpec describe: Number with: {
     0 upto: 10 . should == [0,1,2,3,4,5,6,7,8,9,10]
   }
 
+  it: "should iterate from 1 upto 10" for: 'upto:do: when: {
+    sum = 0
+    1 upto: 10 do: |n| { sum = sum + n }
+    sum should == 55
+  }
+
   it: "should return an array from 10 downto 0" for: 'downto: when: {
     10 downto: 0 . should == [10,9,8,7,6,5,4,3,2,1,0]
+  }
+
+  it: "should iterate from 10 downto 1" for: 'downto:do: when: {
+    sum = 0
+    10 downto: 1 do: |n| { sum = sum + n }
+    sum should == 55
   }
 
   it: "should calculate the given power of itself" for: '** when: {
