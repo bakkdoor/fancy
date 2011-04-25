@@ -2,7 +2,7 @@
   i println
 }
 
-1 upto: 4 do_each: |i| {
+1 upto: 4 do: |i| {
   i println
 }
 

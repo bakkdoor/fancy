@@ -1,5 +1,5 @@
 def foo: block {
-  1 upto: 10 do_each: |i| {
+  1 upto: 10 do: |i| {
     val = block call: [i]
     if: (block call: [i]) then: {
       return i # non-local return from "foo:"

@@ -77,7 +77,7 @@ FancySpec describe: Number with: {
     2 ** 3 should == 8
     2 ** 0 should == 1
     2 ** 1 should == 2
-    0 upto: 10 do_each: |i| {
+    0 upto: 10 do: |i| {
       i ** 0 should == 1
       i ** 1 should == i
       i ** 2 should == (i squared)
@@ -87,7 +87,7 @@ FancySpec describe: Number with: {
   it: "should be the square of self" for: 'squared when: {
     5 squared should == 25
     10 squared should == 100
-    20 upto: 50 do_each: |i| {
+    20 upto: 50 do: |i| {
       i squared should == (i * i)
     }
   }
@@ -95,7 +95,7 @@ FancySpec describe: Number with: {
   it: "should be the double value of self" for: 'doubled when: {
     5 doubled should == 10
     10 doubled should == 20
-    20 upto: 50 do_each: |i| {
+    20 upto: 50 do: |i| {
       i doubled should == (i + i)
     }
   }

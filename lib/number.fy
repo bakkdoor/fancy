@@ -5,6 +5,14 @@ class Number {
   """
 
   def upto: num {
+    """
+    @num @Number@ to create an @Array@ up to.
+    @return @Array@ containing numbers from @self to @num.
+
+    Returns an Array with Numbers starting at @self and going up to @num.
+    Expects @num to be greater or equal to @self.
+    """
+
     i = self
     arr = []
     while: { i <= num } do: {
@@ -15,8 +23,16 @@ class Number {
   }
 
   def upto: num do: block {
+    """
+    @num Maximum @Number@ to call @block with.
+    @block A @Block@ that should be called with each @Number@ between @self and @num.
+    @return @self
+
+    Calls @block with each @Number@ between @self and @num.
+    Expects @num to be greater or equal to @self.
+    """
     i = self
-    { i <= num } while_true: {
+    while: { i <= num } do: {
       block call: [i]
       i = i + 1
     }
@@ -24,6 +40,14 @@ class Number {
   }
 
   def downto: num {
+    """
+    @num @Number@ to create an @Array@ down to.
+    @return @Array@ containing numbers from @self down to @num.
+
+    Returns an Array with Numbers starting at @self and going down to @num.
+    Expects @num to be smaller or equal to @self.
+    """
+
     i = self
     arr = []
     while: { i >= num } do: {
@@ -34,8 +58,17 @@ class Number {
   }
 
   def downto: num do: block {
+    """
+    @num Minimum @Number@ to call @block with.
+    @block A @Block@ that should be called with each @Number@ between @self and @num.
+    @return @self
+
+    Calls @block with each @Number@ between @self and @num.
+    Expects @num to be smaller or equal to @self.
+    """
+
     i = self
-    { i >= num } while_do: {
+    while: { i >= num } do: {
       block call: [i]
       i = i - 1
     }

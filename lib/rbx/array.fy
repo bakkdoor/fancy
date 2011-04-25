@@ -166,7 +166,7 @@ class Array {
       to = size + to
     }
     subarr = []
-    from upto: to do_each: |i| {
+    from upto: to do: |i| {
       subarr << (at: i)
     }
     subarr
