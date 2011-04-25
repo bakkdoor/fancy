@@ -128,14 +128,58 @@ FancySpec describe: "Control Flow" with: {
   }
 
   it: "stops any loop type at the correct spot" for: 'break when: {
-    i = 0; { (i == 3) if_do: { break }; i = i + 1 } loop; i should == 3
-    i = 0; {i < 5} while_do: { (i == 3) if_do: { break }; i = i + 1 }; i should == 3
-    i = 0; 0 upto: 5 do: |n| { i = n; (n == 3) if_do: { break } }; i should == 3
+    i = 0
+    loop: {
+      if: (i == 3) then: {
+        break
+      }
+      i = i + 1
+    }
+    i should == 3
+
+    i = 0
+    while: { i < 5 } do: {
+      if: (i == 3) then: {
+        break
+      }
+      i = i + 1
+    }
+    i should == 3
+
+    i = 0
+    0 upto: 5 do: |n| {
+      i = n
+      if: (n == 3) then: {
+        break
+      }
+    }
+    i should == 3
   }
 
   it: "stops any loop type at the correct spot" for: 'break: when: {
-    i = 0; { (i == 2) if_do: { break: i }; i = i + 1 } loop should == 2
-    i = 0; {i < 5} while_do: { (i == 2) if_do: { break: i }; i = i + 1 } should == 2
-    i = 0; 0 upto: 5 do: |n| { i = n; (n == 2) if_do: { break: n } } should == 2
+    i = 0
+    loop: {
+      if: (i == 2) then: {
+        break: i
+      }
+      i = i + 1
+    } . should == 2
+
+    i = 0
+    while: { i < 5 } do: {
+      if: (i == 2) then: {
+        break: i
+      }
+      i = i + 1
+    } . should == 2
+
+    i = 0
+    0 upto: 5 do: |n| {
+      i = n
+      if: (n == 2) then: {
+        break: n
+      }
+    }
+    i should == 2
   }
 }
