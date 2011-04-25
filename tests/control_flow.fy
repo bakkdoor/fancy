@@ -76,4 +76,66 @@ FancySpec describe: "Control Flow" with: {
       "yup again"
     } . should == "yup again"
   }
+
+  it: "should break from an iteration" for: 'break when: {
+    x = 0
+    until: { x == 10 } do: {
+      x = x + 1
+      (x == 5) if_do: { break }
+    }
+    x == 5 should == true
+  }
+
+  it: "should break from an iteration with return value" for: 'break: when: {
+    x = 0
+    y = (
+      { x == 10 } until: {
+        x = x + 1
+        (x == 5) if_do: {
+          break: 42
+        }
+      }
+    )
+    x should == 5
+    y should == 42
+  }
+
+  it: "should skip an iteration over a Range" for: 'next when: {
+    total = 0
+    (1..10) each: |i| {
+      (i == 5) if_do: { next }
+      total = total + i
+    }
+    total should == 50
+  }
+
+  it: "should skip an iteration over an Array" for: 'next when: {
+    total = 0
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] each: |i| {
+      (i == 5) if_do: { next }
+      total = total + i
+    }
+    total should == 50
+  }
+
+  it: "should skip an iteration over an Hash" for: 'next when: {
+    total = 0
+    <['a => 1, 'b => 2, 'c => 3, 'd => 4, 'e => 5, 'f => 6]> each: |k v| {
+      (k == 'd) if_do: { next }
+      total = total + v
+    }
+    total should == 17
+  }
+
+  it: "stops any loop type at the correct spot" for: 'break when: {
+    i = 0; { (i == 3) if_do: { break }; i = i + 1 } loop; i should == 3
+    i = 0; {i < 5} while_do: { (i == 3) if_do: { break }; i = i + 1 }; i should == 3
+    i = 0; 0 upto: 5 do: |n| { i = n; (n == 3) if_do: { break } }; i should == 3
+  }
+
+  it: "stops any loop type at the correct spot" for: 'break: when: {
+    i = 0; { (i == 2) if_do: { break: i }; i = i + 1 } loop should == 2
+    i = 0; {i < 5} while_do: { (i == 2) if_do: { break: i }; i = i + 1 } should == 2
+    i = 0; 0 upto: 5 do: |n| { i = n; (n == 2) if_do: { break: n } } should == 2
+  }
 }

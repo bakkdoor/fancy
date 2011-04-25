@@ -17,9 +17,7 @@ class Object {
 
   def loop: block {
     "Infinitely calls the block (loops)."
-    { true } while_true: {
-      block call
-    }
+    block loop
   }
 
   def println {
@@ -249,5 +247,25 @@ class Object {
 
   def wait: seconds {
     Fiber yield: [seconds]
+  }
+
+  def next {
+    "Skip to the next iteration"
+    Fancy NextIteration new raise!
+  }
+
+  def next: value {
+    "Return value for this iteration and skip to the next one"
+    (Fancy NextIteration new: value) raise!
+  }
+
+  def break {
+    "Stop iterating"
+    Fancy BreakIteration new raise!
+  }
+
+  def break: value {
+    "Return value from iteration"
+    (Fancy BreakIteration new: value) raise!
   }
 }

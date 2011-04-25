@@ -34,6 +34,17 @@ class Block {
     while_false: block
   }
 
+  def while_true: work {
+    return_value = nil
+    {
+      call if_do: {
+        work call
+      } else: {
+        break
+      }
+    } loop
+  }
+
   alias_method: 'while_do: for: 'while_true:
 
   def until_do: block {
@@ -93,5 +104,16 @@ class Block {
     """
 
     call: [val]
+  }
+}
+
+class Fancy {
+  class BreakIteration : StdError {
+    read_slots: ['return_value]
+    def initialize: @return_value {}
+  }
+  class NextIteration : StdError {
+    read_slots: ['return_value]
+    def initialize: @return_value {}
   }
 }

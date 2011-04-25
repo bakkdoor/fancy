@@ -56,9 +56,19 @@ class Array {
     Calls a given @Block@ with each element in the @Array@.
     """
 
-    val = nil
-    each() |x| { val = block call: [x] }
-    val
+    try {
+      val = nil
+      each() |x| {
+        try {
+          val = block call: [x]
+        } catch (Fancy NextIteration) => ex {
+          val = ex return_value
+        }
+      }
+      val
+    } catch (Fancy BreakIteration) => ex {
+      ex return_value
+    }
   }
 
   def remove_at: index {
