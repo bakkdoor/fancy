@@ -76,7 +76,7 @@ class Fancy AST {
         if: (@args last kind_of?: Identifier) then: {
           if: (@args last string =~ /^&\w/) then: {
             @block = @args pop()
-            @block = Identifier new: (@block line) string: (@block string from: 1 to: -1)
+            @block = Identifier from: (@block string from: 1 to: -1) line: (@block line)
           }
         }
       }
@@ -84,7 +84,7 @@ class Fancy AST {
       if: (@args last kind_of?: Identifier) then: {
         if: (@args last string =~ /^\*\w/) then: {
           @splat = @args pop()
-          @splat = Identifier new: (@splat line) string: (@splat string from: 1 to: -1)
+          @splat = Identifier from: (@splat string from: 1 to: -1) line: (@splat line)
         }
       }
     }
