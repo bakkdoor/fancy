@@ -1,7 +1,11 @@
 class Fancy AST {
   class TryCatch : Node {
 
-    def initialize: @line body: @body handlers: @handlers ensure: @ensure {}
+    def initialize: @line body: @body handlers: @handlers ensure: @ensure {
+      if: (@body empty?) then: {
+        @body unshift_expression: $ NilLiteral new: @line
+      }
+    }
 
     def bytecode: g {
       pos(g)

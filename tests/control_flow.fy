@@ -76,4 +76,12 @@ FancySpec describe: "Control Flow" with: {
       "yup again"
     } . should == "yup again"
   }
+
+  it: "should allow empty try blocks" when: {
+    x = "foo"
+    try {
+    } finally {
+      x should == "foo"
+    }
+  }
 }
