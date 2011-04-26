@@ -102,31 +102,23 @@ class FancySpec {
     def print_failed_positive {
       " [" ++ (@@failed_positive size) ++ " unexpected values]" println
       "Got: " println
-      @@failed_positive each: |f| {
-        actual_and_expected = f first
-        actual = actual_and_expected first inspect
-        expected = actual_and_expected second inspect
-        location = f second gsub(/:(\d+):in `[^']+'/, " +\1")
-
-        "Location: " ++ location println
-        "Expected: " ++ expected println
-        "Received: " ++ actual println
-      }
+      print_failed_common: @@failed_positive
     }
 
     def print_failed_negative {
       " [" ++ (@@failed_negative size) ++ " unexpected values]" println
       "Should not have gotten the following values: " println
-      @@failed_negative each: |f| {
-        f inspect println
-        actual_and_expected = f first
-        actual = actual_and_expected first inspect
-        expected = actual_and_expected second inspect
+      print_failed_common: @@failed_negative
+    }
+
+    def print_failed_common: failures {
+      failures each: |f| {
+        actual, expected = f first
         location = f second gsub(/:(\d+):in `[^']+'/, " +\1")
 
         "Location: #{location}" println
-        "Expected: #{expected}" println
-        "Received: #{receiver}" println
+        "Expected: #{expected inspect}" println
+        "Received: #{actual inspect}" println
       }
     }
   }
