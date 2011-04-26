@@ -114,11 +114,12 @@ class FancySpec {
     def print_failed_common: failures {
       failures each: |f| {
         actual, expected = f first
-        location = f second gsub(/:(\d+):in `[^']+'/, " +\1")
+        location = f second gsub(/:(\d+):in `[^']+'/, ":\1")
+        location = location split: "/" . from: -2 to: -1 . join: "/"
 
-        "Location: #{location}" println
-        "Expected: #{expected inspect}" println
-        "Received: #{actual inspect}" println
+        "    Location: #{location}" println
+        "    Expected: #{expected inspect}" println
+        "    Received: #{actual inspect}" println
       }
     }
   }
