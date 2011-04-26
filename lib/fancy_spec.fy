@@ -60,7 +60,7 @@ class FancySpec {
     @@failed_negative = []
 
     def SpecTest failed_test: actual_and_expected {
-      @@failed_positive << [actual_and_expected, (caller(6) at: 0)]
+      @@failed_positive << [actual_and_expected, caller(6) at: 0]
     }
 
     def SpecTest failed_negative_test: value {
