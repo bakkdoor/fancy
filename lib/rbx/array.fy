@@ -65,7 +65,7 @@ class Array {
           val = ex return_value
         }
       }
-      val
+      return val
     } catch (Fancy BreakIteration) => ex {
       ex return_value
     }
