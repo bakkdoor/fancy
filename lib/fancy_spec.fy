@@ -139,7 +139,7 @@ class FancySpec {
 
     def != expected_value {
       unless: (@actual_value != expected_value) do: {
-        SpecTest failed_negative_test: @actual_value
+        SpecTest failed_negative_test: [@actual_value, expected_value]
       }
     }
 
