@@ -28,6 +28,6 @@ class Fixnum {
 }
 
 # output alls Armstrong Numbers between 0 and 10000
-0 upto: 10000 do_each: |i| {
+0 upto: 10000 do: |i| {
   { i println } if: $ i armstrong?
 }

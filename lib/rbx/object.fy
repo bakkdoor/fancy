@@ -97,7 +97,7 @@ class Object {
 
   def message_name: symbol {
     symbol = symbol to_s
-    if: (symbol includes?: ":") then: {
+    if: (symbol =~ /:/) then: {
       symbol
     } else: {
       ":" ++ symbol

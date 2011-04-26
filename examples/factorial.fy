@@ -7,6 +7,6 @@ class Fixnum {
   }
 }
 
-1 upto: 10 do_each: |i| {
+1 upto: 10 do: |i| {
   i to_s ++ "! = " ++ (i factorial) println
 }

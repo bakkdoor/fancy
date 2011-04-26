@@ -7,6 +7,30 @@ class Array {
 
   include: FancyEnumerable
 
+  def Array new: size {
+    "Creates a new Array with a given size (default value is nil)."
+
+    Array new: size with: nil
+  }
+
+  def clone {
+    "Clones (shallow copy) the Array."
+    new = []
+    each: |x| {
+      new << x
+    }
+    new
+  }
+
+  def append: arr {
+    "Appends another Array onto this one."
+
+    arr each: |x| {
+      self << x
+    }
+    self
+  }
+
   def [] index {
     """
     Given an Array of 2 Numbers, it returns the sub-array between the
@@ -45,6 +69,42 @@ class Array {
   def rest {
     "Returns all elements except the first one as a new Array."
     from: 1 to: -1
+  }
+
+  def each: block {
+    """
+    @block @Block@ to be called for each element in @self.
+    @return Return value of calling @block on the last item in @self.
+
+    Calls a given @Block@ with each element in the @Array@.
+    """
+
+    try {
+      size times: |i| {
+        try {
+          block call: [at: i]
+        } catch (Fancy NextIteration) => ex {
+        }
+      }
+      self
+    } catch (Fancy BreakIteration) => ex {
+      ex return_value
+    }
+  }
+
+  def each_with_index: block {
+    """
+    @block @Block@ to be called with each element and its inde in the @Array@.
+
+    Iterate over all elements in Array. Calls a given Block with each element and its index.
+    """
+
+    i = 0
+    each: |x| {
+      block call: [x, i]
+      i = i + 1
+    }
+    nil
   }
 
   def =? other {
@@ -93,6 +153,7 @@ class Array {
         return x
       }
     }
+    nil
   }
 
   def values_at: idx_arr {
@@ -219,6 +280,77 @@ class Array {
     0 upto: (size - 1)
   }
 
+  def indices_of: item {
+    """
+    @item Item/Value for which a list of indices is requested within an @Array@.
+    @return @Array@ of all indices for a given value within an @Array@ (possibly empty).
+
+    Returns an Array of all indices of this item. Empty Array if item does not occur.
+    """
+
+    tmp = []
+    each_with_index: |obj, idx| {
+      if: (item == obj) then: {
+        tmp << idx
+      }
+    }
+    tmp
+  }
+
+  def from: from to: to {
+    """
+    @from Start index for sub-array.
+    @to End index ofr sub-array.
+
+    Returns sub-array starting at from: and going to to:
+    """
+
+    if: (from < 0) then: {
+      from = size + from
+    }
+    if: (to < 0) then: {
+      to = size + to
+    }
+    subarr = []
+    from upto: to do: |i| {
+      subarr << (at: i)
+    }
+    subarr
+  }
+
+  def select: block {
+    """
+    @block Predicate @Block@ to be used as filter.
+    @return @Array@ of all the elements for which @block doesn't yield @false or @nil.
+
+    Returns a new Array with all the elements in self that yield a
+    true-ish value when called with the given Block.
+    """
+
+    tmp = []
+    each: |x| {
+      if: (block call: [x]) then: {
+        tmp << x
+      }
+    }
+    return tmp
+  }
+
+  def select_with_index: block {
+    """
+    Same as select:, just gets also called with an additional argument
+    for each element's index value.
+    """
+
+    tmp = []
+    each_with_index: |obj idx| {
+      if: (block call: [obj, idx]) then: {
+        tmp << [obj, idx]
+      }
+    }
+    tmp
+  }
+
   def Array === object {
     """
     @object Object to match @self against.
@@ -242,8 +374,10 @@ class Array {
   }
 
   def product {
-    """Calculates the product of all the elements in the Enumerable
-      (assuming them to be Numbers (implementing '+' & '*'))."""
+    """
+    Calculates the product of all the elements in the Enumerable
+    (assuming them to be Numbers (implementing '+' & '*')).
+    """
 
     reduce: |x y| { x * y } init_val: 1
   }
