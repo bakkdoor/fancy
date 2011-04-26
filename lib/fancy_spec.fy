@@ -60,11 +60,11 @@ class FancySpec {
     @@failed_negative = []
 
     def SpecTest failed_test: actual_and_expected {
-      @@failed_positive << actual_and_expected
+      @@failed_positive << [actual_and_expected, caller(6) at: 0]
     }
 
     def SpecTest failed_negative_test: value {
-      @@failed_negative << value
+      @@failed_negative << [value, caller(6) at: 0]
     }
 
     def initialize: @info_str block: @block {
@@ -102,18 +102,23 @@ class FancySpec {
     def print_failed_positive {
       " [" ++ (@@failed_positive size) ++ " unexpected values]" println
       "Got: " println
-      @@failed_positive each: |f| {
-        "         " ++ (f first inspect) println
-      "Expected: " println
-        "         " ++ (f second inspect) println
-      }
+      print_failed_common: @@failed_positive
     }
 
     def print_failed_negative {
       " [" ++ (@@failed_negative size) ++ " unexpected values]" println
       "Should not have gotten the following values: " println
-      @@failed_negative each: |f| {
-        "     " ++ (f inspect) println
+      print_failed_common: @@failed_negative
+    }
+
+    def print_failed_common: failures {
+      failures each: |f| {
+        actual, expected = f first
+        location = f second gsub(/:(\d+):in `[^']+'/, " +\1")
+
+        "Location: #{location}" println
+        "Expected: #{expected inspect}" println
+        "Received: #{actual inspect}" println
       }
     }
   }
@@ -134,7 +139,7 @@ class FancySpec {
 
     def != expected_value {
       unless: (@actual_value != expected_value) do: {
-        SpecTest failed_negative_test: @actual_value
+        SpecTest failed_negative_test: [@actual_value, expected_value]
       }
     }
 
