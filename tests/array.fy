@@ -10,8 +10,7 @@ FancySpec describe: Array with: {
 
   it: "should iterate over all elements, calling a block" for: 'each: when: {
     sum = 0
-    retval = [1,2,3,4,5] each: |x| { sum = sum + x }
-    retval should == sum
+    [1,2,3,4,5] each: |x| { sum = sum + x }
     sum should == ([1,2,3,4,5] sum)
   }
 
@@ -41,6 +40,18 @@ FancySpec describe: Array with: {
     arr at: 2 . should == "hello, world"
     arr at: 1 . should == 10
     arr at: 0 . should == 'a
+  }
+
+  it: "should set the value for a given index" for: 'at:put: when: {
+    arr = [1,2,3]
+    arr at: 0 put: 10
+    arr should == [10, 2, 3]
+    arr at: -1 put: 30
+    arr should == [10, 2, 30]
+    arr at: 1 put: 20
+    arr should == [10,20,30]
+    arr at: 3 put: 40
+    arr should == [10,20,30,40]
   }
 
   it: "should NOT include the items" for: "includes?:" when: {
