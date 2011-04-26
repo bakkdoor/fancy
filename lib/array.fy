@@ -366,8 +366,10 @@ class Array {
   }
 
   def product {
-    """Calculates the product of all the elements in the Enumerable
-      (assuming them to be Numbers (implementing '+' & '*'))."""
+    """
+    Calculates the product of all the elements in the Enumerable
+    (assuming them to be Numbers (implementing '+' & '*')).
+    """
 
     reduce: |x y| { x * y } init_val: 1
   }
