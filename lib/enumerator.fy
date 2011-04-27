@@ -35,4 +35,10 @@ class FancyEnumerator {
       @object send_message: @iterator with_params: [param]
     }
   }
+
+  def with: object each: block {
+    loop: {
+      block call: [object, next]
+    }
+  }
 }

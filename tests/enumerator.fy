@@ -43,6 +43,14 @@ FancySpec describe: FancyEnumerator with: {
     enum rewind
     check call
   }
+
+  it: "iterates with an object" for: 'with:each: when: {
+    enum = (42..45) to_enum
+    result = enum with: "" each: |obj, val| {
+      obj = "#{obj} #{val}"
+    }
+    result should == "foobar"
+  }
 }
 
 # => [:each, :each_with_index, :each_with_object, :with_index, :with_object, :next_values, :peek_values, :next, :peek, :feed, :rewind, :inspect]
