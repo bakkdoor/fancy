@@ -44,12 +44,41 @@ FancySpec describe: FancyEnumerator with: {
     check call
   }
 
+  it: "raises Fancy StopIteration when out of values" for: 'next when: {
+    o = Object new
+    def o each: block { block call: [1] }
+    e = o to_enum
+
+    e next should == 1
+    try {
+      e next
+      "We should not reach this line" should == true
+    } catch (Fancy StopIteration) => ex {
+      ex result should == nil
+    }
+  }
+
+  it: "sets result on Fancy StopIteration when out of values" for: 'next when: {
+    o = Object new
+    def o each: block {
+      block call: [1]
+      42
+    }
+    e = o to_enum
+
+    e next should == 1
+    try {
+      e next
+      "We should not reach this line" should == true
+    } catch (Fancy StopIteration) => ex {
+      ex result should == 42
+    }
+  }
+
   it: "iterates with an object" for: 'with:each: when: {
     enum = (42..45) to_enum
-    result = enum with: "" each: |obj, val| {
-      obj = "#{obj} #{val}"
-    }
-    result should == "foobar"
+    result = enum with: [] each: |val, obj| { obj << val }
+    result should == [42, 43, 44, 45]
   }
 }
 

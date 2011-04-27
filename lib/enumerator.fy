@@ -13,17 +13,44 @@ class FancyEnumerator {
       @peeked = false
       @peek
     } else: {
-      @fiber resume
+      result = @fiber resume
+      if: (@fiber alive?) then: {
+        return result
+      } else: {
+        (Fancy StopIteration new: result) raise!
+      }
     }
   }
 
   def peek {
+    """
+    Returns the next object in the FancyEnumerator, but doesn't move the
+    internal position forward.
+    When the position reaches the end, a Fancy StopIteration exception is
+    raised.
+
+    a = [1,2,3]
+    e = a to_enum
+    e next p #=> 1
+    e peek p #=> 2
+    e peek p #=> 2
+    e peek p #=> 2
+    e next p #=> 2
+    e next p #=> 3
+    e next p #=> raises Fancy StopIteration
+    """
+
     unless: @peeked do: {
       @peeked = true
       @peek = @fiber resume
+      if: (@fiber alive?) then: {
+        return @peek
+      } else: {
+        (Fancy StopIteration new: result) raise!
+      }
     }
 
-    @peek
+    return @peek
   }
 
   def rewind {
@@ -38,7 +65,13 @@ class FancyEnumerator {
 
   def with: object each: block {
     loop: {
-      block call: [object, next]
+      try {
+        block call: [next, object]
+      } catch (Fancy StopIteration) => ex {
+        return object
+      }
     }
+
+    return object
   }
 }
