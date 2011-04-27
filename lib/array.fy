@@ -79,8 +79,16 @@ class Array {
     Calls a given @Block@ with each element in the @Array@.
     """
 
-    size times: |i| {
-      block call: [at: i]
+    try {
+      size times: |i| {
+        try {
+          block call: [at: i]
+        } catch (Fancy NextIteration) => ex {
+        }
+      }
+      self
+    } catch (Fancy BreakIteration) => ex {
+      ex return_value
     }
   }
 

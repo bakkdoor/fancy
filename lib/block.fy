@@ -34,6 +34,16 @@ class Block {
     while_false: block
   }
 
+  def while_true: work {
+    {
+      call if_do: |val| {
+        work call: [val]
+      } else: {
+        break
+      }
+    } loop
+  }
+
   alias_method: 'while_do: for: 'while_true:
 
   def until_do: block {
