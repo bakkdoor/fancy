@@ -105,6 +105,14 @@ class Object {
     0
   }
 
+  def to_enum {
+    FancyEnumerator new: self
+  }
+
+  def to_enum: iterator {
+    FancyEnumerator new: self with: iterator
+  }
+
   def || other {
     "Returns @ self if self is true-ish, otherwise returns @other"
     self if_do: {

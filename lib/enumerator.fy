@@ -1,13 +1,3 @@
-class Object {
-  def to_enum {
-    FancyEnumerator new: self
-  }
-
-  def to_enum: iterator {
-    FancyEnumerator new: self with: iterator
-  }
-}
-
 class FancyEnumerator {
   def initialize: @object {
     @iterator = 'each:
