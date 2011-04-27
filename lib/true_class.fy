@@ -23,12 +23,12 @@ class TrueClass {
   }
 
   def nil? {
-    "Returns @nil."
+    "Returns @false."
     false
   }
 
   def false? {
-    "Returns @nil."
+    "Returns @false."
     false
   }
 
