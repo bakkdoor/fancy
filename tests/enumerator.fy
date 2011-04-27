@@ -26,7 +26,7 @@ FancySpec describe: FancyEnumerator with: {
     def o iter: block {
       1 upto: 10 do: block
     }
-    enum = to_enum: 'iter
+    enum = o to_enum: 'iter:
     enum next should == 1
   }
 

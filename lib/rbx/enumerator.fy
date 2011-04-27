@@ -4,13 +4,13 @@ class Object {
   }
 
   def to_enum: iterator {
-    FancyEnumerator new: self method: iterator
+    FancyEnumerator new: self with: iterator
   }
 }
 
 class FancyEnumerator {
   def initialize: @object {
-    @iterator = 'each
+    @iterator = 'each:
     rewind
   }
 
@@ -41,9 +41,8 @@ class FancyEnumerator {
     @peek = nil
 
     @fiber = Fiber new: {
-      @object each: |element| {
-        yield: element
-      }
+      param = |element| { yield: element }
+      @object send_message: @iterator with_params: [param]
     }
   }
 }
