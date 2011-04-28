@@ -36,26 +36,32 @@ class Object {
   }
 
   def if_true: block {
+    "Calls the @block if @true? returns @true"
     true? if_true: block
   }
 
   def if_true: then_block else: else_block {
+    "Calls the @then_block if @true? returns @true - otherwise @else_block is called"
     true? if_true: then_block else: else_block
   }
 
   def if_false: block {
+    "Calls the @block if @false? returns @true@"
     false? if_true: block
   }
 
   def if_false: then_block else: else_block {
+    "Calls the @then_block if @false? returns @true - otherwise @else_block is called"
     false? if_true: then_block else: else_block
   }
 
   def if_nil: block {
+    "Calls the @block if @nil? returns @true@"
     nil? if_true: block
   }
 
   def if_nil: then_block else: else_block {
+    "Calls the @then_block if @nil? returns @true - otherwise @else_block is called"
     nil? if_true: then_block else: else_block
   }
 
@@ -65,12 +71,12 @@ class Object {
   }
 
   def false? {
-    "Returns nil."
+    "Returns @false."
     false
   }
 
   def true? {
-    "Returns nil."
+    "Returns @false."
     false
   }
 

@@ -7,6 +7,15 @@ class NilClass {
     nil
   }
 
+  def if_true: block {
+    "Returns @nil."
+  }
+
+  def if_true: then_block else: else_block {
+    "Calls @else_block."
+    else_block call
+  }
+
   def nil? {
     "Returns @true."
     true
