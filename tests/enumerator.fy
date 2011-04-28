@@ -87,6 +87,11 @@ FancySpec describe: FancyEnumerator with: {
     chunked next should == [false, [1,2]]
     chunked next should == [true, [3]]
   }
+
+  it: "converts to an Array" for: 'to_a when: {
+    enum = (1..10) to_enum
+    enum to_a should == [1,2,3,4,5,6,7,8,9,10]
+  }
 }
 
 # => [:each, :each_with_index, :each_with_object, :with_index, :with_object, :next_values, :peek_values, :next, :peek, :feed, :rewind, :inspect]
