@@ -58,14 +58,14 @@ load_history
 try {
   bnd = binding()
 
-  { Readline readline(">> ", true) } while_do: |line| {
+  while: { Readline readline(">> ", true) } do: |line| {
     HISTORY << line
-    double_or_empty?: line . if_true: {
+    if: (double_or_empty?: line) then: {
       Readline::HISTORY pop()
       HISTORY pop()
     }
 
-    line =~ /^\s*$/ if_false: {
+    unless: (line =~ /^\s*$/) do: {
       try {
         Fancy eval: line binding: bnd . inspect println
       } catch Exception => e {
