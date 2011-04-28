@@ -31,12 +31,22 @@ class Block {
     @top_scope receiver: recv
   }
 
+  # Ugh. HACK.
+  # Use try/catch to deal with older and latest version of rbx (method got changed)
   def call_with_receiver: receiver {
-    call_under(receiver, method() scope())
+    try {
+      return call_under(receiver, method() scope())
+    } catch {
+      return call_on_instance(receiver)
+    }
   }
 
   def call: args with_receiver: receiver {
-    call_under(receiver, method() scope(), *args)
+    try {
+      return call_under(receiver, method() scope(), *args)
+    } catch {
+      return call_on_instance(receiver, *args)
+    }
   }
 
   def loop {
