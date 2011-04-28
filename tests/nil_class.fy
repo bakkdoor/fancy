@@ -1,23 +1,30 @@
 FancySpec describe: NilClass with: {
   it: "should be false for calling and: with any value" for: 'and: when: {
-    nil and: true . should == false
-    nil and: 'foo . should == false
-    nil and: nil . should == false
+    nil and: true . should == nil
+    nil and: 'foo . should == nil
+    nil and: nil . should == nil
+    false and: true . should == false
+    false and: 'foo . should == false
+    false and: nil . should == false
   }
 
-  it: "should be false for calling && with any value" for: '&& when: {
-    (nil && true) should == false
-    (nil && 'foo) should == false
-    (nil && nil) should == false
+  it: "should be nil/false for calling && with any value" for: '&& when: {
+    (nil && true) should == nil
+    (nil && 'foo) should == nil
+    (nil && nil) should == nil
+    (false && true) should == false
+    (false && 'foo) should == false
+    (false && nil) should == false
   }
 
   it: "should be true for calling or: with any non-nil value" for: 'or: when: {
     nil or: true . should == true
-    nil or: 'foo . should == true
+    nil or: 'foo . should == 'foo
   }
 
-  it: "should be nil for calling or: with a nil value" for: 'or: when: {
-    nil or: nil . should == false
+  it: "should be nil/false for calling or: with a nil/false value" for: 'or: when: {
+    nil or: nil . should == nil
+    nil or: false . should == false
   }
 
   it: "should be true for calling || with any non-nil value" for: '|| when: {

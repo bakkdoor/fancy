@@ -40,35 +40,6 @@ class Object {
     instance_variable_get("@" ++ slotname)
   }
 
-  def and: other {
-    """
-    Boolean conjunction.
-    Returns true if self and other are true, otherwise nil.
-    """
-
-    self if_do: {
-      other if_do: {
-        return true
-      }
-    }
-    return false
-  }
-
-  def or: other {
-    """
-    Boolean disjunction.
-    Returns true if either self or other is true, otherwise nil.
-    """
-    self if_do: {
-      return true
-    } else: {
-      other if_do: {
-        return true
-      }
-    }
-    return false
-  }
-
   def define_singleton_method: name with: block {
     metaclass define_method: name with: block
   }
