@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name = "fancy"
-  s.version = "0.3.2"
+  s.version = "0.3.3"
 
   s.authors = ["Christopher Bertels"]
-  s.date = "2011-03-08"
+  s.date = "2011-04-28"
   s.email = "chris@fancy-lang.org"
 
   files =
