@@ -19,14 +19,10 @@ class FancyEnumerable {
     calling the first @Block@ for each element in self.
     """
 
-    count = 0
-    size = self size
+    between = { between = between_block }
     each: |x| {
+      between call
       each_block call: [x]
-      unless: (count == (size - 1)) do: {
-        between_block call
-      }
-      count = count + 1
     }
   }
 
