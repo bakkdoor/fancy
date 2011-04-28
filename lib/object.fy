@@ -35,29 +35,43 @@ class Object {
     self == other not
   }
 
+  def if_true: block {
+    true? if_true: block
+  }
+
+  def if_true: then_block else: else_block {
+    true? if_true: then_block else: else_block
+  }
+
   def if_false: block {
-    "Calls the block."
-    nil
+    false? if_true: block
+  }
+
+  def if_false: then_block else: else_block {
+    false? if_true: then_block else: else_block
   }
 
   def if_nil: block {
-    "Returns nil."
-    nil
+    nil? if_true: block
+  }
+
+  def if_nil: then_block else: else_block {
+    nil? if_true: then_block else: else_block
   }
 
   def nil? {
-    "Returns nil."
-    nil
+    "Returns @false."
+    false
   }
 
   def false? {
     "Returns nil."
-    nil
+    false
   }
 
   def true? {
     "Returns nil."
-    nil
+    false
   }
 
   def if_do: block {

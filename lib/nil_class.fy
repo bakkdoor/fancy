@@ -7,39 +7,9 @@ class NilClass {
     nil
   }
 
-  def if_true: then_block else: else_block {
-    "Calls @else_block."
-    else_block call
-  }
-
-  def if_true: block {
-    "Returns @nil."
-    nil
-  }
-
-  def if_false: block {
-    "Calls @block."
-    block call
-  }
-
-  def if_nil: block {
-    "Calls @block."
-    block call
-  }
-
   def nil? {
     "Returns @true."
     true
-  }
-
-  def false? {
-    "Returns @true."
-    true
-  }
-
-  def true? {
-    "Returns @nil."
-    false
   }
 
   def to_s {

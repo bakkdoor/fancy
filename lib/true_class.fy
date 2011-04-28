@@ -7,34 +7,27 @@ class TrueClass {
     true
   }
 
-  def if_true: then_block else: else_block {
-    "Calls @then_block."
-    then_block call
-  }
-
   def if_true: block {
-    "Calls @block."
     block call
   }
 
-  def if_false: block {
-    "Returns @nil."
-    nil
-  }
-
-  def nil? {
-    "Returns @false."
-    false
-  }
-
-  def false? {
-    "Returns @false."
-    false
+  def if_true: then_block else: else_block {
+    then_block call
   }
 
   def true? {
     "Returns @true."
     true
+  }
+
+  def to_s {
+    "Returns @true as a @String@."
+    "true"
+  }
+
+  def to_a {
+    "Returns an empty @Array@."
+    []
   }
 
   def not {
