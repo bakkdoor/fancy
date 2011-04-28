@@ -131,19 +131,33 @@ class Object {
     FancyEnumerator new: self with: iterator
   }
 
-  def || other {
-    "Returns @ self if self is true-ish, otherwise returns @other"
-    self if_do: {
-      return self
-    } else: {
+  def and: other {
+    """
+    Boolean conjunction.
+    Returns @other if @self and @other are true-ish, otherwise @false.
+    """
+
+    if: self then: {
+      { other = other call } if: (other is_a?: Block)
       return other
     }
+    return self
   }
 
-  def && other {
-    "Same as Object#and:"
-    and: other
+  def or: other {
+    """
+    Boolean disjunction.
+    Returns true if either @self or other is true, otherwise nil.
+    """
+    unless: self do: {
+      { other = other call } if: (other is_a?: Block)
+      return other
+    }
+    return self
   }
+
+  alias_method: ':&& for: 'and:
+  alias_method: ':|| for: 'or:
 
   def if: cond then: block {
     """

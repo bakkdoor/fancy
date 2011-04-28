@@ -75,25 +75,25 @@ FancySpec describe: Object with: {
   # boolean messages
 
   it: "should be true for calling and: with non-nil values" for: 'and: when: {
-    'foo and: 'bar . should == true
+    'foo and: 'bar . should == 'bar
   }
 
   it: "should be false for calling and: with a nil value" for: 'and: when: {
-    'foo and: nil . should == false
+    'foo and: nil . should == nil
   }
 
   it: "should be true for calling && with non-nil values" for: '&& when: {
-    ('foo && 'bar) should == true
+    ('foo && 'bar) should == 'bar
   }
 
   it: "should be false for calling && with a nil value" for: '&& when: {
-    ('foo && nil) should == false
+    ('foo && nil) should == nil
   }
 
 
   it: "should be true for calling or: with any value" for: 'or: when: {
-    'foo or: 'bar . should == true
-    'foo or: nil . should == true
+    'foo or: 'bar . should == 'foo
+    'foo or: nil . should == 'foo
   }
 
   it: "should be true for calling || with any value" for: '|| when: {

@@ -1,20 +1,20 @@
 FancySpec describe: TrueClass with: {
   it: "should be true for calling and: with non-nil value" for: 'and: when: {
     true and: true . should == true
-    true and: 'bar . should == true
+    true and: 'bar . should == 'bar
   }
 
   it: "should be false for calling and: with a nil value" for: 'and: when: {
-    true and: nil . should == false
+    true and: nil . should == nil
   }
 
   it: "should be true for calling && with non-nil value" for: '&& when: {
     (true && true) should == true
-    (true && 'bar) should == true
+    (true && 'bar) should == 'bar
   }
 
   it: "should be false for calling && with a nil value" for: '&& when: {
-    (true && nil) should == false
+    (true && nil) should == nil
   }
 
   it: "should be true for calling or: with both non-nil values" for: 'or: when: {
