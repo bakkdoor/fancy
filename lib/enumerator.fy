@@ -64,14 +64,62 @@ class FancyEnumerator {
   }
 
   def with: object each: block {
-    loop: {
-      try {
-        block call: [next, object]
-      } catch (Fancy StopIteration) => ex {
-        return object
-      }
+    each: |element| {
+      block call: [element, object]
     }
 
     return object
+  }
+
+  def each: block {
+    loop: {
+      try {
+        block call: [next]
+      } catch (Fancy StopIteration) => ex {
+        return self
+      }
+    }
+  }
+
+  def chunk: block {
+    Generator new: |inner_block| {
+      enums = []
+      last = nil
+      previous = nil
+      stack = []
+
+      each: |element| {
+        result = (block call: [element]) not not
+        if: (previous == result) then: {
+          stack << element
+        } else: {
+          previous if_nil: {
+            # wait one gap to call
+          } else: {
+            inner_block call: [[previous, stack]]
+          }
+          previous = result
+          stack = [element]
+          last = [result, stack]
+          enums << last
+        }
+      }
+
+      self
+    } . to_enum
+  }
+
+  class Generator {
+    def initialize: @block {}
+
+    def each: block {
+      @block call: [block]
+    }
+  }
+
+  def to_a {
+    output = []
+    each: |element| { output << element }
+    output
   }
 }

@@ -80,6 +80,13 @@ FancySpec describe: FancyEnumerator with: {
     result = enum with: [] each: |val, obj| { obj << val }
     result should == [42, 43, 44, 45]
   }
+
+  it: "chunks up into enums" for: 'chunk: when: {
+    enum = (1..42) to_enum
+    chunked = enum chunk: |n| { n % 3 == 0 }
+    chunked next should == [false, [1,2]]
+    chunked next should == [true, [3]]
+  }
 }
 
 # => [:each, :each_with_index, :each_with_object, :with_index, :with_object, :next_values, :peek_values, :next, :peek, :feed, :rewind, :inspect]
