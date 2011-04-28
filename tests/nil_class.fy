@@ -40,8 +40,8 @@ FancySpec describe: NilClass with: {
     nil if_true: { 'then } . should == nil
   }
 
-  it: "should call the block" for: 'if_false: when: {
-    nil if_false: { 'false } . should == 'false
+  it: "should not call the block" for: 'if_false: when: {
+    nil if_false: { 'false } . should == nil
   }
 
   it: "should be nil" for: 'nil? when: {
@@ -49,7 +49,7 @@ FancySpec describe: NilClass with: {
   }
 
   it: "should be false" for: 'false? when: {
-    nil false? should == true
+    nil false? should == false
   }
 
   it: "should NOT be true" for: 'true? when: {

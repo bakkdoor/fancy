@@ -77,7 +77,7 @@ class FancyEnumerable {
     """
 
     each: |x| {
-      block call: [x] . if_do: |item| {
+      if: (block call: [x]) then: |item| {
         return item
       }
     }

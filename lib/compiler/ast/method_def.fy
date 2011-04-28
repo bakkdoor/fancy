@@ -27,10 +27,10 @@ class Fancy AST {
       g send(@access, 0)
       g pop()
 
-      @name to_s =~ /^initialize:(\S)+/ if_do: {
+      @name to_s =~ /^initialize:(\S)+/ if_true: {
         define_constructor_class_method: g
       }
-      @name to_s =~ /^unknown_message:with_params:$/ if_do: {
+      @name to_s =~ /^unknown_message:with_params:$/ if_true: {
         define_method_missing: g
       }
 

@@ -104,19 +104,19 @@ FancySpec describe: Object with: {
   # end boolean messages
 
   it: "should NOT be nil for non-nil values" for: 'nil? when: {
-    'foo nil? should == nil
-    1 nil? should == nil
-    "hello" nil? should == nil
+    'foo nil? should == false
+    1 nil? should == false
+    "hello" nil? should == false
   }
 
   it: "should NOT be false for non-nil values" for: 'false? when: {
-    'foo false? should == nil
-    "hello, world" false? should == nil
+    'foo false? should == false
+    "hello, world" false? should == false
   }
 
   it: "should not be true" for: 'true? when: {
-    'foo true? should == nil
-    "hello, world" true? should == nil
+    'foo true? should == false
+    "hello, world" true? should == false
   }
 
   it: "should return the correct value" for: 'returning:do: when: {

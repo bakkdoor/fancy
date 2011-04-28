@@ -1,9 +1,9 @@
 def ARGV for_option: op_name do: block {
   "Runs a given block if an option is in ARGV."
 
-  ARGV index: op_name . if_do: |idx| {
+  ARGV index: op_name . if_true: |idx| {
     if: (block argcount > 0) then: {
-      ARGV[idx + 1] if_do: |arg| {
+      ARGV[idx + 1] if_true: |arg| {
         block call: [arg]
         ARGV remove_at: idx
         ARGV remove_at: idx

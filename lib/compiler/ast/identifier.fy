@@ -25,10 +25,10 @@ class Fancy AST {
     }
 
     def method_name: receiver ruby_send: ruby (false) {
-      ruby || @ruby_ident if_do: {
+      ruby || @ruby_ident if_true: {
         @string to_sym()
       } else: {
-        @string =~ /:$/ . if_do: {
+        @string =~ /:$/ . if_true: {
           @string to_sym()
         } else: {
           ":" + @string . to_sym()

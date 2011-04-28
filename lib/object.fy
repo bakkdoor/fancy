@@ -35,50 +35,49 @@ class Object {
     self == other not
   }
 
+  def if_true: block {
+    "Calls the @block if @true? returns @true"
+    block call: [self]
+  }
+
+  def if_true: then_block else: else_block {
+    "Calls the @then_block if @true? returns @true - otherwise @else_block is called"
+    then_block call: [self]
+  }
+
   def if_false: block {
-    "Calls the block."
+    "Calls the @block if @false? returns @true@"
     nil
+  }
+
+  def if_false: then_block else: else_block {
+    "Calls the @then_block if @false? returns @true - otherwise @else_block is called"
+    else_block call
   }
 
   def if_nil: block {
-    "Returns nil."
+    "Calls the @block if @nil? returns @true@"
     nil
+  }
+
+  def if_nil: then_block else: else_block {
+    "Calls the @then_block if @nil? returns @true - otherwise @else_block is called"
+    else_block call
   }
 
   def nil? {
-    "Returns nil."
-    nil
+    "Returns @false."
+    false
   }
 
   def false? {
-    "Returns nil."
-    nil
+    "Returns @false."
+    false
   }
 
   def true? {
-    "Returns nil."
-    nil
-  }
-
-  def if_do: block {
-    "If the object is non-nil, it calls the given block with itself as argument."
-
-    match self {
-      case nil -> nil
-      case false -> nil
-      case _ -> block call: [self]
-    }
-  }
-
-  def if_do: then_block else: else_block {
-    """If the object is non-nil, it calls the given then_block with itself as argument.
-       Otherwise it calls the given else_block."""
-
-    match self {
-      case nil -> else_block call: [self]
-      case false -> else_block call: [self]
-      case _ -> then_block call: [self]
-    }
+    "Returns @false."
+    false
   }
 
   def or_take: other {
@@ -103,17 +102,38 @@ class Object {
     0
   }
 
+  def to_enum {
+    FancyEnumerator new: self
+  }
+
+  def to_enum: iterator {
+    FancyEnumerator new: self with: iterator
+  }
+
   def and: other {
     """
     Boolean conjunction.
     Returns @other if @self and @other are true-ish, otherwise @false.
     """
 
-    if: self then: {
+    if_true: {
       { other = other call } if: (other is_a?: Block)
       return other
     }
     return self
+  }
+
+  def or: other {
+    """
+    Boolean disjunction.
+    Returns true if either @self or other is true, otherwise nil.
+    """
+    if_true: {
+      return self
+    } else: {
+      { other = other call } if: (other is_a?: Block)
+      return other
+    }
   }
 
   def or: other {
@@ -134,17 +154,17 @@ class Object {
   def if: cond then: block {
     """
     Same as:
-        cond if_do: block
+        cond if_true: block
     """
-    cond if_do: block
+    cond if_true: block
   }
 
   def if: cond then: then_block else: else_block {
     """
     Same as:
-        cond if_do: then_block else: else_block
+        cond if_true: then_block else: else_block
     """
-    cond if_do: then_block else: else_block
+    cond if_true: then_block else: else_block
   }
 
   def while: cond_block do: body_block {
@@ -168,10 +188,10 @@ class Object {
   def unless: cond do: block {
     """
     Same as:
-      cond if_do: { nil } else: block
+      cond if_true: { nil } else: block
     """
 
-    cond if_do: { nil } else: block
+    cond if_true: { nil } else: block
   }
 
   def method: method_name {
