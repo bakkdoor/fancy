@@ -88,7 +88,7 @@ class Array {
       }
       self
     } catch (Fancy BreakIteration) => ex {
-      ex return_value
+      ex result
     }
   }
 

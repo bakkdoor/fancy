@@ -1,12 +1,12 @@
 class Fancy {
   class BreakIteration : StdError {
-    read_slots: ['return_value]
-    def initialize: @return_value {}
+    read_slots: ['result]
+    def initialize: @result {}
   }
 
   class NextIteration : StdError {
-    read_slots: ['return_value]
-    def initialize: @return_value {}
+    read_slots: ['result]
+    def initialize: @result {}
   }
 
   class StopIteration : StdError {

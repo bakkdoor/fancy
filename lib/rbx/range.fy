@@ -16,12 +16,12 @@ class Range {
         try {
           val = block call: [x]
         } catch (Fancy NextIteration) => ex {
-          val = ex return_value
+          val = ex result
         }
       }
       val
     } catch (Fancy BreakIteration) => ex {
-      ex return_value
+      ex result
     }
   }
 }

@@ -54,14 +54,14 @@ class Block {
       try {
         call
       } catch (Fancy NextIteration) => ex {
-        ex return_value
+        ex result
       }
     }
 
     try {
       loop(&wrapper)
     } catch (Fancy BreakIteration) => ex {
-      return ex return_value
+      return ex result
     }
   }
 }
