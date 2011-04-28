@@ -36,7 +36,7 @@ class Block {
 
   def while_true: work {
     {
-      call if_do: |val| {
+      call if_true: |val| {
         work call: [val]
       } else: {
         break

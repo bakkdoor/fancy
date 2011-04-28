@@ -114,9 +114,9 @@ FancySpec describe: Object with: {
     "hello, world" false? should == false
   }
 
-  it: "should be true (true-ish)" for: 'true? when: {
-    'foo true? should == true
-    "hello, world" true? should == true
+  it: "should not be true" for: 'true? when: {
+    'foo true? should == false
+    "hello, world" true? should == false
   }
 
   it: "should return the correct value" for: 'returning:do: when: {

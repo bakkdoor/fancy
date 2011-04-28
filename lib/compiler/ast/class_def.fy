@@ -18,7 +18,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       docstring = body() body() shift_docstring
-      docstring if_do: {
+      docstring if_true: {
         setdoc = MessageSend new: @line \
                              message: (Identifier from: "for:append:" line: @line) \
                              to: (Identifier from: "Fancy::Documentation" line: @line) \

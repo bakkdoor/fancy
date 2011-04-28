@@ -147,7 +147,7 @@ class Fancy {
     }
 
     def ast: line assign: rvalue to: lvalue many: many (false) {
-      ast = many if_do: { AST MultipleAssignment } else: { AST Assignment }
+      ast = many if_true: { AST MultipleAssignment } else: { AST Assignment }
       ast new: line var: lvalue value: rvalue
     }
 
@@ -175,7 +175,7 @@ class Fancy {
     }
 
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
-      args = ruby if_do: {
+      args = ruby if_true: {
         unless: receiver do: {
           receiver = AST Self new: line
         }

@@ -9,7 +9,7 @@ class FancyEnumerator {
   }
 
   def next {
-    @peeked if_do: {
+    if: @peeked then: {
       @peeked = false
       @peek
     } else: {

@@ -37,32 +37,32 @@ class Object {
 
   def if_true: block {
     "Calls the @block if @true? returns @true"
-    true? if_true: block
+    block call: [self]
   }
 
   def if_true: then_block else: else_block {
     "Calls the @then_block if @true? returns @true - otherwise @else_block is called"
-    true? if_true: then_block else: else_block
+    then_block call: [self]
   }
 
   def if_false: block {
     "Calls the @block if @false? returns @true@"
-    false? if_true: block
+    nil
   }
 
   def if_false: then_block else: else_block {
     "Calls the @then_block if @false? returns @true - otherwise @else_block is called"
-    false? if_true: then_block else: else_block
+    else_block call
   }
 
   def if_nil: block {
     "Calls the @block if @nil? returns @true@"
-    nil? if_true: block
+    nil
   }
 
   def if_nil: then_block else: else_block {
     "Calls the @then_block if @nil? returns @true - otherwise @else_block is called"
-    nil? if_true: then_block else: else_block
+    else_block call
   }
 
   def nil? {
@@ -76,25 +76,8 @@ class Object {
   }
 
   def true? {
-    "Returns @true by default."
-    true
-  }
-
-  def if_do: block {
-    "If the object is non-nil, it calls the given block with itself as argument."
-
-    if_true: {
-      block call: [self]
-    }
-  }
-
-  def if_do: then_block else: else_block {
-    """If the object is non-nil, it calls the given then_block with itself as argument.
-       Otherwise it calls the given else_block."""
-
-    if_true: {
-      then_block call: [self]
-    } else: else_block
+    "Returns @false."
+    false
   }
 
   def or_take: other {
@@ -133,7 +116,7 @@ class Object {
     Returns @other if @self and @other are true-ish, otherwise @false.
     """
 
-    if_do: {
+    if_true: {
       { other = other call } if: (other is_a?: Block)
       return other
     }
@@ -145,7 +128,7 @@ class Object {
     Boolean disjunction.
     Returns true if either @self or other is true, otherwise nil.
     """
-    if_do: {
+    if_true: {
       return self
     } else: {
       { other = other call } if: (other is_a?: Block)
@@ -159,17 +142,17 @@ class Object {
   def if: cond then: block {
     """
     Same as:
-        cond if_do: block
+        cond if_true: block
     """
-    cond if_do: block
+    cond if_true: block
   }
 
   def if: cond then: then_block else: else_block {
     """
     Same as:
-        cond if_do: then_block else: else_block
+        cond if_true: then_block else: else_block
     """
-    cond if_do: then_block else: else_block
+    cond if_true: then_block else: else_block
   }
 
   def while: cond_block do: body_block {
@@ -193,10 +176,10 @@ class Object {
   def unless: cond do: block {
     """
     Same as:
-      cond if_do: { nil } else: block
+      cond if_true: { nil } else: block
     """
 
-    cond if_do: { nil } else: block
+    cond if_true: { nil } else: block
   }
 
   def method: method_name {

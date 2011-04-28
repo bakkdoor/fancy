@@ -9,12 +9,12 @@ class TrueClass {
 
   def if_true: block {
     "Calls @block."
-    block call
+    block call: [self]
   }
 
   def if_true: then_block else: else_block {
     "Calls @then_block."
-    then_block call
+    then_block call: [self]
   }
 
   def true? {

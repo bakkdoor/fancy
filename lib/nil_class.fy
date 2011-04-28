@@ -17,9 +17,12 @@ class NilClass {
     else_block call
   }
 
-  def true? {
-    "Returns @false."
-    false
+  def if_nil: block {
+    block call: [self]
+  }
+
+  def if_nil: then_block else: else_block {
+    then_block call: [self]
   }
 
   def nil? {

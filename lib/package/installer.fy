@@ -168,7 +168,7 @@ class Fancy Package {
       If no @.fancypack file is found, raise an error.
       """
 
-      Dir glob(installed_path ++ "/*.fancypack") first if_do: |fpackfile| {
+      Dir glob(installed_path ++ "/*.fancypack") first if_true: |fpackfile| {
         require: fpackfile
       }
 

@@ -63,7 +63,7 @@ class Fancy Documentation {
       If obj has no documentation, one is created for it.
     """
     doc = for: obj
-    doc if_do: {
+    if: doc then: {
       doc docs << docstring
     } else: {
       doc  = for: obj is: docstring

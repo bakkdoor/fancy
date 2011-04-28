@@ -1,7 +1,7 @@
 # echo.fy
 # Outputs contents of files
 
-ARGV[1] if_do: |filename| {
+ARGV[1] if_true: |filename| {
  try {
     File open: filename modes: ['read] with: |f| {
       until: { f eof? } do: {

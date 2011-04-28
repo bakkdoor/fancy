@@ -43,45 +43,45 @@ FancySpec describe: "Control Flow" with: {
     }
   }
 
-  it: "should only call the block if it's a true-ish value" for: 'if_do: when: {
-    1 if_do: |num| {
+  it: "should only call the block if it's a true-ish value" for: 'if_true: when: {
+    1 if_true: |num| {
       num * 10
     } . should == 10
 
-    nil if_do: {
+    nil if_true: {
       "nope"
     } . should == nil
 
-    false if_do: {
+    false if_true: {
       "nope again"
     } . should == nil
   }
 
-  it: "should call the then_block if it's a true-ish value and call the else_block otherwise" for: 'if_do:else: when: {
-    1 if_do: |num| {
+  it: "should call the then_block if it's a true-ish value and call the else_block otherwise" for: 'if_true:else: when: {
+    1 if_true: |num| {
       num * 10
     } else: {
       nil
     } . should == 10
 
-    nil if_do: {
+    nil if_true: {
       "nope"
     } else: {
       "yup"
     } . should == "yup"
 
-    false if_do: {
+    false if_true: {
       "nope again"
     } else: {
       "yup again"
     } . should == "yup again"
   }
 
-  it: "should be possible to override the true? method and work accordingly in conditionals" when: {
+  it: "should be possible to override the if_true:else: method and work accordingly in conditionals" when: {
     class AClasThatIsLikeFalse {
-      def true? { false }
-      def false? { true }
-      def nil? { false }
+      def if_true: block else: another_block {
+        another_block call
+      }
     }
 
     obj = AClasThatIsLikeFalse new
@@ -91,8 +91,8 @@ FancySpec describe: "Control Flow" with: {
       'success
     } . should == 'success
 
-    # let's override it just for obj -> obj becomes "truthy"
-    def obj true? { true }
+    # let's get rid of this custom if_true:else: method
+    AClasThatIsLikeFalse undefine_method: 'if_true:else:
 
     if: obj then: {
       'now_this_is_success

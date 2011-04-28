@@ -39,7 +39,7 @@ ARGV for_option: "-e" do: |eval_string| {
 }
 
 ARGV for_option: "-c" do: {
-  ARGV index: "-c" . if_do: |idx| {
+  ARGV index: "-c" . if_true: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       "Compiling " ++ filename println
       Fancy Compiler compile_file: filename to: nil line: 1 print: false
@@ -49,7 +49,7 @@ ARGV for_option: "-c" do: {
 }
 
 ARGV for_option: "-cv" do: {
-  ARGV index: "-cv" . if_do: |idx| {
+  ARGV index: "-cv" . if_true: |idx| {
     ARGV[[idx + 1, -1]] each: |filename| {
       "Compiling " ++ filename println
       Fancy Compiler compile_file: filename to: nil line: 1 print: true
@@ -77,7 +77,7 @@ ARGV for_option: "list-packages" do: {
 Fancy Package add_to_loadpath
 
 # Load a source file, if any given:
-ARGV first if_do: |file| {
+ARGV first if_true: |file| {
   try {
     Fancy CodeLoader load_compiled_file: file
   } catch Fancy Parser ParseError => e {
@@ -85,6 +85,6 @@ ARGV first if_do: |file| {
   }
 }
 
-ARGV empty? if_do: {
+ARGV empty? if_true: {
   require: "../bin/ifancy"
 }

@@ -25,7 +25,7 @@ class String {
   def blank? {
     "Indicates, if a String consists only of whitespace."
 
-    self =~ /^\s*$/ if_do: {
+    self =~ /^\s*$/ if_true: {
       true
     } else: {
       false

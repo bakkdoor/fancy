@@ -72,7 +72,7 @@ class World {
   def was_alive?: pos {
     "Indicates, if a cell ([row,column]) was alive in the last generation."
 
-    @last_alive[pos[0]] if_do: |row| {
+    @last_alive[pos[0]] if_true: |row| {
       row[pos[1]] == 1
     }
   }
@@ -115,7 +115,7 @@ class World {
     column = pos[1]
 
     neighbors = @offsets map: |o| {
-      @matrix[row + (o[0])] if_do: |r| {
+      @matrix[row + (o[0])] if_true: |r| {
         r[column + (o[1])]
       }
     }

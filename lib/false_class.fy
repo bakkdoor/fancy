@@ -17,6 +17,14 @@ class FalseClass {
     else_block call
   }
 
+  def if_false: block {
+    block call: [self]
+  }
+
+  def if_false: then_block else: else_block {
+    then_block call: [self]
+  }
+
   def false? {
     "Returns @true."
     true
