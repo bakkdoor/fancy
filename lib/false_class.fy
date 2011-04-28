@@ -9,6 +9,7 @@ class FalseClass {
 
   def if_true: block {
     "Returns @nil."
+    nil
   }
 
   def if_true: then_block else: else_block {
