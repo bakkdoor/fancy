@@ -17,6 +17,11 @@ class NilClass {
     else_block call
   }
 
+  def true? {
+    "Returns @false."
+    false
+  }
+
   def nil? {
     "Returns @true."
     true

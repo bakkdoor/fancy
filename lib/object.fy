@@ -76,17 +76,15 @@ class Object {
   }
 
   def true? {
-    "Returns @false."
-    false
+    "Returns @true by default."
+    true
   }
 
   def if_do: block {
     "If the object is non-nil, it calls the given block with itself as argument."
 
-    match self {
-      case nil -> nil
-      case false -> nil
-      case _ -> block call: [self]
+    if_true: {
+      block call: [self]
     }
   }
 
@@ -94,11 +92,9 @@ class Object {
     """If the object is non-nil, it calls the given then_block with itself as argument.
        Otherwise it calls the given else_block."""
 
-    match self {
-      case nil -> else_block call: [self]
-      case false -> else_block call: [self]
-      case _ -> then_block call: [self]
-    }
+    if_true: {
+      then_block call: [self]
+    } else: else_block
   }
 
   def or_take: other {
@@ -137,7 +133,7 @@ class Object {
     Returns @other if @self and @other are true-ish, otherwise @false.
     """
 
-    if: self then: {
+    if_do: {
       { other = other call } if: (other is_a?: Block)
       return other
     }
@@ -149,11 +145,12 @@ class Object {
     Boolean disjunction.
     Returns true if either @self or other is true, otherwise nil.
     """
-    unless: self do: {
+    if_do: {
+      return self
+    } else: {
       { other = other call } if: (other is_a?: Block)
       return other
     }
-    return self
   }
 
   alias_method: ':&& for: 'and:
