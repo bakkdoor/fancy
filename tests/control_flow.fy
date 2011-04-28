@@ -77,6 +77,30 @@ FancySpec describe: "Control Flow" with: {
     } . should == "yup again"
   }
 
+  it: "should be possible to override the true? method and work accordingly in conditionals" when: {
+    class AClasThatIsLikeFalse {
+      def true? { false }
+      def false? { true }
+      def nil? { false }
+    }
+
+    obj = AClasThatIsLikeFalse new
+    if: obj then: {
+      'fail
+    } else: {
+      'success
+    } . should == 'success
+
+    # let's override it just for obj -> obj becomes "truthy"
+    def obj true? { true }
+
+    if: obj then: {
+      'now_this_is_success
+    } else: {
+      'fail
+    } . should == 'now_this_is_success
+  }
+
   it: "should break from an iteration" for: 'break when: {
     x = 0
     until: { x == 10 } do: {
