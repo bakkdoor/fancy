@@ -1,14 +1,44 @@
 class FancyEnumerator {
-  def initialize: @object {
+  def initialize: @collection {
+    """
+    @collection Collection to iterate over.
+
+    Initializes a new FancyEnumerator with a given @collection,
+    using #each: for iteration.
+    """
+
     @iterator = 'each:
     rewind
   }
 
-  def initialize: @object with: @iterator {
+  def initialize: @collection with: @iterator {
+    """
+    @collection Collection to iterate over.
+    @iterator Selector to use to iterate over @collection.
+
+    Initializes a new FancyEnumerator with a given @collection
+    and @iterator selector to be used for iteration.
+    """
+
     rewind
   }
 
   def next {
+    """
+    @return Next element in the collection this enumerator is attached to.
+
+    Returns the next element in the collection this enumerator is attached to.
+    It will move the internal position forward (compared to e.g. #peek, which doesn't).
+
+    Example:
+        a = [1,2,3]
+        e = a to_enum
+        e next # => 1
+        e next # => 2
+        e next # => 3
+        e next # => raises Fancy StopIteration
+    """
+
     if: @peeked then: {
       @peeked = false
       @peek
@@ -29,15 +59,16 @@ class FancyEnumerator {
     When the position reaches the end, a Fancy StopIteration exception is
     raised.
 
-    a = [1,2,3]
-    e = a to_enum
-    e next p #=> 1
-    e peek p #=> 2
-    e peek p #=> 2
-    e peek p #=> 2
-    e next p #=> 2
-    e next p #=> 3
-    e next p #=> raises Fancy StopIteration
+    Example:
+        a = [1,2,3]
+        e = a to_enum
+        e next p #=> 1
+        e peek p #=> 2
+        e peek p #=> 2
+        e peek p #=> 2
+        e next p #=> 2
+        e next p #=> 3
+        e next p #=> raises Fancy StopIteration
     """
 
     unless: @peeked do: {
@@ -54,16 +85,27 @@ class FancyEnumerator {
   }
 
   def rewind {
+    """
+    Resets the enumerator to start from the collection's beginning.
+    """
+
     @peeked = false
     @peek = nil
 
     @fiber = Fiber new: {
       param = |element| { yield: element }
-      @object send_message: @iterator with_params: [param]
+      @collection send_message: @iterator with_params: [param]
     }
   }
 
   def with: object each: block {
+    """
+    @object Object to pass along to @block with each element in the collection.
+    @block A @Block@ to be called with each element in the collection and @object.
+
+    Similar to #each: but also passing in a given @object to each invocation of @block.
+    """
+
     each: |element| {
       block call: [element, object]
     }
@@ -72,6 +114,13 @@ class FancyEnumerator {
   }
 
   def each: block {
+    """
+    @block @Block@ to be called with each element in the collection (iteration).
+
+    Calls a given @Block@ with each element in the collection this enumerator is attached to.
+    Used for iterating over the collection using this enumerator.
+    """
+
     loop: {
       try {
         block call: [next]
