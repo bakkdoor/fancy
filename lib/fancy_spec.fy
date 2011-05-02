@@ -153,6 +153,17 @@ class FancySpec {
       }
     }
 
+    def raise: exception_class with: block {
+      try {
+        @actual_value call
+      } catch exception_class => e {
+        block call: [e]
+        # ok
+      } catch Exception => e {
+        SpecTest failed_test: [e class, exception_class]
+      }
+    }
+
     def unknown_message: msg with_params: params {
       """Forwardy any other message and parameters to the object itself
          and checks the return value."""

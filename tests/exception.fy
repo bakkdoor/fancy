@@ -10,22 +10,40 @@ class Foo {
 
 FancySpec describe: StdError with: {
   it: "should raise an exception and catch it correctly" for: 'raise! when: {
-    try {
+    {
+      try {
+        StdError new: "FAIL!" . raise!
+        nil should == true # this should not occur
+      } catch StdError => ex {
+        ex message should == "FAIL!"
+      }
+    } should_not raise: StdError
+  }
+
+  it: "should raise an exception and have the expected error message" for: 'raise! when: {
+    {
       StdError new: "FAIL!" . raise!
-      nil should == true # this should not occur
-    } catch StdError => ex {
-      ex message should == "FAIL!"
+    } should raise: StdError with: |e| {
+      e message should == "FAIL!"
+    }
+
+    {
+      "FAIL, AGAIN!" raise!
+    } should raise: StdError with: |e| {
+      e message should == "FAIL, AGAIN!"
     }
   }
 
   it: "should raise an exception inside a method and catch it correctly" when: {
     f = Foo new
     f bar: "Don't raise here" . should == 'no_error
-    try {
-      f bar: 'error . should == 'no_error
-    } catch StdError => e {
-      e message should == "Some Error"
-    }
+    {
+      try {
+        f bar: 'error . should == 'no_error
+      } catch StdError => e {
+        e message should == "Some Error"
+      }
+    } should_not raise: StdError
   }
 
   # it: "should raise a NoMethodError" when: {
@@ -49,6 +67,7 @@ FancySpec describe: StdError with: {
   }
 
   it: "should always evaluate the finally clause" when: {
+    set_in_finally = false
     try {
       x = 10 / 0 # ouch!
       "This should fail!" should == true # should not get here!
@@ -57,15 +76,17 @@ FancySpec describe: StdError with: {
     } finally {
       # this part gets always run :)
       "It works!" should == "It works!"
+      set_in_finally should == false
+      set_in_finally = true
     }
+    set_in_finally should == true
   }
 
   it: "should raise a StdError when raising a String" for: 'raise! when: {
     msg = "A Custom Error!"
-    try {
+    {
       msg raise!
-      msg should_not == msg # this should not get executed
-    } catch StdError => e {
+    } should raise: StdError with: |e| {
       e message should == msg
     }
   }
@@ -77,12 +98,14 @@ FancySpec describe: StdError with: {
       }
     }
 
-    try {
-      MyError new raise!
-      nil should == true # will fail
-    } catch MyError => e {
-      e message should == "MyError message"
-    }
+    {
+      try {
+        MyError new raise!
+        nil should == true # will fail
+      } catch MyError => e {
+        e message should == "MyError message"
+      }
+    } should_not raise: MyError
   }
 
   it: "should restart itself after being fixed in a catch clause" when: {
