@@ -80,40 +80,45 @@ class Object {
     false
   }
 
-  def or_take: other {
-    "Returns self if it's non-nil, otherwise returns the given object."
-
-    if: nil? then: {
-      other
-    } else: {
-      self
-    }
-  }
-
-  def to_num {
-    0
-  }
-
   def to_a {
+    """
+    @return @Array@ representation of @self.
+    """
     [self]
   }
 
   def to_i {
+    """
+    @return @Fixnum@ representation of @self.
+    """
     0
   }
 
   def to_enum {
+    """
+    @return @FancyEnumerator@ for @self using 'each: for iteration.
+    """
+
     FancyEnumerator new: self
   }
 
   def to_enum: iterator {
+    """
+    @iterator Message to use for iteration on @self.
+    @return @FancyEnumerator@ for @self using @iterator for iteration.
+    """
+
     FancyEnumerator new: self with: iterator
   }
 
   def and: other {
     """
+    @other Object or @Block@ (for short-circuit evaluation) to compare @self to.
+    @return @other if both @self and @other are true-ish, @self otherwise.
+
     Boolean conjunction.
-    Returns @other if @self and @other are true-ish, otherwise @false.
+    If @self and @other are both true-ish (non-nil, non-false), returns @other.
+    If @other is a @Block@, calls it and returns its return value.
     """
 
     if_true: {
@@ -125,8 +130,12 @@ class Object {
 
   def or: other {
     """
+    @other Object or @Block@ (for short-circuit evaluation) to compare @self to.
+    @return @self if @self is true-ish, @other otherwise.
+
     Boolean disjunction.
-    Returns true if either @self or other is true, otherwise nil.
+    If @self is true-ish (non-nil, non-false) returns @self.
+    Otherwise returns @other (if @other is a @Block@, calls it first and returns its return value)
     """
     if_true: {
       return self
@@ -134,18 +143,6 @@ class Object {
       { other = other call } if: (other is_a?: Block)
       return other
     }
-  }
-
-  def or: other {
-    """
-    Boolean disjunction.
-    Returns true if either @self or other is true, otherwise nil.
-    """
-    unless: self do: {
-      { other = other call } if: (other is_a?: Block)
-      return other
-    }
-    return self
   }
 
   alias_method: ':&& for: 'and:
@@ -195,7 +192,10 @@ class Object {
   }
 
   def method: method_name {
-    "Returns the method with a given name for self, if defined."
+    """
+    @return @Method@ with @method_name defined for @self, or @nil.
+    Returns the method with a given name for self, if defined.
+    """
 
     method(message_name: method_name)
   }

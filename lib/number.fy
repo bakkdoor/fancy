@@ -114,10 +114,6 @@ class Number {
 
     self even? not
   }
-
-  def to_num {
-    self
-  }
 }
 
 class FancyEnumerable {
