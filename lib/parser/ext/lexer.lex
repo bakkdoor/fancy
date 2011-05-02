@@ -42,7 +42,6 @@ thin_arrow      "->"
 delimiter       [ \n\r\t\(\)]
 return_local    "return_local"
 return          "return"
-require         "require:"
 try             "try"
 catch           "catch"
 finally         "finally"
@@ -130,7 +129,6 @@ escaped_newline "\\".*\n
                 }
 {return_local}  { return RETURN_LOCAL; }
 {return}        { return RETURN; }
-{require}       { return REQUIRE; }
 {try}           { return TRY; }
 {catch}         { return CATCH; }
 {finally}       { return FINALLY; }

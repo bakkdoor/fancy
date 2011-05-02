@@ -39,7 +39,6 @@ extern char *yytext;
 %token                  COLON
 %token                  RETURN_LOCAL
 %token                  RETURN
-%token                  REQUIRE
 %token                  TRY
 %token                  CATCH
 %token                  FINALLY
@@ -110,7 +109,6 @@ extern char *yytext;
 %type  <object>         identifier_list
 %type  <object>         return_local_statement
 %type  <object>         return_statement
-%type  <object>         require_statement
 
 %type  <object>         def
 
@@ -201,7 +199,6 @@ expression_block: LCURLY space expression_list space RCURLY {
 statement:      assignment
                 | return_local_statement
                 | return_statement
-                | require_statement
                 ;
 
 exp:            method_def
@@ -281,14 +278,6 @@ return_statement: RETURN exp {
                 }
                 | RETURN {
                   $$ = rb_funcall(self, rb_intern("return_stmt"), 1, INT2NUM(yylineno));
-                }
-                ;
-
-require_statement: REQUIRE string_literal {
-                  $$ = rb_funcall(self, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
-                }
-                | REQUIRE any_identifier {
-                  $$ = rb_funcall(self, rb_intern("require_stmt"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 

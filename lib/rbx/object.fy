@@ -23,6 +23,15 @@ class Object {
     initialize()
   }
 
+  def require: file_path {
+    """
+    Loads and evaluates a given Fancy source file by trying to find the specified
+    @file_path in Fancy's loadpath (see @Fancy::CodeLoader@).
+    Relative paths are allowed (and by default expected).
+    """
+    Fancy CodeLoader require: file_path
+  }
+
   def dclone {
     "Returns a deep clone of self using Ruby's Marshal class."
     Marshal load(Marshal dump(self))

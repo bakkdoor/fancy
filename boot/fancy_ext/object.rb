@@ -15,6 +15,10 @@ class Object
     return self.to_s
   end
 
+  define_method("require:") do |path|
+    Fancy::CodeLoader.send "require:", path
+  end
+
   # HACK:
   # When we define private/protected/public methods, we usually use
   # Module#private, Module#protected & Module#public methods to set the

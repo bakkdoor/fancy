@@ -296,10 +296,6 @@ class Fancy {
       AST BlockLiteral new: line args: args body: body
     }
 
-    def ast: line require_: file {
-      AST Require new: line file: file
-    }
-
     def ast: line class: name parent: parent body: body {
       AST ClassDef new: line name: name parent: parent body: body
     }

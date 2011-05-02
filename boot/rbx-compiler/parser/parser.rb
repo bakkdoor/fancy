@@ -325,10 +325,6 @@ class Fancy
       AST::RegexLiteral.new(line, regexp_str, 0)
     end
 
-    def require_stmt(line, identifier)
-      AST::Require.new(line, identifier)
-    end
-
     def return_stmt(line, expr = nil)
       expr ||= nil_literal(expr)
       AST::Return.new(line, expr)

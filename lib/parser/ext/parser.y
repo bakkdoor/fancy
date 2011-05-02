@@ -42,7 +42,6 @@ extern char *yytext;
 %token                  COLON
 %token                  RETURN_LOCAL
 %token                  RETURN
-%token                  REQUIRE
 %token                  TRY
 %token                  CATCH
 %token                  FINALLY
@@ -118,7 +117,6 @@ extern char *yytext;
 %type  <object>         identifier_list
 %type  <object>         return_local_statement
 %type  <object>         return_statement
-%type  <object>         require_statement
 
 %type  <object>         def
 
@@ -217,7 +215,6 @@ partial_expression_block: AT_LCURLY space expression_list space RCURLY {
 statement:      assignment
                 | return_local_statement
                 | return_statement
-                | require_statement
                 ;
 
 primary:        any_identifier
@@ -306,12 +303,6 @@ return_statement: RETURN exp {
                 }
                 ;
 
-require_statement: REQUIRE string_literal {
-                  $$ = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), $2);
-                }
-                | REQUIRE any_identifier {
-                  $$ = rb_funcall(self, rb_intern("ast:require_:"), 2, INT2NUM(yylineno), $2);
-                }
                 ;
 
 class_def:      class_no_super
