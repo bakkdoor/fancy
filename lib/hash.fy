@@ -7,13 +7,22 @@ class Hash {
   include: FancyEnumerable
 
   def [] key {
-    "Returns the value for a given key."
+    """
+    @key Key for value to get.
+    @return Value for given @key or @nil, if @key not set.
+
+    Returns the value for a given key.
+    """
 
     at: key
   }
 
   def each: block {
-    "Calls a given Block with each key and value."
+    """
+    @block @Block@ to be called with each key and value in @self.
+    @return @self
+    Calls a given @Block@ with each key and value.
+    """
 
     if: (block argcount == 1) then: {
       keys each: |key| {
@@ -27,7 +36,12 @@ class Hash {
   }
 
   def each_key: block {
-    "Calls a given Block with each key."
+    """
+    @block @Block@ to be called with each key in @self.
+    @return @self
+
+    Calls a given @Block@ with each key.
+    """
 
     keys each: |key| {
       block call: [key]
@@ -35,7 +49,12 @@ class Hash {
   }
 
   def each_value: block {
-    "Calls a given Block with each value."
+    """
+    @block @Block@ to be called with each value in @self.
+    @return @self
+
+    Calls a given @Block@ with each value.
+    """
 
     values each: |val| {
       block call: [val]
@@ -43,13 +62,21 @@ class Hash {
   }
 
   def to_a {
-    "Returns an Array of the key-value pairs in a Hash."
+    """
+    @return @Array@ of all key-value pairs in @self.
+
+    Returns an @Array@ of the key-value pairs in a @Hash@.
+    """
 
     map: |pair| { pair }
   }
 
   def to_s {
-    "Returns a string representation of a Hash."
+    """
+    @return @String@ representation of @self.
+
+    Returns a @String@ representation of a @Hash@.
+    """
 
     to_a to_s
   }
