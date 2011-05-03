@@ -8,13 +8,22 @@ class Array {
   include: FancyEnumerable
 
   def Array new: size {
-    "Creates a new Array with a given size (default value is nil)."
+    """
+    @size Initial size of the @Array@ to be created (values default to @nil).
+
+    Creates a new Array with a given @size (default value is @nil).
+    """
 
     Array new: size with: nil
   }
 
   def clone {
-    "Clones (shallow copy) the Array."
+    """
+    @return A shallow copy of the @Array@.
+
+    Clones (shallow copy) the @Array@.
+    """
+
     new = []
     each: |x| {
       new << x
@@ -23,7 +32,17 @@ class Array {
   }
 
   def append: arr {
-    "Appends another Array onto this one."
+    """
+    @arr Other @Array@ to be appended to @self.
+    @return @self
+
+    Appends another @Array@ onto this one.
+
+    Example:
+        a = [1,2,3]
+        a append: [3,4,5]
+        a # => [1,2,3,3,4,5]
+    """
 
     arr each: |x| {
       self << x
@@ -33,9 +52,11 @@ class Array {
 
   def [] index {
     """
-    Given an Array of 2 Numbers, it returns the sub-array between the
-    given indices.
-    If given a Number, returns the element at that index.
+    @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
+    @return Element(s) stored in @self at @index, possibly @nil or an empty @Array@.
+
+    Given an @Array@ of 2 @Fixnums@, it returns the sub-array between the given indices.
+    If given a single @Fixnum@, returns the element at that index.
     """
 
     # if given an Array, interpret it as a from:to: range subarray
@@ -47,34 +68,46 @@ class Array {
   }
 
   def first {
-    "Returns the first element in the Array."
+    """
+    @return The first element in the @Array@.
+    """
     at: 0
   }
 
   def second {
-    "Returns the second element in the Array"
+    """
+    @return The second element in the @Array@.
+    """
     at: 1
   }
 
   def third {
-    "Returns the third element in the Array"
+    """
+    @return The third element in the @Array@.
+    """
     at: 2
   }
 
   def fourth {
-    "Returns the fourth element in the Array"
+    """
+    @return The fourth element in the @Array@.
+    """
     at: 3
   }
 
   def rest {
-    "Returns all elements except the first one as a new Array."
+    """
+    @return All elements in an @Array@ after the first one.
+
+    Returns all elements except the first one as a new @Array@.
+    """
     from: 1 to: -1
   }
 
   def each: block {
     """
     @block @Block@ to be called for each element in @self.
-    @return Return value of calling @block on the last item in @self.
+    @return @self
 
     Calls a given @Block@ with each element in the @Array@.
     """
@@ -86,7 +119,7 @@ class Array {
         } catch (Fancy NextIteration) => ex {
         }
       }
-      self
+      return self
     } catch (Fancy BreakIteration) => ex {
       ex result
     }
@@ -95,8 +128,10 @@ class Array {
   def each_with_index: block {
     """
     @block @Block@ to be called with each element and its inde in the @Array@.
+    @return @self
 
-    Iterate over all elements in Array. Calls a given Block with each element and its index.
+    Iterate over all elements in @Array@.
+    Calls a given @Block@ with each element and its index.
     """
 
     i = 0
@@ -104,19 +139,19 @@ class Array {
       block call: [x, i]
       i = i + 1
     }
-    nil
   }
 
   def =? other {
     """
     @other Other @Array@ to compare this one to.
+    @return @true, if all elements of @other are in @self, @false otherwise.
 
     Compares two Arrays where order does not matter.
     """
 
     if: (other is_a?: Array) then: {
       if: (size != (other size)) then: {
-        nil
+        false
       } else: {
         all?: |x| { other includes?: x }
       }
