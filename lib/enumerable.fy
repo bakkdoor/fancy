@@ -57,7 +57,13 @@ class FancyEnumerable {
   }
 
   def find: item {
-    "Returns @nil, if the given object isn't found, or the object, if it is found."
+    """
+    @item Item to be found in @self.
+    @return The first element that is equal to @item or @nil, if none found.
+
+    Returns @nil, if @item (or anything that returns @true when comparing to @item) isn't found.
+    Otherwise returns that element that is equal to @item.
+    """
 
     if: (item is_a?: Block) then: {
       find_by: item
@@ -85,7 +91,12 @@ class FancyEnumerable {
   }
 
   def map: block {
-    "Returns a new @Array@ with the results of calling a given block for every element"
+    """
+    @block A @Block@ that gets called with each element in @self.
+    @return An @Array@ containing all values of calling @block with each element in @self.
+
+    Returns a new @Array@ with the results of calling a given block for every element.
+    """
 
     coll = []
     each: |x| {
@@ -95,7 +106,12 @@ class FancyEnumerable {
   }
 
   def select: condition {
-    "Returns a new @Array@ with all elements that meet the given condition block."
+    """
+    @condition A @Block@ that is used as a filter on all elements in @self.
+    @return An @Array@ containing all elements in @self that yield @true when called with @condition.
+
+    Returns a new @Array@ with all elements that meet the given condition block.
+    """
 
     coll = []
     each: |x| {
@@ -105,7 +121,10 @@ class FancyEnumerable {
   }
 
   def reject: condition {
-    "Returns a new @Array@ with all elements that don't meet the given condition block."
+    """
+    Similar to @select:@ but inverse.
+    Returns a new @Array@ with all elements that don't meet the given condition block.
+    """
 
     coll = []
     each: |x| {
@@ -115,7 +134,13 @@ class FancyEnumerable {
   }
 
   def take_while: condition {
-    "Returns a new @Array@ by taking elements from the beginning as long as they meet the given condition block."
+    """
+    @condition A @Block@ that is used as a condition for filtering.
+    @return An @Array@ of all elements from the beginning until @condition yields @false.
+
+    Returns a new @Array@ by taking elements from the beginning
+    as long as they meet the given condition block.
+    """
     coll = []
     each: |x| {
       if: (condition call: [x]) then: {
@@ -128,7 +153,11 @@ class FancyEnumerable {
   }
 
   def drop_while: condition {
-    "Returns a new @Array@ by skipping elements from the beginning as long as they meet the given condition block."
+    """
+    Similar to @take_while:@ but inverse.
+    Returns a new @Array@ by skipping elements from the beginning
+    as long as they meet the given condition block.
+    """
 
     coll = []
     drop = nil
@@ -149,6 +178,11 @@ class FancyEnumerable {
   }
 
   def take: amount {
+    """
+    @amount Amount of elements to take from @self.
+    @return First @amount elements of @self in an @Array@.
+    """
+
     i = 0
     take_while: {
       i = i + 1
@@ -157,6 +191,11 @@ class FancyEnumerable {
   }
 
   def drop: amount {
+    """
+    @amount Amount of elements to skip in @self.
+    @return An @Array@ of all but the first @amount elements in @self.
+    """
+
     i = 0
     drop_while: {
       i = i + 1
@@ -165,7 +204,10 @@ class FancyEnumerable {
   }
 
   def reduce: block init_val: init_val {
-    "Calculates a value based on a given block to be called on an accumulator value and an initial value."
+    """
+    Calculates a value based on a given block to be called on an accumulator
+    value and an initial value.
+    """
 
     acc = init_val
     each: |x| {
@@ -176,13 +218,18 @@ class FancyEnumerable {
 
   def inject: val into: block {
     """
-    Same as reduce:init_val: but taking the initial value as first and the reducing block as second parameter.
+    Same as reduce:init_val: but taking the initial value as first
+    and the reducing block as second parameter.
     """
     reduce: block init_val: val
   }
 
   def uniq {
-    "Returns a new Array with all unique values (double entries are skipped)."
+    """
+    @return @Array@ of all unique elements in @self.
+
+    Returns a new Array with all unique values (double entries are skipped).
+    """
 
     uniq_vals = []
     each: |x| {
@@ -194,7 +241,11 @@ class FancyEnumerable {
   }
 
   def size {
-    "Returns the size of an Enumerable."
+    """
+    @return Amount of elements in @self.
+
+    Returns the size of an Enumerable.
+    """
 
     i = 0
     each: |x| {
@@ -204,18 +255,32 @@ class FancyEnumerable {
   }
 
   def empty? {
-    "Indicates, if the Enumerable is empty (has no elements)."
+    """
+    @return @true, if size of @self is 0, @false otherwise.
+
+    Indicates, if the Enumerable is empty (has no elements).
+    """
+
     size == 0
   }
 
   def first {
+    """
+    @return First element in @self or @nil, if empty.
+    """
+
     each: |x| {
       return x
     }
+    nil
   }
 
   def last {
-    "Returns the last element in an Enumerable."
+    """
+    @return Last element in @self or @nil, if empty.
+
+    Returns the last element in an Enumerable.
+    """
 
     item = nil
     each: |x| {
@@ -225,13 +290,20 @@ class FancyEnumerable {
   }
 
   def compact {
-    "Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? )."
+    """
+    @return @Array@ with all non-nil elements in @self.
+
+    Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? ).
+    """
 
     reject: |x| { x nil? }
   }
 
   def superior_by: comparison_block {
-    "Returns the superiour element in the @Enumerable that has met the given comparison block with all other elements."
+    """
+    Returns the superiour element in the @Enumerable that has met
+    the given comparison block with all other elements.
+    """
 
     retval = first
     each: |x| {
@@ -243,16 +315,31 @@ class FancyEnumerable {
   }
 
   def max {
-    "Returns the maximum value in the Enumerable (via the '>' comparison message)."
+    """
+    @return Maximum value in @self.
+
+    Returns the maximum value in the Enumerable (via the '>' comparison message).
+    """
     superior_by: '>
   }
 
   def min {
-    "Returns the minimum value in the Enumerable (via the '<' comparison message)."
+    """
+    @return Minimum value in @self.
+
+    Returns the minimum value in the Enumerable (via the '<' comparison message).
+    """
     superior_by: '<
   }
 
   def partition_by: block {
+    """
+    @block @Block@ that gets used to decide when to partition elements in @self.
+    @return @Array@ of @Array@s, partitioned by equal return values of calling @block with each element
+
+    Example:
+        0 upto: 10 . partition_by: @{< 3}  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
+    """
     last = block call: [first]
     coll = []
     tmp_coll = []
