@@ -42,7 +42,7 @@ FancySpec describe: "Parse literals" for: (Fancy KPEG) with: {
     "12.3"          to_sexp should == [[ 'float, 12.3 ]]
     "12.34"         to_sexp should == [[ 'float, 12.34 ]]
     "123.456"       to_sexp should == [[ 'float, 123.456 ]]
-    "123_456.789_0" to_sexp should == [[ 'float, 123456.789_0 ]]
+    "123_456.789_0" to_sexp should == [[ 'float, 123456.7890 ]]
     "+123.456"      to_sexp should == [[ 'float, 123.456 ]]
     "-123.456"      to_sexp should == [[ 'float, -123.456 ]]
   }
