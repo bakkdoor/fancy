@@ -252,7 +252,7 @@ desc "Runs the test suite."
 task :test do
   sh! _('bin/fancy'),
   '-e', 'ARGV rest rest each: |f| { require: f }',
-  *Dir.glob(_("tests/*.fy"))
+  *Dir.glob(_("tests/**/*.fy"))
 end
 
 task :tests do
