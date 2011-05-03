@@ -14,6 +14,17 @@ FancySpec describe: Array with: {
     sum should == ([1,2,3,4,5] sum)
   }
 
+  it: "should iterate over all elements with their index" for: 'each:with_index: when: {
+    sum = 0
+    idx_sum = 0
+    [10,20,30,40,50] each_with_index: |x i| {
+      sum = sum + x
+      idx_sum = idx_sum + i
+    }
+    sum should == 150
+    idx_sum should == 10
+  }
+
   it: "should be empty after clearing it" for: 'clear when: {
     arr = [1,2,3]
     arr size should == 3
@@ -84,7 +95,7 @@ FancySpec describe: Array with: {
     ['foo] indices should == [0]
   }
 
-  it: "should return all indices for an element as an Array" for: 'indices: when: {
+  it: "should return all indices for an element as an Array" for: 'indices_of: when: {
     arr = [1, 2, 'a, 3, 2, 'a]
     arr indices_of: 1 . should == [0]
     arr indices_of: 2 . should == [1, 4]
@@ -370,5 +381,70 @@ FancySpec describe: Array with: {
     a = [1,2,3]
     a unshift: (a shift) . should == a
     a should == [1,2,3]
+  }
+
+  it: "should compare 2 arrays without regard to order" for: '=? when: {
+    [1,2,3] =? [2,1,3] should == true
+    [1,2,3,4] =? [2,1,4,3] should == true
+    [1,2] =? [1,2,3] should == false
+    [1,2] =? [2] should == false
+    [2] =? [1,2] should == false
+    [] =? [] should == true
+    [1] =? [1] should == true
+  }
+
+  it: "should return the first element" for: 'first when: {
+    [1,2] first should == 1
+    [1] first should == 1
+    [] first should == nil
+  }
+
+  it: "should return the second element" for: 'second when: {
+    [1,2,3] second should == 2
+    [1,2] second should == 2
+    [1] second should == nil
+    [] second should == nil
+  }
+
+  it: "should return the third element" for: 'third when: {
+    [1,2,3,4] third should == 3
+    [1,2,3] third should == 3
+    [1,2] third should == nil
+    [1] third should == nil
+    [] third should == nil
+  }
+
+  it: "should return the fourth element" for: 'fourth when: {
+    [1,2,3,4,5] fourth should == 4
+    [1,2,3,4] fourth should == 4
+    [1,2,3] fourth should == nil
+    [1,2] fourth should == nil
+    [1] fourth should == nil
+    [] fourth should == nil
+  }
+
+  it: "should return all but the first element" for: 'rest when: {
+    [1,2,3,4] rest should == [2,3,4]
+    [2,3] rest should == [3]
+    [1] rest should == []
+    [] rest should == []
+  }
+
+  it: "should return a clone" for: 'clone when: {
+    [1,2,3] clone should == [1,2,3]
+    [1] clone should == [1]
+    [] clone should == []
+  }
+
+  it: "should calculate the sum for an Array of numbers" for: 'sum when: {
+    [1,2,3] sum should == 6
+    [1] sum should == 1
+    [] sum should == 0
+  }
+
+  it: "should calculate the product for an Array of numbers" for: 'product when: {
+    [1,2,3,4] product should == 24
+    [1] product should == 1
+    [] product should == 1
   }
 }
