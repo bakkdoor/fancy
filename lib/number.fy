@@ -76,19 +76,31 @@ class Number {
   }
 
   def squared {
-    "Returns the square of a Number."
+    """
+    @return Squared value of @self.
+
+    Returns the square of a Number.
+    """
 
     self * self
   }
 
   def doubled {
-    "Returns the double value of a Number."
+    """
+    @return Doubled value of @self.
+
+    Returns the double value of a Number.
+    """
 
     self + self
   }
 
   def abs {
-    "Returns the absolute (positive) value of a Number."
+    """
+    @return Absolute (positive) value of @self.
+
+    Returns the absolute (positive) value of a Number.
+    """
 
     if: (self < 0) then: {
       self * -1
@@ -98,19 +110,31 @@ class Number {
   }
 
   def negate {
-    "Negates a Number (-1 becomes 1 and vice versa)."
+    """
+    @return Negated value of @self.
+
+    Negates a Number (-1 becomes 1 and vice versa).
+    """
 
     self * -1
   }
 
   def even? {
-    "Indicates, if a Number is even."
+    """
+    @return @true, if @self is even, @false otherwise.
+
+    Indicates, if a Number is even.
+    """
 
     modulo: 2 . == 0
   }
 
   def odd? {
-    "Indicates, if a Number is odd."
+    """
+    @return @true, if @self is odd, @false otherwise.
+
+    Indicates, if a Number is odd.
+    """
 
     self even? not
   }
@@ -118,17 +142,20 @@ class Number {
 
 class FancyEnumerable {
   def sum {
-    """Calculates the sum of all the elements in the @Enumerable
-      (assuming them to be @Number@s (implementing '+' & '*'))."""
+    """
+    Calculates the sum of all the elements in the @Enumerable
+    (assuming them to be @Number@s (implementing '+' & '*')).
+    """
 
     reduce: |x y| { x + y } init_val: 0
   }
 
   def product {
-    """Calculates the product of all the elements in the @Enumerable
-      (assuming them to be @Number@s (implementing @+ & @*))."""
+    """
+    Calculates the product of all the elements in the @Enumerable
+    (assuming them to be @Number@s (implementing @+ & @*)).
+    """
 
     reduce: |x y| { x * y } init_val: 1
   }
 }
-
