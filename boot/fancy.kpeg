@@ -1,4 +1,4 @@
-%% name = Fancy::Parser
+%% name = Fancy::KPEG
 
 %% {
   attr_accessor :output
@@ -53,7 +53,7 @@ REGEXP_LITERAL  = "/" .* "/"
 SPECIAL_UNDER               = SPECIAL | "_"
 OPERATOR                    = SPECIAL+ | "||" SPECIAL_UNDER*
 INTEGER_LITERAL             = /[-+]?/ /[1-9]/ (DIGIT | "_" DIGIT)*
-DOUBLE_LITERAL              = INTEGER_LITERAL "." DIGIT+
+DOUBLE_LITERAL              = INTEGER_LITERAL "." ("_" DIGIT | DIGIT)*
 HEX_LITERAL                 = "0" ("x" | "X") HEXDIGIT+
 BIN_LITERAL                 = "0" ("b" | "B") BINDIGIT+
 OCT_LITERAL                 = "0" ("o" | "O") OCTDIGIT+
