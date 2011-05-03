@@ -4,14 +4,14 @@ FancySpec describe: Array with: {
     arr << 1
     arr << 2
     arr << 3
-    arr should == [1,2,3]
-    arr size should == 3
+    arr is == [1,2,3]
+    arr size is == 3
   }
 
   it: "should iterate over all elements, calling a block" for: 'each: when: {
     sum = 0
     [1,2,3,4,5] each: |x| { sum = sum + x }
-    sum should == ([1,2,3,4,5] sum)
+    sum is == ([1,2,3,4,5] sum)
   }
 
   it: "should iterate over all elements with their index" for: 'each:with_index: when: {
@@ -21,430 +21,430 @@ FancySpec describe: Array with: {
       sum = sum + x
       idx_sum = idx_sum + i
     }
-    sum should == 150
-    idx_sum should == 10
+    sum is == 150
+    idx_sum is == 10
   }
 
   it: "should be empty after clearing it" for: 'clear when: {
     arr = [1,2,3]
-    arr size should == 3
-    arr should == [1,2,3]
+    arr size is == 3
+    arr is == [1,2,3]
     arr clear
-    arr size should == 0
-    arr should == []
+    arr size is == 0
+    arr is == []
   }
 
   it: "should be true for empty? when it's empty" for: 'empty? when: {
-    [] empty? should == true
-    [1] empty? should == false
-    [1,2] empty? should == false
-    [1,2,3] empty? should == false
+    [] empty? is == true
+    [1] empty? is == false
+    [1,2] empty? is == false
+    [1,2,3] empty? is == false
   }
 
   it: "should be an empty array after initialization" for: 'new when: {
     arr = Array new
-    arr size should == 0
+    arr size is == 0
   }
 
   it: "should return the correct value via index access" for: 'at: when: {
     arr = ['a, 10, "hello, world"]
-    arr at: 2 . should == "hello, world"
-    arr at: 1 . should == 10
-    arr at: 0 . should == 'a
+    arr at: 2 . is == "hello, world"
+    arr at: 1 . is == 10
+    arr at: 0 . is == 'a
   }
 
   it: "should set the value for a given index" for: 'at:put: when: {
     arr = [1,2,3]
     arr at: 0 put: 10
-    arr should == [10, 2, 3]
+    arr is == [10, 2, 3]
     arr at: -1 put: 30
-    arr should == [10, 2, 30]
+    arr is == [10, 2, 30]
     arr at: 1 put: 20
-    arr should == [10,20,30]
+    arr is == [10,20,30]
     arr at: 3 put: 40
-    arr should == [10,20,30,40]
+    arr is == [10,20,30,40]
   }
 
   it: "should NOT include the items" for: "includes?:" when: {
     arr = ['a, 10, "hello, world"]
-    arr includes?: "hello" . should == false
-    arr includes?: 11 . should == false
-    arr includes?: 'b . should == false
+    arr includes?: "hello" . is == false
+    arr includes?: 11 . is == false
+    arr includes?: 'b . is == false
   }
 
   it: "should include the items" for: 'includes?: when: {
     arr = ['a, 10, "hello, world"]
-    arr includes?: "hello, world" . should == true
-    arr includes?: 10 . should == true
-    arr includes?: 'a . should == true
+    arr includes?: "hello, world" . is == true
+    arr includes?: 10 . is == true
+    arr includes?: 'a . is == true
   }
 
   it: "should return the correct index (or nil) for an element" for: 'index: when: {
     arr = [1, 2, 'a, 3, 4]
-    arr index: 1 . should == 0
-    arr index: 2 . should == 1
-    arr index: 'a . should == 2
-    arr index: 3 . should == 3
-    arr index: 4 . should == 4
-    arr index: 'foo . should == nil
+    arr index: 1 . is == 0
+    arr index: 2 . is == 1
+    arr index: 'a . is == 2
+    arr index: 3 . is == 3
+    arr index: 4 . is == 4
+    arr index: 'foo . is == nil
   }
 
   it: "should return an Array of all its indices" for: 'indices when: {
-    ['foo, 'bar, 'baz] indices should == [0,1,2]
-    [] indices should == []
-    ['foo] indices should == [0]
+    ['foo, 'bar, 'baz] indices is == [0,1,2]
+    [] indices is == []
+    ['foo] indices is == [0]
   }
 
   it: "should return all indices for an element as an Array" for: 'indices_of: when: {
     arr = [1, 2, 'a, 3, 2, 'a]
-    arr indices_of: 1 . should == [0]
-    arr indices_of: 2 . should == [1, 4]
-    arr indices_of: 'a . should == [2, 5]
-    arr indices_of: 3. should == [3]
-    arr indices_of: 'foo . should == []
+    arr indices_of: 1 . is == [0]
+    arr indices_of: 2 . is == [1, 4]
+    arr indices_of: 'a . is == [2, 5]
+    arr indices_of: 3. is == [3]
+    arr indices_of: 'foo . is == []
   }
 
   it: "should find the value" for: 'find: when: {
     arr = ['foo, "bar", 'baz, 1234]
 
-    arr find: "bar" . should == "bar"
+    arr find: "bar" . is == "bar"
 
     arr find: |x| {
       x is_a?: String . if_true: {
         x from: 0 to: 1 == "ba"
       }
-    } . should == "bar"
+    } . is == "bar"
 
-    arr find: "foo" . should == nil
+    arr find: "foo" . is == nil
   }
 
   it: "should NOT find the value" for: 'find: when: {
     arr = ['foo, "bar", 'baz, 1234]
 
-    arr find: "ba" . should == nil
+    arr find: "ba" . is == nil
 
     arr find: |x| {
       x is_a?: String . if_true: {
         x from: 0 to: 1 == "aa"
       }
-    } . should == nil
+    } . is == nil
 
-    arr find: "foobar" . should == nil
+    arr find: "foobar" . is == nil
   }
 
   it: "should find the value via a block" for: 'find_by: when: {
     arr = [1, 2, 'foo, "yo", nil, true]
-    arr find_by: |x| { x is_a?: String } . should == "yo"
-    arr find_by: |x| { x is_a?: Block } . should == nil
+    arr find_by: |x| { x is_a?: String } . is == "yo"
+    arr find_by: |x| { x is_a?: Block } . is == nil
   }
 
   it: "should return the last element" for: 'last when: {
     arr = [1, 2, 3, 'foo, "bar"]
-    arr last should == "bar"
-    (arr last == 'foo) should == false
+    arr last is == "bar"
+    (arr last == 'foo) is == false
   }
 
   it: "should return the last n element" for: 'last: when: {
     arr = [1, 2, 3, 'foo, "bar"]
-    arr last: 1 . should == [arr last]
-    arr last: 2 . should == ['foo, "bar"]
-    arr last: 3 . should == [3, 'foo, "bar"]
-    arr last: 4 . should == [2, 3, 'foo, "bar"]
-    arr last: 5 . should == [1, 2, 3, 'foo, "bar"]
-    arr last: (arr size) . should == arr
-    arr last: (arr size + 1) . should == arr
+    arr last: 1 . is == [arr last]
+    arr last: 2 . is == ['foo, "bar"]
+    arr last: 3 . is == [3, 'foo, "bar"]
+    arr last: 4 . is == [2, 3, 'foo, "bar"]
+    arr last: 5 . is == [1, 2, 3, 'foo, "bar"]
+    arr last: (arr size) . is == arr
+    arr last: (arr size + 1) . is == arr
   }
 
   it: "should return an array containing the values at the given indices" for: 'values_at: when: {
     arr = [1, 2, 3, 'foo, "bar"]
-    arr values_at: [1, 3, 4, 10] . should == [2, 'foo, "bar", nil]
+    arr values_at: [1, 3, 4, 10] . is == [2, 'foo, "bar", nil]
   }
 
   it: "should return unique values only" for: 'uniq when: {
     arr = ['foo, 'bar, "baz", 'foo, "baz", "hello", 1, 0, 0, 1, 'bar, 'foo, "hello"]
-    arr uniq should == ['foo, 'bar, "baz", "hello", 1, 0]
+    arr uniq is == ['foo, 'bar, "baz", "hello", 1, 0]
   }
 
   it: "should prepend self to another array" for: '>> when: {
     arr1 = ['foo, 'bar, 'baz]
     arr2 = [1, 2, 3]
-    (arr1 >> arr2) should == ['foo, 'bar, 'baz, 1, 2, 3]
+    (arr1 >> arr2) is == ['foo, 'bar, 'baz, 1, 2, 3]
   }
 
   it: "should get an element by the []-operator" for: "[]" when: {
     arr = ['foo, 'bar, 'baz]
-    arr[0] should == 'foo
-    arr[1] should == 'bar
-    arr[2] should == 'baz
+    arr[0] is == 'foo
+    arr[1] is == 'bar
+    arr[2] is == 'baz
   }
 
   it: "should get a sub-array by the []-operator" for: "[]" when: {
     arr = ['foo, 'bar, 'baz]
-    arr[[0,2]] should == arr
-    arr[[0,1]] should == ['foo, 'bar]
-    arr[[0,1]] should == (arr from: 0 to: 1)
-    arr[[0,0]] should == [arr[0]]
-    arr[[1,1]] should == [arr[1]]
-    arr[[2,2]] should == [arr[2]]
-    arr[[0,-1]] should == arr
-    arr[[-1,-1]] should == [arr last]
-    arr[[-2,-1]] should == ['bar, 'baz]
-    arr[[-2,-1]] should == (arr last: 2)
+    arr[[0,2]] is == arr
+    arr[[0,1]] is == ['foo, 'bar]
+    arr[[0,1]] is == (arr from: 0 to: 1)
+    arr[[0,0]] is == [arr[0]]
+    arr[[1,1]] is == [arr[1]]
+    arr[[2,2]] is == [arr[2]]
+    arr[[0,-1]] is == arr
+    arr[[-1,-1]] is == [arr last]
+    arr[[-2,-1]] is == ['bar, 'baz]
+    arr[[-2,-1]] is == (arr last: 2)
   }
 
   it: "should join all elements with a string to a new string" for: 'join: when: {
     arr = ['foo, 'bar, 'baz]
-    arr join: "," . should == "foo,bar,baz"
+    arr join: "," . is == "foo,bar,baz"
   }
 
   it: "should join all elements with the empty string to a new string" for: 'join when: {
     arr = ['foo, 'bar, 'baz]
-    arr join should == "foobarbaz"
+    arr join is == "foobarbaz"
   }
 
   it: "should remove an element at a given index" for: 'remove_at: when: {
     arr = [1, 'foo, 2, 'bar, 3, 'baz]
     # remove_at: returns the removed element
-    arr remove_at: 1 . should == 'foo
-    arr should == [1, 2, 'bar, 3, 'baz]
+    arr remove_at: 1 . is == 'foo
+    arr is == [1, 2, 'bar, 3, 'baz]
     arr remove_at: 3
-    arr should == [1, 2, 'bar, 'baz]
+    arr is == [1, 2, 'bar, 'baz]
     arr remove_at: [2, 3]
-    arr should == [1, 2]
+    arr is == [1, 2]
     arr = [1, 'hello, 2, 'world]
     # remove_at: returns the removed elements as an array
     # if it was passed an array of indexes
-    arr remove_at: [0, 2, 3] . should == [1, 2, 'world]
-    arr should == ['hello]
+    arr remove_at: [0, 2, 3] . is == [1, 2, 'world]
+    arr is == ['hello]
   }
 
   it: "should remove all occurances of a given object in-place" for: 'remove: when: {
     arr = [1, 2, 'foo, 3, 'foo, 2, 4]
     arr remove: 2
-    arr should == [1, 'foo, 3, 'foo, 4]
+    arr is == [1, 'foo, 3, 'foo, 4]
     arr remove: 'foo
-    arr should == [1, 3, 4]
+    arr is == [1, 3, 4]
   }
 
   it: "should remove all elements with the given Array of indices" for: 'remove_at: when: {
     arr = [1, 2, 'foo, 3, 'foo, 2, 4]
     arr remove_at: [0, 2, 4]
-    arr should == [2, 3, 2, 4]
+    arr is == [2, 3, 2, 4]
   }
 
   it: "should remove all elements that meet a given condition block" for: 'remove_if: when: {
     arr = [1, 2, 3, 2, 5, 4]
     arr remove_if: |x| { x < 3 }
-    arr should == [3, 5, 4]
+    arr is == [3, 5, 4]
   }
 
   it: "should remove all nil-value entries when calling compact" for: 'compact when: {
-    ['foo, nil, 'bar, nil, 'baz] compact should == ['foo, 'bar, 'baz]
-    [] compact should == []
-    [nil] compact should == []
-    ['foo] compact should == ['foo]
+    ['foo, nil, 'bar, nil, 'baz] compact is == ['foo, 'bar, 'baz]
+    [] compact is == []
+    [nil] compact is == []
+    ['foo] compact is == ['foo]
   }
 
   it: "should remove all nil-value entries in place when calling compact!" for: 'compact! when: {
     arr = ['foo, nil, 'bar, nil, 'baz]
-    arr compact! should == ['foo, 'bar, 'baz]
-    arr should == ['foo, 'bar, 'baz]
-    [] compact! should == []
-    [nil] compact! should == []
-    ['foo] compact! should == ['foo]
+    arr compact! is == ['foo, 'bar, 'baz]
+    arr is == ['foo, 'bar, 'baz]
+    [] compact! is == []
+    [nil] compact! is == []
+    ['foo] compact! is == ['foo]
   }
 
   it: "should remove all values that meet a condition" for: 'reject!: when: {
     arr = ['foo, 'bar, 1, 2, 'baz, "hello"]
-    arr reject!: |x| { x is_a?: String } . should == ['foo, 'bar, 1, 2, 'baz]
-    arr should == ['foo, 'bar, 1, 2, 'baz]
+    arr reject!: |x| { x is_a?: String } . is == ['foo, 'bar, 1, 2, 'baz]
+    arr is == ['foo, 'bar, 1, 2, 'baz]
     arr reject!: |x| { x is_a?: Fixnum }
-    arr should == ['foo, 'bar, 'baz]
+    arr is == ['foo, 'bar, 'baz]
   }
 
   it: "should remove all values that don't meet a condition" for: 'select!: when: {
     arr = ['foo, 'bar, 1, 2, 'baz, "hello"]
     arr select!: |x| { x is_a?: Fixnum }
-    arr should == [1, 2]
+    arr is == [1, 2]
   }
 
   it: "should return a new Array with all elements that meet a given condition" for: 'select: when: {
     arr = [1, 2, "foo", 'bar, 120]
-    arr select: |x| { x is_a?: Fixnum } . should == [1,2,120]
-    arr should == [1, 2, "foo", 'bar, 120] # select: is non-destructive
+    arr select: |x| { x is_a?: Fixnum } . is == [1,2,120]
+    arr is == [1, 2, "foo", 'bar, 120] # select: is non-destructive
   }
 
   it: "should print the maximum value in the list" for: 'max when: {
-    [1,2,3,4] max should == 4
-    [1,5,-3,2,6,-4,-2] max should == 6
+    [1,2,3,4] max is == 4
+    [1,5,-3,2,6,-4,-2] max is == 6
   }
 
   it: "should print the minimum value in the list" for: 'min when: {
-    [1,2,3,4] min should == 1
-    [1,5,-3,2,6,-4,-2] min should == -4
+    [1,2,3,4] min is == 1
+    [1,5,-3,2,6,-4,-2] min is == -4
   }
 
   it: "should return an Array containing the elements n times." for: '* when: {
-    [1,2,3,4,5] * 2 should == [1,2,3,4,5,1,2,3,4,5]
-    [1,2,3] * 2 should == ([1,2,3] + [1,2,3])
-    ['a,'b,'c] * 4 should == ['a,'b,'c, 'a,'b,'c, 'a,'b,'c, 'a,'b,'c]
+    [1,2,3,4,5] * 2 is == [1,2,3,4,5,1,2,3,4,5]
+    [1,2,3] * 2 is == ([1,2,3] + [1,2,3])
+    ['a,'b,'c] * 4 is == ['a,'b,'c, 'a,'b,'c, 'a,'b,'c, 'a,'b,'c]
   }
 
   it: "should return the concatenation of two Arrays" for: '+ when: {
-    ([1,2,3,4] + [-1,-2,-3,-4]) should == [1,2,3,4,-1,-2,-3,-4]
+    ([1,2,3,4] + [-1,-2,-3,-4]) is == [1,2,3,4,-1,-2,-3,-4]
   }
 
   it: "should return true for all elements" for: 'all?: when: {
-    [1,2,3,4] all?: |x| { x < 5 } . should == true
-    [1,2,3,4] all?: |x| { x > 0 } . should == true
-    [1,2,3,4] all?: |x| { x > 4 } . should == false
+    [1,2,3,4] all?: |x| { x < 5 } . is == true
+    [1,2,3,4] all?: |x| { x > 0 } . is == true
+    [1,2,3,4] all?: |x| { x > 4 } . is == false
   }
 
   it: "should return true for any elements" for: 'any?: when: {
-    [1,2,3,4] any?: |x| { x > 3 } . should == true
-    [1,2,3,4] any?: |x| { x < 4 } . should == true
-    [1,2,3,4] any?: |x| { x > 4 } . should == false
+    [1,2,3,4] any?: |x| { x > 3 } . is == true
+    [1,2,3,4] any?: |x| { x < 4 } . is == true
+    [1,2,3,4] any?: |x| { x > 4 } . is == false
   }
 
   it: "should be selected from it with each index" for: 'select_with_index: when: {
-    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . should == [[2,1], [3,2], [1,3]]
+    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is == [[2,1], [3,2], [1,3]]
   }
 
   it: "should return its remaining (all but the first) elements as a new Array" for: 'rest when: {
-    [1,2,3,4] rest should == [2,3,4]
-    [] rest should == []
-    100 upto: 1000 . rest should == (101 upto: 1000)
+    [1,2,3,4] rest is == [2,3,4]
+    [] rest is == []
+    100 upto: 1000 . rest is == (101 upto: 1000)
   }
 
   it: "should return itself as a string" for: 'to_s when: {
-    [1,2,3] to_s should == "123"
+    [1,2,3] to_s is == "123"
   }
 
   it: "should call a given block between calling the each block" for: 'each:in_between: when: {
     arr = []
     [1,2,3] each: |x| { arr << x } in_between: { arr << "-" }
-    arr should == [1, "-", 2, "-", 3]
+    arr is == [1, "-", 2, "-", 3]
 
     str = ""
     ['foo, 'bar, 'baz] each: |x| { str = str ++ (x to_s) } in_between: { str = str ++ " " }
-    str should == "foo bar baz"
+    str is == "foo bar baz"
   }
 
   it: "should return the reduced value for a given block and initial value" for: 'reduce:init_val: when: {
     arr = 1 upto: 10
-    arr sum should == (arr reduce: '+ init_val: 0)
-    arr product should == (arr reduce: '* init_val: 1)
-    arr to_s should == (arr reduce: '++ init_val: "")
+    arr sum is == (arr reduce: '+ init_val: 0)
+    arr product is == (arr reduce: '* init_val: 1)
+    arr to_s is == (arr reduce: '++ init_val: "")
   }
 
   it: "should return the reverse of itself" for: 'reverse when: {
-    [1,2,3] reverse should == [3,2,1]
-    1 upto: 10 . reverse should == (10 downto: 1)
+    [1,2,3] reverse is == [3,2,1]
+    1 upto: 10 . reverse is == (10 downto: 1)
   }
 
   it: "should inverse in-place" for: 'reverse! when: {
     arr = [1,2,3]
-    arr reverse! should == [3,2,1]
-    arr should == [3,2,1]
+    arr reverse! is == [3,2,1]
+    arr is == [3,2,1]
   }
 
   it: "should take elements from itself as long a block yields true" for: 'take_while: when: {
-    1 upto: 15 . take_while: |x| { x < 10 } . should == (1 upto: 9)
+    1 upto: 15 . take_while: |x| { x < 10 } . is == (1 upto: 9)
   }
 
 
   it: "should drop elements from itself as long a block yields true" for: 'drop_while: when: {
-    1 upto: 15 . drop_while: |x| { x < 10 } . should == (10 upto: 15)
+    1 upto: 15 . drop_while: |x| { x < 10 } . is == (10 upto: 15)
   }
 
   it: "should partition an array via a given block" for: 'partition_by: when: {
     arr = [1,2,2,3,3,3,4,4,4,4,5]
-    arr partition_by: 'identity . should == [[1], [2,2], [3,3,3], [4,4,4,4], [5]]
-    arr partition_by: @{== 2} . should == [[1], [2,2], [3,3,3,4,4,4,4,5]]
+    arr partition_by: 'identity . is == [[1], [2,2], [3,3,3], [4,4,4,4], [5]]
+    arr partition_by: @{== 2} . is == [[1], [2,2], [3,3,3,4,4,4,4,5]]
   }
 
   it: "should remove the first value" for: 'shift when: {
     a = [1,2,3]
-    a shift should == 1
-    a should == [2,3]
+    a shift is == 1
+    a is == [2,3]
 
     a = []
-    a shift should == nil
-    a should == []
+    a shift is == nil
+    a is == []
   }
 
   it: "should append a value at the front" for: 'unshift: when: {
     a = []
-    a unshift: 1 . should == a # should return self
-    a should == [1]
+    a unshift: 1 . is == a # is return self
+    a is == [1]
 
     a = [1,2,3]
-    a unshift: (a shift) . should == a
-    a should == [1,2,3]
+    a unshift: (a shift) . is == a
+    a is == [1,2,3]
   }
 
   it: "should compare 2 arrays without regard to order" for: '=? when: {
-    [1,2,3] =? [2,1,3] should == true
-    [1,2,3,4] =? [2,1,4,3] should == true
-    [1,2] =? [1,2,3] should == false
-    [1,2] =? [2] should == false
-    [2] =? [1,2] should == false
-    [] =? [] should == true
-    [1] =? [1] should == true
+    [1,2,3] =? [2,1,3] is == true
+    [1,2,3,4] =? [2,1,4,3] is == true
+    [1,2] =? [1,2,3] is == false
+    [1,2] =? [2] is == false
+    [2] =? [1,2] is == false
+    [] =? [] is == true
+    [1] =? [1] is == true
   }
 
   it: "should return the first element" for: 'first when: {
-    [1,2] first should == 1
-    [1] first should == 1
-    [] first should == nil
+    [1,2] first is == 1
+    [1] first is == 1
+    [] first is == nil
   }
 
   it: "should return the second element" for: 'second when: {
-    [1,2,3] second should == 2
-    [1,2] second should == 2
-    [1] second should == nil
-    [] second should == nil
+    [1,2,3] second is == 2
+    [1,2] second is == 2
+    [1] second is == nil
+    [] second is == nil
   }
 
   it: "should return the third element" for: 'third when: {
-    [1,2,3,4] third should == 3
-    [1,2,3] third should == 3
-    [1,2] third should == nil
-    [1] third should == nil
-    [] third should == nil
+    [1,2,3,4] third is == 3
+    [1,2,3] third is == 3
+    [1,2] third is == nil
+    [1] third is == nil
+    [] third is == nil
   }
 
   it: "should return the fourth element" for: 'fourth when: {
-    [1,2,3,4,5] fourth should == 4
-    [1,2,3,4] fourth should == 4
-    [1,2,3] fourth should == nil
-    [1,2] fourth should == nil
-    [1] fourth should == nil
-    [] fourth should == nil
+    [1,2,3,4,5] fourth is == 4
+    [1,2,3,4] fourth is == 4
+    [1,2,3] fourth is == nil
+    [1,2] fourth is == nil
+    [1] fourth is == nil
+    [] fourth is == nil
   }
 
   it: "should return all but the first element" for: 'rest when: {
-    [1,2,3,4] rest should == [2,3,4]
-    [2,3] rest should == [3]
-    [1] rest should == []
-    [] rest should == []
+    [1,2,3,4] rest is == [2,3,4]
+    [2,3] rest is == [3]
+    [1] rest is == []
+    [] rest is == []
   }
 
   it: "should return a clone" for: 'clone when: {
-    [1,2,3] clone should == [1,2,3]
-    [1] clone should == [1]
-    [] clone should == []
+    [1,2,3] clone is == [1,2,3]
+    [1] clone is == [1]
+    [] clone is == []
   }
 
   it: "should calculate the sum for an Array of numbers" for: 'sum when: {
-    [1,2,3] sum should == 6
-    [1] sum should == 1
-    [] sum should == 0
+    [1,2,3] sum is == 6
+    [1] sum is == 1
+    [] sum is == 0
   }
 
   it: "should calculate the product for an Array of numbers" for: 'product when: {
-    [1,2,3,4] product should == 24
-    [1] product should == 1
-    [] product should == 1
+    [1,2,3,4] product is == 24
+    [1] product is == 1
+    [] product is == 1
   }
 }

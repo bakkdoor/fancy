@@ -10,50 +10,46 @@ class Foo {
 
 FancySpec describe: StdError with: {
   it: "should raise an exception and catch it correctly" for: 'raise! when: {
-    {
-      try {
-        StdError new: "FAIL!" . raise!
-        nil should == true # this should not occur
-      } catch StdError => ex {
-        ex message should == "FAIL!"
-      }
-    } should_not raise: StdError
+    try {
+      StdError new: "FAIL!" . raise!
+      nil is == true # this is not occur
+    } catch StdError => ex {
+      ex message is == "FAIL!"
+    }
   }
 
   it: "should raise an exception and have the expected error message" for: 'raise! when: {
     {
       StdError new: "FAIL!" . raise!
-    } should raise: StdError with: |e| {
-      e message should == "FAIL!"
+    } raises: StdError with: |e| {
+      e message is == "FAIL!"
     }
 
     {
       "FAIL, AGAIN!" raise!
-    } should raise: StdError with: |e| {
-      e message should == "FAIL, AGAIN!"
+    } raises: StdError with: |e| {
+      e message is == "FAIL, AGAIN!"
     }
   }
 
   it: "should raise an exception inside a method and catch it correctly" when: {
     f = Foo new
-    f bar: "Don't raise here" . should == 'no_error
-    {
-      try {
-        f bar: 'error . should == 'no_error
-      } catch StdError => e {
-        e message should == "Some Error"
-      }
-    } should_not raise: StdError
+    f bar: "Don't raise here" . is == 'no_error
+    try {
+      f bar: 'error . is == 'no_error
+    } catch StdError => e {
+      e message is == "Some Error"
+    }
   }
 
   # it: "should raise a NoMethodError" when: {
   #   s = 'symbol
   #   try {
   #     s this_method_doesnt_exist!
-  #     nil should == true # should not execute
+  #     nil is == true # is not execute
   #   } catch NoMethodError => err {
-  #     err for_class should == Symbol
-  #     err method_name should == "this_method_doesnt_exist!"
+  #     err for_class is == Symbol
+  #     err method_name is == "this_method_doesnt_exist!"
   #   }
   # }
 
@@ -62,7 +58,7 @@ FancySpec describe: StdError with: {
     try {
       var wont_work!
     } catch NoMethodError => err {
-      var should == 1234
+      var is == 1234
     }
   }
 
@@ -70,24 +66,24 @@ FancySpec describe: StdError with: {
     set_in_finally = false
     try {
       x = 10 / 0 # ouch!
-      "This should fail!" should == true # should not get here!
+      "This is fail!" is == true # is not get here!
     } catch ZeroDivisionError => err {
-      err message should == "divided by 0"
+      err message is == "divided by 0"
     } finally {
       # this part gets always run :)
-      "It works!" should == "It works!"
-      set_in_finally should == false
+      "It works!" is == "It works!"
+      set_in_finally is == false
       set_in_finally = true
     }
-    set_in_finally should == true
+    set_in_finally is == true
   }
 
   it: "should raise a StdError when raising a String" for: 'raise! when: {
     msg = "A Custom Error!"
     {
       msg raise!
-    } should raise: StdError with: |e| {
-      e message should == msg
+    } raises: StdError with: |e| {
+      e message is == msg
     }
   }
 
@@ -98,14 +94,12 @@ FancySpec describe: StdError with: {
       }
     }
 
-    {
-      try {
-        MyError new raise!
-        nil should == true # will fail
-      } catch MyError => e {
-        e message should == "MyError message"
-      }
-    } should_not raise: MyError
+    try {
+      MyError new raise!
+      nil is == true # will fail
+    } catch MyError => e {
+      e message is == "MyError message"
+    }
   }
 
   it: "should restart itself after being fixed in a catch clause" when: {
@@ -114,13 +108,13 @@ FancySpec describe: StdError with: {
     try {
       x = 10 / y
     } catch ZeroDivisionError => e {
-      y should == 0
-      x should == 0
+      y is == 0
+      x is == 0
       y = 2
       retry
     }
-    y should  == 2
-    x should  == 5
+    y is  == 2
+    x is  == 5
   }
 
   it: "should always execute the finally block when defined" when: {
@@ -132,7 +126,7 @@ FancySpec describe: StdError with: {
         msg raise!
       }
     } catch StdError => e {
-      e message should == msg
+      e message is == msg
     }
   }
 }

@@ -5,10 +5,10 @@ FancySpec describe: "ARGV & predefined values" with: {
 
   it: "should have a __FILE__ variable defined" when: {
     __FILE__ should_not == nil
-    __FILE__ should =~ /\/argv.fy$/
+    __FILE__ is =~ /\/argv.fy$/
   }
 
   it: "should have the __FILE__ value be an element in ARGV" when: {
-    ARGV any?: |a| { File basename(a) == (File basename(__FILE__)) } . should == true
+    ARGV any?: |a| { File basename(a) == (File basename(__FILE__)) } . is == true
   }
 }

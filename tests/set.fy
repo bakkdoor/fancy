@@ -3,8 +3,8 @@ FancySpec describe: Set with: {
     s = Set new
     s << 'foo
     s << 'foo
-    s size should == 1
-    s should == (Set[['foo]])
+    s size is == 1
+    s is == (Set[['foo]])
     s should_not == ['foo] # Sets and Arrays differ
   }
 }

@@ -1,13 +1,13 @@
 FancySpec describe: Stack with: {
   it: "should be empty when created" for: '<< when: {
     s = Stack new
-    s empty? should == true
+    s empty? is == true
   }
 
   it: "should return the last inserted element" for: 'pop when: {
     s = Stack new
     s push: 1
-    s pop should == 1
+    s pop is == 1
 
     objs = [1,2,3]
     objs each: |x| {
@@ -15,7 +15,7 @@ FancySpec describe: Stack with: {
     }
 
     objs reverse each: |x| {
-      s pop should == x
+      s pop is == x
     }
 
   }

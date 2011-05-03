@@ -37,9 +37,9 @@ class ClassWithPrivate {
 FancySpec describe: Class with: {
   it: "should NOT find the method when not mixed-in" for: 'responds_to?: when: {
     instance = ClassWithMixin new
-    instance normal_method . should == 'normal_found
-    instance responds_to?: 'normal_method . should == true
-    instance responds_to?: 'mixin_method . should == false
+    instance normal_method . is == 'normal_found
+    instance responds_to?: 'normal_method . is == true
+    instance responds_to?: 'mixin_method . is == false
   }
 
   it: "should find the method when mixed-in" for: 'include: when: {
@@ -49,32 +49,32 @@ FancySpec describe: Class with: {
     }
 
     instance = ClassWithMixin new
-    instance responds_to?: 'normal_method . should == true
-    instance responds_to?: 'mixin_method . should == true
-    instance normal_method . should == 'normal_found
-    instance mixin_method . should == 'mixed_in_found
+    instance responds_to?: 'normal_method . is == true
+    instance responds_to?: 'mixin_method . is == true
+    instance normal_method . is == 'normal_found
+    instance mixin_method . is == 'mixed_in_found
   }
 
   it: "should rebind the old class name with ClassWithNoMixin and replace the old normal_method" when: {
     instance = ClassWithMixin new
-    instance normal_method should == 'normal_found
+    instance normal_method is == 'normal_found
     # rebind the class to the other class
     ClassWithMixin = ClassWithNoMixin
     instance = ClassWithMixin new
-    instance normal_method should == 'new_normal_found
+    instance normal_method is == 'new_normal_found
   }
 
   it: "should have dynamically generated getter and setter methods" for: 'responds_to?: when: {
     instance = ClassWithNoMixin new
-    instance responds_to?: 'foo . should == true
-    instance responds_to?: 'bar . should == true
-    instance responds_to?: 'baz . should == true
-    instance responds_to?: "hello:" . should == true
-    instance responds_to?: "world:" . should == true
-    instance responds_to?: 'oh . should == true
-    instance responds_to?: ":oh" . should == true
-    instance responds_to?: 'noes . should == true
-    instance responds_to?: "noes:" . should == true
+    instance responds_to?: 'foo . is == true
+    instance responds_to?: 'bar . is == true
+    instance responds_to?: 'baz . is == true
+    instance responds_to?: "hello:" . is == true
+    instance responds_to?: "world:" . is == true
+    instance responds_to?: 'oh . is == true
+    instance responds_to?: ":oh" . is == true
+    instance responds_to?: 'noes . is == true
+    instance responds_to?: "noes:" . is == true
   }
 
   it: "should define getter methods for single slots" for: 'read_slot: when: {
@@ -84,10 +84,10 @@ FancySpec describe: Class with: {
     }
 
     g = Getters new
-    g responds_to?: 'foo . should == true
-    g responds_to?: 'foo: . should == false
-    g responds_to?: 'bar . should == true
-    g responds_to?: 'bar: . should == false
+    g responds_to?: 'foo . is == true
+    g responds_to?: 'foo: . is == false
+    g responds_to?: 'bar . is == true
+    g responds_to?: 'bar: . is == false
   }
 
   it: "should define setter methods for single slots" for: 'write_slot: when: {
@@ -97,10 +97,10 @@ FancySpec describe: Class with: {
     }
 
     s = Setters new
-    s responds_to?: 'foo . should == false
-    s responds_to?: 'foo: . should == true
-    s responds_to?: 'bar . should == false
-    s responds_to?: 'bar: . should == true
+    s responds_to?: 'foo . is == false
+    s responds_to?: 'foo: . is == true
+    s responds_to?: 'bar . is == false
+    s responds_to?: 'bar: . is == true
   }
 
   it: "should define getter & setter methods for single slots" for: 'read_write_slot: when: {
@@ -110,10 +110,10 @@ FancySpec describe: Class with: {
     }
 
     gs = GettersAndSetters new
-    gs responds_to?: 'foo . should == true
-    gs responds_to?: 'foo: . should == true
-    gs responds_to?: 'bar . should == true
-    gs responds_to?: 'bar: . should == true
+    gs responds_to?: 'foo . is == true
+    gs responds_to?: 'foo: . is == true
+    gs responds_to?: 'bar . is == true
+    gs responds_to?: 'bar: . is == true
   }
 
   it: "should find the instance variable correctly" when: {
@@ -128,8 +128,8 @@ FancySpec describe: Class with: {
 
     str = "instance value"
     instance = AClass new: str
-    instance foo should == str
-    AClass new foo should == nil
+    instance foo is == str
+    AClass new foo is == nil
   }
 
   it: "should find the class variable correctly" when: {
@@ -146,14 +146,14 @@ FancySpec describe: Class with: {
     instance2 = AClass new
     str = "class value"
     instance1 foo: str
-    instance1 foo should == str
-    instance2 foo should == str
-    instance2 foo should == (instance1 foo)
+    instance1 foo is == str
+    instance2 foo is == str
+    instance2 foo is == (instance1 foo)
 
     str2 = "another value"
     instance2 foo: str2
-    instance2 foo should == str2
-    instance1 foo should == str2
+    instance2 foo is == str2
+    instance1 foo is == str2
   }
 
   it: "should have correct method overloading for method names with and without an argument" when: {
@@ -168,8 +168,8 @@ FancySpec describe: Class with: {
     }
 
     instance = AClass new
-    instance foo should == "In AClass#foo: with bar = None!"
-    instance foo: "Test!" . should == "In AClass#foo: with bar = Test!"
+    instance foo is == "In AClass#foo: with bar = None!"
+    instance foo: "Test!" . is == "In AClass#foo: with bar = Test!"
   }
 
   it: "should call superclass method by using super" when: {
@@ -193,51 +193,51 @@ FancySpec describe: Class with: {
     }
 
     sub = SubClass new: 42
-    sub name should == "SubClass"
-    sub age should == 42
+    sub name is == "SubClass"
+    sub age is == 42
 
     sub2 = SubClass new
-    sub2 name should == "SubClass"
-    sub2 age should == 0
+    sub2 name is == "SubClass"
+    sub2 age is == 0
   }
 
   it: "should return its superclass" when: {
-    Fixnum superclass should == Integer
-    Symbol superclass should == Object
-    StdError superclass should == Exception
-    Class superclass should == Module
-    Object superclass should == nil
+    Fixnum superclass is == Integer
+    Symbol superclass is == Object
+    StdError superclass is == Exception
+    Class superclass is == Module
+    Object superclass is == nil
 
-    IOError superclass should == StandardError
-    NoMethodError superclass should == NameError
+    IOError superclass is == StandardError
+    NoMethodError superclass is == NameError
   }
 
   it: "should create a new Class dynamically" when: {
     x = Class new
-    x is_a?: Class . should == true
-    x new is_a?: x . should == true
-    x new is_a?: Object . should == true
-    x new class should == x
+    x is_a?: Class . is == true
+    x new is_a?: x . is == true
+    x new is_a?: Object . is == true
+    x new class is == x
 
     # Symbol as superclass
     y = Class new: String
-    y is_a?: Class . should == true
-    y new is_a?: String . should == true
-    # y new is_a?: Object . should == true
+    y is_a?: Class . is == true
+    y new is_a?: String . is == true
+    # y new is_a?: Object . is == true
   }
 
   it: "should only be able to call the public method from outside the Class" when: {
     x = ClassWithPrivate new
-    x public_method should == "public!"
+    x public_method is == "public!"
     try {
-      x private_method should == nil # should fail
+      x private_method is == nil # is fail
     } catch NoMethodError => e {
-      e method_name should == 'private_method
+      e method_name is == 'private_method
     }
     try {
-      x protected_method should == nil # should fail
+      x protected_method is == nil # is fail
     } catch NoMethodError => e {
-      e method_name should == 'protected_method
+      e method_name is == 'protected_method
     }
   }
 
@@ -247,10 +247,10 @@ FancySpec describe: Class with: {
     class Sub : Super {
     }
 
-    Super subclass?: Object . should == true
-    Sub subclass?: Object . should == true
-    Sub subclass?: Super . should == true
-    Super subclass?: Sub . should == nil
+    Super subclass?: Object . is == true
+    Sub subclass?: Object . is == true
+    Sub subclass?: Super . is == true
+    Super subclass?: Sub . is == nil
   }
 
   it: "should dynamically create a subclass of another class" for: 'is_a?: when: {
@@ -259,10 +259,10 @@ FancySpec describe: Class with: {
         "hello, world!"
       }
     }
-    subclass is_a?: Class . should == true
-    subclass subclass?: String . should == true
-    subclass new is_a?: subclass . should == true
-    subclass new foo should == "hello, world!"
+    subclass is_a?: Class . is == true
+    subclass subclass?: String . is == true
+    subclass new is_a?: subclass . is == true
+    subclass new foo is == "hello, world!"
 
     # now the same with Class##new:body:
     subclass2 = Class superclass: String body: {
@@ -270,10 +270,10 @@ FancySpec describe: Class with: {
         "hello, world, again!"
       }
     }
-    subclass2 is_a?: Class . should == true
-    subclass2 subclass?: String . should == true
-    subclass2 new is_a?: subclass2 . should == true
-    subclass2 new foo should == "hello, world, again!"
+    subclass2 is_a?: Class . is == true
+    subclass2 subclass?: String . is == true
+    subclass2 new is_a?: subclass2 . is == true
+    subclass2 new foo is == "hello, world, again!"
   }
 
   it: "should undefine an instance method" for: 'undefine_method: when: {
@@ -283,12 +283,12 @@ FancySpec describe: Class with: {
       }
     }
     f = Foo new
-    f instance_method should == "instance method!"
+    f instance_method is == "instance method!"
     Foo undefine_method: 'instance_method
     try {
-      f instance_method should == nil # should not get here
+      f instance_method is == nil # is not get here
     } catch NoMethodError => e {
-      e method_name should == 'instance_method
+      e method_name is == 'instance_method
     }
   }
 
@@ -298,21 +298,21 @@ FancySpec describe: Class with: {
         "class method!"
       }
     }
-    Foo class_method should == "class method!"
+    Foo class_method is == "class method!"
 
     try {
       Foo undefine_method: 'class_method
-      true should == nil # should not happen
+      true is == nil # is not happen
     } catch NameError {
-      true should == true
+      true is == true
     }
 
     Foo undefine_class_method: 'class_method
 
     try {
-      Foo class_method should == nil # should not get here
+      Foo class_method is == nil # is not get here
     } catch NoMethodError => e {
-      e method_name should == 'class_method
+      e method_name is == 'class_method
     }
   }
 
@@ -326,11 +326,11 @@ FancySpec describe: Class with: {
         }
       }
     }
-    Outer is_a?: Class . should == true
-    Outer::Inner is_a?: Class . should == true
-    Outer::Inner::InnerMost is_a?: Class . should == true
+    Outer is_a?: Class . is == true
+    Outer::Inner is_a?: Class . is == true
+    Outer::Inner::InnerMost is_a?: Class . is == true
     obj = Outer::Inner::InnerMost new
-    obj foobar should == "foobar!"
+    obj foobar is == "foobar!"
 
     # change InnerMost#foobar
     class Outer::Inner::InnerMost {
@@ -338,7 +338,7 @@ FancySpec describe: Class with: {
         "oh no!"
       }
     }
-    obj foobar . should == "oh no!"
+    obj foobar . is == "oh no!"
   }
 
   it: "should not override existing classes with the same name in a nested class" when: {
@@ -351,26 +351,26 @@ FancySpec describe: Class with: {
       }
     }
 
-    NameSpace::Array what_am_i . should == "not the same as the standard Array class"
-    NameSpace::Array should_not == Array
+    NameSpace::Array what_am_i . is == "not the same as the standard Array class"
+    NameSpace::Array is_not == Array
   }
 
   # it: "should return all nested classes of a class" for: 'nested_classes when: {
   #   class Outer {
   #   }
-  #   Outer nested_classes should == []
+  #   Outer nested_classes is == []
 
   #   class Outer {
   #     class Inner1 {
   #     }
   #   }
-  #   Outer nested_classes should == [Outer::Inner1]
+  #   Outer nested_classes is == [Outer::Inner1]
 
   #   class Outer {
   #     class Inner2 {
   #     }
   #   }
-  #   Outer nested_classes should == [Outer::Inner1, Outer::Inner2]
+  #   Outer nested_classes is == [Outer::Inner1, Outer::Inner2]
   # }
 
   it: "should find other nested classes in the same parent class" when: {
@@ -388,9 +388,9 @@ FancySpec describe: Class with: {
       }
     }
 
-    MyOuter::Inner1 new method1 should == 'method_1
-    MyOuter::Inner2 new method1 should == 'method_1
-    MyOuter::Inner2 new method2 should == 'method_2
+    MyOuter::Inner1 new method1 is == 'method_1
+    MyOuter::Inner2 new method1 is == 'method_1
+    MyOuter::Inner2 new method2 is == 'method_2
   }
 
   it: "should find itself in it's own methods, even if nested into another class" when: {
@@ -413,10 +413,10 @@ FancySpec describe: Class with: {
       }
     }
 
-    MyOuter::MyInner1 new method1 should == MyOuter::MyInner1
-    MyOuter::MyInner2 new method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
-    MyOuter::MyInner1 class_method1 should == MyOuter::MyInner1
-    MyOuter::MyInner2 class_method2 should == [MyOuter::MyInner1, MyOuter::MyInner2]
+    MyOuter::MyInner1 new method1 is == MyOuter::MyInner1
+    MyOuter::MyInner2 new method2 is == [MyOuter::MyInner1, MyOuter::MyInner2]
+    MyOuter::MyInner1 class_method1 is == MyOuter::MyInner1
+    MyOuter::MyInner2 class_method2 is == [MyOuter::MyInner1, MyOuter::MyInner2]
   }
 
   it: "should have an alias method as defined" for: 'alias_method:for: when: {
@@ -429,22 +429,22 @@ FancySpec describe: Class with: {
     }
 
     obj = AClass new
-    obj foo should == "in foo!"
-    obj bar should == "in foo!"
+    obj foo is == "in foo!"
+    obj bar is == "in foo!"
   }
 
   it: "should have an alias method for a ruby method defined" for: 'alias_method:for_ruby: when: {
     try {
-      [] equal?: [1,2] . should == true # should fail
+      [] equal?: [1,2] . is == true # is fail
     } catch NoMethodError => e {
-      e method_name should == 'equal?:
+      e method_name is == 'equal?:
     }
 
     class Array {
       alias_method: 'equal?: for_ruby: 'equal?
     }
 
-    [] equal?: [1,2] . should == false
+    [] equal?: [1,2] . is == false
   }
 
   it: "should have the correct list of ancestors" for: 'ancestors when: {
@@ -455,8 +455,8 @@ FancySpec describe: Class with: {
     class C : B {
     }
 
-    A ancestors should == [A, Object, Kernel]
-    B ancestors should == [B, A, Object, Kernel]
-    C ancestors should == [C, B, A, Object, Kernel]
+    A ancestors is == [A, Object, Kernel]
+    B ancestors is == [B, A, Object, Kernel]
+    C ancestors is == [C, B, A, Object, Kernel]
   }
 }

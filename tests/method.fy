@@ -1,6 +1,6 @@
 FancySpec describe: Method with: {
   it: "should return a Method object" when: {
-    [1,2,3] method: "each:" . class should == Method
+    [1,2,3] method: "each:" . class is == Method
   }
 
   # it: "should return the (correct) sender object of the MessageSend" when: {
@@ -11,7 +11,7 @@ FancySpec describe: Method with: {
   #   }
 
   #   x = SenderTest new
-  #   x give_me_the_sender! should == self
+  #   x give_me_the_sender! is == self
   # }
 
   it: "should return the amount of arguments a Method takes" for: 'argcount when: {
@@ -26,10 +26,10 @@ FancySpec describe: Method with: {
       }
     }
 
-    Foo instance_method: 'no_args . arity should == 0
-    Foo instance_method: "one_arg:" . arity should == 1
-    Foo instance_method: "two:args:" . arity should == 2
-    Foo instance_method: "three:args:ok:" . arity should == 3
+    Foo instance_method: 'no_args . arity is == 0
+    Foo instance_method: "one_arg:" . arity is == 1
+    Foo instance_method: "two:args:" . arity is == 2
+    Foo instance_method: "three:args:ok:" . arity is == 3
   }
 
   it: "should return the return value" when: {
@@ -38,7 +38,7 @@ FancySpec describe: Method with: {
       bar # will never get executed
     }
 
-    foo: "yay" . should == "returning!"
+    foo: "yay" . is == "returning!"
 
     # another example
 
@@ -49,8 +49,8 @@ FancySpec describe: Method with: {
       0
     }
 
-    f: 10 . should == 0
-    f: 9 . should == 100
+    f: 10 . is == 0
+    f: 9 . is == 100
 
     # and another one
 
@@ -63,7 +63,7 @@ FancySpec describe: Method with: {
       return 0
     }
 
-    foo should == 8
+    foo is == 8
   }
 
   it: "should return only from block-scope not from method-scope" when: {
@@ -75,14 +75,14 @@ FancySpec describe: Method with: {
       }
       0
     }
-    foo should == 8
+    foo is == 8
   }
 
   it: "should return locally (from block-scope not from method-scope" when: {
     def self foo {
       [1,2,3] select: |x| { return_local x != 3 }
     }
-    foo should == [1,2]
+    foo is == [1,2]
   }
 
   class Foo {
@@ -95,21 +95,21 @@ FancySpec describe: Method with: {
   }
 
   it: "should be public" for: 'public? when: {
-    Foo instance_method: 'bar . public? should == true
-    Foo instance_method: 'private_bar . public? should == false
-    Foo instance_method: 'protected_bar . public? should == false
+    Foo instance_method: 'bar . public? is == true
+    Foo instance_method: 'private_bar . public? is == false
+    Foo instance_method: 'protected_bar . public? is == false
   }
 
   it: "should be private" for: 'private? when: {
-    Foo instance_method: 'bar . private? should == false
-    Foo instance_method: 'private_bar . private? should == true
-    Foo instance_method: 'protected_bar . private? should == false
+    Foo instance_method: 'bar . private? is == false
+    Foo instance_method: 'private_bar . private? is == true
+    Foo instance_method: 'protected_bar . private? is == false
   }
 
   it: "should be protected" for: 'protected? when: {
-    Foo instance_method: 'bar . protected? should == false
-    Foo instance_method: 'private_bar . protected? should == false
-    Foo instance_method: 'protected_bar . protected? should == true
+    Foo instance_method: 'bar . protected? is == false
+    Foo instance_method: 'private_bar . protected? is == false
+    Foo instance_method: 'protected_bar . protected? is == true
   }
 
   it: "should set the default values for optional argument, when not passed in" when: {
@@ -117,9 +117,9 @@ FancySpec describe: Method with: {
       arg1 ++ arg2 ++ arg3
     }
 
-    foo: "hello" bar: "world" baz: "!" . should == "helloworld!"
-    foo: "hello" bar: "world" . should == "helloworld"
-    foo: "hello"  . should == "hellofoo"
+    foo: "hello" bar: "world" baz: "!" . is == "helloworld!"
+    foo: "hello" bar: "world" . is == "helloworld"
+    foo: "hello"  . is == "hellofoo"
   }
 
   it: "should have default values for all arguments, if none given" when: {
@@ -127,16 +127,16 @@ FancySpec describe: Method with: {
       [arg1, arg2, arg3]
     }
 
-    a: "hello" b: "world" c: "!" . should == ["hello", "world", "!"]
-    a: "hello" b: "world" . should == ["hello", "world", "baz"]
-    a: "hello" . should == ["hello", "bar", "baz"]
-    a should == ["foo", "bar", "baz"]
+    a: "hello" b: "world" c: "!" . is == ["hello", "world", "!"]
+    a: "hello" b: "world" . is == ["hello", "world", "baz"]
+    a: "hello" . is == ["hello", "bar", "baz"]
+    a is == ["foo", "bar", "baz"]
   }
 
   it: "should return multiple values (as a Tuple)" when: {
     def multiple_return_values: x {
       (x, x + x, x + x + x)
     }
-    val = multiple_return_values: 3 . should == (3, 6, 9)
+    val = multiple_return_values: 3 . is == (3, 6, 9)
   }
 }

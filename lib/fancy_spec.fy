@@ -234,8 +234,24 @@ class Object {
     FancySpec PositiveMatcher new: self
   }
 
+  alias_method: 'is for: 'should
+  alias_method: 'does for: 'should
+
   def should_not {
     "Returns a NegativeMatcher for self."
     FancySpec NegativeMatcher new: self
+  }
+
+  alias_method: 'is_not for: 'should_not
+  alias_method: 'does_not for: 'should_not
+}
+
+class Block {
+  def raises: exception_class {
+    FancySpec PositiveMatcher new: self . raise: exception_class
+  }
+
+  def raises: exception_class with: block {
+    FancySpec PositiveMatcher new: self . raise: exception_class with: block
   }
 }
