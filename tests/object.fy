@@ -149,4 +149,54 @@ FancySpec describe: Object with: {
 
     `ls -al` is == "ls -al - NOT!"
   }
+
+  it: "should override true and do some wacky stuff" for: 'true when: {
+    class MyClass {
+      def true {
+        false
+      }
+
+      def do_wacky_things {
+        4 == 5
+      }
+    }
+    MyClass new do_wacky_things is == false
+
+    {
+      true is == false
+    } call_with_receiver: (MyClass new)
+  }
+
+  it: "should override nil" for: 'nil when: {
+    class MyClass {
+      def nil {
+        true
+      }
+    }
+
+    { nil is == true } call_with_receiver: (MyClass new)
+  }
+
+  it: "should override false" for: 'false when: {
+    class MyClass2 {
+      def false {
+        true
+      }
+    }
+
+    { false is == true } call_with_receiver: (MyClass2 new)
+  }
+
+  it: "should override self" for: 'self when: {
+    class MyClass {
+      def self {
+        "it's me!"
+      }
+    }
+
+    {
+      self is == "it's me!"
+      self is_a?: String
+    } call_with_receiver: (MyClass new)
+  }
 }

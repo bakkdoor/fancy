@@ -40,7 +40,7 @@ class Fancy AST {
       type = match string {
         case "__FILE__" -> return CurrentFile new: line filename: filename
         case "__LINE__" -> return CurrentLine new: line
-        case "self" -> return Self new: line
+        # case "self" -> return Self new: line
         case /^[A-Z].*::/ -> NestedConstant
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
@@ -53,9 +53,9 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       match @string {
-        case "true" -> g push_true()
-        case "false" -> g push_false()
-        case "nil" -> g push_nil()
+        # case "true" -> g push_true()
+        # case "false" -> g push_false()
+        # case "nil" -> g push_nil()
         case _ ->
           if: (g state() scope() search_local(name)) then: {
             Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
