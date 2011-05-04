@@ -37,9 +37,9 @@ class Fancy {
 
         o = Object new
         def o each: block {
-          block call: 1
-          block call: 2
-          block call: 3
+          block call: [1]
+          block call: [2]
+          block call: [3]
           100
         }
 
