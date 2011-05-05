@@ -1,14 +1,16 @@
 %% name = Fancy::KPEG
 
 %% ast-location = ::Fancy::AST
-%% integer = ast Integer(line, n, base)
+%% integer_literal = ast IntegerLiteral(line, n, base)
 %% expression_list = ast ExpressionList(line, car, cdr)
 %% expression = ast Expression(line, exp)
 %% statement = ast Statement(line, stm)
 %% identifier = ast Identifier(line, id)
 %% assignment = ast Assignment(line, id, obj)
-%% symbol = ast Symbol(line, text)
-%% float = ast Float(line, n)
+%% symbol_literal = ast SymbolLiteral(line, text)
+%% float_literal = ast FloatLiteral(line, n)
+%% string_literal = ast StringLiteral(line, text)
+%% array_literal = ast ArrayLiteral(line, elements)
 %% code = ast Code(line, code)
 
 CASE         = "case"
@@ -58,6 +60,10 @@ DELIMITER     = /[ \n\r\t()]/
 COMMENT       = "#" /[^\n]/*
 REGEX_LITERAL = "/" .* "/"
 
+ESCAPE = '"'  { "\"" }
+       | "\\" { "\\" }
+       | <.>  { text }
+
 SPECIAL_UNDER    = SPECIAL | "_"
 OPERATOR         = SPECIAL+ | "||" SPECIAL_UNDER*
 INTEGER_LITERAL  = /[-+]?/ /[1-9]/ (DIGIT | "_" DIGIT)*
@@ -65,8 +71,11 @@ DOUBLE_LITERAL   = INTEGER_LITERAL "." ("_" DIGIT | DIGIT)*
 HEX_LITERAL      = "0" ("x" | "X") <HEXDIGIT+> { text }
 BIN_LITERAL      = "0" ("b" | "B") <BINDIGIT+> { text }
 OCT_LITERAL      = "0" ("o" | "O") <OCTDIGIT+> { text }
-STRING_LITERAL   = '"' ("\\" . | /[^\\"]/)* '"'
-MULTILINE_STRING = '"""' ("\\" . | /[^\\"]/)* '"""'
+
+STRING_CORE = (("\\" .) | /[^\\"]/)*
+STRING_LITERAL = "\"" <STRING_CORE> "\"" { text }
+MULTILINE_STRING = "\"\"\"" <STRING_CORE> "\"\"\"" { text }
+
 IDENTIFIER       = "@"? "@"? (LOWER | /[_&*]/) (LETTER | DIGIT | SPECIAL_UNDER)*
 CONSTANT         = CAPITAL (LETTER | DIGIT | SPECIAL_UNDER)*
 NESTED_CONSTANT  = (CONSTANT "::")+ CONSTANT
@@ -260,10 +269,10 @@ ruby_send =      exp ruby_send_open ruby_args {
                   $$ = rb_funcall(self, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), Qnil, $1, $2);
                 }
 
-ruby_args =      RPAREN block_literal  {
+ruby_args =      RPAREN block  {
                   $$ = rb_funcall(self, rb_intern("ruby_args"), 3, INT2NUM(yylineno), Qnil, $2);
                 }
-                | exp_comma_list RPAREN block_literal {
+                | exp_comma_list RPAREN block {
                   $$ = rb_funcall(self, rb_intern("ruby_args"), 3, INT2NUM(yylineno), $1, $3);
                 }
                 | RPAREN {
@@ -353,74 +362,63 @@ finally_block =  FINALLY expression_block {
                   $$ = $2;
                 }
 
-integer_literal = <INTEGER_LITERAL> ~integer(current_line, text, 10)
-hex_literal = <HEX_LITERAL> ~integer(current_line, text, 16)
-oct_literal = <OCT_LITERAL> ~integer(current_line, text, 8)
-bin_literal = <BIN_LITERAL> ~integer(current_line, text, 2)
+integer = <INTEGER_LITERAL> ~integer_literal(current_line, text, 10)
+hex = <HEX_LITERAL> ~integer_literal(current_line, text, 16)
+oct = <OCT_LITERAL> ~integer_literal(current_line, text, 8)
+bin = <BIN_LITERAL> ~integer_literal(current_line, text, 2)
 
-double_literal = <DOUBLE_LITERAL> ~float(current_line, text)
+double = <DOUBLE_LITERAL> ~float_literal(current_line, text)
 
-string_literal = STRING_LITERAL:a { a }
-               | MULTILINE_STRING:a { a }
+string = STRING_LITERAL:s ~string_literal(current_line, s)
+               | MULTILINE_STRING:s ~multiline_string(current_line, s)
 
-symbol_literal = SYMBOL_LITERAL:s ~symbol(current_line, s)
+symbol = SYMBOL_LITERAL:s ~symbol_literal(current_line, s)
 
-regex_literal = <REGEX_LITERAL> { Regexp.new(text) }
+regex = <REGEX_LITERAL> { Regexp.new(text) }
 
-literal_value = double_literal
-              | hex_literal
-              | oct_literal
-              | bin_literal
-              | integer_literal
-              | string_literal
-              | symbol_literal
-              | hash_literal
-              | array_literal
-              | regex_literal
-              | block_literal
-              | tuple_literal
-              | range_literal
+literal_value = double
+              | hex
+              | oct
+              | bin
+              | integer
+              | string
+              | symbol
+              | hash
+              | array
+              | regex
+              | block
+              | tuple
+              | range
 
-array_literal =  empty_array {
-                  $$ = $1;
-                }
-                | LBRACKET space exp_comma_list space RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("array_literal"), 2, INT2NUM(yylineno), $3);
-                }
+array = filled_array | empty_array
 
-exp_comma_list = exp {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 2, INT2NUM(yylineno), $1);
-                }
-                | exp_comma_list COMMA space exp {
-                  $$ = rb_funcall(self, rb_intern("expr_ary"), 3, INT2NUM(yylineno), $4, $1);
-                }
-                | exp_comma_list COMMA {
-                  $$ = $1;
-                }
+filled_array = LBRACKET space? exp_comma_list:e space? RBRACKET ~array_literal(current_line, e)
 
-empty_array =    LBRACKET space RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("array_literal"), 1, INT2NUM(yylineno));
-                }
+exp_comma_list = exp:e { [*e] }
+               | exp_comma_list:l COMMA space exp:r { [*l, *r] }
+               | exp_comma_list:l COMMA { l }
 
-hash_literal =   LHASH space key_value_list space RHASH {
+empty_array = LBRACKET space? RBRACKET ~array_literal(current_line, [])
+
+hash =   LHASH space key_value_list space RHASH {
                   $$ = rb_funcall(self, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
                 }
                 | LHASH space RHASH {
                   $$ = rb_funcall(self, rb_intern("hash_literal"), 1, INT2NUM(yylineno));
                 }
 
-block_literal =  expression_block {
+block =  expression_block {
                   $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $1);
                 }
                 | STAB block_args STAB space expression_block {
                   $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $5);
                 }
 
-tuple_literal =  LPAREN exp_comma_list RPAREN {
+tuple =  LPAREN exp_comma_list RPAREN {
                   $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $2);
                 }
 
-range_literal =  LPAREN exp DOT DOT exp RPAREN {
+range =  LPAREN exp DOT DOT exp RPAREN {
                   $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $2, $5);
                 }
 

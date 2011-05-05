@@ -13,7 +13,7 @@ describe 'Literals' do
 
   format_parser = KPeg::FormatParser.new(File.read(path))
   format_parser.parse
-  @cg = KPeg::CodeGenerator.new("TestFancy", format_parser.grammar, debug = false)
+  @cg = KPeg::CodeGenerator.new("TestFancy", format_parser.grammar, debug = ENV['D'])
   @cg.make('')
   require_relative '../../boot/ast'
 
@@ -62,11 +62,25 @@ describe 'Literals' do
     ast('a').should == [[:id, "a"]]
   end
 
-  it 'parses symbol' do
+  it 'parses Symbol' do
     ast("'foo").should == [[:sym, "foo"]]
+    ast("'foo[]bar*=some:thing?").should == [[:sym, "foo[]bar*=some:thing?"]]
   end
 
   it 'parses a = 1' do
     ast('a = 1').should == [[:assign, [:id, "a"], [:int, 1]]]
+  end
+
+  it 'parses String' do
+    ast('"foo"').should == [[:str, "foo"]]
+  end
+
+  it 'parses empty Array' do
+    ast('[]').should == [[:arr, []]]
+    ast('[ ]').should == [[:arr, []]]
+  end
+
+  it 'parses filled Array' do
+    ast('[1]').should == [[:arr, [[:int, 1]]]]
   end
 end

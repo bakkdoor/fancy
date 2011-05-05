@@ -12,21 +12,33 @@ module Fancy
       end
     end
 
-    class Integer
+    class IntegerLiteral
       def to_ast
         [:int, n.to_i(base)]
       end
     end
 
-    class Float
+    class FloatLiteral
       def to_ast
         [:float, Float(n)]
       end
     end
 
-    class Symbol
+    class SymbolLiteral
       def to_ast
         [:sym, text]
+      end
+    end
+
+    class StringLiteral
+      def to_ast
+        [:str, text]
+      end
+    end
+
+    class ArrayLiteral
+      def to_ast
+        [:arr, elements.map(&:to_ast)]
       end
     end
 
