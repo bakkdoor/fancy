@@ -7,6 +7,8 @@
 %% statement = ast Statement(line, stm)
 %% identifier = ast Identifier(line, id)
 %% assignment = ast Assignment(line, id, obj)
+%% symbol = ast Symbol(line, text)
+%% float = ast Float(line, n)
 %% code = ast Code(line, code)
 
 CASE         = "case"
@@ -68,7 +70,7 @@ MULTILINE_STRING = '"""' ("\\" . | /[^\\"]/)* '"""'
 IDENTIFIER       = "@"? "@"? (LOWER | /[_&*]/) (LETTER | DIGIT | SPECIAL_UNDER)*
 CONSTANT         = CAPITAL (LETTER | DIGIT | SPECIAL_UNDER)*
 NESTED_CONSTANT  = (CONSTANT "::")+ CONSTANT
-SYMBOL_LITERAL   = "'" (IDENTIFIER | OPERATOR | ":" | "[]")+
+SYMBOL_LITERAL   = "'" <(IDENTIFIER | OPERATOR | ":" | "[]")+> { text }
 RUBY_SEND_OPEN   = IDENTIFIER LPAREN
 RUBY_OPER_OPEN   = OPERATOR LPAREN
 
@@ -352,16 +354,16 @@ finally_block =  FINALLY expression_block {
                 }
 
 integer_literal = <INTEGER_LITERAL> ~integer(current_line, text, 10)
-hex_literal = <HEX_LITERAL> ~integer(text, 16)
-oct_literal = <OCT_LITERAL> ~integer(text, 8)
-bin_literal = <BIN_LITERAL> ~integer(text, 2)
+hex_literal = <HEX_LITERAL> ~integer(current_line, text, 16)
+oct_literal = <OCT_LITERAL> ~integer(current_line, text, 8)
+bin_literal = <BIN_LITERAL> ~integer(current_line, text, 2)
 
-double_literal = <DOUBLE_LITERAL> { parser.double_literal(0, Float(text)) }
+double_literal = <DOUBLE_LITERAL> ~float(current_line, text)
 
 string_literal = STRING_LITERAL:a { a }
                | MULTILINE_STRING:a { a }
 
-symbol_literal = <SYMBOL_LITERAL> { [:sym, text[1..-1].to_sym] }
+symbol_literal = SYMBOL_LITERAL:s ~symbol(current_line, s)
 
 regex_literal = <REGEX_LITERAL> { Regexp.new(text) }
 
