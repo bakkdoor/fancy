@@ -43,8 +43,6 @@ catch           "catch"
 finally         "finally"
 retry           "retry"
 super           "super"
-private         "private"
-protected       "protected"
 self            "self"
 match           "match"
 case            "case"
@@ -122,8 +120,6 @@ escaped_newline "\\".*\n
 {finally}       { return FINALLY; }
 {retry}         { return RETRY; }
 {super}         { return SUPER; }
-{private}       { return PRIVATE; }
-{protected}     { return PROTECTED; }
 {self}          {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;

@@ -47,8 +47,6 @@ extern char *yytext;
 %token                  FINALLY
 %token                  RETRY
 %token                  SUPER
-%token                  PRIVATE
-%token                  PROTECTED
 %token                  CLASS
 %token                  DEF
 %token                  DOT
@@ -317,9 +315,7 @@ const_identifier: constant {
                 }
                 ;
 
-def:            DEF PRIVATE { $$ = rb_intern("private"); }
-                | DEF PROTECTED { $$ = rb_intern("protected"); }
-                | DEF { $$ = rb_intern("public"); }
+def:            DEF { $$ = rb_intern("public"); }
                 ;
 
 class_no_super: CLASS const_identifier expression_block {

@@ -94,8 +94,9 @@ class ThreadPool {
     }
   }
 
-  def protected init_completable: block {
+  def init_completable: block {
     block extend(Completable)
     block complete: false
   }
+  protected: 'init_completable:
 }

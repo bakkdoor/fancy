@@ -25,13 +25,15 @@ class ClassWithPrivate {
     "public!"
   }
 
-  def protected protected_method {
+  def protected_method {
     "protected!"
   }
+  protected: 'protected_method
 
-  def private private_method {
+  def private_method {
     "private!"
   }
+  private: 'private_method
 }
 
 FancySpec describe: Class with: {
@@ -458,5 +460,66 @@ FancySpec describe: Class with: {
     A ancestors is == [A, Object, Kernel]
     B ancestors is == [B, A, Object, Kernel]
     C ancestors is == [C, B, A, Object, Kernel]
+  }
+
+  it: "should make methods private" for: 'private: when: {
+    class AClassWithPrivateMethods {
+      def a {
+        "in a"
+      }
+      def b {
+        "in b"
+      }
+      private: ['a, 'b]
+    }
+
+    x = AClassWithPrivateMethods new
+    { x a } raises: NoMethodError
+    { x b } raises: NoMethodError
+    AClassWithPrivateMethods instance_method: 'a . private? is == true
+    AClassWithPrivateMethods instance_method: 'b . private? is == true
+  }
+
+  it: "should make methods protected" for: 'protected: when: {
+    class AClassWithPrivateMethods {
+      def a {
+        "in a"
+      }
+      def b {
+        "in b"
+      }
+      protected: ['a, 'b]
+    }
+
+    x = AClassWithPrivateMethods new
+    { x a } raises: NoMethodError
+    { x b } raises: NoMethodError
+    # AClassWithPrivateMethods instance_method: 'a . private? is == false
+    # AClassWithPrivateMethods instance_method: 'b . private? is == false
+    AClassWithPrivateMethods instance_method: 'a . protected? is == true
+    AClassWithPrivateMethods instance_method: 'b . protected? is == true
+  }
+
+  it: "should make methods protected" for: 'public: when: {
+    class AClassWithPrivateMethods {
+      def a {
+        "in a"
+      }
+      def b {
+        "in b"
+      }
+      private: ['a, 'b]
+      public: ['a, 'b]
+    }
+
+    x = AClassWithPrivateMethods new
+    { x a } does_not raise: NoMethodError
+    { x b } does_not raise: NoMethodError
+    AClassWithPrivateMethods instance_method: 'a . private? is == false
+    AClassWithPrivateMethods instance_method: 'b . private? is == false
+    AClassWithPrivateMethods instance_method: 'a . protected? is == false
+    AClassWithPrivateMethods instance_method: 'b . protected? is == false
+    AClassWithPrivateMethods instance_method: 'a . public? is == true
+    AClassWithPrivateMethods instance_method: 'b . public? is == true
   }
 }

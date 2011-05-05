@@ -88,10 +88,12 @@ FancySpec describe: Method with: {
   class Foo {
     def bar {
     }
-    def private private_bar {
+    def private_bar {
     }
-    def protected protected_bar {
+    private: 'private_bar
+    def protected_bar {
     }
+    protected: 'protected_bar
   }
 
   it: "should be public" for: 'public? when: {
