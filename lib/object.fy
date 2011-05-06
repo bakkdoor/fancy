@@ -182,6 +182,26 @@ class Object {
     cond_block until_do: body_block
   }
 
+  def do: body_block while: cond_block {
+    """
+    @body_block @Block@ to be called at least once and as long as @cond_block yields a true-ish value.
+    @cond_block Condition @Block@ used to determine if @body_block@ should be called again.
+    """
+
+    body_block call: [nil]
+    cond_block while_do: body_block
+  }
+
+  def do: body_block until: cond_block {
+    """
+    @body_block @Block@ to be called at least once and as long as @cond_block yields a false-ish value.
+    @cond_block Condition @Block@ used to determine if @body_block@ should be called again.
+    """
+
+    body_block call
+    cond_block until_do: body_block
+  }
+
   def unless: cond do: block {
     """
     Same as:

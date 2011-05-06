@@ -37,6 +37,38 @@ FancySpec describe: "Control Flow" with: {
     x == 10 is == true
   }
 
+  it: "should call a block while another one is true, but call it at least once" for: 'do:while: when: {
+    x = 0
+    arr = []
+    do: {
+      x < 10 is == true
+      arr << x
+      x = x + 1
+    } while: { x < 10 }
+    arr is == [0,1,2,3,4,5,6,7,8,9]
+
+    times_called = 0
+    do: {
+      times_called = times_called + 1
+    } while: { false }
+    times_called is == 1
+  }
+
+  it: "should call a block until another one is true, but call it at least once" for: 'do:until: when: {
+    x = 0
+    do: {
+      x < 10 is == true
+      x = x + 1
+    } until: { x == 10 }
+    x is == 10
+
+    times_called = 0
+    do: {
+      times_called = times_called + 1
+    } until: { true }
+    times_called is == 1
+  }
+
   it: "should work like if_false:: " for: 'unless:do: when: {
     unless: (4 > 5) do: {
       5 > 4 is == true
