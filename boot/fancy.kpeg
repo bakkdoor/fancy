@@ -11,6 +11,10 @@
 %% float_literal = ast FloatLiteral(line, n)
 %% string_literal = ast StringLiteral(line, text)
 %% array_literal = ast ArrayLiteral(line, elements)
+%% hash_literal = ast HashLiteral(line, kvl)
+%% block_literal = ast BlockLiteral(line, args, body)
+%% returns = ast Returns(line, obj)
+%% returns_local = ast ReturnsLocal(line, obj)
 %% code = ast Code(line, code)
 
 CASE         = "case"
@@ -98,9 +102,6 @@ space = " "
 code = statement
      | exp
 
-expression_block = LCURLY space expression_list space RCURLY { $$ = $3; }
-                 | LCURLY space RCURLY { $$ = rb_funcall(self, rb_intern("expr_list"), 1, INT2NUM(yylineno)); }
-
 statement = assignment
           | return_local_statement
           | return_statement
@@ -141,19 +142,11 @@ any_identifier = const_identifier
 identifier_list = any_identifier
                 | identifier_list:a COMMA any_identifier:b { identifier_list(0, a, b) }
 
-return_local_statement = RETURN_LOCAL exp {
-                  $$ = rb_funcall(self, rb_intern("return_local"), 2, INT2NUM(yylineno), $2);
-                }
-                | RETURN_LOCAL {
-                  $$ = rb_funcall(self, rb_intern("return_local"), 1, INT2NUM(yylineno));
-                }
+return_statement = RETURN space? exp:a ~returns(current_line, a)
+                 | RETURN ~returns(current_line, nil)
 
-return_statement = RETURN exp {
-                  $$ = rb_funcall(self, rb_intern("return_stmt"), 2, INT2NUM(yylineno), $2);
-                }
-                | RETURN {
-                  $$ = rb_funcall(self, rb_intern("return_stmt"), 1, INT2NUM(yylineno));
-                }
+return_local_statement = RETURN_LOCAL space? exp:a ~returns_local(current_line, a)
+                       | RETURN_LOCAL ~returns_local(current_line, nil)
 
 class_def =      class_no_super
                 | class_super
@@ -165,9 +158,9 @@ const_identifier = constant {
                   $$ = rb_funcall(self, rb_intern("const_identifier"), 3, INT2NUM(yylineno), $2, $1);
                 }
 
-def =            DEF PRIVATE { $$ = rb_intern("private"); }
-                | DEF PROTECTED { $$ = rb_intern("protected"); }
-                | DEF { $$ = rb_intern("public"); }
+def = DEF PRIVATE { $$ = rb_intern("private"); }
+    | DEF PROTECTED { $$ = rb_intern("protected"); }
+    | DEF { $$ = rb_intern("public"); }
 
 class_no_super = CLASS const_identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $3);
@@ -282,16 +275,9 @@ ruby_args =      RPAREN block  {
                   $$ = rb_funcall(self, rb_intern("ruby_args"), 2, INT2NUM(yylineno), $1);
                 }
 
-operator_send =  exp operator arg_exp {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $3);
-                }
-                | exp operator DOT space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4, INT2NUM(yylineno), $1, $2, $5);
-                }
-                | exp LBRACKET exp RBRACKET {
-                  $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4,
-                                  INT2NUM(yylineno), $1, fy_terminal_node_from(self, "identifier", "[]"), $3);
-                }
+operator_send = exp:a operator:b arg_exp:c ~operator_send_basic(current_line, a, b, c)
+              | exp:a operator:b DOT space arg_exp:c ~operator_send_basic(current_line, a, b, c)
+              | exp:a LBRACKET exp:b RBRACKET ~operator_send_basic(current_line, a, "[]", b)
 
 ruby_oper_send = exp ruby_oper_open ruby_args {
                   $$ = rb_funcall(self, rb_intern("msg_send_ruby"), 4, INT2NUM(yylineno), $1, $2, $3);
@@ -394,25 +380,24 @@ array = filled_array | empty_array
 
 filled_array = LBRACKET space? exp_comma_list:e space? RBRACKET ~array_literal(current_line, e)
 
-exp_comma_list = exp:e { [*e] }
-               | exp_comma_list:l COMMA space exp:r { [*l, *r] }
-               | exp_comma_list:l COMMA { l }
+exp_comma_list = exp:a space? COMMA space? exp_comma_list:b { [a, *b] }
+               | exp:a space? COMMA space? exp:b { [a, b] }
+               | exp:a { [a] }
 
 empty_array = LBRACKET space? RBRACKET ~array_literal(current_line, [])
 
-hash =   LHASH space key_value_list space RHASH {
-                  $$ = rb_funcall(self, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
-                }
-                | LHASH space RHASH {
-                  $$ = rb_funcall(self, rb_intern("hash_literal"), 1, INT2NUM(yylineno));
-                }
+hash = LHASH space? key_value_list:kvl space? RHASH ~hash_literal(current_line, kvl)
+     | LHASH space? RHASH ~hash_literal(current_line, {})
 
-block =  expression_block {
-                  $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $1);
-                }
-                | STAB block_args STAB space expression_block {
-                  $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), $2, $5);
-                }
+key_value_list = exp:k space? ARROW space? exp:v space? COMMA space? key_value_list:kvl { kvl.merge!(k => v) }
+               | exp:k space? ARROW space? exp:v { {k => v} }
+
+
+block = STAB block_args:a STAB space expression_block:b ~block_literal(current_line, a, b)
+      | expression_block:a ~block_literal(current_line, nil, a)
+
+expression_block = LCURLY space? expression_list:el space? RCURLY { el }
+                 | LCURLY space? RCURLY
 
 tuple =  LPAREN exp_comma_list RPAREN {
                   $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $2);
@@ -422,8 +407,8 @@ range =  LPAREN exp DOT DOT exp RPAREN {
                   $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $2, $5);
                 }
 
-block_args =     block_args_with_comma
-                | block_args_without_comma
+block_args = block_args_with_comma
+           | block_args_without_comma
 
 block_args_without_comma = identifier {
                   $$ = rb_funcall(self, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
@@ -432,19 +417,8 @@ block_args_without_comma = identifier {
                   $$ = rb_funcall(self, rb_intern("block_args"), 3, INT2NUM(yylineno), $2, $1);
                 }
 
-block_args_with_comma = identifier {
-                  $$ = rb_funcall(self, rb_intern("block_args"), 2, INT2NUM(yylineno), $1);
-                }
-                | block_args_with_comma COMMA identifier {
-                  $$ = rb_funcall(self, rb_intern("block_args"), 3, INT2NUM(yylineno), $3, $1);
-                }
-
-key_value_list = exp space ARROW space exp {
-                  $$ = rb_funcall(self, rb_intern("key_value_list"), 3, INT2NUM(yylineno), $1, $5);
-                }
-                | key_value_list COMMA space exp space ARROW space exp {
-                  $$ = rb_funcall(self, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
-                }
+block_args_with_comma = identifier:a space? COMMA space? block_args_with_comma:b { [a, b] }
+                      | identifier
 
 match_expr =     MATCH exp LCURLY space match_body space RCURLY {
                   $$ = rb_funcall(self, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $5);

@@ -42,6 +42,38 @@ module Fancy
       end
     end
 
+    class HashLiteral
+      def to_ast
+        [:hash, Hash[kvl.map{|k,v| [k.to_ast, v.to_ast] }]]
+      end
+    end
+
+    class BlockLiteral
+      def to_ast
+        [:block, args, body]
+      end
+    end
+
+    class Returns
+      def to_ast
+        if obj.respond_to?(:to_ast)
+          [:ret, obj.to_ast]
+        else
+          [:ret, obj]
+        end
+      end
+    end
+
+    class ReturnsLocal
+      def to_ast
+        if obj.respond_to?(:to_ast)
+          [:retl, obj.to_ast]
+        else
+          [:retl, obj]
+        end
+      end
+    end
+
     class Code
       def to_ast
         [:code, code.to_ast]
