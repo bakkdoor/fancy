@@ -132,4 +132,25 @@ FancySpec describe: Number with: {
     0xA0 is == 160
     0xFF is == 255
   }
+
+  it: "should call a block a given amount of times" for: 'times: when: {
+    times_called = 0
+    10 times: { times_called = times_called + 1 }
+    times_called is == 10
+
+    sum = 0
+    10 times: |i| { sum = sum + i }
+    sum is == ((0..9) sum)
+  }
+
+  it: "should call a block a given amount of times with an offset" for: 'times:offset: when: {
+    times_called = 0
+    sum = 0
+    10 times: |i| {
+      times_called = times_called + 1
+      sum = sum + i
+    } offset: 10
+    times_called is == 10
+    sum is == ((10..19) sum)
+  }
 }
