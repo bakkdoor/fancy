@@ -112,6 +112,26 @@ describe 'Literals' do
     ast('return_local 1').should == [[:retl, [:int, 1]]]
   end
 
+  it 'parses empty regexp' do
+    ast('//').should == [[:regex, //, ""]]
+  end
+
+  it 'parses simple regexp' do
+    ast('/foo/').should == [[:regex, /foo/, ""]]
+    ast('/foo\s/').should == [[:regex, /foo\s/, ""]]
+    ast('/foo\//').should == [[:regex, /foo\//, ""]]
+    # ast('/foo(/').should == [[:regex, //]]
+  end
+
+  it 'parses tuple' do
+    ast('(1,2)').should == [[:tuple, [[:int, 1], [:int, 2]]]]
+    ast('( 1 , 2 )').should == [[:tuple, [[:int, 1], [:int, 2]]]]
+  end
+
+  it 'parses range' do
+    ast('(1..2)').should == [[:range, [:int, 1], [:int, 2]]]
+  end
+
 =begin
   it 'parses empty Block' do
     ast('{}').should == [[:block, nil, nil]]

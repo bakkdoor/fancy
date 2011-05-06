@@ -85,5 +85,23 @@ module Fancy
         [:assign, id.to_ast, obj.to_ast]
       end
     end
+
+    class RegexLiteral
+      def to_ast
+        [:regex, Regexp.new(text.to_s), flags]
+      end
+    end
+
+    class TupleLiteral
+      def to_ast
+        [:tuple, elements.map(&:to_ast)]
+      end
+    end
+
+    class RangeLiteral
+      def to_ast
+        [:range, from.to_ast, to.to_ast]
+      end
+    end
   end
 end

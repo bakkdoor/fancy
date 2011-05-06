@@ -1,21 +1,24 @@
 %% name = Fancy::KPEG
 
 %% ast-location = ::Fancy::AST
-%% integer_literal = ast IntegerLiteral(line, n, base)
-%% expression_list = ast ExpressionList(line, car, cdr)
-%% expression = ast Expression(line, exp)
-%% statement = ast Statement(line, stm)
-%% identifier = ast Identifier(line, id)
-%% assignment = ast Assignment(line, id, obj)
-%% symbol_literal = ast SymbolLiteral(line, text)
-%% float_literal = ast FloatLiteral(line, n)
-%% string_literal = ast StringLiteral(line, text)
 %% array_literal = ast ArrayLiteral(line, elements)
-%% hash_literal = ast HashLiteral(line, kvl)
+%% assignment = ast Assignment(line, id, obj)
 %% block_literal = ast BlockLiteral(line, args, body)
+%% code = ast Code(line, code)
+%% expression = ast Expression(line, exp)
+%% expression_list = ast ExpressionList(line, car, cdr)
+%% float_literal = ast FloatLiteral(line, n)
+%% hash_literal = ast HashLiteral(line, kvl)
+%% range_literal = ast RangeLiteral(line, from, to)
+%% identifier = ast Identifier(line, id)
+%% integer_literal = ast IntegerLiteral(line, n, base)
+%% regex_literal = ast RegexLiteral(line, text, flags)
 %% returns = ast Returns(line, obj)
 %% returns_local = ast ReturnsLocal(line, obj)
-%% code = ast Code(line, code)
+%% statement = ast Statement(line, stm)
+%% string_literal = ast StringLiteral(line, text)
+%% symbol_literal = ast SymbolLiteral(line, text)
+%% tuple_literal = ast TupleLiteral(line, elements)
 
 CASE         = "case"
 CATCH        = "catch"
@@ -23,8 +26,6 @@ CLASS        = "class"
 DEF          = "def"
 FINALLY      = "finally"
 MATCH        = "match"
-PRIVATE      = "private"
-PROTECTED    = "protected"
 RETRY        = "retry"
 RETURN_LOCAL = "return_local"
 RETURN       = "return"
@@ -62,7 +63,6 @@ OCTDIGIT      = /[0-7]/
 SPECIAL       = /[-+?!=*\/^><%&~]/
 DELIMITER     = /[ \n\r\t()]/
 COMMENT       = "#" /[^\n]/*
-REGEX_LITERAL = "/" .* "/"
 
 ESCAPE = '"'  { "\"" }
        | "\\" { "\\" }
@@ -71,7 +71,7 @@ ESCAPE = '"'  { "\"" }
 SPECIAL_UNDER    = SPECIAL | "_"
 OPERATOR         = SPECIAL+ | "||" SPECIAL_UNDER*
 INTEGER_LITERAL  = /[-+]?/ /[1-9]/ (DIGIT | "_" DIGIT)*
-DOUBLE_LITERAL   = INTEGER_LITERAL "." ("_" DIGIT | DIGIT)*
+DOUBLE_LITERAL   = INTEGER_LITERAL "." ("_" DIGIT | DIGIT)+
 HEX_LITERAL      = "0" ("x" | "X") <HEXDIGIT+> { text }
 BIN_LITERAL      = "0" ("b" | "B") <BINDIGIT+> { text }
 OCT_LITERAL      = "0" ("o" | "O") <OCTDIGIT+> { text }
@@ -79,6 +79,10 @@ OCT_LITERAL      = "0" ("o" | "O") <OCTDIGIT+> { text }
 STRING_CORE = (("\\" .) | /[^\\"]/)*
 STRING_LITERAL = "\"" <STRING_CORE> "\"" { text }
 MULTILINE_STRING = "\"\"\"" <STRING_CORE> "\"\"\"" { text }
+
+REGEX_FLAGS = </[egimnosux]/*> { text }
+REGEX_CORE = (/\\./ | /[^\\/]/)*
+REGEX_LITERAL = "/" <REGEX_CORE> "/" { text }
 
 IDENTIFIER       = "@"? "@"? (LOWER | /[_&*]/) (LETTER | DIGIT | SPECIAL_UNDER)*
 CONSTANT         = CAPITAL (LETTER | DIGIT | SPECIAL_UNDER)*
@@ -116,10 +120,9 @@ exp = method_def
     | ruby_oper_send
     | literal_value
     | any_identifier
-    | SUPER { $$ = rb_funcall(self, rb_intern("super_exp"), 1, INT2NUM(yylineno)); }
-    | RETRY { $$ = rb_funcall(self, rb_intern("retry_exp"), 1, INT2NUM(yylineno)); }
-    | LPAREN space exp space RPAREN { $$ = $3; }
-    | exp DOT space { $$ = $1; }
+    | SUPER ~super_exp(current_line)
+    | RETRY ~retry_exp(current_line)
+    | LPAREN space? exp:a space? RPAREN ~exp(current_line, a)
 
 assignment = any_identifier:id space EQUALS space exp:e ~assignment(current_line, id, e)
            | multiple_assignment
@@ -158,9 +161,7 @@ const_identifier = constant {
                   $$ = rb_funcall(self, rb_intern("const_identifier"), 3, INT2NUM(yylineno), $2, $1);
                 }
 
-def = DEF PRIVATE { $$ = rb_intern("private"); }
-    | DEF PROTECTED { $$ = rb_intern("protected"); }
-    | DEF { $$ = rb_intern("public"); }
+def = DEF { $$ = rb_intern("public"); }
 
 class_no_super = CLASS const_identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, Qnil, $3);
@@ -170,12 +171,12 @@ class_super =    CLASS const_identifier COLON const_identifier expression_block 
                   $$ = rb_funcall(self, rb_intern("class_def"), 4, INT2NUM(yylineno), $2, $4, $5);
                 }
 
-method_def =     method_w_args
-                | method_no_args
-                | class_method_w_args
-                | class_method_no_args
-                | operator_def
-                | class_operator_def
+method_def = method_w_args
+           | method_no_args
+           | class_method_w_args
+           | class_method_no_args
+           | operator_def
+           | class_operator_def
 
 method_arg =     identifier COLON identifier {
                   $$ = rb_funcall(self, rb_intern("method_arg"), 3, INT2NUM(yylineno), $1, $3);
@@ -284,31 +285,13 @@ ruby_oper_send = exp ruby_oper_open ruby_args {
                 }
 
 
-send_args =      identifier COLON arg_exp {
-                  $$ = rb_funcall(self, rb_intern("send_args"), 3, INT2NUM(yylineno), $1, $3);
-                }
-                | identifier COLON space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("send_args"), 3, INT2NUM(yylineno), $1, $4);
-                }
-                | send_args identifier COLON arg_exp {
-                  $$ = rb_funcall(self, rb_intern("send_args"), 4, INT2NUM(yylineno), $2, $4, $1);
-                }
-                | send_args identifier COLON space arg_exp {
-                  $$ = rb_funcall(self, rb_intern("send_args"), 4, INT2NUM(yylineno), $2, $5, $1);
-                }
+send_args = identifier:a COLON space? arg_exp:b send_args:c ~send_args(current_line, a, b, c)
+          | identifier:a COLON arg_exp:b ~send_args(current_line, a, b)
 
-arg_exp =        any_identifier {
-                  $$ = $1;
-                }
-                | LPAREN exp RPAREN {
-                  $$ = $2;
-                }
-                | literal_value {
-                  $$ = $1;
-                }
-                | DOLLAR exp {
-                  $$ = $2;
-                }
+arg_exp = any_identifier
+        | LPAREN exp:a RPAREN
+        | literal_value:a { a }
+        | DOLLAR exp:a { a }
 
 try_catch_block = TRY expression_block catch_blocks finally_block {
                   $$ = rb_funcall(self, rb_intern("try_catch_finally"), 4, INT2NUM(yylineno), $2, $3, $4);
@@ -356,11 +339,12 @@ bin = <BIN_LITERAL> ~integer_literal(current_line, text, 2)
 double = <DOUBLE_LITERAL> ~float_literal(current_line, text)
 
 string = STRING_LITERAL:s ~string_literal(current_line, s)
-               | MULTILINE_STRING:s ~multiline_string(current_line, s)
+       | MULTILINE_STRING:s ~multiline_string(current_line, s)
 
 symbol = SYMBOL_LITERAL:s ~symbol_literal(current_line, s)
 
-regex = <REGEX_LITERAL> { Regexp.new(text) }
+regex = "//" REGEX_FLAGS:a ~regex_literal(current_line, nil, a)
+      | REGEX_LITERAL:a REGEX_FLAGS:b ~regex_literal(current_line, a, b)
 
 literal_value = double
               | hex
@@ -373,8 +357,8 @@ literal_value = double
               | array
               | regex
               | block
-              | tuple
               | range
+              | tuple
 
 array = filled_array | empty_array
 
@@ -399,13 +383,9 @@ block = STAB block_args:a STAB space expression_block:b ~block_literal(current_l
 expression_block = LCURLY space? expression_list:el space? RCURLY { el }
                  | LCURLY space? RCURLY
 
-tuple =  LPAREN exp_comma_list RPAREN {
-                  $$ = rb_funcall(self, rb_intern("tuple_literal"), 2, INT2NUM(yylineno), $2);
-                }
+tuple = LPAREN space? exp_comma_list:a space? RPAREN ~tuple_literal(current_line, a)
 
-range =  LPAREN exp DOT DOT exp RPAREN {
-                  $$ = rb_funcall(self, rb_intern("range_literal"), 3, INT2NUM(yylineno), $2, $5);
-                }
+range = LPAREN exp:a DOT DOT exp:b RPAREN ~range_literal(current_line, a, b)
 
 block_args = block_args_with_comma
            | block_args_without_comma
@@ -420,9 +400,7 @@ block_args_without_comma = identifier {
 block_args_with_comma = identifier:a space? COMMA space? block_args_with_comma:b { [a, b] }
                       | identifier
 
-match_expr =     MATCH exp LCURLY space match_body space RCURLY {
-                  $$ = rb_funcall(self, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $5);
-                }
+match_expr = MATCH exp:a LCURLY space match_body:b space RCURLY ~match(current_line, a, b)
 
 match_body =     match_clause {
                   $$ = rb_funcall(self, rb_intern("match_body"), 2, INT2NUM(yylineno), $1);
