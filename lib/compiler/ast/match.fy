@@ -66,10 +66,22 @@ class Fancy AST {
       clause_labels each_with_index: |label i| {
         label set!()
         g pop()
+
+        # set any new locals created in the match clause body to nil afterwards
+        # so they're only visible in the current clause body.
+        detected_locals = g detected_locals()
+
         @clauses[i] body bytecode: g
 
+        new_detected_locals = g detected_locals()
+        new_detected_locals - detected_locals times: |i| {
+          g push_nil()
+          g set_local(i + detected_locals)
+          g pop()
+        }
+
         # set match_arg locals slot to nil, so they're only visible
-        # within the case body
+        # within the match clause body
         @match_arg_vars each: |marg_var| {
           g push_nil()
           g set_local(marg_var slot())
