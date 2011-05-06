@@ -6,19 +6,19 @@ module Fancy
   end
 end
 
-describe 'Literals' do
-  # so much fuss just to get debugging working.
-  require 'kpeg'
-  path = File.expand_path("../../../boot/fancy.kpeg", __FILE__)
+# so much fuss just to get debugging working.
+require 'kpeg'
+path = File.expand_path("../../../boot/fancy.kpeg", __FILE__)
 
-  format_parser = KPeg::FormatParser.new(File.read(path))
-  format_parser.parse
-  @cg = KPeg::CodeGenerator.new("TestFancy", format_parser.grammar, debug = ENV['D'])
-  @cg.make('')
-  require File.expand_path('../../../boot/ast', __FILE__)
+format_parser = KPeg::FormatParser.new(File.read(path))
+format_parser.parse
+TestFancyParser = KPeg::CodeGenerator.new("TestFancyParser", format_parser.grammar, debug = ENV['D'])
+TestFancyParser.make('')
+require File.expand_path('../../../boot/ast', __FILE__)
 
+shared :parser do
   def parse(str)
-    parser = @cg.make(str)
+    parser = TestFancyParser.make(str)
     parser.parse.should == true
     parser.result
   end
@@ -26,6 +26,10 @@ describe 'Literals' do
   def ast(str)
     parse(str).to_ast
   end
+end
+
+describe 'Literals' do
+  behaves_like :parser
 
   it 'parses Integer' do
     ast('1').should == [[:int, 1]]
@@ -67,10 +71,6 @@ describe 'Literals' do
     ast("'foo[]bar*=some:thing?").should == [[:sym, "foo[]bar*=some:thing?"]]
   end
 
-  it 'parses a = 1' do
-    ast('a = 1').should == [[:assign, [:id, "a"], [:int, 1]]]
-  end
-
   it 'parses String' do
     ast('"foo"').should == [[:str, "foo"]]
   end
@@ -100,16 +100,6 @@ describe 'Literals' do
 
   it 'parses multi-element Hash' do
     ast('<[1 => 2, 3 => 4]>').should == [[:hash, {[:int, 1] => [:int, 2], [:int, 3] => [:int, 4]}]]
-  end
-
-  it 'parses return statement' do
-    ast('return').should == [[:ret, nil]]
-    ast('return 1').should == [[:ret, [:int, 1]]]
-  end
-
-  it 'parses local_return statement' do
-    ast('return_local').should == [[:retl, nil]]
-    ast('return_local 1').should == [[:retl, [:int, 1]]]
   end
 
   it 'parses empty regexp' do
@@ -148,4 +138,30 @@ describe 'Literals' do
     ast('|a| { a * a }').should == []
   end
 =end
+end
+
+describe 'Method definition' do
+  behaves_like :parser
+end
+
+describe 'Assignment' do
+  behaves_like :parser
+
+  it 'parses a = 1' do
+    ast('a = 1').should == [[:assign, [:id, "a"], [:int, 1]]]
+  end
+end
+
+describe 'Return' do
+  behaves_like :parser
+
+  it 'parses return statement' do
+    ast('return').should == [[:ret, nil]]
+    ast('return 1').should == [[:ret, [:int, 1]]]
+  end
+
+  it 'parses local_return statement' do
+    ast('return_local').should == [[:retl, nil]]
+    ast('return_local 1').should == [[:retl, [:int, 1]]]
+  end
 end
