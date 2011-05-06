@@ -25,6 +25,9 @@ class Fancy Package {
   """
 
   ENV_PACKAGE_DIR_VAR = "FANCY_PACKAGE_DIR"
+  DEFAULT_FANCY_ROOT = ENV["HOME"] ++ "/.fancy"
+  DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages"
+  DEFAULT_PACKAGES_LIB_PATH = DEFAULT_PACKAGES_PATH ++ "/lib"
 
   def self install: package_name {
     """
@@ -49,7 +52,7 @@ class Fancy Package {
     if: (ENV[ENV_PACKAGE_DIR_VAR]) then: |path| {
       return path
     } else: {
-      return Fancy Package Installer DEFAULT_PACKAGES_PATH
+      return DEFAULT_PACKAGES_PATH
     }
   }
 
