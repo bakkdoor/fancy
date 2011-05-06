@@ -4,17 +4,26 @@
 try {
   if: (ARGV[1]) then: |ident| {
     documentation = nil
-    if: (ident includes?: "#") then: {
-      parts = ident split: "#"
-      obj = parts[0] eval
-      if: (parts[1]) then: |method_name| {
-        method = obj instance_method: $ parts[1]
-        documentation = method documentation
-      }
+    match ident {
+      case /##/ ->
+        parts = ident split: "##"
+        obj = parts[0] eval
+        if: (parts[1]) then: |method_name| {
+          method = obj method: method_name
+          documentation = method documentation
+        }
+      case /#/ ->
+        parts = ident split: "#"
+        obj = parts[0] eval
+        if: (parts[1]) then: |method_name| {
+          method = obj instance_method: method_name
+          documentation = method documentation
+        }
+      case _ ->
+        obj = ident eval
+        documentation = obj documentation
     }
-    # just print documentation for class here
-    obj = ident eval
-    documentation = obj documentation
+
     "Documentation for: '#{ident}':" println
     documentation println
   } else: {
