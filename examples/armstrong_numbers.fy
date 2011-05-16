@@ -12,7 +12,7 @@ class Fixnum {
     tmp = self
     while: { tmp >= 10 } do: {
       decimals << (tmp modulo: 10)
-      tmp = (tmp div: 10)
+      tmp = tmp div: 10
     }
     decimals << tmp
     decimals

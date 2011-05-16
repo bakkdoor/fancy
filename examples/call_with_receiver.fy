@@ -1,4 +1,4 @@
-block = { self foo }
+block = { foo }
 
 class Foo {
   def foo {

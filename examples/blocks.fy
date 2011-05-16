@@ -8,8 +8,8 @@ y = |x y| { Console println: $ x + y }
 y call: [2, 3] # calls y and prints: 5
 
 # prints numbers 0 to 20
-zahl = 0
-while: { zahl <= 20 } do: {
-  Console println: zahl
-  zahl = zahl + 1
+num = 0
+while: { num <= 20 } do: {
+  Console println: num
+  num = num + 1
 }

@@ -20,7 +20,7 @@ class Foo : Bar {
   def say_hello {
     Console print: "Hello, "
     Console println: @name
-    {@block call} if: @block
+    { @block call } if: @block
   }
   def on_hello_do: block {
     @block = block
