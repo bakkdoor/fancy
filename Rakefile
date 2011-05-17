@@ -266,3 +266,17 @@ end
 task :bootstrap => ["compiler:bootstrap"]
 
 task :default => [:bootstrap_if_needed, :compile]
+
+desc "Runs all example files in examples/ dir"
+task :examples do
+  Dir.glob(_("examples/*.fy")).each do |f|
+    puts "Running #{f}"
+    puts
+    sh! _('bin/fancy'), f
+    puts
+  end
+end
+
+task "examples/" do
+  task(:examples).invoke
+end
