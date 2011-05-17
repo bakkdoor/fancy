@@ -33,6 +33,13 @@ class FutureSend {
   def && block {
     when_done: block
   }
+
+  def inspect {
+    str = "#<FutureSend:0x" ++ (object_id to_s: 16) ++ " @receiver=" ++ @receiver
+    str = str + " @message=" ++ (@message inspect)
+    str = str + " @params=" ++ (@params inspect)
+    str + ">"
+  }
 }
 
 class PooledFuture {
