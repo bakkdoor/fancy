@@ -322,4 +322,44 @@ class Object {
     "Return value from iteration"
     (Fancy BreakIteration new: value) raise!
   }
+
+  def __spawn_actor__ {
+    Actor spawn: {
+      __actor__loop__
+    }
+  }
+
+  def __actor__loop__ {
+    loop: {
+      sender = nil
+      try {
+        type, msg, sender = Actor receive
+        msg, params = msg
+        match type {
+          case 'async ->
+            self send_message: msg with_params: params
+          case 'future ->
+            val = self send_message: msg with_params: params
+            sender completed: val
+        }
+      } catch Exception => e {
+        if: sender then: {
+          sender failed: e
+        }
+      }
+    }
+  }
+
+  def __actor__ {
+    @__actor__ = @__actor__ || { __spawn_actor__ }
+    @__actor__
+  }
+
+  def send_future: message_name with_params: params ([]) {
+    FutureSend new: self message: message_name with_params: params
+  }
+
+  def send_async: message_name with_params: params ([]) {
+    __actor__ ! ('async, (message_name, params), nil)
+  }
 }

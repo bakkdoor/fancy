@@ -1,11 +1,11 @@
-FancySpec describe: Future with: {
+FancySpec describe: FutureSend with: {
   it: "should compose Futures to create execution pipelines" for: '&& when: {
     def some_computation: num {
       num upto: (num ** num ** num)
     }
 
     f = self @ some_computation: 2 && @{select: 'even?} && 'size
-    f is_a?: Future . is == true
+    f is_a?: FutureSend . is == true
     f value is_a?: Fixnum . is == true
   }
 }
