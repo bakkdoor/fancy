@@ -2,7 +2,19 @@ class Fancy AST {
 
   class MessageSend : Node {
     read_write_slots: ['name, 'receiver, 'args]
+
     def initialize: @line message: @name to: @receiver args: @args { }
+
+    def redirect_via: redirect_message {
+      message_name = SymbolLiteral new: @line value: (@name string to_sym)
+      orig_args = ArrayLiteral new: @line array: $ @args args
+      args = MessageArgs new: @line args: $ [message_name, orig_args]
+
+      ms = MessageSend new: @line \
+                       message: (Identifier from: (redirect_message to_s) line: @line) \
+                       to: @receiver \
+                       args: args
+    }
 
     def bytecode: g {
       pos(g)
