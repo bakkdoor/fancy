@@ -157,7 +157,7 @@ class Class {
     Sets any given method names to public on this @Class@.
     """
 
-    { method_names = [method_names] } unless: (method_names is_a?: Array)
+    method_names = method_names to_a()
     method_names = method_names map: |m| { message_name: m }
     public(*method_names)
   }
@@ -169,8 +169,8 @@ class Class {
     Sets any given method names to private on this @Class@.
     """
 
-    { method_names = [method_names] } unless: (method_names is_a?: Array)
-    method_names = method_names map: |m| { message_name: m }
+    method_names = method_names to_a()
+    method_names = method_names map() |m| { message_name: m }
     private(*method_names)
   }
 
@@ -181,8 +181,8 @@ class Class {
     Sets any given method names to protected on this @Class@.
     """
 
-    { method_names = [method_names] } unless: (method_names is_a?: Array)
-    method_names = method_names map: |m| { message_name: m }
+    method_names = method_names to_a()
+    method_names = method_names map() |m| { message_name: m }
     protected(*method_names)
   }
 }
