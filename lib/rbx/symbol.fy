@@ -7,6 +7,6 @@ class Symbol {
   }
 
   def inspect {
-    "'" ++ (inspect() from: 1 to: -1)
+    "'" ++ to_s
   }
 }
