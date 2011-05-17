@@ -324,13 +324,14 @@ class Object {
   }
 
   def __spawn_actor__ {
+    @__actor__active__ = true
     Actor spawn: {
       __actor__loop__
     }
   }
 
   def __actor__loop__ {
-    loop: {
+    while: { @__actor__active__ } do: {
       sender = nil
       try {
         type, msg, sender = Actor receive
@@ -353,6 +354,15 @@ class Object {
   def __actor__ {
     @__actor__ = @__actor__ || { __spawn_actor__ }
     @__actor__
+  }
+
+  def __actor__die!__ {
+    @__actor__active__ = false
+    @__actor__ = nil
+  }
+
+  def die! {
+    __actor__die!__
   }
 
   def send_future: message_name with_params: params ([]) {
