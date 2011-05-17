@@ -1,10 +1,9 @@
 def bar {
   "In bar!" println
-  yield
+  Thread sleep: 1
   "OK, done!" println
 }
 
-self @@ bar
 self @@ bar
 Thread sleep: 1
 self @@ bar
