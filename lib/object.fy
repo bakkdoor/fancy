@@ -386,5 +386,6 @@ class Object {
 
   def send_async: message_name with_params: params ([]) {
     __actor__ ! ('async, (message_name, params), nil)
+    nil
   }
 }
