@@ -290,6 +290,13 @@ class Array {
     reduce: |x y| { x ++ y } init_val: ""
   }
 
+  def to_a {
+    """
+    @return @self.
+    """
+    self
+  }
+
   def * num {
     """
     Returns a new @Array@ that contains the elements of self num times
