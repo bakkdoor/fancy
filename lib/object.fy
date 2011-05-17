@@ -123,9 +123,10 @@ class Object {
 
     if_true: {
       { other = other call } if: (other is_a?: Block)
-      return other
+      other
+    } else: {
+      self
     }
-    return self
   }
 
   def or: other {
@@ -138,10 +139,10 @@ class Object {
     Otherwise returns @other (if @other is a @Block@, calls it first and returns its return value)
     """
     if_true: {
-      return self
+      self
     } else: {
       { other = other call } if: (other is_a?: Block)
-      return other
+      other
     }
   }
 
