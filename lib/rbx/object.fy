@@ -3,6 +3,7 @@ class Object {
   ruby_alias: '===
   ruby_alias: 'class
   ruby_alias: 'inspect
+  ruby_alias: 'object_id
 
   def initialize {
     initialize()
