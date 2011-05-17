@@ -351,22 +351,36 @@ class Object {
     }
   }
 
-  def __actor__ {
-    @__actor__ = @__actor__ || { __spawn_actor__ }
-    @__actor__
-  }
-
   def __actor__die!__ {
     @__actor__active__ = false
     @__actor__ = nil
   }
 
+  def __actor__ {
+    @__actor__ = @__actor__ || { __spawn_actor__ }
+    @__actor__
+  }
+
+  protected: [ '__spawn_actor__, '__actor__loop__, '__actor__die!__, '__actor__ ]
+
   def die! {
+    """
+    Tells an object to let its actor to die (quit running).
+    """
     __actor__die!__
   }
 
+  def actor {
+    """
+    Returns the Object's actor.
+    If none exists at this moment, a new one will be created
+    and starts running in the background.
+    """
+    __actor__
+  }
+
   def send_future: message_name with_params: params ([]) {
-    FutureSend new: self message: message_name with_params: params
+    FutureSend new: __actor__ receiver: self message: message_name with_params: params
   }
 
   def send_async: message_name with_params: params ([]) {

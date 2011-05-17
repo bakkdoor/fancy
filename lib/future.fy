@@ -1,7 +1,7 @@
 class FutureSend {
-  read_slot: 'fail_reason
-  def initialize: @object message: @message with_params: @params ([]) {
-    @object __actor__ ! ('future, (@message, @params), self)
+  read_slots: [ 'fail_reason, 'receiver, 'message, 'params ]
+  def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
+    @actor ! ('future, (@message, @params), self)
   }
 
   def failed: @fail_reason {
@@ -27,7 +27,7 @@ class FutureSend {
   }
 
   def when_done: block {
-    FutureSend new: block message: 'call: with_params: [[value]]
+    block send_future: 'call: with_params: [[value]]
   }
 
   def && block {
