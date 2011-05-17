@@ -187,16 +187,10 @@ FancySpec describe: Object with: {
     { false is == true } call_with_receiver: (MyClass2 new)
   }
 
-  it: "should override self" for: 'self when: {
-    class MyClass {
-      def self {
-        "it's me!"
-      }
-    }
-
-    {
-      self is == "it's me!"
-      self is_a?: String
-    } call_with_receiver: (MyClass new)
+  it: "should implicitly send a message to self if no receiver specified" when: {
+    def test { 42 }
+    test is == 42
+    self test is == 42
+    test is == (self test)
   }
 }

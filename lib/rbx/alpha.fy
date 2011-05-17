@@ -14,11 +14,6 @@ class Object {
     g push_nil()
     g ret()
   }
-
-  dynamic_method(':self) |g| {
-    g push_self()
-    g ret()
-  }
 }
 
 class Class {

@@ -40,7 +40,7 @@ class Fancy AST {
       type = match string {
         case "__FILE__" -> return CurrentFile new: line filename: filename
         case "__LINE__" -> return CurrentLine new: line
-        # case "self" -> return Self new: line
+        case "self" -> return Self new: line
         case /^[A-Z].*::/ -> NestedConstant
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
