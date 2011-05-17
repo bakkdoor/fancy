@@ -1,6 +1,7 @@
 # Does the same as actors_primitive.fy but using
 # normal objects as actors by sending messages asynchronously (via @@ syntax).
 class PingPong {
+  Done = false
   def initialize: @block {
   }
 
@@ -8,6 +9,7 @@ class PingPong {
     @block call
     if: (count > 1000) then: {
       count println
+      Done = true
     } else: {
       other @@ count: (count + 1) reply: self
     }
@@ -19,4 +21,6 @@ ping = PingPong new: { "." print }
 
 ping @@ count: 1 reply: pong
 
-Thread sleep: 1
+until: { PingPong Done } do: {
+  Thread sleep: 0.1
+}

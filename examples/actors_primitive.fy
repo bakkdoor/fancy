@@ -1,10 +1,11 @@
 pong = nil
+done = false
 
 ping = Actor spawn: {
   loop: {
     count = Actor receive
     "." print
-    { count println; break } if: (count > 1000)
+    { count println; done = true; break } if: (count > 1000)
     pong ! (count + 1)
   }
 }
@@ -13,7 +14,7 @@ pong = Actor spawn: {
   loop: {
     count = Actor receive
     "-" print
-    { count println; break } if: (count > 1000)
+    { count println; done = true; break } if: (count > 1000)
     ping ! (count + 1)
   }
 }
@@ -21,4 +22,6 @@ pong = Actor spawn: {
 ping ! 1
 
 # Let the actors process while the main thread sleeps...
-Thread sleep: 1
+until: { done } do: {
+  Thread sleep: 0.1
+}
