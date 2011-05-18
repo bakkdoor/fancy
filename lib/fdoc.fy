@@ -109,6 +109,7 @@ class Fancy FDoc {
         exec = cls send(type, n) executable()
         methods delete(exec)
         mdoc = Fancy Documentation for: exec
+        { next } unless: mdoc # skip methods with no documentation
         if: mdoc then: {
           mattr at: 'doc put: $ mdoc format: 'fdoc
           if: (mdoc meta) then: {
