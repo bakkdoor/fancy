@@ -55,7 +55,7 @@ class Array {
     @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
     @return Element(s) stored in @self at @index, possibly @nil or an empty @Array@.
 
-    Given an @Array@ of 2 @Fixnums@, it returns the sub-array between the given indices.
+    Given an @Array@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
     If given a single @Fixnum@, returns the element at that index.
     """
 

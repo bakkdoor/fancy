@@ -8,7 +8,7 @@ class Actor {
   first-come, first-serve manner.
 
   Actors are used to implement asynchronous and future message sends in Fancy
-  using the @ and @@ syntax.
+  using the @@ and @@@ syntax.
 
   Example usage:
 
