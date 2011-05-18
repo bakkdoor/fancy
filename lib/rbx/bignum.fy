@@ -1,4 +1,8 @@
 class Bignum {
+  """
+  Class for large integer values in Fancy.
+  """
+
   include: Number
 
   ruby_alias: '==

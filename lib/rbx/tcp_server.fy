@@ -1,6 +1,9 @@
 require("socket")
 
 class TCPServer {
-  " TCP Server "
+  """
+  TCP Server
+  """
+
   ruby_alias: 'accept
 }

@@ -15,22 +15,34 @@ class Tuple {
   }
 
   def first {
-    "Returns the first element in the @Tuple@."
+    """
+    @return The first element in @self.
+    """
+
     at: 0
   }
 
   def second {
-    "Returns the second element in the @Tuple@."
+    """
+    @return The second element in @self.
+    """
+
     at: 1
   }
 
   def third {
-    "Returns the third element in the @Tuple@."
+    """
+    @return The third element in @self.
+    """
+
     at: 2
   }
 
   def fourth {
-    "Returns the fourth element in the @Tuple@"
+    """
+    @return The fourth element in @self.
+    """
+
     at: 3
   }
 
@@ -71,7 +83,9 @@ class Tuple {
   }
 
   def inspect {
-    "Returns a @String@ representation of a @Tuple@"
+    """
+    @return A @String@ representation of @self.
+    """
 
     str = "("
     each: |v| {

@@ -4,47 +4,67 @@ class Stack {
   """
 
   def initialize {
+    """
+    Initializes a new Stack.
+    """
+
     @arr = []
   }
 
   def initialize: size {
-    "Initializes a new Stack with a given size."
+    """
+    @size Initial size of the new Stack.
+
+    Initializes a new Stack with a given size.
+    """
 
     @arr = Array new: size
   }
 
   def push: obj {
-    "Pushes a value onto the Stack."
+    """
+    @obj Object to be pushed onto @self.
+
+    Pushes a value onto the Stack.
+    """
 
     @arr << obj
   }
 
-  def << obj {
-    "Same as Stack#push:."
-
-    @arr << obj
-  }
+  alias_method: '<< for: 'push:
 
   def pop {
-    "Pops the top-of-stack element from the Stack and returns it."
+    """
+    @return Top-of-stack element.
+
+    Pops the top-of-stack element from the Stack and returns it.
+    """
 
     @arr remove_at: (size - 1)
   }
 
   def top {
-    "Returns the top-of-stack element."
+    """
+    @return The top-of-stack element.
+    """
 
     @arr last
   }
 
   def size {
-    "Returns the size of the Stack."
+    """
+    @return Size of the Stack.
+    """
 
     @arr size
   }
 
   def empty? {
-    "Indicates, if the Stack is empty."
+    """
+    @return @true if empty, otherwise @false.
+
+    Indicates, if the Stack is empty.
+    """
 
     @arr empty?
   }

@@ -1,4 +1,8 @@
 class IO {
+  """
+  Base class for IO related classes (like @File@, @Socket@, @Console@ etc.).
+  """
+
   ruby_alias: 'readlines
   ruby_alias: 'readline
   ruby_alias: 'read

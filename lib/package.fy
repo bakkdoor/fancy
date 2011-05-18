@@ -31,6 +31,8 @@ class Fancy Package {
 
   def self install: package_name {
     """
+    @package_name Name of package to install.
+
     Installs a package with a given name.
     Expects package_name to be a string in the form of:
         user/repo
@@ -41,14 +43,28 @@ class Fancy Package {
   }
 
   def self uninstall: package_name {
+    """
+    @package_name Name of package to uninstall.
+
+    Uninstalls a package with a given name (if installed).
+    """
+
     Uninstaller new: package_name . run
   }
 
   def self list_packages {
+    """
+    Lists (prints) all installed packages on this system.
+    """
+
     Fancy Package List new: package_list_file . println
   }
 
   def self root_dir {
+    """
+    @return Fancy Package root install dir.
+    """
+
     if: (ENV[ENV_PACKAGE_DIR_VAR]) then: |path| {
       return path
     } else: {
@@ -57,6 +73,10 @@ class Fancy Package {
   }
 
   def self package_list_file {
+    """
+    @return Path to installed_packages.txt @File@ on system.
+    """
+
     "#{self root_dir}/installed_packages.txt"
   }
 

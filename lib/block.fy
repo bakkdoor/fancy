@@ -28,13 +28,15 @@ class Block {
     { call not } while_true: block
   }
 
-  def while_nil: block {
-    "Same as Block#while_false:"
-
-    while_false: block
-  }
+  alias_method: 'while_nil: for: 'while_false:
 
   def while_true: work {
+    """
+    @work @Block@ to call while @self yields @true.
+
+    Calls @work while calling @self yields a @true-ish value.
+    """
+
     {
       call if_true: |val| {
         work call: [val]
@@ -48,7 +50,9 @@ class Block {
 
   def until_do: block {
     """
-    Calls a given Block as long as @self returns @nil or @false.
+    @block @Block@ to be called while @self yields @nil or @false.
+
+    Calls a given Block as long as @self yields @nil or @false.
     """
 
     self while_false: block
@@ -56,6 +60,8 @@ class Block {
 
   def until: block {
     """
+    @block Condition @Block@ to be called to determine if @self should be called.
+
     Calls @self while @block yields @nil or @false.
     """
 
@@ -83,13 +89,21 @@ class Block {
   }
 
   def if: obj {
-    "Calls itself if the given object is true-ish."
+    """
+    @obj Condition object to determine if @self should be called.
+
+    Calls @self if @obj is true-ish.
+    """
 
     if: obj then: self
   }
 
   def unless: obj {
-    "Opposite of Block#if:. Calls itself if the given object is false-ish."
+    """
+    @obj Condition object to determine if @self should not be called.
+
+    Opposite of Block#if:. Calls @self if @obj is false-ish.
+    """
 
     unless: obj do: self
   }

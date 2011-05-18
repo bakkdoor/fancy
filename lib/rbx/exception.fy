@@ -1,4 +1,8 @@
 class StandardError {
+  """
+  StandardError. Base class of most Exception classes.
+  """
+
   ruby_alias: 'message
   ruby_alias: 'backtrace
 

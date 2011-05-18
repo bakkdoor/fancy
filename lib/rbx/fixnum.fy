@@ -1,6 +1,10 @@
 require: "../number"
 
 class Fixnum {
+  """
+  Standard class for integer values in Fancy.
+  """
+
   include: Number
 
   ruby_alias: '==

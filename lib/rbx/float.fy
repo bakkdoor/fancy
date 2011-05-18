@@ -1,4 +1,8 @@
 class Float {
+  """
+  Standard class for floating point number values in Fancy.
+  """
+
   include: Number
 
   ruby_alias: '+

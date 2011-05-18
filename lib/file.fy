@@ -31,6 +31,12 @@ class File {
   }
 
   def self touch: filename {
+    """
+    @filename Name of @File@ to be created, if not already existant.
+
+    Creates a new empty file with the given @filename, if it doesn't already exist.
+    """
+
     file = File expand_path(filename)
     File open: file modes: ['write] with: |f| {
       f write: ""
@@ -47,15 +53,6 @@ class File {
     newline
   }
 
-  def print: x {
-    "Same as File#write:."
-
-    write: x
-  }
-
-  def println: x {
-    "Same as File#writeln:."
-
-    writeln: x
-  }
+  alias_method: 'print: for: 'write:
+  alias_method: 'println: for: 'writeln:
 }

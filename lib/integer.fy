@@ -1,4 +1,8 @@
 class Integer {
+  """
+  Base class for integer values in Fancy.
+  """
+
   def times: block {
     """
     @block @Block@ to be called with each number between 0 and @self.

@@ -1,14 +1,22 @@
 require("open3")
 
 class System {
+  """
+  System class. Holds system-wide relevant methods.
+  """
+
   def System exit {
-    "Exit the running Fancy process."
+    """
+    Exit the running Fancy process.
+    """
 
     Kernel exit()
   }
 
   def System do: command_str {
-    "Runs the given string as a system() command."
+    """
+    Runs the given string as a system() command.
+    """
 
     Kernel system(command_str)
   }

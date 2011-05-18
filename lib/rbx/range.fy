@@ -2,14 +2,28 @@ class Range {
   ruby_alias: 'to_a
   ruby_alias: '==
   ruby_alias: '===
+  ruby_alias: 'first
+  ruby_alias: 'last
 
-  include: FancyEnumerable
+  def initialize: @start to: @end {
+    """
+    @start Start element of Range.
+    @end End element of Range.
 
-  def initialize: start to: end {
-    initialize(start, end)
+    Initializes a new Range starting at @start and ending at @end.
+    """
+
+    initialize(@start, @end)
   }
 
   def each: block {
+    """
+    @block @Block@ to be called with every value in @self.
+    @return @self.
+
+    Calls @block on each value in @self. Used for iterating over a @Range@.
+    """
+
     try {
       val = nil
       each() |x| {
@@ -19,7 +33,7 @@ class Range {
           val = ex result
         }
       }
-      val
+      return self
     } catch (Fancy BreakIteration) => ex {
       ex result
     }
