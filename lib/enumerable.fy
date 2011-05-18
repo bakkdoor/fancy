@@ -166,7 +166,7 @@ class FancyEnumerable {
       if: (drop or: first_check) then: {
         drop = condition call: [x]
         first_check = nil
-        # check, if we actually have to insert his one:
+        # check, if we actually have to insert this one:
         unless: drop do: {
           coll << x
         }
