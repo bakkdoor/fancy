@@ -3,6 +3,7 @@ class Fancy AST {
   class MethodDef : Rubinius AST Define {
     def initialize: @line name: @name args: @arguments body: @body access: @access {
       @name = @name method_name: nil
+      @docstring = @body shift_docstring
       generate_ivar_assignment
 
       if: (@body empty?) then: {
@@ -34,9 +35,8 @@ class Fancy AST {
         define_method_missing: g
       }
 
-      docstring = @body shift_docstring
       bytecode(g)
-      MethodDef set: g docstring: docstring line: @line argnames: $ @arguments names()
+      MethodDef set: g docstring: @docstring line: @line argnames: $ @arguments names()
     }
 
     # Sets fancy documentation for the object currently
