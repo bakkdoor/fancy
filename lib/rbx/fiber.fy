@@ -3,10 +3,11 @@ require("fiber")
 Fiber = Rubinius Fiber
 
 class Fiber {
+   forwards_unary_ruby_methods
+   metaclass forwards_unary_ruby_methods
+
    metaclass ruby_alias: 'yield
-   metaclass ruby_alias: 'current
    ruby_alias: 'resume
-   ruby_alias: 'alive?
 
    def self new: block {
      """

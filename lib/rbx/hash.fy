@@ -1,11 +1,9 @@
 class Hash {
+  forwards_unary_ruby_methods
 
-  alias_method: ":size" for: 'size
   alias_method: ":[]" for: '[]
   alias_method: 'at:put: for: "[]="
   alias_method: 'at: for: '[]
-  ruby_alias: 'keys
-  ruby_alias: 'values
   ruby_alias: '==
 
   def inspect {

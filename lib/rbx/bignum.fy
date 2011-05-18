@@ -15,10 +15,10 @@ class Bignum {
   ruby_alias: '<=
   ruby_alias: '>=
   ruby_alias: '===
-  ruby_alias: 'chr
-  ruby_alias: 'to_i
   ruby_alias: '**
   ruby_alias: '&
+
+  forwards_unary_ruby_methods
 
   alias_method: 'to_s: for: 'to_s
   alias_method: 'modulo: for: 'modulo

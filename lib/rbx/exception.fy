@@ -1,10 +1,13 @@
+class Exception {
+  forwards_unary_ruby_methods
+}
+
 class StandardError {
   """
   StandardError. Base class of most Exception classes.
   """
 
-  ruby_alias: 'message
-  ruby_alias: 'backtrace
+  forwards_unary_ruby_methods
 
   def initialize {
     "Creates a new Exception with an empty message."

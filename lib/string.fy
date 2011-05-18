@@ -11,19 +11,33 @@ class String {
   include: FancyEnumerable
 
   def ++ other {
-    "Concatenate the String with another String"
+    """
+    @other Object to concatenate @self with as a @String@.
+    @return Concatenation of @self with @other.
+
+    Concatenate @self with another Object's @String@ representation.
+        \"foo\” ++ 42 # => \”foo42\”
+    """
 
     self + (other to_s)
   }
 
   def whitespace? {
-    "Indicates, if a String is empty or a single whitespace character."
+    """
+    @return @true, if @self consists only of a single whitespace character or is empty, @false otherwise.
+
+    Indicates, if a @String@ is empty or a single whitespace character.
+    """
 
     empty? or: (self == " ")
   }
 
   def blank? {
-    "Indicates, if a String consists only of whitespace."
+    """
+    @return @true if @self consists only of whitespace, @false otherwise.
+
+    Indicates, if a @String@ consists only of whitespace.
+    """
 
     self =~ /^\s*$/ if_true: {
       true
@@ -33,7 +47,13 @@ class String {
   }
 
   def * num {
-    "Returns a string that is the num-fold concatenation of itself."
+    """
+    @num Amount of concatenations to do with @self.
+    @return @String@ that is the num-fold concatenation of @self.
+
+    Returns a @String@ that is the num-fold concatenation of itself.
+        \"foo\" * 3 # => \”foofoofoo\"
+    """
 
     str = ""
     num to_i times: {
@@ -43,16 +63,31 @@ class String {
   }
 
   def words {
+    """
+    @return @Array@ of all the whitespace seperated words in @self.
+
+        \"hello world\" words  # => [\"hello\", \"world\"]
+    """
+
     split
   }
 
   def raise! {
-    "Raises a new StdError with self as the message."
-    StdError new: self . raise!
+    """
+    Raises a new @StandardError@ with self as the message.
+    """
+
+    StandardError new: self . raise!
   }
 
   def rest {
-    "Returns a @String@ containing all but the first character."
+    """
+    @return @String@ containing all but the first character.
+
+    Returns a @String@ containing all but the first character.
+        \"hello\" rest # => \"ello\"
+    """
+
     from: 1 to: -1
   }
 }

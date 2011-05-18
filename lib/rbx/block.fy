@@ -1,7 +1,8 @@
 # Block = BlockEnvironment
 
 class Block {
-  ruby_alias: 'arity
+  forwards_unary_ruby_methods
+  metaclass forwards_unary_ruby_methods
 
   def argcount {
     """
@@ -67,6 +68,8 @@ class Block {
 }
 
 class Rubinius VariableScope {
+  forwards_unary_ruby_methods
+
   def receiver {
     @self
   }

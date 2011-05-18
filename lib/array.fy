@@ -223,7 +223,7 @@ class Array {
     @return Elements of @Array@ joined to a @String@.
 
     Joins all elements with the empty @String@.
-        [\"hello\", \"world\", \"!\"] join # => \"hello, world!\"
+        [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
     """
 
     join: ""
@@ -277,7 +277,9 @@ class Array {
   }
 
   def println {
-    "Prints each element on a seperate line."
+    """
+    Prints each element on a seperate line.
+    """
 
     each: |x| {
       x println
@@ -285,15 +287,38 @@ class Array {
   }
 
   def to_s {
-    "Returns @String@ representation of @Array@."
+    """
+    @return @String@ representation of @Array@.
+
+    Returns @String@ representation of @Array@.
+    """
 
     reduce: |x y| { x ++ y } init_val: ""
+  }
+
+  def inspect {
+    """
+    @return Pretty-printed @String@ representation of @self.
+
+    Returns a pretty-printed @String@ representation of @self.
+    Example:
+        [1, 'foo, \"bar\", 42] inspect # => \"[1, 'foo, \\\"bar\\\", 42]\"
+    """
+
+    str = "["
+    each: |x| {
+      str = str + (x inspect)
+    } in_between: {
+      str = str + ", "
+    }
+    str + "]"
   }
 
   def to_a {
     """
     @return @self.
     """
+
     self
   }
 
@@ -311,13 +336,23 @@ class Array {
   }
 
   def + other_arr {
-    "Returns concatenation with another @Array@."
+    """
+    @return Concatenation of @self with another @Array@
+
+    Returns concatenation with another @Array@.
+        [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
+    """
 
     clone append: other_arr
   }
 
   def indices {
-    "Returns an @Array@ of all the indices of an @Array@."
+    """
+    @return @Array@ of all indices of @self.
+
+    Returns an @Array@ of all the indices of an @Array@.
+        [1,2,3] indices # => [0,1,2]
+    """
 
     0 upto: (size - 1)
   }
@@ -328,6 +363,7 @@ class Array {
     @return @Array@ of all indices for a given value within an @Array@ (possibly empty).
 
     Returns an Array of all indices of this item. Empty Array if item does not occur.
+        [1, 'foo, 2, 'foo] indices_of: 'foo # => [1, 3]
     """
 
     tmp = []
@@ -380,7 +416,7 @@ class Array {
 
   def select_with_index: block {
     """
-    Same as select:, just gets also called with an additional argument
+    Same as #select:, just gets also called with an additional argument
     for each element's index value.
     """
 

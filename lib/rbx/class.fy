@@ -185,4 +185,18 @@ class Class {
     method_names = method_names map() |m| { message_name: m }
     protected(*method_names)
   }
+
+  def forwards_unary_ruby_methods {
+    """
+    Creates ruby_alias methods for any unary ruby methods of a class.
+    """
+
+    instance_methods select() |m| {
+      m =~(/^[a-z]+/)
+    } select() |m| {
+      instance_method(m) arity() == 0
+    } each() |m| {
+      ruby_alias: m
+    }
+  }
 }

@@ -1,16 +1,11 @@
 class Array {
   ruby_alias: '==
   ruby_alias: '<<
-  ruby_alias: 'clear
-  ruby_alias: 'size
-  ruby_alias: 'reverse
-  ruby_alias: 'reverse!
-  ruby_alias: 'sort
   ruby_alias: 'pop
   ruby_alias: 'last
-  ruby_alias: 'shuffle
-  ruby_alias: 'inspect
   ruby_alias: 'shift
+
+  forwards_unary_ruby_methods
 
   def Array new: size with: default {
     "Creates a new Array with a given size and default-value."
@@ -19,7 +14,12 @@ class Array {
   }
 
   def includes?: obj {
-    "Indicates, if an Array includes a given value."
+    """
+    @obj Object to search for in @self.
+    @return @true, if @obj is in @self, @false otherwise.
+
+    Indicates, if an Array includes a given value.
+    """
 
     include?(obj)
   }
@@ -122,15 +122,22 @@ class Array {
   }
 
   def reject!: block {
-    "Same as Array#reject: but doing so in-place (destructive)."
+    """
+    Same as Array#reject: but doing so in-place (destructive).
+    """
 
     reject!(&block)
     return self
   }
 
   def join: join_str {
-    """Joins all elements in the Array by a given String.
-       E.g.: [1,2,3] join: ', ' # => '1,2,3'"""
+    """
+    @join_str @String@ by which to @join all elements in @self into a new @String@.
+    @return Joined @String@ with all elements with @join_str.
+
+    Joins all elements in the Array with a given @String@.
+        [1,2,3] join: \", \” # => \”1, 2, 3\"
+    """
 
     join(join_str)
   }

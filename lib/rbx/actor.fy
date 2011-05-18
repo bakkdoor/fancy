@@ -31,8 +31,8 @@ class Actor {
 
   alias_method(':!, '<<)
 
-  metaclass ruby_alias: 'receive
-  metaclass ruby_alias: 'current
+  forwards_unary_ruby_methods
+  metaclass forwards_unary_ruby_methods
 
   def Actor spawn: block {
     """
