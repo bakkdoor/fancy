@@ -1,5 +1,4 @@
 class Fancy AST {
-
   class MethodDef : Rubinius AST Define {
     def initialize: @line name: @name args: @arguments body: @body access: @access {
       @name = @name method_name: nil

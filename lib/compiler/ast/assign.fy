@@ -1,7 +1,7 @@
 class Fancy AST {
-
   class Assignment : Node {
-    def initialize: @line var: @lvalue value: @rvalue { }
+    def initialize: @line var: @lvalue value: @rvalue {
+    }
 
     def bytecode: g {
       pos(g)
@@ -92,5 +92,4 @@ class Fancy AST {
       Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
     }
   }
-
 }

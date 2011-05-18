@@ -44,7 +44,7 @@ class Fancy AST {
   }
 
   class CurrentLine : Node {
-    def initialize: @line {}
+    def initialize: @line { }
     def bytecode: g {
       pos(g)
       FixnumLiteral new: @line value: @line . bytecode: g

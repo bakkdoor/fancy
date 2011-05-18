@@ -1,7 +1,5 @@
 class Fancy Compiler Stages {
-
   class Stage : Rubinius Compiler Stage {
-
     initialize = |compiler, last| {
       sup = Rubinius Compiler Stage instance_method('initialize)
       sup bind(self) call(compiler, last)
@@ -16,14 +14,11 @@ class Fancy Compiler Stages {
 
     run = { self run; run_next() }
     define_method('run, &run)
-
   }
 
   class FancyGenerator : Stage {
-
     stage: 'fancy_bytecode next: Rubinius Compiler Encoder
-
-    read_write_slots: ['variable_scope]
+    read_write_slot: 'variable_scope
 
     def initialize: compiler last: last {
       @variable_scope = nil
@@ -36,7 +31,6 @@ class Fancy Compiler Stages {
       @input bytecode(@output)
       @output close()
     }
-
   }
 
   class FancyCodeParser : Stage {
@@ -47,7 +41,8 @@ class Fancy Compiler Stages {
       compiler parser: self
     }
 
-    def input: @code file: @filename line: @line (1) {}
+    def input: @code file: @filename line: @line (1) {
+    }
 
     def run {
       ast = Fancy Parser parse_code: @code file: @filename line: @line
@@ -58,7 +53,6 @@ class Fancy Compiler Stages {
   }
 
   class FancyFileParser : Stage {
-
     stage: 'fancy_file next: FancyGenerator
     read_write_slots: ['root, 'print]
 
@@ -66,7 +60,8 @@ class Fancy Compiler Stages {
       compiler parser: self
     }
 
-    def input: @filename line: @line (1) {}
+    def input: @filename line: @line (1) {
+    }
 
     def run {
       ast = Fancy Parser parse_file: @filename line: @line
@@ -74,8 +69,5 @@ class Fancy Compiler Stages {
       @output = @root new(ast)
       @output file=(@filename)
     }
-
   }
-
 }
-

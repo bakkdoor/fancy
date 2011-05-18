@@ -1,6 +1,5 @@
 class Fancy AST {
   class SingletonMethodDef : Rubinius AST DefineSingleton {
-
     def initialize: @line name: @name args: @arguments body: @body access: @access owner: @receiver {
       name = @name method_name: @receiver
       @body = SingletonMethodDefScope new: @line name: name args: @arguments body: @body
@@ -13,12 +12,11 @@ class Fancy AST {
       g pop()
       bytecode(g)
     }
-
   }
 
   class SingletonMethodDefScope : Rubinius AST DefineSingletonScope {
-
-    def initialize: @line name: @name args: @arguments body: @body { }
+    def initialize: @line name: @name args: @arguments body: @body {
+    }
 
     define_method("bytecode") |g, recv| {
       bytecode: g receiver: recv

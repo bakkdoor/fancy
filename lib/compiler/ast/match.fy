@@ -1,9 +1,7 @@
 class Fancy AST {
-
   class Match : Node {
     def initialize: @line expr: @expr body: @clauses {
     }
-
 
     def bytecode: g set_match_args: clause {
       "Generates bytecode for setting match clause arguments, if needed"
@@ -97,6 +95,7 @@ class Fancy AST {
 
   class MatchClause : Node {
     read_slots: ['expr, 'body, 'match_args]
+
     def initialize: @line expr: @expr body: @body args: @match_args {
       if: (@expr kind_of?: Identifier) then: {
         if: (@expr string == "_") then: {
@@ -106,5 +105,4 @@ class Fancy AST {
       @match_args = @match_args map: 'name
     }
   }
-
 }

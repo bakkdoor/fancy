@@ -5,7 +5,6 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-
       @message_send redirect_via: 'send_async:with_params: . bytecode: g
     }
   }

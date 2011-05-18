@@ -1,5 +1,4 @@
 class Fancy AST {
-
   class Script : Node {
     read_slots: ['file, 'line, 'body]
 
@@ -48,5 +47,4 @@ class Fancy AST {
       }
     }
   }
-
 }

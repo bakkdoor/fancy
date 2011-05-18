@@ -2,7 +2,6 @@ require("fileutils")
 
 class Fancy {
   class Compiler Command {
-
     def self option: argv flag: name {
       argv delete(name)
     }

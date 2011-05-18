@@ -1,8 +1,6 @@
 class Fancy {
-
   class Compiler : Rubinius Compiler {
-
-    read_write_slots: ['parser, 'generator, 'packager, 'writer]
+    read_write_slots: [ 'parser, 'generator, 'packager, 'writer ]
 
     def self compiled_name: file {
      """
@@ -69,7 +67,5 @@ class Fancy {
         compiler_error("Error trying to compile " ++ file, e)
       }
     }
-
   }
-
 }

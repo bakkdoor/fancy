@@ -1,8 +1,7 @@
 class Fancy AST {
-
   class Identifier : Node {
     read_slots: ['string, 'line]
-    read_write_slots: ['ruby_ident]
+    read_write_slot: 'ruby_ident
 
     @@gen_ident_start = 0
 
@@ -18,7 +17,8 @@ class Fancy AST {
       Identifier from: ("______gen_ident______" ++ @@gen_ident_start) line: line
     }
 
-    def initialize: @line string: @string ruby_ident: @ruby_ident (false) {}
+    def initialize: @line string: @string ruby_ident: @ruby_ident (false) {
+    }
 
     def name {
       @string to_sym()
@@ -115,5 +115,4 @@ class Fancy AST {
       scoped bytecode(g)
     }
   }
-
 }

@@ -1,8 +1,9 @@
 class Fancy AST {
-
   class ExpressionList : Node {
-    read_slots: ['expressions]
-    def initialize: @line list: @expressions ([]) {}
+    read_slot: 'expressions
+
+    def initialize: @line list: @expressions ([]) {
+    }
 
     def unshift_expression: expression {
       @expressions unshift(expression)
@@ -41,7 +42,5 @@ class Fancy AST {
         @expressions shift()
       }
     }
-
   }
-
 }

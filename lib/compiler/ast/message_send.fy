@@ -1,9 +1,9 @@
 class Fancy AST {
-
   class MessageSend : Node {
     read_write_slots: ['name, 'receiver, 'args]
 
-    def initialize: @line message: @name to: @receiver args: @args { }
+    def initialize: @line message: @name to: @receiver args: @args {
+    }
 
     def redirect_via: redirect_message {
       message_name = SymbolLiteral new: @line value: (@name string to_sym)
@@ -53,8 +53,10 @@ class Fancy AST {
   }
 
   class MessageArgs : Node {
-    read_slots: ['args]
-    def initialize: @line args: @args { }
+    read_slot: 'args
+
+    def initialize: @line args: @args {
+    }
 
     def bytecode: g {
       pos(g)
@@ -118,5 +120,4 @@ class Fancy AST {
       @splat nil? not
     }
   }
-
 }

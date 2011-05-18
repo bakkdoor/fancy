@@ -1,6 +1,5 @@
 class Fancy AST {
   class TryCatch : Node {
-
     def initialize: @line body: @body handlers: @handlers ensure: @ensure {
       if: (@body empty?) then: {
         @body unshift_expression: $ NilLiteral new: @line
@@ -11,7 +10,6 @@ class Fancy AST {
       pos(g)
 
       g push_modifiers()
-
 
       outer_retry = g new_label()
       this_retry = g new_label()
@@ -133,7 +131,8 @@ class Fancy AST {
   }
 
   class ExceptionHandler : Node {
-    def initialize: @line condition: @condition var: @var body: @body {}
+    def initialize: @line condition: @condition var: @var body: @body {
+    }
 
     def bytecode: g final_tag: final_tag {
       pos(g)
@@ -161,7 +160,9 @@ class Fancy AST {
   }
 
   class CurrentException : Node {
-    def initialize: @line {}
+    def initialize: @line {
+    }
+
     def bytecode: g {
       pos(g)
       g push_current_exception()
@@ -169,12 +170,13 @@ class Fancy AST {
   }
 
   class Retry : Node {
-    def initialize: @line {}
+    def initialize: @line {
+    }
+
     def bytecode: g {
       pos(g)
       g pop()
       g goto(g retry())
     }
   }
-
 }
