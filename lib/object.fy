@@ -12,71 +12,122 @@ class Object {
     Returns the @String concatenation of @self and @other.
     Calls to_s on @self and @other and concatenates the results to a new @String.
     """
+
     to_s + (other to_s)
   }
 
   def loop: block {
-    "Infinitely calls the block (loops)."
+    """
+    @block @Block@ to be called endlessly (loop).
+
+    Infinitely calls the block (loops).
+    """
+
     block loop
   }
 
   def println {
-    "Same as Console println: self. Prints the object on STDOUT, followed by a newline."
+    """
+    Same as:
+        Console println: self
+
+    Prints @self on @STDOUT, followed by a newline.
+    """
+
     Console println: to_s
   }
 
   def print {
-    "Same as Console print: self. Prints the object on STDOUT."
+    """
+    Same as:
+        Console print: self
+
+    Prints the @self on STDOUT.
+    """
+
     Console print: to_s
   }
 
   def != other {
-    "Indicates, if two objects are unequal."
+    """
+    @other Other object to compare against.
+    @return @true if @self is not equal to @other, @false otherwise.
+
+    Indicates, if two objects are not equal.
+    """
+
     self == other not
   }
 
   def if_true: block {
-    "Calls the @block if @true? returns @true"
+    """
+    @block @Block@ to be called.
+    @return Value of calling @block with @self.
+
+    Calls the @block (default behaviour).
+    """
+
     block call: [self]
   }
 
   def if_true: then_block else: else_block {
-    "Calls the @then_block if @true? returns @true - otherwise @else_block is called"
+    """
+    @then_block @Block@ to be called.
+    @else_block Does not get called (default behaviour).
+
+    @return Value of calling @then_block with @self.
+
+    Calls the @then_block (default behaviour).
+    """
+
     then_block call: [self]
   }
 
   def if_false: block {
-    "Calls the @block if @false? returns @true@"
+    """
+    @return @nil
+
+    Does nothing (default behaviour).
+    """
     nil
   }
 
   def if_false: then_block else: else_block {
-    "Calls the @then_block if @false? returns @true - otherwise @else_block is called"
+    """
+    @then_block Does not get called (default behaviour).
+    @else_block @Block@ to be called.
+    @return Value of calling @else_block.
+
+    Calls @else_block (default behaviour).
+    """
+
     else_block call
   }
 
-  def if_nil: block {
-    "Calls the @block if @nil? returns @true@"
-    nil
-  }
-
-  def if_nil: then_block else: else_block {
-    "Calls the @then_block if @nil? returns @true - otherwise @else_block is called"
-    else_block call
-  }
+  alias_method: 'if_nil: for: 'if_false:
+  alias_method: 'if_nil:else: for: 'if_false:else:
 
   def nil? {
-    "Returns @false."
+    """
+    @return @false.
+    """
+
     false
   }
 
   def false? {
-    "Returns @false."
+    """
+    @return @false.
+    """
+
     false
   }
 
   def true? {
-    "Returns @false."
+    """
+    @return @false.
+    """
+
     false
   }
 
@@ -84,6 +135,7 @@ class Object {
     """
     @return @Array@ representation of @self.
     """
+
     [self]
   }
 
@@ -91,6 +143,7 @@ class Object {
     """
     @return @Fixnum@ representation of @self.
     """
+
     0
   }
 
@@ -138,6 +191,7 @@ class Object {
     If @self is true-ish (non-nil, non-false) returns @self.
     Otherwise returns @other (if @other is a @Block@, calls it first and returns its return value)
     """
+
     if_true: {
       self
     } else: {
@@ -154,6 +208,7 @@ class Object {
     Same as:
         cond if_true: block
     """
+
     cond if_true: block
   }
 
@@ -162,6 +217,7 @@ class Object {
     Same as:
         cond if_true: then_block else: else_block
     """
+
     cond if_true: then_block else: else_block
   }
 
@@ -222,17 +278,32 @@ class Object {
   }
 
   def documentation {
-    "Returns the documentation string for an Object."
+    """
+    @return Docstring for @self.
+
+    Returns the documentation string for an Object.
+    """
+
     Fancy Documentation for: self . to_s
   }
 
-  def documentation: str {
-    "Sets the documentation string for an Object."
-    Fancy Documentation for: self is: str
+  def documentation: docstring {
+    """
+    @docstring New docstring for @self.
+
+    Sets the documentation string for an Object.
+    """
+
+    Fancy Documentation for: self is: docstring
   }
 
   def identity {
-    "The identity method simply returns self."
+    """
+    @return @self.
+
+    The identity method simply returns self.
+    """
+
     self
   }
 
@@ -289,39 +360,66 @@ class Object {
   }
 
   def ? future {
+    """
+    @future Future object to get the value from.
+    @return Result of calling #value on @future.
+
+    Calls #value on @future. Shortcut method.
+    """
+
     future value
   }
 
   def yield {
+    """
+    Same as Fiber##yield.
+    """
+
     Fiber yield
   }
 
   def yield: values {
+    """
+    Same as Fiber##yield:
+    """
+
     Fiber yield: values
   }
 
-  def wait: seconds {
-    Fiber yield: [seconds]
-  }
-
   def next {
-    "Skip to the next iteration"
+    """
+    Skip to the next iteration.
+    """
+
     Fancy NextIteration new raise!
   }
 
   def next: value {
-    "Return value for this iteration and skip to the next one"
-    (Fancy NextIteration new: value) raise!
+    """
+    @value Value for next iteration.
+
+    Returns @value for current iteration and skip to the next one.
+    """
+
+    Fancy NextIteration new: value . raise!
   }
 
   def break {
-    "Stop iterating"
+    """
+    Breaks / Stops current iteration.
+    """
+
     Fancy BreakIteration new raise!
   }
 
   def break: value {
-    "Return value from iteration"
-    (Fancy BreakIteration new: value) raise!
+    """
+    @value Value to return from iteration.
+
+    Returns @value from iteratioen.
+    """
+
+    Fancy BreakIteration new: value . raise!
   }
 
   def __spawn_actor__ {
@@ -368,6 +466,7 @@ class Object {
     """
     Tells an object to let its actor to die (quit running).
     """
+
     __actor__die!__
   }
 
@@ -377,15 +476,32 @@ class Object {
     If none exists at this moment, a new one will be created
     and starts running in the background.
     """
+
     __actor__
   }
 
-  def send_future: message_name with_params: params ([]) {
-    FutureSend new: __actor__ receiver: self message: message_name with_params: params
+  def send_future: message with_params: params ([]) {
+    """
+    @message Message to be sent as a @FutureSend@.
+    @params @Array@ of parameters of the @FutureSend@.
+    @return @FutureSend@ object that will hold the return value of @message with @params on @self.
+
+    Creates a @FutureSend@ object (a Future / Promise) that will hold the value of sending @message to @self.
+    """
+
+    FutureSend new: __actor__ receiver: self message: message with_params: params
   }
 
-  def send_async: message_name with_params: params ([]) {
-    __actor__ ! ('async, (message_name, params), nil)
+  def send_async: message with_params: params ([]) {
+    """
+    @message Message to be sent asynchronously to @self.
+    @params @Array@ of parameters as part of sending @message asynchronously to @self.
+    @return @nil
+
+    Sends @message with @params to @self asynchronously and immediately returns @nil.
+    """
+
+    __actor__ ! ('async, (message, params), nil)
     nil
   }
 }
