@@ -35,7 +35,6 @@
   };
 
   var populateMethods = function(type, cls) {
-
       var indexed = _.reduce(_.keys(cls[type]), function(dict, name) {
         var first = firstLetter(name);
         var ms = dict[first] || [];
@@ -90,7 +89,7 @@
           }
         });
       });
-
+      return _.keys(cls[type]).length;
   }
 
   /* populate functions */
@@ -148,8 +147,26 @@
       $(".class.content").html(cls.doc);
 
 
-      populateMethods("instance_methods", cls);
-      populateMethods("methods", cls);
+      // hide instance and class method parts if none available
+      // otherwise show them
+      if(populateMethods("instance_methods", cls) == 0) {
+        $(".accordion .instance_methods").hide();
+      } else {
+        $(".accordion .instance_methods").show();
+      }
+
+      if(populateMethods("methods", cls) == 0) {
+        $(".accordion .methods").hide();
+      } else {
+        $(".accordion .methods").show();
+      }
+
+      // reset accordion to be closed
+      $(".accordion").accordion({
+        collapsible: true,
+        active: false,
+        fillSpace: true
+      });
 
     });
   };
@@ -175,6 +192,7 @@
 
     $(".accordion").accordion({
       collapsible: true,
+      active: false,
       fillSpace: true
     });
 
