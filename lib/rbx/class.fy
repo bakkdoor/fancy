@@ -37,8 +37,8 @@ class Class {
     @body_block A @Block@ that is used as the body of the new @Class@.
     @return A new @Class@ inherited from @superclass.
 
-    Creates a new @Class@ by subclassing @superclass and using
-    @body_block as its body.
+    Creates a new @Class@ by subclassing @superclass and
+    using @body_block as its body.
     """
 
     new(superclass, &body_block)
