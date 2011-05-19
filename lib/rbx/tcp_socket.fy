@@ -10,7 +10,7 @@ class TCPSocket {
     @server Server hostname to open Socket on.
     @port Server port to open Socket on.
 
-    Creates and opens a new @TCPSocket@ on @server:@port.
+    Creates and opens a new @TCPSocket@ on @server and @port.
     """
 
     open(server, port)

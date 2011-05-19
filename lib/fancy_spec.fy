@@ -47,6 +47,7 @@ class FancySpec {
     @spec_info_string Info @String@ related to the test case defined in @spec_block.
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
+    Example usage:
         it: \"should be an empty Array\" when: {
           arr = [1,2,3]
           3 times: { arr pop }
@@ -64,6 +65,7 @@ class FancySpec {
     @method_name Name of Method that this testcase is related to.
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
+    Example usage:
         it: \"should be an empty Array\" for: 'empty? when: {
           arr = [1,2,3]
           3 times: { arr pop }
@@ -283,7 +285,7 @@ class FancySpec {
 
     def unknown_message: msg with_params: params {
       """
-      Forwardy any other message and parameters to the object itself
+      Forwards any other message and parameters to the object itself
       and checks the return value.
       """
 
