@@ -9,6 +9,8 @@ class IO {
   ruby_alias: 'close
   ruby_alias: 'eof?
 
+  forwards_unary_ruby_methods
+
   def readln {
     readline
   }
