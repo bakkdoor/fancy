@@ -183,4 +183,17 @@ FancySpec describe: Block with: {
     block call: [42] with_receiver: (ClassC new) . is == "in ClassC#inspect: 42"
     block call: [42] with_receiver: (ClassD new) . is == "in ClassD#inspect: 42"
   }
+
+  it: "should call a block using the ruby-send syntax" for: 'call: when: {
+    b = |x y| {
+      x + y
+    }
+
+    b call: [2,3] . is == 5
+    b(2,3) . is == 5
+
+    b2 = |x| { x * 5 }
+    b2("hello") is == ("hello" * 5)
+    b2("foo") is == (b2 call: ["foo"])
+  }
 }

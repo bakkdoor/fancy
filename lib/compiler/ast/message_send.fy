@@ -21,10 +21,25 @@ class Fancy AST {
       if: (@receiver is_a?: Super) then: {
         SuperSend new: @line message: @name args: @args . bytecode: g
       } else: {
+
+        # check if we might have a block invocation using block(x,y) syntax.
+        if: ruby_send? then: {
+          if: (@receiver is_a?: Self) then: {
+            if: (g state() scope() search_local(@name name)) then: {
+              @name bytecode: g
+              args = ArrayLiteral new: @line array: (@args args)
+              args bytecode: g
+              g send('call:, 1, false)
+              return nil
+            }
+          }
+        }
+
         @receiver bytecode: g
         @args bytecode: g
         pos(g)
         { g allow_private() } if: (@receiver is_a?: Self)
+
         sym = @name method_name: @receiver ruby_send: ruby_send?
         if: has_splat? then: {
           { g push_nil() } unless: ruby_block?
