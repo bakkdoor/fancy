@@ -123,7 +123,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
   - Method & Operator calls
   - Instance & class variable access
   - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
-  - Loops
+  - Loops (including `next` & `break`)
   - Support for closures via Blocks
   - Local & non-local returns from Blocks & Methods
   - File reading and writing

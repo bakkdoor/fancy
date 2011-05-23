@@ -136,6 +136,18 @@
       "Fancy is cool!" println
     }
 
+    # break from iteration
+    10 times: |i| {
+      { break i } if: (i == 5) # quit from iteration and returning 5
+      # do something else here
+    }
+
+    # skip current iteration and move on with next
+    10 times: |i| {
+      { next } if: (i == 5)
+      # do something else here
+    }
+
 ### Support for closures via Blocks ###
 
     x = 0
@@ -144,6 +156,11 @@
       x = x + x
     }
     x println # x has been modified in the block passed to the times: message
+
+    # call blocks with arguments:
+    b = |x y| { x + y println }
+    b call: [2, 3]      # prints 5
+    b(2,3)              # same as above
 
 ### Local & non-local returns from Blocks & Methods ###
 
