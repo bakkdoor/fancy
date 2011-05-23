@@ -471,6 +471,12 @@ message_send:   unary_send
                 | send_args {
                   $$ = rb_funcall(self, rb_intern("ast:send:"), 2, INT2NUM(yylineno), $1);
                 }
+                | unary_send FUTURE_SEND send_args {
+                  $$ = rb_funcall(self, rb_intern("ast:future_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
+                | unary_send ASYNC_SEND send_args {
+                  $$ = rb_funcall(self, rb_intern("ast:async_send:to:"), 3, INT2NUM(yylineno), $3, $1);
+                }
                 | exp FUTURE_SEND send_args {
                   $$ = rb_funcall(self, rb_intern("ast:future_send:to:"), 3, INT2NUM(yylineno), $3, $1);
                 }
