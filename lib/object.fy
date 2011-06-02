@@ -504,4 +504,10 @@ class Object {
     __actor__ ! ('async, (message, params), nil)
     nil
   }
+
+  def copy_slots: slots from: object {
+    slots each: |s| {
+      set_slot: s value: (object get_slot: s)
+    }
+  }
 }

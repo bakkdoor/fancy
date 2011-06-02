@@ -11,6 +11,8 @@ class String {
   ruby_alias: 'inspect
   ruby_alias: 'to_sym
 
+  forwards_unary_ruby_methods
+
   def [] index {
     """Given an Array of 2 Numbers, it returns the substring between the given indices.
        If given a Number, returns the character at that index."""
@@ -102,5 +104,13 @@ class String {
 
   def unpack: format {
     unpack(format)
+  }
+
+  def replace: pattern with: replacement {
+    gsub(pattern, replacement)
+  }
+
+  def replace!: pattern with: replacement {
+    gsub!(pattern, replacement)
   }
 }
