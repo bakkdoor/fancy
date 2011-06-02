@@ -356,4 +356,12 @@ class FancyEnumerable {
     coll << tmp_coll
     coll
   }
+
+  def random {
+    """
+    @return Random element in @self.
+    """
+
+    at: (rand(size))
+  }
 }
