@@ -90,4 +90,14 @@ class String {
 
     from: 1 to: -1
   }
+
+  def lines {
+    """
+    @return @Array@ of all the lines in @self.
+
+    Returns the lines of a @String@ as an @Array@.
+    """
+
+    split: "\n"
+  }
 }
