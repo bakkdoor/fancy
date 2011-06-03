@@ -364,4 +364,21 @@ class FancyEnumerable {
 
     at: (rand(size))
   }
+
+  def sort_by: block {
+    """
+    @block @Block@ taking 2 arguments used to compare elements in a collection.
+    @return Sorted @Array@ of elements in @self.
+
+    Sorts a collection by a given comparison block.
+    """
+
+    if: (block is_a?: Symbol) then: {
+      sort() |a b| {
+        a send_message: block . <=> (b send_message: block)
+      }
+    } else: {
+      sort(&block)
+    }
+  }
 }

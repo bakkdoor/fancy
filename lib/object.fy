@@ -510,4 +510,15 @@ class Object {
       set_slot: s value: (object get_slot: s)
     }
   }
+
+  def <=> other {
+    """
+    @other Other object to compare against.
+    @return -1 if @self is smaller, 0 if @self is equal or 1 if @self is greater or equal compared to @other.
+    """
+
+    { return -1 } if: (self < other)
+    { return 0 } if: (self == other)
+    return 1 # greater or equal to other
+  }
 }

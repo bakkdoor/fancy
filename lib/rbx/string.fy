@@ -10,6 +10,8 @@ class String {
   ruby_alias: 'chomp
   ruby_alias: 'inspect
   ruby_alias: 'to_sym
+  ruby_alias: '<
+  ruby_alias: '>
 
   forwards_unary_ruby_methods
 

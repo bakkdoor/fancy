@@ -447,4 +447,22 @@ FancySpec describe: Array with: {
     [1] product is == 1
     [] product is == 1
   }
+
+  it: "should sort the array" for: 'sort when: {
+    arr = [1,5,4,2,3]
+    arr sort should == [1,2,3,4,5]
+    arr should == [1,5,4,2,3]
+  }
+
+  it: "should sort the array with a given comparison block" for: 'sort_by: when: {
+    arr = [1,5,4,2,3]
+    sorted = [1,2,3,4,5]
+    arr sort_by: |a b| { a <=>  b } is == sorted
+    arr is == [1,5,4,2,3]
+
+    arr = [(1,2), (0,1), (3,0)]
+    sorted = [(3,0), (0,1), (1,2)]
+    arr sort_by: |a b| { a second <=> (b second) } . is == sorted
+    arr sort_by: 'second . is == sorted
+  }
 }

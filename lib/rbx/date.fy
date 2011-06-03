@@ -12,6 +12,8 @@ class Date {
   ruby_alias: '==
   ruby_alias: '-
   ruby_alias: '+
+  ruby_alias: '<
+  ruby_alias: '>
 
   def != other {
     self == other not
