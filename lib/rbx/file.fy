@@ -22,11 +22,11 @@ class File {
 
     E.g. to open a File with read access and read all lines and print them to STDOUT:
 
-      File open: \"foo.txt\" modes: [:read] with: |f| {
-        { f eof? } while_false: {
-          f readln println
+        File open: \"foo.txt\" modes: ['read] with: |f| {
+          { f eof? } while_false: {
+            f readln println
+          }
         }
-      }
     """
 
     modes_str = modes_str: modes_arr

@@ -3,7 +3,7 @@ require("actor")
 class Actor {
   """
   Primitive Actor class.
-  Actors can be send messages asynchronously. They process incoming messages
+  Actors can be sent messages asynchronously. They process incoming messages
   (which can be any object, including Tuples, Arrays, Numbers ...) in a
   first-come, first-serve manner.
 
