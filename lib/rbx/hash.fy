@@ -34,4 +34,14 @@ class Hash {
   def map: block {
     map(&block)
   }
+
+  def delete: key {
+    """
+    @key Key of key-value pair to be deleted in @self.
+
+    Deletes a key-value pair from @self.
+    """
+
+    delete(key)
+  }
 }
