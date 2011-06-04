@@ -52,6 +52,7 @@ class MethodMixin {
 class Method {
   ruby_alias: 'arity
   include: MethodMixin
+  forwards_unary_ruby_methods
 }
 
 class UnboundMethod {
@@ -61,5 +62,5 @@ class UnboundMethod {
 
   ruby_alias: 'arity
   include: MethodMixin
+  forwards_unary_ruby_methods
 }
-
