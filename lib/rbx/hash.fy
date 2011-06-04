@@ -44,4 +44,12 @@ class Hash {
 
     delete(key)
   }
+
+  def merge: other_hash {
+    merge(other_hash)
+  }
+
+  def merge!: other_hash {
+    merge!(other_hash)
+  }
 }
