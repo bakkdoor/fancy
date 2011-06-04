@@ -109,10 +109,18 @@ class String {
   }
 
   def replace: pattern with: replacement {
-    gsub(pattern, replacement)
+    if: (replacement is_a?: Block) then: {
+      gsub(pattern, &replacement)
+    } else: {
+      gsub(pattern, replacement)
+    }
   }
 
   def replace!: pattern with: replacement {
-    gsub!(pattern, replacement)
+    if: (replacement is_a?: Block) then: {
+      gsub!(pattern, &replacement)
+    } else: {
+      gsub!(pattern, replacement)
+    }
   }
 }
