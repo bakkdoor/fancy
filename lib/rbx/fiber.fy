@@ -1,5 +1,3 @@
-require("fiber")
-
 Fiber = Rubinius Fiber
 
 class Fiber {
