@@ -2,10 +2,10 @@ This directory contains all the AST Node classes used by the
 compiler. Most of them inherit from an equivalent Ruby Node class
 defined in rbx's lib/compiler/ directory.
 
-Each node class has a bytecode() method in which the actual bytecode
+Each node class has a bytecode: method in which the actual bytecode
 generation is done by calling generator methods on the generator
 object, that is passed in as an argument.
 
-If there's no bytecode() method defined in a node class, this just
-means, we're simply using the bytecode() method of the superclass (the
+If there's no bytecode: method defined in a node class, this just
+means, we're simply using the bytecode: method of the superclass (the
 one defined by rbx's compiler library).
