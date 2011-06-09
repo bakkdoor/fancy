@@ -268,6 +268,15 @@ class Object {
     cond if_true: { nil } else: block
   }
 
+  def unless: cond do: block else: else_block {
+    """
+    Same as:
+      cond if_true: else_block else: block
+    """
+
+    cond if_true: else_block else: block
+  }
+
   def method: method_name {
     """
     @return @Method@ with @method_name defined for @self, or @nil.
