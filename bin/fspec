@@ -1,0 +1,15 @@
+#!/usr/bin/env fancy
+
+test_files = Directory list: "tests/**/*.fy"
+if: (test_files empty?) then: {
+  if: (Directory exists?: "tests") then: {
+    "No test files found. Add them to the tests/ directory." println
+  } else: {
+    "No tests/ directory found. Create it!" println
+  }
+
+} else: {
+  test_files each: |f| {
+    require: f
+  }
+}
