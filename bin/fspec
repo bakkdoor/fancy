@@ -9,7 +9,10 @@ if: (test_files empty?) then: {
   }
 
 } else: {
+  "Running tests:" println
   test_files each: |f| {
     require: f
   }
+  Console newline
+  FancySpec SpecTest print_failures
 }

@@ -89,11 +89,11 @@ class FancySpec {
     Runs a FancySpec's test cases.
     """
 
-    "Running tests for: " ++ @description ++ ": " print
+    # "  " ++ @description ++ ": " print
     @spec_tests each: |test| {
       test run: @test_obj
     }
-#    Console newline Console newline
+
     # untested_methods = @test_obj methods select: |m| {
     #   m tests size == 0
     # }
@@ -101,7 +101,6 @@ class FancySpec {
       # ["WARNING: These methods need tests:",
       #  untested_methods map: 'name . select: |m| { m whitespace? not } . join: ", "] println
     # }
-    Console newline
   }
 
 
@@ -110,70 +109,103 @@ class FancySpec {
     FancySpec test case class.
     """
 
-    @@failed_positive = []
-    @@failed_negative = []
+    read_slot: 'info_str
 
-    def SpecTest failed_test: actual_and_expected {
+    @@failed_positive = <[]>
+    @@failed_negative = <[]>
+
+    def SpecTest failed_test: test {
       """
       @actual_and_expected Pair of actual and expected values for a failed test case.
 
       Gets called when a SpecTest failed.
       """
 
-      @@failed_positive << [actual_and_expected, caller(6) at: 0]
+      @@failed_positive at: @@current_test_obj put: $ @@failed_positive[@@current_test_obj] || []
+      @@failed_positive[@@current_test_obj] << test
     }
 
-    def SpecTest failed_negative_test: value {
+    def SpecTest failed_negative_test: test {
       """
       @value Value that should not have occured.
 
       Gets called when a negative SpecTest (using @NegativeMatcher@) failed.
       """
 
-      @@failed_negative << [value, caller(6) at: 0]
+      @@failed_negative at: @@current_test_obj put: $ @@failed_negative[@@current_test_obj] || []
+      @@failed_negative[@@current_test_obj] << test
+    }
+
+    def SpecTest current {
+      @@current
+    }
+
+    def SpecTest print_failures {
+      @@failed_positive each: |test_obj failed_tests| {
+        failed_tests each: |t| {
+          Console newline
+          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+          t print_failed_positive
+        }
+      }
+
+      @@failed_negative each: |test_obj failed_tests| {
+        failed_tests each: |t| {
+          Console newline
+          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+          t print_failed_negative
+        }
+      }
     }
 
     def initialize: @info_str block: @block {
-      { @@failed_positive = [] } unless: @@failed_positive
-      { @@failed_negative = [] } unless: @@failed_negative
+      { @@failed_positive = <[]> } unless: @@failed_positive
+      { @@failed_negative = <[]> } unless: @@failed_negative
+      @failed_positive = []
+      @failed_negative = []
     }
 
     def run: test_obj {
-      @@failed_positive = []
-      @@failed_negative = []
+      @@current_test_obj = test_obj
+      @@current = self
       try {
         @block call
       } catch IOError => e {
-        SpecTest failed_test: [e, "UNKNOWN"]
+        failed: (e, "UNKNOWN")
       }
 
-      any_failure = nil
-      if: (@@failed_positive size > 0) then: {
-        any_failure = true
-        Console newline
-        "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-        print_failed_positive
+      if: failed? then: {
+        "f" print
+      } else: {
+        "." print
       }
-
-      if: (@@failed_negative size > 0) then: {
-        any_failure = true
-        Console newline
-        "> FAILED: " ++ test_obj ++ " " ++ @info_str print
-        print_failed_negative
-      }
-
-      { "." print } unless: any_failure
     }
 
+    def failed: actual_and_expected {
+      @failed_positive << (actual_and_expected, caller(5) at: 0)
+      SpecTest failed_test: self
+    }
+
+    def failed_negative: value {
+      { value = [value, 'negative_failure] } unless: $ value responds_to?: 'at:
+      @failed_negative << (value, caller(6) at: 0)
+      SpecTest failed_negative_test: self
+    }
+
+    def failed? {
+      @failed_positive empty? not || { @failed_negative empty? not }
+    }
+
+
     def print_failed_positive {
-      " [" ++ (@@failed_positive size) ++ " unexpected values]" println
-      print_failed_common: @@failed_positive
+      " [" ++ (@failed_positive size) ++ " unexpected values]" println
+      print_failed_common: @failed_positive
     }
 
     def print_failed_negative {
-      " [" ++ (@@failed_negative size) ++ " unexpected values]" println
+      " [" ++ (@failed_negative size) ++ " unexpected values]" println
       "Should not have gotten the following values: " println
-      print_failed_common: @@failed_negative
+      print_failed_common: @failed_negative
     }
 
     def print_failed_common: failures {
@@ -183,8 +215,12 @@ class FancySpec {
         location = location split: "/" . from: -2 to: -1 . join: "/"
 
         location println
-        "    Expected: #{expected inspect}" println
-        "    Received: #{actual inspect}" println
+        unless: (expected == 'negative_failure) do: {
+          "    Expected: #{expected inspect}" println
+          "    Received: #{actual inspect}" println
+        } else: {
+          "    " ++ (actual inspect) println
+        }
       }
     }
   }
@@ -201,13 +237,13 @@ class FancySpec {
 
     def == expected_value {
       unless: (@actual_value == expected_value) do: {
-        SpecTest failed_test: [@actual_value, expected_value]
+        SpecTest current failed: (@actual_value, expected_value)
       }
     }
 
     def != expected_value {
       unless: (@actual_value != expected_value) do: {
-        SpecTest failed_negative_test: [@actual_value, expected_value]
+        SpecTest current failed_negative: (@actual_value, expected_value)
       }
     }
 
@@ -217,7 +253,7 @@ class FancySpec {
       } catch exception_class {
         # ok
       } catch Exception => e {
-        SpecTest failed_test: [e class, exception_class]
+        SpecTest current failed: (e class, exception_class)
       }
     }
 
@@ -228,7 +264,7 @@ class FancySpec {
         block call: [e]
         # ok
       } catch Exception => e {
-        SpecTest failed_test: [e class, exception_class]
+        SpecTest current failed: (e class, exception_class)
       }
     }
 
@@ -239,13 +275,13 @@ class FancySpec {
       """
 
       unless: (@actual_value send_message: msg with_params: params) do: {
-        SpecTest failed_test: [@actual_value, params first]
+        SpecTest current failed: (@actual_value, params first)
       }
     }
 
     def be: block {
       unless: (block call: [@actual_value]) do: {
-        SpecTest failed_test: [@actual_value, nil]
+        SpecTest current failed: (@actual_value, nil)
       }
     }
   }
@@ -262,13 +298,13 @@ class FancySpec {
 
     def == expected_value {
       if: (@actual_value == expected_value) then: {
-        SpecTest failed_negative_test: @actual_value
+        SpecTest current failed_negative: @actual_value
       }
     }
 
     def != expected_value {
       if: (@actual_value != expected_value) then: {
-        SpecTest failed_test: [@actual_value, expected_value]
+        SpecTest current failed: (@actual_value, expected_value)
       }
     }
 
@@ -276,7 +312,7 @@ class FancySpec {
       try {
         @actual_value call
       } catch exception_class {
-        SpecTest failed_negative_test: [exception_class, nil]
+        SpecTest current failed_negative: (exception_class, nil)
       } catch Exception => e {
         true
         # ok
@@ -290,13 +326,13 @@ class FancySpec {
       """
 
       if: (@actual_value send_message: msg with_params: params) then: {
-        SpecTest failed_negative_test: @actual_value
+        SpecTest current failed_negative: @actual_value
       }
     }
 
     def be: block {
       if: (block call: [@actual_value]) then: {
-        SpecTest failed_negative_test: @actual_value
+        SpecTest current failed_negative: @actual_value
       }
     }
   }

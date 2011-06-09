@@ -250,9 +250,7 @@ task :compile => compiled
 
 desc "Runs the test suite."
 task :test do
-  sh! _('bin/fancy'),
-  '-e', 'ARGV rest rest each: |f| { require: f }',
-  *Dir.glob(_("tests/**/*.fy"))
+  sh! _('bin/fspec')
 end
 
 task :tests do
