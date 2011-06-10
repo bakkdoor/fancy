@@ -113,6 +113,8 @@ class FancySpec {
 
     @@failed_positive = <[]>
     @@failed_negative = <[]>
+    @@failed_count = 0
+    @@total_tests = 0
 
     def SpecTest failed_test: test {
       """
@@ -123,6 +125,7 @@ class FancySpec {
 
       @@failed_positive at: @@current_test_obj put: $ @@failed_positive[@@current_test_obj] || []
       @@failed_positive[@@current_test_obj] << test
+      @@failed_count = @@failed_count + 1
     }
 
     def SpecTest failed_negative_test: test {
@@ -134,6 +137,7 @@ class FancySpec {
 
       @@failed_negative at: @@current_test_obj put: $ @@failed_negative[@@current_test_obj] || []
       @@failed_negative[@@current_test_obj] << test
+      @@failed_count = @@failed_count + 1
     }
 
     def SpecTest current {
@@ -156,6 +160,9 @@ class FancySpec {
           t print_failed_negative
         }
       }
+
+      Console newline
+      "Ran #{@@total_tests} tests with #{@@failed_count} failures." println
     }
 
     def initialize: @info_str block: @block {
@@ -168,6 +175,7 @@ class FancySpec {
     def run: test_obj {
       @@current_test_obj = test_obj
       @@current = self
+      @@total_tests = @@total_tests + 1
       try {
         @block call
       } catch IOError => e {
