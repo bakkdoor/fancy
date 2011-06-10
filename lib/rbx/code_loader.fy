@@ -100,7 +100,7 @@ class Fancy {
     }
 
     # Returns the compiled filename for a given filename.
-    # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.rbc"
+    # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.fyc"
     def self compiled_filename_for: file {
       match file {
         case /\.fyc$/ -> file
