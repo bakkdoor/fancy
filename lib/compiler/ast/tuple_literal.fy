@@ -23,7 +23,7 @@ class Fancy AST {
         ary = [FixnumLiteral new: @line value: i, e]
 
         ms = MessageSend new:  @line                                       \
-                         message: (Identifier from: "at:put:" line: @line) \
+                         message: (Identifier from: "[]:" line: @line) \
                          to:   (Nothing new: @line)                        \
                          args: (MessageArgs new: @line args: ary)
 

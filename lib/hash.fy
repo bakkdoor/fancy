@@ -6,7 +6,7 @@ class Hash {
 
   include: FancyEnumerable
 
-  def [] key {
+  def [key] {
     """
     @key Key for value to get.
     @return Value for given @key or @nil, if @key not set.

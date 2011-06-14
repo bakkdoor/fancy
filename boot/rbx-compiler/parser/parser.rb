@@ -96,6 +96,11 @@ class Fancy
       AST::MessageSend.new(line, receiver, operator, args)
     end
 
+    def oper_send_multi(line, receiver, operator, *arguments)
+      args = AST::MessageArgs.new(line, *arguments)
+      AST::MessageSend.new(line, receiver, operator, args)
+    end
+
     def assignment(line, identifier, value)
       AST::Assignment.new(line, identifier, value)
     end
@@ -122,8 +127,18 @@ class Fancy
       AST::MethodDef.new(line, operator, args, method_body, access)
     end
 
+    def operator_def_multi(line, operator, method_body, access = :public, *parameters)
+      args = AST::MethodArgs.new(line, *parameters.map(&:identifier))
+      AST::MethodDef.new(line, operator, args, method_body, access)
+    end
+
     def sin_operator_def(line, identifier, operator, parameter, method_body, access = :public)
       args = AST::MethodArgs.new(line, parameter.identifier)
+      AST::SingletonMethodDef.new(line, identifier, operator, args, method_body, access)
+    end
+
+    def sin_operator_def_multi(line, identifier, operator, method_body, access = :public, *parameters)
+      args = AST::MethodArgs.new(line, *parameters.map(&:identifier))
       AST::SingletonMethodDef.new(line, identifier, operator, args, method_body, access)
     end
 

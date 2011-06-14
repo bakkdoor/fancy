@@ -366,18 +366,26 @@ class_method_no_args: def any_identifier identifier expression_block {
 operator_def:   def operator identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("operator_def"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
                 }
-                | def LBRACKET RBRACKET identifier expression_block {
+                | def LBRACKET identifier RBRACKET expression_block {
                   $$ = rb_funcall(self, rb_intern("operator_def"), 5,
-                                  INT2NUM(yylineno), fy_terminal_node_from(self, "identifier", "[]"), $4, $5, $1);
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "identifier", "[]"), $3, $5, $1);
+                }
+                | def LBRACKET identifier RBRACKET COLON identifier expression_block {
+                  $$ = rb_funcall(self, rb_intern("operator_def_multi"), 6,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "identifier", "[]:"), $7, $1, $3, $6);
                 }
                 ;
 
 class_operator_def: def any_identifier operator identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("sin_operator_def"), 6, INT2NUM(yylineno), $2, $3, $4, $5, $1);
                 }
-                | def any_identifier LBRACKET RBRACKET identifier expression_block {
+                | def any_identifier LBRACKET identifier RBRACKET expression_block {
                   $$ = rb_funcall(self, rb_intern("sin_operator_def"), 6,
-                                  INT2NUM(yylineno), $2, fy_terminal_node_from(self, "identifier", "[]"), $5, $6, $1);
+                                  INT2NUM(yylineno), $2, fy_terminal_node_from(self, "identifier", "[]"), $4, $6, $1);
+                }
+                | def any_identifier LBRACKET identifier RBRACKET COLON identifier expression_block {
+                  $$ = rb_funcall(self, rb_intern("sin_operator_def_multi"), 7,
+                                  INT2NUM(yylineno), $2, fy_terminal_node_from(self, "identifier", "[]"), $8, $1, $4, $7);
                 }
                 ;
 
@@ -441,6 +449,10 @@ operator_send:  exp operator arg_exp {
                 | exp LBRACKET exp RBRACKET {
                   $$ = rb_funcall(self, rb_intern("oper_send_basic"), 4,
                                   INT2NUM(yylineno), $1, fy_terminal_node_from(self, "identifier", "[]"), $3);
+                }
+                | exp LBRACKET exp RBRACKET COLON arg_exp {
+                  $$ = rb_funcall(self, rb_intern("oper_send_multi"), 4,
+                                  INT2NUM(yylineno), $1, fy_terminal_node_from(self, "identifier", "[]"), $3, $6);
                 }
                 ;
 

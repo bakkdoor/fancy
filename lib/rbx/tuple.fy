@@ -25,7 +25,7 @@ class Tuple {
     at(idx)
   }
 
-  def at: idx put: val {
+  def [idx]: val {
     """
     @idx Index of element to set.
     @val Value to set at given index.
@@ -34,4 +34,6 @@ class Tuple {
     """
     put(idx, val)
   }
+
+  alias_method: 'at:put: for: '[]:
 }

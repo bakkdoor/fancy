@@ -123,7 +123,7 @@ class FancySpec {
       Gets called when a SpecTest failed.
       """
 
-      @@failed_positive at: @@current_test_obj put: $ @@failed_positive[@@current_test_obj] || []
+      @@failed_positive[@@current_test_obj]: $ @@failed_positive[@@current_test_obj] || []
       @@failed_positive[@@current_test_obj] << test
       @@failed_count = @@failed_count + 1
     }
@@ -135,7 +135,7 @@ class FancySpec {
       Gets called when a negative SpecTest (using @NegativeMatcher@) failed.
       """
 
-      @@failed_negative at: @@current_test_obj put: $ @@failed_negative[@@current_test_obj] || []
+      @@failed_negative[@@current_test_obj]: $ @@failed_negative[@@current_test_obj] || []
       @@failed_negative[@@current_test_obj] << test
       @@failed_count = @@failed_count + 1
     }

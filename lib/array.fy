@@ -50,7 +50,7 @@ class Array {
     self
   }
 
-  def [] index {
+  def [index] {
     """
     @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
     @return Element(s) stored in @self at @index, possibly @nil or an empty @Array@.

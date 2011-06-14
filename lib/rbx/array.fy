@@ -61,7 +61,7 @@ class Array {
     at(idx)
   }
 
-  def at: idx put: obj {
+  def [idx]: obj {
     """
     @idx Index to set a value for.
     @obj Value (object) to be set at the given index.
@@ -71,6 +71,8 @@ class Array {
     """
     ruby: '[]= args: [idx, obj]
   }
+
+  alias_method: 'at:put: for: '[]:
 
   def index: item {
     """

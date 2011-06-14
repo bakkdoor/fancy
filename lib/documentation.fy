@@ -86,7 +86,7 @@ class Fancy Documentation {
     Registers a callable object as formatter under name.
     """
 
-    formatters at: name put: callable
+    formatters[name]: callable
   }
 
   def self formatters {

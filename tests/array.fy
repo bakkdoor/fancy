@@ -53,15 +53,15 @@ FancySpec describe: Array with: {
     arr at: 0 . is == 'a
   }
 
-  it: "should set the value for a given index" for: 'at:put: when: {
+  it: "should set the value for a given index" for: '[]: when: {
     arr = [1,2,3]
-    arr at: 0 put: 10
+    arr[0]: 10
     arr is == [10, 2, 3]
-    arr at: -1 put: 30
+    arr[-1]: 30
     arr is == [10, 2, 30]
-    arr at: 1 put: 20
+    arr[1]: 20
     arr is == [10,20,30]
-    arr at: 3 put: 40
+    arr[3]: 40
     arr is == [10,20,30,40]
   }
 

@@ -6,7 +6,7 @@ class Tuple {
 
   include: FancyEnumerable
 
-  def [] idx {
+  def [idx] {
     """
     Forwards to @Tuple@#at:.
     """

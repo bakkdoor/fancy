@@ -164,6 +164,13 @@ class Fancy {
       ast: line send: message to: receiver
     }
 
+    def ast: line oper: oper arg: arg1 arg: arg2 to: receiver (AST Self new: line) {
+      m1 = SelectorValue new(oper, arg1)
+      m2 = SelectorValue new(ast: line identifier: "", arg2)
+      message = [m1, m2]
+      ast: line send: message to: receiver
+    }
+
     def ast: line future_oper: oper arg: arg to: receiver {
       oper_send = ast: line oper: oper arg: arg to: receiver
       AST FutureSend new: line message_send: oper_send
@@ -245,6 +252,11 @@ class Fancy {
 
     def ast: line oper: op arg: arg body: body access: access ('public) owner: owner (nil) {
       margs = [ast: line param: op var: arg]
+      ast: line method: margs body: body access: access owner: owner
+    }
+
+    def ast: line oper: op arg: arg1 arg: arg2 body: body access: access ('public) owner: owner (nil) {
+      margs = [SelectorVarDefault new(op, arg1, nil), SelectorVarDefault new(ast: line identifier: "", arg2, nil)]
       ast: line method: margs body: body access: access owner: owner
     }
 

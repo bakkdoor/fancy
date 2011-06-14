@@ -21,7 +21,7 @@ class Set {
     }
   }
 
-  def Set [] arr {
+  def Set [arr] {
     "Initialize a new Array with a given Array of values."
     Set new: arr
   }

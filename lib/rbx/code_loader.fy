@@ -121,7 +121,7 @@ class Fancy {
           # Rubinius::Compiler.compile_fancy_file filename, nil, 1, false
           Compiler compile_file: filename to: compiled_file
         } else: {
-          @@compiled at: filename put: true
+          @@compiled[filename]: true
         }
       }
       compiled_file
@@ -153,7 +153,7 @@ class Fancy {
         dirname = File dirname(compiled_file)
         push_loadpath: dirname
         @@current_dir push(dirname)
-        @@loaded at: compiled_file put: true
+        @@loaded[compiled_file]: true
 
         cl = Rubinius::CodeLoader new(compiled_file)
         cm = cl load_compiled_file(compiled_file, 0)

@@ -15,7 +15,7 @@ class Fancy Package {
 
       block call_with_receiver: self
 
-      @@specs at: @package_name put: self
+      @@specs[@package_name]: self
     }
 
     def dependencies: dependencies {
@@ -52,7 +52,7 @@ class Fancy Package {
       "name=#{@package_name} version=#{@version} url=https://github.com/#{@gh_user}/#{@package_name}"
     }
 
-    def self [] package_name {
+    def self [package_name] {
       @@specs[package_name]
     }
 

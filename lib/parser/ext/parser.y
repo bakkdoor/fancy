@@ -260,7 +260,8 @@ constant:       CONSTANT {
 
 selector:       SELECTOR {
                   $$ = fy_terminal_node(self, "ast:identifier:");
-                };
+                }
+                ;
 
 identifier:     IDENTIFIER {
                   $$ = fy_terminal_node(self, "ast:identifier:");
@@ -393,18 +394,26 @@ class_method_no_args: def any_identifier identifier expression_block {
 operator_def:   def operator identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5, INT2NUM(yylineno), $2, $3, $4, $1);
                 }
-                | def LBRACKET RBRACKET identifier expression_block {
+                | def LBRACKET identifier RBRACKET expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:"), 5,
-                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $4, $5, $1);
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $5, $1);
+                }
+                | def LBRACKET identifier RBRACKET COLON identifier expression_block {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:arg:body:access:"), 6,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]:"), $3, $6, $7, $1);
                 }
                 ;
 
 class_operator_def: def any_identifier operator identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6, INT2NUM(yylineno), $3, $4, $5, $1, $2);
                 }
-                | def any_identifier LBRACKET RBRACKET identifier expression_block {
+                | def any_identifier LBRACKET identifier RBRACKET expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:body:access:owner:"), 6,
-                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $5, $6, $1, $2);
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $4, $6, $1, $2);
+                }
+                | def any_identifier LBRACKET identifier RBRACKET COLON identifier expression_block {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:arg:body:access:owner:"), 7,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]:"), $4, $7, $8, $1, $2);
                 }
                 ;
 
@@ -437,6 +446,10 @@ operator_send:  exp operator arg_exp {
                 | exp LBRACKET exp RBRACKET {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:to:"), 4,
                                   INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]"), $3, $1);
+                }
+                | exp LBRACKET exp RBRACKET COLON arg_exp {
+                  $$ = rb_funcall(self, rb_intern("ast:oper:arg:arg:to:"), 5,
+                                  INT2NUM(yylineno), fy_terminal_node_from(self, "ast:identifier:", "[]:"), $3, $6, $1);
                 }
                 | operator arg_exp {
                   $$ = rb_funcall(self, rb_intern("ast:oper:arg:"), 3, INT2NUM(yylineno), $1, $2);

@@ -111,9 +111,9 @@ class Fancy FDoc {
         mdoc = Fancy Documentation for: exec
         { next } unless: mdoc # skip methods with no documentation
         if: mdoc then: {
-          mattr at: 'doc put: $ mdoc format: 'fdoc
+          mattr['doc]: $ mdoc format: 'fdoc
           if: (mdoc meta) then: {
-            mattr at: 'arg put: $ mdoc meta at: 'argnames
+            mattr['arg]: $ mdoc meta at: 'argnames
           }
         }
         if: (exec class() == Rubinius CompiledMethod) then: {
@@ -122,12 +122,12 @@ class Fancy FDoc {
           # TODO: Fix, either use a -r (root) option or use __FILE__
           relative_file = relative_file to_s gsub(/.*lib/, "lib")
           lines = exec lines() to_a()
-          mattr at: 'file put: $ relative_file
+          mattr['file]: $ relative_file
           # TODO calculate line numbers from compiled method
           # right now we only use the first line of code in the body.
-          mattr at: 'lines put: $ [lines[3], lines[3]]
+          mattr['lines]: $ [lines[3], lines[3]]
         }
-        attr[(type ++ "s") intern()] at: n put: mattr
+        attr[(type ++ "s") intern()] [n]: mattr
       }
     }
 
@@ -148,7 +148,7 @@ class Fancy FDoc {
         ]>
         popuplate_methods: cls on: attr type: 'instance_method known: methods
         popuplate_methods: cls on: attr type: 'method known: methods
-        map['classes] at: name put: attr
+        map['classes][name]: attr
       }
 
       methods each: |cm| {
@@ -164,7 +164,7 @@ class Fancy FDoc {
           'doc => doc format: 'fdoc
         ]>
 
-        map['methods] at: full_name put: attr
+        map['methods][full_name]: attr
       }
 
       map
@@ -314,7 +314,7 @@ class Fancy FDoc {
       ary = str split(/\r?\n/) map: |line| {
         m = /^@([a-z@]\S+?)\s+(.*)/ match(line)
         if: m then: {
-          map at: (m[1]) put: (m[2])
+          map[m[1]]: (m[2])
           nil
         } else: {
           line
