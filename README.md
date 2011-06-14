@@ -13,8 +13,8 @@ has first-class integration with Ruby's core library and any
 additional Ruby libraries that run on Rubinius, including most
 C-extensions.
 
-It will support concurrency via the actor-model, including first-class
-futures and async operation semantics built into the language.
+It supports concurrency via the actor-model, including first-class
+futures and async message send semantics built into the language.
 
 For a quick feature overview, have a look at `doc/features.md`
 For a recent version of the code with syntax highlighting look here:
@@ -138,7 +138,6 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
 
 
 ##What's still missing?
-  - Some concurrency stuff (e.g. language syntax for actors)
   - Some more advanced stuff, e.g. runtime inspection of method calls
     via MethodContext etc. (saved for later)
 
@@ -147,7 +146,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
   - The lexer & parser are built with GNU Flex & GNU Bison.
     And used as a Ruby c-extension from Rubinius.
     The parser simply invokes methods on Fancy::Parser to build the AST.
-    See: `rbx/parser/parser.y` & `rbx/parser/parser.rb`
+    See: `lib/parser/ext/parser.y` & `lib/parser/methods.fy`
 
   - Once the AST is built, we use Rubinius' excellent compiler chain
     to compile it to bytecode.
