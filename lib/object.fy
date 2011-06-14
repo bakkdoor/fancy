@@ -514,6 +514,18 @@ class Object {
     nil
   }
 
+  def synchronized: block {
+    """
+    @block @Block@ to be run only by one Thread at a time.
+
+    Runs a given @Block@ in a synchronized fashion if called by multiple Threads.
+    Uses a @Mutex@ in the background for synchronization (created on demand for each @Object@).
+    """
+
+    @__mutex__ = @__mutex__ || { Mutex new() }
+    @__mutex__ synchronize(&block)
+  }
+
   def copy_slots: slots from: object {
     slots each: |s| {
       set_slot: s value: (object get_slot: s)

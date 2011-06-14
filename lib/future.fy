@@ -1,25 +1,47 @@
 class FutureSend {
   read_slots: [ 'fail_reason, 'receiver, 'message, 'params ]
   def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
+    @waiting_threads = []
     @actor ! ('future, (@message, @params), self)
   }
 
   def failed: @fail_reason {
-    @completed = true
-    @failed = true
+    synchronized: {
+      @completed = true
+      @failed = true
+    }
   }
 
   def completed: @value {
-    @completed = true
+    synchronized: {
+      @completed = true
+      @waiting_threads each: 'run
+      @waiting_threads = []
+    }
   }
 
   def completed? {
-    @completed
+    synchronized: {
+      return @completed
+    }
+  }
+
+  def failed? {
+    synchronized: {
+      return @failed
+    }
   }
 
   def value {
-    { Thread sleep: 0.1 } until: { completed? }
-    @value
+    if: completed? then: {
+      return @value
+    } else: {
+      synchronized: {
+        @waiting_threads << (Thread current)
+      }
+      Thread stop
+      return @value
+    }
   }
 
   def send_future: message with_params: params {
