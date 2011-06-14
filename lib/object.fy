@@ -452,9 +452,9 @@ class Object {
             sender completed: val
         }
       } catch Exception => e {
-        if: sender then: {
-          sender failed: e
-        }
+        { sender failed: e } if: sender
+        die!
+        e raise!
       }
     }
   }
