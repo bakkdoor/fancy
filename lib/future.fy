@@ -9,16 +9,23 @@ class FutureSend {
     synchronized: {
       @completed = true
       @failed = true
+      completed!
     }
   }
 
   def completed: @value {
     synchronized: {
       @completed = true
-      @waiting_threads each: 'run
-      @waiting_threads = []
+      completed!
     }
   }
+
+  def completed! {
+    @waiting_threads each: 'run
+    @waiting_threads = []
+  }
+
+  private: 'completed!
 
   def completed? {
     synchronized: {
