@@ -16,7 +16,13 @@ try {
         parts = ident split: "#"
         obj = parts[0] eval
         if: (parts[1]) then: |method_name| {
-          method = obj instance_method: method_name
+          method = nil
+          try {
+            method = obj instance_method: method_name
+          } catch NoMethodError {
+            # handle singleton methods if ARGV[1] is a singleton
+            method = obj method: method_name
+          }
           documentation = method documentation
         }
       case _ ->
