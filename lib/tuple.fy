@@ -89,7 +89,7 @@ class Tuple {
 
     str = "("
     each: |v| {
-      str = str ++ v
+      str = str ++ (v inspect)
     } in_between: {
       str = str ++ ", "
     }
