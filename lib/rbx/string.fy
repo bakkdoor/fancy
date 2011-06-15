@@ -123,4 +123,20 @@ class String {
       gsub!(pattern, replacement)
     }
   }
+
+  def append: string {
+    """
+    @string Other @String@ to append on @self.
+    @return @self, but modified.
+
+    Appends another @String@ onto this @String@.
+
+    Example usage:
+        str = \"hello\"
+        str append: \" world!\"
+        str # => \"hello world!\"
+    """
+
+    append(string)
+  }
 }

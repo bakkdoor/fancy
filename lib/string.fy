@@ -57,7 +57,7 @@ class String {
 
     str = ""
     num to_i times: {
-      str = str ++ self
+      str << self
     }
     str
   }
@@ -99,5 +99,22 @@ class String {
     """
 
     split: "\n"
+  }
+
+  def << object {
+    """
+    @object An @Object@ who's @String@ representation will be appended to @self.
+    @return @self, but modified.
+
+    Appends @object's @String@ representation to @self.
+
+    Example usage:
+        str = \"hello\"
+        str << \" \"
+        str << 42
+        str # => \"hello 42\"
+    """
+
+    append: $ object to_s
   }
 }

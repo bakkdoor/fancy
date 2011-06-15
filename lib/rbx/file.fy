@@ -93,7 +93,7 @@ class File {
 
     str = ""
     modes_arr each: |m| {
-      str = str ++ (@@open_mode_conversions[m])
+      str << (@@open_mode_conversions[m])
     }
     str uniq join: ""
   }

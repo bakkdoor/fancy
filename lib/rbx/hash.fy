@@ -12,11 +12,13 @@ class Hash {
     max = size - 1
     i = 0
     each: |key,val| {
-      str = str ++ (key inspect) ++ " => " ++ (val inspect)
-      { str = str + ", " } if: (i < max)
+      str << (key inspect)
+      str << " => "
+      str << (val inspect)
+      { str << ", " } if: (i < max)
       i = i + 1
     }
-    str = str + "]>"
+    str << "]>"
     str
   }
 
