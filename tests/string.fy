@@ -106,4 +106,14 @@ FancySpec describe: String with: {
     "FooBar?!" to_sym is == 'FooBar?!
     "+-&/^\?a!" to_sym is '+-&/^\?a!
   }
+
+  it: "should allow replacing characters in the string" for: '[]: when: {
+    s = "hello"
+    s[0]: "H"
+    s is == "Hello"
+    s[0]: "Good day. H"
+    s is == "Good day. Hello"
+    s[-1]: "o."
+    s is == "Good day. Hello."
+  }
 }

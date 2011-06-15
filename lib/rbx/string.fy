@@ -13,6 +13,8 @@ class String {
   ruby_alias: '<
   ruby_alias: '>
 
+  alias_method: '[]: for_ruby: '[]=
+
   forwards_unary_ruby_methods
 
   def [index] {
