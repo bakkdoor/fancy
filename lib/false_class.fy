@@ -1,5 +1,7 @@
 class FalseClass {
-  "FalseClass. The class of the singleton @false value."
+  """
+  FalseClass. The class of the singleton @false value.
+  """
 
   def FalseClass new {
     # always return false singleton object when trying to create a new
@@ -50,3 +52,8 @@ class FalseClass {
     true
   }
 }
+
+false documentation: """
+  @false is the singleton boolean false value (only instance of @FalseClass@).
+  FalseClass##new yields @false.
+  """

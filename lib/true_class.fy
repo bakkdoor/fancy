@@ -1,5 +1,7 @@
 class TrueClass {
-  "TrueClass. The class of the singleton @true value."
+  """
+  TrueClass. The class of the singleton @true value.
+  """
 
   def TrueClass new {
     """
@@ -66,3 +68,8 @@ class TrueClass {
     false
   }
 }
+
+true documentation: """
+  @true is the singleton boolean true value (only instance of @TrueClass@).
+  TrueClass##new yields @true.
+  """

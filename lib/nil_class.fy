@@ -1,5 +1,7 @@
 class NilClass {
-  "NilClass. The class of the singleton @nil value."
+  """
+  NilClass. The class of the singleton @nil value.
+  """
 
   def NilClass new {
     """
@@ -91,3 +93,8 @@ class NilClass {
     "nil"
   }
 }
+
+nil documentation: """
+  @nil is the singleton nil value (only instance of @NilClass@).
+  NilClass##new yields @nil.
+  """

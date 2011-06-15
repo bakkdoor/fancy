@@ -1,3 +1,8 @@
+ARGV documentation: """
+  ARGV is a singleton instance of @Array@ and holds all (command-line)
+  arguments passed to a Fancy programm before it starts executing.
+  """
+
 def ARGV for_option: op_name do: block {
   "Runs a given block if an option is in ARGV."
 
