@@ -7,21 +7,6 @@ class Hash {
   alias_method: 'at: for: '[]
   ruby_alias: '==
 
-  def inspect {
-    str = "<["
-    max = size - 1
-    i = 0
-    each: |key,val| {
-      str << (key inspect)
-      str << " => "
-      str << (val inspect)
-      { str << ", " } if: (i < max)
-      i = i + 1
-    }
-    str << "]>"
-    str
-  }
-
   def each: block {
     each(&block)
   }

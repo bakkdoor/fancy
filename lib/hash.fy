@@ -80,4 +80,17 @@ class Hash {
 
     to_a to_s
   }
+
+  def inspect {
+    str = "<["
+    each: |key val| {
+      str << (key inspect)
+      str << " => "
+      str << (val inspect)
+    } in_between: {
+      str << ", "
+    }
+    str << "]>"
+    str
+  }
 }
