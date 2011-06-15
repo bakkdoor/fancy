@@ -258,6 +258,9 @@ class FancySpec {
     def raise: exception_class {
       try {
         @actual_value call
+        # make sure we raise an exception.
+        # if no exepction raised at this point, we have an error.
+        SpecTest current failed: (nil, exception_class)
       } catch exception_class {
         # ok
       } catch Exception => e {
@@ -268,6 +271,8 @@ class FancySpec {
     def raise: exception_class with: block {
       try {
         @actual_value call
+        # same here
+        SpecTest current failed: (nil, exception_class)
       } catch exception_class => e {
         block call: [e]
         # ok
