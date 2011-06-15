@@ -2,7 +2,7 @@ Tuple = Rubinius Tuple
 class Tuple {
   forwards_unary_ruby_methods
 
-  def initialize: size {
+  def Tuple new: size {
     """
     @size Size of the @Tuple@ (amount of values to hold).
 
@@ -10,7 +10,15 @@ class Tuple {
     E.g. if @size is @2, creates a 2-Tuple.
     """
 
-    initialize(size)
+    if: (size < 2) then: {
+      ArgumentError new: "Tuple size has to be a minimum of 2!" . raise!
+    }
+
+    new(size)
+  }
+
+  def Tuple new {
+    ArgumentError new: "Cannot initialize empty Tuple!" . raise!
   }
 
   def at: idx {
