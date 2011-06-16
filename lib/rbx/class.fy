@@ -4,6 +4,8 @@ class Class {
   ruby_alias: 'ancestors
   ruby_alias: 'instance_methods
   ruby_alias: 'methods
+  ruby_alias: 'inspect
+  ruby_alias: 'to_s
 
   def new {
     """
