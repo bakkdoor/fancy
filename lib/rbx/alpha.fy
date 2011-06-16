@@ -1,5 +1,5 @@
 class Object {
-  # Let's define false, true, nil & self =)
+  # Let's define false, true & nil =)
   dynamic_method(':false) |g| {
     g push_false()
     g ret()
