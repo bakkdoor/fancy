@@ -98,4 +98,12 @@ FancySpec describe: Hash with: {
   it: "should return an Array of the key-value pairs" for: 'to_a when: {
     <['foo => "bar", 'bar => "baz"]> to_a is =? [['foo, "bar"], ['bar, "baz"]]
   }
+
+  it: "should return multiple values if given an array of keys" for: '[] when: {
+    hash = <['foo => 1, 'bar => "foobar", 'baz => 42, "hello world" => "hello!"]>
+    a, b, c = hash values_at: ('foo, 'bar, "hello world")
+    a is == 1
+    b is == "foobar"
+    c is == "hello!"
+  }
 }
