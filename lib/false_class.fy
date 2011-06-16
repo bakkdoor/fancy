@@ -37,6 +37,8 @@ class FalseClass {
     "false"
   }
 
+  alias_method: 'inspect for: 'to_s
+
   def to_a {
     "Returns an empty @Array@."
     []

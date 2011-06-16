@@ -52,6 +52,8 @@ class TrueClass {
     "true"
   }
 
+  alias_method: 'inspect for: 'to_s
+
   def to_a {
     """
     @return An empty @Array@.
