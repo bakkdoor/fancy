@@ -19,7 +19,7 @@ class Bunny {
   }
 }
 
-@thread  = Thread current # save current Thread so it can be resumed񓩌
+@thread  = Thread current # save current Thread so it can be resumed
 def self stopped {
   @amount = @amount - 1
   { @thread run } if: (@amount == 0)
