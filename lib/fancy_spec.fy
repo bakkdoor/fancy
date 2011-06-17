@@ -11,6 +11,8 @@ class FancySpec {
     """
 
     @spec_tests = []
+    @before_blocks = []
+    @after_blocks = []
   }
 
   def FancySpec describe: test_obj with: block {
@@ -84,6 +86,22 @@ class FancySpec {
     @spec_tests << test
   }
 
+  def before_each: block {
+    """
+    @block @Block@ to be run before each test case.
+    """
+
+    @before_blocks << block
+  }
+
+  def after_each: block {
+    """
+    @block @Block@ to be run after each test case.
+    """
+
+    @after_blocks << block
+  }
+
   def run {
     """
     Runs a FancySpec's test cases.
@@ -91,7 +109,13 @@ class FancySpec {
 
     # "  " ++ @description ++ ": " print
     @spec_tests each: |test| {
+      @before_blocks each: |b| {
+        b call_with_receiver: test
+      }
       test run: @test_obj
+      @after_blocks each: |b| {
+        b call_with_receiver: test
+      }
     }
 
     # untested_methods = @test_obj methods select: |m| {
@@ -177,7 +201,7 @@ class FancySpec {
       @@current = self
       @@total_tests = @@total_tests + 1
       try {
-        @block call
+        @block call_with_receiver: self
       } catch IOError => e {
         failed: (e, "UNKNOWN")
       }
