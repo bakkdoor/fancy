@@ -116,4 +116,13 @@ FancySpec describe: String with: {
     s[-1]: "o."
     s is == "Good day. Hello."
   }
+
+  it: "should contain a substring" for: 'includes?: when: {
+    "foo bar baz" includes?: "foo" is == true
+    "foo bar baz" includes?: "bar" is == true
+    "foo bar baz" includes?: "baz" is == true
+    "foo bar baz" includes?: " " is == true
+    "foo bar baz" includes?: "" is == true
+    "foo bar baz" includes?: "foobarbaz" is == false
+  }
 }

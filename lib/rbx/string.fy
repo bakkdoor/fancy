@@ -141,4 +141,15 @@ class String {
 
     append(string)
   }
+
+  def includes?: substring {
+    """
+    @substring @String@ to be checked if it's in @self.
+    @return @true if @substring is in @self, @false otherwise.
+
+    Indicates if a given substring is in @self.
+    """
+
+    include?(substring)
+  }
 }
