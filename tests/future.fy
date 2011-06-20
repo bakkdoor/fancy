@@ -4,7 +4,7 @@ FancySpec describe: FutureSend with: {
       num upto: (num ** num ** num)
     }
 
-    f = self @ some_computation: 2 && @{select: 'even?} && 'size
+    f = self @ some_computation: 2 && @{select: 'even?} && @{size}
     f is_a?: FutureSend . is == true
     f value is_a?: Fixnum . is == true
   }

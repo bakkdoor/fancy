@@ -19,5 +19,4 @@ class Symbol {
       arg send_message: self
     }
   }
-
 }

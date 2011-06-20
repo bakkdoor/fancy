@@ -56,7 +56,7 @@ class FutureSend {
   }
 
   def when_done: block {
-    block send_future: 'call: with_params: [[value]]
+    block send_future: 'call: with_params: [value]
   }
 
   def && block {
