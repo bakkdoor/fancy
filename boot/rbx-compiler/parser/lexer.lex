@@ -103,8 +103,8 @@ escaped_newline "\\".*\n
 {rcurly}        { return RCURLY; }
 {lbracket}      { return LBRACKET; }
 {rbracket}      { return RBRACKET; }
-{lhash}         { return LHASH; }
-{rhash}         { return RHASH; }
+{lhash}         { return LEFTHASH; }
+{rhash}         { return RIGHTHASH; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
 {thin_arrow}    { return THIN_ARROW; }

@@ -28,8 +28,8 @@ extern char *yytext;
 %token                  RCURLY
 %token                  LBRACKET
 %token                  RBRACKET
-%token                  LHASH
-%token                  RHASH
+%token                  LEFTHASH
+%token                  RIGHTHASH
 %token                  STAB
 %token                  ARROW
 %token                  THIN_ARROW
@@ -614,10 +614,10 @@ empty_array:    LBRACKET space RBRACKET {
                 }
                 ;
 
-hash_literal:   LHASH space key_value_list space RHASH {
+hash_literal:   LEFTHASH space key_value_list space RIGHTHASH {
                   $$ = rb_funcall(self, rb_intern("hash_literal"), 2, INT2NUM(yylineno), $3);
                 }
-                | LHASH space RHASH {
+                | LEFTHASH space RIGHTHASH {
                   $$ = rb_funcall(self, rb_intern("hash_literal"), 1, INT2NUM(yylineno));
                 }
                 ;
