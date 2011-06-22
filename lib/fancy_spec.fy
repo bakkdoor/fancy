@@ -139,6 +139,11 @@ class FancySpec {
     @@failed_negative = <[]>
     @@failed_count = 0
     @@total_tests = 0
+    @@total_expectations = 0
+
+    def SpecTest add_expectation {
+      @@total_expectations = @@total_expectations + 1
+    }
 
     def SpecTest failed_test: test {
       """
@@ -186,7 +191,7 @@ class FancySpec {
       }
 
       Console newline
-      "Ran #{@@total_tests} tests with #{@@failed_count} failures." println
+      "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures." println
     }
 
     def initialize: @info_str block: @block {
@@ -265,6 +270,7 @@ class FancySpec {
     """
 
     def initialize: @actual_value {
+      SpecTest add_expectation
     }
 
     def == expected_value {
@@ -331,6 +337,7 @@ class FancySpec {
     """
 
     def initialize: @actual_value {
+      SpecTest add_expectation
     }
 
     def == expected_value {
