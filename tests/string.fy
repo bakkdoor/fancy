@@ -51,9 +51,9 @@ FancySpec describe: String with: {
     str all?: |c| { c is_a?: String } . is == true
   }
 
-  # it: "should drop all characters upto a whitespace" for: 'drop_while: when: {
-  #   "hello world" drop_while: |c| { c != " " } . join: "" . is == " world"
-  # }
+  it: "should drop all characters upto a whitespace" for: 'drop_while: when: {
+    "hello world" drop_while: |c| { c != " " } . join: "" . is == " world"
+  }
 
   it: "should be empty" for: 'empty? when: {
     "" empty? is == true
@@ -61,22 +61,22 @@ FancySpec describe: String with: {
     String new empty? is == true
   }
 
-  # it: "should be blank" for: 'blank? when: {
-  #   "" blank? is == true
-  #   " " blank? is == true
-  #   "-" blank? is == false
-  #   "       " blank? is == true
-  #   "hello world" blank? is == false
-  #   "hello world" at: 5 . blank? is == true
-  # }
+  it: "should be blank" for: 'blank? when: {
+    "" blank? is == true
+    " " blank? is == true
+    "-" blank? is == false
+    "       " blank? is == true
+    "hello world" blank? is == false
+    "hello world" at: 5 . blank? is == true
+  }
 
-  # it: "should be evaled as fancy code and return the correct value" when: {
-  #   x = "'foo" eval
-  #   x is == 'foo
-  #   "3 + 4" eval is == 7
-  #   "'foo to_s upcase" eval is == "FOO"
-  #   "33.33" eval is == 33.33
-  # }
+  it: "should be evaled as fancy code and return the correct value" when: {
+    x = "'foo" eval
+    x is == 'foo
+    "3 + 4" eval is == 7
+    "'foo to_s upcase" eval is == "FOO"
+    "33.33" eval is == 33.33
+  }
 
   it: "should return itself times n" for: '* when: {
     "foo" * 2 is == "foofoo"

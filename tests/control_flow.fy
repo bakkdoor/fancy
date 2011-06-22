@@ -110,13 +110,13 @@ FancySpec describe: "Control Flow" with: {
   }
 
   it: "should be possible to override the if_true:else: method and work accordingly in conditionals" when: {
-    class AClasThatIsLikeFalse {
+    class AClassThatIsLikeFalse {
       def if_true: block else: another_block {
         another_block call
       }
     }
 
-    obj = AClasThatIsLikeFalse new
+    obj = AClassThatIsLikeFalse new
     if: obj then: {
       'fail
     } else: {
@@ -124,7 +124,7 @@ FancySpec describe: "Control Flow" with: {
     } . is == 'success
 
     # let's get rid of this custom if_true:else: method
-    AClasThatIsLikeFalse undefine_method: 'if_true:else:
+    AClassThatIsLikeFalse undefine_method: 'if_true:else:
 
     if: obj then: {
       'now_this_is_success

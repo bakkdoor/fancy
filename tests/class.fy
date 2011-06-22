@@ -225,7 +225,7 @@ FancySpec describe: Class with: {
     y = Class new: String
     y is_a?: Class . is == true
     y new is_a?: String . is == true
-    # y new is_a?: Object . is == true
+    y new is_a?: Object . is == true
   }
 
   it: "should only be able to call the public method from outside the Class" when: {
@@ -494,8 +494,8 @@ FancySpec describe: Class with: {
     x = AClassWithPrivateMethods new
     { x a } raises: NoMethodError
     { x b } raises: NoMethodError
-    # AClassWithPrivateMethods instance_method: 'a . private? is == false
-    # AClassWithPrivateMethods instance_method: 'b . private? is == false
+    AClassWithPrivateMethods instance_method: 'a . private? is == false
+    AClassWithPrivateMethods instance_method: 'b . private? is == false
     AClassWithPrivateMethods instance_method: 'a . protected? is == true
     AClassWithPrivateMethods instance_method: 'b . protected? is == true
   }
