@@ -97,7 +97,7 @@ class Set {
     Indicates, if the Set includes a given value.
     """
 
-    @hash keys includes?: value
+    @hash includes?: value
   }
 
   def each: block {

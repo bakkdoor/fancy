@@ -60,4 +60,14 @@ FancySpec describe: Set with: {
     s includes?: 'hello is == false
     s includes?: nil is == false
   }
+
+  it: "should call a Block with each value" for: 'each: when: {
+    s = Set[[1,2,3,4]]
+    sum = 0
+    s each: |val| {
+      sum = sum + val
+      s includes?: val is == true
+    }
+   sum is == (s sum)
+  }
 }
