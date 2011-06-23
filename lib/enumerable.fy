@@ -382,4 +382,34 @@ class FancyEnumerable {
       sort(&block)
     }
   }
+
+  def in_groups_of: size {
+    """
+    @size Maximum size of each group.
+    @return @Array@ of @Array@s with a max size of @size (grouped).
+
+    Example usage:
+        [1,2,3,4,5] in_groups_of: 3 # => [[1,2,3],[4,5]]
+    """
+
+    groups = []
+    tmp = []
+    enum = to_enum
+
+    loop: {
+      size times: {
+        tmp << (enum next)
+      }
+
+      if: (enum ended?) then: {
+        { groups << tmp } unless: $ tmp empty?
+        break
+      }
+
+      groups << tmp
+      tmp = []
+    }
+
+    groups
+  }
 }

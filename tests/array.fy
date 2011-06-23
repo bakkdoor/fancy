@@ -465,4 +465,12 @@ FancySpec describe: Array with: {
     arr sort_by: |a b| { a second <=> (b second) } . is == sorted
     arr sort_by: 'second . is == sorted
   }
+
+  it: "should return the array in groups of 3" for: 'in_groups_of: when: {
+    ['a,'b,'c] in_groups_of: 1 . is == [['a],['b],['c]]
+    array = 1 upto: 10
+    array in_groups_of: 3 . is == [[1,2,3], [4,5,6], [7,8,9], [10]]
+
+    (20,30,40) in_groups_of: 2 . is == [[20,30], [40]]
+  }
 }

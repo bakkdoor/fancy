@@ -52,6 +52,10 @@ class FancyEnumerator {
     }
   }
 
+  def ended? {
+    @fiber alive? not
+  }
+
   def peek {
     """
     Returns the next object in the FancyEnumerator, but doesn't move the
