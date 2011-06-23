@@ -207,8 +207,8 @@ class FancySpec {
       @@total_tests = @@total_tests + 1
       try {
         @block call_with_receiver: self
-      } catch IOError => e {
-        failed: (e, "UNKNOWN")
+      } catch Exception => e {
+        failed: (e, "No Exception")
       }
 
       if: failed? then: {
