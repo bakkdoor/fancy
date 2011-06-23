@@ -10,6 +10,7 @@ class FancyEnumerable {
 
     Indicates, if a collection includes a given element.
     """
+
     any?: |x| { item == x }
   }
 
