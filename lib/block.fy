@@ -118,4 +118,12 @@ class Block {
 
     call: [val]
   }
+
+  def Block to_s {
+    """
+    @return @String@ representation of @Block@ class.
+    """
+
+    "Block"
+  }
 }
