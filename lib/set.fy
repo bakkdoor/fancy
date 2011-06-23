@@ -125,6 +125,6 @@ class Set {
     Returns a detailed @String@ representation of a Set.
     """
 
-    "Set[" ++ (values map: 'inspect . join: ", " to_s) ++ "]"
+    "Set[" ++ (values map: 'inspect . join: ", " . to_s) ++ "]"
   }
 }
