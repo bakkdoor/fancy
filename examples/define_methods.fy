@@ -4,12 +4,12 @@ arr define_singleton_method: "foo" with: {
   self inspect println
 }
 
-arr send_message: 'foo
+arr receive_message: 'foo
 
 arr undefine_singleton_method: "foo"
 
 try {
-  arr send_message: 'foo
+  arr receive_message: 'foo
 } catch NoMethodError => e {
   e println
 }

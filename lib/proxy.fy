@@ -23,8 +23,8 @@ class ProxyReceiver : BasicObject {
     Forwards all incoming messages to @self to @@proxy and then @@obj.
     """
 
-    @proxy send_message: msg with_params: params
-    @obj send_message: msg with_params: params
+    @proxy receive_message: msg with_params: params
+    @obj receive_message: msg with_params: params
   }
 }
 
@@ -57,7 +57,7 @@ class RespondsToProxy : BasicObject {
     """
 
     if: (@target responds_to?: msg) then: {
-      @target send_message: msg with_params: params
+      @target receive_message: msg with_params: params
     }
   }
 }

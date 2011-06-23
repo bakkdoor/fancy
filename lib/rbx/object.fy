@@ -94,7 +94,7 @@ class Object {
     kind_of?(class)
   }
 
-  def send_message: message {
+  def receive_message: message {
     """
     @message Name of message to be sent to @self dynamically.
 
@@ -104,7 +104,7 @@ class Object {
     send(message_name: message)
   }
 
-  def send_message: message with_params: params {
+  def receive_message: message with_params: params {
     """
     @message Name of message to be sent to @self dynamically.
     @params @Array@ of parameters used with @message.

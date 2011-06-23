@@ -317,7 +317,7 @@ class FancySpec {
       and checks the return value.
       """
 
-      unless: (@actual_value send_message: msg with_params: params) do: {
+      unless: (@actual_value receive_message: msg with_params: params) do: {
         SpecTest current failed: (@actual_value, params first)
       }
     }
@@ -369,7 +369,7 @@ class FancySpec {
       and checks the return value.
       """
 
-      if: (@actual_value send_message: msg with_params: params) then: {
+      if: (@actual_value receive_message: msg with_params: params) then: {
         SpecTest current failed_negative: @actual_value
       }
     }

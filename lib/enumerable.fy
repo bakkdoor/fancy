@@ -376,7 +376,7 @@ class FancyEnumerable {
 
     if: (block is_a?: Symbol) then: {
       sort() |a b| {
-        a send_message: block . <=> (b send_message: block)
+        a receive_message: block . <=> (b receive_message: block)
       }
     } else: {
       sort(&block)

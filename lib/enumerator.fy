@@ -104,7 +104,7 @@ class FancyEnumerator {
 
     @fiber = Fiber new: {
       param = |element| { yield: element }
-      @collection send_message: @iterator with_params: [param]
+      @collection receive_message: @iterator with_params: [param]
     }
   }
 

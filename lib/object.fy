@@ -446,9 +446,9 @@ class Object {
         msg, params = msg
         match type {
           case 'async ->
-            self send_message: msg with_params: params
+            self receive_message: msg with_params: params
           case 'future ->
-            val = self send_message: msg with_params: params
+            val = self receive_message: msg with_params: params
             sender completed: val
         }
       } catch Exception => e {
