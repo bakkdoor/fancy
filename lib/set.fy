@@ -34,6 +34,24 @@ class Set {
     @hash keys
   }
 
+  def size {
+    """
+    @return Amount of values in @self as a @Fixnum@.
+    """
+
+    @hash size
+  }
+
+  def empty? {
+    """
+    @return @true, if Set is emty, @false otherwise.
+
+    Indicates, if a Set is empty.
+    """
+
+    @hash empty?
+  }
+
   def == other {
     """
     @other @Set@ to compare @self against.
@@ -79,7 +97,7 @@ class Set {
     Indicates, if the Set includes a given value.
     """
 
-    @hash includes?: value
+    @hash keys includes?: value
   }
 
   def each: block {
