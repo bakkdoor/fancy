@@ -53,6 +53,12 @@ class FancyEnumerator {
   }
 
   def ended? {
+    """
+    @return @true if the enumerator has ended (no more values left), @false otherwise.
+
+    Indicates if an enumerator has ended (no more values left).
+    """
+
     @fiber alive? not
   }
 

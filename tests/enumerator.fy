@@ -92,6 +92,12 @@ FancySpec describe: FancyEnumerator with: {
     enum = (1..10) to_enum
     enum to_a is == [1,2,3,4,5,6,7,8,9,10]
   }
+
+  it: "has ended (no more values left" for: 'ended? when: {
+    enum = (1..9) to_enum
+    10 times: { enum ended? is == false; enum next } # move forward
+    enum ended? is == true
+  }
 }
 
 # => [:each, :each_with_index, :each_with_object, :with_index, :with_object, :next_values, :peek_values, :next, :peek, :feed, :rewind, :inspect]
