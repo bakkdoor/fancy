@@ -4,16 +4,6 @@ class Block {
   forwards_unary_ruby_methods
   metaclass forwards_unary_ruby_methods
 
-  def argcount {
-    """
-    @return Arity of a @Block@.
-
-    Returns the amount of arguments (arity) a Block takes.
-    """
-
-    arity()
-  }
-
   def receiver {
     """
     @return Receiver object of a @Block@.

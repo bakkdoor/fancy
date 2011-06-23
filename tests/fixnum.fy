@@ -1,4 +1,4 @@
-FancySpec describe: Number with: {
+FancySpec describe: Fixnum with: {
   it: "should add two numbers correctly" for: '+ when: {
     n1 = 20
     n2 = 22

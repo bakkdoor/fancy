@@ -14,7 +14,7 @@ FancySpec describe: Array with: {
     sum is == ([1,2,3,4,5] sum)
   }
 
-  it: "should iterate over all elements with their index" for: 'each:with_index: when: {
+  it: "should iterate over all elements with their index" for: 'each_with_index: when: {
     sum = 0
     idx_sum = 0
     [10,20,30,40,50] each_with_index: |x i| {

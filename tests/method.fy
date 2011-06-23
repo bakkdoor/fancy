@@ -14,7 +14,7 @@ FancySpec describe: Method with: {
   #   x give_me_the_sender! is == self
   # }
 
-  it: "should return the amount of arguments a Method takes" for: 'argcount when: {
+  it: "should return the amount of arguments a Method takes" for: 'arity when: {
     class Foo {
       def no_args {
       }

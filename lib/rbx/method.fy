@@ -47,6 +47,22 @@ class MethodMixin {
     """
     visibility == 'private
   }
+
+  def tests {
+    """
+    Returns an Array of all the FancySpec SpecTests defined for a
+    Method.
+    """
+
+    @__method_tests__ =  @__method_tests__ || []
+    @__method_tests__
+  }
+
+  def test: test_block {
+    it = FancySpec new: self
+    test_block call: [it]
+    tests << it
+  }
 }
 
 class Method {

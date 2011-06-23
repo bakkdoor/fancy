@@ -24,7 +24,7 @@ class Hash {
     Calls a given @Block@ with each key and value.
     """
 
-    if: (block argcount == 1) then: {
+    if: (block arity == 1) then: {
       keys each: |key| {
         block call: [[key, at: key]]
       }

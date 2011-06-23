@@ -18,10 +18,10 @@ FancySpec describe: Block with: {
     x is == 10
   }
 
-  it: "should return the argument count" for: 'argcount when: {
-    { } argcount . is == 0
-    |x| { } argcount . is == 1
-    |x y z| { } argcount . is == 3
+  it: "should return the argument count" for: 'arity when: {
+    { } arity . is == 0
+    |x| { } arity . is == 1
+    |x y z| { } arity . is == 3
   }
 
   it: "should call a block while another is true" for: 'while_true: when: {
@@ -140,7 +140,7 @@ FancySpec describe: Block with: {
     b receiver is == "Hello, World!"
   }
 
-  it: "should call a block with a different receiver" for: 'call_with_receiver when: {
+  it: "should call a block with a different receiver" for: 'call_with_receiver: when: {
     class ClassA {
       def inspect {
         "in ClassA#inspect"
