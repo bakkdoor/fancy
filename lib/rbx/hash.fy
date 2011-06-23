@@ -40,4 +40,15 @@ class Hash {
   def merge!: other_hash {
     merge!(other_hash)
   }
+
+  def includes?: key {
+    """
+    @key Key to search for.
+    @return @true, if Hash includes @key, @false otherwise.
+
+    Indicates if a given key is in @self.
+    """
+
+    include?(key)
+  }
 }

@@ -106,4 +106,13 @@ FancySpec describe: Hash with: {
     b is == "foobar"
     c is == "hello!"
   }
+
+  it: "should include a key" for: 'includes?: when: {
+    h = <['foo => "bar", 'bar => "baz"]>
+    h includes?: 'foo is == true
+    h includes?: 'bar is == true
+    h includes?: "foo" is == false
+    h includes?: "bar" is == false
+    h includes?: nil is == false
+  }
 }
