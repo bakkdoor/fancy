@@ -1,61 +1,112 @@
 class Set {
-  "A simple Set data structure class."
+  """
+  A simple Set data structure class.
+  """
 
   include: FancyEnumerable
-  read_slots: ['values]
 
-  def initialize: arr {
-    "Initialize a new Set with a given Array of values."
-    @values = arr uniq
+  def initialize: values {
+    """
+    @values @FancyEnumerable@ of values to be used as values for @self.
+
+    Initialize a new Set with a given collection of values.
+    """
+
+    @hash = <[]>
+    values each: |v| {
+      @hash[v]: true
+    }
   }
 
   def initialize {
-    "Initialize a new empty Set."
-    @values = []
+    """
+    Initialize a new empty Set.
+    """
+
+    @hash = <[]>
+  }
+
+  def values {
+    """
+    @return Values in self as an @Array@.
+    """
+
+    @hash keys
   }
 
   def == other {
-    "Indicates, if two Sets are equal."
+    """
+    @other @Set@ to compare @self against.
+    @return @true, if self is equal to @other, @false otherwise.
+
+    Indicates, if two Sets are equal.
+    """
+
     if: (other is_a?: Set) then: {
-      @values == (other values)
+      values == (other values)
+    } else: {
+      false
     }
   }
 
-  def Set [arr] {
-    "Initialize a new Array with a given Array of values."
-    Set new: arr
+  def Set [values] {
+    """
+    @values @FancyEnumerable@ of values used for new Set.
+
+    Initialize a new Set with a given collection of values.
+    """
+
+    Set new: values
   }
 
   def << value {
-    "Insert a value into the Set."
-    { @values << value } unless: (includes?: value)
+    """
+    @value Value to be inserted into @self.
+    @return @self.
+
+    Insert a value into the Set.
+    """
+
+    @hash[value]: true
+    self
   }
 
   def includes?: value {
-    "Indicates, if the Set includes a given value."
-    @values includes?: value
+    """
+    @value Value to be checked for if included in @self.
+    @return @true if @value in @self, @false otherwise.
+
+    Indicates, if the Set includes a given value.
+    """
+
+    @hash includes?: value
   }
 
   def each: block {
-    "Calls a given Block for each element of the Set."
-    @values each: block
-  }
+    """
+    @block @Block@ to be called with each value in @self.
+    @return @self.
 
-  def unknown_message: msg with_params: params {
-    if: (params empty?) then: {
-      @values send_message: msg
-    } else: {
-      @values send_message: msg with_params: params
-    }
+    Calls a given Block for each element of the Set.
+    """
+
+    @hash each_key: block
+    self
   }
 
   def to_s {
-    "Returns a String representation of a Set."
-    "Set" ++ @values to_s
+    """
+    Returns a @String@ representation of a Set.
+    """
+
+    "Set[" ++ (values join: ", ") ++ "]"
   }
 
   def inspect {
-    "Returns a detailed String representation of a Set."
-    to_s ++ " : Set"
+    """
+    Returns a detailed @String@ representation of a Set.
+    """
+
+    "Set[" ++ (values map: 'inspect . join: ", " to_s) ++ "]"
   }
 }
