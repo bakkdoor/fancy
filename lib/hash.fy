@@ -33,6 +33,7 @@ class Hash {
         block call: [key, at: key]
       }
     }
+    self
   }
 
   def each_key: block {
@@ -46,6 +47,7 @@ class Hash {
     keys each: |key| {
       block call: [key]
     }
+    self
   }
 
   def each_value: block {
@@ -59,6 +61,7 @@ class Hash {
     values each: |val| {
       block call: [val]
     }
+    self
   }
 
   def to_a {
