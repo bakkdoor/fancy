@@ -93,7 +93,7 @@ FancySpec describe: FancyEnumerator with: {
     enum to_a is == [1,2,3,4,5,6,7,8,9,10]
   }
 
-  it: "has ended (no more values left" for: 'ended? when: {
+  it: "has ended (no more values left)" for: 'ended? when: {
     enum = (1..9) to_enum
     10 times: { enum ended? is == false; enum next } # move forward
     enum ended? is == true
