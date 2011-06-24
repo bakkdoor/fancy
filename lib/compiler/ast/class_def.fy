@@ -1,6 +1,7 @@
 class Fancy AST {
   class ClassDef : Rubinius AST Class {
     def initialize: @line name: @name parent: @parent body: @body {
+      { @body = ExpressionList new: @line } unless: @body
       name = nil
       if: (@name is_a?: NestedConstant) then: {
         name = @name scoped

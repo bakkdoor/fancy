@@ -275,7 +275,7 @@ class Fancy
       expr_list
     end
 
-    def class_def(line, name, parent, body)
+    def class_def(line, name, parent, body = nil)
       AST::ClassDef.new(line, name, parent, body)
     end
 

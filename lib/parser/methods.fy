@@ -308,7 +308,7 @@ class Fancy {
       AST BlockLiteral new: line args: args body: body
     }
 
-    def ast: line class: name parent: parent body: body {
+    def ast: line class: name parent: parent body: body (AST ExpressionList new: line) {
       AST ClassDef new: line name: name parent: parent body: body
     }
 

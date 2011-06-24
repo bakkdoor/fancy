@@ -522,4 +522,29 @@ FancySpec describe: Class with: {
     AClassWithPrivateMethods instance_method: 'a . public? is == true
     AClassWithPrivateMethods instance_method: 'b . public? is == true
   }
+
+  it: "should define a class without a body" when: {
+    class Foo
+    Foo is_a?: Class is == true
+    Foo new is_a?: Foo is == true
+
+    class FooNew : Foo
+    FooNew is_a?: Class is == true
+    FooNew ancestors includes?: Foo is == true
+    FooNew new is_a?: Foo is == true
+  }
+
+  it: "should define a class with empty methods" when: {
+    class Foo
+    class Bar : Foo {
+      def initialize: @bar
+      def empty_method
+      def to_s {
+        @bar + "bar"
+      }
+    }
+
+    b = Bar new: "foo"
+    b to_s is == "foobar"
+  }
 }

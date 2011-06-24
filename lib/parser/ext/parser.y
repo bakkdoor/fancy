@@ -205,6 +205,7 @@ expression_block: LCURLY space expression_list space RCURLY {
                 }
                 ;
 
+
 partial_expression_block: AT_LCURLY space expression_list space RCURLY {
                    $$ = $3;
                 }
@@ -322,10 +323,16 @@ def:            DEF { $$ = rb_intern("public"); }
 class_no_super: CLASS const_identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), $2, Qnil, $3);
                 }
+                | CLASS const_identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:class:parent:"), 3, INT2NUM(yylineno), $2, Qnil);
+                }
                 ;
 
 class_super:    CLASS const_identifier COLON const_identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:class:parent:body:"), 4, INT2NUM(yylineno), $2, $4, $5);
+                }
+                | CLASS const_identifier COLON const_identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:class:parent:"), 3, INT2NUM(yylineno), $2, $4);
                 }
                 ;
 
@@ -372,11 +379,17 @@ method_args_default: method_arg_default {
 method_w_args:  def method_args expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:method:expand:access:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
+                | def method_args {
+                  $$ = rb_funcall(self, rb_intern("ast:method:expand:access:"), 4, INT2NUM(yylineno), $2, Qnil, $1);
+                }
                 ;
 
 
 method_no_args: def identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:method:body:access:"), 4, INT2NUM(yylineno), $2, $3, $1);
+                }
+                | def identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:method:body:access:"), 4, INT2NUM(yylineno), $2, Qnil, $1);
                 }
                 ;
 
@@ -384,10 +397,16 @@ method_no_args: def identifier expression_block {
 class_method_w_args: def any_identifier method_args expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:method:expand:access:owner:"), 5, INT2NUM(yylineno), $3, $4, $1, $2);
                 }
+                | def any_identifier method_args {
+                  $$ = rb_funcall(self, rb_intern("ast:method:expand:access:owner:"), 5, INT2NUM(yylineno), $3, Qnil, $1, $2);
+                }
                 ;
 
 class_method_no_args: def any_identifier identifier expression_block {
                   $$ = rb_funcall(self, rb_intern("ast:method:body:access:owner:"), 5, INT2NUM(yylineno), $3, $4, $1, $2);
+                }
+                | def any_identifier identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:method:body:access:owner:"), 5, INT2NUM(yylineno), $3, Qnil, $1, $2);
                 }
                 ;
 

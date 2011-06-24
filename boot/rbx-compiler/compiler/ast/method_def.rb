@@ -3,6 +3,8 @@ class Fancy
 
     class MethodDef < Rubinius::AST::Define
       def initialize(line, method_ident, args, body, access = :public)
+        body = AST::ExpressionList.new(line) unless body
+
         @line = line
         @name = method_ident.method_name
         @arguments = args

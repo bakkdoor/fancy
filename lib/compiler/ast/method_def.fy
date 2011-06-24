@@ -1,6 +1,7 @@
 class Fancy AST {
   class MethodDef : Rubinius AST Define {
     def initialize: @line name: @name args: @arguments body: @body access: @access {
+      { @body = ExpressionList new: @line } unless: @body
       @name = @name method_name: nil
       @docstring = @body shift_docstring
       generate_ivar_assignment

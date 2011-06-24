@@ -3,6 +3,8 @@ class Fancy
 
     class ClassDef < Rubinius::AST::Class
       def initialize(line, name, parent, body)
+        body = AST::ExpressionList.new(line) unless body
+
         if name.kind_of?(Fancy::AST::Identifier)
           name = name.name
         end

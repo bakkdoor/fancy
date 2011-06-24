@@ -3,6 +3,8 @@ class Fancy
 
     class SingletonMethodDef < Rubinius::AST::DefineSingleton
       def initialize(line, obj_ident, method_ident, args, body, access = :public)
+        body = AST::ExpressionList.new(line) unless body
+
         @line = line
         @receiver = obj_ident
         @name = method_ident.method_name(@receiver)
