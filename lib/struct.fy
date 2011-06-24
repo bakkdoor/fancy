@@ -10,7 +10,7 @@ class Struct {
     Creates a new Struct class with the given slots.
     """
 
-    struct = new(*slot)
+    struct = new(*slots)
     struct read_write_slots: slots
 
     def struct new: values {
