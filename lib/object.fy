@@ -42,7 +42,7 @@ class Object {
     Same as:
         Console print: self
 
-    Prints the @self on STDOUT.
+    Prints @self on STDOUT.
     """
 
     Console print: to_s
