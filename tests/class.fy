@@ -546,5 +546,6 @@ FancySpec describe: Class with: {
 
     b = Bar new: "foo"
     b to_s is == "foobar"
+    b empty_method is == nil
   }
 }
