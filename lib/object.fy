@@ -542,4 +542,26 @@ class Object {
     { return 0 } if: (self == other)
     return 1 # greater or equal to other
   }
+
+  def do: block {
+    """
+    @block @Block@ to be called in the context of @self.
+
+    Helper method that calls @block with @self as the receiver.
+    This allows message cascading like code, e.g.:
+
+        some_complex_object do: {
+          method_1: arg1
+          method_2: arg2
+          method_3: arg3
+        }
+
+        # this is the same as:
+        some_complex_object method_1: arg1
+        some_complex_object method_2: arg2
+        some_complex_object method_3: arg3
+    """
+
+    block call_with_receiver: self
+  }
 }

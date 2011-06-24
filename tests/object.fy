@@ -193,4 +193,18 @@ FancySpec describe: Object with: {
     self test is == 42
     test is == (self test)
   }
+
+  it: "should call a given block in the context of the receiver (like a message cascade)" for: 'do: when: {
+    arr = []
+    arr do: {
+      << 1
+      << 2
+      << 3
+      select!: 'even?
+    }
+    arr is == [2]
+    arr do: {
+      is == [2] # same
+    }
+  }
 }
