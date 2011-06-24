@@ -2,7 +2,8 @@
 # -*- fancy -*-
 
 try {
-  if: (ARGV[1]) then: |ident| {
+  if: (ARGV[1]) then: {
+    ident = ARGV rest join: " "
     documentation = nil
     match ident {
       case /##/ ->
