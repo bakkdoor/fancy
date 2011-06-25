@@ -70,4 +70,32 @@ FancySpec describe: Set with: {
     }
    sum is == (s sum)
   }
+
+  it: "should remove a value in the Set" for: 'remove: when: {
+    s = Set[(1,2,3)]
+    s remove: 2
+    s is == (Set[(1,3)])
+    s remove: 1
+    s is == (Set[[3]])
+    s remove: 3
+    s empty? is == true
+  }
+
+  it: "should return the union of two sets" for: '+ when: {
+    s1 = Set[(1,2,3)]
+    s2 = Set[(3,4,5)]
+    s1 + s2 is == (Set[(1,2,3,4,5)])
+  }
+
+  it: "should return the difference of two sets" for: '- when: {
+    s1 = Set[(1,2,3)]
+    s2 = Set[(3,4,5)]
+    s1 - s2 is == (Set[(1,2)])
+  }
+
+  it: "should return the intersection of two sets" for: '& when: {
+    s1 = Set[(1,2,3)]
+    s2 = Set[(2,3,4,5)]
+    s1 & s2 is == (Set[(2,3)])
+  }
 }

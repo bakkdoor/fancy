@@ -127,4 +127,49 @@ class Set {
 
     "Set[" ++ (values map: 'inspect . join: ", " . to_s) ++ "]"
   }
+
+  def remove: obj {
+    """
+    @obj Object to be removed from @self.
+
+    Removes a given object from a Set, if available.
+    """
+
+    @hash delete: obj
+  }
+
+  def + other {
+    """
+    @other Other Set to use for creating union Set.
+    @return Union Set containing all values in both @self and @other.
+    """
+
+    Set[values + (other values)]
+  }
+
+  def - other {
+    """
+    @other Other Set to use for creating difference Set.
+    @return Difference Set by removing all values from @self that are in @other.
+    """
+
+    s = Set[values]
+    other values each: |v| {
+      s remove: v
+    }
+    s
+  }
+
+  def & other {
+    """
+    @other Other Set to use for creating Set.
+    @return Intersection Set containing only values that are in both @self and @other.
+    """
+
+    s = Set[values]
+    s values each: |v| {
+      { s remove: v } unless: (other includes?: v)
+    }
+    s
+  }
 }
