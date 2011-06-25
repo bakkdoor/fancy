@@ -1,5 +1,5 @@
 FancySpec describe: "Assignment" with: {
-  it: "should correctly assign multiple values at once" when: {
+  it: "correctly assigns multiple values at once" when: {
     x, y, z = 1, 10, 100
     x is == 1
     y is == 10
@@ -17,7 +17,7 @@ FancySpec describe: "Assignment" with: {
     y is == 'foo
   }
 
-  it: "should handle multiple assignment for any collection type implementing 'at:" when: {
+  it: "handles multiple assignment for any collection type implementing 'at:" when: {
     x, y, z = (1, 2, 3)
     x is == 1
     y is == 2
@@ -33,7 +33,7 @@ FancySpec describe: "Assignment" with: {
     f is == "foo"
   }
 
-  it: "should handle multiple assignment with splat-identifiers" when: {
+  it: "handles multiple assignment with splat-identifiers" when: {
     x,y,z,*rest = [1,2,3,4,5,6,7]
     x is == 1
     y is == 2

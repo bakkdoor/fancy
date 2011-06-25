@@ -1,5 +1,5 @@
 FancySpec describe: "Pattern Matching" with: {
-  it: "should match a value correctly by its class" when: {
+  it: "matches a value correctly by its class" when: {
     def do_match: obj {
       match obj {
         case String -> 'string
@@ -15,7 +15,7 @@ FancySpec describe: "Pattern Matching" with: {
     do_match: 32.32 . is == 'anything
   }
 
-  it: "should bind a given match arg, if present, to the result of the match operation" when: {
+  it: "binds a given match arg, if present, to the result of the match operation" when: {
     match "foobarbaz" {
       case /foo([a-z]+)baz/ -> |matcher|
         local1, local2, local3 = 'ignore, 'this_too, 'this_also
@@ -23,7 +23,7 @@ FancySpec describe: "Pattern Matching" with: {
     }
   }
 
-  it: "should only bind given match arg to the scope of the match case" when: {
+  it: "only binds a given match arg to the scope of the match case" when: {
     match "foobarbaz" {
       case /foo([a-z]+)baz/ -> |local_of_case|
         local_of_case == nil . is == false
@@ -32,7 +32,7 @@ FancySpec describe: "Pattern Matching" with: {
     local_of_case is == nil
   }
 
-  it: "should only bind locals of the match clause to the scope of the match case" when: {
+  it: "only binds locals of the match clause to the scope of the match case" when: {
     match "foobarbaz" {
       case /foo([a-z]+)baz/ -> |local_of_case|
         local1 = "Hi, I am some local, that is be gone after this block."
@@ -41,7 +41,7 @@ FancySpec describe: "Pattern Matching" with: {
     local1 is == nil
   }
 
-  it: "should bind any additional match args to the matched values" when: {
+  it: "binds any additional match args to the matched values" when: {
     str = "foo bar baz"
     match str {
       case /^foo (.*) (.*)$/ -> |all, match1, match2|
@@ -51,7 +51,7 @@ FancySpec describe: "Pattern Matching" with: {
     }
   }
 
-  it: "should return an instance of the apropriate MatchData class" when: {
+  it: "returns an instance of the apropriate MatchData class" when: {
     def create_tuple: num {
       (num, num * num) # create a Tuple
     }
@@ -66,7 +66,7 @@ FancySpec describe: "Pattern Matching" with: {
     }
   }
 
-  it: "should match an array correctly" when: {
+  it: "matches an array correctly" when: {
     def create_array: num {
       [num, num ** 2, num ** 3, num ** 4]
     }
@@ -80,11 +80,11 @@ FancySpec describe: "Pattern Matching" with: {
     }
   }
 
-  it: "should not try to bind the match args if the match failed" when: {
+  it: "does not try to bind the match args if the match failed" when: {
     ["hello world!", "hello you!", "no hello here!"] each: |str| {
       match str {
         case /^hello (.*)$/ -> |_, name|
-          name should_not == nil
+          name is_not == nil
 
         case _ -> name is == nil
       }

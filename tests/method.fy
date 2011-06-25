@@ -1,9 +1,9 @@
 FancySpec describe: Method with: {
-  it: "should return a Method object" when: {
+  it: "returns a Method object" when: {
     [1,2,3] method: "each:" . class is == Method
   }
 
-  # it: "should return the (correct) sender object of the MessageSend" when: {
+  # it: "returns the (correct) sender object of the MessageSend" when: {
   #   class SenderTest {
   #     def give_me_the_sender! {
   #       __sender__
@@ -14,7 +14,7 @@ FancySpec describe: Method with: {
   #   x give_me_the_sender! is == self
   # }
 
-  it: "should return the amount of arguments a Method takes" for: 'arity when: {
+  it: "returns the amount of arguments a Method takes" for: 'arity when: {
     class Foo {
       def no_args {
       }
@@ -32,7 +32,7 @@ FancySpec describe: Method with: {
     Foo instance_method: "three:args:ok:" . arity is == 3
   }
 
-  it: "should return the return value" when: {
+  it: "returns the return value" when: {
     def foo: bar {
       return "returning!"
       bar # will never get executed
@@ -66,7 +66,7 @@ FancySpec describe: Method with: {
     foo is == 8
   }
 
-  it: "should return only from block-scope not from method-scope" when: {
+  it: "returns only from block-scope not from method-scope" when: {
     def self foo {
       10 times: |i| {
         i == 8 if_true: {
@@ -78,7 +78,7 @@ FancySpec describe: Method with: {
     foo is == 8
   }
 
-  it: "should return locally (from block-scope not from method-scope" when: {
+  it: "returns locally (from block-scope not from method-scope" when: {
     def self foo {
       [1,2,3] select: |x| { return_local x != 3 }
     }
@@ -96,25 +96,25 @@ FancySpec describe: Method with: {
     protected: 'protected_bar
   }
 
-  it: "should be public" for: 'public? when: {
+  it: "is public" for: 'public? when: {
     Foo instance_method: 'bar . public? is == true
     Foo instance_method: 'private_bar . public? is == false
     Foo instance_method: 'protected_bar . public? is == false
   }
 
-  it: "should be private" for: 'private? when: {
+  it: "is private" for: 'private? when: {
     Foo instance_method: 'bar . private? is == false
     Foo instance_method: 'private_bar . private? is == true
     Foo instance_method: 'protected_bar . private? is == false
   }
 
-  it: "should be protected" for: 'protected? when: {
+  it: "is protected" for: 'protected? when: {
     Foo instance_method: 'bar . protected? is == false
     Foo instance_method: 'private_bar . protected? is == false
     Foo instance_method: 'protected_bar . protected? is == true
   }
 
-  it: "should set the default values for optional argument, when not passed in" when: {
+  it: "sets the default values for optional argument, when not passed in" when: {
     def foo: arg1 bar: arg2 ("foo") baz: arg3 (nil) {
       arg1 ++ arg2 ++ arg3
     }
@@ -124,7 +124,7 @@ FancySpec describe: Method with: {
     foo: "hello"  . is == "hellofoo"
   }
 
-  it: "should have default values for all arguments, if none given" when: {
+  it: "has default values for all arguments, if none given" when: {
     def a: arg1 ("foo") b: arg2 ("bar") c: arg3 ("baz") {
       [arg1, arg2, arg3]
     }
@@ -135,7 +135,7 @@ FancySpec describe: Method with: {
     a is == ["foo", "bar", "baz"]
   }
 
-  it: "should return multiple values (as a Tuple)" when: {
+  it: "returns multiple values (as a Tuple)" when: {
     def multiple_return_values: x {
       (x, x + x, x + x + x)
     }

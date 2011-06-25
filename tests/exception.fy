@@ -9,7 +9,7 @@ class Foo {
 }
 
 FancySpec describe: StdError with: {
-  it: "should raise an exception and catch it correctly" for: 'raise! when: {
+  it: "raises an exception and catch it correctly" for: 'raise! when: {
     try {
       StdError new: "FAIL!" . raise!
       nil is == true # this is not occur
@@ -18,7 +18,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should raise an exception and have the expected error message" for: 'raise! when: {
+  it: "raises an exception and have the expected error message" for: 'raise! when: {
     {
       StdError new: "FAIL!" . raise!
     } raises: StdError with: |e| {
@@ -32,7 +32,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should raise an exception inside a method and catch it correctly" when: {
+  it: "raises an exception inside a method and catch it correctly" when: {
     f = Foo new
     f bar: "Don't raise here" . is == 'no_error
     try {
@@ -42,7 +42,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  # it: "should raise a NoMethodError" when: {
+  # it: "raises a NoMethodError" when: {
   #   s = 'symbol
   #   try {
   #     s this_method_doesnt_exist!
@@ -53,7 +53,7 @@ FancySpec describe: StdError with: {
   #   }
   # }
 
-  it: "should have access to variables in exception handlers defined in the surrounding scope" when: {
+  it: "has access to variables in exception handlers defined in the surrounding scope" when: {
     var = 1234
     try {
       var wont_work!
@@ -62,7 +62,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should always evaluate the finally clause" when: {
+  it: "always evaluates the finally clause" when: {
     set_in_finally = false
     try {
       x = 10 / 0 # ouch!
@@ -78,7 +78,7 @@ FancySpec describe: StdError with: {
     set_in_finally is == true
   }
 
-  it: "should raise a StdError when raising a String" for: 'raise! when: {
+  it: "raises a StdError when raising a String" for: 'raise! when: {
     msg = "A Custom Error!"
     {
       msg raise!
@@ -87,7 +87,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should raise and catch a custom exception correctly" for: 'raise! when: {
+  it: "raises and catch a custom exception correctly" for: 'raise! when: {
     class MyError : StdError{
       def initialize {
         initialize: "MyError message"
@@ -102,7 +102,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "should restart itself after being fixed in a catch clause" when: {
+  it: "restarts itself after being fixed in a catch clause" when: {
     y = 0
     x = 0
     try {
@@ -117,7 +117,7 @@ FancySpec describe: StdError with: {
     x is  == 5
   }
 
-  it: "should always execute the finally block when defined" when: {
+  it: "always executes the finally block when defined" when: {
     try {
       msg = "Reraise a new Exception :P"
       try {

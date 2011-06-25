@@ -1,22 +1,22 @@
 FancySpec describe: File with: {
-  it: "should return an array with the openmodes symbols" for: 'open:modes: when: {
+  it: "returns an array with the openmodes symbols" for: 'open:modes: when: {
     file = File open: "README.md" modes: ['read]
     file modes is == ['read]
     file close
   }
 
-  it: "should be open after opening it and closed after closing" for: 'close when: {
+  it: "is open after opening it and closed after closing" for: 'close when: {
     file = File open: "README.md" modes: ['read]
     file open? is == true
     file close
     file open? is == false
   }
 
-  it: "should be closed when not correctly opened" for: 'open? when: {
+  it: "is closed when not correctly opened" for: 'open? when: {
     { file = File new } raises: ArgumentError
   }
 
-  it: "should write and read from a file correctly" for: 'writeln: when: {
+  it: "writes and reads from a file correctly" for: 'writeln: when: {
     filename = "/tmp/read_write_test.txt"
     file = File open: filename modes: ['write]
     file writeln: "hello, world!"
@@ -39,11 +39,11 @@ FancySpec describe: File with: {
     File exists?: filename . is == false
   }
 
-  it: "should raise an IOError exception when trying to open an invalid file" when: {
+  it: "raises an IOError exception when trying to open an invalid file" when: {
     { file = File open: "/foo/bar/baz" modes: ['read] } raises: IOError
   }
 
-  it: "should rename a File" when: {
+  it: "renames a File" when: {
     dirname = "tmp/"
     filename = dirname ++ "foobar"
 
@@ -64,12 +64,12 @@ FancySpec describe: File with: {
     Directory delete: "tmp/"
   }
 
-  it: "should be a directory" for: 'directory?: when: {
+  it: "is a directory" for: 'directory?: when: {
     File directory?: "lib/" . is == true
     File directory?: "lib/rbx" . is == true
   }
 
-  it: "should NOT be a directory" for: 'directory?: when: {
+  it: "is NOT a directory" for: 'directory?: when: {
     File directory?: "src/Makefile" . is == false
     File directory?: "README" . is == false
     File directory?: "src/bootstrap/Makefile" . is == false

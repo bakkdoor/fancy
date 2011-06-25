@@ -1,5 +1,5 @@
 FancySpec describe: FutureSend with: {
-  it: "should compose Futures to create execution pipelines" for: '&& when: {
+  it: "composes Futures to create execution pipelines" for: '&& when: {
     def some_computation: num {
       num upto: (num ** num ** num)
     }
@@ -11,7 +11,7 @@ FancySpec describe: FutureSend with: {
 }
 
 FancySpec describe: FutureCollection with: {
-  it: "should execute a block for each future in the collection when it's ready" for: 'each: when: {
+  it: "executes a block for each future in the collection when it's ready" for: 'each: when: {
     futures = 0 upto: 10 . map: |i| {
       i ** i @ ** i
     }
