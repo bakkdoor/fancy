@@ -162,7 +162,7 @@ namespace :compiler do
   end
 
   task :bootstrap => ["parser:generate", "rbx_parser:ext", file(boot_parser_e)] do
-    ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap", "compiler:compile_tests"].each do |t|
+    ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
     end
