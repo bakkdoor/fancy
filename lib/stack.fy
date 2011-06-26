@@ -68,4 +68,15 @@ class Stack {
 
     @arr empty?
   }
+
+  def each: block {
+    """
+    @block @Block@ to be called with each element in @self.
+    @return @self.
+
+    Calls a given @Block@ with each element in @self, starting with the top of stack element.
+    """
+
+    @arr reverse each: block
+  }
 }

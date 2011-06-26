@@ -18,4 +18,14 @@ FancySpec describe: Stack with: {
       s pop is == x
     }
   }
+
+  it: "calls a Block with each element, starting with the top of stack" for: 'each: when: {
+    s = Stack new
+    10 times: |i| { s << i }
+    val = 9
+    s each: |x| {
+      x is == val
+      val = val - 1
+    }
+  }
 }
