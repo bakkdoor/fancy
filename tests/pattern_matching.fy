@@ -90,4 +90,40 @@ FancySpec describe: "Pattern Matching" with: {
       }
     }
   }
+
+  it: "matches a Block as a pattern correctly" when: {
+    def match_it: x {
+      match x {
+        case @{is_a?: String} -> 'string
+        case @{is_a?: Symbol} -> 'symbol
+        case @{responds_to?: 'each:} ->
+          match x {
+            case @{empty?} -> 'empty
+            case _ -> 'not_empty
+          }
+        case Fixnum ->
+          match x {
+            case @{<= 3} -> '<=
+            case _ -> x * 2
+          }
+        case _ -> x to_s * 2
+      }
+    }
+
+    match_it: "hello, world!" is == 'string
+    match_it: [] is == 'empty
+    match_it: <[]> is == 'empty
+    match_it: (Set new) is == 'empty
+    match_it: (Stack new) is == 'empty
+    match_it: [1,2,3] is == 'not_empty
+    match_it: (1,"foo") is == 'not_empty
+    match_it: <['foo => 'bar]> is == 'not_empty
+    match_it: 'yo is == 'symbol
+    match_it: 32 is == 64
+    match_it: 4 is == 8
+    match_it: 3 is == '<=
+    match_it: 2 is == '<=
+    match_it: 0 is == '<=
+    match_it: -1 is == '<=
+  }
 }
