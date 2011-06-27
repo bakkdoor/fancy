@@ -117,4 +117,21 @@ class String {
 
     append: $ object to_s
   }
+
+  def skip_leading_indentation {
+    """
+    Remove leading white space for multi-line strings.
+    This method expects the first character to be an line return.
+    """
+
+    str = self
+    m = /^(\r?\n)*(\s+)/ match(str)
+    str = str strip()
+    if: m then: {
+      pattern = "^ {" ++ (m[2] size()) ++ "}"
+      rex = Regexp.new(pattern)
+      str = str gsub(rex, "");
+    }
+    str
+  }
 }

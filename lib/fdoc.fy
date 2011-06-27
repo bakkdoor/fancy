@@ -195,28 +195,13 @@ class Fancy FDoc {
     def self format: doc {
       str = doc to_s
       tags = <[ ]>
-      str = remove_indentation: str
+      str = str skip_leading_indentation
       str = remove_tags: str into: tags
       str = create_tags: str with: tags
       str = create_class_references: str
       str = create_method_references: str
       str = create_code: str
       str = htmlize: str
-      str
-    }
-
-    def self remove_indentation: str {
-      """
-      Remove leading white space for multi-line strings.
-      This method expects the first character to be an line return.
-      """
-      m = /^(\r?\n)*(\s+)/ match(str)
-      str = str strip()
-      if: m then: {
-        pattern = "^ {" ++ (m[2] size()) ++ "}"
-        rex = Regexp.new(pattern)
-        str = str gsub(rex, "");
-      }
       str
     }
 

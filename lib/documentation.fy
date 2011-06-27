@@ -43,7 +43,9 @@ class Fancy Documentation {
     provide links to all specs where an object is being exercised.
   """
 
-  def to_s { @docs join: "\n" }
+  def to_s {
+    @docs join: "\n" . skip_leading_indentation
+  }
 
   def format: format {
     """

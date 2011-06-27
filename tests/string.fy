@@ -125,4 +125,16 @@ FancySpec describe: String with: {
     "foo bar baz" includes?: "" is == true
     "foo bar baz" includes?: "foobarbaz" is == false
   }
+
+  it: "should remove any leading indentation" for: 'skip_leading_indentation when: {
+    """
+    hello, world!
+    how are you?
+    """ skip_leading_indentation is == "hello, world!\nhow are you?"
+
+    str = """
+    foo, bar
+    """
+    str skip_leading_indentation is_not == str
+  }
 }

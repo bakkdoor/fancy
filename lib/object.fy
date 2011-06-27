@@ -288,12 +288,12 @@ class Object {
 
   def documentation {
     """
-    @return Docstring for @self.
+    @return @Fancy::Documentation@ object for @self.
 
-    Returns the documentation string for an Object.
+    Returns the @Fancy::Documentation@ object for an Object.
     """
 
-    Fancy Documentation for: self . to_s
+    Fancy Documentation for: self
   }
 
   def documentation: docstring {

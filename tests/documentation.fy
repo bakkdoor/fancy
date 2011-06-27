@@ -13,8 +13,8 @@ FancySpec describe: "Documentations" with: {
         nil
       }
     }
-    ClassWithDoc documentation is_not == ""
-    ClassWithDoc documentation is == "This class has a documentation! Yay!"
+    ClassWithDoc documentation to_s is_not == ""
+    ClassWithDoc documentation to_s is == "This class has a documentation! Yay!"
     ClassWithDoc new method: 'foo . documentation docs is == ["bar!"]
   }
 
