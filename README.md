@@ -17,12 +17,14 @@ It supports concurrency via the actor-model, including first-class
 futures and async message send semantics built into the language.
 
 For a quick feature overview, have a look at `doc/features.md`
-For a recent version of the code with syntax highlighting look here:
-http://fancy-lang.org/code/
 There's also a work-in-progress tutorial/book on Fancy here:
 https://github.com/fancy-lang/infancy
 
-It’s still in development, the implementation has evolved from an
+Fancy's standard library is all written in Fancy (with some minor
+exceptions written in Ruby - see `boot/fancy_ext`).
+Have a look at the `lib/` directory.
+
+Fancy is still in development, the implementation has evolved from an
 interpreter written in C++ to a fully bootstrapped bytecode compiler
 for the Rubinius VM (http://www.rubini.us).
 You can see the self-hosted compiler implementation in `lib/compiler/`.
