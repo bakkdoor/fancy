@@ -1,5 +1,5 @@
 FancySpec describe: Set with: {
-  it: "only keeps unique values" for: '[] when: {
+  it: "only keeps unique values" with: '[] when: {
     s = Set new
     s << 'foo
     s << 'foo
@@ -8,14 +8,14 @@ FancySpec describe: Set with: {
     s is_not == ['foo] # Sets and Arrays differ
   }
 
-  it: "is empty" for: 'empty? when: {
+  it: "is empty" with: 'empty? when: {
     s = Set new
     s empty? is == true
     s = Set[[]]
     s empty? is == true
   }
 
-  it: "is not empty" for: 'empty? when: {
+  it: "is not empty" with: 'empty? when: {
     s = Set new
     s << 1
     s empty? is == false
@@ -23,7 +23,7 @@ FancySpec describe: Set with: {
     s empty? is == false
   }
 
-  it: "has the correct size" for: 'size when: {
+  it: "has the correct size" with: 'size when: {
     s = Set new
     s size is == 0
     s << 'foo
@@ -34,7 +34,7 @@ FancySpec describe: Set with: {
     s size is == 2
   }
 
-  it: "is equal to another set" for: '== when: {
+  it: "is equal to another set" with: '== when: {
     s1 = Set new
     s2 = Set new
     s1 == s2 is == true
@@ -48,7 +48,7 @@ FancySpec describe: Set with: {
     s2 == s1 is == true
   }
 
-  it: "includes a value" for: 'includes?: when: {
+  it: "includes a value" with: 'includes?: when: {
     s = Set[[1,2,3,"foo", 'bar, 10.0, 10.1]]
     s includes?: 1 is == true
     s includes?: 2 is == true
@@ -61,7 +61,7 @@ FancySpec describe: Set with: {
     s includes?: nil is == false
   }
 
-  it: "calls a Block with each value" for: 'each: when: {
+  it: "calls a Block with each value" with: 'each: when: {
     s = Set[[1,2,3,4]]
     sum = 0
     s each: |val| {
@@ -71,7 +71,7 @@ FancySpec describe: Set with: {
    sum is == (s sum)
   }
 
-  it: "removes a value in the Set" for: 'remove: when: {
+  it: "removes a value in the Set" with: 'remove: when: {
     s = Set[(1,2,3)]
     s remove: 2
     s is == (Set[(1,3)])
@@ -81,19 +81,19 @@ FancySpec describe: Set with: {
     s empty? is == true
   }
 
-  it: "returns the union of two sets" for: '+ when: {
+  it: "returns the union of two sets" with: '+ when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(3,4,5)]
     s1 + s2 is == (Set[(1,2,3,4,5)])
   }
 
-  it: "returns the difference of two sets" for: '- when: {
+  it: "returns the difference of two sets" with: '- when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(3,4,5)]
     s1 - s2 is == (Set[(1,2)])
   }
 
-  it: "returns the intersection of two sets" for: '& when: {
+  it: "returns the intersection of two sets" with: '& when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(2,3,4,5)]
     s1 & s2 is == (Set[(2,3)])

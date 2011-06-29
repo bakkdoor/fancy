@@ -1,23 +1,23 @@
 FancySpec describe: Fixnum with: {
-  it: "adds two numbers correctly" for: '+ when: {
+  it: "adds two numbers correctly" with: '+ when: {
     n1 = 20
     n2 = 22
     n1 + n2 is == 42
   }
 
-  it: "subtracts two numbers correctly" for: '- when: {
+  it: "subtracts two numbers correctly" with: '- when: {
     n1 = 20
     n2 = 22
     n1 - n2 is == -2
   }
 
-  it: "multiplies two numbers correctly" for: '* when: {
+  it: "multiplies two numbers correctly" with: '* when: {
     n1 = 20
     n2 = 22
     n1 * n2 is == 440
   }
 
-  it: "divides two numbers correctly" for: '/ when: {
+  it: "divides two numbers correctly" with: '/ when: {
     n1 = 20
     n2 = 10
     n1 / n2 is == 2
@@ -27,53 +27,53 @@ FancySpec describe: Fixnum with: {
     { 10 / 0 } is raise: ZeroDivisionError
   }
 
-  it: "calculates the correct modulo value" for: 'modulo: when: {
+  it: "calculates the correct modulo value" with: 'modulo: when: {
     9 % 4 is == 1
     10 modulo: 2 . is == 0
   }
 
-  it: "does proper integer division" for: 'div: when: {
+  it: "does proper integer division" with: 'div: when: {
     50 div: 10 . is == 5
     55 div: 10 . is == 5
     5 div: 10 . is == 0
     ((55 div: 10) * 10) + (55 modulo: 10) is == 55
   }
 
-  it: "is the negation" for: 'negate when: {
+  it: "is the negation" with: 'negate when: {
     42 negate is == -42
   }
 
-  it: "is odd" for: 'odd? when: {
+  it: "is odd" with: 'odd? when: {
     1 odd? is == true
     1 even? is == false
   }
 
-  it: "is even" for: 'even? when: {
+  it: "is even" with: 'even? when: {
     2 odd? is == false
     2 even? is == true
   }
 
-  it: "returns an array from 0 upto 10" for: 'upto: when: {
+  it: "returns an array from 0 upto 10" with: 'upto: when: {
     0 upto: 10 . is == [0,1,2,3,4,5,6,7,8,9,10]
   }
 
-  it: "iterates from 1 upto 10" for: 'upto:do: when: {
+  it: "iterates from 1 upto 10" with: 'upto:do: when: {
     sum = 0
     1 upto: 10 do: |n| { sum = sum + n }
     sum is == 55
   }
 
-  it: "returns an array from 10 downto 0" for: 'downto: when: {
+  it: "returns an array from 10 downto 0" with: 'downto: when: {
     10 downto: 0 . is == [10,9,8,7,6,5,4,3,2,1,0]
   }
 
-  it: "iterates from 10 downto 1" for: 'downto:do: when: {
+  it: "iterates from 10 downto 1" with: 'downto:do: when: {
     sum = 0
     10 downto: 1 do: |n| { sum = sum + n }
     sum is == 55
   }
 
-  it: "calculates the given power of itself" for: '** when: {
+  it: "calculates the given power of itself" with: '** when: {
     2 ** 3 is == 8
     2 ** 0 is == 1
     2 ** 1 is == 2
@@ -84,7 +84,7 @@ FancySpec describe: Fixnum with: {
     }
   }
 
-  it: "is the square of self" for: 'squared when: {
+  it: "is the square of self" with: 'squared when: {
     5 squared is == 25
     10 squared is == 100
     20 upto: 50 do: |i| {
@@ -92,7 +92,7 @@ FancySpec describe: Fixnum with: {
     }
   }
 
-  it: "is the double value of self" for: 'doubled when: {
+  it: "is the double value of self" with: 'doubled when: {
     5 doubled is == 10
     10 doubled is == 20
     20 upto: 50 do: |i| {
@@ -133,7 +133,7 @@ FancySpec describe: Fixnum with: {
     0xFF is == 255
   }
 
-  it: "calls a block a given amount of times" for: 'times: when: {
+  it: "calls a block a given amount of times" with: 'times: when: {
     times_called = 0
     10 times: { times_called = times_called + 1 }
     times_called is == 10
@@ -143,7 +143,7 @@ FancySpec describe: Fixnum with: {
     sum is == ((0..9) sum)
   }
 
-  it: "calls a block a given amount of times with an offset" for: 'times:offset: when: {
+  it: "calls a block a given amount of times with an offset" with: 'times:offset: when: {
     times_called = 0
     sum = 0
     10 times: |i| {

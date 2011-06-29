@@ -1,11 +1,11 @@
 FancySpec describe: Hash with: {
-  it: "is empty on initialization" for: 'empty? when: {
+  it: "is empty on initialization" with: 'empty? when: {
     hash = <[]>
     hash size is == 0
     hash empty? is == true
   }
 
-  it: "is empty on initialization via Hash#new" for: 'size when: {
+  it: "is empty on initialization via Hash#new" with: 'size when: {
     hash = Hash new
     hash size is == 0
     hash empty? is == true
@@ -17,7 +17,7 @@ FancySpec describe: Hash with: {
     hash empty? is == false
   }
 
-  it: "contains 10 square values after 10 insertions" for: 'at: when: {
+  it: "contains 10 square values after 10 insertions" with: 'at: when: {
     hash = Hash new
     10 times: |i| {
       hash at: i put: (i * i)
@@ -28,44 +28,44 @@ FancySpec describe: Hash with: {
     }
   }
 
-  it: "overrides the value for a given key" for: 'at: when: {
+  it: "overrides the value for a given key" with: 'at: when: {
     hash = <['foo => "bar"]>
     hash at: 'foo . is == "bar"
     hash at: 'foo put: 'foobarbaz
     hash at: 'foo . is == 'foobarbaz
   }
 
-  it: "returns all keys" for: 'keys when: {
+  it: "returns all keys" with: 'keys when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash keys is =? ['foo, 'bar, 'foobar]
   }
 
-  it: "returns all values" for: 'values when: {
+  it: "returns all values" with: 'values when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash values is =? ["bar", "baz", 112.21]
   }
 
-  it: "returns value by the []-operator" for: '[] when: {
+  it: "returns value by the []-operator" with: '[] when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash['foo] is == "bar"
     hash['bar] is == "baz"
     hash['foobar] is == 112.21
   }
 
-  it: "returns nil if the key isn't defined" for: '[] when: {
+  it: "returns nil if the key isn't defined" with: '[] when: {
     <['foo => "bar"]> ['bar] . is == nil
     <[]> ['foobar] . is == nil
     <['foo => "bar"]> [nil] . is == nil
   }
 
-  it: "calls the Block for each key and value" for: 'each: when: {
+  it: "calls the Block for each key and value" with: 'each: when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash each: |key val| {
       val is == (hash[key])
     }
   }
 
-  it: "calls the Block with each key" for: 'each_key: when: {
+  it: "calls the Block with each key" with: 'each_key: when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     count = 0
     hash each_key: |key| {
@@ -74,7 +74,7 @@ FancySpec describe: Hash with: {
     }
   }
 
-  it: "calls the Block with each value" for: 'each_value: when: {
+  it: "calls the Block with each value" with: 'each_value: when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     count = 0
     hash each_value: |val| {
@@ -95,11 +95,11 @@ FancySpec describe: Hash with: {
       map: 'second . is == ["is cool"]
   }
 
-  it: "returns an Array of the key-value pairs" for: 'to_a when: {
+  it: "returns an Array of the key-value pairs" with: 'to_a when: {
     <['foo => "bar", 'bar => "baz"]> to_a is =? [['foo, "bar"], ['bar, "baz"]]
   }
 
-  it: "returns multiple values if given an array of keys" for: '[] when: {
+  it: "returns multiple values if given an array of keys" with: '[] when: {
     hash = <['foo => 1, 'bar => "foobar", 'baz => 42, "hello world" => "hello!"]>
     a, b, c = hash values_at: ('foo, 'bar, "hello world")
     a is == 1
@@ -107,7 +107,7 @@ FancySpec describe: Hash with: {
     c is == "hello!"
   }
 
-  it: "includes a key" for: 'includes?: when: {
+  it: "includes a key" with: 'includes?: when: {
     h = <['foo => "bar", 'bar => "baz"]>
     h includes?: 'foo is == true
     h includes?: 'bar is == true

@@ -1,17 +1,17 @@
 FancySpec describe: "Control Flow" with: {
 
-  it: "does NOT call the block if not nil" for: 'if_nil: when: {
+  it: "does NOT call the block if not nil" with: 'if_nil: when: {
     'foo if_nil: { 'is_nil } . is == nil
     "hello, world" if_nil: { 'is_nil } . is == nil
   }
 
-  it: "works like if_true:" for: 'if:then: when: {
+  it: "works like if_true:" with: 'if:then: when: {
     if: (4 < 5) then: {
       4 < 5 is == true
     }
   }
 
-  it: "works like if_true:else: " for: 'if:then:else: when: {
+  it: "works like if_true:else: " with: 'if:then:else: when: {
     if: (4 < 5) then: {
       4 < 5 is == true
     } else: {
@@ -19,7 +19,7 @@ FancySpec describe: "Control Flow" with: {
     }
   }
 
-  it: "works like while_true:" for: 'while:do: when: {
+  it: "works like while_true:" with: 'while:do: when: {
     x = 0
     while: { x < 10 } do: {
       x < 10 is == true
@@ -28,7 +28,7 @@ FancySpec describe: "Control Flow" with: {
     x == 10 is == true
   }
 
-  it: "works like while_false: " for: 'until:do: when: {
+  it: "works like while_false: " with: 'until:do: when: {
     x = 0
     until: { x == 10 } do: {
       x < 10 is == true
@@ -37,7 +37,7 @@ FancySpec describe: "Control Flow" with: {
     x == 10 is == true
   }
 
-  it: "calls a block while another one is true, but call it at least once" for: 'do:while: when: {
+  it: "calls a block while another one is true, but call it at least once" with: 'do:while: when: {
     x = 0
     arr = []
     do: {
@@ -54,7 +54,7 @@ FancySpec describe: "Control Flow" with: {
     times_called is == 1
   }
 
-  it: "calls a block until another one is true, but call it at least once" for: 'do:until: when: {
+  it: "calls a block until another one is true, but call it at least once" with: 'do:until: when: {
     x = 0
     do: {
       x < 10 is == true
@@ -69,13 +69,13 @@ FancySpec describe: "Control Flow" with: {
     times_called is == 1
   }
 
-  it: "works like if_false:: " for: 'unless:do: when: {
+  it: "works like if_false:: " with: 'unless:do: when: {
     unless: (4 > 5) do: {
       5 > 4 is == true
     }
   }
 
-  it: "only calls the block if it's a true-ish value" for: 'if_true: when: {
+  it: "only calls the block if it's a true-ish value" with: 'if_true: when: {
     1 if_true: |num| {
       num * 10
     } . is == 10
@@ -89,7 +89,7 @@ FancySpec describe: "Control Flow" with: {
     } . is == nil
   }
 
-  it: "calls the then_block if it's a true-ish value and call the else_block otherwise" for: 'if_true:else: when: {
+  it: "calls the then_block if it's a true-ish value and call the else_block otherwise" with: 'if_true:else: when: {
     1 if_true: |num| {
       num * 10
     } else: {
@@ -133,7 +133,7 @@ FancySpec describe: "Control Flow" with: {
     } . is == 'now_this_is_success
   }
 
-  it: "breaks from an iteration" for: 'break when: {
+  it: "breaks from an iteration" with: 'break when: {
     x = 0
     until: { x == 10 } do: {
       x = x + 1
@@ -142,7 +142,7 @@ FancySpec describe: "Control Flow" with: {
     x == 5 is == true
   }
 
-  it: "breaks from an iteration with return value" for: 'break: when: {
+  it: "breaks from an iteration with return value" with: 'break: when: {
     x = 0
     y = until: { x == 10 } do: {
       x = x + 1
@@ -153,7 +153,7 @@ FancySpec describe: "Control Flow" with: {
     y is == 42
   }
 
-  it: "skips an iteration over a Range" for: 'next when: {
+  it: "skips an iteration over a Range" with: 'next when: {
     total = 0
     (1..10) each: |i| {
       { next } if: (i == 5)
@@ -162,7 +162,7 @@ FancySpec describe: "Control Flow" with: {
     total is == 50
   }
 
-  it: "skips an iteration over an Array" for: 'next when: {
+  it: "skips an iteration over an Array" with: 'next when: {
     total = 0
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] each: |i| {
       { next } if: (i == 5)
@@ -171,7 +171,7 @@ FancySpec describe: "Control Flow" with: {
     total is == 50
   }
 
-  it: "skips an iteration over an Hash" for: 'next when: {
+  it: "skips an iteration over an Hash" with: 'next when: {
     total = 0
     <['a => 1, 'b => 2, 'c => 3, 'd => 4, 'e => 5, 'f => 6]> each: |k v| {
       { next } if: (k == 'd)
@@ -180,7 +180,7 @@ FancySpec describe: "Control Flow" with: {
     total is == 17
   }
 
-  it: "stops any loop type at the correct spot" for: 'break when: {
+  it: "stops any loop type at the correct spot" with: 'break when: {
     i = 0
     loop: {
       { break } if: (i == 3)
@@ -203,7 +203,7 @@ FancySpec describe: "Control Flow" with: {
     i is == 3
   }
 
-  it: "stops any loop type at the correct spot" for: 'break: when: {
+  it: "stops any loop type at the correct spot" with: 'break: when: {
     i = 0
     loop: {
       { break: i } if: (i == 2)

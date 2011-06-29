@@ -74,52 +74,52 @@ FancySpec describe: Object with: {
 
   # boolean messages
 
-  it: "is true for calling and: with non-nil values" for: 'and: when: {
+  it: "is true for calling and: with non-nil values" with: 'and: when: {
     'foo and: 'bar . is == 'bar
   }
 
-  it: "is false for calling and: with a nil value" for: 'and: when: {
+  it: "is false for calling and: with a nil value" with: 'and: when: {
     'foo and: nil . is == nil
   }
 
-  it: "is true for calling && with non-nil values" for: '&& when: {
+  it: "is true for calling && with non-nil values" with: '&& when: {
     ('foo && 'bar) is == 'bar
   }
 
-  it: "is false for calling && with a nil value" for: '&& when: {
+  it: "is false for calling && with a nil value" with: '&& when: {
     ('foo && nil) is == nil
   }
 
 
-  it: "is true for calling or: with any value" for: 'or: when: {
+  it: "is true for calling or: with any value" with: 'or: when: {
     'foo or: 'bar . is == 'foo
     'foo or: nil . is == 'foo
   }
 
-  it: "is true for calling || with any value" for: '|| when: {
+  it: "is true for calling || with any value" with: '|| when: {
     ('foo || 'bar) is == 'foo
     ('foo || nil) is == 'foo
   }
 
   # end boolean messages
 
-  it: "is not nil for non-nil values" for: 'nil? when: {
+  it: "is not nil for non-nil values" with: 'nil? when: {
     'foo nil? is == false
     1 nil? is == false
     "hello" nil? is == false
   }
 
-  it: "is not false for non-nil values" for: 'false? when: {
+  it: "is not false for non-nil values" with: 'false? when: {
     'foo false? is == false
     "hello, world" false? is == false
   }
 
-  it: "is not true" for: 'true? when: {
+  it: "is not true" with: 'true? when: {
     'foo true? is == false
     "hello, world" true? is == false
   }
 
-  it: "returns the correct value" for: 'returning:do: when: {
+  it: "returns the correct value" with: 'returning:do: when: {
     returning: [] do: |arr| {
       arr << 1
       arr << 2
@@ -127,7 +127,7 @@ FancySpec describe: Object with: {
     } . is == [1,2,3]
   }
 
-  it: "only calls a method if the receiver responds to it using a RespondsToProxy" for: 'if_responds? when: {
+  it: "only calls a method if the receiver responds to it using a RespondsToProxy" with: 'if_responds? when: {
     class SomeClass {
       def some_method {
         'it_works!
@@ -139,7 +139,7 @@ FancySpec describe: Object with: {
     s if_responds? some_undefined_method is == nil
   }
 
-  it: "calls the backtick: method when using the '`' syntax" for: 'backtick: when: {
+  it: "calls the backtick: method when using the '`' syntax" with: 'backtick: when: {
     `cat #{__FILE__}` is == (File read: __FILE__)
 
     # override backticks
@@ -150,7 +150,7 @@ FancySpec describe: Object with: {
     `ls -al` is == "ls -al - NOT!"
   }
 
-  it: "overrides true and does some wacky stuff" for: 'true when: {
+  it: "overrides true and does some wacky stuff" with: 'true when: {
     class MyClass {
       def true {
         false
@@ -167,7 +167,7 @@ FancySpec describe: Object with: {
     } call_with_receiver: (MyClass new)
   }
 
-  it: "overrides nil" for: 'nil when: {
+  it: "overrides nil" with: 'nil when: {
     class MyClass {
       def nil {
         true
@@ -177,7 +177,7 @@ FancySpec describe: Object with: {
     { nil is == true } call_with_receiver: (MyClass new)
   }
 
-  it: "overrides false" for: 'false when: {
+  it: "overrides false" with: 'false when: {
     class MyClass2 {
       def false {
         true
@@ -194,7 +194,7 @@ FancySpec describe: Object with: {
     test is == (self test)
   }
 
-  it: "calls a given block in the context of the receiver (like a message cascade)" for: 'do: when: {
+  it: "calls a given block in the context of the receiver (like a message cascade)" with: 'do: when: {
     arr = []
     arr do: {
       << 1

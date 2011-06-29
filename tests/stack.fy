@@ -1,10 +1,10 @@
 FancySpec describe: Stack with: {
-  it: "is empty when created" for: '<< when: {
+  it: "is empty when created" with: '<< when: {
     s = Stack new
     s empty? is == true
   }
 
-  it: "returns the last inserted element" for: 'pop when: {
+  it: "returns the last inserted element" with: 'pop when: {
     s = Stack new
     s push: 1
     s pop is == 1
@@ -19,7 +19,7 @@ FancySpec describe: Stack with: {
     }
   }
 
-  it: "calls a Block with each element, starting with the top of stack" for: 'each: when: {
+  it: "calls a Block with each element, starting with the top of stack" with: 'each: when: {
     s = Stack new
     10 times: |i| { s << i }
     val = 9

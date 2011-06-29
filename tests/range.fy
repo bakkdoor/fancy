@@ -1,5 +1,5 @@
 FancySpec describe: Range with: {
-  it: "has the correct amount of elements" for: 'size when: {
+  it: "has the correct amount of elements" with: 'size when: {
     Range new: 1 to: 10 . to_a size is == 10
     (1..10) to_a size is == 10
     ("a".."z") to_a size is == 26

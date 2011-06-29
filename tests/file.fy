@@ -1,22 +1,22 @@
 FancySpec describe: File with: {
-  it: "returns an array with the openmodes symbols" for: 'open:modes: when: {
+  it: "returns an array with the openmodes symbols" with: 'open:modes: when: {
     file = File open: "README.md" modes: ['read]
     file modes is == ['read]
     file close
   }
 
-  it: "is open after opening it and closed after closing" for: 'close when: {
+  it: "is open after opening it and closed after closing" with: 'close when: {
     file = File open: "README.md" modes: ['read]
     file open? is == true
     file close
     file open? is == false
   }
 
-  it: "is closed when not correctly opened" for: 'open? when: {
+  it: "is closed when not correctly opened" with: 'open? when: {
     { file = File new } raises: ArgumentError
   }
 
-  it: "writes and reads from a file correctly" for: 'writeln: when: {
+  it: "writes and reads from a file correctly" with: 'writeln: when: {
     filename = "/tmp/read_write_test.txt"
     file = File open: filename modes: ['write]
     file writeln: "hello, world!"
@@ -64,12 +64,12 @@ FancySpec describe: File with: {
     Directory delete: "tmp/"
   }
 
-  it: "is a directory" for: 'directory?: when: {
+  it: "is a directory" with: 'directory?: when: {
     File directory?: "lib/" . is == true
     File directory?: "lib/rbx" . is == true
   }
 
-  it: "is NOT a directory" for: 'directory?: when: {
+  it: "is NOT a directory" with: 'directory?: when: {
     File directory?: "src/Makefile" . is == false
     File directory?: "README" . is == false
     File directory?: "src/bootstrap/Makefile" . is == false

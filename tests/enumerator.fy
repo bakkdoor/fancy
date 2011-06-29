@@ -1,11 +1,11 @@
 FancySpec describe: FancyEnumerator with: {
-  it: "iterates with 'next" for: 'new: when: {
+  it: "iterates with 'next" with: 'new: when: {
     enum = FancyEnumerator new: (42..50)
     enum next is == 42
     enum next is == 43
   }
 
-  it: "peeks to find next element" for: 'peek when: {
+  it: "peeks to find next element" with: 'peek when: {
     enum = FancyEnumerator new: (42..50)
     enum peek is == 42
     enum peek is == 42
@@ -16,12 +16,12 @@ FancySpec describe: FancyEnumerator with: {
     enum next is == 43
   }
 
-  it: "turns an object with 'each: into an FancyEnumerator" for: 'to_enum when: {
+  it: "turns an object with 'each: into an FancyEnumerator" with: 'to_enum when: {
     enum = (42..45) to_enum
     enum next is == 42
   }
 
-  it: "turns an object with given method into an FancyEnumerator" for: 'to_enum: when: {
+  it: "turns an object with given method into an FancyEnumerator" with: 'to_enum: when: {
     o = {}
     def o iter: block {
       1 upto: 10 do: block
@@ -30,7 +30,7 @@ FancySpec describe: FancyEnumerator with: {
     enum next is == 1
   }
 
-  it: "rewinds to the beginning of the iteration" for: 'rewind when: {
+  it: "rewinds to the beginning of the iteration" with: 'rewind when: {
     enum = (42..45) to_enum
     check = {
       enum peek is == 42
@@ -44,7 +44,7 @@ FancySpec describe: FancyEnumerator with: {
     check call
   }
 
-  it: "raises Fancy StopIteration when out of values" for: 'next when: {
+  it: "raises Fancy StopIteration when out of values" with: 'next when: {
     o = Object new
     def o each: block { block call: [1] }
     e = o to_enum
@@ -58,7 +58,7 @@ FancySpec describe: FancyEnumerator with: {
     }
   }
 
-  it: "sets result on Fancy StopIteration when out of values" for: 'next when: {
+  it: "sets result on Fancy StopIteration when out of values" with: 'next when: {
     o = Object new
     def o each: block {
       block call: [1]
@@ -75,25 +75,25 @@ FancySpec describe: FancyEnumerator with: {
     }
   }
 
-  it: "iterates with an object" for: 'with:each: when: {
+  it: "iterates with an object" with: 'with:each: when: {
     enum = (42..45) to_enum
     result = enum with: [] each: |val, obj| { obj << val }
     result is == [42, 43, 44, 45]
   }
 
-  it: "chunks up into enums" for: 'chunk: when: {
+  it: "chunks up into enums" with: 'chunk: when: {
     enum = (1..42) to_enum
     chunked = enum chunk: |n| { n % 3 == 0 }
     chunked next is == [false, [1,2]]
     chunked next is == [true, [3]]
   }
 
-  it: "converts to an Array" for: 'to_a when: {
+  it: "converts to an Array" with: 'to_a when: {
     enum = (1..10) to_enum
     enum to_a is == [1,2,3,4,5,6,7,8,9,10]
   }
 
-  it: "has ended (no more values left)" for: 'ended? when: {
+  it: "has ended (no more values left)" with: 'ended? when: {
     enum = (1..9) to_enum
     10 times: { enum ended? is == false; enum next } # move forward
     enum ended? is == true

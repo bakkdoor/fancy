@@ -61,14 +61,14 @@ class FancySpec {
     @spec_tests << test
   }
 
-  def it: spec_info_string for: method_name when: spec_block {
+  def it: spec_info_string with: method_name when: spec_block {
     """
     @spec_info_string Info @String@ related to the test case defined in @spec_block.
     @method_name Name of Method that this testcase is related to.
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
     Example usage:
-        it: \"should be an empty Array\" for: 'empty? when: {
+        it: \"should be an empty Array\" with: 'empty? when: {
           arr = [1,2,3]
           3 times: { arr pop }
           arr empty? is == true
@@ -85,6 +85,8 @@ class FancySpec {
     # }
     @spec_tests << test
   }
+
+  alias_method: 'it:for:when: for: 'it:with:when:
 
   def before_each: block {
     """

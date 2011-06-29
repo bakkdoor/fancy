@@ -4,11 +4,11 @@ FancySpec describe: StringIO with: {
   before_each: {
     @s = StringIO new
   }
-  it: "returns the empty string on initialization" for: 'string when: {
+  it: "returns the empty string on initialization" with: 'string when: {
     @s string == ""
   }
 
-  it: "appends strings to its string value" for: '<< when: {
+  it: "appends strings to its string value" with: '<< when: {
     @s << "foo"
     @s << "\n"
     @s << "bar"

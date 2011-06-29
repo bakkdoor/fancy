@@ -9,7 +9,7 @@ class Foo {
 }
 
 FancySpec describe: StdError with: {
-  it: "raises an exception and catch it correctly" for: 'raise! when: {
+  it: "raises an exception and catch it correctly" with: 'raise! when: {
     try {
       StdError new: "FAIL!" . raise!
       nil is == true # this is not occur
@@ -18,7 +18,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "raises an exception and have the expected error message" for: 'raise! when: {
+  it: "raises an exception and have the expected error message" with: 'raise! when: {
     {
       StdError new: "FAIL!" . raise!
     } raises: StdError with: |e| {
@@ -78,7 +78,7 @@ FancySpec describe: StdError with: {
     set_in_finally is == true
   }
 
-  it: "raises a StdError when raising a String" for: 'raise! when: {
+  it: "raises a StdError when raising a String" with: 'raise! when: {
     msg = "A Custom Error!"
     {
       msg raise!
@@ -87,7 +87,7 @@ FancySpec describe: StdError with: {
     }
   }
 
-  it: "raises and catch a custom exception correctly" for: 'raise! when: {
+  it: "raises and catch a custom exception correctly" with: 'raise! when: {
     class MyError : StdError{
       def initialize {
         initialize: "MyError message"

@@ -37,14 +37,14 @@ class ClassWithPrivate {
 }
 
 FancySpec describe: Class with: {
-  it: "does NOT find the method when not mixed-in" for: 'responds_to?: when: {
+  it: "does NOT find the method when not mixed-in" with: 'responds_to?: when: {
     instance = ClassWithMixin new
     instance normal_method . is == 'normal_found
     instance responds_to?: 'normal_method . is == true
     instance responds_to?: 'mixin_method . is == false
   }
 
-  it: "finds the method when mixed-in" for: 'include: when: {
+  it: "finds the method when mixed-in" with: 'include: when: {
     # => include Mixin into ClassWithMixin
     class ClassWithMixin {
       include: Mixin
@@ -66,7 +66,7 @@ FancySpec describe: Class with: {
     instance normal_method is == 'new_normal_found
   }
 
-  it: "has dynamically generated getter and setter methods" for: 'responds_to?: when: {
+  it: "has dynamically generated getter and setter methods" with: 'responds_to?: when: {
     instance = ClassWithNoMixin new
     instance responds_to?: 'foo . is == true
     instance responds_to?: 'bar . is == true
@@ -79,7 +79,7 @@ FancySpec describe: Class with: {
     instance responds_to?: "noes:" . is == true
   }
 
-  it: "defines getter methods for single slots" for: 'read_slot: when: {
+  it: "defines getter methods for single slots" with: 'read_slot: when: {
     class Getters {
       read_slot: 'foo
       read_slot: 'bar
@@ -92,7 +92,7 @@ FancySpec describe: Class with: {
     g responds_to?: 'bar: . is == false
   }
 
-  it: "defines setter methods for single slots" for: 'write_slot: when: {
+  it: "defines setter methods for single slots" with: 'write_slot: when: {
     class Setters {
       write_slot: 'foo
       write_slot: 'bar
@@ -105,7 +105,7 @@ FancySpec describe: Class with: {
     s responds_to?: 'bar: . is == true
   }
 
-  it: "defines getter & setter methods for single slots" for: 'read_write_slot: when: {
+  it: "defines getter & setter methods for single slots" with: 'read_write_slot: when: {
     class GettersAndSetters {
       read_write_slot: 'foo
       read_write_slot: 'bar
@@ -243,7 +243,7 @@ FancySpec describe: Class with: {
     }
   }
 
-  it: "is a subclass of another Class" for: 'subclass?: when: {
+  it: "is a subclass of another Class" with: 'subclass?: when: {
     class Super {
     }
     class Sub : Super {
@@ -255,7 +255,7 @@ FancySpec describe: Class with: {
     Super subclass?: Sub . is == nil
   }
 
-  it: "dynamically creates a subclass of another class" for: 'is_a?: when: {
+  it: "dynamically creates a subclass of another class" with: 'is_a?: when: {
     subclass = String subclass: {
       def foo {
         "hello, world!"
@@ -278,7 +278,7 @@ FancySpec describe: Class with: {
     subclass2 new foo is == "hello, world, again!"
   }
 
-  it: "undefines an instance method" for: 'undefine_method: when: {
+  it: "undefines an instance method" with: 'undefine_method: when: {
     class Foo {
       def instance_method {
         "instance method!"
@@ -294,7 +294,7 @@ FancySpec describe: Class with: {
     }
   }
 
-  it: "undefines a class method" for: 'undefine_class_method: when: {
+  it: "undefines a class method" with: 'undefine_class_method: when: {
     class Foo {
       def self class_method {
         "class method!"
@@ -357,7 +357,7 @@ FancySpec describe: Class with: {
     NameSpace Array is_not == Array
   }
 
-  # it: "returns all nested classes of a class" for: 'nested_classes when: {
+  # it: "returns all nested classes of a class" with: 'nested_classes when: {
   #   class Outer {
   #   }
   #   Outer nested_classes is == []
@@ -421,7 +421,7 @@ FancySpec describe: Class with: {
     MyOuter MyInner2 class_method2 is == [MyOuter MyInner1, MyOuter MyInner2]
   }
 
-  it: "has an alias method as defined" for: 'alias_method:for: when: {
+  it: "has an alias method as defined" with: 'alias_method:for: when: {
     class AClass {
       def foo {
         "in foo!"
@@ -435,7 +435,7 @@ FancySpec describe: Class with: {
     obj bar is == "in foo!"
   }
 
-  it: "has an alias method for a ruby method defined" for: 'alias_method:for_ruby: when: {
+  it: "has an alias method for a ruby method defined" with: 'alias_method:for_ruby: when: {
     try {
       [] equal?: [1,2] . is == true # is fail
     } catch NoMethodError => e {
@@ -449,7 +449,7 @@ FancySpec describe: Class with: {
     [] equal?: [1,2] . is == false
   }
 
-  it: "has the correct list of ancestors" for: 'ancestors when: {
+  it: "has the correct list of ancestors" with: 'ancestors when: {
     class A {
     }
     class B : A {
@@ -462,7 +462,7 @@ FancySpec describe: Class with: {
     C ancestors is == [C, B, A, Object, Kernel]
   }
 
-  it: "makes methods private" for: 'private: when: {
+  it: "makes methods private" with: 'private: when: {
     class AClassWithPrivateMethods {
       def a {
         "in a"
@@ -480,7 +480,7 @@ FancySpec describe: Class with: {
     AClassWithPrivateMethods instance_method: 'b . private? is == true
   }
 
-  it: "makes methods protected" for: 'protected: when: {
+  it: "makes methods protected" with: 'protected: when: {
     class AClassWithProtectedMethods {
       def a {
         "in a"
@@ -500,7 +500,7 @@ FancySpec describe: Class with: {
     AClassWithProtectedMethods instance_method: 'b . protected? is == true
   }
 
-  it: "makes methods public" for: 'public: when: {
+  it: "makes methods public" with: 'public: when: {
     class AClassWithPublicMethods {
       def a {
         "in a"

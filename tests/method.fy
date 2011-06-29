@@ -14,7 +14,7 @@ FancySpec describe: Method with: {
   #   x give_me_the_sender! is == self
   # }
 
-  it: "returns the amount of arguments a Method takes" for: 'arity when: {
+  it: "returns the amount of arguments a Method takes" with: 'arity when: {
     class Foo {
       def no_args {
       }
@@ -96,19 +96,19 @@ FancySpec describe: Method with: {
     protected: 'protected_bar
   }
 
-  it: "is public" for: 'public? when: {
+  it: "is public" with: 'public? when: {
     Foo instance_method: 'bar . public? is == true
     Foo instance_method: 'private_bar . public? is == false
     Foo instance_method: 'protected_bar . public? is == false
   }
 
-  it: "is private" for: 'private? when: {
+  it: "is private" with: 'private? when: {
     Foo instance_method: 'bar . private? is == false
     Foo instance_method: 'private_bar . private? is == true
     Foo instance_method: 'protected_bar . private? is == false
   }
 
-  it: "is protected" for: 'protected? when: {
+  it: "is protected" with: 'protected? when: {
     Foo instance_method: 'bar . protected? is == false
     Foo instance_method: 'private_bar . protected? is == false
     Foo instance_method: 'protected_bar . protected? is == true
