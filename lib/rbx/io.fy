@@ -1,16 +1,4 @@
-class IO {
-  """
-  Base class for IO related classes (like @File@, @Socket@, @Console@ etc.).
-  """
-
-  ruby_alias: 'readlines
-  ruby_alias: 'readline
-  ruby_alias: 'read
-  ruby_alias: 'close
-  ruby_alias: 'eof?
-
-  forwards_unary_ruby_methods
-
+class IOMixin {
   def readln {
     readline
   }
@@ -33,4 +21,20 @@ class IO {
 
   alias_method: 'write: for: 'print:
   alias_method: 'writeln: for: 'println:
+}
+
+class IO {
+  """
+  Base class for IO related classes (like @File@, @Socket@, @Console@ etc.).
+  """
+
+  include: IOMixin
+
+  ruby_alias: 'readlines
+  ruby_alias: 'readline
+  ruby_alias: 'read
+  ruby_alias: 'close
+  ruby_alias: 'eof?
+
+  forwards_unary_ruby_methods
 }
