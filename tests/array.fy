@@ -65,7 +65,7 @@ FancySpec describe: Array with: {
     arr is == [10,20,30,40]
   }
 
-  it: "does NOT include the items" for: "includes?:" when: {
+  it: "does NOT include the items" for: 'includes?: when: {
     arr = ['a, 10, "hello, world"]
     arr includes?: "hello" . is == false
     arr includes?: 11 . is == false
@@ -171,14 +171,14 @@ FancySpec describe: Array with: {
     (arr1 >> arr2) is == ['foo, 'bar, 'baz, 1, 2, 3]
   }
 
-  it: "returns an element by the []-operator" for: "[]" when: {
+  it: "returns an element by the []-operator" for: '[] when: {
     arr = ['foo, 'bar, 'baz]
     arr[0] is == 'foo
     arr[1] is == 'bar
     arr[2] is == 'baz
   }
 
-  it: "returns a sub-array by the []-operator" for: "[]" when: {
+  it: "returns a sub-array by the []-operator" for: '[] when: {
     arr = ['foo, 'bar, 'baz]
     arr[[0,2]] is == arr
     arr[[0,1]] is == ['foo, 'bar]

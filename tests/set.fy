@@ -1,5 +1,5 @@
 FancySpec describe: Set with: {
-  it: "only keeps unique values" for: "[]" when: {
+  it: "only keeps unique values" for: '[] when: {
     s = Set new
     s << 'foo
     s << 'foo

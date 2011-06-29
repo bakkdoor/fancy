@@ -45,7 +45,7 @@ FancySpec describe: Hash with: {
     hash values is =? ["bar", "baz", 112.21]
   }
 
-  it: "returns value by the []-operator" for: "[]" when: {
+  it: "returns value by the []-operator" for: '[] when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash['foo] is == "bar"
     hash['bar] is == "baz"
