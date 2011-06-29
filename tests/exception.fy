@@ -12,9 +12,9 @@ FancySpec describe: StdError with: {
   it: "raises an exception and catch it correctly" with: 'raise! when: {
     try {
       StdError new: "FAIL!" . raise!
-      nil is == true # this is not occur
+      nil is: true # this is not occur
     } catch StdError => ex {
-      ex message is == "FAIL!"
+      ex message is: "FAIL!"
     }
   }
 
@@ -22,23 +22,23 @@ FancySpec describe: StdError with: {
     {
       StdError new: "FAIL!" . raise!
     } raises: StdError with: |e| {
-      e message is == "FAIL!"
+      e message is: "FAIL!"
     }
 
     {
       "FAIL, AGAIN!" raise!
     } raises: StdError with: |e| {
-      e message is == "FAIL, AGAIN!"
+      e message is: "FAIL, AGAIN!"
     }
   }
 
   it: "raises an exception inside a method and catch it correctly" when: {
     f = Foo new
-    f bar: "Don't raise here" . is == 'no_error
+    f bar: "Don't raise here" . is: 'no_error
     try {
-      f bar: 'error . is == 'no_error
+      f bar: 'error . is: 'no_error
     } catch StdError => e {
-      e message is == "Some Error"
+      e message is: "Some Error"
     }
   }
 
@@ -46,10 +46,10 @@ FancySpec describe: StdError with: {
   #   s = 'symbol
   #   try {
   #     s this_method_doesnt_exist!
-  #     nil is == true # is not execute
+  #     nil is: true # is not execute
   #   } catch NoMethodError => err {
-  #     err for_class is == Symbol
-  #     err method_name is == "this_method_doesnt_exist!"
+  #     err for_class is: Symbol
+  #     err method_name is: "this_method_doesnt_exist!"
   #   }
   # }
 
@@ -58,7 +58,7 @@ FancySpec describe: StdError with: {
     try {
       var wont_work!
     } catch NoMethodError => err {
-      var is == 1234
+      var is: 1234
     }
   }
 
@@ -66,16 +66,16 @@ FancySpec describe: StdError with: {
     set_in_finally = false
     try {
       x = 10 / 0 # ouch!
-      "This is fail!" is == true # is not get here!
+      "This is fail!" is: true # is not get here!
     } catch ZeroDivisionError => err {
-      err message is == "divided by 0"
+      err message is: "divided by 0"
     } finally {
       # this part gets always run :)
-      "It works!" is == "It works!"
-      set_in_finally is == false
+      "It works!" is: "It works!"
+      set_in_finally is: false
       set_in_finally = true
     }
-    set_in_finally is == true
+    set_in_finally is: true
   }
 
   it: "raises a StdError when raising a String" with: 'raise! when: {
@@ -83,7 +83,7 @@ FancySpec describe: StdError with: {
     {
       msg raise!
     } raises: StdError with: |e| {
-      e message is == msg
+      e message is: msg
     }
   }
 
@@ -96,9 +96,9 @@ FancySpec describe: StdError with: {
 
     try {
       MyError new raise!
-      nil is == true # will fail
+      nil is: true # will fail
     } catch MyError => e {
-      e message is == "MyError message"
+      e message is: "MyError message"
     }
   }
 
@@ -108,8 +108,8 @@ FancySpec describe: StdError with: {
     try {
       x = 10 / y
     } catch ZeroDivisionError => e {
-      y is == 0
-      x is == 0
+      y is: 0
+      x is: 0
       y = 2
       retry
     }
@@ -126,7 +126,7 @@ FancySpec describe: StdError with: {
         msg raise!
       }
     } catch StdError => e {
-      e message is == msg
+      e message is: msg
     }
   }
 }

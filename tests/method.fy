@@ -1,6 +1,6 @@
 FancySpec describe: Method with: {
   it: "returns a Method object" when: {
-    [1,2,3] method: "each:" . class is == Method
+    [1,2,3] method: "each:" . class is: Method
   }
 
   # it: "returns the (correct) sender object of the MessageSend" when: {
@@ -11,7 +11,7 @@ FancySpec describe: Method with: {
   #   }
 
   #   x = SenderTest new
-  #   x give_me_the_sender! is == self
+  #   x give_me_the_sender! is: self
   # }
 
   it: "returns the amount of arguments a Method takes" with: 'arity when: {
@@ -26,10 +26,10 @@ FancySpec describe: Method with: {
       }
     }
 
-    Foo instance_method: 'no_args . arity is == 0
-    Foo instance_method: "one_arg:" . arity is == 1
-    Foo instance_method: "two:args:" . arity is == 2
-    Foo instance_method: "three:args:ok:" . arity is == 3
+    Foo instance_method: 'no_args . arity is: 0
+    Foo instance_method: "one_arg:" . arity is: 1
+    Foo instance_method: "two:args:" . arity is: 2
+    Foo instance_method: "three:args:ok:" . arity is: 3
   }
 
   it: "returns the return value" when: {
@@ -38,7 +38,7 @@ FancySpec describe: Method with: {
       bar # will never get executed
     }
 
-    foo: "yay" . is == "returning!"
+    foo: "yay" . is: "returning!"
 
     # another example
 
@@ -49,8 +49,8 @@ FancySpec describe: Method with: {
       0
     }
 
-    f: 10 . is == 0
-    f: 9 . is == 100
+    f: 10 . is: 0
+    f: 9 . is: 100
 
     # and another one
 
@@ -63,7 +63,7 @@ FancySpec describe: Method with: {
       return 0
     }
 
-    foo is == 8
+    foo is: 8
   }
 
   it: "returns only from block-scope not from method-scope" when: {
@@ -75,14 +75,14 @@ FancySpec describe: Method with: {
       }
       0
     }
-    foo is == 8
+    foo is: 8
   }
 
   it: "returns locally (from block-scope not from method-scope" when: {
     def self foo {
       [1,2,3] select: |x| { return_local x != 3 }
     }
-    foo is == [1,2]
+    foo is: [1,2]
   }
 
   class Foo {
@@ -97,21 +97,21 @@ FancySpec describe: Method with: {
   }
 
   it: "is public" with: 'public? when: {
-    Foo instance_method: 'bar . public? is == true
-    Foo instance_method: 'private_bar . public? is == false
-    Foo instance_method: 'protected_bar . public? is == false
+    Foo instance_method: 'bar . public? is: true
+    Foo instance_method: 'private_bar . public? is: false
+    Foo instance_method: 'protected_bar . public? is: false
   }
 
   it: "is private" with: 'private? when: {
-    Foo instance_method: 'bar . private? is == false
-    Foo instance_method: 'private_bar . private? is == true
-    Foo instance_method: 'protected_bar . private? is == false
+    Foo instance_method: 'bar . private? is: false
+    Foo instance_method: 'private_bar . private? is: true
+    Foo instance_method: 'protected_bar . private? is: false
   }
 
   it: "is protected" with: 'protected? when: {
-    Foo instance_method: 'bar . protected? is == false
-    Foo instance_method: 'private_bar . protected? is == false
-    Foo instance_method: 'protected_bar . protected? is == true
+    Foo instance_method: 'bar . protected? is: false
+    Foo instance_method: 'private_bar . protected? is: false
+    Foo instance_method: 'protected_bar . protected? is: true
   }
 
   it: "sets the default values for optional argument, when not passed in" when: {
@@ -119,9 +119,9 @@ FancySpec describe: Method with: {
       arg1 ++ arg2 ++ arg3
     }
 
-    foo: "hello" bar: "world" baz: "!" . is == "helloworld!"
-    foo: "hello" bar: "world" . is == "helloworld"
-    foo: "hello"  . is == "hellofoo"
+    foo: "hello" bar: "world" baz: "!" . is: "helloworld!"
+    foo: "hello" bar: "world" . is: "helloworld"
+    foo: "hello"  . is: "hellofoo"
   }
 
   it: "has default values for all arguments, if none given" when: {
@@ -129,16 +129,16 @@ FancySpec describe: Method with: {
       [arg1, arg2, arg3]
     }
 
-    a: "hello" b: "world" c: "!" . is == ["hello", "world", "!"]
-    a: "hello" b: "world" . is == ["hello", "world", "baz"]
-    a: "hello" . is == ["hello", "bar", "baz"]
-    a is == ["foo", "bar", "baz"]
+    a: "hello" b: "world" c: "!" . is: ["hello", "world", "!"]
+    a: "hello" b: "world" . is: ["hello", "world", "baz"]
+    a: "hello" . is: ["hello", "bar", "baz"]
+    a is: ["foo", "bar", "baz"]
   }
 
   it: "returns multiple values (as a Tuple)" when: {
     def multiple_return_values: x {
       (x, x + x, x + x + x)
     }
-    val = multiple_return_values: 3 . is == (3, 6, 9)
+    val = multiple_return_values: 3 . is: (3, 6, 9)
   }
 }

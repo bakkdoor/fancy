@@ -5,8 +5,8 @@ FancySpec describe: FutureSend with: {
     }
 
     f = self @ some_computation: 2 && @{select: 'even?} && @{size}
-    f is_a?: FutureSend . is == true
-    f value is_a?: Fixnum . is == true
+    f is_a?: FutureSend . is: true
+    f value is_a?: Fixnum . is: true
   }
 }
 
@@ -18,7 +18,7 @@ FancySpec describe: FutureCollection with: {
 
     fc = FutureCollection new: futures
     fc each: |val| {
-      val is_a?: Integer . is == true
+      val is_a?: Integer . is: true
     }
 
     fc await_all

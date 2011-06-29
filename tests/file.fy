@@ -1,15 +1,15 @@
 FancySpec describe: File with: {
   it: "returns an array with the openmodes symbols" with: 'open:modes: when: {
     file = File open: "README.md" modes: ['read]
-    file modes is == ['read]
+    file modes is: ['read]
     file close
   }
 
   it: "is open after opening it and closed after closing" with: 'close when: {
     file = File open: "README.md" modes: ['read]
-    file open? is == true
+    file open? is: true
     file close
-    file open? is == false
+    file open? is: false
   }
 
   it: "is closed when not correctly opened" with: 'open? when: {
@@ -23,20 +23,20 @@ FancySpec describe: File with: {
     file writeln: "line number two"
     file close
 
-    File exists?: filename . is == true
+    File exists?: filename . is: true
 
     file = File open: filename modes: ['read]
     lines = []
     2 times: {
       lines << (file readln)
     }
-    lines[0] is == "hello, world!\n"
-    lines[1] is == "line number two\n"
-    lines is == ["hello, world!\n", "line number two\n"]
+    lines[0] is: "hello, world!\n"
+    lines[1] is: "line number two\n"
+    lines is: ["hello, world!\n", "line number two\n"]
 
     # delete file
     File delete: filename
-    File exists?: filename . is == false
+    File exists?: filename . is: false
   }
 
   it: "raises an IOError exception when trying to open an invalid file" when: {
@@ -53,25 +53,25 @@ FancySpec describe: File with: {
       f writeln: "testing!"
     }
 
-    Directory exists?: dirname . is == true
-    File exists?: dirname . is == true
-    File directory?: dirname . is == true
+    Directory exists?: dirname . is: true
+    File exists?: dirname . is: true
+    File directory?: dirname . is: true
 
     File rename: filename to: (filename ++ "-new")
-    File exists?: filename . is == false
-    File exists?: (filename ++ "-new") . is == true
+    File exists?: filename . is: false
+    File exists?: (filename ++ "-new") . is: true
     File delete: (filename ++ "-new")
     Directory delete: "tmp/"
   }
 
   it: "is a directory" with: 'directory?: when: {
-    File directory?: "lib/" . is == true
-    File directory?: "lib/rbx" . is == true
+    File directory?: "lib/" . is: true
+    File directory?: "lib/rbx" . is: true
   }
 
   it: "is NOT a directory" with: 'directory?: when: {
-    File directory?: "src/Makefile" . is == false
-    File directory?: "README" . is == false
-    File directory?: "src/bootstrap/Makefile" . is == false
+    File directory?: "src/Makefile" . is: false
+    File directory?: "README" . is: false
+    File directory?: "src/bootstrap/Makefile" . is: false
   }
 }

@@ -39,9 +39,9 @@ class ClassWithPrivate {
 FancySpec describe: Class with: {
   it: "does NOT find the method when not mixed-in" with: 'responds_to?: when: {
     instance = ClassWithMixin new
-    instance normal_method . is == 'normal_found
-    instance responds_to?: 'normal_method . is == true
-    instance responds_to?: 'mixin_method . is == false
+    instance normal_method . is: 'normal_found
+    instance responds_to?: 'normal_method . is: true
+    instance responds_to?: 'mixin_method . is: false
   }
 
   it: "finds the method when mixed-in" with: 'include: when: {
@@ -51,32 +51,32 @@ FancySpec describe: Class with: {
     }
 
     instance = ClassWithMixin new
-    instance responds_to?: 'normal_method . is == true
-    instance responds_to?: 'mixin_method . is == true
-    instance normal_method . is == 'normal_found
-    instance mixin_method . is == 'mixed_in_found
+    instance responds_to?: 'normal_method . is: true
+    instance responds_to?: 'mixin_method . is: true
+    instance normal_method . is: 'normal_found
+    instance mixin_method . is: 'mixed_in_found
   }
 
   it: "rebinds the old class name with ClassWithNoMixin and replace the old normal_method" when: {
     instance = ClassWithMixin new
-    instance normal_method is == 'normal_found
+    instance normal_method is: 'normal_found
     # rebind the class to the other class
     ClassWithMixin = ClassWithNoMixin
     instance = ClassWithMixin new
-    instance normal_method is == 'new_normal_found
+    instance normal_method is: 'new_normal_found
   }
 
   it: "has dynamically generated getter and setter methods" with: 'responds_to?: when: {
     instance = ClassWithNoMixin new
-    instance responds_to?: 'foo . is == true
-    instance responds_to?: 'bar . is == true
-    instance responds_to?: 'baz . is == true
-    instance responds_to?: "hello:" . is == true
-    instance responds_to?: "world:" . is == true
-    instance responds_to?: 'oh . is == true
-    instance responds_to?: ":oh" . is == true
-    instance responds_to?: 'noes . is == true
-    instance responds_to?: "noes:" . is == true
+    instance responds_to?: 'foo . is: true
+    instance responds_to?: 'bar . is: true
+    instance responds_to?: 'baz . is: true
+    instance responds_to?: "hello:" . is: true
+    instance responds_to?: "world:" . is: true
+    instance responds_to?: 'oh . is: true
+    instance responds_to?: ":oh" . is: true
+    instance responds_to?: 'noes . is: true
+    instance responds_to?: "noes:" . is: true
   }
 
   it: "defines getter methods for single slots" with: 'read_slot: when: {
@@ -86,10 +86,10 @@ FancySpec describe: Class with: {
     }
 
     g = Getters new
-    g responds_to?: 'foo . is == true
-    g responds_to?: 'foo: . is == false
-    g responds_to?: 'bar . is == true
-    g responds_to?: 'bar: . is == false
+    g responds_to?: 'foo . is: true
+    g responds_to?: 'foo: . is: false
+    g responds_to?: 'bar . is: true
+    g responds_to?: 'bar: . is: false
   }
 
   it: "defines setter methods for single slots" with: 'write_slot: when: {
@@ -99,10 +99,10 @@ FancySpec describe: Class with: {
     }
 
     s = Setters new
-    s responds_to?: 'foo . is == false
-    s responds_to?: 'foo: . is == true
-    s responds_to?: 'bar . is == false
-    s responds_to?: 'bar: . is == true
+    s responds_to?: 'foo . is: false
+    s responds_to?: 'foo: . is: true
+    s responds_to?: 'bar . is: false
+    s responds_to?: 'bar: . is: true
   }
 
   it: "defines getter & setter methods for single slots" with: 'read_write_slot: when: {
@@ -112,10 +112,10 @@ FancySpec describe: Class with: {
     }
 
     gs = GettersAndSetters new
-    gs responds_to?: 'foo . is == true
-    gs responds_to?: 'foo: . is == true
-    gs responds_to?: 'bar . is == true
-    gs responds_to?: 'bar: . is == true
+    gs responds_to?: 'foo . is: true
+    gs responds_to?: 'foo: . is: true
+    gs responds_to?: 'bar . is: true
+    gs responds_to?: 'bar: . is: true
   }
 
   it: "finds the instance variable correctly" when: {
@@ -130,8 +130,8 @@ FancySpec describe: Class with: {
 
     str = "instance value"
     instance = AClass new: str
-    instance foo is == str
-    AClass new foo is == nil
+    instance foo is: str
+    AClass new foo is: nil
   }
 
   it: "finds the class variable correctly" when: {
@@ -148,14 +148,14 @@ FancySpec describe: Class with: {
     instance2 = AClass new
     str = "class value"
     instance1 foo: str
-    instance1 foo is == str
-    instance2 foo is == str
-    instance2 foo is == (instance1 foo)
+    instance1 foo is: str
+    instance2 foo is: str
+    instance2 foo is: (instance1 foo)
 
     str2 = "another value"
     instance2 foo: str2
-    instance2 foo is == str2
-    instance1 foo is == str2
+    instance2 foo is: str2
+    instance1 foo is: str2
   }
 
   it: "has correct method overloading for method names with and without an argument" when: {
@@ -170,8 +170,8 @@ FancySpec describe: Class with: {
     }
 
     instance = AClass new
-    instance foo is == "In AClass#foo: with bar = None!"
-    instance foo: "Test!" . is == "In AClass#foo: with bar = Test!"
+    instance foo is: "In AClass#foo: with bar = None!"
+    instance foo: "Test!" . is: "In AClass#foo: with bar = Test!"
   }
 
   it: "calls a superclass method by using super" when: {
@@ -195,51 +195,51 @@ FancySpec describe: Class with: {
     }
 
     sub = SubClass new: 42
-    sub name is == "SubClass"
-    sub age is == 42
+    sub name is: "SubClass"
+    sub age is: 42
 
     sub2 = SubClass new
-    sub2 name is == "SubClass"
-    sub2 age is == 0
+    sub2 name is: "SubClass"
+    sub2 age is: 0
   }
 
   it: "returns its superclass" when: {
-    Fixnum superclass is == Integer
-    Symbol superclass is == Object
-    StdError superclass is == Exception
-    Class superclass is == Module
-    Object superclass is == nil
+    Fixnum superclass is: Integer
+    Symbol superclass is: Object
+    StdError superclass is: Exception
+    Class superclass is: Module
+    Object superclass is: nil
 
-    IOError superclass is == StandardError
-    NoMethodError superclass is == NameError
+    IOError superclass is: StandardError
+    NoMethodError superclass is: NameError
   }
 
   it: "creates a new Class dynamically" when: {
     x = Class new
-    x is_a?: Class . is == true
-    x new is_a?: x . is == true
-    x new is_a?: Object . is == true
-    x new class is == x
+    x is_a?: Class . is: true
+    x new is_a?: x . is: true
+    x new is_a?: Object . is: true
+    x new class is: x
 
     # Symbol as superclass
     y = Class new: String
-    y is_a?: Class . is == true
-    y new is_a?: String . is == true
-    y new is_a?: Object . is == true
+    y is_a?: Class . is: true
+    y new is_a?: String . is: true
+    y new is_a?: Object . is: true
   }
 
   it: "only is able to call the public method from outside the Class" when: {
     x = ClassWithPrivate new
-    x public_method is == "public!"
+    x public_method is: "public!"
     try {
-      x private_method is == nil # is fail
+      x private_method is: nil # is fail
     } catch NoMethodError => e {
-      e method_name is == 'private_method
+      e method_name is: 'private_method
     }
     try {
-      x protected_method is == nil # is fail
+      x protected_method is: nil # is fail
     } catch NoMethodError => e {
-      e method_name is == 'protected_method
+      e method_name is: 'protected_method
     }
   }
 
@@ -249,10 +249,10 @@ FancySpec describe: Class with: {
     class Sub : Super {
     }
 
-    Super subclass?: Object . is == true
-    Sub subclass?: Object . is == true
-    Sub subclass?: Super . is == true
-    Super subclass?: Sub . is == nil
+    Super subclass?: Object . is: true
+    Sub subclass?: Object . is: true
+    Sub subclass?: Super . is: true
+    Super subclass?: Sub . is: nil
   }
 
   it: "dynamically creates a subclass of another class" with: 'is_a?: when: {
@@ -261,10 +261,10 @@ FancySpec describe: Class with: {
         "hello, world!"
       }
     }
-    subclass is_a?: Class . is == true
-    subclass subclass?: String . is == true
-    subclass new is_a?: subclass . is == true
-    subclass new foo is == "hello, world!"
+    subclass is_a?: Class . is: true
+    subclass subclass?: String . is: true
+    subclass new is_a?: subclass . is: true
+    subclass new foo is: "hello, world!"
 
     # now the same with Class##new:body:
     subclass2 = Class superclass: String body: {
@@ -272,10 +272,10 @@ FancySpec describe: Class with: {
         "hello, world, again!"
       }
     }
-    subclass2 is_a?: Class . is == true
-    subclass2 subclass?: String . is == true
-    subclass2 new is_a?: subclass2 . is == true
-    subclass2 new foo is == "hello, world, again!"
+    subclass2 is_a?: Class . is: true
+    subclass2 subclass?: String . is: true
+    subclass2 new is_a?: subclass2 . is: true
+    subclass2 new foo is: "hello, world, again!"
   }
 
   it: "undefines an instance method" with: 'undefine_method: when: {
@@ -285,12 +285,12 @@ FancySpec describe: Class with: {
       }
     }
     f = Foo new
-    f instance_method is == "instance method!"
+    f instance_method is: "instance method!"
     Foo undefine_method: 'instance_method
     try {
-      f instance_method is == nil # is not get here
+      f instance_method is: nil # is not get here
     } catch NoMethodError => e {
-      e method_name is == 'instance_method
+      e method_name is: 'instance_method
     }
   }
 
@@ -300,21 +300,21 @@ FancySpec describe: Class with: {
         "class method!"
       }
     }
-    Foo class_method is == "class method!"
+    Foo class_method is: "class method!"
 
     try {
       Foo undefine_method: 'class_method
-      true is == nil # is not happen
+      true is: nil # is not happen
     } catch NameError {
-      true is == true
+      true is: true
     }
 
     Foo undefine_class_method: 'class_method
 
     try {
-      Foo class_method is == nil # is not get here
+      Foo class_method is: nil # is not get here
     } catch NoMethodError => e {
-      e method_name is == 'class_method
+      e method_name is: 'class_method
     }
   }
 
@@ -328,11 +328,11 @@ FancySpec describe: Class with: {
         }
       }
     }
-    Outer is_a?: Class is == true
-    Outer Inner is_a?: Class is == true
-    Outer Inner InnerMost is_a?: Class is == true
+    Outer is_a?: Class . is: true
+    Outer Inner is_a?: Class . is: true
+    Outer Inner InnerMost is_a?: Class . is: true
     obj = Outer Inner InnerMost new
-    obj foobar is == "foobar!"
+    obj foobar is: "foobar!"
 
     # change InnerMost#foobar
     class Outer::Inner::InnerMost {
@@ -340,7 +340,7 @@ FancySpec describe: Class with: {
         "oh no!"
       }
     }
-    obj foobar is == "oh no!"
+    obj foobar is: "oh no!"
   }
 
   it: "does not override existing classes with the same name in a nested class" when: {
@@ -353,26 +353,26 @@ FancySpec describe: Class with: {
       }
     }
 
-    NameSpace Array what_am_i is == "not the same as the standard Array class"
-    NameSpace Array is_not == Array
+    NameSpace Array what_am_i is: "not the same as the standard Array class"
+    NameSpace Array is_not: Array
   }
 
   # it: "returns all nested classes of a class" with: 'nested_classes when: {
   #   class Outer {
   #   }
-  #   Outer nested_classes is == []
+  #   Outer nested_classes is: []
 
   #   class Outer {
   #     class Inner1 {
   #     }
   #   }
-  #   Outer nested_classes is == [Outer::Inner1]
+  #   Outer nested_classes is: [Outer::Inner1]
 
   #   class Outer {
   #     class Inner2 {
   #     }
   #   }
-  #   Outer nested_classes is == [Outer Inner1, Outer Inner2]
+  #   Outer nested_classes is: [Outer Inner1, Outer Inner2]
   # }
 
   it: "finds other nested classes in the same parent class" when: {
@@ -390,9 +390,9 @@ FancySpec describe: Class with: {
       }
     }
 
-    MyOuter Inner1 new method1 is == 'method_1
-    MyOuter Inner2 new method1 is == 'method_1
-    MyOuter Inner2 new method2 is == 'method_2
+    MyOuter Inner1 new method1 is: 'method_1
+    MyOuter Inner2 new method1 is: 'method_1
+    MyOuter Inner2 new method2 is: 'method_2
   }
 
   it: "finds itself in it's own methods, even if nested into another class" when: {
@@ -415,10 +415,10 @@ FancySpec describe: Class with: {
       }
     }
 
-    MyOuter MyInner1 new method1 is == MyOuter MyInner1
-    MyOuter MyInner2 new method2 is == [MyOuter MyInner1, MyOuter MyInner2]
-    MyOuter MyInner1 class_method1 is == MyOuter MyInner1
-    MyOuter MyInner2 class_method2 is == [MyOuter MyInner1, MyOuter MyInner2]
+    MyOuter MyInner1 new method1 is: MyOuter MyInner1
+    MyOuter MyInner2 new method2 is: [MyOuter MyInner1, MyOuter MyInner2]
+    MyOuter MyInner1 class_method1 is: MyOuter MyInner1
+    MyOuter MyInner2 class_method2 is: [MyOuter MyInner1, MyOuter MyInner2]
   }
 
   it: "has an alias method as defined" with: 'alias_method:for: when: {
@@ -431,22 +431,22 @@ FancySpec describe: Class with: {
     }
 
     obj = AClass new
-    obj foo is == "in foo!"
-    obj bar is == "in foo!"
+    obj foo is: "in foo!"
+    obj bar is: "in foo!"
   }
 
   it: "has an alias method for a ruby method defined" with: 'alias_method:for_ruby: when: {
     try {
-      [] equal?: [1,2] . is == true # is fail
+      [] equal?: [1,2] . is: true # is fail
     } catch NoMethodError => e {
-      e method_name is == 'equal?:
+      e method_name is: 'equal?:
     }
 
     class Array {
       alias_method: 'equal?: for_ruby: 'equal?
     }
 
-    [] equal?: [1,2] . is == false
+    [] equal?: [1,2] . is: false
   }
 
   it: "has the correct list of ancestors" with: 'ancestors when: {
@@ -457,9 +457,9 @@ FancySpec describe: Class with: {
     class C : B {
     }
 
-    A ancestors is == [A, Object, Kernel]
-    B ancestors is == [B, A, Object, Kernel]
-    C ancestors is == [C, B, A, Object, Kernel]
+    A ancestors is: [A, Object, Kernel]
+    B ancestors is: [B, A, Object, Kernel]
+    C ancestors is: [C, B, A, Object, Kernel]
   }
 
   it: "makes methods private" with: 'private: when: {
@@ -476,8 +476,8 @@ FancySpec describe: Class with: {
     x = AClassWithPrivateMethods new
     { x a } raises: NoMethodError
     { x b } raises: NoMethodError
-    AClassWithPrivateMethods instance_method: 'a . private? is == true
-    AClassWithPrivateMethods instance_method: 'b . private? is == true
+    AClassWithPrivateMethods instance_method: 'a . private? is: true
+    AClassWithPrivateMethods instance_method: 'b . private? is: true
   }
 
   it: "makes methods protected" with: 'protected: when: {
@@ -494,10 +494,10 @@ FancySpec describe: Class with: {
     x = AClassWithProtectedMethods new
     { x a } raises: NoMethodError
     { x b } raises: NoMethodError
-    AClassWithProtectedMethods instance_method: 'a . private? is == false
-    AClassWithProtectedMethods instance_method: 'b . private? is == false
-    AClassWithProtectedMethods instance_method: 'a . protected? is == true
-    AClassWithProtectedMethods instance_method: 'b . protected? is == true
+    AClassWithProtectedMethods instance_method: 'a . private? is: false
+    AClassWithProtectedMethods instance_method: 'b . private? is: false
+    AClassWithProtectedMethods instance_method: 'a . protected? is: true
+    AClassWithProtectedMethods instance_method: 'b . protected? is: true
   }
 
   it: "makes methods public" with: 'public: when: {
@@ -515,23 +515,23 @@ FancySpec describe: Class with: {
     x = AClassWithPublicMethods new
     { x a } does_not raise: NoMethodError
     { x b } does_not raise: NoMethodError
-    AClassWithPublicMethods instance_method: 'a . private? is == false
-    AClassWithPublicMethods instance_method: 'b . private? is == false
-    AClassWithPublicMethods instance_method: 'a . protected? is == false
-    AClassWithPublicMethods instance_method: 'b . protected? is == false
-    AClassWithPublicMethods instance_method: 'a . public? is == true
-    AClassWithPublicMethods instance_method: 'b . public? is == true
+    AClassWithPublicMethods instance_method: 'a . private? is: false
+    AClassWithPublicMethods instance_method: 'b . private? is: false
+    AClassWithPublicMethods instance_method: 'a . protected? is: false
+    AClassWithPublicMethods instance_method: 'b . protected? is: false
+    AClassWithPublicMethods instance_method: 'a . public? is: true
+    AClassWithPublicMethods instance_method: 'b . public? is: true
   }
 
   it: "defines a class without a body" when: {
     class Foo
-    Foo is_a?: Class is == true
-    Foo new is_a?: Foo is == true
+    Foo is_a?: Class . is: true
+    Foo new is_a?: Foo . is: true
 
     class FooNew : Foo
-    FooNew is_a?: Class is == true
-    FooNew ancestors includes?: Foo is == true
-    FooNew new is_a?: Foo is == true
+    FooNew is_a?: Class . is: true
+    FooNew ancestors includes?: Foo . is: true
+    FooNew new is_a?: Foo . is: true
   }
 
   it: "defines a class with empty methods" when: {
@@ -545,7 +545,7 @@ FancySpec describe: Class with: {
     }
 
     b = Bar new: "foo"
-    b to_s is == "foobar"
-    b empty_method is == nil
+    b to_s is: "foobar"
+    b empty_method is: nil
   }
 }

@@ -1,24 +1,24 @@
 FancySpec describe: FancyEnumerator with: {
   it: "iterates with 'next" with: 'new: when: {
     enum = FancyEnumerator new: (42..50)
-    enum next is == 42
-    enum next is == 43
+    enum next is: 42
+    enum next is: 43
   }
 
   it: "peeks to find next element" with: 'peek when: {
     enum = FancyEnumerator new: (42..50)
-    enum peek is == 42
-    enum peek is == 42
-    enum next is == 42
+    enum peek is: 42
+    enum peek is: 42
+    enum next is: 42
 
-    enum peek is == 43
-    enum peek is == 43
-    enum next is == 43
+    enum peek is: 43
+    enum peek is: 43
+    enum next is: 43
   }
 
   it: "turns an object with 'each: into an FancyEnumerator" with: 'to_enum when: {
     enum = (42..45) to_enum
-    enum next is == 42
+    enum next is: 42
   }
 
   it: "turns an object with given method into an FancyEnumerator" with: 'to_enum: when: {
@@ -27,16 +27,16 @@ FancySpec describe: FancyEnumerator with: {
       1 upto: 10 do: block
     }
     enum = o to_enum: 'iter:
-    enum next is == 1
+    enum next is: 1
   }
 
   it: "rewinds to the beginning of the iteration" with: 'rewind when: {
     enum = (42..45) to_enum
     check = {
-      enum peek is == 42
-      enum next is == 42
-      enum peek is == 43
-      enum next is == 43
+      enum peek is: 42
+      enum next is: 42
+      enum peek is: 43
+      enum next is: 43
     }
 
     check call
@@ -49,12 +49,12 @@ FancySpec describe: FancyEnumerator with: {
     def o each: block { block call: [1] }
     e = o to_enum
 
-    e next is == 1
+    e next is: 1
     try {
       e next
-      "We is not reach this line" is == true
+      "We is not reach this line" is: true
     } catch (Fancy StopIteration) => ex {
-      ex result is == nil
+      ex result is: nil
     }
   }
 
@@ -66,37 +66,37 @@ FancySpec describe: FancyEnumerator with: {
     }
     e = o to_enum
 
-    e next is == 1
+    e next is: 1
     try {
       e next
-      "We is not reach this line" is == true
+      "We is not reach this line" is: true
     } catch (Fancy StopIteration) => ex {
-      ex result is == 42
+      ex result is: 42
     }
   }
 
   it: "iterates with an object" with: 'with:each: when: {
     enum = (42..45) to_enum
     result = enum with: [] each: |val, obj| { obj << val }
-    result is == [42, 43, 44, 45]
+    result is: [42, 43, 44, 45]
   }
 
   it: "chunks up into enums" with: 'chunk: when: {
     enum = (1..42) to_enum
     chunked = enum chunk: |n| { n % 3 == 0 }
-    chunked next is == [false, [1,2]]
-    chunked next is == [true, [3]]
+    chunked next is: [false, [1,2]]
+    chunked next is: [true, [3]]
   }
 
   it: "converts to an Array" with: 'to_a when: {
     enum = (1..10) to_enum
-    enum to_a is == [1,2,3,4,5,6,7,8,9,10]
+    enum to_a is: [1,2,3,4,5,6,7,8,9,10]
   }
 
   it: "has ended (no more values left)" with: 'ended? when: {
     enum = (1..9) to_enum
-    10 times: { enum ended? is == false; enum next } # move forward
-    enum ended? is == true
+    10 times: { enum ended? is: false; enum next } # move forward
+    enum ended? is: true
   }
 }
 
