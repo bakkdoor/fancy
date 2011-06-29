@@ -396,6 +396,14 @@ class Object {
   alias_method: 'is for: 'should
   alias_method: 'does for: 'should
 
+  def is: expected {
+    is == expected
+  }
+
+  def is_not: expected {
+    does_not == expected
+  }
+
   def should_not {
     """
     Returns a @NegativeMatcher@ for self.
