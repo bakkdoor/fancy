@@ -333,6 +333,33 @@ class FancyEnumerable {
     superior_by: '<
   }
 
+  def sum {
+    """
+    Calculates the sum of all the elements in the @Enumerable
+    (assuming them to be @Number@s (implementing '+' & '*')).
+    """
+
+    reduce: |x y| { x + y } init_val: 0
+  }
+
+  def product {
+    """
+    Calculates the product of all the elements in the @Enumerable
+    (assuming them to be @Number@s (implementing @+ & @*)).
+    """
+
+    reduce: |x y| { x * y } init_val: 1
+  }
+
+  def average {
+    """
+    @return Average value in @self (expecting @Number@s or Objects implementing @+ and @*).
+    """
+
+    { return 0 } if: (size == 0)
+    sum to_f / size
+  }
+
   def partition_by: block {
     """
     @block @Block@ that gets used to decide when to partition elements in @self.

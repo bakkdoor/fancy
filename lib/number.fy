@@ -139,23 +139,3 @@ class Number {
     self even? not
   }
 }
-
-class FancyEnumerable {
-  def sum {
-    """
-    Calculates the sum of all the elements in the @Enumerable
-    (assuming them to be @Number@s (implementing '+' & '*')).
-    """
-
-    reduce: |x y| { x + y } init_val: 0
-  }
-
-  def product {
-    """
-    Calculates the product of all the elements in the @Enumerable
-    (assuming them to be @Number@s (implementing @+ & @*)).
-    """
-
-    reduce: |x y| { x * y } init_val: 1
-  }
-}
