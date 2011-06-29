@@ -339,7 +339,7 @@ class FancyEnumerable {
     (assuming them to be @Number@s (implementing '+' & '*')).
     """
 
-    reduce: |x y| { x + y } init_val: 0
+    reduce: '+ init_val: 0
   }
 
   def product {
@@ -348,7 +348,7 @@ class FancyEnumerable {
     (assuming them to be @Number@s (implementing @+ & @*)).
     """
 
-    reduce: |x y| { x * y } init_val: 1
+    reduce: '* init_val: 1
   }
 
   def average {
