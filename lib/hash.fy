@@ -44,9 +44,7 @@ class Hash {
     Calls a given @Block@ with each key.
     """
 
-    keys each: |key| {
-      block call: [key]
-    }
+    keys each: block
     self
   }
 
@@ -58,9 +56,7 @@ class Hash {
     Calls a given @Block@ with each value.
     """
 
-    values each: |val| {
-      block call: [val]
-    }
+    values each: block
     self
   }
 
