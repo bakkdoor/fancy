@@ -1,6 +1,7 @@
-class FutureSend {
+class FutureSend : DelegateProxy {
   read_slots: [ 'fail_reason, 'receiver, 'message, 'params ]
   def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
+    initialize: { value }
     @waiting_threads = []
     @actor ! ('future, (@message, @params), self)
   }

@@ -17,14 +17,14 @@ def baz: num {
 
 f = self @ foo
 f println  # print future object
-?f println # access and print the future's value
+f println # access and print the future's value
 
 f = self @ + 10
 f println
-?f println
+f println
 
 f = self @ baz: 10
 f println
-?f println
+f println
 
 "End" println

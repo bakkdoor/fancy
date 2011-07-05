@@ -61,3 +61,10 @@ class RespondsToProxy : BasicObject {
     }
   }
 }
+
+class DelegateProxy : BasicObject {
+  def initialize: @block
+  def unknown_message: msg with_params: params {
+    @block call receive_message: msg with_params: params
+  }
+}
