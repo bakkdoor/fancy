@@ -45,7 +45,7 @@ def save_history {
   puts("saving history")
   unless: @history_saved do: {
     File open: HISTORY_FILE modes: ['write] with: |f| {
-      HISTORY each: |l| {
+      HISTORY last: 100 . each: |l| {
         f writeln: l
       }
     }
