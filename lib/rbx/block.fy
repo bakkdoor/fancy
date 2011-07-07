@@ -39,24 +39,6 @@ class Block {
       return call_on_instance(receiver, *args)
     }
   }
-
-  def loop {
-    wrapper = {
-      try {
-        call
-      } catch Fancy NextIteration => ex {
-        ex result
-      }
-    }
-
-    try {
-      loop(&wrapper)
-    } catch Fancy BreakIteration => ex {
-      return ex result
-    } catch Fancy StopIteration => ex {
-      return ex result
-    }
-  }
 }
 
 class Rubinius VariableScope {

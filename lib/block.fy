@@ -37,13 +37,20 @@ class Block {
     Calls @work while calling @self yields a @true-ish value.
     """
 
-    {
-      call if_true: |val| {
-        work call: [val]
-      } else: {
-        break
+    try {
+      brk = { return nil }
+      loop() {
+        try {
+          call if_true: work else: brk
+        } catch Fancy NextIteration => ex {
+          ex result
+        }
       }
-    } loop
+    } catch Fancy BreakIteration => ex {
+      return ex result
+    } catch Fancy StopIteration => ex {
+      return ex result
+    }
   }
 
   alias_method: 'while_do: for: 'while_true:

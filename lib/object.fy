@@ -23,7 +23,7 @@ class Object {
     Infinitely calls the block (loops).
     """
 
-    block loop
+    { true } while_true: block
   }
 
   def println {
