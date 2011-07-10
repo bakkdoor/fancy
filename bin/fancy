@@ -37,4 +37,7 @@ rescue RuntimeError => e
   else
     raise e
   end
+rescue Interrupt => e
+  puts e
+  exit
 end
