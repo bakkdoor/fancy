@@ -445,10 +445,10 @@ class Object {
         type, msg, sender = Actor receive
         msg, params = msg
         type match: {
-          case: 'async -> {
+          case: 'async do: {
             self receive_message: msg with_params: params
           }
-          case: 'future -> {
+          case: 'future do: {
             val = self receive_message: msg with_params: params
             sender completed: val
           }

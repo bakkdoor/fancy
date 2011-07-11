@@ -1,13 +1,13 @@
 class Match {
   def initialize: @obj
 
-  def case: @c {
-    self
-  }
+  # def case: @c {
+  #   self
+  # }
 
-  def -> block {
-    case: @c do: block
-  }
+  # def -> block {
+  #   case: @c do: block
+  # }
 
   def case: c do: block {
     try {
@@ -38,7 +38,20 @@ class Match {
 }
 
 class Object {
+  @@__cases__ = []
+
   def match: block {
-    block call_on_instance(Match new: self)
+    @@__cases__ unshift(Match new: self)
+    val = block call
+    @@__cases__ shift()
+    val
+  }
+
+  def case: c do: block {
+    @@__cases__ first case: c do: block
+  }
+
+  def else: block {
+    @@__cases__ first else: block
   }
 }

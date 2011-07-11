@@ -96,7 +96,7 @@ class Fancy Package {
       "Indicates, if a given version is available on Github."
 
       version match: {
-        case: "master" -> true
+        case: "master" do: true
         else: $ tags includes?: version
       }
     }

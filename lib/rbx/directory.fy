@@ -54,9 +54,9 @@ class Directory {
     """
 
     pattern match: {
-      case: /\/$/ -> { pattern = pattern + "*" }
-      case: "." -> { pattern = pattern + "/*" }
-      case: ".." -> { pattern = pattern + "/*" }
+      case: /\/$/ do: { pattern = pattern + "*" }
+      case: "." do: { pattern = pattern + "/*" }
+      case: ".." do: { pattern = pattern + "/*" }
     }
 
     Dir glob(pattern)

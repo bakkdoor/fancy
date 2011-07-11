@@ -11,8 +11,8 @@ class NoMethodError {
     """
 
     name to_s match: {
-      case: /^:/ -> (name to_s from: 1 to: -1 . to_sym)
-      case: _ -> name
+      case: /^:/ do: (name to_s from: 1 to: -1 . to_sym)
+      else: name
     }
   }
 

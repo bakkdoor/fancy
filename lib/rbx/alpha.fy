@@ -19,6 +19,18 @@ class Object {
     then call: [self]
   }
 
+  def if: cond then: then else: else {
+    cond if_true: then else: else
+  }
+
+  def unless: cond do: then {
+    cond if_true: { nil } else: then
+  }
+
+  def unless: cond do: then else: else {
+    cond if_true: else else: then
+  }
+
   def _ {
     Object
   }

@@ -92,9 +92,9 @@ class Fancy {
     # E.g. "foo.fyc" => "foo.fy"
     def self source_filename_for: file {
       file match: {
-        case: /.*\.compiled\.fyc$/ -> (file from: 0 to: -14)
-        case: /.*\.fyc$/ -> (file from: 0 to: -2)
-        case: /\.fy$/ -> file
+        case: /.*\.compiled\.fyc$/ do: (file from: 0 to: -14)
+        case: /.*\.fyc$/ do: (file from: 0 to: -2)
+        case: /\.fy$/ do: file
         else: file
       }
     }
@@ -103,9 +103,9 @@ class Fancy {
     # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.fyc"
     def self compiled_filename_for: file {
       file match: {
-        case: /\.fyc$/ -> file
-        case: /\.fy$/ -> (file + "c")
-        case: _ -> (file + ".compiled.fyc")
+        case: /\.fyc$/ do: file
+        case: /\.fy$/ do: (file + "c")
+        else: (file + ".compiled.fyc")
       }
     }
 

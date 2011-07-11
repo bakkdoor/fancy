@@ -38,7 +38,6 @@ lhash           "<["
 rhash           "]>"
 stab            "|"
 arrow           "=>"
-thin_arrow      "->"
 delimiter       [ \n\r\t\(\)]
 return_local    "return_local"
 return          "return"
@@ -117,7 +116,6 @@ escaped_newline "\\".*\n
 {rhash}         { return RIGHTHASH; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
-{thin_arrow}    { return THIN_ARROW; }
 {equals}        { return EQUALS; }
 {operator}      {
                   yylval.object = rb_str_new2(yytext);

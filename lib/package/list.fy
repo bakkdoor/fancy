@@ -16,7 +16,7 @@ class Fancy Package {
         File open: @package_list_file modes: ['read] with: |f| {
           f readlines each: |l| {
             l match: {
-              case: /name=(.*) version=(.*) url=(.*)/ -> |_, name, version, url| {
+              case: /name=(.*) version=(.*) url=(.*)/ do: |_, name, version, url| {
                 packages << (name, version, url)
               }
             }

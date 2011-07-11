@@ -80,8 +80,8 @@ class PooledFuture {
 
   def PooledFuture pool: n {
     @@pool_size = n match: {
-      case 0 -> 10
-      case _ -> n
+      case: 0 do: 10
+      else: n
     }
   }
 

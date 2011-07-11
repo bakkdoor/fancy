@@ -56,7 +56,7 @@ class Fancy AST {
         # case "true" -> g push_true()
         # case "false" -> g push_false()
         # case "nil" -> g push_nil()
-        case: _ do: {
+        else: {
           if: (g state() scope() search_local(name)) then: {
             Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
           } else: {

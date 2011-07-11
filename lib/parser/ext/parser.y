@@ -35,7 +35,6 @@ extern char *yytext;
 %token                  RIGHTHASH
 %token                  STAB
 %token                  ARROW
-%token                  THIN_ARROW
 %token                  COMMA
 %token                  SEMI
 %token                  NL
