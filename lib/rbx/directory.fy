@@ -53,10 +53,10 @@ class Directory {
         Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
     """
 
-    match pattern {
-      case /\/$/ -> pattern = pattern + "*"
-      case "." -> pattern = pattern + "/*"
-      case ".." -> pattern = pattern + "/*"
+    pattern match: {
+      case: /\/$/ -> { pattern = pattern + "*" }
+      case: "." -> { pattern = pattern + "/*" }
+      case: ".." -> { pattern = pattern + "/*" }
     }
 
     Dir glob(pattern)

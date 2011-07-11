@@ -34,7 +34,6 @@ lhash           "<["
 rhash           "]>"
 stab            "|"
 arrow           "=>"
-thin_arrow      "->"
 delimiter       [ \n\r\t\(\)]
 return_local    "return_local"
 return          "return"
@@ -44,8 +43,6 @@ finally         "finally"
 retry           "retry"
 super           "super"
 self            "self"
-match           "match"
-case            "case"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
@@ -107,7 +104,6 @@ escaped_newline "\\".*\n
 {rhash}         { return RIGHTHASH; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
-{thin_arrow}    { return THIN_ARROW; }
 {equals}        { return EQUALS; }
 {operator}      {
                   yylval.object = rb_str_new2(yytext);
@@ -123,12 +119,6 @@ escaped_newline "\\".*\n
 {self}          {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
-                }
-{match}         {
-                  return MATCH;
-                }
-{case}          {
-                  return CASE;
                 }
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);

@@ -48,8 +48,6 @@ finally         "finally"
 retry           "retry"
 super           "super"
 self            "self"
-match           "match"
-case            "case"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 selector        ({letter}|[_&*])({letter}|{digit}|{special_under})*":"
 constant        {capital}({letter}|{digit}|{special_under})*
@@ -135,12 +133,6 @@ escaped_newline "\\".*\n
 {self}          {
                   yylval.object = rb_str_new2(yytext);
                   return IDENTIFIER;
-                }
-{match}         {
-                  return MATCH;
-                }
-{case}          {
-                  return CASE;
                 }
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);

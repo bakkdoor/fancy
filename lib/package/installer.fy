@@ -95,9 +95,9 @@ class Fancy Package {
     def has_version?: version {
       "Indicates, if a given version is available on Github."
 
-      match version {
-        case "master" -> true
-        case _ -> tags includes?: version
+      version match: {
+        case: "master" -> true
+        else: $ tags includes?: version
       }
     }
 

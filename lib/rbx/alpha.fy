@@ -14,6 +14,26 @@ class Object {
     g push_nil()
     g ret()
   }
+
+  def if_true: then else: else {
+    then call: [self]
+  }
+
+  def _ {
+    Object
+  }
+}
+
+class FalseClass {
+  def if_true: then else: else {
+    else call
+  }
+}
+
+class NilClass {
+  def if_true: then else: else {
+    else call
+  }
 }
 
 class Class {

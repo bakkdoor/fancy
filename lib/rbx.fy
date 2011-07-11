@@ -6,6 +6,7 @@
 # Don't change the order in here, unless you know what you're doing.
 
 require: "rbx/alpha"
+require: "rbx/match"
 require: "rbx/documentation"
 require: "rbx/object"
 require: "rbx/class"

@@ -37,32 +37,33 @@ class Fancy AST {
     }
 
     def self from: string line: line filename: filename (nil) {
-      type = match string {
-        case "__FILE__" -> return CurrentFile new: line filename: filename
-        case "__LINE__" -> return CurrentLine new: line
-        case "self" -> return Self new: line
-        case /^[A-Z].*::/ -> NestedConstant
-        case /^[A-Z]/ -> Constant
-        case /^@@/ -> ClassVariable
-        case /^@/ -> InstanceVariable
-        case _ -> Identifier
+      type = string match: {
+        case: "__FILE__" do: { return CurrentFile new: line filename: filename }
+        case: "__LINE__" do: { return CurrentLine new: line }
+        case: "self" do: { return Self new: line }
+        case: /^[A-Z].*::/ do: NestedConstant
+        case: /^[A-Z]/ do: Constant
+        case: /^@@/ do: ClassVariable
+        case: /^@/ do: InstanceVariable
+        case: _ do: Identifier
       }
       type new: line string: string
     }
 
     def bytecode: g {
       pos(g)
-      match @string {
+      @string match: {
         # case "true" -> g push_true()
         # case "false" -> g push_false()
         # case "nil" -> g push_nil()
-        case _ ->
+        case: _ do: {
           if: (g state() scope() search_local(name)) then: {
             Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
           } else: {
             ms = MessageSend new: @line message: self to: (Self new: @line) args: (MessageArgs new: @line args: [])
             ms bytecode: g
           }
+        }
       }
     }
   }

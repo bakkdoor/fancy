@@ -24,17 +24,21 @@ class Fancy AST {
         # an identifier, use that as the message name in a send to
         # self and use the result as the receiver value for the rest.
         new_receiver = Identifier from: (@args args first to_s) line: @line
-        match first_expr {
-          case Identifier ->
+        first_expr match: {
+          case: Identifier do: {
             @body expressions shift()
             @body unshift_expression: $ MessageSend new: @line message: first_expr to: (new_receiver) args: (MessageArgs new: @line args: [])
-          case MessageSend ->
-            match first_expr receiver {
-              case Self ->
+          }
+          case: MessageSend do: {
+            first_expr receiver match: {
+              case: Self do: {
                 first_expr receiver: new_receiver
-              case Identifier ->
+              }
+              case: Identifier do: {
                 first_expr receiver: $ MessageSend new: @line message: (first_expr receiver) to: (new_receiver) args: (MessageArgs new: @line args: [])
+              }
             }
+          }
         }
       }
     }

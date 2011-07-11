@@ -91,21 +91,21 @@ class Fancy {
     # Returns the source filename for a given filename.
     # E.g. "foo.fyc" => "foo.fy"
     def self source_filename_for: file {
-      match file {
-        case /.*\.compiled\.fyc$/ -> file from: 0 to: -14
-        case /.*\.fyc$/ -> file from: 0 to: -2
-        case /\.fy$/ -> file
-        case _ -> file
+      file match: {
+        case: /.*\.compiled\.fyc$/ -> (file from: 0 to: -14)
+        case: /.*\.fyc$/ -> (file from: 0 to: -2)
+        case: /\.fy$/ -> file
+        else: file
       }
     }
 
     # Returns the compiled filename for a given filename.
     # E.g. "foo.fy" => "foo.fyc", "foo" => "foo.compiled.fyc"
     def self compiled_filename_for: file {
-      match file {
-        case /\.fyc$/ -> file
-        case /\.fy$/ -> file + "c"
-        case _ -> file + ".compiled.fyc"
+      file match: {
+        case: /\.fyc$/ -> file
+        case: /\.fy$/ -> (file + "c")
+        case: _ -> (file + ".compiled.fyc")
       }
     }
 

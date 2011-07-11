@@ -79,7 +79,7 @@ class PooledFuture {
   WaitInterval = 0.1
 
   def PooledFuture pool: n {
-    @@pool_size = match n {
+    @@pool_size = n match: {
       case 0 -> 10
       case _ -> n
     }

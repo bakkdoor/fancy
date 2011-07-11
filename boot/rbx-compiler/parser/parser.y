@@ -32,7 +32,6 @@ extern char *yytext;
 %token                  RIGHTHASH
 %token                  STAB
 %token                  ARROW
-%token                  THIN_ARROW
 %token                  COMMA
 %token                  SEMI
 %token                  NL
@@ -49,8 +48,6 @@ extern char *yytext;
 %token                  DOT
 %token                  DOLLAR
 %token                  EQUALS
-%token                  MATCH
-%token                  CASE
 %token                  IDENTIFIER
 %token                  RUBY_SEND_OPEN
 %token                  RUBY_OPER_OPEN
@@ -143,10 +140,6 @@ extern char *yytext;
 %type  <object>         catch_block
 %type  <object>         required_catch_blocks
 
-%type  <object>         match_expr
-%type  <object>         match_body
-%type  <object>         match_clause
-
 %%
 
 programm:       /*empty*/
@@ -202,7 +195,6 @@ statement:      assignment
 exp:            method_def
                 | class_def
                 | try_catch_block
-                | match_expr
                 | message_send
                 | operator_send
                 | ruby_send
@@ -242,9 +234,6 @@ constant:       CONSTANT {
 
 identifier:     IDENTIFIER {
                   $$ = fy_terminal_node(self, "identifier");
-                }
-                | MATCH {
-                  $$ = fy_terminal_node_from(self, "identifier", "match");
                 }
                 | CLASS {
                   $$ = fy_terminal_node_from(self, "identifier", "class");
@@ -683,27 +672,6 @@ key_value_list: exp space ARROW space exp {
                 }
                 | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(self, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
-                }
-                ;
-
-match_expr:     MATCH exp LCURLY space match_body space RCURLY {
-                  $$ = rb_funcall(self, rb_intern("match_expr"), 3, INT2NUM(yylineno), $2, $5);
-                }
-                ;
-
-match_body:     match_clause {
-                  $$ = rb_funcall(self, rb_intern("match_body"), 2, INT2NUM(yylineno), $1);
-                }
-                | match_body match_clause {
-                  $$ = rb_funcall(self, rb_intern("match_body"), 3, INT2NUM(yylineno), $2, $1);
-                }
-                ;
-
-match_clause:   CASE exp THIN_ARROW expression_list {
-                  $$ = rb_funcall(self, rb_intern("match_clause"), 3, INT2NUM(yylineno), $2, $4);
-                }
-                | CASE exp THIN_ARROW STAB block_args STAB expression_list {
-                  $$ = rb_funcall(self, rb_intern("match_clause"), 4, INT2NUM(yylineno), $2, $7, $5);
                 }
                 ;
 

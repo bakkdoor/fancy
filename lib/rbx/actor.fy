@@ -14,11 +14,12 @@ class Actor {
 
       a = Actor spawn: {
         loop: {
-          match Actor receive {
-            case 'hello -> \"Hello World\" println
-            case 'quit ->
+          Actor receive match: {
+            case: 'hello -> { \"Hello World\" println }
+            case: 'quit -> {
               \"OK, done!\" println
               break # Quit loop and let actor die
+            }
           }
         }
       }

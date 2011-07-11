@@ -444,12 +444,14 @@ class Object {
       try {
         type, msg, sender = Actor receive
         msg, params = msg
-        match type {
-          case 'async ->
+        type match: {
+          case: 'async -> {
             self receive_message: msg with_params: params
-          case 'future ->
+          }
+          case: 'future -> {
             val = self receive_message: msg with_params: params
             sender completed: val
+          }
         }
       } catch Exception => e {
         { sender failed: e } if: sender

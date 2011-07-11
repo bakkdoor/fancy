@@ -10,9 +10,9 @@ class NoMethodError {
     Returns the name of the method that was not found as a @String@.
     """
 
-    match name to_s {
-      case /^:/ -> name to_s from: 1 to: -1 . to_sym
-      case _ -> name
+    name to_s match: {
+      case: /^:/ -> (name to_s from: 1 to: -1 . to_sym)
+      case: _ -> name
     }
   }
 
