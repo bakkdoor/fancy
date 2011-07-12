@@ -14,26 +14,29 @@ class Match {
       if: (c === @obj) then: |val| {
         @called = block
         if: (block is_a?: Block) then: {
-          return block call: $ val to_a
+					@value = block call: $ val to_a
         } else: {
-          return block
+					@value = block
         }
+        return @value
       } else: {
-        self
+        return self
       }
     } catch {
       # do nothing in case of error
+			return nil
     }
   }
 
   def else: block {
     unless: @called do: {
       if: (block is_a?: Block) then: {
-        block call
+        return block call
       } else: {
-        block
+        return block
       }
     }
+    return @value
   }
 }
 
@@ -43,7 +46,7 @@ class Object {
   def match: block {
     @@__matches__ unshift(Match new: self)
     val = block call
-    val = @@__matches__ shift() value
+    @@__matches__ shift()
     val
   }
 
