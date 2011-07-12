@@ -38,20 +38,20 @@ class Match {
 }
 
 class Object {
-  @@__cases__ = []
+  @@__matches__ = []
 
   def match: block {
-    @@__cases__ unshift(Match new: self)
+    @@__matches__ unshift(Match new: self)
     val = block call
-    @@__cases__ shift()
+    val = @@__matches__ shift() value
     val
   }
 
   def case: c do: block {
-    @@__cases__ first case: c do: block
+    @@__matches__ first case: c do: block
   }
 
   def else: block {
-    @@__cases__ first else: block
+    @@__matches__ first else: block
   }
 }
