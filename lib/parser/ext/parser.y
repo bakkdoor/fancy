@@ -55,6 +55,7 @@ extern char *yytext;
 %token                  MATCH
 %token                  CASE
 %token                  IDENTIFIER
+%token                  GOTO
 %token                  LABEL
 %token                  SELECTOR
 %token                  RUBY_SEND_OPEN
@@ -89,6 +90,7 @@ extern char *yytext;
 
 
 %type  <object>         identifier
+%type  <object>         goto_statement
 %type  <object>         label_literal
 %type  <object>         label_statement
 %type  <object>         any_identifier
@@ -218,6 +220,7 @@ statement:      assignment
                 | return_local_statement
                 | return_statement
                 | label_statement
+                | goto_statement
                 ;
 
 label_literal: LABEL {
@@ -227,6 +230,11 @@ label_literal: LABEL {
 
 label_statement: label_literal {
                   $$ = rb_funcall(self, rb_intern("ast:label:"), 2, INT2NUM(yylineno), $1);
+                }
+                ;
+
+goto_statement: GOTO label_literal {
+                  $$ = rb_funcall(self, rb_intern("ast:goto:"), 2, INT2NUM(yylineno), $2);
                 }
                 ;
 

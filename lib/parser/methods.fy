@@ -182,13 +182,6 @@ class Fancy {
     }
 
     def ast: line send: message to: receiver (AST Self new: line) ruby: ruby (nil) {
-      # check for goto
-      if: (message is_a?: Array) then: {
-        if: (message first selector() string == "goto:") then: {
-          return ast: line goto: (message first value() string)
-        }
-      }
-
       args = ruby if_true: {
         unless: receiver do: {
           receiver = AST Self new: line
@@ -354,8 +347,7 @@ class Fancy {
     }
 
     def ast: line label: label {
-      label_name = label from: 1 to: -2
-      AST Label new: line name: label_name
+      AST Label new: line name: label
     }
 
     def ast: line parse_error: text {

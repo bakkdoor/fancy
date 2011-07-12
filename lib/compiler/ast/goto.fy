@@ -17,15 +17,16 @@ class Fancy AST {
 
     def initialize: @line name: @name
     def bytecode: g {
+      pos(g)
       Label[@name]: $ g ip
-      g push_nil()
+      g push_nil() # needed
     }
   }
 
   class Goto : Node {
     def initialize: @line label_name: @label_name
-
     def bytecode: g {
+      pos(g)
       pos = Label[@label_name]
       { "Label not found: #{@label_name}" raise! } unless: pos
       tmp_ip = g ip
