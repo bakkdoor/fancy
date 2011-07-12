@@ -10,13 +10,17 @@ class Match {
   # }
 
   def case: c do: block {
+    if: @called then: {
+      return @value
+    }
+
     try {
       if: (c === @obj) then: |val| {
         @called = block
         if: (block is_a?: Block) then: {
-					@value = block call: $ val to_a
+          @value = block call: $ val to_a
         } else: {
-					@value = block
+          @value = block
         }
         return @value
       } else: {
@@ -24,7 +28,7 @@ class Match {
       }
     } catch {
       # do nothing in case of error
-			return nil
+      @called = nil
     }
   }
 
@@ -45,16 +49,20 @@ class Object {
 
   def match: block {
     @@__matches__ unshift(Match new: self)
-    val = block call
-    @@__matches__ shift()
+    val = nil
+    try {
+      val = block call
+    } finally {
+      @@__matches__ shift()
+    }
     val
   }
 
   def case: c do: block {
-    @@__matches__ first case: c do: block
+    @@__matches__ first() case: c do: block
   }
 
   def else: block {
-    @@__matches__ first else: block
+    @@__matches__ first() else: block
   }
 }

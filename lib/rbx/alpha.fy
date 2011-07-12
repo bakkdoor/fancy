@@ -19,8 +19,16 @@ class Object {
     then call: [self]
   }
 
+  def if_true: then else: else {
+    then call: [self]
+  }
+
   def if: cond then: then else: else {
     cond if_true: then else: else
+  }
+
+  def if: cond then: then {
+    cond if_true: then
   }
 
   def unless: cond do: then {
@@ -40,12 +48,14 @@ class FalseClass {
   def if_true: then else: else {
     else call
   }
+  def if_true: then
 }
 
 class NilClass {
   def if_true: then else: else {
     else call
   }
+  def if_true: then
 }
 
 class Class {

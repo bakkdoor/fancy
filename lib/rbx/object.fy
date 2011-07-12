@@ -117,10 +117,9 @@ class Object {
 
   def message_name: symbol {
     symbol = symbol to_s
-    (symbol =~ /:/) if_true: {
-      symbol
-    } else: {
-      ":" ++ symbol
+    (symbol =~ /:/) match: {
+      case: nil do: $ ":" + (symbol to_s())
+      case: _ do: symbol
     }
   }
 

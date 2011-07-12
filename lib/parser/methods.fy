@@ -69,10 +69,10 @@ class Fancy {
         # TODO: Clean this up or make it simpler...
 
         # this case handles string interpolation
-        case: /(.*)#{(.*)}(.*)/ do: |prefix, interpol_str, suffix| {
-          # prefix = matches[1]
-          # interpol_str = matches[2]
-          # suffix = matches[3]
+        case: /(.*)#{(.*)}(.*)/ do: |matches| {
+          prefix = matches[1]
+          interpol_str = matches[2]
+          suffix = matches[3]
 
           binding = AST MessageSend new: line message: (ast: line identifier: "binding") to: (AST Self new: line) args: (AST RubyArgs new: line args: [])
           evalstr = AST StringLiteral new: line value: interpol_str
