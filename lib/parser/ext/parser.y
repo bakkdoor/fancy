@@ -55,6 +55,7 @@ extern char *yytext;
 %token                  MATCH
 %token                  CASE
 %token                  IDENTIFIER
+%token                  LABEL
 %token                  SELECTOR
 %token                  RUBY_SEND_OPEN
 %token                  RUBY_OPER_OPEN
@@ -88,6 +89,8 @@ extern char *yytext;
 
 
 %type  <object>         identifier
+%type  <object>         label_literal
+%type  <object>         label_statement
 %type  <object>         any_identifier
 %type  <object>         constant
 %type  <object>         literal_value
@@ -214,6 +217,17 @@ partial_expression_block: AT_LCURLY space expression_list space RCURLY {
 statement:      assignment
                 | return_local_statement
                 | return_statement
+                | label_statement
+                ;
+
+label_literal: LABEL {
+                  $$ = fy_terminal_node(self, "ast:string_value:");
+                }
+                ;
+
+label_statement: label_literal {
+                  $$ = rb_funcall(self, rb_intern("ast:label:"), 2, INT2NUM(yylineno), $1);
+                }
                 ;
 
 primary:        any_identifier
