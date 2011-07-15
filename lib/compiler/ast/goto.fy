@@ -11,15 +11,23 @@ class Fancy AST {
     def Label [name] {
       @@registry[name]
     }
-    def Label [name]: pos {
-      @@registry[name]: pos
+    def Label [name]: label {
+      @@registry[name]: label
     }
 
     def initialize: @line name: @name
     def bytecode: g {
       pos(g)
-      Label[@name]: $ g ip
-      g push_nil() # needed
+      label = Label[@name]
+      unless: label do: {
+        label = g new_label()
+        Label[@name]: label
+      }
+      tmp = g ip
+      g ip: (tmp + 2)
+      label set!()
+      g ip: tmp
+      g push_nil()
     }
   }
 
@@ -27,13 +35,11 @@ class Fancy AST {
     def initialize: @line label_name: @label_name
     def bytecode: g {
       pos(g)
-      pos = Label[@label_name]
-      { "Label not found: #{@label_name}" raise! } unless: pos
-      tmp_ip = g ip
-      g ip: pos
-      label = g new_label()
-      label set!()
-      g ip: tmp_ip
+      label = Label[@label_name]
+      unless: label do: {
+        label = g new_label()
+        Label[@label_name]: label
+      }
       g goto(label)
     }
   }
