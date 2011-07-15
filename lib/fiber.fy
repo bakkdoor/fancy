@@ -15,4 +15,8 @@ class Fiber {
       Time now < @sleep_end
     }
   }
+
+  def Fiber name {
+    "Fiber"
+  }
 }

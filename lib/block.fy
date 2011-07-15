@@ -133,4 +133,8 @@ class Block {
 
     "Block"
   }
+
+  def Block name {
+    to_s
+  }
 }

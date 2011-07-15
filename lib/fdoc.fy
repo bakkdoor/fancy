@@ -138,7 +138,7 @@ class Fancy FDoc {
       methods = @methods dup()
 
       @classes each: |cls| {
-        name = cls name() gsub("::", " ")
+        name = cls name gsub("::", " ")
         doc = Fancy Documentation for: cls
         attr = <[
           'doc => doc format: 'fdoc,

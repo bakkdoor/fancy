@@ -6,6 +6,8 @@ class Class {
   or Smalltalk.
   """
 
+  forwards_unary_ruby_methods
+
   def define_slot_reader: slotname {
     """
     @slotname Name of the slot to define a getter method for.

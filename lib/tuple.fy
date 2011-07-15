@@ -110,4 +110,8 @@ class Tuple {
       [obj] + (obj map: 'identity)
     }
   }
+
+  def Tuple name {
+    "Tuple"
+  }
 }
