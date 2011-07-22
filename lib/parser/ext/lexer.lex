@@ -16,7 +16,7 @@ lower           [a-z]
 letter          [A-Za-z]
 special         [-+?!=*/^><%&~]
 special_under   ({special}|"_")
-operator        ({special}+|"||"{special_under}*)
+operator        ({special}+|" | "|"||"{special_under}*)
 int_lit 	[-+]?{digit}({digit}|_{digit})*
 double_lit      {int_lit}\.{digit}+
 hex_lit         0[xX]{hexdigit}+
@@ -56,7 +56,7 @@ goto_           "goto"
 selector        ({letter}|[_&*])({letter}|{digit}|{special_under})*":"
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
-symbol_lit      \'({identifier}|{operator}|{constant}|:|"[]")+
+symbol_lit      \'({identifier}|{operator}|{constant}|:|"[]"|"|")+
 ruby_send_open  {identifier}{lparen}
 ruby_oper_open  {operator}{lparen}
 regexp_lit      "/".*"/"

@@ -18,6 +18,9 @@ class Fancy AST {
     }
 
     def initialize: @line string: @string ruby_ident: @ruby_ident (false) {
+      match @string {
+        case /^ | $/ -> @string = "|"
+      }
     }
 
     def name {
