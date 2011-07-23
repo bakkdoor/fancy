@@ -74,20 +74,19 @@ class Fancy {
           interpol_str = matches[2]
           suffix = matches[3]
 
-          binding = AST MessageSend new: line message: (ast: line identifier: "binding") to: (AST Self new: line) args: (AST RubyArgs new: line args: [])
-          evalstr = AST StringLiteral new: line value: interpol_str
-          msg = ast: line identifier: "eval:binding:"
-          binding_send = AST MessageSend new: line message: msg to: (ast: line identifier: "Fancy") \
-                                         args: (AST MessageArgs new: line args: [evalstr, binding])
-
           prefix_str = ast: line string: (" " + prefix + " ") # hack, pre- & append " " since it gets removed
           suffix_str = ast: line string: (" " + suffix + " ")
+          interpol_ast = AST StringInterpolation new: line code: interpol_str
           # create messagesend to concatenate:
           concat_ident = ast: line identifier: "++"
-          concat_prefix_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [binding_send])
-          concat_suffix_send = AST MessageSend new: line message: concat_ident to: concat_prefix_send args: (AST MessageArgs new: line args: [suffix_str])
+          interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [interpol_ast])
 
-          concat_suffix_send # this shall get returned, yo
+          # don't concatenate suffix if it's empty..
+          unless: (suffix == "") do: {
+            interpol_send = AST MessageSend new: line message: concat_ident to: interpol_send args: (AST MessageArgs new: line args: [suffix_str])
+          }
+
+          interpol_send # this shall get returned, yo
         case _ ->
           AST StringLiteral new: line value: str
       }
