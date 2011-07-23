@@ -30,7 +30,7 @@ class World {
     }
   }
 
-  def [] index {
+  def [index] {
     "Return the row for a given index."
     @matrix[index]
   }
