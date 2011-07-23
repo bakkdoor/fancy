@@ -134,4 +134,35 @@ class String {
     }
     str
   }
+
+  def characters {
+    """
+    @return @Array@ of all characters (as @String@) in @self.
+    """
+
+    scan: /./
+  }
+
+  def character {
+    """
+    @return @Fixnum@ (byte / ASCII) value of first character in @self.
+    """
+
+    self bytes each: |c| {
+      return c
+    }
+    return nil
+  }
+
+  def bytes {
+    """
+    @return @FancyEnumerator@ of all bytes (@Fixnum@ values) in @self.
+    """
+
+    enum = bytes()
+    def enum each: block {
+      each(&block)
+    }
+    FancyEnumerator new: enum
+  }
 }

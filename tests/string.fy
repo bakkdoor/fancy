@@ -137,4 +137,22 @@ FancySpec describe: String with: {
     """
     str skip_leading_indentation is_not: str
   }
+
+  it: "returns an array of all its characters" for: 'characters when: {
+    "foo" characters is: ["f","o","o"]
+    "" characters is: []
+    "f" characters is: ["f"]
+  }
+
+  it: "returns its first character as a fixnum ascii value" for: 'character when: {
+    "A" character is: 65
+    "a" character is: 97
+    "ab" character is: $ "a" character
+    "" character is: nil
+  }
+
+  it: "returns an enumerator for its all bytes (fixnum ascii values)" for: 'bytes when: {
+    "foo" bytes class is: FancyEnumerator
+    "" bytes class is: FancyEnumerator
+  }
 }

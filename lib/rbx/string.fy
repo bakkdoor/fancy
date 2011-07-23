@@ -14,6 +14,7 @@ class String {
   ruby_alias: '>
 
   alias_method: '[]: for_ruby: '[]=
+  alias_method: 'scan: for_ruby: 'scan
 
   forwards_unary_ruby_methods
 
