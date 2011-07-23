@@ -39,6 +39,16 @@ class Block {
       return call_on_instance(receiver, *args)
     }
   }
+
+  def to_proc {
+    """
+    @return Ruby Proc representing @self.
+
+    Turns a @Block@ into a Ruby Proc object.
+    """
+
+    Proc new(&self)
+  }
 }
 
 class Rubinius VariableScope {
