@@ -532,6 +532,17 @@ class Object {
     }
   }
 
+  def get_slots: slots {
+    """
+    @slots @Array@ of slot names to retrieve from @self.
+    @return @Array@ of slot values of slot names passed in via @slots.
+    """
+
+    slots map: |s| {
+      get_slot: s
+    }
+  }
+
   def <=> other {
     """
     @other Other object to compare against.

@@ -125,6 +125,13 @@ class Array {
     }
   }
 
+  def reverse_each: block {
+    size - 1 downto: 0 do: |i| {
+      block call: [at: i]
+    }
+    self
+  }
+
   def each_with_index: block {
     """
     @block @Block@ to be called with each element and its inde in the @Array@.

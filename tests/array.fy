@@ -14,6 +14,21 @@ FancySpec describe: Array with: {
     sum is: $ [1,2,3,4,5] sum
   }
 
+  it: "iterates over all elements in reverse" with: 'reverse_each: when: {
+    sum = 0
+    last = 5
+    count = 0
+    [1,2,3,4,5] reverse_each: |x| {
+      x <= last is: true
+      last = x
+      sum = sum + x
+      count = count + 1
+    }
+    sum is: $ [1,2,3,4,5] sum
+    count is: 5
+    last is: 1
+  }
+
   it: "iterates over all elements with their index" with: 'each_with_index: when: {
     sum = 0
     idx_sum = 0
