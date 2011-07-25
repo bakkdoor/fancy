@@ -138,4 +138,28 @@ class Number {
 
     self even? not
   }
+
+  def max: other {
+    """
+    @return Maximum value of @self and @other.
+    """
+
+    if: (self < other) then: {
+      other
+    } else: {
+      self
+    }
+  }
+
+  def min: other {
+    """
+    @return Minimum value of @self and @other.
+    """
+
+    if: (self < other) then: {
+      self
+    } else: {
+      other
+    }
+  }
 }

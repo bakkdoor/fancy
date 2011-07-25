@@ -153,4 +153,18 @@ FancySpec describe: Fixnum with: {
     times_called is: 10
     sum is: ((10..19) sum)
   }
+
+  it: "returns the maximum" for: 'max: when: {
+    0 max: 0 . is: 0
+    1 max: 2 . is: 2
+    2 max: 1 . is: 2
+    -2 max: -3 . is: -2
+  }
+
+  it: "returns the minimum" for: 'min: when: {
+    0 min: 0 . is: 0
+    -1 min: 0 . is: -1
+    -2 min: -3 . is: -3
+    2 min: 1 . is: 1
+  }
 }
