@@ -101,6 +101,15 @@ FancySpec describe: Object with: {
     ('foo || nil) is: 'foo
   }
 
+  it: "is true if only one of them is not true" with: 'xor: when: {
+    true xor: false . is: true
+    false xor: false . is: false
+    nil xor: nil . is: false
+    false xor: false . is: false
+    false xor: nil . is: false
+    1 xor: nil . is: true
+  }
+
   # end boolean messages
 
   it: "is not nil for non-nil values" with: 'nil? when: {

@@ -200,6 +200,19 @@ class Object {
     }
   }
 
+  def xor: other {
+    """
+    @other @Object@ to compare @self against.
+    @return @true if only one of @self and @other is true, @false otherwise.
+    """
+
+    if_true: {
+      other not
+    } else: {
+      other not not
+    }
+  }
+
   alias_method: ':&& for: 'and:
   alias_method: ':|| for: 'or:
 
