@@ -588,4 +588,14 @@ class Object {
 
     block call_with_receiver: self
   }
+
+  def slots {
+    """
+    @return @Set@ of slot names that @self has.
+    """
+
+    Set new: $ instance_variables map: |s| {
+      s rest to_sym
+    }
+  }
 }

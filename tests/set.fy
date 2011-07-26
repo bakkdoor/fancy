@@ -41,7 +41,13 @@ FancySpec describe: Set with: {
 
     s1 = Set[[1,2,3]]
     s2 = Set[[3,2,1]]
+    s3 = Set[[3,1,2]]
     s1 == s2 is: true
+    s1 == s3 is: true
+    s2 == s1 is: true
+    s2 == s3 is: true
+    s3 == s1 is: true
+    s3 == s2 is: true
 
     s1 << 1 # should have no effect
     s2 << 3

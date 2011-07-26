@@ -141,4 +141,9 @@ FancySpec describe: Method with: {
     }
     val = multiple_return_values: 3 . is: (3, 6, 9)
   }
+
+  it: "parses methods without a body and default args correctly" when: {
+    def fooaa: bar ("fo");
+    fooaa: 10
+  }
 }

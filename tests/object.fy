@@ -216,4 +216,19 @@ FancySpec describe: Object with: {
       is: [2] # same
     }
   }
+
+  it: "returns a set of its slot names" with: 'slots when: {
+    class GotSlots {
+      def initialize {
+        @x, @y = 1, 2
+      }
+      def set_another_slot {
+        @z = 123
+      }
+    }
+    gs = GotSlots new
+    gs slots is: $ Set[['x, 'y]]
+    gs set_another_slot
+    gs slots is: $ Set[['x,'y,'z]]
+  }
 }

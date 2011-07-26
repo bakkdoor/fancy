@@ -61,10 +61,11 @@ class Set {
     """
 
     if: (other is_a?: Set) then: {
-      values == (other values)
-    } else: {
-      false
+      if: (size == (other size)) then: {
+        return other all?: |x| { includes?: x }
+      }
     }
+    return false
   }
 
   def Set [values] {

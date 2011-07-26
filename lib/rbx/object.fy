@@ -4,6 +4,7 @@ class Object {
   ruby_alias: 'class
   ruby_alias: 'inspect
   ruby_alias: 'object_id
+  ruby_alias: 'instance_variables
 
   def initialize {
     initialize()
