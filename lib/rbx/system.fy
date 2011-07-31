@@ -13,6 +13,16 @@ class System {
     Kernel exit()
   }
 
+  def System exit: exitcode {
+    """
+    @exitcode Exit code (Fixnum) to be returned to the parent process.
+
+    Exit the running Fancy process with a given exit code.
+    """
+
+    Kernel exit(exitcode)
+  }
+
   def System do: command_str {
     """
     Runs the given string as a system() command.
