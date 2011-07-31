@@ -1,0 +1,3 @@
+rvm: rbx
+script: "rake clean && rake"
+after_script: "bin/fancy bin/fspec"
