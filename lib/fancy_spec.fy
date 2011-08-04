@@ -194,6 +194,11 @@ class FancySpec {
 
       Console newline
       "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures." println
+      if: (@@failed_count > 0) then: {
+        System exit: 1
+      } else: {
+        System exit: 0
+      }
     }
 
     def initialize: @info_str block: @block {
