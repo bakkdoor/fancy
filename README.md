@@ -5,7 +5,7 @@ http://www.fancy-lang.org
 
 ----------------------------------------------------------------------
 Fancy is a dynamic, object-oriented programming language heavily
-inspired by Smalltalk, Ruby and Erlang. It supports dynamic code
+inspired by Smalltalk, Ruby, Io and Erlang. It supports dynamic code
 evaluation (as in Ruby & Smalltalk), class-based mixins, (simple)
 pattern matching, runtime introspection & reflection, "monkey
 patching" and much more. It runs on Rubinius, the Ruby VM, and thus
@@ -14,7 +14,8 @@ additional Ruby libraries that run on Rubinius, including most
 C-extensions.
 
 It supports concurrency via the actor-model, including first-class
-futures and async message send semantics built into the language.
+futures and async message send semantics built into the language,
+similar to Io.
 
 For a quick feature overview, have a look at `doc/features.md`
 There's also a work-in-progress tutorial/book on Fancy here:
@@ -137,11 +138,6 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
     arguments to Ruby methods.
   - Futures (`future = object @ message`)
   - Async message sends (`object @@ message`)
-
-
-##What's still missing?
-  - Some more advanced stuff, e.g. runtime inspection of method calls
-    via MethodContext etc. (saved for later)
 
 
 ##How is it implemented?
