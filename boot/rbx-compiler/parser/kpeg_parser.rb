@@ -175,7 +175,6 @@ class Fancy
       end
 
       def try_to_ast(node)
-        PP.pp(to_sexp(node)) unless Array === node.args[1]
         body = to_ast(node.args[0])
         handlers = AST::Handlers.new(node.pos.line, *node.args[1].map { |a|
                                        AST::ExceptHandler.new(a.pos.line,
@@ -308,11 +307,27 @@ class Fancy
 
 
   class Parser
-    def parse_file
-      parse_string(File.read(filename), filename)
+    class ParseError < StandardError; end
+
+    def self.parse_file(filename, lineno = 1)
+      new(filename, lineno).parse_file.script
     end
 
-    def parse_string(code, filename)
+    def self.parse_string(code, lineno = 1, filename = "(eval)")
+      new(filename, lineno).parse_string(code).script
+    end
+
+    attr_reader :filename, :lineno, :script
+
+    def initialize(filename, lineno)
+      @filename, @lineno = filename, lineno
+    end
+    
+    def parse_file
+      parse_string(File.read(filename))
+    end
+
+    def parse_string(code)
       parser = KPegParser.new(code)
       unless parser.parse
         parser.show_error
