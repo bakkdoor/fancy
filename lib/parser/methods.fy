@@ -2,7 +2,7 @@ require: "parse_error"
 
 class Fancy {
   class Parser {
-    SelectorVarDefault = Struct.new('selector, 'variable, 'default)
+    SelectorVarDefault = Struct new('selector, 'variable, 'default)
     SelectorValue = Struct new('selector, 'value)
 
     def self parse_file: filename line: line (1) {
@@ -69,7 +69,7 @@ class Fancy {
         # TODO: Clean this up or make it simpler...
 
         # this case handles string interpolation
-        case /(.*)#{(.*)}(.*)/ -> |matches|
+        case /(.*)\#{(.*)}(.*)/ -> |matches|
           prefix = matches[1]
           interpol_str = matches[2]
           suffix = matches[3]
@@ -233,7 +233,7 @@ class Fancy {
           forward = AST MessageSend new: line \
                                     message: (AST Identifier from: target line: line) \
                                     to:  (AST Self new: line)                     \
-                                    args:(AST MessageArgs new: line args: params)
+                                    args: (AST MessageArgs new: line args: params)
 
           doc = AST StringLiteral new: line value: ("Forward to message " ++ target)
           body = AST ExpressionList new: line  list: [doc, forward]

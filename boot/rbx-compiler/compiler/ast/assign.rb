@@ -9,7 +9,7 @@ class Fancy
       end
 
       def bytecode(g)
-        if @ident.constant?
+        if Rubinius::AST::ScopedConstant === @ident || @ident.constant?
           Rubinius::AST::ConstantAssignment.new(line, @ident.name, @value).bytecode(g)
         elsif @ident.instance_variable?
           Rubinius::AST::InstanceVariableAssignment.new(line, @ident.name, @value).

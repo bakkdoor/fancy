@@ -13,3 +13,10 @@ source file for tokens.
 
 The parser.rb file contains all the methods used by the parser to
 create AST objects.
+
+
+==
+
+Currently the parser is being re-implemented using kpeg. 
+If you want to work on the parser use vic/kpeg to generate the 
+ruby parser.

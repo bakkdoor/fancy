@@ -48,6 +48,9 @@ class Fancy
         @args.each do |a|
           a.bytecode(g)
         end
+      rescue
+        PP.pp(self)
+        raise
       end
 
       def size

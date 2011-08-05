@@ -33,7 +33,7 @@ class File {
 
     try {
       open(filename, modes_str, &block)
-    } catch Errno::ENOENT => e {
+    } catch Errno ENOENT => e {
       IOError new: (e message) . raise!
     }
   }
@@ -56,7 +56,7 @@ class File {
 
     try {
       close()
-    } catch Errno::ENOENT => e {
+    } catch Errno ENOENT => e {
       IOError new: (e message) . raise!
     }
   }
@@ -77,7 +77,7 @@ class File {
     try {
       f = open(filename, modes_str)
       f modes: modes_arr
-    } catch Errno::ENOENT => e {
+    } catch Errno ENOENT => e {
       IOError new: (e message) . raise!
     }
     f
@@ -107,7 +107,7 @@ class File {
 
     try {
       delete(filename)
-    } catch Errno::ENOENT => e {
+    } catch Errno ENOENT => e {
       IOError new: (e message) . raise!
     }
   }
