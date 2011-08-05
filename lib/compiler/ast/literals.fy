@@ -79,6 +79,13 @@ class Fancy AST {
       pos(g)
       bytecode(g)
     }
+    def method_name: receiver ruby_send: ruby_send {
+      if: ruby_send then: {
+        'self
+       } else: {
+         ':self
+       }
+    }
   }
 
   class SymbolLiteral : Rubinius AST SymbolLiteral {
