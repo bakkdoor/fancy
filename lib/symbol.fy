@@ -19,4 +19,24 @@ class Symbol {
       arg receive_message: self
     }
   }
+
+  def call {
+    """
+    Sends @self as message to the sender in its context.
+    Example:
+        'foo call
+         # => same as
+         self foo
+
+         if: x then: 'foo else: 'bar
+         # same as:
+         if: x then: { self foo } else: { self bar }
+    """
+
+    binding = Binding setup(Rubinius VariableScope of_sender(),
+                            Rubinius CompiledMethod of_sender(),
+                            Rubinius StaticScope of_sender())
+    recv = binding self()
+    recv receive_message: self
+  }
 }
