@@ -907,17 +907,11 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # ruby = p:p < (ident | const | oper | "=")+ > {text}:n "(" - args?:a - ")" {node(p, :ruby, n, *Array(a))}
-  def _ruby
+  # ruby_name = < (ident | const | oper | "=")+ > {text}
+  def _ruby_name
 
     _save = self.pos
     while true # sequence
-      _tmp = apply(:_p)
-      p = @result
-      unless _tmp
-        self.pos = _save
-        break
-      end
       _text_start = self.pos
       _save1 = self.pos
 
@@ -973,56 +967,164 @@ class Fancy::KPegParser
       end
       @result = begin; text; end
       _tmp = true
-      n = @result
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _tmp = match_string("(")
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _tmp = apply(:__hyphen_)
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _save4 = self.pos
-      _tmp = apply(:_args)
-      @result = nil unless _tmp
-      unless _tmp
-        _tmp = true
-        self.pos = _save4
-      end
-      a = @result
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _tmp = apply(:__hyphen_)
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _tmp = match_string(")")
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      @result = begin; node(p, :ruby, n, *Array(a)); end
-      _tmp = true
       unless _tmp
         self.pos = _save
       end
       break
     end # end sequence
 
+    set_failed_rule :_ruby_name unless _tmp
+    return _tmp
+  end
+
+  # ruby = (p:p ruby_name:n "(" - args?:a - ")" space+ block:b {node(p, :ruby, n, b, *Array(a))} | p:p ruby_name:n "(" - args?:a - ")" {node(p, :ruby, n, nil, *Array(a))})
+  def _ruby
+
+    _save = self.pos
+    while true # choice
+
+      _save1 = self.pos
+      while true # sequence
+        _tmp = apply(:_p)
+        p = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = apply(:_ruby_name)
+        n = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = match_string("(")
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = apply(:__hyphen_)
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _save2 = self.pos
+        _tmp = apply(:_args)
+        @result = nil unless _tmp
+        unless _tmp
+          _tmp = true
+          self.pos = _save2
+        end
+        a = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = apply(:__hyphen_)
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = match_string(")")
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _save3 = self.pos
+        _tmp = apply(:_space)
+        if _tmp
+          while true
+            _tmp = apply(:_space)
+            break unless _tmp
+          end
+          _tmp = true
+        else
+          self.pos = _save3
+        end
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        _tmp = apply(:_block)
+        b = @result
+        unless _tmp
+          self.pos = _save1
+          break
+        end
+        @result = begin; node(p, :ruby, n, b, *Array(a)); end
+        _tmp = true
+        unless _tmp
+          self.pos = _save1
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+
+      _save4 = self.pos
+      while true # sequence
+        _tmp = apply(:_p)
+        p = @result
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _tmp = apply(:_ruby_name)
+        n = @result
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _tmp = match_string("(")
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _tmp = apply(:__hyphen_)
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _save5 = self.pos
+        _tmp = apply(:_args)
+        @result = nil unless _tmp
+        unless _tmp
+          _tmp = true
+          self.pos = _save5
+        end
+        a = @result
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _tmp = apply(:__hyphen_)
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        _tmp = match_string(")")
+        unless _tmp
+          self.pos = _save4
+          break
+        end
+        @result = begin; node(p, :ruby, n, nil, *Array(a)); end
+        _tmp = true
+        unless _tmp
+          self.pos = _save4
+        end
+        break
+      end # end sequence
+
+      break if _tmp
+      self.pos = _save
+      break
+    end # end choice
+
     set_failed_rule :_ruby unless _tmp
     return _tmp
   end
 
-  # access = (p:p "[" - chain:a - "]:" space+ - value:b {node(p, :message, "[]",a,b)} | p:p "[" - chain:a - "]" {node(p, :message, "[]", a)})
+  # access = (p:p "[" - chain:a - "]:" space+ - value:b {node(p, :opmsg, "[]",a,b)} | p:p "[" - chain:a - "]" {node(p, :opmsg, "[]", a)})
   def _access
 
     _save = self.pos
@@ -1088,7 +1190,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        @result = begin; node(p, :message, "[]",a,b); end
+        @result = begin; node(p, :opmsg, "[]",a,b); end
         _tmp = true
         unless _tmp
           self.pos = _save1
@@ -1133,7 +1235,7 @@ class Fancy::KPegParser
           self.pos = _save3
           break
         end
-        @result = begin; node(p, :message, "[]", a); end
+        @result = begin; node(p, :opmsg, "[]", a); end
         _tmp = true
         unless _tmp
           self.pos = _save3
@@ -1150,7 +1252,7 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # message = (p:p oper:o (space* ".")? - value:v {node(p, :message, o, v)} | collon:c {c} | p:p ident:i {node(p, :message, i)})
+  # message = (p:p oper:o (space* ".")? - value:v {node(p, :opmsg, o, v)} | collon:c {c} | p:p ident:i {node(p, :message, i)})
   def _message
 
     _save = self.pos
@@ -1209,7 +1311,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        @result = begin; node(p, :message, o, v); end
+        @result = begin; node(p, :opmsg, o, v); end
         _tmp = true
         unless _tmp
           self.pos = _save1
@@ -1889,7 +1991,42 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # assignment = (p:p tuple_items(&name):a space+ "=" - (tuple_items(&chain) | chain:c {[c]}):b {node(p, :massign, a, b)} | p:p name:a space+ "=" - chain:b {node(p, :assign, a, b)})
+  # eq = "=" (space | nl | comment)
+  def _eq
+
+    _save = self.pos
+    while true # sequence
+      _tmp = match_string("=")
+      unless _tmp
+        self.pos = _save
+        break
+      end
+
+      _save1 = self.pos
+      while true # choice
+        _tmp = apply(:_space)
+        break if _tmp
+        self.pos = _save1
+        _tmp = apply(:_nl)
+        break if _tmp
+        self.pos = _save1
+        _tmp = apply(:_comment)
+        break if _tmp
+        self.pos = _save1
+        break
+      end # end choice
+
+      unless _tmp
+        self.pos = _save
+      end
+      break
+    end # end sequence
+
+    set_failed_rule :_eq unless _tmp
+    return _tmp
+  end
+
+  # assignment = (p:p tuple_items(&name):a space+ eq - (tuple_items(&chain) | chain:c {[c]}):b {node(p, :massign, a, b)} | p:p name:a space+ eq - chain:b {node(p, :assign, a, b)})
   def _assignment
 
     _save = self.pos
@@ -1927,7 +2064,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        _tmp = match_string("=")
+        _tmp = apply(:_eq)
         unless _tmp
           self.pos = _save1
           break
@@ -2013,7 +2150,7 @@ class Fancy::KPegParser
           self.pos = _save5
           break
         end
-        _tmp = match_string("=")
+        _tmp = apply(:_eq)
         unless _tmp
           self.pos = _save5
           break
@@ -3666,7 +3803,7 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # opdef = ("[" space* ident:i space* "]:" space+ ident:k space+ curly:b {["[]", i, k, b]} | "[" space* ident:i space* "]" space+ curly:b {["[]", i,b]} | oper:o space+ ident:i space+ curly:b {[o+":", i, b]})
+  # opdef = ("[" space* ident:i space* "]:" space+ ident:k space+ curly:b {["[]", i, k, b]} | "[" space* ident:i space* "]" space+ curly:b {["[]", i,b]} | oper:o space+ ident:i space+ curly:b {[o, i, b]})
   def _opdef
 
     _save = self.pos
@@ -3879,7 +4016,7 @@ class Fancy::KPegParser
           self.pos = _save10
           break
         end
-        @result = begin; [o+":", i, b]; end
+        @result = begin; [o, i, b]; end
         _tmp = true
         unless _tmp
           self.pos = _save10
@@ -6210,9 +6347,10 @@ class Fancy::KPegParser
   Rules[:_body] = rule_info("body", "(body:b - chain:c { b.args.push c; b } | chain:c {node(c.pos, :body, c)})")
   Rules[:_chain] = rule_info("chain", "(chain:c space* \".\" !(&\".\") {node(c.pos, :chain, c)} | chain:c space* access:m { c.args.push m; c } | chain:c space+ (ruby | message):m { c.args.push m; c } | range:r {node(r.pos, :chain, r)} | p:p value:v {node(p, :chain, v)})")
   Rules[:_args] = rule_info("args", "(args:a space* \",\" - body:c { a + [c] } | body:c {[c]})")
-  Rules[:_ruby] = rule_info("ruby", "p:p < (ident | const | oper | \"=\")+ > {text}:n \"(\" - args?:a - \")\" {node(p, :ruby, n, *Array(a))}")
-  Rules[:_access] = rule_info("access", "(p:p \"[\" - chain:a - \"]:\" space+ - value:b {node(p, :message, \"[]\",a,b)} | p:p \"[\" - chain:a - \"]\" {node(p, :message, \"[]\", a)})")
-  Rules[:_message] = rule_info("message", "(p:p oper:o (space* \".\")? - value:v {node(p, :message, o, v)} | collon:c {c} | p:p ident:i {node(p, :message, i)})")
+  Rules[:_ruby_name] = rule_info("ruby_name", "< (ident | const | oper | \"=\")+ > {text}")
+  Rules[:_ruby] = rule_info("ruby", "(p:p ruby_name:n \"(\" - args?:a - \")\" space+ block:b {node(p, :ruby, n, b, *Array(a))} | p:p ruby_name:n \"(\" - args?:a - \")\" {node(p, :ruby, n, nil, *Array(a))})")
+  Rules[:_access] = rule_info("access", "(p:p \"[\" - chain:a - \"]:\" space+ - value:b {node(p, :opmsg, \"[]\",a,b)} | p:p \"[\" - chain:a - \"]\" {node(p, :opmsg, \"[]\", a)})")
+  Rules[:_message] = rule_info("message", "(p:p oper:o (space* \".\")? - value:v {node(p, :opmsg, o, v)} | collon:c {c} | p:p ident:i {node(p, :message, i)})")
   Rules[:_collon] = rule_info("collon", "(collon:c space+ ident:i \":\" space+ - value:v {c.args.push i, v; c} | p:p ident:i \":\" space+ - value:v {node(p, :message, i, v)})")
   Rules[:_block] = rule_info("block", "(p:p block_args:a - curly:b {node(p, :block, a, b)} | curly:b {node(p, :block, [], b)})")
   Rules[:_block_args] = rule_info("block_args", "\"|\" space* (tuple_items(&identifier) | block_params):a space* \"|\" {a}")
@@ -6222,7 +6360,8 @@ class Fancy::KPegParser
   Rules[:_return_local] = rule_info("return_local", "p:p \"return_local\" noident (space+ chain:c)? {node(p, :return_local, c)}")
   Rules[:_value] = rule_info("value", "(return_expr | return_local | assignment | expr)")
   Rules[:_name] = rule_info("name", "(identifier | constant):n !(&(space* \":\")) {n}")
-  Rules[:_assignment] = rule_info("assignment", "(p:p tuple_items(&name):a space+ \"=\" - (tuple_items(&chain) | chain:c {[c]}):b {node(p, :massign, a, b)} | p:p name:a space+ \"=\" - chain:b {node(p, :assign, a, b)})")
+  Rules[:_eq] = rule_info("eq", "\"=\" (space | nl | comment)")
+  Rules[:_assignment] = rule_info("assignment", "(p:p tuple_items(&name):a space+ eq - (tuple_items(&chain) | chain:c {[c]}):b {node(p, :massign, a, b)} | p:p name:a space+ eq - chain:b {node(p, :assign, a, b)})")
   Rules[:_tuple] = rule_info("tuple", "p:p \"(\" - tuple_items(&body):v - \")\" {node(p, :tuple, *v)}")
   Rules[:_array] = rule_info("array", "p:p \"[\" - maybe_items(&body):v - \"]\" {node(p, :array, *v)}")
   Rules[:_hash] = rule_info("hash", "p:p \"<[\" - maybe_items(&pair):v - \"]>\" {node(p, :hash, *v)}")
@@ -6239,7 +6378,7 @@ class Fancy::KPegParser
   Rules[:_match_cases] = rule_info("match_cases", "(match_cases:s - match_case:c {s + [c]} | match_case:c {[c]})")
   Rules[:_match_case] = rule_info("match_case", "(p:p \"case\" space+ value:v space+ \"->\" space+ block_args:a - body:b {node(p, :case, v, a, b)} | p:p \"case\" space+ value:v space+ \"->\" - body:b {node(p, :case, v, [], b)})")
   Rules[:_classdef] = rule_info("classdef", "p:p \"class\" space+ constant:c space+ (\":\" space+ constant:s space+)? curly:b {node(p, :class, c, s, b)}")
-  Rules[:_opdef] = rule_info("opdef", "(\"[\" space* ident:i space* \"]:\" space+ ident:k space+ curly:b {[\"[]\", i, k, b]} | \"[\" space* ident:i space* \"]\" space+ curly:b {[\"[]\", i,b]} | oper:o space+ ident:i space+ curly:b {[o+\":\", i, b]})")
+  Rules[:_opdef] = rule_info("opdef", "(\"[\" space* ident:i space* \"]:\" space+ ident:k space+ curly:b {[\"[]\", i, k, b]} | \"[\" space* ident:i space* \"]\" space+ curly:b {[\"[]\", i,b]} | oper:o space+ ident:i space+ curly:b {[o, i, b]})")
   Rules[:_operdef] = rule_info("operdef", "p:p \"def\" space+ opdef:a {node(p, :oper, *a)}")
   Rules[:_soperdef] = rule_info("soperdef", "p:p \"def\" space+ value:v space+ opdef:a {node(p, :soper, v, *a)}")
   Rules[:_methdef] = rule_info("methdef", "p:p \"def\" space+ params:m space+ curly:b {node(p, :method, m, b)}")
