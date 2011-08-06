@@ -379,21 +379,6 @@ class Fancy::KPegParser
       Position.new(line, column)
     end
 
-
-    BRACES_ALIST = [
-                    ['(', ')'],
-                    ['{', '}'],
-                    ['[', ']'],
-                   ]
-    
-    def braces
-      @braces ||= BRACES_ALIST.dup
-    end
-    
-    def brace(text)
-      braces.assoc(text) || braces.rassoc(text)
-    end
-
     def ident?(text)
       !%w[ case ].include?(text)
     end
@@ -5876,7 +5861,7 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # quoted_inner = (p:p "#" left_brace:l - body?:b - right_brace(l) {b} | p:p < ("\\" q | "\\#" | &(!(q | "#" left_brace)) .)+ > {node(p, t, text)})
+  # quoted_inner = (p:p "#{" - body?:b - "}" {b} | p:p < ("\\" q | "\\#" | &(!(q | "#{")) .)+ > {node(p, t, text)})
   def _quoted_inner(t,q)
 
     _save = self.pos
@@ -5890,13 +5875,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        _tmp = match_string("#")
-        unless _tmp
-          self.pos = _save1
-          break
-        end
-        _tmp = apply(:_left_brace)
-        l = @result
+        _tmp = match_string("\#{")
         unless _tmp
           self.pos = _save1
           break
@@ -5923,7 +5902,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        _tmp = apply_with_args(:_right_brace, l)
+        _tmp = match_string("}")
         unless _tmp
           self.pos = _save1
           break
@@ -5983,21 +5962,7 @@ class Fancy::KPegParser
               _tmp = q.call()
               break if _tmp
               self.pos = _save10
-
-              _save11 = self.pos
-              while true # sequence
-                _tmp = match_string("#")
-                unless _tmp
-                  self.pos = _save11
-                  break
-                end
-                _tmp = apply(:_left_brace)
-                unless _tmp
-                  self.pos = _save11
-                end
-                break
-              end # end sequence
-
+              _tmp = match_string("\#{")
               break if _tmp
               self.pos = _save10
               break
@@ -6025,75 +5990,61 @@ class Fancy::KPegParser
         if _tmp
           while true
 
-            _save12 = self.pos
+            _save11 = self.pos
             while true # choice
 
-              _save13 = self.pos
+              _save12 = self.pos
               while true # sequence
                 _tmp = match_string("\\")
                 unless _tmp
-                  self.pos = _save13
+                  self.pos = _save12
                   break
                 end
                 _tmp = q.call()
                 unless _tmp
+                  self.pos = _save12
+                end
+                break
+              end # end sequence
+
+              break if _tmp
+              self.pos = _save11
+              _tmp = match_string("\\#")
+              break if _tmp
+              self.pos = _save11
+
+              _save13 = self.pos
+              while true # sequence
+                _save14 = self.pos
+                _save15 = self.pos
+
+                _save16 = self.pos
+                while true # choice
+                  _tmp = q.call()
+                  break if _tmp
+                  self.pos = _save16
+                  _tmp = match_string("\#{")
+                  break if _tmp
+                  self.pos = _save16
+                  break
+                end # end choice
+
+                _tmp = _tmp ? nil : true
+                self.pos = _save15
+                self.pos = _save14
+                unless _tmp
+                  self.pos = _save13
+                  break
+                end
+                _tmp = get_byte
+                unless _tmp
                   self.pos = _save13
                 end
                 break
               end # end sequence
 
               break if _tmp
-              self.pos = _save12
-              _tmp = match_string("\\#")
-              break if _tmp
-              self.pos = _save12
-
-              _save14 = self.pos
-              while true # sequence
-                _save15 = self.pos
-                _save16 = self.pos
-
-                _save17 = self.pos
-                while true # choice
-                  _tmp = q.call()
-                  break if _tmp
-                  self.pos = _save17
-
-                  _save18 = self.pos
-                  while true # sequence
-                    _tmp = match_string("#")
-                    unless _tmp
-                      self.pos = _save18
-                      break
-                    end
-                    _tmp = apply(:_left_brace)
-                    unless _tmp
-                      self.pos = _save18
-                    end
-                    break
-                  end # end sequence
-
-                  break if _tmp
-                  self.pos = _save17
-                  break
-                end # end choice
-
-                _tmp = _tmp ? nil : true
-                self.pos = _save16
-                self.pos = _save15
-                unless _tmp
-                  self.pos = _save14
-                  break
-                end
-                _tmp = get_byte
-                unless _tmp
-                  self.pos = _save14
-                end
-                break
-              end # end sequence
-
-              break if _tmp
-              self.pos = _save12
+              self.pos = _save11
               break
             end # end choice
 
@@ -6173,7 +6124,7 @@ class Fancy::KPegParser
     return _tmp
   end
 
-  # mstr_inner = (p:p "#" left_brace:l - body?:b - right_brace(l) {b} | p:p < ("\\\"\"\"" | !(&("\"\"\"" | "#" left_brace)) . | . &"\"\"\"")+ > {node(p, :text, text)})
+  # mstr_inner = (p:p "#{" - body?:b - "}" {b} | p:p < ("\\\"\"\"" | !(&("\"\"\"" | "#{")) . | . &"\"\"\"")+ > {node(p, :text, text)})
   def _mstr_inner
 
     _save = self.pos
@@ -6187,13 +6138,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        _tmp = match_string("#")
-        unless _tmp
-          self.pos = _save1
-          break
-        end
-        _tmp = apply(:_left_brace)
-        l = @result
+        _tmp = match_string("\#{")
         unless _tmp
           self.pos = _save1
           break
@@ -6220,7 +6165,7 @@ class Fancy::KPegParser
           self.pos = _save1
           break
         end
-        _tmp = apply_with_args(:_right_brace, l)
+        _tmp = match_string("}")
         unless _tmp
           self.pos = _save1
           break
@@ -6263,21 +6208,7 @@ class Fancy::KPegParser
               _tmp = match_string("\"\"\"")
               break if _tmp
               self.pos = _save9
-
-              _save10 = self.pos
-              while true # sequence
-                _tmp = match_string("#")
-                unless _tmp
-                  self.pos = _save10
-                  break
-                end
-                _tmp = apply(:_left_brace)
-                unless _tmp
-                  self.pos = _save10
-                end
-                break
-              end # end sequence
-
+              _tmp = match_string("\#{")
               break if _tmp
               self.pos = _save9
               break
@@ -6300,18 +6231,18 @@ class Fancy::KPegParser
           break if _tmp
           self.pos = _save5
 
-          _save11 = self.pos
+          _save10 = self.pos
           while true # sequence
             _tmp = get_byte
             unless _tmp
-              self.pos = _save11
+              self.pos = _save10
               break
             end
-            _save12 = self.pos
+            _save11 = self.pos
             _tmp = match_string("\"\"\"")
-            self.pos = _save12
+            self.pos = _save11
             unless _tmp
-              self.pos = _save11
+              self.pos = _save10
             end
             break
           end # end sequence
@@ -6324,77 +6255,63 @@ class Fancy::KPegParser
         if _tmp
           while true
 
-            _save13 = self.pos
+            _save12 = self.pos
             while true # choice
               _tmp = match_string("\\\"\"\"")
               break if _tmp
-              self.pos = _save13
+              self.pos = _save12
 
-              _save14 = self.pos
+              _save13 = self.pos
               while true # sequence
+                _save14 = self.pos
                 _save15 = self.pos
-                _save16 = self.pos
 
-                _save17 = self.pos
+                _save16 = self.pos
                 while true # choice
                   _tmp = match_string("\"\"\"")
                   break if _tmp
-                  self.pos = _save17
-
-                  _save18 = self.pos
-                  while true # sequence
-                    _tmp = match_string("#")
-                    unless _tmp
-                      self.pos = _save18
-                      break
-                    end
-                    _tmp = apply(:_left_brace)
-                    unless _tmp
-                      self.pos = _save18
-                    end
-                    break
-                  end # end sequence
-
+                  self.pos = _save16
+                  _tmp = match_string("\#{")
                   break if _tmp
-                  self.pos = _save17
+                  self.pos = _save16
                   break
                 end # end choice
 
-                self.pos = _save16
-                _tmp = _tmp ? nil : true
                 self.pos = _save15
+                _tmp = _tmp ? nil : true
+                self.pos = _save14
                 unless _tmp
-                  self.pos = _save14
+                  self.pos = _save13
                   break
                 end
                 _tmp = get_byte
                 unless _tmp
-                  self.pos = _save14
+                  self.pos = _save13
                 end
                 break
               end # end sequence
 
               break if _tmp
-              self.pos = _save13
+              self.pos = _save12
 
-              _save19 = self.pos
+              _save17 = self.pos
               while true # sequence
                 _tmp = get_byte
                 unless _tmp
-                  self.pos = _save19
+                  self.pos = _save17
                   break
                 end
-                _save20 = self.pos
+                _save18 = self.pos
                 _tmp = match_string("\"\"\"")
-                self.pos = _save20
+                self.pos = _save18
                 unless _tmp
-                  self.pos = _save19
+                  self.pos = _save17
                 end
                 break
               end # end sequence
 
               break if _tmp
-              self.pos = _save13
+              self.pos = _save12
               break
             end # end choice
 
@@ -6425,107 +6342,6 @@ class Fancy::KPegParser
     end # end choice
 
     set_failed_rule :_mstr_inner unless _tmp
-    return _tmp
-  end
-
-  # brace = < . > &{ brace(text) } { brace(text) }
-  def _brace
-
-    _save = self.pos
-    while true # sequence
-      _text_start = self.pos
-      _tmp = get_byte
-      if _tmp
-        text = get_text(_text_start)
-      end
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _save1 = self.pos
-      _tmp = begin;  brace(text) ; end
-      self.pos = _save1
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      @result = begin;  brace(text) ; end
-      _tmp = true
-      unless _tmp
-        self.pos = _save
-      end
-      break
-    end # end sequence
-
-    set_failed_rule :_brace unless _tmp
-    return _tmp
-  end
-
-  # left_brace = < brace:b > &{ text == b.first} { b }
-  def _left_brace
-
-    _save = self.pos
-    while true # sequence
-      _text_start = self.pos
-      _tmp = apply(:_brace)
-      b = @result
-      if _tmp
-        text = get_text(_text_start)
-      end
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _save1 = self.pos
-      _tmp = begin;  text == b.first; end
-      self.pos = _save1
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      @result = begin;  b ; end
-      _tmp = true
-      unless _tmp
-        self.pos = _save
-      end
-      break
-    end # end sequence
-
-    set_failed_rule :_left_brace unless _tmp
-    return _tmp
-  end
-
-  # right_brace = < brace:b > &{ text == l.last } { l }
-  def _right_brace(l)
-
-    _save = self.pos
-    while true # sequence
-      _text_start = self.pos
-      _tmp = apply(:_brace)
-      b = @result
-      if _tmp
-        text = get_text(_text_start)
-      end
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      _save1 = self.pos
-      _tmp = begin;  text == l.last ; end
-      self.pos = _save1
-      unless _tmp
-        self.pos = _save
-        break
-      end
-      @result = begin;  l ; end
-      _tmp = true
-      unless _tmp
-        self.pos = _save
-      end
-      break
-    end # end sequence
-
-    set_failed_rule :_right_brace unless _tmp
     return _tmp
   end
 
@@ -6605,10 +6421,7 @@ class Fancy::KPegParser
   Rules[:_str] = rule_info("str", "(mstr | sstr)")
   Rules[:_sstr] = rule_info("sstr", "p:p quoted(:text, &\"\\\"\"):b {text_node(p, b)}")
   Rules[:_quoted] = rule_info("quoted", "q quoted_inner(t, q)*:b q {b}")
-  Rules[:_quoted_inner] = rule_info("quoted_inner", "(p:p \"\#\" left_brace:l - body?:b - right_brace(l) {b} | p:p < (\"\\\\\" q | \"\\\\\#\" | &(!(q | \"\#\" left_brace)) .)+ > {node(p, t, text)})")
+  Rules[:_quoted_inner] = rule_info("quoted_inner", "(p:p \"\#{\" - body?:b - \"}\" {b} | p:p < (\"\\\\\" q | \"\\\\\#\" | &(!(q | \"\#{\")) .)+ > {node(p, t, text)})")
   Rules[:_mstr] = rule_info("mstr", "p:p \"\\\"\\\"\\\"\" mstr_inner*:b \"\\\"\\\"\\\"\" {text_node(p, b)}")
-  Rules[:_mstr_inner] = rule_info("mstr_inner", "(p:p \"\#\" left_brace:l - body?:b - right_brace(l) {b} | p:p < (\"\\\\\\\"\\\"\\\"\" | !(&(\"\\\"\\\"\\\"\" | \"\#\" left_brace)) . | . &\"\\\"\\\"\\\"\")+ > {node(p, :text, text)})")
-  Rules[:_brace] = rule_info("brace", "< . > &{ brace(text) } { brace(text) }")
-  Rules[:_left_brace] = rule_info("left_brace", "< brace:b > &{ text == b.first} { b }")
-  Rules[:_right_brace] = rule_info("right_brace", "< brace:b > &{ text == l.last } { l }")
+  Rules[:_mstr_inner] = rule_info("mstr_inner", "(p:p \"\#{\" - body?:b - \"}\" {b} | p:p < (\"\\\\\\\"\\\"\\\"\" | !(&(\"\\\"\\\"\\\"\" | \"\#{\")) . | . &\"\\\"\\\"\\\"\")+ > {node(p, :text, text)})")
 end
