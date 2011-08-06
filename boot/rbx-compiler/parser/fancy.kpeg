@@ -189,20 +189,14 @@ sstr = p:p quoted(:text, & "\""):b ~text_node(p, b)
 
 quoted(t,q) = q quoted_inner(t,q)*:b q {b}
 
-quoted_inner(t,q) = p:p "#" left_brace:l - body?:b - right_brace(l) {b}
-           | p:p < ("\\" q | "\\#" | &!((q | "#" left_brace)) .)+ > ~node(p, t, text)
+quoted_inner(t,q) = p:p "#{" - body?:b - "}" {b}
+                  | p:p < ("\\" q | "\\#" | &!((q | "#{")) .)+ > ~node(p, t, text)
 
 mstr = p:p "\"\"\"" mstr_inner*:b "\"\"\"" ~text_node(p, b)
 
-mstr_inner = p:p "#" left_brace:l - body?:b - right_brace(l) {b}
+mstr_inner = p:p "#{" - body?:b - "}" {b}
           | p:p < ("\\\"\"\"" | 
-             !&("\"\"\"" | "#" left_brace) . | . &("\"\"\""))+ > ~node(p, :text, text)
-
-
-brace = < . > &{ brace(text) } { brace(text) }
-
-left_brace = <brace:b> &{ text == b.first} { b }
-right_brace(l) = <brace:b> &{ text == l.last } { l }
+             !&("\"\"\"" | "#{") . | . &("\"\"\""))+ > ~node(p, :text, text)
 
 %% {
     class Position
@@ -225,21 +219,6 @@ right_brace(l) = <brace:b> &{ text == l.last } { l }
 
     def position(line = current_line, column = current_column)
       Position.new(line, column)
-    end
-
-
-    BRACES_ALIST = [
-                    ['(', ')'],
-                    ['{', '}'],
-                    ['[', ']'],
-                   ]
-    
-    def braces
-      @braces ||= BRACES_ALIST.dup
-    end
-    
-    def brace(text)
-      braces.assoc(text) || braces.rassoc(text)
     end
 
     def ident?(text)
