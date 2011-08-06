@@ -86,6 +86,7 @@ class Fancy
         receiver ||= AST::Self.new(node.pos.line)
         ary = node.args.dup
         values = ary[1..-1]
+        
         if ary.first == "[]" && ary.length == 3
           name = "[]:"
         else
@@ -167,11 +168,7 @@ class Fancy
 
       def oper_to_ast(node)
         name = node.args[0]
-        if name == "[]" && node.args.length == 4
-          name = "[]:"
-        else
-          name = ":"+name
-        end
+        name = "[]:" if name == "[]" && node.args.length == 4
         
         id = AST::Identifier.new(node.pos.line, name)
         args = AST::MethodArgs.new(node.pos.line, *node.args[1..-2])
@@ -181,13 +178,8 @@ class Fancy
       
       def soper_to_ast(node)
         rec = to_ast(node.args[0])
-        
         name = node.args[1]
-        if name == "[]" && node.args.length == 5
-          name = "[]:"
-        else
-          name = ":"+name
-        end
+        name = "[]:" if name == "[]" && node.args.length == 5
         
         id = AST::Identifier.new(node.pos.line, name)
         args = AST::MethodArgs.new(node.pos.line, *node.args[2..-2])

@@ -9,7 +9,7 @@ class Fancy AST {
       if: (@args total_args == 0) then: {
         @arguments prelude=(nil)
       }
-      if: (@args.total_args > 1) then: {
+      if: (@args total_args > 1) then: {
         @arguments prelude=('multi)
       }
       @arguments required_args=(@args required_args)

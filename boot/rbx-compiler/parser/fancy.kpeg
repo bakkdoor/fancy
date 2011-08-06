@@ -14,7 +14,8 @@ p = &. ~position
 body = body:b - chain:c { b.args.push c; b }
      | chain:c ~node(c.pos, :body, c)
 
-chain = chain:c space* "." !&"." ~node(c.pos, :chain, c)     
+chain = chain:c space* "." !&"." - (ruby | message):m { c.args.push m; c }
+      | chain:c space* "." !&"." ~node(c.pos, :chain, c)
       | chain:c space* access:m { c.args.push m; c }
       | chain:c space+ (ruby | message):m { c.args.push m; c }
       | range:r ~node(r.pos, :chain, r)
@@ -34,7 +35,7 @@ ruby = p:p ruby_name:n "(" - args?:a - ")" space+ block:b
 access = p:p "[" - chain:a - "]:" space+ - value:b ~node(p, :opmsg, "[]",a,b)
         | p:p "[" - chain:a - "]" ~node(p, :opmsg, "[]", a)
 
-message = p:p oper:o  (space* ".")? - value:v ~node(p, :opmsg, o, v)
+message = p:p oper:o (space* "." !&".")? - value:v ~node(p, :opmsg, o, v)
         | collon:c {c}
         | p:p ident:i ~node(p, :message, i)
 
@@ -46,7 +47,7 @@ block = p:p block_args:a - curly:b ~node(p, :block, a, b)
 
 block_args = "|" space* (tuple_items(&identifier) | block_params):a space* "|" {a}
 
-curly = p:p "{" - body?:b - "}" {b || node(p, :body, node(p, :chain, node(p, :nil)))}
+curly = p:p "{" - body?:b - "}" {b || body_nil}
 
 block_params = block_params:b space+ identifier:i {b + [i]}
              | identifier:i {[i]}
@@ -75,8 +76,8 @@ pair = chain:a space+ "=>" space+ chain:b {[a, b]}
 range = p:p value:a space+ ".." space+ value:b ~node(p, :range, a, b)
 
 expr =  tuple | array | hash
-      | "(" - body:v - ")" {v}      | "$" space+ chain:c {c}
-      | classdef | smethdef | methdef | operdef | soperdef | match | trycatch
+      | "(" - body:v - ")" {v} | "$" space+ chain:c {c}
+      | classdef | methodef | match | trycatch
       | literal | block | ruby | special | name | message
 
 maybe_items(t) = t?:a (space* "," - t:o {o})*:n {[a,n].flatten.compact}
@@ -119,19 +120,20 @@ opdef = "[" space* ident:i space* "]:" space+ ident:k space+ curly:b {["[]", i, 
       | "[" space* ident:i space* "]" space+ curly:b {["[]", i,b]}
       | oper:o space+ ident:i space+ curly:b {[o, i, b]}
 
+methodef =  methdef | operdef | smethdef | soperdef
 
 operdef = p:p "def" space+ opdef:a ~node(p, :oper, *a)
 
 soperdef = p:p "def" space+ value:v space+ opdef:a ~node(p, :soper, v, *a)
 
-methdef = p:p "def" space+ params:m space+ curly:b ~node(p, :method, m, b)
+methdef = p:p "def" space+ params:m (space+ curly | space* &(nl | comment) ~body_nil):b
+         ~node(p, :method, m, b)
 
-smethdef = p:p "def" space+ value:v space+ params:m space+ curly:b 
+smethdef = p:p "def" space+ value:v space+ params:m
+          (space+ curly | space* &(nl | comment) ~body_nil):b
           ~node(p, :smethod, v, m, b)
 
-params = p:p "[]" space+ param:a ~node(p, :param, ["[]"]+a)
-       | p:p "[" space* param:a space* "]" ~node(p, :param, ["[]"]+a)
-       | selectors:s {s}
+params = selectors:s {s}
        | p:p ident:i ~node(p, :param, [i])
 
 param = p:p ident:i space+ "(" body:b ")" {[i, b]}
@@ -159,21 +161,23 @@ literal = float | fixnum | str | symbol | regexp
 
 regexp = p:p quoted(:text, & "/"):b ~node(p, :regexp, text_node(p, b))
 
-float = p:p dec:n "." dec:f ~node(p, :float, (n+"."+f).to_f)
+float = p:p sign:s dec:n "." dec:f ~node(p, :float, (s+n+"."+f).to_f)
 
 fixnum = p:p (hexadec | binary | octal | decimal):n ~node(p, :fixnum, n)
 
 digits(d) = < d+ ("_" d+)* > { text.gsub('_', '') }
+
+sign = "+" {"+"} | "-" { "-"} | {"+"}
 
 dec = digits(&/[0-9]/):d {d}
 oct = "0" /[oO]/? digits(&/[0-7]/):d {d}
 hex = "0" /[xX]/ digits(&/[0-9a-fA-F]/):d {d}
 bin = "0" /[bB]/ digits(&/[0-1]/):d {d}
 
-hexadec = hex:d {d.to_i(16)}
-binary = bin:d {d.to_i(2)}
-octal = oct:d {d.to_i(8)}
-decimal = dec:d {d.to_i(10)}
+hexadec = sign:s hex:d {(s+d).to_i(16)}
+binary = sign:s bin:d {(s+d).to_i(2)}
+octal = sign:s oct:d {(s+d).to_i(8)}
+decimal = sign:s dec:d {(s+d).to_i(10)}
 
 symbol = p:p "'" (str | sym):i ~node(p, :symbol, i)
 
@@ -244,6 +248,10 @@ right_brace(l) = <brace:b> &{ text == l.last } { l }
 
     def oper?(text)
       !%w[ =  => ].include?(text)
+    end
+
+    def body_nil(p = position)
+      node(p, :body, node(p, :chain, node(p, :nil)))
     end
 
     def text_node(p, parts)
