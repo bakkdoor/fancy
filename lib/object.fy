@@ -598,4 +598,14 @@ class Object {
       s rest to_sym
     }
   }
+
+  def sleep: seconds {
+    """
+    @seconds Amount of seconds to sleep.
+
+    Sets the current Thread (in which self is running) for a given amount to sleep.
+    """
+
+    Thread sleep: seconds
+  }
 }
