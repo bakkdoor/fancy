@@ -16,20 +16,21 @@ class Fancy
       gem 'kpeg'
     end
 
-    KPeg.compile File.read(File.expand_path('../fancy.kpeg', __FILE__)),
-                "KPegParser", self
+    require 'kpeg'
+    KPeg.compile(File.read(File.expand_path('../fancy.kpeg', __FILE__)),
+                 "KPegParser", self)
   end
 
   class KPegParser
 
     class NodeToAST
       
-      def to_ast(node)
+      def to_ast(node, *a)
         return unless node
         if Array === node
           return node.map { |n| to_ast(n) }
         end
-        send "#{node.name}_to_ast", node
+        send "#{node.name}_to_ast", node, *a
       end
       
       def body_to_ast(node)
@@ -44,25 +45,55 @@ class Fancy
           first
         else
           ary.inject(first) do |receiver, msg|
-            message_to_ast(msg, receiver)
+            to_ast(msg, receiver)
           end
         end
       end
 
       def ruby_to_ast(node, receiver = nil)
         receiver ||= AST::Self.new(node.pos.line)
-        ary = node.args[1..-1]
-        block = ary.last && ary.last.args.first && ary.last.args.first.args.first
-        if block && block.name == :message && block.args.first == "&"
-          ary.pop
-          block = to_ast(block.args[1])
-        else
-          block = nil
+        ary = node.args[2..-1]
+
+        unless block = node.args[1]
+          b = ary.last && ary.last.args.first &&
+            ary.last.args.first.args.first
+          if b && b.name == :opmsg && b.args.first == "&"
+            ary.pop
+            block = b.args[1]
+          end
         end
+
+        splat = ary.last && ary.last.args.first &&
+            ary.last.args.first.args.first
+        if splat && splat.name == :opmsg && splat.args.first == "*"
+          ary.pop
+          splat = splat.args[1]
+        else
+          splat = nil
+        end
+        
+        block = to_ast(block)
+        splat = to_ast(splat)
+        
         ary = AST::ArrayLiteral.new(node.pos.line, *to_ast(ary))
         args = AST::MessageArgs.new(node.pos.line,
-                                    AST::RubyArgs.new(node.pos.line, ary, block))
+                                    AST::RubyArgs.new(node.pos.line, ary, block, splat))
         id = AST::Identifier.new(node.pos.line, node.args[0])
+        AST::MessageSend.new(node.pos.line, receiver, id, args)
+      end
+
+      def opmsg_to_ast(node, receiver = nil)
+        receiver ||= AST::Self.new(node.pos.line)
+        ary = node.args.dup
+        values = ary[1..-1]
+        if ary.first == "[]" && ary.length == 3
+          name = "[]:"
+        else
+          name = ary[0]
+        end
+        values = to_ast(values.compact)
+        id = AST::Identifier.new(node.pos.line, name)
+        args = AST::MessageArgs.new(node.pos.line, *values)
         AST::MessageSend.new(node.pos.line, receiver, id, args)
       end
 
@@ -70,19 +101,13 @@ class Fancy
         receiver ||= AST::Self.new(node.pos.line)
         ary = node.args.dup
         values = []
-
-        if ary.first == "[]"
-          name = if ary.length == 2 then "[]" else "[]:" end
-          values = ary[1..-1]
-        else
-          names = []
-          until (param = ary.shift(2)).empty?
-            names << param[0]
-            values << param[1]
-          end
-          name = names.first
-          name = [names, ""].flatten.join(":") if node.args.size > 1
+        names = []
+        until (param = ary.shift(2)).empty?
+          names << param[0]
+          values << param[1]
         end
+        name = names.first
+        name = [names, ""].flatten.join(":") if node.args.size > 1
         
         values = to_ast(values.compact)
         id = AST::Identifier.new(node.pos.line, name)
@@ -142,7 +167,11 @@ class Fancy
 
       def oper_to_ast(node)
         name = node.args[0]
-        name = "[]:" if name == "[]" && node.args.length == 4
+        if name == "[]" && node.args.length == 4
+          name = "[]:"
+        else
+          name = ":"+name
+        end
         
         id = AST::Identifier.new(node.pos.line, name)
         args = AST::MethodArgs.new(node.pos.line, *node.args[1..-2])
@@ -154,7 +183,11 @@ class Fancy
         rec = to_ast(node.args[0])
         
         name = node.args[1]
-        name = "[]:" if name == "[]" && node.args.length == 5
+        if name == "[]" && node.args.length == 5
+          name = "[]:"
+        else
+          name = ":"+name
+        end
         
         id = AST::Identifier.new(node.pos.line, name)
         args = AST::MethodArgs.new(node.pos.line, *node.args[2..-2])
@@ -168,6 +201,7 @@ class Fancy
                             to_ast(node.args.first),
                             to_ast(node.args.last))
       end
+      
       def massign_to_ast(node)
         AST::MultipleAssignment.new(node.pos.line,
                                     node.args.first.map { |a| to_ast(a) },
@@ -263,8 +297,7 @@ class Fancy
           ary = node.args.dup
           first = AST::Identifier.new(node.pos.line, ary.shift)
           ary.inject(first) do |parent, name|
-            id = AST::Identifier.new(node.pos.line, name)
-            AST::ScopedConstant.new(node.pos.line, id, parent.name)
+            AST::ScopedConstant.new(node.pos.line, parent, name.to_sym)
           end
         end
       end
@@ -309,17 +342,18 @@ class Fancy
   class Parser
     class ParseError < StandardError; end
 
-    def self.parse_file(filename, lineno = 1)
-      new(filename, lineno).parse_file.script
+    def self.parse_file(filename, lineno = 1, print_sexp=false)
+      new(filename, lineno, print_sexp).parse_file.script
     end
 
-    def self.parse_string(code, lineno = 1, filename = "(eval)")
-      new(filename, lineno).parse_string(code).script
+    def self.parse_string(code, lineno = 1, filename = "(eval)", print_sexp = false)
+      new(filename, lineno, print_sexp).parse_string(code).script
     end
 
     attr_reader :filename, :lineno, :script
 
-    def initialize(filename, lineno)
+    def initialize(filename, lineno, print_sexp = false)
+      @print_sexp = print_sexp
       @filename, @lineno = filename, lineno
     end
     
@@ -335,7 +369,7 @@ class Fancy
       end
       node = parser.result
       ast = to_ast(node)
-      #PP.pp(to_sexp(node))
+      PP.pp(to_sexp(node)) if @print_sexp
       @script = AST::Script.new(node.pos.line, filename, ast)
       self
     end

@@ -24,13 +24,17 @@ chain = chain:c space* "." !&"." ~node(c.pos, :chain, c)
 args = args:a space* "," - body:c { a + [c] }
      | body:c {[c]}
 
-ruby = p:p <(ident | const | oper | "=")+> {text}:n "(" - args?:a - ")"
-          ~node(p, :ruby, n, *Array(a))
+ruby_name = <(ident | const | oper | "=" )+> {text}
 
-access = p:p "[" - chain:a - "]:" space+ - value:b ~node(p, :message, "[]",a,b)
-        | p:p "[" - chain:a - "]" ~node(p, :message, "[]", a)
+ruby = p:p ruby_name:n "(" - args?:a - ")" space+ block:b
+          ~node(p, :ruby, n, b, *Array(a))
+     | p:p ruby_name:n "(" - args?:a - ")"
+          ~node(p, :ruby, n, nil, *Array(a))
 
-message = p:p oper:o  (space* ".")? - value:v ~node(p, :message, o, v)
+access = p:p "[" - chain:a - "]:" space+ - value:b ~node(p, :opmsg, "[]",a,b)
+        | p:p "[" - chain:a - "]" ~node(p, :opmsg, "[]", a)
+
+message = p:p oper:o  (space* ".")? - value:v ~node(p, :opmsg, o, v)
         | collon:c {c}
         | p:p ident:i ~node(p, :message, i)
 
@@ -55,10 +59,12 @@ value = return_expr | return_local | assignment | expr
 
 name = (identifier | constant):n !&(space* ":") {n}
 
-assignment = p:p tuple_items(&name):a space+ "=" -
+eq = "=" (space|nl|comment)
+
+assignment = p:p tuple_items(&name):a space+ eq -
              (tuple_items(&chain)  | chain:c {[c]}):b
              ~node(p, :massign, a, b)
-           | p:p name:a space+ "=" - chain:b ~node(p, :assign, a, b)
+           | p:p name:a space+ eq - chain:b ~node(p, :assign, a, b)
 
 tuple = p:p "(" - tuple_items(&body):v - ")" ~node(p, :tuple, *v)
 array = p:p "[" - maybe_items(&body):v - "]" ~node(p, :array, *v)
@@ -111,7 +117,7 @@ classdef = p:p "class" space+ constant:c space+ (":" space+ constant:s space+)? 
 
 opdef = "[" space* ident:i space* "]:" space+ ident:k space+ curly:b {["[]", i, k, b]}
       | "[" space* ident:i space* "]" space+ curly:b {["[]", i,b]}
-      | oper:o space+ ident:i space+ curly:b {[o+":", i, b]}
+      | oper:o space+ ident:i space+ curly:b {[o, i, b]}
 
 
 operdef = p:p "def" space+ opdef:a ~node(p, :oper, *a)

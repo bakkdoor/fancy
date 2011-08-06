@@ -87,8 +87,7 @@ class Fancy
       end
 
       def run
-        ast = Parser.parse_file(@filename, @line)
-        # p ast if @print
+        ast = Parser.parse_file(@filename, @line, @print)
         @output = @root.new ast
         @output.file = @filename
         run_next

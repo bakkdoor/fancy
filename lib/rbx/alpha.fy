@@ -28,4 +28,5 @@ class Class {
 
 class String {
   alias_method: ":+" for: "+"
+  alias_method: ":++" for: "+"
 }
