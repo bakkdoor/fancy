@@ -156,7 +156,11 @@ class Fancy {
         @@loaded[compiled_file]: true
 
         cl = Rubinius::CodeLoader new(compiled_file)
-        cm = cl load_compiled_file(compiled_file, 0)
+        try {
+          cm = cl load_compiled_file(compiled_file, 0)
+        } catch ArgumentError {
+          cm = cl load_compiled_file(compiled_file, 0, 0)
+        }
 
         script = cm create_script(false)
         script file_path=(source_file)
