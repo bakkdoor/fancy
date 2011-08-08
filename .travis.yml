@@ -1,4 +1,6 @@
-rvm: rbx
+rvm:
+  - rbx
+  - rbx-2.0.0pre
 script: "rake clean && rake"
 after_script: "bin/fancy bin/fspec"
 notifications:
