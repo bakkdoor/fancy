@@ -4,11 +4,7 @@ class Fancy
     class BlockLiteral < Rubinius::AST::Iter
       def initialize(line, args, body)
         @args = args
-        body = body || Rubinius::AST::NilLiteral.new(line)
-
-        if body.empty?
-          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
-        end
+        body ||= Rubinius::AST::NilLiteral.new(line)
 
         super(line, args, body)
         args.create_locals(self)

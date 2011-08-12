@@ -121,6 +121,6 @@ class Fancy Documentation RDiscount {
     "Format string as HTML using RDiscount ruby gem."
     require("rubygems")
     require("rdiscount")
-    RDiscount.new(doc to_s).to_html()
+    RDiscount new(doc to_s) to_html()
   }
 }

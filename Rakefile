@@ -55,7 +55,7 @@ namespace :parser do
   end
 
   desc "Compile the parser extension"
-  task :compile => file(parser_e)
+  task :compile => ["parser:generate", file(parser_e)]
 
   desc "Removed generated parser sources"
   task :remove do
@@ -74,21 +74,13 @@ end
 
 namespace :compiler do
 
-  boot_parser_e = _("boot/compiler/parser/ext/"+File.basename(parser_e))
-
-  file boot_parser_e => file(parser_e) do
-    mkdir_p File.dirname(boot_parser_e), :verbose => false
-    cp parser_e, boot_parser_e, :verbose => false
-  end
-
   task :clean do
-    rm_f boot_parser_e, :verbose => false
     rm_rf _("boot/rbx-compiler/parser/conftest.dSYM")
     rm_rf _("boot/compiler"), :verbose => false
   end
 
   desc "Compile fancy using the stable compiler (from boot/compiler)."
-  task :compile => file(boot_parser_e) do
+  task :compile do
     say "Compiling fancy using stable compiler."
 
     cmd = ['rbx -Xint', load_rb]
@@ -103,10 +95,8 @@ namespace :compiler do
     system (cmd + sources).join(" ")
   end
 
-  load("boot/rbx-compiler/parser/Rakefile")
-
   desc "Compile fancy using boot/rbx-compiler into boot/compiler/"
-  task :rootstrap => "compiler:rbx_parser:ext" do
+  task :rootstrap do
     say "Compiling fancy into boot/compiler using ruby-based compiler from boot/rbx-compiler."
 
     output = _("boot/compiler")
@@ -161,7 +151,7 @@ namespace :compiler do
     system("bin/fancy -c tests/*.fy > /dev/null")
   end
 
-  task :bootstrap => ["parser:generate", "rbx_parser:ext", file(boot_parser_e)] do
+  task :bootstrap => "^parser:compile" do
     ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute

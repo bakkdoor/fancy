@@ -129,7 +129,7 @@ class String {
     str = str strip()
     if: m then: {
       pattern = "^ {" ++ (m[2] size()) ++ "}"
-      rex = Regexp.new(pattern)
+      rex = Regexp new(pattern)
       str = str gsub(rex, "");
     }
     str

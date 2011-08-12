@@ -270,7 +270,7 @@ class Fancy FDoc {
              method = method sub(/^:/, "")
            }
            sigil = ""
-           name =~ (Regexp.new("^#")) . if_true: { sigil = "<small>#</small>" }
+           name =~ (Regexp new("^#")) . if_true: { sigil = "<small>#</small>" }
            type = n[1] include?(":") . if_true: {
              if: (sigil == "") then: {
                "singleton-method-ref"

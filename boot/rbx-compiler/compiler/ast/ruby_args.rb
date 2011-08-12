@@ -2,25 +2,26 @@ class Fancy
   class AST
 
     class RubyArgs < Node
-      def initialize(line, args, block = nil)
+      def initialize(line, args, block = nil, splat = nil)
         super(line)
         @args = args
         # If no block given and last arg is a block identifier
         if block.nil? &&
             args.array.last.kind_of?(Fancy::AST::Identifier) &&
-            args.array.last.identifier =~ /^&\w/
+            args.array.last.identifier =~ /^&/
           block = args.array.pop
           block = Fancy::AST::Identifier.new(block.line, block.identifier[1..-1])
         end
 
-        if @args.array.last.kind_of? Fancy::AST::Identifier
-          if @args.array.last.identifier =~ /^\*\w/
+        if splat.nil? && @args.array.last.kind_of?(Fancy::AST::Identifier)
+          if @args.array.last.identifier =~ /^\*/
             @splat = @args.array.pop()
             @splat = Fancy::AST::Identifier.new(@splat.line, @splat.identifier[1..-1])
           end
         end
 
         @block = block
+        @splat = splat
       end
 
       def bytecode(g)
