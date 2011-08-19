@@ -1,6 +1,6 @@
 class Fancy AST {
   class MethodDef : Rubinius AST Define {
-    def initialize: @line name: @name args: @arguments body: @body access: @access {
+    def initialize: @line name: @name args: @arguments (MethodArgs new: @line) body: @body (ExpressionList new: @line) access: @access ('public) {
       { @body = ExpressionList new: @line } unless: @body
       @name = @name method_name: nil
       @docstring = @body shift_docstring
@@ -77,13 +77,13 @@ class Fancy AST {
       ms = MessageSend new:     @line                                                          \
                        message: (Identifier from: "define_forward_method_missing" line: @line) \
                        to:      (Self new: @line)                                              \
-                       args:    (MessageArgs new: @line args: [])
+                       args:    (MessageArgs new: @line)
       ms bytecode: g
     }
   }
 
   class MethodArgs : Rubinius AST FormalArguments {
-    def initialize: @line args: @array{
+    def initialize: @line args: @array ([]) {
       initialize(@line, @array map() |a| { a to_sym() }, nil, nil)
     }
   }

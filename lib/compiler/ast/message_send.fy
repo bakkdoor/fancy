@@ -2,7 +2,7 @@ class Fancy AST {
   class MessageSend : Node {
     read_write_slots: ['name, 'receiver, 'args]
 
-    def initialize: @line message: @name to: @receiver args: @args {
+    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line) {
     }
 
     def redirect_via: redirect_message {
@@ -70,7 +70,7 @@ class Fancy AST {
   class MessageArgs : Node {
     read_slot: 'args
 
-    def initialize: @line args: @args {
+    def initialize: @line args: @args ([]) {
     }
 
     def bytecode: g {
@@ -99,7 +99,7 @@ class Fancy AST {
 
 
   class RubyArgs : MessageArgs {
-    def initialize: @line args: @args block: @block (nil) {
+    def initialize: @line args: @args ([]) block: @block (nil) {
       { @args = @args array } unless: (@args is_a?: Array)
       @block if_nil: {
         if: (@args last kind_of?: Identifier) then: {
