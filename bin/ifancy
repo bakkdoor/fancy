@@ -61,7 +61,7 @@ try {
   while: { Readline readline(">> ", true) } do: |line| {
     HISTORY << line
     if: (double_or_empty?: line) then: {
-      Readline::HISTORY pop()
+      Readline HISTORY pop()
       HISTORY pop()
     }
 
