@@ -99,7 +99,9 @@ class Fancy AST {
     }
 
     def initialize: @line const: const parent: parent {
-      @string = (parent string) ++ "::" ++ (const string)
+      { parent = parent string } if: (parent responds_to?: 'string)
+      { const = const string } if: (const responds_to?: 'string)
+      @string = parent ++ "::" ++ const
     }
 
     def scoped {

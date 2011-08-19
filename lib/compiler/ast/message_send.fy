@@ -99,7 +99,7 @@ class Fancy AST {
 
 
   class RubyArgs : MessageArgs {
-    def initialize: @line args: @args ([]) block: @block (nil) {
+    def initialize: @line args: @args ([]) block: @block (nil) splat: @splat (nil) {
       { @args = @args array } unless: (@args is_a?: Array)
       @block if_nil: {
         if: (@args last kind_of?: Identifier) then: {
@@ -110,10 +110,12 @@ class Fancy AST {
         }
       }
 
-      if: (@args last kind_of?: Identifier) then: {
-        if: (@args last string =~ /^\*\w/) then: {
-          @splat = @args pop()
-          @splat = Identifier from: (@splat string from: 1 to: -1) line: (@splat line)
+      unless: @splat do: {
+        if: (@args last kind_of?: Identifier) then: {
+          if: (@args last string =~ /^\*\w/) then: {
+            @splat = @args pop()
+            @splat = Identifier from: (@splat string from: 1 to: -1) line: (@splat line)
+          }
         }
       }
     }
