@@ -18,59 +18,7 @@ def _(f, base = File.dirname(__FILE__))
   File.expand_path(f, base)
 end
 
-
-dl_ext    = RbConfig::CONFIG['DLEXT']
-ext_dir   = _("lib/parser/ext")
-parser_e  = _("fancy_parser.#{dl_ext}", ext_dir)
 load_rb   = _("boot/load.rb")
-
-namespace :parser do
-
-  lexer_lex = _("lexer.lex", ext_dir)
-  lexer_c   = _("lexer.c", ext_dir)
-  parser_y  = _("parser.y", ext_dir)
-  parser_c  = _("parser.c", ext_dir)
-  extconf   = _("extconf.rb", ext_dir)
-  makefile  = _("Makefile", ext_dir)
-
-  file lexer_c => file(lexer_lex) do
-    Dir.chdir(ext_dir) do
-      sh! 'flex', '--outfile', lexer_c, '--header-file=lexer.h', lexer_lex
-    end
-  end
-
-  file parser_c => file(parser_y) do
-    Dir.chdir(ext_dir) { sh! 'bison', '--output', parser_c, '-d', '-v', parser_y }
-  end
-
-  file makefile => file(extconf) do
-    Dir.chdir(ext_dir) { sh! 'rbx', extconf }
-  end
-
-  desc "Generate parser source from flex/bison"
-  task :generate => [parser_c, lexer_c, makefile]
-
-  file parser_e => file(makefile) do
-    sh! 'make', '-C', ext_dir
-  end
-
-  desc "Compile the parser extension"
-  task :compile => ["parser:generate", file(parser_e)]
-
-  desc "Removed generated parser sources"
-  task :remove do
-    rm_f [_("parser.h", ext_dir), _("lexer.h", ext_dir)], :verbose => false
-    rm_f [makefile, parser_c, lexer_c], :verbose => false
-  end
-
-  desc "Clean compiled files."
-  task :clean do
-    rm_f Dir.glob(_("*.{o,so,rbc,log,output,bundle}", ext_dir)), :verbose => false
-    rm_rf [_("conftest.dSYM", ext_dir)], :verbose => true
-  end
-
-end
-
 
 namespace :compiler do
 
@@ -137,9 +85,6 @@ namespace :compiler do
     sources = Dir.glob("lib/**/*.fy")
     system (cmd + sources).join(" ")
 
-    mkdir_p _("parser/ext", output), :verbose => false
-    cp parser_e, _("parser/ext", output), :verbose => false
-
     say "Using fresh built compiler as `stable compiler' in boot/compiler"
 
     rm_rf _("boot/compiler")
@@ -151,7 +96,7 @@ namespace :compiler do
     system("bin/fancy -c tests/*.fy > /dev/null")
   end
 
-  task :bootstrap => "^parser:compile" do
+  task :bootstrap do
     ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
@@ -214,7 +159,7 @@ task :clean_compiled do
 end
 
 desc "Clean compiled files."
-task :clean => ["parser:clean", "parser:remove", "compiler:clean", :clean_compiled]
+task :clean => ["compiler:clean", :clean_compiled]
 
 
 def compile(source)
@@ -230,7 +175,7 @@ def compile(source)
 end
 
 sources = Dir.glob(_("{lib,boot}/**/*.fy")).map { |f| file f }
-compiled = sources.map { |s| file((s.to_s+"c") => [s, file(parser_e)]) { compile s } }
+compiled = sources.map { |s| file((s.to_s+"c") => [s]) { compile s } }
 
 task :bootstrap_if_needed do
   task(:bootstrap).invoke unless File.directory? _("boot/compiler")
