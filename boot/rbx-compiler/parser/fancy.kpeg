@@ -1,0 +1,250 @@
+# -*- ruby -*-
+
+%% name = Fancy::KPegParser
+
+root = - body:b - !. {b}
+
+space = " " | "\t" | "\\" nl
+nl = "\n" | "\r\n" | ";"
+comment = "#" /.*?$/
+- = (comment | space | nl)*
+
+p = &. ~position
+
+body = body:b - chain:c { b.args.push c; b }
+     | chain:c ~node(c.pos, :body, c)
+
+chain = chain:c space* "." !&"." - (ruby | message):m { c.args.push m; c }
+      | chain:c space* "." !&"." ~node(c.pos, :chain, c)
+      | chain:c space* access:m { c.args.push m; c }
+      | chain:c space+ (ruby | message):m { c.args.push m; c }
+      | range:r ~node(r.pos, :chain, r)
+      | p:p value:v ~node(p, :chain, v)
+
+
+args = args:a space* "," - body:c { a + [c] }
+     | body:c {[c]}
+
+ruby_name = <(ident | const | oper | "=" )+> {text}
+
+ruby = p:p ruby_name:n "(" - args?:a - ")" space+ block:b
+          ~node(p, :ruby, n, b, *Array(a))
+     | p:p ruby_name:n "(" - args?:a - ")"
+          ~node(p, :ruby, n, nil, *Array(a))
+
+access = p:p "[" - chain:a - "]:" space+ - value:b ~node(p, :opmsg, "[]",a,b)
+        | p:p "[" - chain:a - "]" ~node(p, :opmsg, "[]", a)
+
+message = p:p oper:o (space* "." !&".")? - value:v ~node(p, :opmsg, o, v)
+        | collon:c {c}
+        | p:p ident:i ~node(p, :message, i)
+
+collon = collon:c space+ ident:i ":" space+ - value:v {c.args.push i, v; c}
+       | p:p ident:i ":" space+ - value:v ~node(p, :message, i, v)
+
+block = p:p block_args:a - curly:b ~node(p, :block, a, b)
+      | curly:b ~node(p, :block, [], b)
+
+block_args = "|" space* (tuple_items(&identifier) | block_params):a space* "|" {a}
+
+curly = p:p "{" - body?:b - "}" {b || body_nil}
+
+block_params = block_params:b space+ identifier:i {b + [i]}
+             | identifier:i {[i]}
+
+return_expr = p:p "return" noident (space+ chain:c)? ~node(p, :return, c)
+
+return_local = p:p "return_local" noident (space+ chain:c)? ~node(p, :return_local, c)
+
+value = return_expr | return_local | assignment | expr
+
+name = (identifier | constant):n !&(space* ":") {n}
+
+eq = "=" (space|nl|comment)
+
+assignment = p:p tuple_items(&name):a space+ eq -
+             (tuple_items(&chain)  | chain:c {[c]}):b
+             ~node(p, :massign, a, b)
+           | p:p name:a space+ eq - chain:b ~node(p, :assign, a, b)
+
+tuple = p:p "(" - tuple_items(&body):v - ")" ~node(p, :tuple, *v)
+array = p:p "[" - maybe_items(&body):v - "]" ~node(p, :array, *v)
+hash = p:p "<[" - maybe_items(&pair):v - "]>" ~node(p, :hash, *v)
+
+pair = chain:a space+ "=>" space+ chain:b {[a, b]}
+
+range = p:p value:a space+ ".." space+ value:b ~node(p, :range, a, b)
+
+expr =  tuple | array | hash
+      | "(" - body:v - ")" {v} | "$" space+ chain:c {c}
+      | classdef | methodef | match | trycatch
+      | literal | block | ruby | special | name | message
+
+maybe_items(t) = t?:a (space* "," - t:o {o})*:n {[a,n].flatten.compact}
+
+tuple_items(t) = t:a (space* "," - t:o {o})+:n {[a,n].flatten}
+
+trycatch = p:p "try" space+ curly:t space+ ((catches | {[]}):c space+)? finally:f
+           ~node(p, :try, t, c, f)
+         | p:p "try" space+ curly:t space+ catches:c
+           ~node(p, :try, t, c)
+
+finally = p:p "finally" space+ curly:f ~node(p, :finally, f)
+
+
+catche = p:p "catch" space+ curly:b
+         ~node(p, :catch, b, node(p, :const, "Object"))
+       | p:p "catch" space+ value:v space+ "=>" space+ identifier:i space+ curly:b 
+         ~node(p, :catch, b, v, i)
+       | p:p "catch" space+ value:v space+ curly:b 
+         ~node(p, :catch, b, v)
+
+catches = catches:s space+ catche:c {s+[c]}
+        | catche:c {[c]}
+
+match = p:p "match" space+ chain:v space+ "{" - match_cases:c - "}" 
+          ~node(p, :match, v, *c)
+
+match_cases = match_cases:s - match_case:c {s + [c]}
+            | match_case:c {[c]}
+
+match_case = p:p "case" space+ value:v space+ "->" space+ block_args:a - body:b
+             ~node(p, :case, v, a, b)
+           | p:p "case" space+ value:v space+ "->" - body:b
+             ~node(p, :case, v, [], b)
+
+classdef = p:p "class" space+ constant:c space+ (":" space+ constant:s space+)? curly:b
+           ~node(p, :class, c, s, b)
+
+opdef = "[" space* ident:i space* "]:" space+ ident:k space+ curly:b {["[]", i, k, b]}
+      | "[" space* ident:i space* "]" space+ curly:b {["[]", i,b]}
+      | oper:o space+ ident:i space+ curly:b {[o, i, b]}
+
+methodef =  methdef | operdef | smethdef | soperdef
+
+operdef = p:p "def" space+ opdef:a ~node(p, :oper, *a)
+
+soperdef = p:p "def" space+ value:v space+ opdef:a ~node(p, :soper, v, *a)
+
+methdef = p:p "def" space+ params:m (space+ curly | space* &(nl | comment) ~body_nil):b
+         ~node(p, :method, m, b)
+
+smethdef = p:p "def" space+ value:v space+ params:m
+          (space+ curly | space* &(nl | comment) ~body_nil):b
+          ~node(p, :smethod, v, m, b)
+
+params = selectors:s {s}
+       | p:p ident:i ~node(p, :param, [i])
+
+param = p:p ident:i space+ "(" body:b ")" {[i, b]}
+      | p:p ident:i {[i]}
+
+selectors = selectors:s space+ ident:i ":" space+ param:a { s.args.push [i]+a; s }
+          | p:p ident:i ":" space+ param:a ~node(p, :param, [i]+a)
+
+const = </[A-Z][a-zA-Z0-9_]*/>  {text}
+
+ident = <"@"? "@"? /[a-z_][a-zA-Z0-9_\?\!]*/> &{ident?(text)} {text}
+
+oper = </[?!=*\/^><%&~+-]+/ | "||" /[?!=*\/^><%&~+_-]*/ > &{oper?(text)} {text}
+
+noident = !&/[a-zA-Z0-9_\?\!]/
+
+special = p:p <"self" | "nil" | "super" | "retry" > noident
+          ~node(p, text.to_sym)
+
+constant = constant:c space+ const:o { c.args.push o; c }
+         | p:p const:c ~node(p, :const, c)
+identifier = p:p ident:i ~node(p, :ident, i)
+
+literal = float | fixnum | str | symbol | regexp
+
+regexp = p:p quoted(:text, & "/"):b ~node(p, :regexp, text_node(p, b))
+
+float = p:p sign:s dec:n "." dec:f ~node(p, :float, (s+n+"."+f).to_f)
+
+fixnum = p:p (hexadec | binary | octal | decimal):n ~node(p, :fixnum, n)
+
+digits(d) = < d+ ("_" d+)* > { text.gsub('_', '') }
+
+sign = "+" {"+"} | "-" { "-"} | {"+"}
+
+dec = digits(&/[0-9]/):d {d}
+oct = "0" /[oO]/? digits(&/[0-7]/):d {d}
+hex = "0" /[xX]/ digits(&/[0-9a-fA-F]/):d {d}
+bin = "0" /[bB]/ digits(&/[0-1]/):d {d}
+
+hexadec = sign:s hex:d {(s+d).to_i(16)}
+binary = sign:s bin:d {(s+d).to_i(2)}
+octal = sign:s oct:d {(s+d).to_i(8)}
+decimal = sign:s dec:d {(s+d).to_i(10)}
+
+symbol = p:p "'" (str | sym):i ~node(p, :symbol, i)
+
+sym = <(ident | oper | const | ":" | "[]" | "=" | "|")+> {text}
+
+str = (mstr | sstr)
+
+sstr = p:p quoted(:text, & "\""):b ~text_node(p, b)
+
+quoted(t,q) = q quoted_inner(t,q)*:b q {b}
+
+quoted_inner(t,q) = p:p "#{" - body?:b - "}" {b}
+                  | p:p < ("\\" q | "\\#" | &!((q | "#{")) .)+ > ~node(p, t, text)
+
+mstr = p:p "\"\"\"" mstr_inner*:b "\"\"\"" ~text_node(p, b)
+
+mstr_inner = p:p "#{" - body?:b - "}" {b}
+          | p:p < ("\\\"\"\"" | 
+             !&("\"\"\"" | "#{") . | . &("\"\"\""))+ > ~node(p, :text, text)
+
+%% {
+    class Position
+      attr_reader :line, :column
+      def initialize(line, column)
+        @line, @column = line, column
+      end
+    end
+
+    class Node
+      attr_reader :pos, :name, :args
+      def initialize(pos, name, *args)
+        @pos, @name, @args = pos, name, args
+      end
+    end
+
+    def node(pos, name, *args)
+      Node.new(pos, name, *args)
+    end
+
+    def position(line = current_line, column = current_column)
+      Position.new(line, column)
+    end
+
+    def ident?(text)
+      !%w[ case ].include?(text)
+    end
+
+    def oper?(text)
+      !%w[ =  => ].include?(text)
+    end
+
+    def body_nil(p = position)
+      node(p, :body, node(p, :chain, node(p, :nil)))
+    end
+
+    def text_node(p, parts)
+      parts = parts.compact
+      return node(p, :text, "") if parts.empty?
+      ary = parts.dup
+      m = ary.shift
+      if ary.empty?
+        unless m.name == :text
+          m = node(p, :chain, m, node(p, :message, "to_s"))
+        end
+        return m
+      end
+      node(p, :chain, m, *ary.map { |a| node(p, :message, "++", a) })
+    end
+
+}

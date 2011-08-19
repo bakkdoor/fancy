@@ -118,7 +118,7 @@ class Fancy {
       unless: (@@compiled[filename]) do: {
         if: ({File exists?(compiled_file) not} || \
              {File stat(compiled_file) mtime() <((File stat(filename) mtime()))}) then: {
-          # Rubinius::Compiler.compile_fancy_file filename, nil, 1, false
+          # Rubinius Compiler.compile_fancy_file filename, nil, 1, false
           Compiler compile_file: filename to: compiled_file
         } else: {
           @@compiled[filename]: true
@@ -155,7 +155,7 @@ class Fancy {
         @@current_dir push(dirname)
         @@loaded[compiled_file]: true
 
-        cl = Rubinius::CodeLoader new(compiled_file)
+        cl = Rubinius CodeLoader new(compiled_file)
         try {
           cm = cl load_compiled_file(compiled_file, 0)
         } catch ArgumentError {

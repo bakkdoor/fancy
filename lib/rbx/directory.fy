@@ -9,7 +9,7 @@ class Directory {
 
     try {
       Dir mkdir(dirname)
-    } catch Errno::EEXIST => e {
+    } catch Errno EEXIST => e {
       IOError new: (e message) . raise!
     }
   }
