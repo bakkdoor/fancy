@@ -86,9 +86,6 @@ namespace :compiler do
     system (cmd + sources).join(" ")
 
     say "Using fresh built compiler as `stable compiler' in boot/compiler"
-
-    rm_rf _("boot/compiler")
-    mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
   task :compile_tests do
