@@ -405,7 +405,7 @@ class Fancy::KPegParser
         end
         return m
       end
-      node(p, :chain, m, *ary.map { |a| node(p, :message, "++", a) })
+      node(p, :chain, m, *ary.map { |a| node(p, :opmsg, "++", a) })
     end
 
 

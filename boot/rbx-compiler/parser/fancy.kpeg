@@ -94,15 +94,15 @@ finally = p:p "finally" space+ curly:f ~node(p, :finally, f)
 
 catche = p:p "catch" space+ curly:b
          ~node(p, :catch, b, node(p, :const, "Object"))
-       | p:p "catch" space+ value:v space+ "=>" space+ identifier:i space+ curly:b 
+       | p:p "catch" space+ value:v space+ "=>" space+ identifier:i space+ curly:b
          ~node(p, :catch, b, v, i)
-       | p:p "catch" space+ value:v space+ curly:b 
+       | p:p "catch" space+ value:v space+ curly:b
          ~node(p, :catch, b, v)
 
 catches = catches:s space+ catche:c {s+[c]}
         | catche:c {[c]}
 
-match = p:p "match" space+ chain:v space+ "{" - match_cases:c - "}" 
+match = p:p "match" space+ chain:v space+ "{" - match_cases:c - "}"
           ~node(p, :match, v, *c)
 
 match_cases = match_cases:s - match_case:c {s + [c]}
@@ -195,7 +195,7 @@ quoted_inner(t,q) = p:p "#{" - body?:b - "}" {b}
 mstr = p:p "\"\"\"" mstr_inner*:b "\"\"\"" ~text_node(p, b)
 
 mstr_inner = p:p "#{" - body?:b - "}" {b}
-          | p:p < ("\\\"\"\"" | 
+          | p:p < ("\\\"\"\"" |
              !&("\"\"\"" | "#{") . | . &("\"\"\""))+ > ~node(p, :text, text)
 
 %% {
@@ -244,7 +244,7 @@ mstr_inner = p:p "#{" - body?:b - "}" {b}
         end
         return m
       end
-      node(p, :chain, m, *ary.map { |a| node(p, :message, "++", a) })
+      node(p, :chain, m, *ary.map { |a| node(p, :opmsg, "++", a) })
     end
 
 }
