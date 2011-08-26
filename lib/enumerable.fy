@@ -27,6 +27,25 @@ class FancyEnumerable {
     }
   }
 
+  def join: str {
+    """
+    @str Value (usually a @String@) to be used for the joined @String@.
+    @return @String@ containing all elements in @self interspersed with @str.
+
+    Joins a collection with a @String@ between each element, returning a new @String@.
+
+        \"hello, world\” join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
+    """
+
+    s = ""
+    each: |c| {
+      s << c
+    } in_between: {
+      s << str
+    }
+    s
+  }
+
   def any?: condition {
     """
     @condition @Block@ (or @Callable) that is used to check if any element in @self yields true for it.

@@ -155,4 +155,9 @@ FancySpec describe: String with: {
     "foo" bytes class is: FancyEnumerator
     "" bytes class is: FancyEnumerator
   }
+
+  it: "returns a joined string using FancyEnumerable#join:" for: 'join: when: {
+    "foobar" join: "-" . is: "f-o-o-b-a-r"
+    "" join: "-" . is: ""
+  }
 }
