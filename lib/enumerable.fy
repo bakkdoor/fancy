@@ -160,7 +160,11 @@ class FancyEnumerable {
 
     Returns a new @Array@ by taking elements from the beginning
     as long as they meet the given condition block.
+
+    Example:
+        [1,2,3,4,5] take_while: |x| { x < 4 } # => [1,2,3]
     """
+
     coll = []
     each: |x| {
       if: (condition call: [x]) then: {
@@ -177,6 +181,9 @@ class FancyEnumerable {
     Similar to @take_while:@ but inverse.
     Returns a new @Array@ by skipping elements from the beginning
     as long as they meet the given condition block.
+
+    Example:
+        [1,2,3,4,5] drop_while: |x| { x < 4 } # => [4,5]
     """
 
     coll = []
@@ -201,6 +208,9 @@ class FancyEnumerable {
     """
     @amount Amount of elements to take from @self.
     @return First @amount elements of @self in an @Array@.
+
+    Example:
+        [1,2,3,4] take: 2 # => [1,2]
     """
 
     i = 0
@@ -214,6 +224,9 @@ class FancyEnumerable {
     """
     @amount Amount of elements to skip in @self.
     @return An @Array@ of all but the first @amount elements in @self.
+
+    Example:
+        [1,2,3,4,5] drop: 2 # => [3,4,5]
     """
 
     i = 0
@@ -227,6 +240,9 @@ class FancyEnumerable {
     """
     Calculates a value based on a given block to be called on an accumulator
     value and an initial value.
+
+    Example:
+        [1,2,3] reduce: |sum val| { sum + val } init_val: 0 # => 6
     """
 
     acc = init_val
@@ -240,7 +256,11 @@ class FancyEnumerable {
     """
     Same as reduce:init_val: but taking the initial value as first
     and the reducing block as second parameter.
+
+    Example:
+        [1,2,3] inject: 0 into: |sum val| { sum + val } # => 6
     """
+
     reduce: block init_val: val
   }
 
@@ -249,6 +269,9 @@ class FancyEnumerable {
     @return @Array@ of all unique elements in @self.
 
     Returns a new Array with all unique values (double entries are skipped).
+
+    Example:
+        [1,2,1,2,3] uniq # => [1,2,3]
     """
 
     uniq_vals = []
@@ -314,24 +337,44 @@ class FancyEnumerable {
     @return @Array@ with all non-nil elements in @self.
 
     Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? ).
+
+    Example:
+        [1,2,nil,3,nil] compact # => [1,2,3]
     """
 
     reject: |x| { x nil? }
   }
 
-  def superior_by: comparison_block {
+  def superior_by: comparison_block taking: selection_block ('identity) {
     """
-    Returns the superiour element in the @Enumerable that has met
-    the given comparison block with all other elements.
+    @comparison_block @Block@ to be used for comparison.
+    @selection_block @Block@ to be used for selecting the values to be used for comparison by @comparison_bock.
+    @return Superior element in @self in terms of @comparison_block.
+
+    Returns the superior element in the @Enumerable that has met
+    the given comparison block with all other elements,
+    applied to whatever @selection_block returns for each element.
+    @selection_block defaults to @identity.
+
+    Examples:
+        [1,2,5,3,4] superior_by: '> # => 5
+        [1,2,5,3,4] superior_by: '< # => 1
+        [[1,2], [2,3,4], [], [1]] superior_by: '> taking: 'size # => [2,3,4]
+        [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
     """
 
-    retval = first
-    each: |x| {
-      if: (comparison_block call: [x, retval]) then: {
-        retval = x
+
+    pairs = self map: |val| {
+      (val, selection_block call: [val])
+    }
+
+    retval = pairs first
+    pairs each: |p| {
+      if: (comparison_block call: [p second, retval second]) then: {
+        retval = p
       }
     }
-    retval
+    retval first
   }
 
   def max {
@@ -340,6 +383,7 @@ class FancyEnumerable {
 
     Returns the maximum value in the Enumerable (via the '>' comparison message).
     """
+
     superior_by: '>
   }
 
@@ -349,6 +393,7 @@ class FancyEnumerable {
 
     Returns the minimum value in the Enumerable (via the '<' comparison message).
     """
+
     superior_by: '<
   }
 
