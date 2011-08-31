@@ -1,15 +1,16 @@
 Gem::Specification.new do |s|
   s.name = "fancy"
-  s.version = "0.3.3"
+  s.version = "0.4.0"
 
   s.authors = ["Christopher Bertels"]
-  s.date = "2011-04-28"
+  s.date = "2011-08-30"
   s.email = "chris@fancy-lang.org"
 
   files =
     ["README.md", "LICENSE", "AUTHORS", "Rakefile", "boot/extconf.rb", "ruby_lib/fancy.rb"] +
+    ["ruby_lib/fancy", "ruby_lib/ifancy", "ruby_lib/fdoc", "ruby_lib/fyi", "ruby_lib/fspec"] +
     Dir.glob("lib/**/*.fy") + Dir.glob("lib/parser/ext/**/*") +
-    Dir.glob("tests/**/*.fy") + ["tools/fancy-mode.el"] + ["bin/fancy", "bin/fdoc", "bin/fyi", "bin/ifancy"] +
+    Dir.glob("tests/**/*.fy") + ["tools/fancy-mode.el"] + ["bin/fancy", "bin/fdoc", "bin/fyi", "bin/ifancy", "bin/fspec"] +
     Dir.glob("examples/**/*.fy") + Dir.glob("doc/**/*")
 
   files = files.reject{ |f| f =~ /\.(fyc|rbc|o|log|plist)/ }.reject{ |f| f =~ /conftest\.dSYM/ }
@@ -19,7 +20,8 @@ Gem::Specification.new do |s|
   s.require_path = "ruby_lib"
   s.extensions = 'boot/extconf.rb'
 
-  s.executables = ["fancy", "ifancy", "fdoc", "fyi"]
+  s.bindir = "ruby_lib"
+  s.executables = ["fancy", "ifancy", "fdoc", "fyi", "fspec"]
 
   s.license = "BSD"
 
