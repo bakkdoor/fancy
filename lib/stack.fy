@@ -77,6 +77,6 @@ class Stack {
     Calls a given @Block@ with each element in @self, starting with the top of stack element.
     """
 
-    @arr reverse each: block
+    @arr reverse_each: block
   }
 }
