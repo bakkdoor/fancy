@@ -1,4 +1,24 @@
 FancySpec describe: Set with: {
+  it: "creates a new Set with a given list of values" with: 'initialize: when: {
+    s = Set new: [1,2,3]
+    s size is: 3
+    s values is: [1,2,3]
+  }
+
+  it: "creates a new empty Set" with: 'initialize when: {
+    s = Set new
+    s size is: 0
+    s values is: []
+  }
+
+  it: "returns the values as an Array" with: 'values when: {
+    s = Set new
+    s << "foo"
+    s << "bar"
+    s << "foo"
+    s values is: ["foo", "bar"]
+  }
+
   it: "only keeps unique values" with: '[] when: {
     s = Set new
     s << 'foo
