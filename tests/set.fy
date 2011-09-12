@@ -2,7 +2,7 @@ FancySpec describe: Set with: {
   it: "creates a new Set with a given list of values" with: 'initialize: when: {
     s = Set new: [1,2,3]
     s size is: 3
-    s values is: [1,2,3]
+    s values sort is: [1,2,3]
   }
 
   it: "creates a new empty Set" with: 'initialize when: {
