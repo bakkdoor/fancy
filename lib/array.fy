@@ -291,6 +291,7 @@ class Array {
     each: |x| {
       x println
     }
+    nil
   }
 
   def to_s {
