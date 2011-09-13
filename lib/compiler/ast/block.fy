@@ -1,5 +1,6 @@
 class Fancy AST {
   class BlockLiteral : Rubinius AST Iter {
+    read_slot: 'body
     def initialize: @line args: @args body: @body (NilLiteral new: line) partial: @partial (false) {
       if: (@body empty?) then: {
         @body unshift_expression: $ NilLiteral new: @line

@@ -48,6 +48,7 @@ class Fancy AST {
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
         case /^@/ -> InstanceVariable
+        case /^\*/ -> DynamicVariable
         case _ -> Identifier
       }
       type new: line string: string
@@ -116,6 +117,21 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       scoped bytecode(g)
+    }
+  }
+
+  class DynamicVariable : Identifier {
+    read_slot: 'varname
+    def initialize: @line string: @string {
+      @varname = SymbolLiteral new: @line value: @string
+    }
+
+    def bytecode: g {
+      thread = Identifier from: "Thread" line: @line
+      thread bytecode: g
+      g send('current, 0, false)
+      @varname bytecode: g
+      g send(':[], 1, false)
     }
   }
 }

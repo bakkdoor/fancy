@@ -89,7 +89,11 @@ class Fancy AST {
   }
 
   class SymbolLiteral : Rubinius AST SymbolLiteral {
+    read_slot: 'value
     def initialize: line value: value { initialize(line, value) }
+    def string {
+      value
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)

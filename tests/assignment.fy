@@ -50,4 +50,51 @@ FancySpec describe: "Assignment" with: {
     _,_,*z = "hello, world!" # ignore first 2 characters
     z is: "llo, world!"
   }
+
+  it: "sets dynamic vars accordingly" when: {
+    let: '*foo* be: 10 in: {
+      *foo* should == 10
+    }
+  }
+
+  it: "sets a dynamic var with proper nesting" when: {
+    def use_foo: expected {
+      *foo* is: expected
+    }
+
+    def use_nested_foo: expected {
+      use_foo: expected
+      let: '*foo* be: -10 in: {
+        use_foo: -10
+      }
+    }
+
+    let: '*foo* be: 10 in: {
+      *foo* is: 10
+      use_foo: 10
+      use_nested_foo: 10
+      let: '*foo* be: 100 in: {
+        *foo* is: 100
+        use_foo: 100
+        use_nested_foo: 100
+      }
+    }
+  }
+
+  it: "allows assigning dynamic vars without a scope" when: {
+    *foo* = "hello, world"
+    *foo* is: "hello, world"
+    let: '*foo* be: "byebye, world" in: {
+      *foo* is: "byebye, world"
+      use_foo: "byebye, world"
+      use_nested_foo: "byebye, world"
+    }
+    *foo* is: "hello, world"
+    use_foo: "hello, world"
+    use_nested_foo: "hello, world"
+    *foo* = nil
+    *foo* is: nil
+    use_foo: nil
+    use_nested_foo: nil
+  }
 }

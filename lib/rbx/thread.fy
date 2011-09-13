@@ -36,6 +36,14 @@ class Thread {
   Thread metaclass ruby_alias: 'pass
   Thread metaclass ruby_alias: 'stop
 
+  def [dynamic_var_name] {
+    send('[], dynamic_var_name)
+  }
+
+  def [dynamic_var_name]: value {
+    send('[]=, dynamic_var_name, value)
+  }
+
   def priority: new_prio {
     priority=(new_prio)
   }

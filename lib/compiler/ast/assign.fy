@@ -92,4 +92,29 @@ class Fancy AST {
       Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
     }
   }
+
+  class DynamicVariable {
+    def bytecode: g assign: value {
+      pos(g)
+      var = DynamicVariable new: @line string: @string
+      dva = DynamicVariableAssign new: @line varname: var value: value in: (NilLiteral new: @line)
+      dva bytecode: g
+    }
+  }
+
+  class DynamicVariableAssign : Node {
+    def initialize: @line varname: @varname value: @value in: @block {
+       @varname = @varname varname
+    }
+
+    def bytecode: g {
+      pos(g)
+
+      ms = MessageSend new: @line \
+                       message: (Identifier from: "let:be:in:" line: @line) \
+                       to: (Self new: @line) \
+                       args: (MessageArgs new: @line args: [@varname, @value, @block])
+      ms bytecode: g
+    }
+  }
 }

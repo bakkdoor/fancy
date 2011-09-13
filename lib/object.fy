@@ -608,4 +608,26 @@ class Object {
 
     Thread sleep: seconds
   }
+
+  def let: varname be: value {
+    Thread current[varname]: value
+  }
+
+  def let: varname be: value in: block (nil) {
+    { return value } unless: varname
+    unless: block do: {
+      Thread current[varname]: value
+      return value
+    }
+
+    oldval = Thread current[varname]
+    retval = nil
+    try {
+      Thread current[varname]: value
+      retval = block call
+    } finally {
+      Thread current[varname]: oldval
+      return retval
+    }
+  }
 }
