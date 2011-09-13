@@ -34,7 +34,7 @@ class Object {
     Prints @self on @STDOUT, followed by a newline.
     """
 
-    Console println: to_s
+    *stdout* println: to_s
   }
 
   def print {
@@ -45,7 +45,7 @@ class Object {
     Prints @self on STDOUT.
     """
 
-    Console print: to_s
+    *stdout* print: to_s
   }
 
   def != other {
