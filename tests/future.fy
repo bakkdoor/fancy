@@ -25,6 +25,24 @@ FancySpec describe: FutureSend with: {
     f is_a?: FutureSend . is: true
     f value is_a?: Fixnum . is: true
   }
+
+  it: "accesses the same future from multiple threads and blocks them until the value is computed" when: {
+    def another_method {
+      Thread sleep: 0.25
+      42
+    }
+
+    future = self @ another_method
+
+    threads = (0..10) map: {
+      Thread new: {
+        future completed? is: false
+        future value is: 42
+      }
+    }
+
+    threads each: 'join
+  }
 }
 
 FancySpec describe: FutureCollection with: {
