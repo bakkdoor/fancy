@@ -1,8 +1,9 @@
 class FutureSend {
   read_slots: [ 'fail_reason, 'receiver, 'message, 'params ]
   def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
-    @waiting_threads = []
     @actor ! ('future, (@message, @params), self)
+    @completed_mutex = Mutex new
+    @condvar = ConditionVariable new
   }
 
   def failed: @fail_reason {
@@ -13,42 +14,45 @@ class FutureSend {
     }
   }
 
-  def completed: @value {
-    synchronized: {
+  def completed: value {
+    @completed_mutex synchronize: {
+      @value = value
       @completed = true
       completed!
     }
   }
 
   def completed! {
-    @waiting_threads each: 'run
-    @waiting_threads = []
+    @condvar broadcast
   }
 
   private: 'completed!
 
   def completed? {
-    synchronized: {
-      return @completed
+    completed = false
+    @completed_mutex synchronize: {
+      completed = @completed
     }
+    return completed true?
   }
 
   def failed? {
-    synchronized: {
-      return @failed
+    failed = false
+    @completed_mutex synchronize: {
+      failed = @failed
     }
+    return failed true?
   }
 
   def value {
-    if: completed? then: {
-      return @value
-    } else: {
-      synchronized: {
-        @waiting_threads << (Thread current)
+    @completed_mutex synchronize: {
+      if: @completed then: {
+        return @value
+      } else: {
+        @condvar wait: @completed_mutex
       }
-      Thread stop
-      return @value
     }
+    return @value
   }
 
   def send_future: message with_params: params {
