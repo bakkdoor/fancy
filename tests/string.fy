@@ -126,7 +126,7 @@ FancySpec describe: String with: {
     "foo bar baz" includes?: "foobarbaz" . is: false
   }
 
-  it: "should remove any leading indentation" with: 'skip_leading_indentation when: {
+  it: "removes any leading indentation" with: 'skip_leading_indentation when: {
     """
     hello, world!
     how are you?

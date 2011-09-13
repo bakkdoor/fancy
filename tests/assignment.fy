@@ -53,7 +53,7 @@ FancySpec describe: "Assignment" with: {
 
   it: "sets dynamic vars accordingly" when: {
     let: '*foo* be: 10 in: {
-      *foo* should == 10
+      *foo* is: 10
     }
   }
 
