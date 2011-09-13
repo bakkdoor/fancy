@@ -22,3 +22,4 @@ lib/parser/ext/lexer.h
 lib/parser/ext/parser.h
 lib/parser/ext/parser.output
 pygments/*
+.rbx/*
