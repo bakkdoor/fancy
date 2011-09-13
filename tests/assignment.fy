@@ -97,4 +97,12 @@ FancySpec describe: "Assignment" with: {
     use_foo: nil
     use_nested_foo: nil
   }
+
+  it: "preserves the current value of a dynvar when creating a new thread" when: {
+    *foo* = 100
+    *foo* is: 100
+    Thread new: {
+      *foo* is: 100
+    } . join
+  }
 }

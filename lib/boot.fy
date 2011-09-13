@@ -25,7 +25,6 @@ require: "array"
 require: "range"
 require: "tuple"
 require: "block"
-require: "vars"
 require: "iteration"
 require: "integer"
 require: "enumerator"
@@ -47,6 +46,7 @@ require: "struct"
 # version holds fancy's version number
 require: "version"
 require: "argv"
+require: "vars"
 
 require: "documentation"
 

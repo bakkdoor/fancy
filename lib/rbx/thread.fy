@@ -35,6 +35,7 @@ class Thread {
   Thread metaclass ruby_alias: 'main
   Thread metaclass ruby_alias: 'pass
   Thread metaclass ruby_alias: 'stop
+  ruby_alias: 'dynamic_vars
 
   def [dynamic_var_name] {
     send('[], dynamic_var_name)

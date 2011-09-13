@@ -5,6 +5,7 @@
 # to write as much in Fancy as possible.
 
 base = File.dirname(__FILE__) + "/fancy_ext/"
+require base + "thread"
 require base + "kernel"
 require base + "module"
 require base + "object"
