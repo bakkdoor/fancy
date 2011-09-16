@@ -13,11 +13,13 @@ class Thread
   class << self
     alias_method :old_new, :new
     def new(*args, &block)
-      thread = old_new(*args, &block)
-      current.dynamic_vars.each do |v|
-        thread[v] = current[v]
+      parent = current
+      old_new(*args) do
+        parent.dynamic_vars.each do |v|
+          current[v] = parent[v]
+        end
+        block.call
       end
-      thread
     end
   end
 end
