@@ -13,9 +13,10 @@ if: (test_files empty?) then: {
   }
 
 } else: {
+  start = Time now
   test_files each: |f| {
     require: f
   }
   Console newline
-  FancySpec SpecTest print_failures
+  FancySpec SpecTest print_failures: start
 }
