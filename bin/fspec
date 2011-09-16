@@ -1,4 +1,5 @@
 #!/usr/bin/env fancy
+require: "fancy_spec"
 
 test_dir = "tests"
 { test_dir = ARGV[1] } if: $ ARGV[1]
