@@ -1,9 +1,11 @@
 class FutureSend {
   read_slots: [ 'fail_reason, 'receiver, 'message, 'params ]
   def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
-    @actor ! ('future, (@message, @params), self)
     @completed_mutex = Mutex new
     @condvar = ConditionVariable new
+    @completed = false
+    @failed = false
+    @actor ! ('future, (@message, @params), self)
   }
 
   def failed: @fail_reason {
