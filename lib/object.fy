@@ -587,6 +587,7 @@ class Object {
     """
 
     block call_with_receiver: self
+    self
   }
 
   def slots {
