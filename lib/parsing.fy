@@ -18,6 +18,10 @@ class Parsing {
     def min: min (0) max: max (nil) {
       Rule new: self . min: min max: max
     }
+
+    def not {
+      Rule new: self . not
+    }
   }
 
   class Rule {
