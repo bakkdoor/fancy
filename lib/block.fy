@@ -90,7 +90,7 @@ class Block {
     Short-circuiting || (boolean OR).
     """
 
-    if: call then: |val| {
+    call if_true: |val| {
       return val
     } else: other_block
   }
@@ -102,7 +102,7 @@ class Block {
     Calls @self if @obj is true-ish.
     """
 
-    if: obj then: self
+    obj if_true: self
   }
 
   def unless: obj {
@@ -112,7 +112,7 @@ class Block {
     Opposite of Block#if:. Calls @self if @obj is false-ish.
     """
 
-    unless: obj do: self
+    obj if_true: { nil } else: self
   }
 
   def === val {
