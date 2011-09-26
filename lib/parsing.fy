@@ -1,22 +1,25 @@
 class Parsing {
-  class Regexp {
+  class Rules {
     def ==> action {
-      Rule new: self action: action
-    }
-
-    def && other {
-      match other {
-        case Rule -> AndRule new: (Rule new: self) and: other
-        case _ -> AndRule new: (Rule new: self) and: (Rule new: other)
+      to_rule clone do: {
+        action: action
       }
     }
 
+    def || other_rule {
+      OrRule new: to_rule and: (other to_rule)
+    }
+
+    def && other {
+      AndRule new: to_rule and: (other to_rule)
+    }
+
     def optional {
-      Rule new: self . optional
+      ManyRule new: to_rule min: 0
     }
 
     def min: min (0) max: max (nil) {
-      Rule new: self . min: min max: max
+      ManyRule new: to_rule min: min max: max
     }
 
     def [min_max] {
@@ -25,24 +28,31 @@ class Parsing {
     }
 
     def not {
-      Rule new: self . not
+      NotRule new: to_rule
+    }
+  }
+
+  class Regexp {
+    include: Rules
+
+    def to_rule {
+      Rule new: self
     }
   }
 
   class Rule {
+    include: Rules
     read_write_slots: ['name, 'pattern, 'action]
 
     def initialize: @pattern (nil) action: @action (nil) {}
 
+    def to_rule {
+      self
+    }
+
     def offset {
       @offset = @offset || 0
       @offset
-    }
-
-    def ==> action {
-      clone do: {
-        action: action
-      }
     }
 
     def parse: string offset: offset (0) {
@@ -59,41 +69,10 @@ class Parsing {
       }
     }
 
-    def || other_rule {
-      match other_rule {
-        case Rule -> OrRule new: self and: other_rule
-        case _ -> OrRule new: self and: (Rule new: other_rule)
-      }
-    }
-
-    def && other {
-      match other {
-        case Rule -> AndRule new: self and: other
-        case _ -> AndRule new: self and: (Rule new: other)
-      }
-    }
-
-    def not {
-      NotRule new: self
-    }
-
-    def min: min (0) max: max (nil) {
-      ManyRule new: self min: min max: max
-    }
-
-    def [min_max] {
-      min, max = min_max
-      min: min max: max
-    }
-
     def clone {
       r = Rule new: @pattern action: @action
       { r name: @name } if: @name
       r
-    }
-
-    def optional {
-      ManyRule new: self min: 0
     }
   }
 
