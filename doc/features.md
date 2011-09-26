@@ -100,6 +100,14 @@
  * Instance variables: `@name`, `@age`
  * Class variables: `@@total`, `@@maximum`
 
+### Dynamically scoped variables ###
+
+    File open: "/tmp/foo.txt" modes: ['write] do: |f| {
+      let: '*stdout* be: f in: {
+        "foo" println # writes to /tmp/foo.txt instead of normal STDOUT (console)
+      }
+    }
+    # *stdout* is back to old value here.
 
 ### Dynamic getter and setter method definitions (similar to Ruby's attr_acessor) ###
 
