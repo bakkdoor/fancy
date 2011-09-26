@@ -128,6 +128,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
       Ranges, Tuples, Regular Expressions
   - Method & Operator calls
   - Instance & class variable access
+  - Dynamically scoped variables (dynamic scoping)
   - Dynamic getter and setter method definitions (similar to Ruby's attr_acessor)
   - Loops (including `next` & `break`)
   - Support for closures via Blocks
