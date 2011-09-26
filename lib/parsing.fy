@@ -19,6 +19,11 @@ class Parsing {
       Rule new: self . min: min max: max
     }
 
+    def [min_max] {
+      min, max = min_max
+      min: min max: max
+    }
+
     def not {
       Rule new: self . not
     }
@@ -76,6 +81,11 @@ class Parsing {
       ManyRule new: self min: min max: max
     }
 
+    def [min_max] {
+      min, max = min_max
+      min: min max: max
+    }
+
     def clone {
       r = Rule new: @pattern action: @action
       { r name: @name } if: @name
@@ -115,6 +125,7 @@ class Parsing {
       val2 = nil
       if: val1 then: {
         val2 = @b parse: string offset: @offset
+        @offset = @b offset + @offset
       }
 
       if: (val1 && val2) then: |val| {
@@ -133,13 +144,14 @@ class Parsing {
 
   class NotRule : Rule {
     def initialize: @rule action: @action (nil) {}
+
     def parse: string offset: offset (0) {
       match string from: offset to: -1 {
         case @rule pattern ->
           return false
         case _ ->
-          @action call: [string]
-          return true
+          { return @action call: [string] } if: @action
+          return string
       }
     }
 
@@ -149,6 +161,7 @@ class Parsing {
   }
 
   class ManyRule : Rule {
+    read_slots: ['rule, 'min, 'max]
     def initialize: @rule min: @min max: @max (nil) action: @action (nil) {
     }
 
@@ -159,9 +172,9 @@ class Parsing {
           rule = rule && @rule
         }
         rule = rule && (@rule not)
+        rule action: @action
         val = rule parse: string offset: offset
         @offset = rule offset + offset
-        { return @action call: [val] } if: @action
         return val
       } else: {
         @min times: {

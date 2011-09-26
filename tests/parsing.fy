@@ -41,16 +41,34 @@ FancySpec describe: Parsing with: {
     opt parse: "" . is: 'yes
   }
 
+  it: "parses min/max rules with [] operator" when: {
+    rule = /f/ [[0,1]]
+    rule min is: 0
+    rule max is: 1
+    rule is_a?: Parsing ManyRule . is: true
+  }
+
   it: "parses ManyRule correctly" when: {
-    many = /f/ min: 1 max: 2 ==> {
+    many = /f/ [[1, 2]] ==> {
       'woot
     }
 
-    # many parse: "" . is: nil
-    # many parse: "a" . is: nil
-    many parse: "af" . is: 'woot
-    many parse: "f" . is: 'woot
-    many parse: "ff" . is: 'woot
+    many parse: "" . is: nil
+    many parse: "a" . is: nil
+    # many parse: "af" . is: 'woot
+    # many parse: "f" . is: 'woot
+    # many parse: "ff" . is: 'woot
     # many parse: "fff" . is: nil
+  }
+
+  it: "parses NotRule" when: {
+    r = /f/ not ==> {
+      'no_f
+    }
+
+    r parse: "" . is: 'no_f
+    r parse: "a" . is: 'no_f
+    r parse: "f" . is: false
+    r parse: "af" . is: false
   }
 }
