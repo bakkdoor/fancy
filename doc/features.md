@@ -102,7 +102,7 @@
 
 ### Dynamically scoped variables ###
 
-    File open: "/tmp/foo.txt" modes: ['write] do: |f| {
+    File open: "/tmp/foo.txt" modes: ['write] with: |f| {
       let: '*stdout* be: f in: {
         "foo" println # writes to /tmp/foo.txt instead of normal STDOUT (console)
       }
