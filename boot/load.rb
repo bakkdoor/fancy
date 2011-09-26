@@ -65,6 +65,7 @@ end
 
 if __FILE__ == $0
   require File.expand_path("fancy_ext", File.dirname(__FILE__))
+  require File.expand_path("fancy_ext/bootstrap", File.dirname(__FILE__))
   # Load files up to the --
   if dash = ARGV.index("--")
     load = ARGV.shift(dash + 1)
