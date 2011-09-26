@@ -43,8 +43,11 @@ class Parsing {
       }
     }
 
-    def && other_rule {
-      AndRule new: self and: other_rule
+    def && other {
+      match other {
+        case Rule -> AndRule new: self and: other
+        case _ -> AndRule new: self and: (Rule new: other)
+      }
     }
 
     def not {
