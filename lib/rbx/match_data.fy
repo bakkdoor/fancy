@@ -3,6 +3,7 @@ class MatchData {
    MatchData instances are created when using the #=== match operator
    (e.g. by using match/case expressions).
    """
+   forwards_unary_ruby_methods
 
    ruby_alias: 'size
    ruby_alias: '[]
@@ -26,6 +27,10 @@ class MatchData {
        arr << (at: i)
      }
      arr
+   }
+
+   def offset: index {
+     offset(index)
    }
 
    def first {
