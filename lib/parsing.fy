@@ -3,6 +3,13 @@ class Parsing {
     def ==> action {
       Rule new: self action: action
     }
+
+    def && other {
+      match other {
+        case Rule -> AndRule new: (Rule new: self) and: other
+        case _ -> AndRule new: (Rule new: self) and: (Rule new: other)
+      }
+    }
   }
 
   class Rule {
@@ -22,7 +29,7 @@ class Parsing {
           if: @action then: {
             return @action call: (m to_a)
           } else: {
-            return true
+            return m
           }
         case _ ->
           return false
@@ -77,9 +84,14 @@ class Parsing {
     def initialize: @a and: @b action: @action (nil) {}
 
     def parse: string {
-      if: ((@a parse: string) && { @b parse: string }) then: |val| {
+      val1 = @a parse: string
+      val2 = nil
+      if: val1 then: {
+        val2 = @b parse: string
+      }
+      if: (val1 && val2) then: |val| {
         if: @action then: {
-          @action call: [val]
+          @action call: [val1, val2]
         } else: {
           return val
         }
