@@ -27,4 +27,20 @@ class MatchData {
      }
      arr
    }
+
+   def first {
+     at: 0
+   }
+
+   def second {
+     at: 1
+   }
+
+   def third {
+     at: 2
+   }
+
+   def fourth {
+     at: 3
+   }
 }
