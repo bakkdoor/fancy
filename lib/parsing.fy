@@ -16,11 +16,11 @@ class Parsing {
       }
     }
 
-    def try_match: string {
+    def parse: string {
       match string {
-        case @pattern ->
+        case @pattern -> |m|
           if: @action then: {
-            return @action call: [string]
+            return @action call: (m to_a)
           } else: {
             return true
           }
@@ -58,8 +58,8 @@ class Parsing {
   class OrRule : Rule {
     def initialize: @a and: @b action: @action (nil) {}
 
-    def try_match: string {
-      if: (@a try_match: string || { @b try_match: string }) then: |val| {
+    def parse: string {
+      if: (@a parse: string || { @b parse: string }) then: |val| {
         if: @action then: {
           return @action call: [val]
         } else: {
@@ -76,8 +76,14 @@ class Parsing {
   class AndRule : Rule {
     def initialize: @a and: @b action: @action (nil) {}
 
-    def try_match: string {
-      (@a try_match: string) && { @b try_match: string }
+    def parse: string {
+      if: ((@a parse: string) && { @b parse: string }) then: |val| {
+        if: @action then: {
+          @action call: [val]
+        } else: {
+          return val
+        }
+      }
     }
 
     def clone {
@@ -87,7 +93,7 @@ class Parsing {
 
   class NotRule : Rule {
     def initialize: @rule action: @action (nil) {}
-    def try_match: string {
+    def parse: string {
       match string {
         case @rule pattern ->
           return false
@@ -106,7 +112,7 @@ class Parsing {
     def initialize: @rule min: @min max: @max {
       { @max = @min } unless: @max
     }
-    def try_match: string {
+    def parse: string {
       if: (@min == @max) then: {
         @min times: |i| {
         }
