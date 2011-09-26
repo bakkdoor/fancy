@@ -10,6 +10,14 @@ class Parsing {
         case _ -> AndRule new: (Rule new: self) and: (Rule new: other)
       }
     }
+
+    def optional {
+      Rule new: self . optional
+    }
+
+    def min: min (0) max: max (nil) {
+      Rule new: self . min: min max: max
+    }
   }
 
   class Rule {
@@ -17,15 +25,21 @@ class Parsing {
 
     def initialize: @pattern (nil) action: @action (nil) {}
 
+    def offset {
+      @offset = @offset || 0
+      @offset
+    }
+
     def ==> action {
       clone do: {
         action: action
       }
     }
 
-    def parse: string {
-      match string {
+    def parse: string offset: offset (0) {
+      match string from: offset to: -1 {
         case @pattern -> |m|
+          @offset = m offset: 0 . second
           if: @action then: {
             return @action call: (m to_a)
           } else: {
@@ -54,7 +68,7 @@ class Parsing {
       NotRule new: self
     }
 
-    def many: min (0) max: max (nil){
+    def min: min (0) max: max (nil) {
       ManyRule new: self min: min max: max
     }
 
@@ -63,13 +77,18 @@ class Parsing {
       { r name: @name } if: @name
       r
     }
+
+    def optional {
+      ManyRule new: self min: 0
+    }
   }
 
   class OrRule : Rule {
     def initialize: @a and: @b action: @action (nil) {}
 
-    def parse: string {
-      if: (@a parse: string || { @b parse: string }) then: |val| {
+    def parse: string offset: offset (0) {
+      if: (@a parse: string offset: offset || { @b parse: string offset: offset }) then: |val| {
+        @offset = @a offset max: (@b offset)
         if: @action then: {
           return @action call: [val]
         } else: {
@@ -86,12 +105,14 @@ class Parsing {
   class AndRule : Rule {
     def initialize: @a and: @b action: @action (nil) {}
 
-    def parse: string {
-      val1 = @a parse: string
+    def parse: string offset: offset (0) {
+      val1 = @a parse: string offset: offset
+      @offset = @a offset + offset
       val2 = nil
       if: val1 then: {
-        val2 = @b parse: string
+        val2 = @b parse: string offset: @offset
       }
+
       if: (val1 && val2) then: |val| {
         if: @action then: {
           @action call: [val1, val2]
@@ -108,8 +129,8 @@ class Parsing {
 
   class NotRule : Rule {
     def initialize: @rule action: @action (nil) {}
-    def parse: string {
-      match string {
+    def parse: string offset: offset (0) {
+      match string from: offset to: -1 {
         case @rule pattern ->
           return false
         case _ ->
@@ -124,15 +145,35 @@ class Parsing {
   }
 
   class ManyRule : Rule {
-    def initialize: @rule min: @min max: @max {
-      { @max = @min } unless: @max
+    def initialize: @rule min: @min max: @max (nil) action: @action (nil) {
     }
-    def parse: string {
-      if: (@min == @max) then: {
-        @min times: |i| {
+
+    def parse: string offset: offset (0) {
+      rule = @rule
+      if: @max then: {
+        @min upto: @max do: {
+          rule = rule && @rule
         }
+        rule = rule && (@rule not)
+        val = rule parse: string offset: offset
+        @offset = rule offset + offset
+        { return @action call: [val] } if: @action
+        return val
+      } else: {
+        @min times: {
+          rule = rule && @rule
+        }
+        @offset = offset
+        vals = []
+        while: { rule parse: string offset: @offset } do: |v| {
+          @offset = rule offset + @offset
+          vals << v
+        }
+        { return @action call: vals } if: @action
+        return vals
       }
     }
+
     def clone {
       ManyRule new: @rule min: @min max: @max
     }
