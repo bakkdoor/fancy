@@ -9,11 +9,7 @@ class Date {
   metaclass forwards_unary_ruby_methods
 
   metaclass ruby_alias: 'today
-  ruby_alias: '==
-  ruby_alias: '-
-  ruby_alias: '+
-  ruby_alias: '<
-  ruby_alias: '>
+  ruby_aliases: [ '==, '-, '+, '<, '> ]
 
   def != other {
     self == other not

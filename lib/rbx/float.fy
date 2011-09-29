@@ -7,16 +7,7 @@ class Float {
 
   forwards_unary_ruby_methods
 
-  ruby_alias: '+
-  ruby_alias: '-
-  ruby_alias: '*
-  ruby_alias: '/
-  ruby_alias: '==
-  ruby_alias: '>=
-  ruby_alias: '<=
-  ruby_alias: '**
-  ruby_alias: '<
-  ruby_alias: '>
+  ruby_aliases: [ '+, '-, '*, '/, '==, '<, '>, '<=, '>=, '**]
 
   alias_method: 'modulo: for: 'modulo
   alias_method: ":%" for: "modulo:" # use a : so we dont overwrite ruby's % operator

@@ -30,11 +30,7 @@ class IO {
 
   include: IOMixin
 
-  ruby_alias: 'readlines
-  ruby_alias: 'readline
-  ruby_alias: 'read
-  ruby_alias: 'close
-  ruby_alias: 'eof?
+  ruby_aliases: [ 'readlines, 'readline, 'read, 'close, 'eof? ]
 
   forwards_unary_ruby_methods
 }

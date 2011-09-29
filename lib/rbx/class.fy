@@ -1,11 +1,5 @@
 class Class {
-  ruby_alias: 'superclass
-  ruby_alias: '===
-  ruby_alias: 'ancestors
-  ruby_alias: 'instance_methods
-  ruby_alias: 'methods
-  ruby_alias: 'inspect
-  ruby_alias: 'to_s
+  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'inspect, 'to_s ]
 
   def new {
     """
