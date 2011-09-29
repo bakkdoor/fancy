@@ -570,6 +570,7 @@ class Object {
   def do: block {
     """
     @block @Block@ to be called in the context of @self.
+    @return @self.
 
     Helper method that calls @block with @self as the receiver.
     This allows message cascading like code, e.g.:
