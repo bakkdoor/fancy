@@ -59,7 +59,7 @@ class FancyEnumerable {
         return true
       }
     }
-    nil
+    false
   }
 
   def all?: condition {
