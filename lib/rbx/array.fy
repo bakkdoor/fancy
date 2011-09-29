@@ -93,16 +93,6 @@ class Array {
     last(count)
   }
 
-  def any?: block {
-    """
-    @block Predicate @Block@ to be called for each element until it returns @true for any one of them.
-    @return @true if any element in @self yields @true for @block, @false otherwise.
-
-    Takes condition-block and returns @true if any element meets it.
-    """
-    any?(&block)
-  }
-
   def join: join_str {
     """
     @join_str @String@ by which to @join all elements in @self into a new @String@.
