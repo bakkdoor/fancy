@@ -315,11 +315,11 @@ class Array {
 
     str = "["
     each: |x| {
-      str = str + (x inspect)
+      str << (x inspect)
     } in_between: {
-      str = str + ", "
+      str << ", "
     }
-    str + "]"
+    str << "]"
   }
 
   def to_a {
