@@ -57,6 +57,8 @@ class Array {
     at(idx)
   }
 
+  alias_method('at_put, '[]=)
+
   def [idx]: obj {
     """
     @idx Index to set a value for.
@@ -65,7 +67,8 @@ class Array {
 
     Inserts a given object at a given index (position) in the Array.
     """
-    ruby: '[]= args: [idx, obj]
+
+    at_put(idx, obj)
   }
 
   alias_method: 'at:put: for: '[]:
