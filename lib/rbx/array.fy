@@ -100,34 +100,6 @@ class Array {
     any?(&block)
   }
 
-  def all?: block {
-    """
-    @block Predicate @Block@ to be called for each element until it returns @false for any one of them.
-    @return @true if all elements in @self yield @true for @block, @false otherwise.
-
-    Takes condition-block and returns @true if all elements meet it.
-    """
-    all?(&block)
-  }
-
-  def reject: block {
-    """
-    Returns a new Array with all the elements which yield nil or false
-    when called with the given Block.
-    """
-
-    reject(&block)
-  }
-
-  def reject!: block {
-    """
-    Same as Array#reject: but doing so in-place (destructive).
-    """
-
-    reject!(&block)
-    return self
-  }
-
   def join: join_str {
     """
     @join_str @String@ by which to @join all elements in @self into a new @String@.

@@ -248,6 +248,15 @@ class Array {
     return self
   }
 
+  def reject!: block {
+    """
+    Same as Array#reject: but doing so in-place (destructive).
+    """
+
+    remove_if: block
+    self
+  }
+
   def compact! {
     """
     @return @self

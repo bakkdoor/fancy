@@ -64,8 +64,10 @@ class FancyEnumerable {
 
   def all?: condition {
     """
-    Similar to @FancyEnumerable#any?:@ just checking for all elements.
-    Indicates, if all elements meet the condition.
+    @block Predicate @Block@ to be called for each element until it returns @false for any one of them.
+    @return @true if all elements in @self yield @true for @block, @false otherwise.
+
+    Takes condition-block and returns @true if all elements meet it.
     """
 
     each: |x| {
