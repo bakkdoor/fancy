@@ -29,7 +29,7 @@ class Object {
   def println {
     """
     Same as:
-        Console println: self
+          Console println: self
 
     Prints @self on @STDOUT, followed by a newline.
     """
@@ -40,7 +40,7 @@ class Object {
   def print {
     """
     Same as:
-        Console print: self
+          Console print: self
 
     Prints @self on STDOUT.
     """
@@ -219,7 +219,7 @@ class Object {
   def if: cond then: block {
     """
     Same as:
-        cond if_true: block
+          cond if_true: block
     """
 
     cond if_true: block
@@ -228,7 +228,7 @@ class Object {
   def if: cond then: then_block else: else_block {
     """
     Same as:
-        cond if_true: then_block else: else_block
+          cond if_true: then_block else: else_block
     """
 
     cond if_true: then_block else: else_block
@@ -237,7 +237,7 @@ class Object {
   def while: cond_block do: body_block {
     """
     Same as:
-      cond_block while_do: body_block
+          cond_block while_do: body_block
     """
 
     cond_block while_do: body_block
@@ -246,7 +246,7 @@ class Object {
   def until: cond_block do: body_block {
     """
     Same as:
-      cond_block until_do: body_block
+          cond_block until_do: body_block
     """
 
     cond_block until_do: body_block
@@ -275,7 +275,7 @@ class Object {
   def unless: cond do: block {
     """
     Same as:
-      cond if_true: { nil } else: block
+          cond if_true: { nil } else: block
     """
 
     cond if_true: { nil } else: block
@@ -284,7 +284,7 @@ class Object {
   def unless: cond do: block else: else_block {
     """
     Same as:
-      cond if_true: else_block else: block
+          cond if_true: else_block else: block
     """
 
     cond if_true: else_block else: block
@@ -338,11 +338,11 @@ class Object {
     Returns @value after calling @block with it.
     Useful for returning some object after using it, e.g.:
 
-        # this will return [1,2]
-        returning: [] do: |arr| {
-          arr << 1
-          arr << 2
-        }
+          # this will return [1,2]
+          returning: [] do: |arr| {
+            arr << 1
+            arr << 2
+          }
     """
 
     val = value
@@ -357,10 +357,9 @@ class Object {
     Returns a @RespondsToProxy@ for @self that forwards any messages
     only if @self responds to them.
 
-    Example usage:
-
-        # only send 'some_message: if object responds to it:
-        object if_responds? some_message: some_parameter
+    Example:
+          # only send 'some_message: if object responds to it:
+          object if_responds? some_message: some_parameter
     """
 
     RespondsToProxy new: self
@@ -370,9 +369,9 @@ class Object {
     """
     This is the default implementation for backtick: which gets called when using the backtick syntax.
     For example:
-        `cat README`
+          `cat README`
     Gets translated to the following message send:
-        self backtick: \"cat README\"
+          self backtick: \"cat README\"
     Which allows for custom implementations of the backtick: method, if needed.
     This default implementation works the same way as in Ruby, Perl or Bash.
     It returns the output of running the given string on the command line as a @String@.
@@ -611,24 +610,36 @@ class Object {
     Thread sleep: seconds
   }
 
-  def let: varname be: value {
-    Thread current[varname]: value
-  }
+  def let: var_name be: value in: block (nil) {
+    """
+    @var_name @Symbol@ that represents the name of the dynamic variable to be set.
+    @value Value for the variable.
+    @block @Block@ in which @var_name will be dynamically bound to @value.
+    @return Returns @value
 
-  def let: varname be: value in: block (nil) {
-    { return value } unless: varname
+    Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
+
+    Example:
+          File open: \"/tmp/output.txt\" modes: ['write] with: |f| {
+            let: '*stdout* be: f in: {
+              \"hello, world!\" println # writes it to file not STDOUT
+            }
+          }
+    """
+
+    { return value } unless: var_name
     unless: block do: {
-      Thread current[varname]: value
+      Thread current[var_name]: value
       return value
     }
 
-    oldval = Thread current[varname]
+    oldval = Thread current[var_name]
     retval = nil
     try {
-      Thread current[varname]: value
+      Thread current[var_name]: value
       retval = block call
     } finally {
-      Thread current[varname]: oldval
+      Thread current[var_name]: oldval
       return retval
     }
   }

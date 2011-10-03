@@ -20,9 +20,9 @@ class FancySpec {
     Factory method for creating FancySpec instances.
     Calls @block with the new FancySpec instance as the receiver, then runs it.
 
-        FancySpec describe: MyTestClass with: {
-          # test cases using it:for:when: here.
-        }
+          FancySpec describe: MyTestClass with: {
+            # test cases using it:for:when: here.
+          }
     """
 
     spec = FancySpec new: test_obj
@@ -34,9 +34,9 @@ class FancySpec {
     """
     Similar to FancySpec##describe:with: but also taking an explicit @test_obj.
 
-        FancySpec describe: \"My cool class\" for: MyCoolClass with: {
-          # test cases using it:for:when: here.
-        }
+          FancySpec describe: \"My cool class\" for: MyCoolClass with: {
+            # test cases using it:for:when: here.
+          }
     """
 
     spec = FancySpec new: description test_obj: test_obj
@@ -49,12 +49,12 @@ class FancySpec {
     @spec_info_string Info @String@ related to the test case defined in @spec_block.
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
-    Example usage:
-        it: \"should be an empty Array\" when: {
-          arr = [1,2,3]
-          3 times: { arr pop }
-          arr empty? is == true
-        }
+    Example:
+          it: \"should be an empty Array\" when: {
+            arr = [1,2,3]
+            3 times: { arr pop }
+            arr empty? is == true
+          }
     """
 
     test = SpecTest new: spec_info_string block: spec_block
@@ -67,12 +67,12 @@ class FancySpec {
     @method_name Name of Method that this testcase is related to.
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
-    Example usage:
-        it: \"should be an empty Array\" with: 'empty? when: {
-          arr = [1,2,3]
-          3 times: { arr pop }
-          arr empty? is == true
-        }
+    Example:
+          it: \"should be an empty Array\" with: 'empty? when: {
+            arr = [1,2,3]
+            3 times: { arr pop }
+            arr empty? is == true
+          }
     """
 
     test = SpecTest new: spec_info_string block: spec_block

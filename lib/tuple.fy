@@ -66,8 +66,8 @@ class Tuple {
     @return @self.
 
     Example:
-        (1,2,3) reverse_each: @{print}
-        # prints: 321
+          (1,2,3) reverse_each: @{print}
+          # prints: 321
     """
 
     size - 1 downto: 0 do: |i| {

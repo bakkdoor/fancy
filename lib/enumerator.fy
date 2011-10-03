@@ -31,12 +31,12 @@ class FancyEnumerator {
     It will move the internal position forward (compared to e.g. #peek, which doesn't).
 
     Example:
-        a = [1,2,3]
-        e = a to_enum
-        e next # => 1
-        e next # => 2
-        e next # => 3
-        e next # => raises Fancy StopIteration
+          a = [1,2,3]
+          e = a to_enum
+          e next # => 1
+          e next # => 2
+          e next # => 3
+          e next # => raises Fancy StopIteration
     """
 
     if: @peeked then: {
@@ -70,15 +70,15 @@ class FancyEnumerator {
     raised.
 
     Example:
-        a = [1,2,3]
-        e = a to_enum
-        e next p #=> 1
-        e peek p #=> 2
-        e peek p #=> 2
-        e peek p #=> 2
-        e next p #=> 2
-        e next p #=> 3
-        e next p #=> raises Fancy StopIteration
+          a = [1,2,3]
+          e = a to_enum
+          e next p #=> 1
+          e peek p #=> 2
+          e peek p #=> 2
+          e peek p #=> 2
+          e next p #=> 2
+          e next p #=> 3
+          e next p #=> raises Fancy StopIteration
     """
 
     unless: @peeked do: {

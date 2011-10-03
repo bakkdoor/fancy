@@ -16,13 +16,14 @@ class Block {
 
   def while_false: block {
     """
-    Executes a given Block while self evals to nil
+    Executes a given @Block@ while self evals to @nil or @false.
+
     Example:
-      i = 0
-      { i >= 10 } while_false: {
-        i println
-        i = i + 1
-      }
+          i = 0
+          { i >= 10 } while_false: {
+            i println
+            i = i + 1
+          }
     """
 
     { call not } while_true: block

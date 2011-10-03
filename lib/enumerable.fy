@@ -34,7 +34,7 @@ class FancyEnumerable {
 
     Joins a collection with a @String@ between each element, returning a new @String@.
 
-        \"hello, world\” join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
+          \"hello, world\" join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
     """
 
     s = ""
@@ -164,7 +164,7 @@ class FancyEnumerable {
     as long as they meet the given condition block.
 
     Example:
-        [1,2,3,4,5] take_while: |x| { x < 4 } # => [1,2,3]
+          [1,2,3,4,5] take_while: |x| { x < 4 } # => [1,2,3]
     """
 
     coll = []
@@ -185,7 +185,7 @@ class FancyEnumerable {
     as long as they meet the given condition block.
 
     Example:
-        [1,2,3,4,5] drop_while: |x| { x < 4 } # => [4,5]
+          [1,2,3,4,5] drop_while: |x| { x < 4 } # => [4,5]
     """
 
     coll = []
@@ -212,7 +212,7 @@ class FancyEnumerable {
     @return First @amount elements of @self in an @Array@.
 
     Example:
-        [1,2,3,4] take: 2 # => [1,2]
+          [1,2,3,4] take: 2 # => [1,2]
     """
 
     i = 0
@@ -228,7 +228,7 @@ class FancyEnumerable {
     @return An @Array@ of all but the first @amount elements in @self.
 
     Example:
-        [1,2,3,4,5] drop: 2 # => [3,4,5]
+          [1,2,3,4,5] drop: 2 # => [3,4,5]
     """
 
     i = 0
@@ -244,7 +244,7 @@ class FancyEnumerable {
     value and an initial value.
 
     Example:
-        [1,2,3] reduce: |sum val| { sum + val } init_val: 0 # => 6
+          [1,2,3] reduce: |sum val| { sum + val } init_val: 0 # => 6
     """
 
     acc = init_val
@@ -260,7 +260,7 @@ class FancyEnumerable {
     and the reducing block as second parameter.
 
     Example:
-        [1,2,3] inject: 0 into: |sum val| { sum + val } # => 6
+          [1,2,3] inject: 0 into: |sum val| { sum + val } # => 6
     """
 
     reduce: block init_val: val
@@ -273,7 +273,7 @@ class FancyEnumerable {
     Returns a new Array with all unique values (double entries are skipped).
 
     Example:
-        [1,2,1,2,3] uniq # => [1,2,3]
+          [1,2,1,2,3] uniq # => [1,2,3]
     """
 
     uniq_vals = []
@@ -341,7 +341,7 @@ class FancyEnumerable {
     Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? ).
 
     Example:
-        [1,2,nil,3,nil] compact # => [1,2,3]
+          [1,2,nil,3,nil] compact # => [1,2,3]
     """
 
     reject: |x| { x nil? }
@@ -359,10 +359,10 @@ class FancyEnumerable {
     @selection_block defaults to @identity.
 
     Examples:
-        [1,2,5,3,4] superior_by: '> # => 5
-        [1,2,5,3,4] superior_by: '< # => 1
-        [[1,2], [2,3,4], [], [1]] superior_by: '> taking: 'size # => [2,3,4]
-        [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
+          [1,2,5,3,4] superior_by: '> # => 5
+          [1,2,5,3,4] superior_by: '< # => 1
+          [[1,2], [2,3,4], [], [1]] superior_by: '> taking: 'size # => [2,3,4]
+          [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
     """
 
 
@@ -432,7 +432,7 @@ class FancyEnumerable {
     @return @Array@ of @Array@s, partitioned by equal return values of calling @block with each element
 
     Example:
-        0 upto: 10 . partition_by: @{< 3}  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
+          0 upto: 10 . partition_by: |x| { x < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
     """
     last = block call: [first]
     coll = []
@@ -482,7 +482,7 @@ class FancyEnumerable {
     @return @Array@ of @Array@s with a max size of @size (grouped).
 
     Example usage:
-        [1,2,3,4,5] in_groups_of: 3 # => [[1,2,3],[4,5]]
+          [1,2,3,4,5] in_groups_of: 3 # => [[1,2,3],[4,5]]
     """
 
     groups = []
