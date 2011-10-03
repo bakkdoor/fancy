@@ -505,4 +505,29 @@ class FancyEnumerable {
 
     groups
   }
+
+  def reverse {
+    """
+    @return @self in reverse order.
+
+    Returns @self in reverse order.
+    This only makes sense for collections that have an ordering.
+    In either case, it simply converts @self to an @Array@ and returns it in reversed order.
+    """
+
+    rev = self to_a
+    rev reverse
+  }
+
+  def reverse_each: block {
+    """
+    @block @Block@ to be called for each element in reverse order.
+    @return @self
+
+    Runs @block for each element on reversed version of self.
+    If @self is not a sorted collection, no guarantees about the reverse order can be given.
+    """
+
+    reverse each: block
+  }
 }

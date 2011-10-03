@@ -50,6 +50,25 @@ class Array {
     self
   }
 
+  def prepend: arr {
+    """
+    @arr Other @Array@ to be prepended to @self.
+    @return @self
+
+    Prepends another @Array@ to this one.
+
+    Example:
+        a = [1,2,3]
+        a prepend: [4,5,6]
+        a # => [4,5,6,1,2,3]
+    """
+
+    arr reverse_each: |x| {
+      self unshift: x
+    }
+    self
+  }
+
   def [index] {
     """
     @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
@@ -126,6 +145,15 @@ class Array {
   }
 
   def reverse_each: block {
+    """
+    @block @Block@ to be called for each element (in reverse order).
+    @return @self.
+
+    Example:
+        [1,2,3] reverse_each: @{print}
+        # prints: 321
+    """
+
     size - 1 downto: 0 do: |i| {
       block call: [at: i]
     }

@@ -54,11 +54,26 @@ class Tuple {
     Calls a given @Block@ with each element in the @Tuple@.
     """
 
-    val = nil
     size times: |i| {
-      val = block call: [at: i]
+      block call: [at: i]
     }
-    val
+    self
+  }
+
+  def reverse_each: block {
+    """
+    @block @Block@ to be called for each element (in reverse order).
+    @return @self.
+
+    Example:
+        (1,2,3) reverse_each: @{print}
+        # prints: 321
+    """
+
+    size - 1 downto: 0 do: |i| {
+      block call: [at: i]
+    }
+    self
   }
 
   def == other {

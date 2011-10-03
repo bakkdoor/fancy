@@ -36,4 +36,26 @@ FancySpec describe: Tuple with: {
     { Tuple new: 1 } raises: ArgumentError
     { Tuple new: 2 } does_not raise: ArgumentError
   }
+
+  it: "runs a Block for each element" with: 'each: when: {
+    sum = 0
+    vals = []
+    (1,2,3) each: |x| {
+      sum = sum + x
+      vals << x
+    }
+    sum is: 6
+    vals is: [1,2,3]
+  }
+
+  it: "runs a Block for each element in reverse order" with: 'reverse_each: when: {
+    sum = 0
+    vals = []
+    (1,2,3) reverse_each: |x| {
+      sum = sum + x
+      vals << x
+    }
+    sum is: 6
+    vals is: [3,2,1]
+  }
 }
