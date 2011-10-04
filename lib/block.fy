@@ -30,7 +30,7 @@ class Block {
 
   alias_method: 'while_nil: for: 'while_false:
 
-  def while_true: work {
+  def while_true: block {
     """
     @work @Block@ to call while @self yields @true.
 
@@ -38,18 +38,11 @@ class Block {
     """
 
     try {
-      brk = { return nil }
-      loop() {
-        try {
-          call if_true: work else: brk
-        } catch Fancy NextIteration => ex {
-          ex result
-        }
-      }
-    } catch Fancy BreakIteration => ex {
-      return ex result
-    } catch Fancy StopIteration => ex {
-      return ex result
+      while_true_impl: block
+    } catch Fancy BreakIteration => b {
+      return b result
+    } catch Fancy StopIteration => s {
+      return s result
     }
   }
 

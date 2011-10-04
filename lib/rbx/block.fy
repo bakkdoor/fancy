@@ -4,6 +4,31 @@ class Block {
   forwards_unary_ruby_methods
   metaclass forwards_unary_ruby_methods
 
+  # low level while_true: implementation
+  # use direct bytecode generation for speed purposes
+  # this gives us good speed in loops
+  dynamic_method('while_true_impl:) |g| {
+    start = g new_label()
+    end = g new_label()
+    g total_args=(1)
+
+    start set!()
+    g push_self()
+    g send('call, 0)
+    g set_local(1)
+    g gif(end)
+    g push_local(0)
+    g push_local(1)
+    g send('call, 1)
+    g pop()
+    g check_interrupts()
+    g goto(start)
+
+    end set!()
+    g push_nil()
+    g ret()
+  }
+
   def receiver {
     """
     @return Receiver object of a @Block@.
