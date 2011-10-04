@@ -32,9 +32,9 @@ class Block {
 
   def while_true: block {
     """
-    @work @Block@ to call while @self yields @true.
+    @block @Block@ to call while @self yields @true.
 
-    Calls @work while calling @self yields a @true-ish value.
+    Calls @block while calling @self yields a @true-ish value.
     """
 
     try {
