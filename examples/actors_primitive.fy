@@ -1,5 +1,6 @@
 pong = nil
 done = false
+Parent = Thread current
 
 ping = Actor spawn: {
   loop: {
@@ -8,6 +9,7 @@ ping = Actor spawn: {
     { count println; done = true; break } if: (count > 1000)
     pong ! (count + 1)
   }
+  Parent run
 }
 
 pong = Actor spawn: {
@@ -17,11 +19,10 @@ pong = Actor spawn: {
     { count println; done = true; break } if: (count > 1000)
     ping ! (count + 1)
   }
+  Parent run
 }
 
 ping ! 1
 
 # Let the actors process while the main thread sleeps...
-until: { done } do: {
-  Thread sleep: 0.1
-}
+Thread stop
