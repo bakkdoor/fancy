@@ -24,6 +24,12 @@ class Class {
   def ruby_alias: method_name {
     alias_method(":" + (method_name to_s), method_name)
   }
+
+  def ruby_aliases: method_names {
+    method_names each() |m| {
+      ruby_alias: m
+    }
+  }
 }
 
 class String {

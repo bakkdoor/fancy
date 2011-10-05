@@ -1,17 +1,10 @@
 class String {
 
   # prepend a : to fancy version of ruby methods.
-  ruby_alias: '==
-  ruby_alias: 'upcase
-  ruby_alias: 'downcase
-  ruby_alias: '=~
-  ruby_alias: 'to_i
-  ruby_alias: 'to_f
-  ruby_alias: 'chomp
-  ruby_alias: 'inspect
-  ruby_alias: 'to_sym
-  ruby_alias: '<
-  ruby_alias: '>
+  ruby_aliases: [
+    '==, 'upcase, 'downcase, '=~, 'to_i, 'to_f,
+    'chomp, 'inspect, 'to_sym, '<, '>
+  ]
 
   alias_method: '[]: for_ruby: '[]=
   alias_method: 'scan: for_ruby: 'scan

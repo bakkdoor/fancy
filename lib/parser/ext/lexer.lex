@@ -51,8 +51,6 @@ self            "self"
 match           "match"
 case            "case"
 identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
-label           @{identifier}@
-goto_           "goto"
 selector        ({letter}|[_&*])({letter}|{digit}|{special_under})*":"
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
@@ -143,14 +141,6 @@ escaped_newline "\\".*\n
                 }
 {case}          {
                   return CASE;
-                }
-{goto_}         {
-                  yylval.object = rb_str_new2(yytext);
-                  return GOTO;
-                }
-{label}         {
-                  yylval.object = rb_str_new2(yytext);
-                  return LABEL;
                 }
 {identifier}    {
                   yylval.object = rb_str_new2(yytext);

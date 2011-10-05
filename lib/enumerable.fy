@@ -59,13 +59,15 @@ class FancyEnumerable {
         return true
       }
     }
-    nil
+    false
   }
 
   def all?: condition {
     """
-    Similar to @FancyEnumerable#any?:@ just checking for all elements.
-    Indicates, if all elements meet the condition.
+    @block Predicate @Block@ to be called for each element until it returns @false for any one of them.
+    @return @true if all elements in @self yield @true for @block, @false otherwise.
+
+    Takes condition-block and returns @true if all elements meet it.
     """
 
     each: |x| {
@@ -502,5 +504,30 @@ class FancyEnumerable {
     }
 
     groups
+  }
+
+  def reverse {
+    """
+    @return @self in reverse order.
+
+    Returns @self in reverse order.
+    This only makes sense for collections that have an ordering.
+    In either case, it simply converts @self to an @Array@ and returns it in reversed order.
+    """
+
+    rev = self to_a
+    rev reverse
+  }
+
+  def reverse_each: block {
+    """
+    @block @Block@ to be called for each element in reverse order.
+    @return @self
+
+    Runs @block for each element on reversed version of self.
+    If @self is not a sorted collection, no guarantees about the reverse order can be given.
+    """
+
+    reverse each: block
   }
 }

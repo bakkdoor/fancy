@@ -7,22 +7,10 @@ class Fixnum {
 
   include: Number
 
-  ruby_alias: '==
-  ruby_alias: '-
-  ruby_alias: '+
-  ruby_alias: '*
-  ruby_alias: '/
-  ruby_alias: '<
-  ruby_alias: '>
-  ruby_alias: '<=
-  ruby_alias: '>=
-  ruby_alias: '===
-  ruby_alias: 'chr
-  ruby_alias: 'to_i
-  ruby_alias: 'to_f
-  ruby_alias: '**
-  ruby_alias: '&
-  ruby_alias: '|
+  ruby_aliases: [
+    '==, '-, '+, '*, '/, '<, '>, '<=, '>=,
+    '===, 'chr, 'to_i, 'to_f, '**, '&, '|
+  ]
 
   alias_method: 'to_s: for: 'to_s
   alias_method: 'modulo: for: 'modulo

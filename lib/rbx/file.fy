@@ -7,10 +7,7 @@ class File {
       'binary => "b",
       'truncate => "w+"]>
 
-  ruby_alias: 'eof?
-  #ruby_alias: 'close
-  ruby_alias: 'closed?
-  ruby_alias: 'flush
+  ruby_aliases: [ 'eof?, 'closed?, 'flush ]
 
   def File open: filename modes: modes_arr with: block {
     """

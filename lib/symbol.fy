@@ -39,4 +39,8 @@ class Symbol {
     recv = binding self()
     recv receive_message: self
   }
+
+  def arity {
+    1
+  }
 }
