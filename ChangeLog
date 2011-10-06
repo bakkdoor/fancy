@@ -1,65 +1,54 @@
-v0.5.0 (Oct 5, 2011)
-----------------
-	* Use fast instructions for certain operations when compiling
-	  MessageSends. This speeds up things like Fixnum arithmetic.
-	* Require rubygems and ruby dependencies in generated include file
-	  when installing a fancy package.
-	* Small improvements to actors example
-	* Added FutureSend#failure and use correct mutex in
-	  FutureSend#failed:
-	* Added another dynamic scoping example using *stdout*
-	* Removed weird goto shit
-	* Performance improvements for loops of up to 10x in certain cases
-	  by using dynamic_method() for the lower-level logic of
-	  while_true:. Still allow next/break to work, as expected by
-	  wrapping lower-level implementation in Block#while_true:. #speeed!
-	* Added more methods and tests to Array and Tuple.
-	* Added Symbol#arity for compatibility with Block api.
-	* Small doctoring fix to Object#do:
-	* Simplified Person example
-	* Simplified actor ring example.
-	* Added @return to doctoring for Object#do:
-	* Small fix to boot/code_loader so bin/fdoc works again.
-	* Removed obsolete Array#any?:
-	* Return false in FancyEnumerable#any?:
-	* Added Symbol#call in boot/fancy_ext/ to allow symbols being used
-	  as callables when passing them to ruby code.
-	* Use alias for Ruby's Array#[]= in Array#[]: instead of
-	  Object#ruby:args:
-	* Small changes to Array methods.
-	* Added Class#ruby_aliases:
-	* Small improvement to Array#inspect
-	* Small fix to fancy-mode.el for parsing symbols
-	* small typo fix
-	* updated README and doc/features (mentioning dynamic scoping)
-	* Added boot/fancy_ext/bootstrap.rb which is needed during
-	  bootstrap process so *stdout* is defined and "rake -v" works.
-	* Use short-cut conditional messages in Block methods.
-	* Added missing FalseClass#if_nil:else:
-	* Return self in Object#do:
-	* Use String#include? in Object#message_name: to get rid of weird
-	  crash on rbx-2.0.0pre. Need to look into the actual cause of the
-	  crash later.
-	* print duration of running tests when running fspecp
-	* Small fix to FutureSend: Send future message to receiver's actor
-	  after setting up FutureSend object.
-	* Don't auto-load FancySpec on startup. Load it explicitly in
-	  bin/fspec instead.
-	* small fix to copying dynamic vars in Thread#new
-	* Added support for preserving the values of dynamic vars when
-	  spawning a new thread based on the values in the current thread.
-	* Small fixes to tests.
-	* Added lib/vars.fy and load it in lib/boot.fy on startup. Also
-	  use *stdout* in Object#println.
-	* Added support for dynamic variable bindings using
-	  let:be:in:. Uses * surrounding variable names to indicate dynamic
-	  variable, e.g. *stdin* or *dynamic_var*.
-	* Added another Future test
-	* ignore .rbx dir
-	* Fixed concurrency issues with FutureSend class on rbx-2.0.0pre
-	* Added ConditionVariable wrapper class.
-	* Added Mutex wrapper class to lib/rbx/.
-	* Sort values before comparing in Set test.
-	* Array#println returns nil
-	* More tests for Set
-	* Added missing tests for Stack.
+v0.5.0 (Oct 05, 2011)
+----------------------
+  - Converted ruby_lib/ scripts to shell scripts to make them run faster.
+  - Small fix to Block#while_true: docstring
+  - prepare for v0.5.0
+  - Use fast instructions for certain operations when compiling MessageSends. This speeds up things like Fixnum arithmetic.
+  - Require rubygems and ruby dependencies in generated include file when installing a fancy package.
+  - Small improvements to actors example
+  - Merge branch 'master' of github.com:bakkdoor/fancy
+  - Added FutureSend#failure and use correct mutex in FutureSend#failed:
+  - added another dynamic scoping example using *stdout*
+  - Removed weird goto shit
+  - Performance improvements for loops of up to 10x in certain cases by using dynamic_method() for the lower-level logic of while_true:. Still allow next/break to work, as expected by wrapping lower-level implementation in Block#while_true:. #speeed!
+  - Added more methods and tests to Array and Tuple.
+  - Added Symbol#arity for compatibility with Block api.
+  - Small doctoring fix to Object#do:
+  - Simplified Person example
+  - Simplified actor ring example.
+  - Added @return to doctoring for Object#do:
+  - Small fix to boot/code_loader so bin/fdoc works again.
+  - Removed obsolete Array#any?:
+  - Return false in FancyEnumerable#any?:
+  - Added Symbol#call in boot/fancy_ext/ to allow symbols being used as callables when passing them to ruby code.
+  - Use alias for Ruby's Array#[]= in Array#[]: instead of Object#ruby:args:
+  - Small changes to Array methods.
+  - Added Class#ruby_aliases:
+  - Small improvement to Array#inspect
+  - small fix to fancy-mode.el for parsing symbols
+  - small typo fix
+  - updated README and doc/features (mentioning dynamic scoping)
+  - Added boot/fancy_ext/bootstrap.rb which is needed during bootstrap process so *stdout* is defined and rake -v works.
+  - Use short-cut conditional messages in Block methods.
+  - Added missing FalseClass#if_nil:else:
+  - Return self in Object#do:
+  - Use String#include? in Object#message_name: to get rid of weird crash on rbx-2.0.0pre. Need to look into the actual cause of the crash later.
+  - print duration of running tests when running fspecp
+  - Small fix to FutureSend: Send future message to receiver's actor after setting up FutureSend object.
+  - Don't auto-load FancySpec on startup. Load it explicitly in bin/fspec instead.
+  - small fix to copying dynamic vars in Thread#new
+  - Added support for preserving the values of dynamic vars when spawning a new thread based on the values in the current thread.
+  - Small fixes to tests.
+  - Added lib/vars.fy and load it in lib/boot.fy on startup. Also use *stdout* in Object#println.
+  - Added support for dynamic variable bindings using let:be:in:. Uses * surrounding variable names to indicate dynamic variable, e.g. *stdin* or *dynamic_var*.
+  - Added another Future test
+  - ignore .rbx dir
+  - Fixed concurrency issues with FutureSend class on rbx-2.0.0pre
+  - Added ConditionVariable wrapper class.
+  - Added Mutex wrapper class to lib/rbx/.
+  - Sort values before comparing in Set test.
+  - Array#println returns nil
+  - More tests for Set
+  - Added missing tests for Stack.
+  - Use reverse_each: in Stack#each:
+
