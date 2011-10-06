@@ -643,4 +643,27 @@ class Object {
       return retval
     }
   }
+
+  def with_output_to: filename do: block {
+    """
+    @filename Filename of file to write to.
+    @block @Block@ to be executed with *stdout* being bound to the output file.
+
+    Opens @filename and rebinds `*stdout*` to it within @block.
+
+    Example:
+          with_output_to: \"/tmp/hello_world.txt\" do: {
+            \"hello\" println
+            \"world\" println
+          }
+    This writes
+          hello
+          world
+    to /tmp/hello_world.txt
+    """
+
+    File open: filename modes: ['write] with: |f| {
+      let: '*stdout* be: f in: block
+    }
+  }
 }
