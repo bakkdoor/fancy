@@ -14,9 +14,9 @@ class Class {
 
     Defines a slot reader method with a given name.
     E.g. for a slotname @count it will define the following method:
-        def count {
-          get_slot: 'count
-        }
+          def count {
+            get_slot: 'count
+          }
     """
 
     define_method: slotname with: {
@@ -30,9 +30,9 @@ class Class {
 
     Defines a slot writer method with a given name.
     E.g. for a slotname @count it will define the following method:
-        def count: c {
-          set_slot: 'count value: c
-        }
+          def count: c {
+            set_slot: 'count value: c
+          }
     """
 
     define_method: (slotname to_s + ":") with: |val| {

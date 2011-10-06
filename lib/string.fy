@@ -16,7 +16,7 @@ class String {
     @return Concatenation of @self with @other.
 
     Concatenate @self with another Object's @String@ representation.
-        \"foo\” ++ 42 # => \”foo42\”
+          \"foo\” ++ 42 # => \”foo42\”
     """
 
     self + (other to_s)
@@ -52,7 +52,7 @@ class String {
     @return @String@ that is the num-fold concatenation of @self.
 
     Returns a @String@ that is the num-fold concatenation of itself.
-        \"foo\" * 3 # => \”foofoofoo\"
+          \"foo\" * 3 # => \”foofoofoo\"
     """
 
     str = ""
@@ -66,7 +66,7 @@ class String {
     """
     @return @Array@ of all the whitespace seperated words in @self.
 
-        \"hello world\" words  # => [\"hello\", \"world\"]
+          \"hello world\" words  # => [\"hello\", \"world\"]
     """
 
     split
@@ -85,7 +85,7 @@ class String {
     @return @String@ containing all but the first character.
 
     Returns a @String@ containing all but the first character.
-        \"hello\" rest # => \"ello\"
+          \"hello\" rest # => \"ello\"
     """
 
     from: 1 to: -1
@@ -108,11 +108,11 @@ class String {
 
     Appends @object's @String@ representation to @self.
 
-    Example usage:
-        str = \"hello\"
-        str << \" \"
-        str << 42
-        str # => \"hello 42\"
+    Example:
+          str = \"hello\"
+          str << \" \"
+          str << 42
+          str # => \"hello 42\"
     """
 
     append: $ object to_s
