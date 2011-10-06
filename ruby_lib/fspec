@@ -1,3 +1,3 @@
-#!/usr/bin/env rbx
-base = File.expand_path("../bin", File.dirname(__FILE__))
-system("/usr/bin/env fancy #{base}/fspec #{ARGV.join(' ')}")
+# #!/bin/sh
+DIR="$( cd "$( dirname "$0" )" && pwd )/../bin"
+/usr/bin/env fancy $DIR/fspec $@
