@@ -1,5 +1,9 @@
 v0.5.0 (Oct 05, 2011)
 ----------------------
+  - Use ruby instead of rbx in fancy_lib/ scripts that are used when fancy is installed via rubygems.
+  - Revert Converted ruby_lib/ scripts to shell scripts to make them run faster.
+  - Merge branch 'better_docstrings'
+  - Updated Changelog
   - Converted ruby_lib/ scripts to shell scripts to make them run faster.
   - Small fix to Block#while_true: docstring
   - prepare for v0.5.0
@@ -10,6 +14,7 @@ v0.5.0 (Oct 05, 2011)
   - Added FutureSend#failure and use correct mutex in FutureSend#failed:
   - added another dynamic scoping example using *stdout*
   - Removed weird goto shit
+  - Fixed docstrings formatting so example code is formatted correctly on api.fancy-lang.org
   - Performance improvements for loops of up to 10x in certain cases by using dynamic_method() for the lower-level logic of while_true:. Still allow next/break to work, as expected by wrapping lower-level implementation in Block#while_true:. #speeed!
   - Added more methods and tests to Array and Tuple.
   - Added Symbol#arity for compatibility with Block api.
