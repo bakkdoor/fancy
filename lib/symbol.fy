@@ -10,7 +10,8 @@ class Symbol {
     """
     This allows Symbols to be used like Blocks
     (e.g. in all methods of Enumerable).
-    Example: [1, 2, 3] map: 'squared # => [1, 4, 9]
+    Example:
+          [1, 2, 3] map: 'squared # => [1, 4, 9]
     """
 
     if: (arg is_a?: Array) then: {
@@ -24,13 +25,13 @@ class Symbol {
     """
     Sends @self as message to the sender in its context.
     Example:
-        'foo call
-         # => same as
-         self foo
+          'foo call
+           # => same as
+           self foo
 
-         if: x then: 'foo else: 'bar
-         # same as:
-         if: x then: { self foo } else: { self bar }
+           if: x then: 'foo else: 'bar
+           # same as:
+           if: x then: { self foo } else: { self bar }
     """
 
     binding = Binding setup(Rubinius VariableScope of_sender(),
@@ -38,5 +39,9 @@ class Symbol {
                             Rubinius StaticScope of_sender())
     recv = binding self()
     recv receive_message: self
+  }
+
+  def arity {
+    1
   }
 }

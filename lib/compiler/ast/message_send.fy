@@ -2,6 +2,16 @@ class Fancy AST {
   class MessageSend : Node {
     read_write_slots: ['name, 'receiver, 'args]
 
+    # fast instructions to be used if possible
+    FastOps = <[
+      ':+ => 'meta_send_op_plus,
+      ':- => 'meta_send_op_minus,
+      ':== => 'meta_send_op_equal,
+      ':=== => 'meta_send_op_tequal,
+      ':< => 'meta_send_op_lt,
+      ':> => 'meta_send_op_gt
+    ]>
+
     def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line) {
     }
 
@@ -49,7 +59,12 @@ class Fancy AST {
         if: ruby_block? then: {
           g send_with_block(sym, @args size, false)
         } else: {
-          g send(sym, @args size, false)
+          # use fast instruction, if available.
+          if: (FastOps[sym]) then: |op| {
+            g __send__(op, g find_literal(sym))
+          } else: {
+            g send(sym, @args size, false)
+          }
         }
       }
     }

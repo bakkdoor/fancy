@@ -337,20 +337,8 @@ class Fancy {
       AST RubyArgs new: line args: args block: block
     }
 
-    def ast: line string_value: string {
-      string
-    }
-
-    def ast: line goto: label_name {
-      AST Goto new: line label_name: label_name
-    }
-
-    def ast: line label: label {
-      AST Label new: line name: label
-    }
-
     def ast: line parse_error: text {
-      ParseError new: line message: text filename: @filename . raise!
+      ParseError new: (line - 1) message: text filename: @filename . raise!
     }
 
     def ast: line file_error: text {

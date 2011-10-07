@@ -181,6 +181,12 @@ class Fancy Package {
       unless: (spec include_files empty?) do: {
         File open: (lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
           spec include_files each: |if| {
+            unless: (spec rubygem_dependencies empty?) do: {
+              f writeln: "require(\"rubygems\")"
+              spec rubygem_dependencies each: |rd| {
+                f writeln: "require(\"#{rd gem_name}\")"
+              }
+            }
             f write: "require: \""
             f write: installed_path
             f write: "/"

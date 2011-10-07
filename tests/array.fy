@@ -388,7 +388,31 @@ FancySpec describe: Array with: {
     a is: []
   }
 
-  it: "appends a value at the front" with: 'unshift: when: {
+  it: "appends another Array onto self" with: 'append: when: {
+    a = [1,2,3]
+    a append: [4,5,6] . is: a
+    a is: [1,2,3,4,5,6]
+
+    a append: []
+    a is: [1,2,3,4,5,6]
+
+    [] append: [] . is: []
+    [] append: (1,2,3) . is: [1,2,3] # works with any Enumerable
+  }
+
+  it: "prepends another Array onto self" with: 'prepend: when: {
+    a = [1,2,3]
+    a prepend: [4,5,6]
+    a is: [4,5,6,1,2,3]
+
+    a prepend: []
+    a is: [4,5,6,1,2,3]
+
+    [] prepend: [] . is: []
+    [] prepend: (1,2,3) . is: [1,2,3] # works with any Enumerable
+  }
+
+  it: "prepends a value at the front" with: 'unshift: when: {
     a = []
     a unshift: 1 . is: a # is return self
     a is: [1]

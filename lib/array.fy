@@ -39,13 +39,32 @@ class Array {
     Appends another @Array@ onto this one.
 
     Example:
-        a = [1,2,3]
-        a append: [3,4,5]
-        a # => [1,2,3,3,4,5]
+          a = [1,2,3]
+          a append: [3,4,5]
+          a # => [1,2,3,3,4,5]
     """
 
     arr each: |x| {
       self << x
+    }
+    self
+  }
+
+  def prepend: arr {
+    """
+    @arr Other @Array@ to be prepended to @self.
+    @return @self
+
+    Prepends another @Array@ to this one.
+
+    Example:
+          a = [1,2,3]
+          a prepend: [4,5,6]
+          a # => [4,5,6,1,2,3]
+    """
+
+    arr reverse_each: |x| {
+      self unshift: x
     }
     self
   }
@@ -126,6 +145,15 @@ class Array {
   }
 
   def reverse_each: block {
+    """
+    @block @Block@ to be called for each element (in reverse order).
+    @return @self.
+
+    Example:
+          [1,2,3] reverse_each: @{print}
+          # prints: 321
+    """
+
     size - 1 downto: 0 do: |i| {
       block call: [at: i]
     }
@@ -230,7 +258,7 @@ class Array {
     @return Elements of @Array@ joined to a @String@.
 
     Joins all elements with the empty @String@.
-        [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
+          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
     """
 
     join: ""
@@ -246,6 +274,15 @@ class Array {
 
     reject!: |x| { condition call: [x] . not }
     return self
+  }
+
+  def reject!: block {
+    """
+    Same as Array#reject: but doing so in-place (destructive).
+    """
+
+    remove_if: block
+    self
   }
 
   def compact! {
@@ -310,16 +347,16 @@ class Array {
 
     Returns a pretty-printed @String@ representation of @self.
     Example:
-        [1, 'foo, \"bar\", 42] inspect # => \"[1, 'foo, \\\"bar\\\", 42]\"
+          [1, 'foo, \"bar\", 42] inspect # => \"[1, 'foo, \\\"bar\\\", 42]\"
     """
 
     str = "["
     each: |x| {
-      str = str + (x inspect)
+      str << (x inspect)
     } in_between: {
-      str = str + ", "
+      str << ", "
     }
-    str + "]"
+    str << "]"
   }
 
   def to_a {
@@ -348,7 +385,7 @@ class Array {
     @return Concatenation of @self with another @Array@
 
     Returns concatenation with another @Array@.
-        [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
+          [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
     """
 
     clone append: other_arr
@@ -359,7 +396,7 @@ class Array {
     @return @Array@ of all indices of @self.
 
     Returns an @Array@ of all the indices of an @Array@.
-        [1,2,3] indices # => [0,1,2]
+          [1,2,3] indices # => [0,1,2]
     """
 
     0 upto: (size - 1)
@@ -371,7 +408,7 @@ class Array {
     @return @Array@ of all indices for a given value within an @Array@ (possibly empty).
 
     Returns an Array of all indices of this item. Empty Array if item does not occur.
-        [1, 'foo, 2, 'foo] indices_of: 'foo # => [1, 3]
+          [1, 'foo, 2, 'foo] indices_of: 'foo # => [1, 3]
     """
 
     tmp = []

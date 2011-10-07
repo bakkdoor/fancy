@@ -5,18 +5,7 @@ class Bignum {
 
   include: Number
 
-  ruby_alias: '==
-  ruby_alias: '-
-  ruby_alias: '+
-  ruby_alias: '*
-  ruby_alias: '/
-  ruby_alias: '<
-  ruby_alias: '>
-  ruby_alias: '<=
-  ruby_alias: '>=
-  ruby_alias: '===
-  ruby_alias: '**
-  ruby_alias: '&
+  ruby_aliases: [ '==, '-, '+, '*, '/, '<, '>, '<=, '>=, '===, '**, '& ]
 
   forwards_unary_ruby_methods
 

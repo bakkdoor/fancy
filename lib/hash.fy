@@ -98,8 +98,8 @@ class Hash {
     @keys Collection of keys to get the values for.
     @return @Array@ of all values for the given keys.
 
-    Example usage:
-      <['foo => 1, 'bar => 2, 'baz => 42]> values_at: ('foo, 'baz) # => [1, 42]
+    Example:
+          <['foo => 1, 'bar => 2, 'baz => 42]> values_at: ('foo, 'baz) # => [1, 42]
     """
 
     keys map: |k| { at: k }

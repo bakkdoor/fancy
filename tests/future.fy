@@ -43,6 +43,16 @@ FancySpec describe: FutureSend with: {
 
     threads each: 'join
   }
+
+  it: "deals as expected with failures" when: {
+    def a_failing_method {
+      "error!" raise!
+    }
+    f = self @ a_failing_method
+    f failed? is: false
+    f failure message is: "error!"
+    f failed? is: true
+  }
 }
 
 FancySpec describe: FutureCollection with: {

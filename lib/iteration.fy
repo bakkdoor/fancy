@@ -5,20 +5,20 @@ class Fancy {
     It is rescued by Block#loop.
 
     Example:
-        10 times: |i| {
-            i println
-            if: (i == 3) then: {
-              Fancy BreakIteration new raise!
-            }
-        }
-        \"Done!\" println
+          10 times: |i| {
+              i println
+              if: (i == 3) then: {
+                Fancy BreakIteration new raise!
+              }
+          }
+          \"Done!\" println
 
     Produces:
-        0
-        1
-        2
-        3
-        Done!
+          0
+          1
+          2
+          3
+          Done!
     """
 
     read_slots: ['result]
@@ -41,16 +41,16 @@ class Fancy {
     It is rescued by Block#loop.
 
     Example:
-        {
-          'Hello println
-          Fancy StopIteration new raise!
-          'World println
-        } loop
-        'Done! println
+          {
+            'Hello println
+            Fancy StopIteration new raise!
+            'World println
+          } loop
+          'Done! println
 
     Produces:
-        Hello
-        Done!
+          Hello
+          Done!
     """
 
     def initialize { @result = nil }
@@ -60,23 +60,23 @@ class Fancy {
       """
       Returns the return value of the iterator.
 
-          o = Object new
-          def o each: block {
-            block call: [1]
-            block call: [2]
-            block call: [3]
-            100
-          }
+            o = Object new
+            def o each: block {
+              block call: [1]
+              block call: [2]
+              block call: [3]
+              100
+            }
 
-          e = o to_enum
-          e next p #=> 1
-          e next p #=> 2
-          e next p #=> 3
-          try {
-            e next
-          } catch Fancy StopIteration => ex {
-            ex result p #=> 100
-          }
+            e = o to_enum
+            e next p #=> 1
+            e next p #=> 2
+            e next p #=> 3
+            try {
+              e next
+            } catch Fancy StopIteration => ex {
+              ex result p #=> 100
+            }
       """
 
       @result

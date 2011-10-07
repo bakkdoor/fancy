@@ -13,14 +13,14 @@ class Fancy Package {
   the system.
 
   Example:
-      $ fancy install bakkdoor/mongo.fy
+        $ fancy install bakkdoor/mongo.fy
 
   Will install the mongo.fy package from http://github.com/bakkdoor/mongo.fy
   in the latest released version or get the current HEAD (master
   branch) revision.
 
   You can then load the package in your source file via
-      require: \"mongo.fy\"
+        require: \"mongo.fy\"
 
   """
 

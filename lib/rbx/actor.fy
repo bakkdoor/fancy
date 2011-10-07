@@ -41,11 +41,11 @@ class Actor {
 
     Example usage:
 
-        Actor spawn: {
-          loop: {
-            Actor receive println # print all incoming messages
+          Actor spawn: {
+            loop: {
+              Actor receive println # print all incoming messages
+            }
           }
-        }
     """
 
     Actor spawn(&block)
