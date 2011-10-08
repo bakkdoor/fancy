@@ -22,10 +22,9 @@ FancySpec describe: Parsing with: {
   }
 
   it: "creates a simple ast" when: {
-    c = /class/
     space = /\s+/
-    identifier = space && /(\S+)/ #&& (space optional)
-    class_def = c && identifier ==> |_ classname| {
+    identifier = space & /(\S+)/ #& (space optional)
+    class_def = "class" & identifier ==> |_ classname| {
       ('class_def, classname[1] to_sym)
     }
 
@@ -33,7 +32,7 @@ FancySpec describe: Parsing with: {
   }
 
   it: "parses optional rules" when: {
-    opt = /a/ optional ==> {
+    opt = "a" optional ==> {
       'yes
     }
 

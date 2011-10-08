@@ -6,11 +6,11 @@ class Parsing {
       }
     }
 
-    def || other_rule {
+    def | other_rule {
       OrRule new: to_rule and: (other to_rule)
     }
 
-    def && other {
+    def & other {
       AndRule new: to_rule and: (other to_rule)
     }
 
@@ -32,11 +32,19 @@ class Parsing {
     }
   }
 
-  class Regexp {
+  class RegexpParsing {
     include: Rules
 
     def to_rule {
       Rule new: self
+    }
+  }
+
+  class StringParsing {
+    include: Rules
+
+    def to_rule {
+      Regexp new(self) to_rule
     }
   }
 
@@ -148,16 +156,16 @@ class Parsing {
       rule = @rule
       if: @max then: {
         @min upto: @max do: {
-          rule = rule && @rule
+          rule = rule & @rule
         }
-        rule = rule && (@rule not)
+        rule = rule & (@rule not)
         rule action: @action
         val = rule parse: string offset: offset
         @offset = rule offset + offset
         return val
       } else: {
         @min times: {
-          rule = rule && @rule
+          rule = rule & @rule
         }
         @offset = offset
         vals = []
@@ -176,4 +184,5 @@ class Parsing {
   }
 }
 
-Regexp include: Parsing Regexp
+Regexp include: Parsing RegexpParsing
+String include: Parsing StringParsing
