@@ -1,7 +1,6 @@
 #!/usr/bin/env fancy
 # -*- fancy -*-
-
-require("readline")
+require("rb-readline/readline")
 
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy " ++ FANCY_VERSION] println
@@ -50,6 +49,36 @@ def save_history {
       }
     }
     @history_saved = true
+  }
+}
+
+def Readline completion: block {
+  Readline completion_proc=(block)
+}
+
+Readline completion_append_character=(" ")
+Readline completion: |str| {
+  receiver = nil
+  end_idx = -2
+  methods = []
+  3 times: {
+    try {
+      receiver = Readline line_buffer() split: " " . [[0,end_idx]] . join: " " . eval
+      methods = receiver class instance_methods
+    } catch Fancy Parser ParseError => e {
+      end_idx = end_idx - 1
+    } catch Exception => e {
+      methods = Object instance_methods
+    }
+  }
+
+  completions = []
+  try {
+    regexp = Regexp new(str)
+    completions = methods select: @{ =~ regexp } . map: @{ gsub(/^:/, "") }
+  } catch RegexpError {
+  } finally {
+    completions
   }
 }
 
