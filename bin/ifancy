@@ -82,12 +82,20 @@ Readline completion: |str| {
   }
 }
 
+def read_line {
+  try {
+    return Readline readline(">> ", true)
+  } catch ArgumentError {
+    return ""
+  }
+}
+
 load_history
 
 try {
   bnd = binding()
 
-  while: { Readline readline(">> ", true) } do: |line| {
+  while: { read_line } do: |line| {
     HISTORY << line
     if: (double_or_empty?: line) then: {
       Readline::HISTORY pop()
