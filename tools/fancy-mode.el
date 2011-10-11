@@ -14,6 +14,8 @@
     ("[0-9]+" . 'font-lock-variable-name-face)
     ;; floats
     ("[0-9]+\.[0-9]+" 'font-lock-variable-name-face)
+    ;; dynamic vars
+    ("\*[a-zA-Z0-9_-]+\*" . font-lock-reference-face)
     ;; variables & pseudo variables
     ("\\(^\\|[^_:.@$]\\|\\.\\.\\)\\b\\(super\\|nil\\|self\\|true\\|false\\)\\>" 2 font-lock-variable-name-face)
     ;; variable names
