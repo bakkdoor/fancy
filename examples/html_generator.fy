@@ -10,45 +10,75 @@ class String {
 }
 
 class HTML {
-  def open_tag: name {
-    "<" ++ (name but_last) ++ ">"
+  def initialize {
+    @buf = ""
+  }
+
+  def initialize: block {
+    initialize
+    block call_with_receiver: self
+    self
+  }
+
+  def open_tag: name attrs: attrs (<[]>) {
+    @buf << "<" << (name but_last)
+    unless: (attrs empty?) do: {
+      @buf << " "
+      attrs each: |k v| {
+        @buf << k << "=" << (v inspect)
+      } in_between: {
+        @buf << " "
+      }
+    }
+    @buf << ">"
   }
 
   def close_tag: name {
-    "</" ++ (name but_last) ++ ">"
+    @buf << "</" << (name but_last) << ">"
   }
 
-  def unknown_message: name with_params: params {
-    name = name to_s
-    str = open_tag: name
-
-    body = params first call
-    if: (body is_a?: Array) then: {
-      body = body join
+  def html_block: tag body: body attrs: attrs (<[]>) {
+    open_tag: tag attrs: attrs
+    match body first {
+      case Block -> @buf << (body first call)
+      case _ -> @buf << (body first)
     }
+    close_tag: tag
+  }
 
-    str ++ body ++ (close_tag: name)
+  def unknown_message: m with_params: p {
+    match m to_s {
+      case /with:$/ ->
+        tag = m to_s substitute: /with:$/ with: ""
+        html_block: tag body: (p rest) attrs: (p first)
+      case _ ->
+        html_block: (m to_s) body: p
+    }
+    nil
+  }
+
+  def to_s {
+    @buf
   }
 }
 
-# lets generate some simple HTML output )
-h = HTML new
-h html: {
-  h body: {
-    [
-     h div: {
-       "hello, world!"
-     },
-     h div: {
-       h p: {
-         "OKIDOKI"
-       }
-     },
-     h div: {
-       h h3: {
-         "oh no!"
-       }
-     }
-    ]
+# lets generate some simple HTML output :)
+HTML new: |h| {
+  html: {
+    body: <['id => "body id" ]> with: {
+      div: {
+        "hello, world!"
+      }
+      div: {
+        p: {
+          "OKIDOKI"
+        }
+      }
+      div: {
+        h3: {
+          "oh no!"
+        }
+      }
+    }
   }
 } . println
