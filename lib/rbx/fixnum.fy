@@ -17,4 +17,8 @@ class Fixnum {
   alias_method: 'modulo: for: 'modulo
   alias_method: ":%" for: "modulo:" # use a : so we dont overwrite ruby's % operator
   alias_method: 'div: for: 'div
+
+  def random {
+    rand(self)
+  }
 }
