@@ -441,24 +441,6 @@ class Array {
     subarr
   }
 
-  def select: block {
-    """
-    @block Predicate @Block@ to be used as filter.
-    @return @Array@ of all the elements for which @block doesn't yield @false or @nil.
-
-    Returns a new Array with all the elements in self that yield a
-    true-ish value when called with the given Block.
-    """
-
-    tmp = []
-    each: |x| {
-      if: (block call: [x]) then: {
-        tmp << x
-      }
-    }
-    return tmp
-  }
-
   def select_with_index: block {
     """
     Same as #select:, just gets also called with an additional argument
