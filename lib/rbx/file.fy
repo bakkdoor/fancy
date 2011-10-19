@@ -9,6 +9,8 @@ class File {
 
   ruby_aliases: [ 'eof?, 'closed?, 'flush ]
 
+  forwards_unary_ruby_methods
+
   def File open: filename modes: modes_arr with: block {
     """
     @filename Filename to open/create.
@@ -44,6 +46,12 @@ class File {
     """
 
     File exists?(filename)
+  }
+
+  metaclass alias_method: 'expand_path: for_ruby: 'expand_path
+
+  def initialize: path {
+    initialize(path)
   }
 
   def close {

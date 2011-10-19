@@ -55,4 +55,8 @@ class File {
 
   alias_method: 'print: for: 'write:
   alias_method: 'println: for: 'writeln:
+
+  def expanded_path {
+    File expand_path: path
+  }
 }
