@@ -25,7 +25,7 @@
     ;; method definitions
     ("^\\s *def\\s +\\([^( \t\n]+\\)" 1 font-lock-function-name-face)
     ;; message selectors
-    (" \\<[A-z][A-z0-9_-+?!=*/^><%]*:" . font-lock-function-name-face)
+    ("\\<[A-z][A-z0-9_-+?!=*/^><%]*:" . font-lock-function-name-face)
     ;; operators
     ("\\([-+*/~,<>=&!?%^]+ \\)" 1 'font-lock-function-name-face)
      ;; general delimited string
