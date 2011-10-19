@@ -146,4 +146,14 @@ class String {
 
     include?(substring)
   }
+
+  def substitute: substring with: substitution {
+    """
+    @substring @String@ or @Regexp@ to be substituted.
+    @substitution @String@ to replace @substring with.
+    @return A new @String@ where @substring is substituted by @substitution.
+    """
+
+    gsub(substring, substitution)
+  }
 }
