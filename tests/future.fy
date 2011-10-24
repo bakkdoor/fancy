@@ -54,18 +54,3 @@ FancySpec describe: FutureSend with: {
     f failed? is: true
   }
 }
-
-FancySpec describe: FutureCollection with: {
-  it: "executes a block for each future in the collection when it's ready" with: 'each: when: {
-    futures = 0 upto: 10 . map: |i| {
-      i ** i @ ** i
-    }
-
-    fc = FutureCollection new: futures
-    fc each: |val| {
-      val is_a?: Integer . is: true
-    }
-
-    fc await_all
-  }
-}
