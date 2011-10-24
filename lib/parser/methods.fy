@@ -69,7 +69,7 @@ class Fancy {
         # TODO: Clean this up or make it simpler...
 
         # this case handles string interpolation
-        case /(.*)#{(.*)}(.*)/ -> |matches|
+        case /(.*)#{(.*)}(.*)/m -> |matches|
           prefix = matches[1]
           interpol_str = matches[2]
           suffix = matches[3]

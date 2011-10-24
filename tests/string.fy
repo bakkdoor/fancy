@@ -100,6 +100,15 @@ FancySpec describe: String with: {
     "hello, #{x}, Fancy #{'rocks to_s upcase}!!" is: "hello, world, Fancy ROCKS!!"
   }
 
+  it: "supports string interpolation with multi-line strings" when: {
+    str = """
+    the next line contains 7:
+#{3 + 4}
+"""
+    str lines size is: 3
+    str lines last is: "7"
+  }
+
   it: "returns the String as a Symbol" with: 'to_sym when: {
     "foo" to_sym is: 'foo
     "foo:bar:" to_sym is: 'foo:bar:

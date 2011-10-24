@@ -14,6 +14,14 @@ class Regexp {
     Regexp new(source(), true)
   }
 
+  def m {
+    Regexp new(source(), Regexp MULTILINE)
+  }
+
+  def x {
+    Regexp new(source(), Regexp EXTENDED)
+  }
+
   def Regexp new: string {
     new(string)
   }
