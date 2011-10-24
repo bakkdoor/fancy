@@ -106,6 +106,18 @@ class Array {
   }
 
   def unshift: value {
+    """
+    @value Value to be added at the front of @self.
+    @return @self.
+
+    Inserts a value at the front of @self.
+
+    Example:
+          a = [1,2,3]
+          a unshift: 10
+          a # => [10,1,2,3]
+    """
+
     unshift(value)
   }
 }
