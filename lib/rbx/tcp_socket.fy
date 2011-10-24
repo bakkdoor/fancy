@@ -25,4 +25,8 @@ class TCPSocket {
   def recv: maxlen {
     recv(maxlen)
   }
+
+  def read: n {
+    read(n)
+  }
 }
