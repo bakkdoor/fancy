@@ -61,6 +61,26 @@ FancySpec describe: Array with: {
     arr size is: 0
   }
 
+  it: "creates a new array with a given default value" with: 'new: when: {
+    arr = Array new: 5
+    arr size is: 5
+    arr each: |x| {
+      x is: nil
+    }
+
+    arr = Array new: 5 with: "hello"
+    arr size is: 5
+    arr each: |x| {
+      x is: "hello"
+    }
+
+    arr = Array new: 5 with: { 2 + 3 }
+    arr size is: 5
+    arr each: |x| {
+      x is: 5
+    }
+  }
+
   it: "returns the correct value via index access" with: 'at: when: {
     arr = ['a, 10, "hello, world"]
     arr at: 2 . is: "hello, world"

@@ -4,9 +4,15 @@ class Array {
   forwards_unary_ruby_methods
 
   def Array new: size with: default {
-    "Creates a new Array with a given size and default-value."
+    """
+    Creates a new Array with a given size and default-value.
+    If @default is a @Block@, call that block for each element instead.
+    """
 
-    Array new(size, default)
+    match default {
+      case Block -> Array new(size, &default)
+      case _ -> Array new(size, default)
+    }
   }
 
   def includes?: obj {

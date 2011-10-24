@@ -5,6 +5,8 @@ class TCPSocket {
   TCP Socket class.
   """
 
+  forwards_unary_ruby_methods
+
   def TCPSocket open: server port: port {
     """
     @server Server hostname to open Socket on.
@@ -14,5 +16,13 @@ class TCPSocket {
     """
 
     open(server, port)
+  }
+
+  def send: msg flags: flags (0) {
+    send(msg, flags)
+  }
+
+  def recv: maxlen {
+    recv(maxlen)
   }
 }
