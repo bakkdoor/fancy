@@ -50,6 +50,7 @@ FancySpec describe: FutureSend with: {
     }
     f = self @ a_failing_method
     f failed? is: false
+    f value # wait for completion
     f failure message is: "error!"
     f failed? is: true
   }
