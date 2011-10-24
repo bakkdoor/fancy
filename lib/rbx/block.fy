@@ -50,6 +50,19 @@ class Block {
   # Ugh. HACK.
   # Use try/catch to deal with older and latest version of rbx (method got changed)
   def call_with_receiver: receiver {
+    """
+    @receiver Receiver (value of @self) when calling the @Block@.
+
+    Calls a @Block@ with @receiver as the receiver (referenced by @self within the Block).
+
+    Example:
+          r1 = [1,2,3]
+          r2 = \"hello world\"
+          b = { self class }
+          b call_with_receiver: r1 # => Array
+          b call_with_receiver: r2 # => String
+    """
+
     try {
       return call_under(receiver, method() scope())
     } catch {
@@ -58,6 +71,20 @@ class Block {
   }
 
   def call: args with_receiver: receiver {
+    """
+    @args @Array@ of arguments passed to @self for invocation.
+    @receiver Receiver (value of @self) when calling the @Block@.
+
+    Same as @call_with_receiver: but passing along arguments to the @Block@.
+
+    Example:
+          r1 = [1,2,3]
+          r2 = \"hello world\"
+          b = |arg| { self to_s + arg }
+          b call: [\"foo\"] with_receiver: r1 # => \"123foo\"
+          b call: [\"foo\"] with_receiver: r2 # => \"hello worldfoo\"
+    """
+
     try {
       return call_under(receiver, method() scope(), *args)
     } catch {

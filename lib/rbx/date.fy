@@ -12,6 +12,11 @@ class Date {
   ruby_aliases: [ '==, '-, '+, '<, '> ]
 
   def != other {
+    """
+    @other Other @Date@ to compare to.
+    @return @true if equal, @false otherwhise.
+    """
+
     self == other not
   }
 }

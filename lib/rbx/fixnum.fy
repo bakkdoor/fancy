@@ -19,6 +19,12 @@ class Fixnum {
   alias_method: 'div: for: 'div
 
   def random {
+    """
+    @return Random number between 0 and @self.
+
+    Returns a random number between 0 and @self.
+    """
+
     rand(self)
   }
 }

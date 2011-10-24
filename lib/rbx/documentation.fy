@@ -2,7 +2,6 @@
 class Fancy {}
 
 class Fancy Documentation {
-
   def initialize: docstring {
     @docs = [docstring]
   }
@@ -59,6 +58,4 @@ class Fancy Documentation {
     "Append docstring to docs."
     for: obj is: docstring
   }
-
 }
-

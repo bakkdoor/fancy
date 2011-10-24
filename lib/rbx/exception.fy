@@ -1,4 +1,9 @@
 class Exception {
+  """
+  Base Exception class.
+  All Exception classes inherit from @Exception@.
+  """
+
   forwards_unary_ruby_methods
 }
 
