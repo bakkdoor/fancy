@@ -1,4 +1,5 @@
 require: "package/installer"
+require: "package/dependency_installer"
 require: "package/uninstaller"
 require: "package/dependency"
 require: "package/specification"
@@ -29,7 +30,7 @@ class Fancy Package {
   DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages"
   DEFAULT_PACKAGES_LIB_PATH = DEFAULT_PACKAGES_PATH ++ "/lib"
 
-  def self install: package_name {
+  def self install: package_name version: version ('latest) {
     """
     @package_name Name of package to install.
 
@@ -39,7 +40,16 @@ class Fancy Package {
     Which would get the package code from github.com/user/repo
     """
 
-    Installer new: package_name . run
+    Installer new: package_name version: version . run
+  }
+
+  def self install_dependencies {
+    """
+    Installs dependencies found in .fancypack file in the current directory.
+    If no .fancypack file is found, fails and quits.
+    """
+
+    DependencyInstaller new run
   }
 
   def self uninstall: package_name {

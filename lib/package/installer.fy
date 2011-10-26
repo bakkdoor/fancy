@@ -13,10 +13,10 @@ class Fancy Package {
 
     """
 
-    def initialize: @package_name version: @version ("latest") install_path: @install_path (ENV["FANCY_PACKAGE_DIR"]) {
+    def initialize: @package_name version: @version ('latest) install_path: @install_path (ENV["FANCY_PACKAGE_DIR"]) {
       """
       Creates a new @Package Installer@ for a given package name, an
-      optional version (default is 'latest') and an optional
+      optional version (default is 'latest) and an optional
       installation path (default is the standard installation path for
       Fancy packages).
       """
@@ -50,7 +50,7 @@ class Fancy Package {
       """
 
       filename = nil
-      if: (@version == "latest") then: {
+      if: (@version == 'latest) then: {
         if: latest_tag then: |tag| {
           @version = tag
         } else: {

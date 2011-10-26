@@ -24,6 +24,7 @@ if: (ARGV size == 1) then: {
      "",
      "Fancy package management:",
      "  install   [packagename] Install a Fancy package with a given name to $FANCYPACK_DIR",
+     "  install   --deps        Install dependencies specified in .fancypack file (expected in current directory).",
      "  uninstall [packagename] Uninstall a Fancy package with a given name from $FANCYPACK_DIR"] println
     System exit # quit when running --help
   }
@@ -59,7 +60,10 @@ ARGV for_option: "-cv" do: {
 }
 
 ARGV for_option: "install" do: |package_name| {
-  Fancy Package install: package_name
+  match package_name {
+    case "--deps" -> Fancy Package install_dependencies
+    case _ -> Fancy Package install: package_name
+  }
   System exit
 }
 
