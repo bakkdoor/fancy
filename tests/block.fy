@@ -196,4 +196,24 @@ FancySpec describe: Block with: {
     b2("hello") is: ("hello" * 5)
     b2("foo") is: (b2 call: ["foo"])
   }
+
+  it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
+    o = {
+      name: "John Conner"
+      age: 12
+      city: "Los Angeles"
+      persecuted_by: $ {
+        name: "The Terminator"
+        age: 'unknown
+      } object
+    } object
+
+    o name is: "John Conner"
+    o age is: 12
+    o city is: "Los Angeles"
+    o persecuted_by do: {
+      name is: "The Terminator"
+      age is: 'unknown
+    }
+  }
 }

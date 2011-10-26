@@ -123,4 +123,26 @@ class Block {
   def Block name {
     "Block"
   }
+
+  def object {
+    """
+    Creates and returns a new Object with slots defined dynamically in @self.
+    Looks and feels similar to JSON.
+
+    Example:
+          o = {
+            something: \"foo bar baz\"
+            with: 42
+          } object
+
+          o something # => \"foo bar baz\"
+          o with      # => 42
+    """
+
+    obj = DynamicSlotObject new do: self
+    Object new do: {
+      metaclass read_write_slots: (obj slots)
+      copy_slots: (obj slots) from: obj
+    }
+  }
 }
