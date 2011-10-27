@@ -126,8 +126,8 @@ class Block {
 
   def object {
     """
-    Creates and returns a new Object with slots defined dynamically in @self.
-    Looks and feels similar to JSON.
+    Creates and returns a new @Object@ with slots defined dynamically in @self.
+    Looks and feels similar to Javascript object literals.
 
     Example:
           o = {
@@ -144,5 +144,25 @@ class Block {
       metaclass read_write_slots: (obj slots)
       copy_slots: (obj slots) from: obj
     }
+  }
+
+  def to_hash {
+    """
+    Creates and returns a new @Hash@ with keys and values defined dynamically in @self.
+    Similar to @Block#object@ but returning a @Hash@ instead of an @Object@
+
+    Example:
+          o = {
+            something: \"foo bar baz\"
+            with: 42
+          } to_hash   # => <['something => \"foo bar baz\", 'with => 42]>
+    """
+
+    h = <[]>
+    o = object
+    o slots each: |s| {
+      h[s]: $ o get_slot: s
+    }
+    h
   }
 }
