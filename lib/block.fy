@@ -139,11 +139,11 @@ class Block {
           o with      # => 42
     """
 
-    obj = DynamicSlotObject new do: self
-    Object new do: {
-      metaclass read_write_slots: (obj slots)
-      copy_slots: (obj slots) from: obj
-    }
+    obj = DynamicSlotObject new
+    self call_with_receiver: obj
+    obj = obj object
+    obj metaclass read_write_slots: (obj slots)
+    obj
   }
 
   def to_hash {
@@ -158,11 +158,8 @@ class Block {
           } to_hash   # => <['something => \"foo bar baz\", 'with => 42]>
     """
 
-    h = <[]>
-    o = DynamicSlotObject new do: self
-    o slots each: |s| {
-      h[s]: $ o get_slot: s
-    }
-    h
+    h = DynamicKeyHash new
+    self call_with_receiver: h
+    h hash
   }
 }
