@@ -159,7 +159,7 @@ class Block {
     """
 
     h = <[]>
-    o = object
+    o = DynamicSlotObject new do: self
     o slots each: |s| {
       h[s]: $ o get_slot: s
     }
