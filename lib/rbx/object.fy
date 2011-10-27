@@ -35,7 +35,7 @@ class Object {
     Sets an object's slot with a given value.
     """
 
-    instance_variable_set("@#{slotname}", val)
+    instance_variable_set("@" ++ slotname, val)
   }
 
   def get_slot: slotname {
@@ -46,7 +46,7 @@ class Object {
     Returns the value of a slot of @self.
     """
 
-    instance_variable_get("@#{slotname}")
+    instance_variable_get("@" ++ slotname)
   }
 
   def define_singleton_method: name with: block {
