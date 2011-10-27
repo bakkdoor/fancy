@@ -227,8 +227,8 @@ FancySpec describe: Object with: {
       }
     }
     gs = GotSlots new
-    gs slots is: ['x, 'y]
+    Set[gs slots] is: $ Set[['x, 'y]]
     gs set_another_slot
-    gs slots is: ['x,'y,'z]
+    Set[gs slots] is: $ Set[['x,'y,'z]]
   }
 }
