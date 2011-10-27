@@ -592,10 +592,10 @@ class Object {
 
   def slots {
     """
-    @return @Set@ of slot names that @self has.
+    @return @Array@ of slot names that @self has.
     """
 
-    Set new: $ instance_variables map: |s| {
+    instance_variables map: |s| {
       s rest to_sym
     }
   }

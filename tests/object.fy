@@ -217,7 +217,7 @@ FancySpec describe: Object with: {
     }
   }
 
-  it: "returns a set of its slot names" with: 'slots when: {
+  it: "returns an array of its slot names" with: 'slots when: {
     class GotSlots {
       def initialize {
         @x, @y = 1, 2
@@ -227,8 +227,8 @@ FancySpec describe: Object with: {
       }
     }
     gs = GotSlots new
-    gs slots is: $ Set[['x, 'y]]
+    gs slots is: ['x, 'y]
     gs set_another_slot
-    gs slots is: $ Set[['x,'y,'z]]
+    gs slots is: ['x,'y,'z]
   }
 }
