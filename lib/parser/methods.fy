@@ -78,7 +78,7 @@ class Fancy {
           suffix_str = ast: line string: (" " + suffix + " ")
           interpol_ast = AST StringInterpolation new: line code: interpol_str
           # create messagesend to concatenate:
-          concat_ident = ast: line identifier: "++"
+          concat_ident = ast: line identifier: "<<"
           interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [interpol_ast])
 
           # don't concatenate suffix if it's empty..

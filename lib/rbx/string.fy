@@ -6,6 +6,7 @@ class String {
     'chomp, 'inspect, 'to_sym, '<, '>
   ]
 
+  alias_method: 'ruby_idx: for_ruby: '[]
   alias_method: '[]: for_ruby: '[]=
   alias_method: 'scan: for_ruby: 'scan
 
@@ -16,10 +17,10 @@ class String {
        If given a Number, returns the character at that index."""
 
     # if given an Array, interpret it as a from:to: range substring
-    if: (index is_a?: Array) then: {
-      from: (index[0]) to: (index[1])
-    } else: {
-      ruby: '[] args: [index] . chr
+    match index {
+      case Array -> from: (index[0]) to: (index[1])
+      case Tuple -> ruby_idx: index
+      case _ -> ruby_idx: index . chr()
     }
   }
 
@@ -31,7 +32,8 @@ class String {
 
     Returns a Substring from @from to @to.
     """
-    ruby: '[] args: [(from .. to)]
+
+    ruby_idx: (from .. to)
   }
 
   def each: block {
