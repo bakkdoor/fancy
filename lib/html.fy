@@ -1,9 +1,3 @@
-class String {
-  def but_last {
-    from: 0 to: -2
-  }
-}
-
 class HTML {
   def initialize {
     @buf = ""
@@ -20,7 +14,7 @@ class HTML {
     @buf << (" " * @indent)
     @indent = @indent + 2
 
-    @buf << "<" << (name but_last)
+    @buf << "<" << name
     unless: (attrs empty?) do: {
       @buf << " "
       attrs each: |k v| {
@@ -39,10 +33,11 @@ class HTML {
     @indent = @indent - 2
     @buf << (" " * @indent)
 
-    @buf << "</" << (name but_last) << ">"
+    @buf << "</" << name << ">"
   }
 
   def html_block: tag body: body attrs: attrs (<[]>) {
+    tag = tag from: 0 to: -2
     open_tag: tag attrs: attrs
     match body first {
       case Block -> @buf << (body first call)
@@ -70,7 +65,7 @@ class HTML {
   }
 
   def input: attrs {
-    open_tag: "input:" attrs: (attrs to_hash) indent: false
+    open_tag: "input" attrs: (attrs to_hash) indent: false
     nil
   }
 
