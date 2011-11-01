@@ -124,6 +124,14 @@ class Block {
     "Block"
   }
 
+  def [args] {
+    """
+    Same as Block#call:
+    """
+
+    call: args
+  }
+
   def object {
     """
     Creates and returns a new @Object@ with slots defined dynamically in @self.
