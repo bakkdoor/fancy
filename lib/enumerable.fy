@@ -238,6 +238,8 @@ class FancyEnumerable {
     }
   }
 
+  alias_method: 'skip: for: 'drop:
+
   def reduce: block init_val: init_val {
     """
     Calculates a value based on a given block to be called on an accumulator
