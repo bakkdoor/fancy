@@ -40,7 +40,7 @@ class HTML {
     tag = tag from: 0 to: -2
     open_tag: tag attrs: attrs
     match body first {
-      case Block -> @buf << (body first call)
+      case Block -> @buf << (body first call: [self])
       case _ -> @buf << "\n" << (" " * @indent) << (body first)
     }
     close_tag: tag
