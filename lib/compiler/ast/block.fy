@@ -16,28 +16,32 @@ class Fancy AST {
       @arguments required_args=(@args required_args)
 
       if: @partial then: {
-        first_expr = @body expressions first
-
-        # if first expression is an identifier, use that as a 0-arg
-        # method name to send to new receiver (use a generated symbol
-        # name created in lib/parser/methods.fy / Fancy Parser#ast:partial_block:)
-        # if first expression is a message send where its receiver is
-        # an identifier, use that as the message name in a send to
-        # self and use the result as the receiver value for the rest.
-        new_receiver = Identifier from: (@args args first to_s) line: @line
-        match first_expr {
-          case Identifier ->
-            @body expressions shift()
-            @body unshift_expression: $ MessageSend new: @line message: first_expr to: (new_receiver) args: (MessageArgs new: @line args: [])
-          case MessageSend ->
-            match first_expr receiver {
-              case Self ->
-                first_expr receiver: new_receiver
-              case Identifier ->
-                first_expr receiver: $ MessageSend new: @line message: (first_expr receiver) to: (new_receiver) args: (MessageArgs new: @line args: [])
-            }
-        }
+        @body = ExpressionList new: @line list: $ @body expressions map: |e| { convert_to_implicit_arg_send: e }
       }
+    }
+
+    def convert_to_implicit_arg_send: expr {
+      # if expression is an identifier, use that as a 0-arg
+      # message name to send to new receiver (use a generated symbol
+      # name created in lib/parser/methods.fy / Fancy Parser#ast:partial_block:)
+      # if expression is a message send where its receiver is
+      # an identifier, use that as the message name in a send to
+      # self and use the result as the receiver value for the rest.
+      new_receiver = Identifier from: (@args args first to_s) line: @line
+      match expr {
+        case Identifier ->
+          expr = MessageSend new: @line message: expr to: (new_receiver) args: (MessageArgs new: @line args: [])
+        case MessageSend ->
+          match expr receiver {
+            case Self ->
+              expr receiver: new_receiver
+            case Identifier ->
+              expr receiver: $ MessageSend new: @line message: (expr receiver) to: (new_receiver) args: (MessageArgs new: @line args: [])
+            case MessageSend ->
+              expr receiver: $ convert_to_implicit_arg_send: $ expr receiver
+          }
+      }
+      expr
     }
 
     def bytecode: g {

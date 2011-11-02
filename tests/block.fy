@@ -113,6 +113,28 @@ FancySpec describe: Block with: {
     [1,2,3] map: @{to_s * 3} . is: ["111", "222", "333"]
   }
 
+  it: "calls the block as a partial block, converting it to implicit message sends to the first argument" when: {
+    b = @{
+      inspect println
+      class println
+      * 2 println
+      'test println
+    }
+
+    require: "stringio"
+
+    out = StringIO new
+    let: '*stdout* be: out in: {
+      b call: ["Hello, World"]
+      b call: [1]
+      b call: [1, 2, 3]
+    }
+    expected_output = ["\"Hello, World\"\nString\nHello, WorldHello, World\ntest\n",
+                       "1\nFixnum\n2\ntest\n",
+                       "[1, 2, 3]\nArray\n1\n2\n3\n1\n2\n3\ntest\n"] join
+    out string is: expected_output
+  }
+
   it: "executes a match clause if the block returns a true-ish value" with: '=== when: {
     def do_match: val {
       match val {
