@@ -510,7 +510,7 @@ class Object {
     Creates a @FutureSend@ object (a Future / Promise) that will hold the value of sending @message to @self.
     """
 
-    FutureSend new: __actor__ receiver: self message: message with_params: params
+    FutureSend new: self message: message with_params: params
   }
 
   def send_async: message with_params: params ([]) {
@@ -522,7 +522,7 @@ class Object {
     Sends @message with @params to @self asynchronously and immediately returns @nil.
     """
 
-    __actor__ ! ('async, (message, params), nil)
+    Actor[self] ! ('async, (self, message, params), nil)
     nil
   }
 
