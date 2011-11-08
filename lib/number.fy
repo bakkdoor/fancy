@@ -95,6 +95,16 @@ class Number {
     self + self
   }
 
+  def cubed {
+    """
+    @return Cubed value of @self.
+
+    Returns the cubed value of a Number.
+    """
+
+    self ** 3
+  }
+
   def abs {
     """
     @return Absolute (positive) value of @self.

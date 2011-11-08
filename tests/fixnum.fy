@@ -92,6 +92,14 @@ FancySpec describe: Fixnum with: {
     }
   }
 
+  it: "returns the cubed value of self" with: 'cubed when: {
+    5 cubed is: 125
+    10 cubed is: 1000
+    20 upto: 50 do: |i| {
+      i cubed is: (i * i * i)
+    }
+  }
+
   it: "is the double value of self" with: 'doubled when: {
     5 doubled is: 10
     10 doubled is: 20
