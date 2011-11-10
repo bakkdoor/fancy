@@ -35,6 +35,13 @@ FancySpec describe: Hash with: {
     hash at: 'foo . is: 'foobarbaz
   }
 
+  it: "calls the block if it can't find the key" with: 'at:else: when: {
+    hash = <['foo => "bar", 'bar => nil]>
+    hash at: 'foo else: { "hello" } . is: "bar"
+    hash at: 'bar else: { "hello" } . is: nil
+    hash at: 'foo1 else: { "hello" } . is: "hello"
+  }
+
   it: "returns all keys" with: 'keys when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash keys is =? ['foo, 'bar, 'foobar]

@@ -17,6 +17,21 @@ class Hash {
     at: key
   }
 
+  def at: key else: else_block {
+    """
+    @key Key of the value to get.
+    @else_block @Block@ to be called if @key is not found.
+    @return Value for @key or value of calling @else_block, if @key is not found.
+
+    Returns the value for a given key.
+    If the key is not found, calls @else_block and returns the value it yields.
+    """
+
+    if: (includes?: key) then: {
+      at: key
+    } else: else_block
+  }
+
   def each: block {
     """
     @block @Block@ to be called with each key and value in @self.
