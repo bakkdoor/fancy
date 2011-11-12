@@ -240,6 +240,9 @@ FancySpec describe: Block with: {
   }
 
   it: "dynamically creates a hash with keys and values defined in a Block" with: 'to_hash when: {
+    { } to_hash is: <[]>
+    { foo: "bar" } to_hash is: <['foo => "bar"]>
+    { foo: "bar"; bar: "baz" } to_hash is: <['foo => "bar", 'bar => "baz"]>
     h = {
       name: "John Connor"
       age: 12
@@ -258,5 +261,20 @@ FancySpec describe: Block with: {
               'age => 'unknown
             ]>
     ]>
+  }
+
+  it: "dynamically creates an array with values defined in a Block" with: 'to_a when: {
+    { } to_a is: []
+    { foo } to_a is: ['foo]
+    { foo; bar; baz } to_a is: ['foo, 'bar, 'baz]
+    {
+      name: "Chris"
+      age: 24
+      city: "San Francisco"
+      male; programmer; happy
+    } to_a is: [['name, "Chris"],
+                ['age, 24],
+                ['city, "San Francisco"],
+                'male, 'programmer, 'happy]
   }
 }

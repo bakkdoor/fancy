@@ -147,9 +147,7 @@ class Block {
           o with      # => 42
     """
 
-    obj = DynamicSlotObject new
-    self call_with_receiver: obj
-    obj = obj object
+    obj = DynamicSlotObject new do: self . object
     obj metaclass read_write_slots: (obj slots)
     obj
   }
@@ -166,8 +164,22 @@ class Block {
           } to_hash   # => <['something => \"foo bar baz\", 'with => 42]>
     """
 
-    h = DynamicKeyHash new
-    self call_with_receiver: h
-    h hash
+    DynamicKeyHash new do: self . hash
+  }
+
+  def to_a {
+    """
+    Creates and returns a new @Array@ with values defined dynamically in @self.
+    Similar to @Block#to_hash@ but returning an @Array@ instead of a @Hash@
+
+    Example:
+          a = {
+            something: \"foo bar baz\"
+            with: 42
+            something; else
+          } to_a   # => [['something, \"foo bar baz\"], ['with, 42], 'something, 'else]
+    """
+
+    DynamicValueArray new do: self . array
   }
 }

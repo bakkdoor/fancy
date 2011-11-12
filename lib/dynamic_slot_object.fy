@@ -29,3 +29,26 @@ class DynamicKeyHash : BasicObject {
     }
   }
 }
+
+class DynamicValueArray : BasicObject {
+  def initialize {
+    @arr = []
+  }
+
+  def array {
+    @arr
+  }
+
+  def unknown_message: m with_params: p {
+    if: (p size > 0) then: {
+      subarr = []
+      m to_s split: ":" . each_with_index: |slotname idx| {
+        subarr << (slotname to_sym)
+        subarr << (p[idx])
+      }
+      @arr << subarr
+    } else: {
+      @arr << (m to_s rest to_sym) # skip leading :
+    }
+  }
+}
