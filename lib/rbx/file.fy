@@ -8,6 +8,7 @@ class File {
       'truncate => "w+"]>
 
   ruby_aliases: [ 'eof?, 'closed?, 'flush ]
+  metaclass alias_method: 'expand_path: for_ruby: 'expand_path
 
   forwards_unary_ruby_methods
 
@@ -48,22 +49,30 @@ class File {
     File exists?(filename)
   }
 
-  metaclass alias_method: 'expand_path: for_ruby: 'expand_path
+  def File read: filename {
+    """
+    @filename @String@ containing the path of the File to be read.
+    @return Contents of the File as a @String@.
 
-  def initialize: path {
-    initialize(path)
+    Reads all the contens (in ASCII mode) of a given file and returns
+    them as an Array of lines being read.
+    """
+
+    File read(filename)
   }
 
-  def close {
+  def File read: filename length: length offset: offset (0) {
     """
-    Closes an opened @File@.
+    @filename @String@ containing the path of the File to be read.
+    @length @Fixnum@ being the maximum length to read from the File.
+    @offset @Fixnum@ being the offset in bytes to start reading from the File.
+    @return Contents of the File as a @String@.
+
+    Reads all the contens (in ASCII mode) of a given file, length and offset
+    and returns them as an Array of lines being read.
     """
 
-    try {
-      close()
-    } catch Errno::ENOENT => e {
-      IOError new: (e message) . raise!
-    }
+    File read(filename, length, offset)
   }
 
   def File open: filename modes: modes_arr {
@@ -137,6 +146,22 @@ class File {
     """
 
     File rename(old_name, new_name)
+  }
+
+  def initialize: path {
+    initialize(path)
+  }
+
+  def close {
+    """
+    Closes an opened @File@.
+    """
+
+    try {
+      close()
+    } catch Errno::ENOENT => e {
+      IOError new: (e message) . raise!
+    }
   }
 
   def modes {

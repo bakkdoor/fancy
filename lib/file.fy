@@ -15,22 +15,7 @@ class File {
   #   }
   # }
 
-  def self read: filename {
-    """
-    Reads all the contens (in ASCII mode) of a given file and returns
-    them as an Array of lines being read.
-    """
-
-    lines = []
-    File open: filename modes: ['read] with: |f| {
-      { f eof? } while_false: {
-        lines << (f readln)
-      }
-    }
-    lines join
-  }
-
-  def self touch: filename {
+  def File touch: filename {
     """
     @filename Name of @File@ to be created, if not already existant.
 
