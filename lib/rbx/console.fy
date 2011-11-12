@@ -38,11 +38,7 @@ class Console {
     """
 
     Console print: message
-    if: (STDIN eof?) then: {
-      nil
-    } else: {
-      STDIN gets() chomp
-    }
+    Console readln
   }
 
   def Console readln {
@@ -52,7 +48,11 @@ class Console {
     Reads a line from @STDIN and returns it as a @String@.
     """
 
-    STDIN gets() chomp
+    if: (STDIN eof?) then: {
+      nil
+    } else: {
+      STDIN gets() chomp
+    }
   }
 
   def Console clear {
