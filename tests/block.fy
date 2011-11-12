@@ -267,6 +267,7 @@ FancySpec describe: Block with: {
     { } to_a is: []
     { foo } to_a is: ['foo]
     { foo; bar; baz } to_a is: ['foo, 'bar, 'baz]
+    { foo bar baz } to_a is: ['foo, 'bar, 'baz]
     {
       name: "Chris"
       age: 24
