@@ -50,5 +50,6 @@ class DynamicValueArray : BasicObject {
     } else: {
       @arr << (m to_s rest to_sym) # skip leading :
     }
+    self
   }
 }
