@@ -1,6 +1,8 @@
+*restarts* = <[]>
+
 class Condition {
   def signal! {
-    *condition_system* handle: self
+    *condition_handler* handle: self
   }
 }
 
@@ -8,12 +10,12 @@ class Error : Condition
 
 class Object {
   def restarts: restarts in: block {
-    let: '*restarts* be: (restarts to_hash) in: block
+    let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
   }
 
   def handlers: handlers_block in: block {
     ch = ConditionHandler new
-    let: '*condition_system* be: ch in: {
+    let: '*condition_handler* be: ch in: {
       handlers_block call: [ch]
       block call
     }
@@ -42,3 +44,4 @@ class ConditionHandler {
     }
   }
 }
+
