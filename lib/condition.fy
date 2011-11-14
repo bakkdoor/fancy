@@ -24,6 +24,10 @@ class Object {
   def invoke_restart: restart {
     *restarts*[restart] call
   }
+
+  def find_restart: restart {
+    *restarts*[restart]
+  }
 }
 
 class ConditionHandler {
