@@ -8,6 +8,11 @@ class Condition {
 
 class Error : Condition
 
+class UnhandledCondition : Error {
+  read_slot: 'condition
+  def initialize: @condition
+}
+
 class Object {
   def restarts: restarts in: block {
     let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
@@ -22,6 +27,7 @@ class Object {
   }
 
   def invoke_restart: restart {
+    *handled* = true
     *restarts*[restart] call
   }
 
@@ -40,12 +46,17 @@ class ConditionHandler {
   }
 
   def handle: condition {
-    @handlers each: |h| {
-      pattern, handler = h
-      match condition {
-        case pattern -> return handler call: [condition]
+    let: '*handled* be: false in: {
+      @handlers each: |h| {
+        pattern, handler = h
+        match condition {
+          case pattern ->
+            val = handler call: [condition]
+            { return val } if: *handled*
+        }
       }
     }
+    UnhandledCondition new: condition . signal!
   }
 }
 
