@@ -50,3 +50,5 @@ require: "vars"
 require: "documentation"
 
 require: "package.fy"
+
+require: "condition"
