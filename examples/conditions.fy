@@ -1,9 +1,9 @@
 class ZeroDivError : Error
 
 def divide: x by: y {
-  restarts: {
+  with_restarts: {
     return_default: { 1 }
-  } in: {
+  } do: {
     if: (y == 0) then: {
       ZeroDivError new signal!
     } else: {
@@ -12,11 +12,11 @@ def divide: x by: y {
   }
 }
 
-handlers: @{
+with_handlers: @{
   when: ZeroDivError do: |c| {
     restart: 'return_default
   }
-} in: {
+} do: {
   divide: 10 by: 2 . println
   divide: 10 by: 0 . println
 }

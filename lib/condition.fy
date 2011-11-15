@@ -19,11 +19,11 @@ class UndefinedRestart : Error {
 }
 
 class Object {
-  def restarts: restarts in: block {
+  def with_restarts: restarts do: block {
     let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
   }
 
-  def handlers: handlers_block in: block {
+  def with_handlers: handlers_block do: block {
     ch = ConditionHandler new: *condition_handler*
     let: '*condition_handler* be: ch in: {
       handlers_block call: [ch]
