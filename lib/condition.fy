@@ -1,5 +1,3 @@
-*restarts* = <[]>
-
 class Condition {
   """
   Base Condition class.
@@ -32,22 +30,130 @@ class Condition {
 class Error : Condition
 Error documentation: "Base class for all error conditions."
 
-class UnhandledCondition : Error {
-  """
-  Gets signaled if a condition wasn't handled.
-  """
+class ConditionSystem {
+  class UnhandledCondition : Error {
+    """
+    Gets signaled if a condition wasn't handled.
+    """
 
-  read_slot: 'condition
-  def initialize: @condition
-}
+    read_slot: 'condition
+    def initialize: @condition
+  }
 
-class UndefinedRestart : Error {
-  """
-  Gets signaled if a restart to be called isn't defined.
-  """
+  class UndefinedRestart : Error {
+    """
+    Gets signaled if a restart to be called isn't defined.
+    """
 
-  read_slot: 'restart
-  def initialize: @restart
+    read_slot: 'restart
+    def initialize: @restart
+  }
+
+
+  class ConditionHandler {
+    """
+    Class that represents Condition handlers.
+    """
+
+    read_slot: 'pattern
+    def initialize: @pattern with: @block
+    def call: args {
+      @block call: args
+    }
+  }
+
+  class ConditionManager {
+    """
+    Manager for @ConditionHandler@s.
+    Used to define conditions and their handlers.
+    """
+
+    def initialize {
+      @handlers = Stack new
+    }
+
+    def when: pattern do: handler_block {
+      """
+      @pattern Pattern to use to match a signaled condition.
+      @handler_block Handler @Block@ to be invoked if @pattern matches a signaled condition.
+
+      Registers a handler for a condition.
+
+      Example:
+            with_handlers: @{
+              # define condition handlers:
+              when: SomeCondition do: |c| {
+                # do something with c or invoke a restart
+              }
+              # you can use anything as the pattern, including Regexes:
+              when: /foo/ do: |c| {
+              }
+            } do: {
+              # do something
+            }
+      """
+
+      @handlers push: $ ConditionHandler new: pattern with: handler_block
+    }
+
+    def handle: condition {
+      """
+      @condition Condition to be handled by @self.
+
+      Goes through the current list of condition handlers and invokes the first one who's pattern matches @condition (using the @=== operator).
+      If no handler matches, lets the Debugger handle @condition.
+      """
+
+      let: '*handled* be: false in: {
+        @handlers each: |h| {
+          match condition {
+            case h pattern ->
+              val = h call: [condition]
+              { return val } if: *handled*
+          }
+        }
+      }
+      # condition not handled, use debugger
+      *debugger* handle: $ UnhandledCondition new: condition
+    }
+  }
+
+  class DefaultDebugger {
+    """
+    Default Debugger class that comes with Fancy.
+    When asked to handle an unhandled condition,
+    let's the user pick a restart in the console.
+    """
+
+    def handle: condition {
+      with_output_to: *stderr* do: {
+        "" println
+        "-" * 50 println
+        "Unhandled condition: #{condition}" println
+
+        if: (*restarts* empty?) then: {
+          "No restarts available. Quitting." println
+          System exit: 1
+        }
+
+        "Available restarts:" println
+        *restarts* keys each_with_index: |r i| {
+          "   " print
+          "#{i} -> #{r}" println
+        }
+
+        "Restart: " print
+        idx = *stdin* readln to_i
+        "-" * 50 println
+        "" println
+        if: (*restarts* keys[idx]) then: |r| {
+          restart: r
+        } else: {
+          handle: condition
+        }
+      }
+    }
+  }
 }
 
 # Object extensions
@@ -88,7 +194,7 @@ class Object {
           }
     """
 
-    cm = ConditionManager new
+    cm = ConditionSystem ConditionManager new
     let: '*condition_manager* be: cm in: {
       handlers_block call: [cm]
       block call
@@ -123,110 +229,10 @@ class Object {
   }
 }
 
-class ConditionHandler {
-  """
-  Class that represents Condition handlers.
-  """
-
-  read_slot: 'pattern
-  def initialize: @pattern with: @block
-  def call: args {
-    @block call: args
-  }
-}
-
-class ConditionManager {
-  """
-  Manager for @ConditionHandler@s.
-  Used to define conditions and their handlers.
-  """
-
-  def initialize {
-    @handlers = Stack new
-  }
-
-  def when: pattern do: handler_block {
-    """
-    @pattern Pattern to use to match a signaled condition.
-    @handler_block Handler @Block@ to be invoked if @pattern matches a signaled condition.
-
-    Registers a handler for a condition.
-
-    Example:
-          with_handlers: @{
-            # define condition handlers:
-            when: SomeCondition do: |c| {
-              # do something with c or invoke a restart
-            }
-            # you can use anything as the pattern, including Regexes:
-            when: /foo/ do: |c| {
-            }
-          } do: {
-            # do something
-          }
-    """
-
-    @handlers push: $ ConditionHandler new: pattern with: handler_block
-  }
-
-  def handle: condition {
-    """
-    @condition Condition to be handled by @self.
-
-    Goes through the current list of condition handlers and invokes the first one who's pattern matches @condition (using the @=== operator).
-    If no handler matches, lets the Debugger handle @condition.
-    """
-
-    let: '*handled* be: false in: {
-      @handlers each: |h| {
-        match condition {
-          case h pattern ->
-            val = h call: [condition]
-            { return val } if: *handled*
-        }
-      }
-    }
-    # condition not handled, use debugger
-    *debugger* handle: $ UnhandledCondition new: condition
-  }
-}
-
-class DefaultDebugger {
-  """
-  Default Debugger class that comes with Fancy.
-  When asked to handle an unhandled condition,
-  let's the user pick a restart in the console.
-  """
-
-  def handle: condition {
-    with_output_to: *stderr* do: {
-      "" println
-      "-" * 50 println
-      "Unhandled condition: #{condition}" println
-
-      if: (*restarts* empty?) then: {
-        "No restarts available. Quitting." println
-        System exit: 1
-      }
-
-      "Available restarts:" println
-      *restarts* keys each_with_index: |r i| {
-        "   " print
-        "#{i} -> #{r}" println
-      }
-
-      "Restart: " print
-      idx = *stdin* readln to_i
-      "-" * 50 println
-      "" println
-      if: (*restarts* keys[idx]) then: |r| {
-        restart: r
-      } else: {
-        handle: condition
-      }
-    }
-  }
-}
-
-*debugger* = DefaultDebugger new
+# vars
+*restarts* = <[]>
+*restarts* documentation: "@Hash@ of currently available restarts (dynamically bound)."
+*debugger* = ConditionSystem DefaultDebugger new
+*debugger* documentation: "Condition debugger. Defaults to @ConditionSystem::DefaultDebugger@."
 *condition_manager* = *debugger* # default
+*condition_manager* documentation: "Instance of @ConditionSystem::ConditionManager@. Used to define @ConditionSystem::ConditionHandler@s."
