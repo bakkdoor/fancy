@@ -208,50 +208,37 @@ class Fancy FDoc {
     def self create_class_references: str {
       """
       Creates class references for Fancy class names.
-
       A docstring may contain class names sorounded by @
       without space between the @.
 
       Nested classes can be indicated by using :: like
-
-        Foo::Bar
-
+            Foo::Bar
       This will create references for both, @Foo and @Bar
 
       Instance methods should be written:
-
-        Foo::Bar#baz
+            Foo::Bar#baz
 
       Class methods should be written:
-
-        Foo::Bar.baz
+            Foo::Bar.baz
 
       Some examples:
-
       A simple class reference:
-
       @Fancy@
 
       Nested class reference:
-
       @Fancy::FDoc@
 
       A fancy method without arguments:
-
       @Fancy::FDoc::JSON#:generate_map@
 
       A ruby method reference (will link to ruby docs if available)
-
       @String#split@
 
       A fancy method with many arguments:
-
       @Fancy::Package::Installer#initialize:version:install_path:@
 
       A singleton method:
-
       @Fancy::FDoc::Formatter~format:@
-
       """
       str gsub(/@[A-Z][^\r\n\s]+?@/) |cstr| {
        names = cstr slice(1, cstr size() - 2) split("::")
@@ -319,7 +306,7 @@ class Fancy FDoc {
     }
 
     def self create_code: str {
-      str gsub(/@([^\s,\]\)\}\.]+)/,
+      str gsub(/@([^\s,\]\)\{\}\.]+)/,
                "<code data-lang=\"fancy\">\\1</code>")
     }
 
