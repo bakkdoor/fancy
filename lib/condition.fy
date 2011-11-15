@@ -77,26 +77,30 @@ class DebuggerConditionHandler : ConditionHandler {
   }
 
   def handle: condition {
-    restarts: {
-      quit_application: {
-        *stderr* println: "Quitting."
+    with_output_to: *stderr* do: {
+      "" println
+      "-" * 50 println
+      "Unhandled condition: #{condition}" println
+
+      if: (*restarts* empty?) then: {
+        "No restarts available. Quitting." println
         System exit: 1
       }
-    } in: {
-      with_output_to: *stderr* do: {
-        "Unhandled condition: #{condition}" println
-        "Available restarts:" println
-        *restarts* keys each_with_index: |r i| {
-          "(#{i}) #{r}" println
-        }
 
-        "Choose a restart:" println
-        idx = *stdin* readln to_i
-        if: (*restarts* keys[idx]) then: |r| {
-          restart: r
-        } else: {
-          handle: condition
-        }
+      "Available restarts:" println
+      *restarts* keys each_with_index: |r i| {
+        "   " print
+        "#{i} -> #{r}" println
+      }
+
+      "Restart: " print
+      idx = *stdin* readln to_i
+      "-" * 50 println
+      "" println
+      if: (*restarts* keys[idx]) then: |r| {
+        restart: r
+      } else: {
+        handle: condition
       }
     }
   }
