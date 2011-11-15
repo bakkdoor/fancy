@@ -68,7 +68,7 @@ class ConditionSystem {
     Used to define conditions and their handlers.
     """
 
-    def initialize {
+    def initialize: @parent {
       @handlers = Stack new
     }
 
@@ -114,7 +114,7 @@ class ConditionSystem {
         }
       }
       # condition not handled, use debugger
-      *debugger* handle: $ UnhandledCondition new: condition
+      @parent handle: $ UnhandledCondition new: condition
     }
   }
 
@@ -194,7 +194,7 @@ class Object {
           }
     """
 
-    cm = ConditionSystem ConditionManager new
+    cm = ConditionSystem ConditionManager new: *condition_manager* # link to parent
     let: '*condition_manager* be: cm in: {
       handlers_block call: [cm]
       block call
@@ -234,5 +234,5 @@ class Object {
 *restarts* documentation: "@Hash@ of currently available restarts (dynamically bound)."
 *debugger* = ConditionSystem DefaultDebugger new
 *debugger* documentation: "Condition debugger. Defaults to @ConditionSystem::DefaultDebugger@."
-*condition_manager* = *debugger* # default
+*condition_manager* = ConditionSystem ConditionManager new: *debugger*  # default
 *condition_manager* documentation: "Instance of @ConditionSystem::ConditionManager@. Used to define @ConditionSystem::ConditionHandler@s."
