@@ -51,4 +51,4 @@ require: "documentation"
 
 require: "package.fy"
 
-require: "condition"
+require: "conditions"
