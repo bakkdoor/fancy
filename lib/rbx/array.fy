@@ -1,5 +1,5 @@
 class Array {
-  ruby_aliases: [ '==, '<<, 'pop, 'last, 'shift ]
+  ruby_aliases: [ '==, '<<, 'pop, 'last, 'shift, 'flatten ]
 
   forwards_unary_ruby_methods
 
