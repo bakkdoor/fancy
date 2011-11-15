@@ -14,7 +14,7 @@ def divide: x by: y {
 
 handlers: @{
   when: ZeroDivError do: |c| {
-    invoke_restart: 'return_default
+    restart: 'return_default
   }
 } in: {
   divide: 10 by: 2 . println
