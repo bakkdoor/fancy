@@ -64,7 +64,7 @@ class ConditionSystem {
 
   class ConditionManager {
     """
-    Manager for @ConditionHandler@s.
+    Manager for @ConditionSystem::ConditionHandler@s.
     Used to define conditions and their handlers.
     """
 
