@@ -13,7 +13,7 @@ def divide: x by: y {
 }
 
 with_handlers: @{
-  when: ZeroDivError do: |c| {
+  when: ZeroDivError do: {
     restart: 'return_default
   }
 } do: {
