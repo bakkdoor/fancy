@@ -638,6 +638,8 @@ class Object {
     try {
       Thread current[var_name]: value
       retval = block call
+    } catch Exception => e {
+      e raise!
     } finally {
       Thread current[var_name]: oldval
       return retval
