@@ -644,7 +644,7 @@ class Object {
     }
   }
 
-  def with_output_to: filename do: block {
+  def with_output_to_file: filename do: block {
     """
     @filename Filename of file to write to.
     @block @Block@ to be executed with *stdout* being bound to the output file.
@@ -663,7 +663,11 @@ class Object {
     """
 
     File open: filename modes: ['write] with: |f| {
-      let: '*stdout* be: f in: block
+      with_output_to: f do: block
     }
+  }
+
+  def with_output_to: io do: block {
+    let: '*stdout* be: io in: block
   }
 }
