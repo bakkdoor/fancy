@@ -31,10 +31,10 @@ class Object {
     }
   }
 
-  def restart: restart {
+  def restart: restart with_params: params ([]) {
     if: (*restarts*[restart]) then: |r| {
       *handled* = true
-      r call
+      r call: params
     } else: {
       UndefinedRestart new: restart . signal!
     }
