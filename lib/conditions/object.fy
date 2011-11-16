@@ -16,7 +16,11 @@ class Object {
           }
     """
 
-    let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
+    try {
+      return let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
+    } catch Exception => e {
+      return e signal!
+    }
   }
 
   def with_handlers: handlers_block do: block {
@@ -36,14 +40,18 @@ class Object {
           }
     """
 
-    cm = Conditions Manager new: *condition_manager* # link to parent
-    let: '*condition_manager* be: cm in: {
-      handlers_block call: [cm]
-      block call
+    try {
+      cm = Conditions Manager new: *condition_manager* # link to parent
+      return let: '*condition_manager* be: cm in: {
+        handlers_block call: [cm]
+        block call
+      }
+    } catch Exception => e {
+      return e signal!
     }
   }
 
-  def restart: restart with_params: params ([]) {
+  def restart: restart with: params ([]) {
     """
     @restart @Symbol@ that is the name of the restart.
     @params @FancyEnumerable@ of parameters passed to the restart's @Block@.
@@ -55,7 +63,7 @@ class Object {
 
     if: (*restarts*[restart]) then: |r| {
       *handled* = true
-      r call: params
+      r call: $ params to_a
     } else: {
       UndefinedRestart new: restart . signal!
     }

@@ -32,3 +32,7 @@ class Conditions {
 Condition = Conditions Condition
 class Error : Condition
 Error documentation: "Base class for all error conditions."
+
+class Exception {
+  include: Error
+}
