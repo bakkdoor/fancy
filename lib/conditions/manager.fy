@@ -51,7 +51,7 @@ class Conditions {
         }
       }
       # condition not handled, use debugger
-      @parent handle: $ UnhandledCondition new: condition
+      @parent handle: condition
     }
   }
 }
