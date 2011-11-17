@@ -39,6 +39,25 @@ class Number {
     self
   }
 
+  def upto: num in_steps_of: steps do: block {
+    """
+    @num Maximum @Number@ to call @block with.
+    @steps @Number@ of numbers to skip each step.
+    @block A @Block@ that should be called every @steps steps between @self and @num.
+    @return @self
+
+    Calls @block every @steps steps between @self and @num with the current @Number@.
+    Expects @num to be greater or equal to @self.
+    """
+
+    i = self
+    while: { i <= num } do: {
+      block call: [i]
+      i = i + steps
+    }
+    self
+  }
+
   def downto: num {
     """
     @num @Number@ to create an @Array@ down to.
@@ -71,6 +90,25 @@ class Number {
     while: { i >= num } do: {
       block call: [i]
       i = i - 1
+    }
+    self
+  }
+
+  def downto: num in_steps_of: steps do: block {
+    """
+    @num Minimum @Number@ to call @block with.
+    @steps @Number@ of numbers to skip each step.
+    @block A @Block@ that should be called every @steps steps between @self and @num.
+    @return @self
+
+    Calls @block every @steps steps between @self and @num with the current @Number@.
+    Expects @num to be smaller or equal to @self.
+    """
+
+    i = self
+    while: { i >= num } do: {
+      block call: [i]
+      i = i - steps
     }
     self
   }
