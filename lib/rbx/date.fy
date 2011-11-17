@@ -9,7 +9,7 @@ class Date {
   metaclass forwards_unary_ruby_methods
 
   metaclass ruby_alias: 'today
-  ruby_aliases: [ '==, '-, '+, '<, '> ]
+  ruby_aliases: [ '==, '-, '+, '<, '>, 'cwday, 'wday ]
 
   def != other {
     """
