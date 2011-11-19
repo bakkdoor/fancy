@@ -120,6 +120,10 @@ class Block {
     call: [val]
   }
 
+  def Block inspect {
+    name
+  }
+
   def Block name {
     "Block"
   }
