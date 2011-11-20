@@ -5,6 +5,15 @@ class Exception {
   """
 
   forwards_unary_ruby_methods
+
+  def raise! {
+    """
+    Raises (throws) an Exception to be caught somewhere up the
+    callstack.
+    """
+
+    raise(self)
+  }
 }
 
 class StandardError {
@@ -28,15 +37,6 @@ class StandardError {
     """
 
     initialize(msg)
-  }
-
-  def raise! {
-    """
-    Raises (throws) an Exception to be caught somewhere up the
-    callstack.
-    """
-
-    raise(self)
   }
 }
 
