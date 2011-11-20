@@ -65,7 +65,7 @@ class Object {
       *handled* = true
       r call: $ params to_a
     } else: {
-      UndefinedRestart new: restart . signal!
+      Conditions UndefinedRestart new: restart . signal!
     }
   }
 
