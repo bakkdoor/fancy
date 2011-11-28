@@ -20,16 +20,16 @@ FancySpec describe: String with: {
     "hello, world"[[2,5]] . is: "llo,"
   }
 
-  it: "returns the upcased string" with: 'upcase when: {
-    "hello, world" upcase is: "HELLO, WORLD"
+  it: "returns the uppercased string" with: 'uppercase when: {
+    "hello, world" uppercase is: "HELLO, WORLD"
   }
 
-  it: "returns the downcased string" with: 'downcase when: {
-    "HELLO, WORLD" downcase is: "hello, world"
+  it: "returns the lowercased string" with: 'lowercase when: {
+    "HELLO, WORLD" lowercase is: "hello, world"
   }
 
-  it: "returns the same string by down- and upcasing in a row" when: {
-    "HELLO, WORLD" downcase upcase is: "HELLO, WORLD"
+  it: "returns the same string by lower- and uppercasing in a row" when: {
+    "HELLO, WORLD" lowercase uppercase is: "HELLO, WORLD"
   }
 
   it: "iterates over each character in a string" with: 'each: when: {
@@ -74,7 +74,7 @@ FancySpec describe: String with: {
     x = "'foo" eval
     x is: 'foo
     "3 + 4" eval is: 7
-    "'foo to_s upcase" eval is: "FOO"
+    "'foo to_s uppercase" eval is: "FOO"
     "33.33" eval is: 33.33
   }
 
@@ -97,7 +97,7 @@ FancySpec describe: String with: {
     x = "world"
     "hello, #{x}!!" is: "hello, world!!"
 
-    "hello, #{x}, Fancy #{'rocks to_s upcase}!!" is: "hello, world, Fancy ROCKS!!"
+    "hello, #{x}, Fancy #{'rocks to_s uppercase}!!" is: "hello, world, Fancy ROCKS!!"
   }
 
   it: "supports string interpolation with multi-line strings" when: {
