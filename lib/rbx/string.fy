@@ -15,8 +15,10 @@ class String {
   forwards_unary_ruby_methods
 
   def [index] {
-    """Given an Array of 2 Numbers, it returns the substring between the given indices.
-       If given a Number, returns the character at that index."""
+    """
+    Given an Array of 2 Numbers, it returns the substring between the given indices.
+    If given a Number, returns the character at that index.
+    """
 
     # if given an Array, interpret it as a from:to: range substring
     match index {
