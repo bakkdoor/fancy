@@ -70,7 +70,9 @@ class String {
     @return @String@ that is the num-fold concatenation of @self.
 
     Returns a @String@ that is the num-fold concatenation of itself.
-          \"foo\" * 3 # => \”foofoofoo\"
+
+    Example:
+          \"foo\" * 3 # => \"foofoofoo\"
     """
 
     str = ""
@@ -84,6 +86,7 @@ class String {
     """
     @return @Array@ of all the whitespace seperated words in @self.
 
+    Example:
           \"hello world\" words  # => [\"hello\", \"world\"]
     """
 
