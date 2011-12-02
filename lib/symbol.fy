@@ -44,4 +44,8 @@ class Symbol {
   def arity {
     1
   }
+
+  def to_sym {
+    self
+  }
 }

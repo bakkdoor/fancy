@@ -27,4 +27,9 @@ FancySpec describe: Symbol with: {
     x = true
     if: x then: 'foo else: 'bar . is: "foo"
   }
+
+  it: "returns self" with: 'to_sym when: {
+    'foo to_sym is: 'foo
+    'bar to_sym is: 'bar
+  }
 }
