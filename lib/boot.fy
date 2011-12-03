@@ -45,6 +45,7 @@ require: "struct"
 require: "version"
 require: "argv"
 require: "vars"
+require: "system"
 
 require: "documentation"
 
