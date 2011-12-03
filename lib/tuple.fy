@@ -6,6 +6,23 @@ class Tuple {
 
   include: FancyEnumerable
 
+  def Tuple with_values: values {
+    """
+    @values Values of the @Tuple@ to be created.
+
+    Creates a new @Tuple@ with the @values passed in.
+
+    Example:
+          Tuple with_values: [1,2,3] # => (1,2,3)
+    """
+
+    t = Tuple new: $ values size
+    values each_with_index: |v i| {
+      t[i]: v
+    }
+    t
+  }
+
   def [idx] {
     """
     Forwards to @Tuple@#at:.
