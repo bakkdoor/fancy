@@ -119,4 +119,22 @@ class Hash {
 
     keys map: |k| { at: k }
   }
+
+  def fetch: key else: else_block {
+    """
+    @key Key of value to get.
+    @else_block @Block@ that gets called if @key not in @self.
+
+    Example:
+          <['foo => 'bar]> fetch: 'foo else: { 42 } # => 'bar
+          <['foo => 'bar]> fetch: 'unknown else: { 42 } # => 42
+          <['nil => nil]> fetch: 'nil else: { 'not_found } # => nil
+    """
+
+    if: (includes?: key) then: {
+      at: key
+    } else: {
+      else_block call: [key]
+    }
+  }
 }

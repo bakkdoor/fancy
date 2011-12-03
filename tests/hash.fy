@@ -122,4 +122,11 @@ FancySpec describe: Hash with: {
     h includes?: "bar" . is: false
     h includes?: nil . is: false
   }
+
+  it: "fetches a value or calls a given alternative block" for: 'fetch:else: when: {
+    <['foo => 'bar]> fetch: 'foo else: { 42 } . is: 'bar
+    <['foo => 'bar]> fetch: 'unknown else: { 42 } . is: 42
+    <['nil => nil]> fetch: 'nil else: { 'not_found } . is: nil
+    <['nila => nil]> fetch: 'nil else: { 'not_found } . is: 'not_found
+  }
 }
