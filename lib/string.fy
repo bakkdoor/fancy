@@ -186,4 +186,16 @@ class String {
     }
     FancyEnumerator new: enum
   }
+
+  def relative_path: path {
+    """
+    @path Relative path to @self.
+    @return Absolute @File@ path relative to @self.
+
+    Example:
+          __FILE__ relative: \"../foo/bar\"
+    """
+
+    File expand_path: $ File dirname(self) + "/" + path
+  }
 }
