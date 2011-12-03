@@ -160,22 +160,6 @@ class Array {
     self
   }
 
-  def each_with_index: block {
-    """
-    @block @Block@ to be called with each element and its inde in the @Array@.
-    @return @self
-
-    Iterate over all elements in @Array@.
-    Calls a given @Block@ with each element and its index.
-    """
-
-    i = 0
-    each: |x| {
-      block call: [x, i]
-      i = i + 1
-    }
-  }
-
   def =? other {
     """
     @other Other @Array@ to compare this one to.

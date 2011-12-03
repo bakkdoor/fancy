@@ -3,6 +3,22 @@ class FancyEnumerable {
   Mixin-Class with useful methods for collections that implement an @each:@ method.
   """
 
+  def each_with_index: block {
+    """
+    @block @Block@ to be called with each element and its index in the @self.
+    @return @self
+
+    Iterate over all elements in @self.
+    Calls a given @Block@ with each element and its index.
+    """
+
+    i = 0
+    each: |x| {
+      block call: [x, i]
+      i = i + 1
+    }
+  }
+
   def includes?: item {
     """
     @item Item to check if it's included in @self.
