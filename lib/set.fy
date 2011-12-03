@@ -101,6 +101,14 @@ class Set {
     @hash includes?: value
   }
 
+  def [value] {
+    """
+    Same as @Set#includes?:@
+    """
+
+    includes: value
+  }
+
   def each: block {
     """
     @block @Block@ to be called with each value in @self.
