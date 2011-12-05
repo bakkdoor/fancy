@@ -15,7 +15,7 @@ class DynamicSlotObject : BasicObject {
 }
 
 class DynamicKeyHash : BasicObject {
-  def initialize {
+  def initialize: @deep (false) {
     @hash = <[]>
   }
 
@@ -25,7 +25,13 @@ class DynamicKeyHash : BasicObject {
 
   def unknown_message: m with_params: p {
     m to_s split: ":" . each_with_index: |slotname idx| {
-      @hash[slotname to_sym]: $ p[idx]
+      val = p[idx]
+      if: @deep then: {
+        match val {
+          case Block -> val = val to_hash
+        }
+      }
+      @hash[slotname to_sym]: val
     }
   }
 }
