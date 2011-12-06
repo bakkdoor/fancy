@@ -539,9 +539,26 @@ class Object {
   }
 
   def copy_slots: slots from: object {
+    """
+    @slots @FancyEnumerable@ of slot names to copy from @object.
+    @object Target @Object@ to copy slots from.
+
+    Copies slots from @object to @self.
+    """
+
     slots each: |s| {
       set_slot: s value: (object get_slot: s)
     }
+  }
+
+  def copy_slots_from: object {
+    """
+    @object @Object@ to copy slots from.
+
+    Copies all slots from @object to @self.
+    """
+
+    copy_slots: (object slots) from: object
   }
 
   def get_slots: slots {
