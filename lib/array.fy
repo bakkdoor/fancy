@@ -440,6 +440,22 @@ class Array {
     tmp
   }
 
+  def to_hash {
+    """
+    Returns a @Hash@ with each key-value pair in @self.
+
+    Example:
+          [[1,2],[3,4]] to_hash  # => <[1 => 2, 3 => 4]>
+    """
+
+    h = <[]>
+    self each: |pair| {
+      k,v = pair
+      h[k]: v
+    }
+    h
+  }
+
   def Array === object {
     """
     @object Object to match @self against.

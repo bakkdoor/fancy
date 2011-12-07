@@ -542,4 +542,9 @@ FancySpec describe: Array with: {
 
     (20,30,40) in_groups_of: 2 . is: [[20,30], [40]]
   }
+
+  it: "returns a hash" with: 'to_hash when: {
+    [] to_hash is: <[]>
+    [[1,2],[3,4]] to_hash is: <[1 => 2, 3 => 4]>
+  }
 }
