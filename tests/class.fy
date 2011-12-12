@@ -548,4 +548,14 @@ FancySpec describe: Class with: {
     b to_s is: "foobar"
     b empty_method is: nil
   }
+
+  it: "returns its nested constants" with: 'constants when: {
+    class WithConstants {
+      Foo = "foo"
+      Bar = "bar"
+      class Nested
+    }
+
+    WithConstants constants =? ["Foo", "Bar", "Nested"] is: true
+  }
 }
