@@ -549,13 +549,22 @@ FancySpec describe: Class with: {
     b empty_method is: nil
   }
 
-  it: "returns its nested constants" with: 'constants when: {
-    class WithConstants {
-      Foo = "foo"
-      Bar = "bar"
-      class Nested
-    }
+  class WithConstants {
+    Foo = "foo"
+    Bar = "bar"
+    class Nested
+  }
 
+  it: "returns its nested constants" with: 'constants when: {
     WithConstants constants =? ["Foo", "Bar", "Nested"] is: true
+  }
+
+  it: "returns a constants value" with: '[] when: {
+    WithConstants["Foo"] is: "foo"
+    WithConstants["Foo"] is: WithConstants Foo
+    WithConstants["Bar"] is: "bar"
+    WithConstants["Bar"] is: WithConstants Bar
+    WithConstants["Nested"] is_a?: Class . is: true
+    WithConstants["Nested"] is: WithConstants Nested
   }
 }

@@ -9,6 +9,6 @@ class Module {
     Returns the value of the constant with the given name in @self.
     """
 
-    const_get(const_name)
+    const_get(constant_name)
   }
 }
