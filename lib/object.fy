@@ -607,6 +607,18 @@ class Object {
     self
   }
 
+  def tap: block {
+    """
+    @block @Block@ to be called with @self.
+    @return @self.
+
+    Calls a given @Block@ with @self before returning @self.
+    """
+
+    block call: [self]
+    self
+  }
+
   def slots {
     """
     @return @Array@ of slot names that @self has.

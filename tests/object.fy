@@ -217,6 +217,15 @@ FancySpec describe: Object with: {
     }
   }
 
+  it: "calls a given block with the receiver before returning itself" with: 'tap: when: {
+    10 + 2 tap: |x| {
+      x is: 12
+      x is_a?: Number . is: true
+    } . is: 12
+
+    "foo" + "bar" tap: @{ is: "foobar"; * 2 is: "foobarfoobar" } . is: "foobar"
+  }
+
   it: "returns an array of its slot names" with: 'slots when: {
     class GotSlots {
       def initialize {
