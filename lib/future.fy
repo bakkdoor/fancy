@@ -132,7 +132,7 @@ class PooledFuture {
 }
 
 class FutureCollection {
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def initialize: @futures {
   }

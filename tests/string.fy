@@ -161,8 +161,8 @@ FancySpec describe: String with: {
   }
 
   it: "returns an enumerator for its all bytes (fixnum ascii values)" with: 'bytes when: {
-    "foo" bytes class is: FancyEnumerator
-    "" bytes class is: FancyEnumerator
+    "foo" bytes class is: Fancy Enumerator
+    "" bytes class is: Fancy Enumerator
   }
 
   it: "returns a joined string using FancyEnumerable#join:" for: 'join: when: {

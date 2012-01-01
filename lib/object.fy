@@ -149,19 +149,19 @@ class Object {
 
   def to_enum {
     """
-    @return @FancyEnumerator@ for @self using 'each: for iteration.
+    @return @Fancy::Enumerator@ for @self using 'each: for iteration.
     """
 
-    FancyEnumerator new: self
+    Fancy Enumerator new: self
   }
 
   def to_enum: iterator {
     """
     @iterator Message to use for iteration on @self.
-    @return @FancyEnumerator@ for @self using @iterator for iteration.
+    @return @Fancy::Enumerator@ for @self using @iterator for iteration.
     """
 
-    FancyEnumerator new: self with: iterator
+    Fancy Enumerator new: self with: iterator
   }
 
   def and: other {
@@ -540,7 +540,7 @@ class Object {
 
   def copy_slots: slots from: object {
     """
-    @slots @FancyEnumerable@ of slot names to copy from @object.
+    @slots @Fancy::Enumerable@ of slot names to copy from @object.
     @object Target @Object@ to copy slots from.
 
     Copies slots from @object to @self.

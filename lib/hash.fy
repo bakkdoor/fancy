@@ -4,7 +4,7 @@ class Hash {
   Maps a key to a value.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def [key] {
     """
