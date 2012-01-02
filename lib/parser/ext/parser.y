@@ -273,6 +273,9 @@ identifier:     IDENTIFIER {
                 | CLASS {
                   $$ = fy_terminal_node_from(self, "ast:identifier:", "class");
                 }
+                | RETURN {
+                  $$ = fy_terminal_node_from(self, "ast:identifier:", "return");
+                }
                 ;
 
 any_identifier: const_identifier

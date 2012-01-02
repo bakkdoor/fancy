@@ -260,4 +260,22 @@ FancySpec describe: Object with: {
     o2 get_slot: 'slot1 == (o1 slot1) is: true
     o2 get_slot: 'slot2 == (o1 slot2) is: true
   }
+
+  it: "returns itself when return is send as a message" with: 'return when: {
+    def foo: array {
+      array each: @{ return }
+    }
+    foo: [1,2,3] . is: 1
+
+    def bar: array values: vals {
+      array each: |x| {
+        vals << x
+        x return
+      }
+    }
+
+    v = []
+    bar: [1,2,3] values: v . is: 1
+    v is: [1]
+  }
 }

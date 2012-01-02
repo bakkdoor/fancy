@@ -26,11 +26,22 @@ class Fancy AST {
                        args: args
     }
 
+    def return_send? {
+      match @name {
+        case Identifier -> @name string == "return"
+        case _ -> false
+      }
+    }
+
     def bytecode: g {
       pos(g)
       if: (@receiver is_a?: Super) then: {
         SuperSend new: @line message: @name args: @args . bytecode: g
       } else: {
+        if: return_send? then: {
+          Return new: @line expr: @receiver . bytecode: g
+          return nil
+        }
 
         # check if we might have a block invocation using block(x,y) syntax.
         if: ruby_send? then: {

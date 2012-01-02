@@ -249,6 +249,9 @@ identifier:     IDENTIFIER {
                 | CLASS {
                   $$ = fy_terminal_node_from(self, "identifier", "class");
                 }
+                | RETURN {
+                  $$ = fy_terminal_node_from(self, "identifier", "return");
+                }
                 ;
 
 any_identifier: const_identifier
