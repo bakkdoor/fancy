@@ -95,6 +95,26 @@ class Hash {
     to_a to_s
   }
 
+  def to_object {
+    """
+    @return New @Object@ with slots defined by keys and values in @self.
+
+    Creates and returns a new @Object@ with slot names and values based on keys and values in @self.
+
+    Example:
+          o = <['name => \"Christopher Bertels\", 'interest => \"programming languages\"]> to_object
+          o name        # => \"Christopher Bertels\"
+          o interest    # => 42
+    """
+
+    o = Object new
+    self each: |k v| {
+      o set_slot: k value: v
+    }
+    o metaclass read_write_slots: keys
+    o
+  }
+
   def inspect {
     str = "<["
     each: |key val| {
