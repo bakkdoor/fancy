@@ -136,7 +136,7 @@ class Block {
     call: args
   }
 
-  def object {
+  def to_object {
     """
     Creates and returns a new @Object@ with slots defined dynamically in @self.
     Looks and feels similar to Javascript object literals.
@@ -145,7 +145,7 @@ class Block {
           o = {
             something: \"foo bar baz\"
             with: 42
-          } object
+          } to_object
 
           o something # => \"foo bar baz\"
           o with      # => 42
