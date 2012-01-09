@@ -41,6 +41,8 @@
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
 (add-to-list 'auto-mode-alist '("\\.fancypack\\'" . fancy-mode))
 
+(add-to-list 'interpreter-mode-alist '("fancy" . fancy-mode))
+
 ;; Ignore .fyc (compiled fancy bytecode) files
 (add-to-list 'completion-ignored-extensions ".fyc")
 
