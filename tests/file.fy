@@ -5,6 +5,34 @@ FancySpec describe: File with: {
     file close
   }
 
+  it: "reads a file correctly" with: 'read:with: when: {
+    lines = File read: "README.md" . lines
+    idx = 0
+
+    File read: "README.md" with: |f| {
+      until: { f eof? } do: {
+        lines[idx] is: (f readline chomp)
+        idx = idx + 1
+      }
+    }
+  }
+
+  it: "writes a file correctly" with: 'write:with: when: {
+    dirname = "tmp"
+    filename = "#{dirname}/write_test.txt"
+
+    Directory create!: dirname
+    File write: filename with: |f| {
+      10 times: |i| {
+        f println: i
+      }
+    }
+
+    File read: filename . lines is: $ ["0","1","2","3","4","5","6","7","8","9"]
+    File delete: filename
+    Directory delete: dirname
+  }
+
   it: "is open after opening it and closed after closing" with: 'close when: {
     file = File open: "README.md" modes: ['read]
     file open? is: true
