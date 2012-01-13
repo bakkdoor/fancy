@@ -5,8 +5,8 @@ class FutureSend {
     @condvar = ConditionVariable new
     @completed = false
     @failed = false
-    @actor ! ('future, (@message, @params), self)
     @continuations = []
+    @actor ! ('future, (@message, @params), self)
   }
 
   def failed: @fail_reason {
