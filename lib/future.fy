@@ -6,6 +6,7 @@ class FutureSend {
     @completed = false
     @failed = false
     @actor ! ('future, (@message, @params), self)
+    @continuations = []
   }
 
   def failed: @fail_reason {
@@ -26,6 +27,10 @@ class FutureSend {
 
   def completed! {
     @condvar broadcast
+    unless: @failed do: {
+      @continuations each: @{ call: @value }
+    }
+    @continuations = []
   }
 
   private: 'completed!
@@ -73,8 +78,17 @@ class FutureSend {
   }
 
   def when_done: block {
-    block send_future: 'call: with_params: [value]
+    { return nil } if: failed?
+    @completed_mutex synchronize: {
+      if: @completed then: {
+        block call: @value
+      } else: {
+        @continuations << block
+      }
+    }
   }
+
+  alias_method: 'with_value: for: 'when_done:
 
   def && block {
     when_done: block
