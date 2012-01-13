@@ -2,7 +2,7 @@
 #include "ruby.h"
 #include "parser.h"
 
-int yyerror(char *s);
+int yyerror(VALUE self, char *s);
 %}
 
 %option yylineno
@@ -186,5 +186,10 @@ escaped_newline "\\".*\n
 {escaped_newline} {}
 [\n]		{ return NL; }
 
-.		{ fprintf(stderr, "SCANNER %d", yyerror("")); exit(1);	}
+.		{
+  fprintf(stderr, "Invalid token: %s\n", yytext);
+  VALUE fancy = rb_const_get(rb_cObject, rb_intern("Fancy"));
+  VALUE parser = rb_const_get(fancy, rb_intern("Parser"));
+  yyerror(parser, yytext);
+}
 

@@ -824,7 +824,7 @@ VALUE fy_terminal_node_from(VALUE self, char* method, char* text) {
 
 int yyerror(VALUE self, char *s)
 {
-  rb_funcall(self, rb_intern("ast:parse_error:"), 2, INT2NUM(yylineno), rb_str_new2(yytext));
+  rb_funcall(self, rb_intern("ast:parse_error:"), 2, INT2NUM(yylineno), rb_str_new2(s));
   return 1;
 }
 
