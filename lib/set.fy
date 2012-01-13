@@ -95,7 +95,7 @@ class Set {
     @value Value to be checked for if included in @self.
     @return @true if @value in @self, @false otherwise.
 
-    Indicates, if the Set includes a given value.
+    Indicates, if the Set includes @value.
     """
 
     @hash includes?: value
@@ -103,10 +103,13 @@ class Set {
 
   def [value] {
     """
-    Same as @Set#includes?:@
+    @value Value to be checked for if included in @self.
+    @return @true if @value is in @self, @nil otherwise.
+
+    Indicates, if the Set includes @value.
     """
 
-    includes: value
+    @hash[value]
   }
 
   def each: block {
