@@ -139,7 +139,9 @@ FancySpec describe: Hash with: {
       name is: "New Name"
     }
     <['a => "hello", 'b => "world"]> to_object tap: @{
-      slots is: ['b, 'a]
+      slots size is: 2
+      slots includes?: 'a . is: true
+      slots includes?: 'b . is: true
       a is: "hello"
       b is: "world"
       a: "world"
