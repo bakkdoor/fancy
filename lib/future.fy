@@ -28,7 +28,7 @@ class FutureSend {
   def completed! {
     @condvar broadcast
     unless: @failed do: {
-      @continuations each: @{ call: @value }
+      @continuations each: |c| { c call: @value }
     }
     @continuations = []
   }
