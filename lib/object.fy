@@ -29,9 +29,9 @@ class Object {
   def println {
     """
     Same as:
-          Console println: self
+          *stdout* println: self
 
-    Prints @self on @STDOUT, followed by a newline.
+    Prints @self on @*stdout*, followed by a newline.
     """
 
     *stdout* println: to_s
@@ -40,9 +40,9 @@ class Object {
   def print {
     """
     Same as:
-          Console print: self
+          *stdout* print: self
 
-    Prints @self on STDOUT.
+    Prints @self on @*stdout*.
     """
 
     *stdout* print: to_s
@@ -649,7 +649,7 @@ class Object {
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
 
     Example:
-          File open: \"/tmp/output.txt\" modes: ['write] with: |f| {
+          File write: \"/tmp/output.txt\" with: |f| {
             let: '*stdout* be: f in: {
               \"hello, world!\" println # writes it to file not STDOUT
             }
@@ -693,7 +693,7 @@ class Object {
     to /tmp/hello_world.txt
     """
 
-    File open: filename modes: ['write] with: |f| {
+    File write: filename with: |f| {
       let: '*stdout* be: f in: block
     }
   }
