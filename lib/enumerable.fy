@@ -122,8 +122,8 @@ class Fancy {
       """
 
       each: |x| {
-        if: (block call: [x]) then: |item| {
-          return item
+        if: (block call: [x]) then: {
+          return x
         }
       }
       nil
