@@ -538,6 +538,24 @@ class Fancy {
       rev reverse
     }
 
+    def to_hash: block {
+      """
+      @block @Block@ to be called to get the key for each element in @self.
+      @return @Hash@ of key/value pairs based on values in @self.
+
+      Example:
+              [\"foo\", \”hello\", \"ok\", \"\"] to_hash: @{ size }
+              # => <[3 => \"foo\", 5 => \"hello\", 2 => \"ok\", 0 => \"\"]>
+      """
+
+      h = <[]>
+      self each: |val| {
+        key = block call: [val]
+        h[key]: val
+      }
+      h
+    }
+
     def reverse_each: block {
       """
       @block @Block@ to be called for each element in reverse order.
