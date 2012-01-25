@@ -53,6 +53,14 @@ class File {
   alias_method: 'println: for: 'writeln:
 
   def expanded_path {
+    """
+    @return Expanded (absolute) path of @self.
+
+    Example:
+          f = File open: \"README.txt\"
+          f expanded_path # => \"/path/to/README.txt\" (when run from /path/to/)
+    """
+
     File expand_path: path
   }
 }
