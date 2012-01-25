@@ -30,7 +30,7 @@ class Fancy AST {
       new_receiver = Identifier from: (@args args first to_s) line: @line
       match expr {
         case Identifier ->
-          expr = MessageSend new: @line message: expr to: (new_receiver) args: (MessageArgs new: @line args: [])
+          expr = MessageSend new: @line message: expr to: new_receiver args: (MessageArgs new: @line args: [])
         case MessageSend ->
           match expr receiver {
             case Self ->

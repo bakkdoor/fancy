@@ -26,6 +26,7 @@ string_lit      L?\"(\\.|[^\\"])*\"
 multiline_string L?\"\"\"(\\.|[^\\"])*\"\"\"
 lparen          \(
 rparen          \)
+at_lcurly       "@{"
 lcurly          "{"
 rcurly          "}"
 lbracket        "["
@@ -99,6 +100,7 @@ escaped_newline "\\".*\n
                 }
 {lparen}        { return LPAREN; }
 {rparen}        { return RPAREN; }
+{at_lcurly}     { return AT_LCURLY; }
 {lcurly}        { return LCURLY; }
 {rcurly}        { return RCURLY; }
 {lbracket}      { return LBRACKET; }

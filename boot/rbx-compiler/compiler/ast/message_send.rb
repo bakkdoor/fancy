@@ -2,6 +2,7 @@ class Fancy
   class AST
 
     class MessageSend < Node
+      attr_accessor :receiver
       def initialize(line, receiver, message_name, message_args)
         super(line)
         @receiver = receiver
