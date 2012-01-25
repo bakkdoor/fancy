@@ -8,7 +8,7 @@ class HTML {
           html: @{
             head: @{ title: \"My Fancy Website\" }
             body: @{
-              div: { id: \”main\” } with: \"Hello, Fancy World!\"
+              div: { id: \"main\" } with: \"Hello, Fancy World!\"
             }
           }
         } . to_s
