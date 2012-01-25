@@ -144,6 +144,23 @@ class Fancy {
       coll
     }
 
+    def map_chained: blocks {
+      """
+      @blocks Collection of @Block@s to be called sequentially for every element in @self.
+      @return Collection of all values in @self successively called with all blocks in @blocks.
+
+      Example:
+            (1,2,3) map_chained: (@{ + 1 }, 'to_s, @{ * 2 })
+            # => [\"22\", \"33\", \"44\"]
+      """
+
+      map: |v| {
+        blocks inject: v into: |acc b| {
+          b call: [acc]
+        }
+      }
+    }
+
     def select: condition {
       """
       @condition A @Block@ that is used as a filter on all elements in @self.
