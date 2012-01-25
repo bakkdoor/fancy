@@ -36,6 +36,10 @@ class FutureSend {
   private: 'completed!
 
   def completed? {
+    """
+    @return @true if FutureSend completed (success or failure), @false otherwise.
+    """
+
     completed = false
     @completed_mutex synchronize: {
       completed = @completed
@@ -43,7 +47,25 @@ class FutureSend {
     return completed true?
   }
 
+  def succeeded? {
+    """
+    @return @true if FutureSend completed without failure, @false otherwise.
+    """
+
+    completed = false
+    failed = false
+    @completed_mutex synchronize: {
+      completed = @completed
+      failed = @failed
+    }
+    return completed true? && (failed false?)
+  }
+
   def failed? {
+    """
+    @return @true if FutureSend failed, @false otherwise.
+    """
+
     failed = false
     @completed_mutex synchronize: {
       failed = @failed
@@ -52,6 +74,13 @@ class FutureSend {
   }
 
   def failure {
+    """
+    @return @Exception@ that caused the FutureSend to fail, or @nil, if no failure.
+
+    Returns the @Exception@ that caused @self to fail, or @nil, if it didn't fail.
+    Will block the calling @Thread@ if @self hasn't completed or failed yet.
+    """
+
     @completed_mutex synchronize: {
       if: @failed then: {
         return @fail_reason
@@ -63,6 +92,13 @@ class FutureSend {
   }
 
   def value {
+    """
+    @return Return value of performing @self.
+
+    Returns the value returned by performing @self.
+    Will block the calling @Thread@ if @self hasn't completed or failed yet.
+    """
+
     @completed_mutex synchronize: {
       if: @completed then: {
         return @value
@@ -78,6 +114,12 @@ class FutureSend {
   }
 
   def when_done: block {
+    """
+    @block @Block@ to be registered as a continuation when @self succeeds.
+
+    Registers @block as a continuation to be called with @self's value on success.
+    """
+
     { return nil } if: failed?
     @completed_mutex synchronize: {
       if: @completed then: {
