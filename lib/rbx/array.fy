@@ -38,16 +38,14 @@ class Array {
       delete_at(index)
       return deleted
     } else: {
-      if: (index is_a?: Array) then: {
-        count = 0
-        deleted_values = []
-        index each: |idx| {
-          deleted_values << (at: (idx - count))
-          delete_at(idx - count)
-          count = count + 1
-        }
-        return deleted_values
+      count = 0
+      deleted_values = []
+      index each: |idx| {
+        deleted_values << (at: (idx - count))
+        delete_at(idx - count)
+        count = count + 1
       }
+      return deleted_values
     }
     nil
   }
