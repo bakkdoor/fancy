@@ -28,7 +28,7 @@ class FutureSend {
   def completed! {
     @condvar broadcast
     unless: @failed do: {
-      @continuations each: @{ call: @value }
+      @continuations each: @{ call: [@value] }
     }
     @continuations = []
   }
@@ -81,7 +81,7 @@ class FutureSend {
     { return nil } if: failed?
     @completed_mutex synchronize: {
       if: @completed then: {
-        block call: @value
+        block call: [@value]
       } else: {
         @continuations << block
       }
