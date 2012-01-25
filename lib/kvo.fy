@@ -8,7 +8,7 @@ class KVO {
   Example:
         class Person {
           include: KVO
-          read_write_slot: ('name, 'age, 'city)
+          read_write_slots: ('name, 'age, 'city)
         }
 
         tom = Person new tap: @{
