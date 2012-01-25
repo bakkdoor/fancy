@@ -44,7 +44,7 @@ class KVO {
         val = get_slot: slotname
         if: (val is_a?: Fancy Enumerable) then: {
           unless: (val get_slot: '__kvo_wrappers_defined?__) do: {
-            __kvo_wrap_collection_methods__: val slotname: slotname
+            __kvo_wrap_collection_methods__: val for_slot: slotname
           }
         }
         val
@@ -140,7 +140,7 @@ class KVO {
     }
   }
 
-  def __kvo_wrap_collection_methods__: collection slotname: slotname {
+  def __kvo_wrap_collection_methods__: collection for_slot: slotname {
     object = self
     collection metaclass tap: |c| {
       try {
@@ -169,5 +169,5 @@ class KVO {
     }
     collection set_slot: '__kvo_wrappers_defined?__ value: true
   }
-  private: '__kvo_wrap_collection_methods__:slotname:
+  private: '__kvo_wrap_collection_methods__:for_slot:
 }
