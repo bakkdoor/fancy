@@ -72,7 +72,7 @@ FancySpec describe: KVO with: {
     @p friends << "Jack"
     @p friends << "Jimmy"
 
-#    @p friends is: ["Jack", "Jimmy"]
+    @p friends is: ["Jack", "Jimmy"]
 
     friend_removed = false
     removed_friend = nil
