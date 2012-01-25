@@ -624,9 +624,7 @@ class Object {
     @return @Array@ of slot names that @self has.
     """
 
-    instance_variables map: |s| {
-      s rest to_sym
-    }
+    instance_variables map: @{ rest to_sym }
   }
 
   def sleep: seconds {

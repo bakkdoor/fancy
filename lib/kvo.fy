@@ -122,21 +122,21 @@ class KVO {
   private: '__kvo_add_observer__:for:to:
 
   def __kvo_slot_change__: slotname new: new_val old: old_val {
-    if: (__kvo_slot_observers__[slotname]) then: |set| {
-      set each: |b| { b call: [new_val, old_val] }
+    if: (__kvo_slot_observers__[slotname]) then: @{
+      each: @{ call: [new_val, old_val] }
     }
   }
   private: '__kvo_slot_change__:new:old:
 
   def __kvo_insertion__: value for_slot: slotname {
-    if: (__kvo_insertion_observers__[slotname]) then: |set| {
-      set each: |b| { b call: [value] }
+    if: (__kvo_insertion_observers__[slotname]) then: @{
+      each: @{ call: [value] }
     }
   }
 
   def __kvo_removal__: value for_slot: slotname {
-    if: (__kvo_removal_observers__[slotname]) then: |set| {
-      set each: |b| { b call: [value] }
+    if: (__kvo_removal_observers__[slotname]) then: @{
+      each: @{ call: [value] }
     }
   }
 

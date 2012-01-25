@@ -28,7 +28,7 @@ class FutureSend {
   def completed! {
     @condvar broadcast
     unless: @failed do: {
-      @continuations each: |c| { c call: @value }
+      @continuations each: @{ call: @value }
     }
     @continuations = []
   }
@@ -152,9 +152,7 @@ class FutureCollection {
   }
 
   def each: block {
-    @futures each: |f| {
-      f when_done: block
-    }
+    @futures each: @{ when_done: block }
   }
 
   def await_all {
