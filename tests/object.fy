@@ -171,9 +171,7 @@ FancySpec describe: Object with: {
     }
     MyClass new do_wacky_things is: false
 
-    {
-      true is: false
-    } call_with_receiver: (MyClass new)
+    @{ true is: false } call: [MyClass new]
   }
 
   it: "overrides nil" with: 'nil when: {
@@ -183,7 +181,7 @@ FancySpec describe: Object with: {
       }
     }
 
-    { nil is: true } call_with_receiver: (MyClass new)
+    @{ nil is: true } call: [MyClass new]
   }
 
   it: "overrides false" with: 'false when: {
@@ -193,7 +191,7 @@ FancySpec describe: Object with: {
       }
     }
 
-    { false is: true } call_with_receiver: (MyClass2 new)
+    @{ false is: true } call: [MyClass2 new]
   }
 
   it: "implicitly sends a message to self if no receiver is specified" when: {

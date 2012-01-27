@@ -57,9 +57,9 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       match @string {
-        # case "true" -> g push_true()
-        # case "false" -> g push_false()
-        # case "nil" -> g push_nil()
+        case "true" -> g push_true()
+        case "false" -> g push_false()
+        case "nil" -> g push_nil()
         case _ ->
           if: (g state() scope() search_local(name)) then: {
             Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
