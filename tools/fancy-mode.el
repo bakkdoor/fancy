@@ -73,4 +73,4 @@
 
 (provide 'fancy-mode)
 
-;; fancy-mode.el ends here
+;;; fancy-mode.el ends here
