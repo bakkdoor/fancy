@@ -79,7 +79,8 @@ class Array {
     """
 
     if: (index is_a?: Fancy Enumerable) then: {
-      from: (index[0]) to: (index[1])
+      start, end = index
+      from: start to: end
     } else: {
       at: index
     }
