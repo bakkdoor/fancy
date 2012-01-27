@@ -4,6 +4,23 @@ class Fancy {
     Mixin-Class with useful methods for collections that implement an @each:@ method.
     """
 
+    def at: index {
+      """
+      @index @Fixnum@ that is the 0-based index into @self.
+      @return Value in @self at 0-based position defined by @index.
+
+      Example:
+            \"foo\” at: 2 # => \"o\"
+            \"foo\” at: 3 # => nil
+      """
+
+      i = 0
+      each: |x| {
+        { return x } if: $ i == index
+        i = i + 1
+      }
+    }
+
     def each_with_index: block {
       """
       @block @Block@ to be called with each element and its index in the @self.

@@ -225,6 +225,10 @@ FancySpec describe: Array with: {
     arr[[-1,-1]] is: [arr last]
     arr[[-2,-1]] is: ['bar, 'baz]
     arr[[-2,-1]] is: (arr last: 2)
+    # works with any Enumerable as argument:
+    arr[(0,2)] is: $ arr[[0,2]]
+    arr[(1,2)] is: $ arr[[1,2]]
+    arr[(0,-1)] is: $ arr[[0,-1]]
   }
 
   it: "joins all elements with a string to a new string" with: 'join: when: {

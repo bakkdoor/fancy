@@ -71,15 +71,14 @@ class Array {
 
   def [index] {
     """
-    @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
+    @index Index to get the value for or @Fancy::Enumerable@ of 2 indices used for a sub-array.
     @return Element(s) stored in @self at @index, possibly @nil or an empty @Array@.
 
-    Given an @Array@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
+    Given an @Fancy::Enumerable@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
     If given a single @Fixnum@, returns the element at that index.
     """
 
-    # if given an Array, interpret it as a from:to: range subarray
-    if: (index is_a?: Array) then: {
+    if: (index is_a?: Fancy Enumerable) then: {
       from: (index[0]) to: (index[1])
     } else: {
       at: index

@@ -24,7 +24,7 @@ class String {
     match index {
       case Array -> from: (index[0]) to: (index[1])
       case Tuple -> ruby_idx: index
-      case _ -> ruby_idx: index . chr()
+      case _ -> if: (ruby_idx: index) then: @{ chr() }
     }
   }
 

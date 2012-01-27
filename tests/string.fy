@@ -126,6 +126,22 @@ FancySpec describe: String with: {
     s is: "Good day. Hello."
   }
 
+  it: "returns the character at a given index" with: '[] when: {
+    s = "hello"
+    s[0] is: "h"
+    s[1] is: "e"
+    s[2] is: "l"
+    s[3] is: "l"
+    s[4] is: "o"
+    # out of bounds yields nil:
+    s[5] is: nil
+    s[s size] is: nil
+    s[s size + 1] is: nil
+    "" at: 0 . is: nil
+    "" at: 1 . is: nil
+    "" at: -1 . is: nil
+  }
+
   it: "contains a substring" with: 'includes?: when: {
     "foo bar baz" includes?: "foo" . is: true
     "foo bar baz" includes?: "bar" . is: true
