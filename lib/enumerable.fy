@@ -19,6 +19,7 @@ class Fancy {
         { return x } if: $ i == index
         i = i + 1
       }
+      return nil
     }
 
     def each_with_index: block {
@@ -35,6 +36,48 @@ class Fancy {
         block call: [x, i]
         i = i + 1
       }
+    }
+
+    def first {
+      """
+      @return The first element in the @Fancy::Enumerable@.
+      """
+      at: 0
+    }
+
+    def second {
+      """
+      @return The second element in the @Fancy::Enumerable@.
+      """
+      at: 1
+    }
+
+    def third {
+      """
+      @return The third element in the @Fancy::Enumerable@.
+      """
+      at: 2
+    }
+
+    def fourth {
+      """
+      @return The fourth element in the @Fancy::Enumerable@.
+      """
+      at: 3
+    }
+
+    def last {
+      """
+      @return Last element in @self or @nil, if empty.
+
+      Returns the last element in a @Fancy::Enumerable@.
+      """
+
+      item = nil
+      each: |x| {
+        item = x
+      }
+      item
     }
 
     def includes?: item {
@@ -360,31 +403,6 @@ class Fancy {
       """
 
       size == 0
-    }
-
-    def first {
-      """
-      @return First element in @self or @nil, if empty.
-      """
-
-      each: |x| {
-        return x
-      }
-      nil
-    }
-
-    def last {
-      """
-      @return Last element in @self or @nil, if empty.
-
-      Returns the last element in an Enumerable.
-      """
-
-      item = nil
-      each: |x| {
-        item = x
-      }
-      item
     }
 
     def compact {

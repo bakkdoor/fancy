@@ -31,38 +31,6 @@ class Tuple {
     at: idx
   }
 
-  def first {
-    """
-    @return The first element in @self.
-    """
-
-    at: 0
-  }
-
-  def second {
-    """
-    @return The second element in @self.
-    """
-
-    at: 1
-  }
-
-  def third {
-    """
-    @return The third element in @self.
-    """
-
-    at: 2
-  }
-
-  def fourth {
-    """
-    @return The fourth element in @self.
-    """
-
-    at: 3
-  }
-
   def each: block {
     """
     @block @Block@ to be called for each element in @self.

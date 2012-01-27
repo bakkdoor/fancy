@@ -85,34 +85,6 @@ class Array {
     }
   }
 
-  def first {
-    """
-    @return The first element in the @Array@.
-    """
-    at: 0
-  }
-
-  def second {
-    """
-    @return The second element in the @Array@.
-    """
-    at: 1
-  }
-
-  def third {
-    """
-    @return The third element in the @Array@.
-    """
-    at: 2
-  }
-
-  def fourth {
-    """
-    @return The fourth element in the @Array@.
-    """
-    at: 3
-  }
-
   def rest {
     """
     @return All elements in an @Array@ after the first one.
