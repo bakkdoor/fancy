@@ -1,3 +1,10 @@
+;;; fancy-mode.el --- Major mode for programming with the Fancy language.
+;;
+;; URL: http://www.fancy-lang.org
+;; Version: 0.1
+;; Author: Christopher Bertels <chris@fancy-lang.org>
+
+
 (require 'generic-x)
 
 (define-generic-mode
@@ -63,3 +70,5 @@
 (setq indent-line-function 'fancy-indent-line)
 
 (provide 'fancy-mode)
+
+;; fancy-mode.el ends here
