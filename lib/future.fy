@@ -1,5 +1,15 @@
 class FutureSend {
-  read_slots: [ 'receiver, 'message, 'params ]
+  """
+  A @FutureSend@ gets created whenever a asynchronous message via the @@ operator get send, yielding a @FutureSend@.
+  They represent Futures/Promises in Fancy.
+
+  Example:
+        f = some_object @ some_method: some_argument
+        f class # => FutureSend
+        f value # => Value returned by some_method, but may block the current Thread if f hasn't completed yet.
+  """
+
+  read_slots: ('receiver, 'message, 'params)
   def initialize: @actor receiver: @receiver message: @message with_params: @params ([]) {
     @completed_mutex = Mutex new
     @condvar = ConditionVariable new
