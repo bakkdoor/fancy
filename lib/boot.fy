@@ -40,6 +40,8 @@ require: "thread_pool"
 require: "fiber"
 require: "future"
 require: "struct"
+require: "message_sink"
+require: "kvo"
 
 # version holds fancy's version number
 require: "version"

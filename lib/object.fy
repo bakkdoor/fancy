@@ -29,9 +29,9 @@ class Object {
   def println {
     """
     Same as:
-          Console println: self
+          *stdout* println: self
 
-    Prints @self on @STDOUT, followed by a newline.
+    Prints @self on @*stdout*, followed by a newline.
     """
 
     *stdout* println: to_s
@@ -40,9 +40,9 @@ class Object {
   def print {
     """
     Same as:
-          Console print: self
+          *stdout* print: self
 
-    Prints @self on STDOUT.
+    Prints @self on @*stdout*.
     """
 
     *stdout* print: to_s
@@ -149,19 +149,19 @@ class Object {
 
   def to_enum {
     """
-    @return @FancyEnumerator@ for @self using 'each: for iteration.
+    @return @Fancy::Enumerator@ for @self using 'each: for iteration.
     """
 
-    FancyEnumerator new: self
+    Fancy Enumerator new: self
   }
 
   def to_enum: iterator {
     """
     @iterator Message to use for iteration on @self.
-    @return @FancyEnumerator@ for @self using @iterator for iteration.
+    @return @Fancy::Enumerator@ for @self using @iterator for iteration.
     """
 
-    FancyEnumerator new: self with: iterator
+    Fancy Enumerator new: self with: iterator
   }
 
   def and: other {
@@ -540,7 +540,7 @@ class Object {
 
   def copy_slots: slots from: object {
     """
-    @slots @FancyEnumerable@ of slot names to copy from @object.
+    @slots @Fancy::Enumerable@ of slot names to copy from @object.
     @object Target @Object@ to copy slots from.
 
     Copies slots from @object to @self.
@@ -624,9 +624,7 @@ class Object {
     @return @Array@ of slot names that @self has.
     """
 
-    instance_variables map: |s| {
-      s rest to_sym
-    }
+    instance_variables map: @{ rest to_sym }
   }
 
   def sleep: seconds {
@@ -649,7 +647,7 @@ class Object {
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
 
     Example:
-          File open: \"/tmp/output.txt\" modes: ['write] with: |f| {
+          File write: \"/tmp/output.txt\" with: |f| {
             let: '*stdout* be: f in: {
               \"hello, world!\" println # writes it to file not STDOUT
             }
@@ -693,7 +691,7 @@ class Object {
     to /tmp/hello_world.txt
     """
 
-    File open: filename modes: ['write] with: |f| {
+    File write: filename with: |f| {
       let: '*stdout* be: f in: block
     }
   }

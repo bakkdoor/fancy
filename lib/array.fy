@@ -5,7 +5,7 @@ class Array {
   index-based access to members.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def Array new: size {
     """

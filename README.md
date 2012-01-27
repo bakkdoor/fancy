@@ -88,23 +88,28 @@ Kernel#print or any other method in Ruby's kernel and work seamlessly.
 
 Here's an example:
 
+```fancy
     class Object {
       def print {
         "Print itself to the Console."
         Console print: self
       }
     }
+```
 
 To meet this goal, the Fancy compiler renames Fancy methods taking no
 arguments (like the previous "print" example) to a method named
 ":print". Using explicit parens syntax will allow you to invoke any
 Ruby method.
 
+```fancy
     someObject print    # Will actually invoke the Fancy ":print" method.
     someObject print()  # With explicit parens invokes the Ruby method.
+```
 
 Ruby method invocation supports passing a block variable to Ruby as a proc.
 
+```fancy
     class Something {
       def open: block {
         someRubyMethod(arg0, arg1, &block)
@@ -115,6 +120,7 @@ Ruby method invocation supports passing a block variable to Ruby as a proc.
     # with this syntax, calling ruby's inject is just as easy.
     # This example will print the number 6
     [1, 2, 3] inject(0) |sum, num| { sum + num } println
+```
 
 
 ##What's already working?

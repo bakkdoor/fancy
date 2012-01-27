@@ -13,9 +13,13 @@ class Fancy {
       new: filename line: line . parse_string: code . script
     }
 
+    def self ast: line parse_error: text {
+      ParseError new: line message: text filename: (Thread current['__fancy__parser__filename__]) . raise!
+    }
+
     read_write_slots: ['filename, 'line, 'script]
 
-    def initialize: @filename line: @line { }
+    def initialize: @filename line: @line { Thread current['__fancy__parser__filename__]: @filename }
 
     def body: body {
       @script = AST Script new: @line file: @filename body: body

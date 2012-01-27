@@ -4,6 +4,12 @@ class Fancy
     class Identifier < Node
       attr_reader :identifier
 
+      @@gen_ident_start = 0
+      def Identifier.generate(line)
+        @@gen_ident_start += 1
+        Identifier.new(line, "______gen_ident______#{@@gen_ident_start}")
+      end
+
       def initialize(line, identifier)
         super(line)
         @identifier = identifier

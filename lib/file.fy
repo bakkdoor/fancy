@@ -4,16 +4,27 @@ class File {
   system on which Fancy is running.
   """
 
-  # def self exists?: filename {
-  #   "Indicates, if a File exists with a given filename."
-  #   try {
-  #     f = File open: filename modes: ['read]
-  #     f close
-  #     true
-  #   } catch IOError => e {
-  #     nil
-  #   }
-  # }
+  def File write: filename with: block {
+    """
+    @filename Filename of @File@ to write to.
+    @block @Block@ called with a @File@ object to write to.
+
+    Opens a @File@ for writing and calls @block with it.
+    """
+
+    File open: filename modes: ['write] with: block
+  }
+
+  def File read: filename with: block {
+    """
+    @filename Filename of @File@ to read from.
+    @block @Block@ called with a @File@ object to read from.
+
+    Opens a @File@ for reading and calls @block with it.
+    """
+
+    File open: filename modes: ['read] with: block
+  }
 
   def File touch: filename {
     """
@@ -42,6 +53,14 @@ class File {
   alias_method: 'println: for: 'writeln:
 
   def expanded_path {
+    """
+    @return Expanded (absolute) path of @self.
+
+    Example:
+          f = File open: \"README.txt\"
+          f expanded_path # => \"/path/to/README.txt\" (when run from /path/to/)
+    """
+
     File expand_path: path
   }
 }

@@ -242,16 +242,16 @@ FancySpec describe: Object with: {
   }
 
   it: "copies a given list of slots from one object to another" with: 'copy_slots:from: when: {
-    o1 = { slot1: "foo" slot2: "bar" } object
-    o2 = {} object
+    o1 = { slot1: "foo" slot2: "bar" } to_object
+    o2 = {} to_object
     o2 copy_slots: ['slot1] from: o1
     o2 slots includes?: 'slot1 . is: true
     o2 get_slot: 'slot1 == (o1 slot1) is: true
   }
 
   it: "copies all slots from one object to another" with: 'copy_slots_from: when: {
-    o1 = { slot1: "foo" slot2: "bar" } object
-    o2 = {} object
+    o1 = { slot1: "foo" slot2: "bar" } to_object
+    o2 = {} to_object
     o2 slots is: []
     o2 copy_slots_from: o1
     o2 slots includes?: 'slot1 . is: true
@@ -259,5 +259,23 @@ FancySpec describe: Object with: {
     o2 slots is: $ o1 slots
     o2 get_slot: 'slot1 == (o1 slot1) is: true
     o2 get_slot: 'slot2 == (o1 slot2) is: true
+  }
+
+  it: "returns itself when return is send as a message" with: 'return when: {
+    def foo: array {
+      array each: @{ return }
+    }
+    foo: [1,2,3] . is: 1
+
+    def bar: array values: vals {
+      array each: |x| {
+        vals << x
+        x return
+      }
+    }
+
+    v = []
+    bar: [1,2,3] values: v . is: 1
+    v is: [1]
   }
 }

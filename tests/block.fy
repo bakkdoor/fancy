@@ -219,7 +219,7 @@ FancySpec describe: Block with: {
     b2("foo") is: (b2 call: ["foo"])
   }
 
-  it: "dynamically creates a object with slots defined in a Block" with: 'object when: {
+  it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
     o = {
       name: "John Connor"
       age: 12
@@ -227,8 +227,8 @@ FancySpec describe: Block with: {
       persecuted_by: $ {
         name: "The Terminator"
         age: 'unknown
-      } object
-    } object
+      } to_object
+    } to_object
 
     o name is: "John Connor"
     o age is: 12

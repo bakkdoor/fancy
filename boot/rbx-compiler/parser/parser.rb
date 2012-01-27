@@ -243,6 +243,12 @@ class Fancy
       Rubinius::AST::NilLiteral.new(line)
     end
 
+    def partial_block(line, block_body)
+      gen_blockarg = AST::Identifier.generate(line)
+      args = AST::BlockArgs.new line, gen_blockarg
+      AST::BlockLiteral.new(line, args, block_body, true)
+    end
+
     def block_literal(line, block_args, block_body)
       block_args ||= Array.new
       args = AST::BlockArgs.new line, *block_args

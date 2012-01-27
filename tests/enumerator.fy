@@ -1,12 +1,12 @@
-FancySpec describe: FancyEnumerator with: {
+FancySpec describe: Fancy Enumerator with: {
   it: "iterates with 'next" with: 'new: when: {
-    enum = FancyEnumerator new: (42..50)
+    enum = Fancy Enumerator new: (42..50)
     enum next is: 42
     enum next is: 43
   }
 
   it: "peeks to find next element" with: 'peek when: {
-    enum = FancyEnumerator new: (42..50)
+    enum = Fancy Enumerator new: (42..50)
     enum peek is: 42
     enum peek is: 42
     enum next is: 42
@@ -16,12 +16,12 @@ FancySpec describe: FancyEnumerator with: {
     enum next is: 43
   }
 
-  it: "turns an object with 'each: into an FancyEnumerator" with: 'to_enum when: {
+  it: "turns an object with 'each: into an Fancy Enumerator" with: 'to_enum when: {
     enum = (42..45) to_enum
     enum next is: 42
   }
 
-  it: "turns an object with given method into an FancyEnumerator" with: 'to_enum: when: {
+  it: "turns an object with given method into an Fancy Enumerator" with: 'to_enum: when: {
     o = {}
     def o iter: block {
       1 upto: 10 do: block

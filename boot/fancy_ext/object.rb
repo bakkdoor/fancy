@@ -1,4 +1,8 @@
 class Object
+  define_method("__AFTER__BOOTSTRAP__:") do |block|
+    nil
+  end
+
   define_method("ruby:with_block:") do |method, block|
     self.send(method, &block)
   end

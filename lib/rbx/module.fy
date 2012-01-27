@@ -11,4 +11,14 @@ class Module {
 
     const_get(constant_name)
   }
+
+  def included: module {
+    """
+    @module @Module@ or @Class@ that has been included into @self.
+    Gets called when a @Class@ or @Module@ is included into another @Class@.
+    """
+
+    # do nothing by default
+    nil
+  }
 }

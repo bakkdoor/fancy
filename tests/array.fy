@@ -547,4 +547,9 @@ FancySpec describe: Array with: {
     [] to_hash is: <[]>
     [[1,2],[3,4]] to_hash is: <[1 => 2, 3 => 4]>
   }
+
+  it: "returns a hash based on a key-block" with: 'to_hash: when: {
+    [] to_hash: @{ size } . is: <[]>
+    [[1,2],[3,4,5]] to_hash: @{ size } . is: <[2 => [1,2], 3 => [3,4,5]]>
+  }
 }

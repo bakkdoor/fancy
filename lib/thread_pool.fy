@@ -76,12 +76,12 @@ class ThreadPool {
 
   # Kills all threads
   def close {
-    @executors each: |e| { e close }
+    @executors each: @{ close }
   }
 
   # Sleeps and blocks until the task queue is finished executing
   def join {
-    { Thread sleep: 0.1 } until: { { @queue empty? } && { @executors all?: |e| { e active not } } }
+    { Thread sleep: 0.1 } until: { { @queue empty? } && { @executors all?: @{ active not } } }
   }
 
   class Completable {

@@ -129,4 +129,25 @@ FancySpec describe: Hash with: {
     <['nil => nil]> fetch: 'nil else: { 'not_found } . is: nil
     <['nila => nil]> fetch: 'nil else: { 'not_found } . is: 'not_found
   }
+
+  it: "returns an object with slots based on key-value pairs in Hash" for: 'to_object when: {
+    <[]> to_object slots empty? is: true
+    <['name => "Chris"]> to_object tap: @{
+      slots is: ['name]
+      name is: "Chris"
+      name: "New Name"
+      name is: "New Name"
+    }
+    <['a => "hello", 'b => "world"]> to_object tap: @{
+      slots size is: 2
+      slots includes?: 'a . is: true
+      slots includes?: 'b . is: true
+      a is: "hello"
+      b is: "world"
+      a: "world"
+      b: "hello"
+      a is: "world"
+      b is: "hello"
+    }
+  }
 }

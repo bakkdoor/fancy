@@ -2,6 +2,7 @@
 
 ### Class definitions (including nested classes that work like modules / namespaces) ###
 
+```fancy
     class Person {
       # Person constructor method.
       # @name, @age & @friends instance variables get auto-assigned
@@ -24,9 +25,11 @@
       }
       # ...
     }
+```
 
 ### Instance & class method definitions ###
 
+```fancy
     class Foo {
       def instance_method: an_argument {
         """
@@ -46,6 +49,7 @@
         @@a_class_var = another_argument another_method
       }
     }
+```
 
 ### Literal syntax for: ###
  * Symbols:
@@ -92,9 +96,11 @@
 
 ### Method & Operator calls ###
 
+```fancy
     object a_simple_message      # unary (0-argument) message to object
     object && another_object     # operator (binary) message to object
     object give: "foo" to: "bar" # keyword message to object with arguments "foo" and "bar"
+```
 
 ### Instance & class variable access ###
  * Instance variables: `@name`, `@age`
@@ -102,15 +108,18 @@
 
 ### Dynamically scoped variables ###
 
+```fancy
     File open: "/tmp/foo.txt" modes: ['write] with: |f| {
       let: '*stdout* be: f in: {
         "foo" println # writes to /tmp/foo.txt instead of normal STDOUT (console)
       }
     }
     # *stdout* is back to old value here.
+```
 
 ### Dynamic getter and setter method definitions (similar to Ruby's attr_acessor) ###
 
+```fancy
     class Person {
       # getter methods:
       read_slots: ['name, 'age]
@@ -121,9 +130,11 @@
       # getter & setter methods
       read_write_slots: ['location, 'friends, 'money]
     }
+```
 
 ### Loops ###
 
+```fancy
     { x < y } while_true: {
       x println
       x = x + 1
@@ -155,9 +166,11 @@
       { next } if: (i == 5)
       # do something else here
     }
+```
 
 ### Support for closures via Blocks ###
 
+```fancy
     x = 0
     10 times: {
       x println
@@ -169,6 +182,7 @@
     b = |x y| { x + y println }
     b call: [2, 3]      # prints 5
     b(2,3)              # same as above
+```
 
 ### Local & non-local returns from Blocks & Methods ###
 
@@ -188,14 +202,17 @@
 
 ### Class-Mixins (including methods of one class into another) ###
 
+```fancy
     class MyClass {
       # include all methods of MyMixinClass into MyClass
       include: MyMixinClass
       # ...
     }
+```
 
 ### Exception handling (try, catch, finally & retry) ###
 
+```fancy
     try {
       File read: "/etc/passwd" . println
     } catch IOError => e {
@@ -214,9 +231,11 @@
     } finally {
       "it worked!" println  # this gets run at the end
     }
+```
 
 ### Simple pattern matching (work-in-progress) ###
 
+```fancy
     def match_it: a_string {
       match a_string {
         case /^hello, (\S+)!$/ -> |_, name| # _ gets bound to matcher object (not used)
@@ -224,9 +243,11 @@
         case _ -> "No match, sorry." println
       }
     }
+```
 
 ### Single and multiple assignment. ###
 
+```fancy
     x = "foo"
     x, y = "Hello", "World"
     x, y = y, x # swap x and y
@@ -235,9 +256,11 @@
     # from:to: message
     a, b, *rest = [1,2,3,4,5,6]   # => a = 1, b = 2, rest = [3,4,5,6]
     *a, *b = [1,2,3]              # => a = [1,2,3], b = [2,3]
+```
 
 ### Calling, using and extending arbitrary Ruby classes and methods (including C-extensions). ###
 
+```fancy
     require("open3")     # require ruby's open3 library
     require: "fancy_irc" # require fancy's fancy_irc library
     require("activerecord")
@@ -248,6 +271,7 @@
         "Welcome to Fancy's extension capabilities!" println
       }
     }
+```
 
 ### Standard library ###
 * Including:

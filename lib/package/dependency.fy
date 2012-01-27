@@ -20,5 +20,18 @@ class Fancy Package {
 
     def initialize: @gem_name version: @version ('latest) {
     }
+
+    def install {
+      """
+      Installs the RubyDependency (a RubyGem) via rbx -S gem on the system.
+      """
+
+      match @version {
+        case 'latest ->
+          System do: "rbx gem install #{@gem_name}"
+        case _ ->
+          System do: "rbx gem install -v=#{@version} #{@gem_name}"
+      }
+    }
   }
 }

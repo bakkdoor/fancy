@@ -96,6 +96,10 @@ try {
   bnd = binding()
 
   while: { read_line } do: |line| {
+    if: (line =~ /^\s*(exit|quit)\s*$/) then: {
+      break
+    }
+
     HISTORY << line
     if: (double_or_empty?: line) then: {
       Readline::HISTORY pop()

@@ -4,11 +4,11 @@ class String {
   All literal Strings within Fancy code are instances of the String
   class.
 
-  They also include FancyEnumerable, which means you can use all the
+  They also include @Fancy::Enumerable@, which means you can use all the
   common sequence methods on them, like +map:+, +select:+ etc.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   instance_method: '== . documentation: """
     Compares @self to another @String@ and returns @true, if equal, @false otherwise.
@@ -177,14 +177,14 @@ class String {
 
   def bytes {
     """
-    @return @FancyEnumerator@ of all bytes (@Fixnum@ values) in @self.
+    @return @Fancy::Enumerator@ of all bytes (@Fixnum@ values) in @self.
     """
 
     enum = bytes()
     def enum each: block {
       each(&block)
     }
-    FancyEnumerator new: enum
+    Fancy Enumerator new: enum
   }
 
   def relative_path: path {

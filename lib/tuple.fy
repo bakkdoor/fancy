@@ -4,7 +4,7 @@ class Tuple {
   elements.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def Tuple with_values: values {
     """
