@@ -1,6 +1,6 @@
 class FutureSend {
   """
-  A @FutureSend@ gets created whenever a asynchronous message via the @@ operator get send, yielding a @FutureSend@.
+  A @FutureSend@ gets created whenever an asynchronous message via the @@ operator gets sent, yielding a @FutureSend@.
   They represent Futures/Promises in Fancy.
 
   Example:
