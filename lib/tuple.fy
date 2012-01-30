@@ -33,15 +33,28 @@ class Tuple {
     at: idx
   }
 
-  def from: start to: end {
-    arr = []
+  def from: from to: to {
+    """
+    @from Start index for sub-array.
+    @to End index ofr sub-array.
+
+    Returns sub-array starting at from: and going to to:
+    """
+
+    if: (from < 0) then: {
+      from = size + from
+    }
+    if: (to < 0) then: {
+      to = size + to
+    }
+    subarr = []
     try {
-      start upto: end do: |i| {
-          arr << $ self[i]
+      from upto: to do: |i| {
+        subarr << (at: i)
       }
     } catch ObjectBoundsExceededError {
     }
-    arr
+    subarr
   }
 
   def each: block {
