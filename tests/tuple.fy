@@ -65,4 +65,10 @@ FancySpec describe: Tuple with: {
     sum is: 6
     vals is: [3,2,1]
   }
+
+  it: "returns an array of all elements between two indices" with: 'from:to: when: {
+    (1,2) from: 2 to: 3 . is: []
+    (1,2,3) from: 0 to: 2 . is: [1,2,3]
+    (4,5,6,7,8,9) from: 3 to: 5 . is: [7,8,9]
+  }
 }

@@ -1,3 +1,5 @@
+ObjectBoundsExceededError = Rubinius ObjectBoundsExceededError
+
 class Tuple {
   """
   Tuples are fixed-size containers providing index-based access to its
@@ -29,6 +31,17 @@ class Tuple {
     """
 
     at: idx
+  }
+
+  def from: start to: end {
+    arr = []
+    try {
+      start upto: end do: |i| {
+          arr << $ self[i]
+      }
+    } catch ObjectBoundsExceededError {
+    }
+    arr
   }
 
   def each: block {
