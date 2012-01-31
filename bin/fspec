@@ -18,5 +18,9 @@ if: (test_files empty?) then: {
     require: f
   }
   Console newline
-  FancySpec SpecTest print_failures: start
+  FancySpec SpecTest print_failures: start no_failures: {
+    System exit: 0
+  } else: {
+    System exit: 1
+  }
 }

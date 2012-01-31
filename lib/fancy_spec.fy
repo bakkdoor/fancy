@@ -175,7 +175,7 @@ class FancySpec {
       @@current
     }
 
-    def SpecTest print_failures: start_time {
+    def SpecTest print_failures: start_time no_failures: ok_block else: error_block {
       @@failed_positive each: |test_obj failed_tests| {
         failed_tests each: |t| {
           Console newline
@@ -194,11 +194,7 @@ class FancySpec {
 
       Console newline
       "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
-      if: (@@failed_count > 0) then: {
-        System exit: 1
-      } else: {
-        System exit: 0
-      }
+      if: (@@failed_count == 0) then: ok_block else: error_block
     }
 
     def initialize: @info_str block: @block {
