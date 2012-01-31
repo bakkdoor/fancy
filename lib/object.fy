@@ -572,6 +572,29 @@ class Object {
     }
   }
 
+  def with_mutable_slots: slotnames do: block {
+    """
+    @slotnames @Fancy Enumerable@ of slotnames to be mutable within @block.
+    @block @Block@ to be called with @self.
+
+    Calls @block with @self while having slots defined in @slotnames
+    be mutable during execution of @block.
+    """
+
+    metaclass read_write_slots: slotnames
+    val = nil
+    try {
+      val = block call: [self]
+    } finally {
+      slotnames each: |s| {
+        metaclass undefine_method: s
+        metaclass undefine_method: "#{s}:"
+      }
+      return val
+    }
+  }
+  private: 'with_mutable_slots:do:
+
   def <=> other {
     """
     @other Other object to compare against.

@@ -276,4 +276,32 @@ FancySpec describe: Object with: {
     bar: [1,2,3] values: v . is: 1
     v is: [1]
   }
+
+  it: "provides temporarily mutable slots" with: 'with_mutable_slots: when: {
+    class Student {
+      read_slots: ('name, 'age, 'city)
+      def initialize: block {
+        with_mutable_slots: ('name, 'age, 'city) do: block
+      }
+    }
+
+    p = Student new: @{
+      name: "Chris"
+      age: 24
+      city: "Osnabrück"
+    }
+
+    p name is: "Chris"
+    p age is: 24
+    p city is: "Osnabrück"
+
+    { p name: "New Name" } raises: NoMethodError
+    { p age: 25 } raises: NoMethodError
+    { p city: "New City" } raises: NoMethodError
+
+    # no changes
+    p name is: "Chris"
+    p age is: 24
+    p city is: "Osnabrück"
+  }
 }
