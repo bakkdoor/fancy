@@ -20,11 +20,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       size = @expressions size
-      @expressions each: |expr| {
-        size = size - 1
-        expr bytecode: g
-        { g pop() } if: (size > 0)
-      }
+      @expressions each: @{ bytecode: g } in_between: { g pop() }
     }
 
     # This method is only used by Rubinius' compiler classes and
