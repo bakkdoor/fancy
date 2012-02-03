@@ -24,7 +24,7 @@ class Fancy AST {
 
     def bytecode: g receiver: receiver {
       pos(g)
-      docstring = @body shift_docstring
+      docstring = @body docstring
       sup = Rubinius AST DefineSingletonScope instance_method('bytecode)
       sup bind(self) call(g, receiver)
       MethodDef set: g docstring: docstring line: @line argnames: $ @arguments names()

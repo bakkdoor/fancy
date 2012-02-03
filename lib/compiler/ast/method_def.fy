@@ -3,7 +3,7 @@ class Fancy AST {
     def initialize: @line name: @name args: @arguments (MethodArgs new: @line) body: @body (ExpressionList new: @line) access: @access ('public) {
       { @body = ExpressionList new: @line } unless: @body
       @name = @name method_name: nil
-      @docstring = @body shift_docstring
+      @docstring = @body docstring
       generate_ivar_assignment
 
       if: (@body empty?) then: {
