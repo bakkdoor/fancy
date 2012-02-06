@@ -570,7 +570,7 @@ FancySpec describe: Class with: {
 
   it: "delegates methods correctly" with: 'delegate:to_slot: when: {
     class Delegation {
-      delegate: ('<<, 'to_s, 'to_s:, 'inspect) to_slot: 'object
+      delegate: ('[], '[]:, '<<, 'to_s, 'to_s:, 'inspect, 'each:in_between:) to_slot: 'object
       def initialize: @object
     }
 
@@ -586,5 +586,8 @@ FancySpec describe: Class with: {
     d get_slot: 'object . is: [1,2,3,5]
     d << nil
     d get_slot: 'object . is: [1,2,3,5, nil]
+    d[2]: "foo"
+    d get_slot: 'object . is: [1,2,"foo",5,nil]
+    d[1] is: 2
   }
 }

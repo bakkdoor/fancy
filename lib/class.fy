@@ -157,16 +157,22 @@ class Class {
       keywords = m to_s split: ":"
       message_with_args = ""
 
-      keywords map_with_index: |kw i| {
-        if: (kw =~ /[a-zA-Z]/) then: {
-          if: (m to_s includes?: ":") then: {
-            message_with_args << "#{kw}: arg_#{i}"
-          } else: {
-            message_with_args << kw
+      match m to_s {
+        case "[]" -> message_with_args = "[arg]"
+        case "[]:" -> message_with_args = "[arg1]: arg2"
+        case _ ->
+          keywords map_with_index: |kw i| {
+            if: (kw =~ /[a-zA-Z]/) then: {
+              if: (m to_s includes?: ":") then: {
+                message_with_args << "#{kw}: arg_#{i}"
+              } else: {
+                message_with_args << kw
+              }
+            } else: {
+              message_with_args << "#{kw} arg_#{i}"
+            }
+            message_with_args <<  " "
           }
-        } else: {
-          message_with_args << "#{kw} arg_#{i}"
-        }
       }
 
       mdef = "def #{message_with_args}"
