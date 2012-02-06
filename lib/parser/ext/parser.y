@@ -786,6 +786,9 @@ key_value_list: exp space ARROW space exp {
                 | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
+                | key_value_list COMMA {
+                  $$ = $1;
+                }
                 ;
 
 match_expr:     MATCH exp LCURLY space match_body space RCURLY {
