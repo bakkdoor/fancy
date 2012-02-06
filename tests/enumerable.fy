@@ -12,4 +12,16 @@ FancySpec describe: Fancy Enumerable with: {
     [] map_chained: ('class, 'name) . is: []
     [1, "foo", 'hello] map_chained: ('class, 'name) . is: ["Fixnum", "String", "Symbol"]
   }
+
+  it: "maps over its elements with their index" with: 'map_with_index: when: {
+    (1,2,3) map_with_index: |x i| {
+      x + i
+    } . is: [1,3,5]
+
+    [1,2,3,4] map_with_index: |x i| {
+      i
+    } . is: [0,1,2,3]
+
+    [] map_with_index: |x i| { i } . is: []
+  }
 }

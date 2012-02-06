@@ -204,6 +204,21 @@ class Fancy {
       coll
     }
 
+    def map_with_index: block {
+      """
+      @block A @Block@ that gets called with each element and its index in @self.
+      @return An @Array@ containing all values of calling @block with each element and its index in @self.
+
+      Returns a new @Array@ with the results of calling a given block for every element and its index.
+      """
+
+      coll = []
+      each_with_index: |x i| {
+        coll << (block call: [x, i])
+      }
+      coll
+    }
+
     def map_chained: blocks {
       """
       @blocks Collection of @Block@s to be called sequentially for every element in @self.
