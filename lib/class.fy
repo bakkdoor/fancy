@@ -136,4 +136,49 @@ class Class {
 
     alias_method_rbx: new_method_name for: old_method_name
   }
+
+  def delegate: methods to_slot: slotname {
+    """
+    @methods @Fancy::Enumerable@ of method names to be delegated.
+    @slotname Name of slot to delegate @methods to.
+
+    Example:
+          class MyClass {
+            delegate: ('to_s, 'inspect) to_slot: 'my_slot
+            def initialize: @my_slot
+          }
+
+          m = MyClass new: [1, 2, 3]
+          m to_s      # => \"123\"
+          m inspect   # => \"[1, 2, 3]\"
+    """
+
+    methods each: |m| {
+      keywords = m to_s split: ":"
+      message_with_args = ""
+
+      keywords map_with_index: |kw i| {
+        if: (kw =~ /[a-zA-Z]/) then: {
+          if: (m to_s includes?: ":") then: {
+            message_with_args << "#{kw}: arg_#{i}"
+          } else: {
+            message_with_args << kw
+          }
+        } else: {
+          message_with_args << "#{kw} arg_#{i}"
+        }
+      }
+
+      mdef = "def #{message_with_args}"
+
+      mdef << " {\n"
+      mdef << "@#{slotname} #{message_with_args}"
+
+      mdef << "\n}"
+
+      class_eval: {
+        mdef eval
+      }
+    }
+  }
 }

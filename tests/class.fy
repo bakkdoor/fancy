@@ -567,4 +567,24 @@ FancySpec describe: Class with: {
     WithConstants["Nested"] is_a?: Class . is: true
     WithConstants["Nested"] is: WithConstants Nested
   }
+
+  it: "delegates methods correctly" with: 'delegate:to_slot: when: {
+    class Delegation {
+      delegate: ('<<, 'to_s, 'to_s:, 'inspect) to_slot: 'object
+      def initialize: @object
+    }
+
+    d = Delegation new: "hello, world!"
+    d to_s is: "hello, world!"
+    d inspect is: $ "hello, world!" inspect
+    d = Delegation new: 2
+    d to_s is: "2"
+    d inspect is: "2"
+    d to_s: 2 . is: "10"
+    d = Delegation new: [1,2,3]
+    d << 5
+    d get_slot: 'object . is: [1,2,3,5]
+    d << nil
+    d get_slot: 'object . is: [1,2,3,5, nil]
+  }
 }
