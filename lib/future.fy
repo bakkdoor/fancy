@@ -16,6 +16,7 @@ class FutureSend {
     @completed = false
     @failed = false
     @continuations = []
+    @fail_continuations = []
     @actor ! ('future, (@message, @params), self)
   }
 
@@ -37,9 +38,20 @@ class FutureSend {
 
   def completed! {
     @condvar broadcast
-    unless: @failed do: {
-      @continuations each: @{ call: [@value] }
+    if: @failed then: {
+      try {
+        @fail_continuations each: @{ call: [@fail_reason] }
+      } catch Exception => ex {
+        *stderr* println: "Error in FutureSend#completed! while calling fail continuations: #{ex}"
+      }
+    } else: {
+      try {
+        @continuations each: @{ call: [@value] }
+      } catch Exception => ex {
+        *stderr* println: "Error in FutureSend#completed! while calling success continuations: #{ex}"
+      }
     }
+    @fail_continuations = []
     @continuations = []
   }
 
@@ -121,6 +133,23 @@ class FutureSend {
 
   def send_future: message with_params: params {
     value send_future: message with_params: params
+  }
+
+  def when_failed: block {
+    """
+    @block @Block@ to be registered as a continuation when @self fails.
+
+    Registers @block as a continuation to be called with @self's fail reason in case of failure.
+    """
+
+    { return nil } if: succeeded?
+    @completed_mutex synchronize: {
+      if: @failed then: {
+        block call: [@fail_reason]
+      } else: {
+        @fail_continuations << block
+      }
+    }
   }
 
   def when_done: block {

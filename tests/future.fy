@@ -53,4 +53,44 @@ FancySpec describe: FutureSend with: {
     f failure message is: "error!"
     f failed? is: true
   }
+
+  it: "calls a block when done" with: 'when_done: when: {
+    called? = false
+    failed? = false
+    val = 0
+    f = { Thread sleep: 0.01; 2 } @ call
+    f when_done: |v| {
+      val = v
+      called? = true
+    }
+    f when_failed: |err| {
+      val = err
+      failed? = true
+    }
+
+    f value
+    called? is: true
+    val is: 2
+  }
+
+  it: "calls a block when failed" with: 'when_failed: when: {
+    called? = false
+    failed? = false
+    val = 0
+    f = { Thread sleep: 0.01; "Fail!" raise! } @ call
+    f when_done: |v| {
+      val = v
+      called? = true
+    }
+    f when_failed: |err| {
+      val = err
+      failed? = true
+    }
+
+    f value
+    called? is: false
+    failed? is: true
+    val message is: "Fail!"
+    val is_a?: Exception
+  }
 }
