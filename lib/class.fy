@@ -187,4 +187,13 @@ class Class {
       }
     }
   }
+
+  def is_actor {
+    """
+    Enables instances of a @Class@ to be used as @Celluloid backed actors.
+    Includes @Celluloid module into @self.
+    """
+
+    include: Celluloid
+  }
 }

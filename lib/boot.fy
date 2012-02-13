@@ -52,3 +52,5 @@ require: "system"
 require: "documentation"
 
 require: "package.fy"
+
+require: "rbx/celluloid"
