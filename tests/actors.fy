@@ -15,10 +15,7 @@ FancySpec describe: "Celluloid backed Actors" with: {
       }
 
       def actor_failed: actor reason: reason {
-        match reason message {
-          case "I'm failing!" ->
-            @noticed_failure? = true
-        }
+        @noticed_failure? = reason message == "I'm failing!"
       }
     }
 
