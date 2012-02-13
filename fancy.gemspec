@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "fancy"
   s.summary = "The Fancy Programming Language"
 
+  s.add_dependency "celluloid"
+
   s.description = <<EOS
 The Fancy Programming Language
 
