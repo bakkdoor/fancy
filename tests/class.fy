@@ -590,4 +590,15 @@ FancySpec describe: Class with: {
     d get_slot: 'object . is: [1,2,"foo",5,nil]
     d[1] is: 2
   }
+
+  it: "allows delegating only a single method" with: 'delegate:to_slot: when: {
+    class Delegation {
+      delegate: 'to_s to_slot: 'number
+      read_write_slot: 'number
+    }
+
+    d = Delegation new
+    d number: 5
+    d to_s is: $ 5 to_s
+  }
 }
