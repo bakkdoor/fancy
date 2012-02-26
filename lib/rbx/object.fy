@@ -140,4 +140,13 @@ class Object {
 
     metaclass include: class
   }
+
+  def lambda: block {
+    """
+    @block @Block@ to be used as the lambda's body.
+    @return @Proc@ with Ruby's lambda semantics (e.g. @return always becomes @return_local)
+    """
+
+    lambda(&block)
+  }
 }
