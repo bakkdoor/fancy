@@ -1,5 +1,5 @@
 class Fancy {
-  class MessageSink : BasicObject {
+  class MessageSink : Fancy BasicObject {
     """
     A MessageSink just swallows all messages that are sent to it.
     """
