@@ -4,15 +4,15 @@ class Object
   end
 
   define_method("ruby:with_block:") do |method, block|
-    self.send(method, &block)
+    self.__send__(method, &block)
   end
 
   define_method("ruby:args:with_block:") do |method, args, block|
-    self.send(method, *args, &block)
+    self.__send__(method, *args, &block)
   end
 
   define_method("ruby:args:") do |method, args|
-    self.send(method, *args)
+    self.__send__(method, *args)
   end
 
   define_method(":to_s") do

@@ -97,7 +97,7 @@ class Object {
     Dynamically sends a given message (without parameters) to @self.
     """
 
-    send(message_name: message)
+    __send__(message_name: message)
   }
 
   def receive_message: message with_params: params {
@@ -108,7 +108,7 @@ class Object {
     Dynamically sends a given message with parameters to @self.
     """
 
-   ruby: (message_name: message) args: params
+    ruby: (message_name: message) args: params
   }
 
   def message_name: symbol {
