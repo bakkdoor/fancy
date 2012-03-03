@@ -10,7 +10,7 @@ class Fixnum {
   ruby_aliases: [
     '==, '-, '+, '*, '/, '<, '>, '<=, '>=,
     '===, 'chr, 'to_i, 'to_f, '**, '&, '|,
-    '<<, '>>
+    '^, '<<, '>>
   ]
 
   alias_method: 'to_s: for: 'to_s
