@@ -6,6 +6,9 @@ class Hash {
 
   include: Fancy Enumerable
 
+  alias_method: 'get_slot: for: 'at:
+  alias_method: 'set_slot:value: for: 'at:put:
+
   def [key] {
     """
     @key Key for value to get.
