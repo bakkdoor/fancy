@@ -88,7 +88,7 @@ class Fancy {
       Indicates, if a collection includes a given element.
       """
 
-      any?: @{ == item }
+      any?: |x| { x == item }
     }
 
     def each: each_block in_between: between_block {
