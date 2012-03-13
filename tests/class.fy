@@ -568,6 +568,13 @@ FancySpec describe: Class with: {
     WithConstants["Nested"] is: WithConstants Nested
   }
 
+  it: "sets a constants value" with: '[]: when: {
+    Kernel["Object"] is: Object
+    { Kernel["Something"] } raises: NameError
+    Kernel["Something"]: Array
+    { Kernel["Something"] is: Array } does_not raise: NameError
+  }
+
   it: "delegates methods correctly" with: 'delegate:to_slot: when: {
     class Delegation {
       delegate: ('[], '[]:, '<<, 'to_s, 'to_s:, 'inspect, 'each:in_between:) to_slot: 'object
