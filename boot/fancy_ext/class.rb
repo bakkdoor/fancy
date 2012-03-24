@@ -23,4 +23,5 @@ class Class
     end
   end
 
+  public :public, :private, :protected, :include, :extend
 end
