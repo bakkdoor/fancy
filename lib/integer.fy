@@ -23,7 +23,7 @@ class Integer {
     @return Return value of calling @block or raises an exception after @self tries.
             Returns @nil if @self <= 0.
 
-    Trys to call a @Block@ @self amount of times, returning its return
+    Tries to call a @Block@ @self amount of times, returning its return
     value or raising the last exception raised frin @block after @self tries.
 
     Example:
