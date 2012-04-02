@@ -75,7 +75,7 @@ class File {
     File read(filename, length, offset)
   }
 
-  def File open: filename modes: modes_arr {
+  def File open: filename modes: modes_arr (('read, 'binary)) {
     """
     @filename Filename to open/create.
     @modes_arr Array of symbols that describe the desired operations to perform.
