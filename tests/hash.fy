@@ -42,6 +42,14 @@ FancySpec describe: Hash with: {
     hash at: 'foo1 else: { "hello" } . is: "hello"
   }
 
+  it: "calls the block if it can't find the key and inserts the return value" with: 'at:else_put: when: {
+    hash = <['foo => "bar", 'bar => nil]>
+    hash at: 'foo else_put: { "hello" } . is: "bar"
+    hash at: 'bar else_put: { "hello" } . is: nil
+    hash at: 'foo1 else_put: { "hello" } . is: "hello"
+    hash['foo1] is: "hello"
+  }
+
   it: "returns all keys" with: 'keys when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash keys is =? ['foo, 'bar, 'foobar]
@@ -121,13 +129,6 @@ FancySpec describe: Hash with: {
     h includes?: "foo" . is: false
     h includes?: "bar" . is: false
     h includes?: nil . is: false
-  }
-
-  it: "fetches a value or calls a given alternative block" for: 'fetch:else: when: {
-    <['foo => 'bar]> fetch: 'foo else: { 42 } . is: 'bar
-    <['foo => 'bar]> fetch: 'unknown else: { 42 } . is: 42
-    <['nil => nil]> fetch: 'nil else: { 'not_found } . is: nil
-    <['nila => nil]> fetch: 'nil else: { 'not_found } . is: 'not_found
   }
 
   it: "returns an object with slots based on key-value pairs in Hash" for: 'to_object when: {
