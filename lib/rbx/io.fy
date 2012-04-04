@@ -1,4 +1,8 @@
 class IOMixin {
+  def read: amount_bytes {
+    read(amount_bytes)
+  }
+
   def readln {
     readline
   }

@@ -1,4 +1,4 @@
-class DynamicSlotObject : BasicObject {
+class DynamicSlotObject : Fancy BasicObject {
   def initialize {
     @object = Object new
   }
@@ -14,7 +14,7 @@ class DynamicSlotObject : BasicObject {
   }
 }
 
-class DynamicKeyHash : BasicObject {
+class DynamicKeyHash : Fancy BasicObject {
   def initialize: @deep (false) {
     @hash = <[]>
   }
@@ -36,7 +36,7 @@ class DynamicKeyHash : BasicObject {
   }
 }
 
-class DynamicValueArray : BasicObject {
+class DynamicValueArray : Fancy BasicObject {
   def initialize {
     @arr = []
   }

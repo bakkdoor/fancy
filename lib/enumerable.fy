@@ -88,7 +88,7 @@ class Fancy {
       Indicates, if a collection includes a given element.
       """
 
-      any?: |x| { item == x }
+      any?: |x| { x == item }
     }
 
     def each: each_block in_between: between_block {
@@ -404,7 +404,7 @@ class Fancy {
       """
 
       i = 0
-      each: |x| {
+      each: {
         i = i + 1
       }
       i
@@ -430,7 +430,7 @@ class Fancy {
             [1,2,nil,3,nil] compact # => [1,2,3]
       """
 
-      reject: |x| { x nil? }
+      reject: @{ nil? }
     }
 
     def superior_by: comparison_block taking: selection_block ('identity) {
@@ -542,7 +542,7 @@ class Fancy {
       @return Random element in @self.
       """
 
-      at: (rand(size))
+      at: $ size random
     }
 
     def sort_by: block {
@@ -601,8 +601,7 @@ class Fancy {
       In either case, it simply converts @self to an @Array@ and returns it in reversed order.
       """
 
-      rev = self to_a
-      rev reverse
+      self to_a reverse
     }
 
     def to_hash: block {
@@ -615,12 +614,12 @@ class Fancy {
               # => <[3 => \"foo\", 5 => \"hello\", 2 => \"ok\", 0 => \"\"]>
       """
 
-      h = <[]>
-      self each: |val| {
+
+      inject: <[]> into: |h val| {
         key = block call: [val]
         h[key]: val
+        h
       }
-      h
     }
 
     def reverse_each: block {

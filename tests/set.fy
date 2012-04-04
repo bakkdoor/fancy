@@ -16,7 +16,7 @@ FancySpec describe: Set with: {
     s << "foo"
     s << "bar"
     s << "foo"
-    s values is: ["foo", "bar"]
+    s values =? ["foo", "bar"] . is: true
   }
 
   it: "only keeps unique values" with: '[] when: {

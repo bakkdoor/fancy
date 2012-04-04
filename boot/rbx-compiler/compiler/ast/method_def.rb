@@ -79,6 +79,7 @@ class Fancy
                              Identifier.new(@line, "define_constructor_class_method:"),
                              MessageArgs.new(@line, method_ident))
         ms.bytecode(g)
+        g.pop
       end
 
       def define_method_missing(g)
@@ -86,6 +87,7 @@ class Fancy
                         Rubinius::AST::Self.new(@line),
                         Identifier.new(@line, "define_forward_method_missing"),
                         MessageArgs.new(@line)).bytecode(g)
+        g.pop
       end
     end
 

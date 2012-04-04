@@ -26,6 +26,25 @@ class File {
     File open: filename modes: ['read] with: block
   }
 
+  def File read_binary: filename with: block {
+    """
+    @filename Filename of @File@ to read from.
+    @block @Block@ called with a @File@ object to read from.
+
+    Opens a @File@ for reading and calls @block with it.
+    """
+
+    File open: filename modes: ['read, 'binary] with: block
+  }
+
+  def File read_binary: filename {
+    content = nil
+    File read_binary: filename with: |f| {
+      content = f read
+    }
+    content
+  }
+
   def File touch: filename {
     """
     @filename Name of @File@ to be created, if not already existant.

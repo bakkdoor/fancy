@@ -97,7 +97,7 @@ class Object {
     Dynamically sends a given message (without parameters) to @self.
     """
 
-    send(message_name: message)
+    __send__(message_name: message)
   }
 
   def receive_message: message with_params: params {
@@ -108,7 +108,7 @@ class Object {
     Dynamically sends a given message with parameters to @self.
     """
 
-   ruby: (message_name: message) args: params
+    ruby: (message_name: message) args: params
   }
 
   def message_name: symbol {
@@ -139,5 +139,14 @@ class Object {
     """
 
     metaclass include: class
+  }
+
+  def lambda: block {
+    """
+    @block @Block@ to be used as the lambda's body.
+    @return @Proc@ with Ruby's lambda semantics (e.g. @return always becomes @return_local)
+    """
+
+    lambda(&block)
   }
 }

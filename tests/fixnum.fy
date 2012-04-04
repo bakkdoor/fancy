@@ -117,4 +117,23 @@ FancySpec describe: Fixnum with: {
     times_called is: 10
     sum is: ((10..19) sum)
   }
+
+  it: "tries to run a code block self amount of times or fails" with: 'try_times: when: {
+    { -2 times_try: { 2 / 0 } } does_not raise: Exception
+    { -1 times_try: { 2 / 0 } } does_not raise: Exception
+    { 0 times_try: { 2 / 0 } } does_not raise: Exception
+    { 1 times_try: { 2 / 0 } } raises: ZeroDivisionError
+    { 2 times_try: { 2 / 0 } } raises: ZeroDivisionError
+
+    tries = 0
+    {
+      2 times_try: {
+        tries = tries + 1
+        2 / 0
+      }
+    } raises: ZeroDivisionError
+    tries is: 2
+
+    2 times_try: { 2 } . is: 2
+  }
 }

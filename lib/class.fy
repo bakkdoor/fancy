@@ -152,6 +152,7 @@ class Class {
           m to_s      # => \"123\"
           m inspect   # => \"[1, 2, 3]\"
     """
+    { methods = methods to_a } unless: $ methods is_a?: Fancy Enumerable
 
     methods each: |m| {
       keywords = m to_s split: ":"

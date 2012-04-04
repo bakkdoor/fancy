@@ -568,6 +568,13 @@ FancySpec describe: Class with: {
     WithConstants["Nested"] is: WithConstants Nested
   }
 
+  it: "sets a constants value" with: '[]: when: {
+    Kernel["Object"] is: Object
+    { Kernel["Something"] } raises: NameError
+    Kernel["Something"]: Array
+    { Kernel["Something"] is: Array } does_not raise: NameError
+  }
+
   it: "delegates methods correctly" with: 'delegate:to_slot: when: {
     class Delegation {
       delegate: ('[], '[]:, '<<, 'to_s, 'to_s:, 'inspect, 'each:in_between:) to_slot: 'object
@@ -589,5 +596,16 @@ FancySpec describe: Class with: {
     d[2]: "foo"
     d get_slot: 'object . is: [1,2,"foo",5,nil]
     d[1] is: 2
+  }
+
+  it: "allows delegating only a single method" with: 'delegate:to_slot: when: {
+    class Delegation {
+      delegate: 'to_s to_slot: 'number
+      read_write_slot: 'number
+    }
+
+    d = Delegation new
+    d number: 5
+    d to_s is: $ 5 to_s
   }
 }

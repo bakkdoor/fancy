@@ -71,6 +71,7 @@ class Fancy AST {
                        to:      (Self new: @line)                                                 \
                        args:    (MessageArgs new: @line args: [method_ident])
       ms bytecode: g
+      g pop()
     }
 
     def define_method_missing: g {
@@ -79,6 +80,7 @@ class Fancy AST {
                        to:      (Self new: @line)                                              \
                        args:    (MessageArgs new: @line)
       ms bytecode: g
+      g pop()
     }
   }
 

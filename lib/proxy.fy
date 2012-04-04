@@ -1,4 +1,4 @@
-class ProxyReceiver : BasicObject {
+class ProxyReceiver : Fancy BasicObject {
   """
   A ProxyReceiver is an object which proxies all message sends to it to 2 other objects.
   It will send each message first to its @proxy instance variable and then to the @obj instance variable.
@@ -30,7 +30,7 @@ class ProxyReceiver : BasicObject {
 
 Proxy = ProxyReceiver
 
-class RespondsToProxy : BasicObject {
+class RespondsToProxy : Fancy BasicObject {
   """
   A RespondsToProxy is a Proxy that forwards any message sent to it to it's @target instance variable
   only if it responds to that message. Any messages that @target doesn't respond to simply won't be sent

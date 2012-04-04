@@ -16,4 +16,36 @@ class Integer {
       block call: [i + offset]
     }
   }
+
+  def times_try: block {
+    """
+    @block @Block@ to be called and retries @self amount of times if exceptions get thrown.
+    @return Return value of calling @block or raises an exception after @self tries.
+            Returns @nil if @self <= 0.
+
+    Tries to call a @Block@ @self amount of times, returning its return
+    value or raising the last exception raised frin @block after @self tries.
+
+    Example:
+          2 times_try: {
+            # this code will be tried 2 times.
+            # if it succeeds the first time, simply return its value, otherwise try once more.
+            # if it still fails after 2 attempts, raises the exception thrown (in this case probably an IOError).
+            @connection readln
+          }
+    """
+
+    max_retries = self
+    { return nil } if: $ max_retries <= 0
+    value = nil
+    try {
+      value = block call: [max_retries]
+    } catch Exception => e {
+      max_retries = max_retries - 1
+      { e raise! } unless: $ max_retries > 0
+      retry
+    } finally {
+      return value
+    }
+  }
 }

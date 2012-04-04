@@ -156,63 +156,11 @@ namespace :compiler do
     mv _("boot/.wootstrap"), _("boot/compiler")
   end
 
-  task :compile_tests do
-    say "Compiling test files"
-    system("bin/fancy -c tests/*.fy > /dev/null")
-  end
-
   task :bootstrap => ["parser:generate", "rbx_parser:ext", file(boot_parser_e)] do
     ["compiler:rootstrap", "compiler:compile", "compiler:wootstrap"].each do |t|
       task(t).reenable
       task(t).execute
     end
-  end
-
-  task :diff do
-    require 'open3'
-    sources = Dir.glob(_("lib/**/*.fy"))
-
-    say "Compiling fancy using stable compiler."
-    cmd = ['rbx', load_rb]
-    cmd << _("lib/boot.fyc")
-    cmd << _("lib/compiler.fyc")
-    cmd << _("lib/compiler/command.fyc")
-    cmd << _("boot/compiler/compiler.fyc")
-    cmd << "--"
-
-    sources.each do |file|
-      f = file.gsub(_("lib"), _("diff/fy-compiler")).gsub(/.fy$/, ".asm")
-      puts f
-      mkdir_p File.dirname(f), :verbose => false
-      Open3.popen3 *(cmd + [file, "-B"]) do |stdin, stdout, stderr|
-        File.open(f, "w") { |bc| bc.print stdout.read }
-      end
-    end
-
-
-    cmd = ['rbx']
-    cmd << _("boot/rbx-compiler/compiler.rb")
-
-    sources.each do |file|
-      f = file.gsub(_("lib"), _("diff/rb-compiler")).gsub(/.fy$/, ".asm")
-      puts f
-      mkdir_p File.dirname(f), :verbose => false
-      Open3.popen3 *(cmd + [file, "-B"]) do |stdin, stdout, stderr|
-        File.open(f, "w") { |bc| bc.print stdout.read }
-      end
-    end
-
-    sources.each do |file|
-      a = file.gsub(_("lib"), _("diff/rb-compiler")).gsub(/.fy$/, ".asm")
-      b = file.gsub(_("lib"), _("diff/fy-compiler")).gsub(/.fy$/, ".asm")
-      f = file.gsub(_("lib"), _("diff/diffs")).gsub(/.fy$/, ".diff")
-      mkdir_p File.dirname(f), :verbose => false
-      puts f
-      Open3.popen3 'diff', '-u9999', a, b do |stdin, stdout|
-        File.open(f, "w") { |bc| bc.print stdout.read }
-      end
-    end
-
   end
 
 end
