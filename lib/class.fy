@@ -108,6 +108,23 @@ class Class {
     define_slot_writer: slotname
   }
 
+  def lazy_slot: slotname value: block {
+    """
+    @slotname Name of slot to be lazily set.
+    @block @Block@ to be called to get the slot's lazy evaluated value.
+
+    Defines a lazy getter for @slotname that yields the result of calling @block and caches it in @slotname.
+    @block will be called with @self as the implicit receiver, so other slots can be used within @block.
+    """
+
+    define_method: slotname with: {
+      unless: (get_slot: slotname) do: {
+       set_slot: slotname value: $ block call_with_receiver: self
+      }
+      get_slot: slotname
+    }
+  }
+
   def subclass?: class_obj {
     """
     @class_obj Class object to check for, if @self is a subclass of @class_obj.

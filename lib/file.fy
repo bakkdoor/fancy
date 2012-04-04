@@ -58,6 +58,15 @@ class File {
     }
   }
 
+  def File eval: filename {
+    """
+    @filename Name of Fancy source file (*.fy) to be read and evaluated.
+    @return Value of evaluating code in @filename.
+    """
+
+    File read: filename . eval
+  }
+
   def writeln: x {
     """
     Writes a given argument as a String followed by a newline into the

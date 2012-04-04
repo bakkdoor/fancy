@@ -608,4 +608,19 @@ FancySpec describe: Class with: {
     d number: 5
     d to_s is: $ 5 to_s
   }
+
+  it: "defines a lazy slot" with: 'lazy_slot:value: when: {
+    class LazyClass {
+      lazy_slot: 'foo value: { Thread sleep: 0.01; 42 * @count }
+      def initialize: @count
+    }
+
+    f = LazyClass new: 2
+    start = Time now
+    f foo is: 84
+    Time now - start >= 0.01 is: true
+    start = Time now
+    f foo is: 84
+    Time now - start <= 0.01 is: true
+  }
 }

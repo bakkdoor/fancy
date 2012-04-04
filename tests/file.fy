@@ -102,4 +102,17 @@ FancySpec describe: File with: {
     File directory?: "README" . is: false
     File directory?: "src/bootstrap/Makefile" . is: false
   }
+
+  it: "evals a file" with: 'eval: when: {
+    "/tmp/test_#{Time now to_i}.fy" tap: |filename| {
+      File tap: @{
+        write: filename with: @{ print: "2 * 3 to_s inspect" }
+        eval: filename . is: $ 6 to_s inspect
+        delete: filename
+      }
+      # File write: filename with: @{ print: "2 * 3 to_s inspect" }
+      # File eval: filename . is: $ 6 to_s inspect
+      # File delete: filename
+    }
+  }
 }

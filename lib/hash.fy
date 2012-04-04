@@ -28,12 +28,43 @@ class Hash {
 
     Returns the value for a given key.
     If the key is not found, calls @else_block and returns the value it yields.
+
+    Example:
+          <['foo => 'bar]> at: 'foo else: { 42 } # => 'bar
+          <['foo => 'bar]> at: 'unknown else: { 42 } # => 42
+          <['nil => nil]> at: 'nil else: { 'not_found } # => nil
     """
 
     if: (includes?: key) then: {
       at: key
-    } else: else_block
+    } else: {
+      else_block call: [key]
+    }
   }
+
+  alias_method: 'fetch:else: for: 'at:else:
+
+  def at: key else_put: else_block {
+    """
+    @key Key of value to get.
+    @else_block @Block@ that gets called and its value inserted into @self if @key not in @self.
+
+    Example:
+          h = <['foo => 'bar]>
+          h at: 'foo else_put: { 42 } # => 'bar
+          h['foo] # => 'bar
+          h at: 'undefined else_put: { 42 } # => 42
+          h['undefined] # => 42
+    """
+
+    if: (includes?: key) then: {
+      at: key
+    } else: {
+      at: key put: $ else_block call: [key]
+    }
+  }
+
+  alias_method: 'fetch:else_put: for: 'at:else_put:
 
   def each: block {
     """
@@ -141,23 +172,5 @@ class Hash {
     """
 
     keys map: |k| { at: k }
-  }
-
-  def fetch: key else: else_block {
-    """
-    @key Key of value to get.
-    @else_block @Block@ that gets called if @key not in @self.
-
-    Example:
-          <['foo => 'bar]> fetch: 'foo else: { 42 } # => 'bar
-          <['foo => 'bar]> fetch: 'unknown else: { 42 } # => 42
-          <['nil => nil]> fetch: 'nil else: { 'not_found } # => nil
-    """
-
-    if: (includes?: key) then: {
-      at: key
-    } else: {
-      else_block call: [key]
-    }
   }
 }
