@@ -23,4 +23,13 @@ class Symbol {
 
     binding send('self) class const_defined?(self)
   }
+
+  def message_name {
+    symbol = self to_s
+    val = symbol include?(":")
+    match val {
+      case true -> symbol to_sym
+      case false -> ":" <<(symbol) to_sym
+    }
+  }
 }

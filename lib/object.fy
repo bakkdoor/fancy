@@ -296,7 +296,7 @@ class Object {
     Returns the method with a given name for self, if defined.
     """
 
-    method(message_name: method_name)
+    method(method_name message_name)
   }
 
   def documentation {
