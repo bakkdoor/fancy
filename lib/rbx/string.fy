@@ -162,4 +162,8 @@ class String {
 
     gsub(substring, substitution)
   }
+
+  def message_name {
+    self to_sym message_name to_s
+  }
 }

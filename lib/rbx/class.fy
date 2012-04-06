@@ -63,7 +63,7 @@ class Class {
     body.
     """
 
-    define_method(message_name: name, &block)
+    define_method(name message_name, &block)
   }
 
   def undefine_method: name {
@@ -73,7 +73,7 @@ class Class {
     Undefines an instance method on a Class with a given name.
     """
 
-    remove_method(message_name: name)
+    remove_method(name message_name)
   }
 
   def define_class_method: name with: block {
@@ -127,7 +127,7 @@ class Class {
     Returns an instance method for a @Class@ with a given name.
     """
 
-    instance_method(message_name: name)
+    instance_method(name message_name)
   }
 
   def alias_method_rbx: new_method_name for: old_method_name {
@@ -136,14 +136,14 @@ class Class {
     reasons. Should not be used directly.
     """
 
-    alias_method(message_name: new_method_name, message_name: old_method_name)
+    alias_method(new_method_name message_name, old_method_name message_name)
   }
 
   def alias_method: new_method_name for_ruby: ruby_method_name {
     """
     Creates a method alias for a Ruby method.
     """
-    alias_method(message_name: new_method_name, ruby_method_name)
+    alias_method(new_method_name message_name, ruby_method_name)
   }
 
   def public: method_names {
@@ -154,7 +154,7 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map: |m| { message_name: m }
+    method_names = method_names map: |m| { m message_name }
     public(*method_names)
   }
 
@@ -166,7 +166,7 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map() |m| { message_name: m }
+    method_names = method_names map() |m| { m message_name }
     private(*method_names)
   }
 
@@ -178,7 +178,7 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map() |m| { message_name: m }
+    method_names = method_names map() |m| { m message_name }
     protected(*method_names)
   }
 
