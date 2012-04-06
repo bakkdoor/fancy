@@ -29,7 +29,7 @@ Celluloid include: CelluloidExtensions
 
 class ClassMethodsExtensions {
   def trap_exit: method_name {
-    trap_exit(message_name: method_name)
+    trap_exit(method_name message_name)
   }
 }
 
@@ -39,11 +39,11 @@ class Celluloid ActorProxy {
   forwards_unary_ruby_methods
 
   def send_future: msg with_params: p {
-    future(message_name: msg, *p)
+    future(msg message_name, *p)
   }
 
   def send_async: msg with_params: p {
-    Celluloid Actor async(@mailbox, message_name: msg, *p)
+    Celluloid Actor async(@mailbox, msg message_name, *p)
   }
 
   def receive_message: msg with_params: p {
