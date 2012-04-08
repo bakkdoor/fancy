@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Fancy by bakkdoor</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/bakkdoor/fancy">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/bakkdoor/fancy/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/bakkdoor/fancy/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Fancy</h1>
+          <p>A dynamic, pure object-oriented programming language inspired by Smalltalk, Ruby, Io and Erlang that runs on the Rubinius VM.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/bakkdoor">bakkdoor</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>Welcome to Fancy.</h3>
+
+<p>Fancy is a new dynamic, pure object-oriented programming language for the <a href="http://rubini.us">Rubinius VM</a>.
+It is heavily inspired by Smalltalk, Ruby, Io and Erlang.
+Fancy has built-in support for concurrency via the actor model, similar to Io or Erlang and allows you to use almost any Ruby library out there, including most C extensions.</p>
+
+<h3>Installation</h3>
+
+<p>This will get you going with the latest and greatest version of Fancy:</p>
+
+<pre><code>$ git clone <a href="https://github.com/bakkdoor/fancy.git">https://github.com/bakkdoor/fancy.git</a>
+$ cd fancy
+$ rake
+</code></pre>
+
+<p>Start it up!</p>
+
+<pre><code>$ bin/fancy
+</code></pre>
+
+<p>Or run the test suite:</p>
+
+<pre><code>$ bin/fancy bin/fspec
+</code></pre>
+
+<p>For your convenience make sure to add Fancy's <code>bin</code> directory to your <code>$PATH</code> environment variable:</p>
+
+<pre><code>export PATH=$PATH:/path/to/fancy/bin
+</code></pre>
+
+<p>If you prefer using an official release, you can install Fancy as a Ruby gem, just make sure you're running it via Rubinius:</p>
+
+<pre><code>$ rbx -S gem install fancy
+</code></pre>
+
+<p>Or use rvm / rbenv:</p>
+
+<pre><code>$ rvm install rbx
+$ rvm use rbx
+$ gem install fancy
+</code></pre>
+
+<h3>Libraries / Examples</h3>
+
+<p>There are a bunch of (somewhat unrealistic) code examples in the <a href="https://github.com/bakkdoor/fancy/tree/master/examples">examples</a> directory. 
+Also, here's a list of libraries / repositories (Fancy packages) you can install and play with:</p>
+
+<ul>
+<li><a href="https://github.com/bakkdoor/redis.fy">Redis client</a></li>
+<li><a href="https://github.com/rkh/sinatra.fy">Sinatra web development for Fancy</a></li>
+<li><a href="https://github.com/bakkdoor/msgpack.fy">MessagePack serialization / RPC</a></li>
+<li><a href="https://github.com/bakkdoor/fancy_irc">IRC client / IRC bots</a></li>
+<li><a href="https://github.com/bakkdoor/shortefy">Sample link shortener service with sinatra.fy and redis.fy</a></li>
+<li><a href="https://github.com/bakkdoor/stormify">Fancy DSL for Twitter's Storm (WIP)</a></li>
+</ul><p>And some utility repositories:</p>
+
+<ul>
+<li><a href="https://github.com/bakkdoor/fancy-snippets">Snippets for Fancy's Emacs mode</a></li>
+<li><a href="https://github.com/nuclearsandwich/fancy-vim">VIM mode for Fancy</a></li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
