@@ -1,6 +1,6 @@
 #The Fancy Programming Language
 
-(C) 2010, 2011 Christopher Bertels chris@fancy-lang.org
+(C) 2010, 2011, 2012 Christopher Bertels chris@fancy-lang.org
 http://www.fancy-lang.org
 
 
