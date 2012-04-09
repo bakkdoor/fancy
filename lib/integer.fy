@@ -17,9 +17,10 @@ class Integer {
     }
   }
 
-  def times_try: block {
+  def times_try: block retry_with: retry_block ({}) {
     """
     @block @Block@ to be called and retries @self amount of times if exceptions get thrown.
+    @retry_block @Block@ to be called before retrying execution of @block. Defaults to an empty @Block@.
     @return Return value of calling @block or raises an exception after @self tries.
             Returns @nil if @self <= 0.
 
@@ -32,7 +33,7 @@ class Integer {
             # if it succeeds the first time, simply return its value, otherwise try once more.
             # if it still fails after 2 attempts, raises the exception thrown (in this case probably an IOError).
             @connection readln
-          }
+          } retry_with: { @connection reconnect }
     """
 
     max_retries = self
@@ -43,6 +44,7 @@ class Integer {
     } catch Exception => e {
       max_retries = max_retries - 1
       { e raise! } unless: $ max_retries > 0
+      retry_block call
       retry
     } finally {
       return value

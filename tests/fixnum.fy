@@ -135,5 +135,8 @@ FancySpec describe: Fixnum with: {
     tries is: 2
 
     2 times_try: { 2 } . is: 2
+
+    i = 0
+    2 times_try: { 2 / i } retry_with: { i = 1 } . is: 2
   }
 }
