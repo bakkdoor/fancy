@@ -41,9 +41,14 @@ ARGV for_option: "-e" do: |eval_string| {
 
 ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_true: |idx| {
-    ARGV[[idx + 1, -1]] each: |filename| {
-      "Compiling " ++ filename println
-      Fancy Compiler compile_file: filename to: nil line: 1 print: false
+    ARGV[[idx + 1, -1]] . tap: |filenames| {
+      filenames each: |filename| {
+        "Compiling " ++ filename println
+        Fancy Compiler compile_file: filename to: nil line: 1 print: false
+      }
+      files = "file"
+      { files = "files" } if: $ filenames size != 1
+      "Compiled #{filenames size} #{files}." println
     }
   }
   System exit
