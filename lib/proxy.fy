@@ -61,3 +61,26 @@ class RespondsToProxy : Fancy BasicObject {
     }
   }
 }
+
+class ActorProxy : Fancy BasicObject {
+  """
+  A ActorProxy is a Proxy that forwards any message sent to it to it's
+  @target instance variable as a future send by default.
+  If explicitly sent an async message, it will forward the async send
+  to @target, returning nil instead of a @FutureSend@, as expected.
+  """
+
+  def initialize: @target
+
+  def send_future: m with_params: p {
+    @target send_future: m with_params: p
+  }
+
+  def send_async: m with_params: p {
+    @target send_async: m with_params: p
+  }
+
+  def unknown_message: m with_params: p {
+    @target send_future: m with_params: p
+  }
+}
