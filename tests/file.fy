@@ -115,4 +115,29 @@ FancySpec describe: File with: {
       # File delete: filename
     }
   }
+
+  it: "reads a config file" with: 'read_config: when: {
+    contents = """
+    {
+      test: 'value
+      other: 123
+      more: {
+        again: 'foo
+        yup: [1,2,3]
+      }
+    }
+    """
+
+    filename = "/tmp/#{Time now to_i random}_fy_test.txt"
+    File write: filename with: @{ write: contents }
+    File read_config: filename . is: <[
+      'test => 'value,
+      'other => 123,
+      'more => <[
+        'again => 'foo,
+        'yup => [1,2,3]
+      ]>
+    ]>
+    File delete: filename
+  }
 }
