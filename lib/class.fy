@@ -205,4 +205,22 @@ class Class {
       }
     }
   }
+
+  def inspect {
+    """
+    @return Name of class and its superclass as a @String@.
+
+    Example:
+          i = 42
+          i class inspect # => \"Fixnum : Integer\"
+          o = Object new
+          o class inspect # => \"Object\"
+    """
+
+    if: superclass then: {
+      "#{name} : #{superclass}"
+    } else: {
+      name
+    }
+  }
 }

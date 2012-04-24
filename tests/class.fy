@@ -623,4 +623,14 @@ FancySpec describe: Class with: {
     f foo is: 84
     Time now - start <= 0.01 is: true
   }
+
+  it: "returns a string representation of itself and its superclass, if any" with: 'inspect when: {
+    class MySuperClass
+    class MySubClass : MySuperClass
+
+    42 class inspect is: "Fixnum : Integer"
+    MySuperClass new class inspect is: "MySuperClass : Object"
+    MySubClass new class inspect is: "MySubClass : MySuperClass"
+    Object new class inspect is: "Object"
+  }
 }
