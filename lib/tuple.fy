@@ -25,6 +25,24 @@ class Tuple {
     t
   }
 
+  def Tuple === obj {
+    """
+    Matches @Tuple@ class against an object.
+    If the given object is a Tuple instance, return a Tuple object.
+
+    @obj Object to be matched against
+    @return Tuple instance containing the values of @obj to be used in pattern matching.
+    """
+
+    if: (obj is_a?: Tuple) then: {
+      [obj] + (obj map: 'identity)
+    }
+  }
+
+  def Tuple name {
+    "Tuple"
+  }
+
   def [idx] {
     """
     Forwards to @Tuple@#at:.
@@ -123,21 +141,11 @@ class Tuple {
     str
   }
 
-  def Tuple === obj {
+  def to_s {
     """
-    Matches @Tuple@ class against an object.
-    If the given object is a Tuple instance, return a Tuple object.
-
-    @obj Object to be matched against
-    @return Tuple instance containing the values of @obj to be used in pattern matching.
+    @return @String@ concatenation of elements in @self.
     """
 
-    if: (obj is_a?: Tuple) then: {
-      [obj] + (obj map: 'identity)
-    }
-  }
-
-  def Tuple name {
-    "Tuple"
+    join
   }
 }

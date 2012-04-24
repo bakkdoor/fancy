@@ -119,16 +119,6 @@ class Hash {
     map: |pair| { pair }
   }
 
-  def to_s {
-    """
-    @return @String@ representation of @self.
-
-    Returns a @String@ representation of a @Hash@.
-    """
-
-    to_a to_s
-  }
-
   def to_object {
     """
     @return New @Object@ with slots defined by keys and values in @self.

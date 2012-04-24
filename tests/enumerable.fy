@@ -36,4 +36,19 @@ FancySpec describe: Fancy Enumerable with: {
     [1] count: { true } . is: 1
     [1] count: { false } . is: 0
   }
+
+  it: "returns a string concatenation of all elements in self" with: 'to_s when: {
+    (1,2,3) to_s is: "123"
+    [1,2,3] to_s is: "123"
+    "foo" to_s is: "foo"
+    [] to_s is: ""
+
+    class MyCollection {
+      include: Fancy Enumerable
+      def each: block {
+        (0..5) each: block
+      }
+    }
+    MyCollection new to_s is: "012345"
+  }
 }

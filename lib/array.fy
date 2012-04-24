@@ -209,17 +209,6 @@ class Array {
     arr append: other_arr
   }
 
-  def join {
-    """
-    @return Elements of @Array@ joined to a @String@.
-
-    Joins all elements with the empty @String@.
-          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
-    """
-
-    join: ""
-  }
-
   def select!: condition {
     """
     @condition A condition @Block@ (or something @Callable) for selecting items from @self.
@@ -285,16 +274,6 @@ class Array {
       x println
     }
     nil
-  }
-
-  def to_s {
-    """
-    @return @String@ representation of @Array@.
-
-    Returns @String@ representation of @Array@.
-    """
-
-    reduce: |x y| { x ++ y } init_val: ""
   }
 
   def inspect {

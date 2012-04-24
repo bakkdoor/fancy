@@ -104,7 +104,7 @@ class Fancy {
       }
     }
 
-    def join: str {
+    def join: str ("") {
       """
       @str Value (usually a @String@) to be used for the joined @String@.
       @return @String@ containing all elements in @self interspersed with @str.
@@ -650,6 +650,19 @@ class Fancy {
         { count = count + 1 } if: $ block call: [x]
       }
       count
+    }
+
+    def to_s {
+      """
+      @return @String@ concatenation of elements in @self.
+
+      Example:
+            (1,2,3) to_s # => \"123\"
+            [1,2,3] to_s # => \"123\"
+            \"foo\" to_s # => \"foo\"
+      """
+
+      join
     }
   }
 }

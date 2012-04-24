@@ -103,10 +103,25 @@ class Array {
     @return Joined @String@ with all elements with @join_str.
 
     Joins all elements in the Array with a given @String@.
-        [1,2,3] join: \", \” # => \”1, 2, 3\"
+
+    Example:
+          [1,2,3] join: \", \” # => \”1, 2, 3\"
     """
 
     join(join_str)
+  }
+
+  def join {
+    """
+    @return Elements of @Array@ joined to a @String@.
+
+    Joins all elements with the empty @String@.
+
+    Example:
+          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
+    """
+
+    join: ""
   }
 
   def unshift: value {
