@@ -290,6 +290,9 @@ class Object {
     cond if_true: else_block else: block
   }
 
+  alias_method: 'unless:then: for: 'unless:do:
+  alias_method: 'unless:then:else: for: 'unless:do:else:
+
   def method: method_name {
     """
     @return @Method@ with @method_name defined for @self, or @nil.
