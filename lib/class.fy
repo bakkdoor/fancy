@@ -211,10 +211,8 @@ class Class {
     @return Name of class and its superclass as a @String@.
 
     Example:
-          i = 42
-          i class inspect # => \"Fixnum : Integer\"
-          o = Object new
-          o class inspect # => \"Object\"
+          Fixnum inspect # => \"Fixnum : Integer\"
+          Object inspect # => \"Object\"
     """
 
     if: superclass then: {

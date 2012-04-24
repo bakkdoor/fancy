@@ -628,9 +628,9 @@ FancySpec describe: Class with: {
     class MySuperClass
     class MySubClass : MySuperClass
 
-    42 class inspect is: "Fixnum : Integer"
-    MySuperClass new class inspect is: "MySuperClass : Object"
-    MySubClass new class inspect is: "MySubClass : MySuperClass"
-    Object new class inspect is: "Object"
+    Fixnum inspect is: "Fixnum : Integer"
+    MySuperClass inspect is: "MySuperClass : Object"
+    MySubClass inspect is: "MySubClass : MySuperClass"
+    Object inspect is: "Object"
   }
 }
