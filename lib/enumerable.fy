@@ -633,5 +633,23 @@ class Fancy {
 
       reverse each: block
     }
+
+    def count: block {
+      """
+      @block Predicate @Block@ called with each element.
+      @return @Fixnum@ that is the amount of elements in @self for which @block yields @true.
+
+      Example:
+            (0..10) count: @{ even? }                   # => 6 (even numbers are: 0,2,4,6,8,10)
+            [1,2,3] count: @{ odd? }                    # => 2
+            [1,2, \"foo\"] count: @{ class == String }  # => 1
+      """
+
+      count = 0
+      each: |x| {
+        { count = count + 1 } if: $ block call: [x]
+      }
+      count
+    }
   }
 }

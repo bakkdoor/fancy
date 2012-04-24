@@ -24,4 +24,16 @@ FancySpec describe: Fancy Enumerable with: {
 
     [] map_with_index: |x i| { i } . is: []
   }
+
+  it: "counts the amount of elements for which a block yields true" with: 'count: when: {
+    [1,2,3] count: @{ even? } . is: 1
+    (0..10) count: @{ even? } . is: 6
+    (0..10) count: @{ odd? } . is: 5
+    "foo" count: @{ == "o" } . is: 2
+    "foo" count: @{ != "o" } . is: 1
+    (1,2,3) count: @{ < 2 } . is: 1
+    [] count: { true } . is: 0
+    [1] count: { true } . is: 1
+    [1] count: { false } . is: 0
+  }
 }
