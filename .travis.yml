@@ -3,6 +3,13 @@ rvm:
 before_script: rake clean && rbx -S rake
 script: bin/fancy bin/fspec
 notifications:
-  email: false
-  # irc:
-  #   - "irc.freenode.org#fancy"
+  email:
+    recipients:
+      - chris@fancy-lang.org
+    on_success: change
+    on_failure: always
+  irc:
+    channels:
+      - "irc.freenode.org#fancy"
+    on_success: change
+    on_failure: always
