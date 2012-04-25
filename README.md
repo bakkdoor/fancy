@@ -3,7 +3,7 @@
 (C) 2010, 2011, 2012 Christopher Bertels chris@fancy-lang.org
 http://www.fancy-lang.org
 
-
+[![Build Status](https://secure.travis-ci.org/bakkdoor/fancy.png)](http://travis-ci.org/bakkdoor/fancy)
 
 ----------------------------------------------------------------------
 Fancy is a dynamic, object-oriented programming language heavily
