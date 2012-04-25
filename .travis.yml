@@ -1,9 +1,10 @@
 rvm:
   - rbx
   - rbx-2.0.0pre
-script: "rake clean && rbx -S rake"
-after_script: "bin/fancy bin/fspec"
+before_script: rake clean
+script: rbx -S rake
+after_script: bin/fancy bin/fspec
 notifications:
   email: false
-  irc:
-    - "irc.freenode.org#fancy"
+  # irc:
+  #   - "irc.freenode.org#fancy"
