@@ -1,9 +1,8 @@
 rvm:
   - rbx
   - rbx-2.0.0pre
-before_script: rake clean
-script: rbx -S rake
-after_script: bin/fancy bin/fspec
+before_script: rake clean && rbx -S rake
+script: bin/fancy bin/fspec
 notifications:
   email: false
   # irc:
