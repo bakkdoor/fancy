@@ -17,14 +17,4 @@ class Fixnum {
   alias_method: 'modulo: for: 'modulo
   alias_method: ":%" for: "modulo:" # use a : so we dont overwrite ruby's % operator
   alias_method: 'div: for: 'div
-
-  def random {
-    """
-    @return Random number between 0 and @self.
-
-    Returns a random number between 0 and @self.
-    """
-
-    rand(self)
-  }
 }
