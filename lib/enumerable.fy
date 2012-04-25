@@ -491,7 +491,7 @@ class Fancy {
       (assuming them to be @Number@s (implementing '+' & '*')).
       """
 
-      reduce: '+ init_val: 0
+      inject: 0 into: '+
     }
 
     def product {
@@ -500,7 +500,7 @@ class Fancy {
       (assuming them to be @Number@s (implementing @+ & @*)).
       """
 
-      reduce: '* init_val: 1
+      inject: 1 into: '*
     }
 
     def average {
@@ -518,7 +518,7 @@ class Fancy {
       @return @Array@ of @Array@s, partitioned by equal return values of calling @block with each element
 
       Example:
-            0 upto: 10 . partition_by: |x| { x < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
+            (0..10) partition_by: @{ < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
       """
       last = block call: [first]
       coll = []
