@@ -195,9 +195,9 @@ FancySpec describe: Array with: {
     arr values_at: [1, 3, 4, 10] . is: [2, 'foo, "bar", nil]
   }
 
-  it: "returns unique values only" with: 'uniq when: {
+  it: "returns unique values only" with: 'unique when: {
     arr = ['foo, 'bar, "baz", 'foo, "baz", "hello", 1, 0, 0, 1, 'bar, 'foo, "hello"]
-    arr uniq is: ['foo, 'bar, "baz", "hello", 1, 0]
+    arr unique is: ['foo, 'bar, "baz", "hello", 1, 0]
   }
 
   it: "prepends self to another array" with: '>> when: {

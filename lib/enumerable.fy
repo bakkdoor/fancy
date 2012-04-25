@@ -377,23 +377,23 @@ class Fancy {
       reduce: block init_val: val
     }
 
-    def uniq {
+    def unique {
       """
       @return @Array@ of all unique elements in @self.
 
       Returns a new Array with all unique values (double entries are skipped).
 
       Example:
-            [1,2,1,2,3] uniq # => [1,2,3]
+            [1,2,1,2,3] unique # => [1,2,3]
       """
 
-      uniq_vals = []
+      unique_vals = []
       each: |x| {
-        unless: (uniq_vals includes?: x) do: {
-          uniq_vals << x
+        unless: (unique_vals includes?: x) do: {
+          unique_vals << x
         }
       }
-      uniq_vals
+      unique_vals
     }
 
     def size {
