@@ -433,13 +433,13 @@ class Fancy {
       reject: @{ nil? }
     }
 
-    def superior_by: comparison_block taking: selection_block ('identity) {
+    def superior_by: comparison_block taking: selection_block (@{ identity }) {
       """
       @comparison_block @Block@ to be used for comparison.
-      @selection_block @Block@ to be used for selecting the values to be used for comparison by @comparison_bock.
+      @selection_block @Block@ to be used for selecting the values to be used for comparison by @comparison_block.
       @return Superior element in @self in terms of @comparison_block.
 
-      Returns the superior element in the @Enumerable that has met
+      Returns the superior element in the @Fancy::Enumerable@ that has met
       the given comparison block with all other elements,
       applied to whatever @selection_block returns for each element.
       @selection_block defaults to @identity.
