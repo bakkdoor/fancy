@@ -15,6 +15,7 @@ class DynamicSlotObject : Fancy BasicObject {
   }
 
   def object {
+    @object metaclass read_write_slots: (@object slots)
     @object
   }
 
