@@ -1,4 +1,15 @@
 class DynamicSlotObject : Fancy BasicObject {
+  """
+  Helper class to dynamically create @Object@s with slots defined by sending messages to it.
+
+  Example:
+        dso = DynamicSlotObject new
+        dso name: \"Chris\"
+        dso age: 25
+        dso country: \"Germany\"
+        dso object                  # => Object with slots 'name, 'age and 'country defined
+  """
+
   def initialize {
     @object = Object new
   }
@@ -15,6 +26,17 @@ class DynamicSlotObject : Fancy BasicObject {
 }
 
 class DynamicKeyHash : Fancy BasicObject {
+  """
+  Helper class to dynamically create @Hash@es with keys and values defined by sending messages to it.
+
+  Example:
+        dkh = DynamicKeyHash new
+        dkh name: \"Chris\"
+        dkh age: 25
+        dkh country: \"Germany\"
+        dkh hash                    # => <['name => \"Chris\", 'age => 25, 'country => \"Germany\"]>
+  """
+
   def initialize: @deep (false) {
     @hash = <[]>
   }
@@ -37,6 +59,19 @@ class DynamicKeyHash : Fancy BasicObject {
 }
 
 class DynamicValueArray : Fancy BasicObject {
+  """
+  Helper class to dynamically create @Array@s with values defined by sending messages to it.
+
+  Example:
+        dva = DynamicValueArray new
+        dva name: \"Chris\"
+        dva age: 25
+        dva country: \"Germany\"
+        dva something_else
+
+        dva array                   # => [['name, \"Chris\"], ['age, 25], ['country, \"Germany\"], 'something_else]
+  """
+
   def initialize {
     @arr = []
   }
