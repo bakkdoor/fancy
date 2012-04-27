@@ -29,6 +29,7 @@ class Fancy Package {
   DEFAULT_FANCY_ROOT = ENV["HOME"] ++ "/.fancy"
   DEFAULT_PACKAGES_PATH = DEFAULT_FANCY_ROOT ++ "/packages"
   DEFAULT_PACKAGES_LIB_PATH = DEFAULT_PACKAGES_PATH ++ "/lib"
+  DEFAULT_PACKAGES_BIN_PATH = DEFAULT_PACKAGES_PATH ++ "/bin"
 
   def self install: package_name version: version ('latest) {
     """

@@ -37,6 +37,7 @@ class Fancy Package {
         Directory create!: $ Fancy Package DEFAULT_FANCY_ROOT
         Directory create!: $ Fancy Package DEFAULT_PACKAGES_PATH
         Directory create!: $ Fancy Package DEFAULT_PACKAGES_LIB_PATH
+        Directory create!: $ Fancy Package DEFAULT_PACKAGES_BIN_PATH
         Directory create!: $ Fancy Package DEFAULT_PACKAGES_PATH ++ "/downloads"
       }
 
@@ -149,6 +150,10 @@ class Fancy Package {
       @install_path + "/lib"
     }
 
+    def bin_path {
+      @install_path + "/bin"
+    }
+
     def rename_dir: dirname {
       """
       Renames a given directory to a common way within the install path.
@@ -194,6 +199,15 @@ class Fancy Package {
             f writeln: "\""
           }
         }
+      }
+
+      spec bin_files each: |bf| {
+        basename = File basename(bf)
+        orig_path = "#{installed_path}/#{bf}"
+        link_path = "#{bin_path}/#{basename}"
+        "Creating symlink #{link_path} for #{orig_path}" println
+        { File delete: link_path } if: $ File exists?: link_path
+        File symlink(orig_path, link_path)
       }
 
       spec dependencies each: |dep| {
