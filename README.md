@@ -5,6 +5,9 @@ http://www.fancy-lang.org
 
 [![Build Status](https://secure.travis-ci.org/bakkdoor/fancy.png)](http://travis-ci.org/bakkdoor/fancy)
 
+Follow [@fancy_lang](https://twitter.com/#!/fancy_lang) on Twitter for
+updates and development news.
+
 ----------------------------------------------------------------------
 Fancy is a dynamic, object-oriented programming language heavily
 inspired by Smalltalk, Ruby, Io and Erlang. It supports dynamic code
