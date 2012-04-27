@@ -51,4 +51,4 @@ require: "system"
 
 require: "documentation"
 
-require: "package.fy"
+require: "package"
