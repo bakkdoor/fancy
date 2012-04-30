@@ -634,7 +634,7 @@ FancySpec describe: Class with: {
     Object inspect is: "Object"
   }
 
-  it: "returns the right amount of instance methods" with: 'instance_methods when: {
+  it: "returns the right amount of instance methods" with: 'instance_methods: when: {
     class NoMethods
     class OneMethod {
       def bar
