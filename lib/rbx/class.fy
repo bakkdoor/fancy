@@ -182,6 +182,24 @@ class Class {
     protected(*method_names)
   }
 
+  def instance_methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if instance methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all instance method names for this @Class@.
+    """
+
+    instance_methods(include_superclasses?)
+  }
+
+  def methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all class method names for this @Class@.
+    """
+
+    methods(include_superclasses?)
+  }
+
   def forwards_unary_ruby_methods {
     """
     Creates ruby_alias methods for any unary ruby methods of a class.
