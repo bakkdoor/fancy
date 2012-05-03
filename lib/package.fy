@@ -1,3 +1,4 @@
+require: "package/handler"
 require: "package/installer"
 require: "package/dependency_installer"
 require: "package/uninstaller"

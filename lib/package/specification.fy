@@ -62,12 +62,19 @@ class Fancy Package {
       }
     }
 
-    def self delete: spec_name from: specs_file {
-      File open: specs_file modes: ['read, 'write] with: |f| {
-        f readlines reject: |l| { l includes?: "name=#{spec_name}" } . each: |l| {
-          f writeln: l
-        }
+    def self delete_specs_from: specs_file if: filter_block {
+      lines = File read: specs_file . lines reject: filter_block
+      File write: specs_file with: |f| {
+        lines each: |l| { f writeln: l }
       }
+    }
+
+    def self delete: spec_name from: specs_file {
+      delete_specs_from: specs_file if: @{ includes?: "name=#{spec_name}" }
+    }
+
+    def self delete_specification: spec from: specs_file {
+      delete_specs_from: specs_file if: @{ includes?: "name=#{spec package_name} version=#{spec version}" }
     }
   }
 }
