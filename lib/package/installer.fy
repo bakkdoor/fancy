@@ -1,6 +1,3 @@
-require("yaml")
-require("open-uri")
-
 class Fancy Package {
   class Installer : Handler {
     """
@@ -74,6 +71,9 @@ class Fancy Package {
 
     def tags {
       "Returns a list of tags the repository has on Github."
+
+      require("yaml")
+      require("open-uri")
 
       url = "http://github.com/api/v2/yaml/repos/show/" ++ @package_name ++ "/tags/"
       YAML load_stream(open(url)) documents() first at: "tags"

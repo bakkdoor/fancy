@@ -4,10 +4,6 @@ class Fancy Package {
     @Fancy::Package@ Uninstaller.
     """
 
-    def initialize: @package_name {
-      super initialize: @package_name
-    }
-
     def run {
       load_fancypack: |spec| {
         Specification delete_specification: spec from: $ Fancy Package package_list_file

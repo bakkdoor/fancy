@@ -1,9 +1,20 @@
 class Fancy Package {
   class Handler {
-    write_slots: ('user, 'repository, 'version)
+    read_write_slots: ('user, 'repository, 'version)
 
     def initialize: @package_name install_path: @install_path (ENV["FANCY_PACKAGE_DIR"]) {
-      set_user_repo_version
+      splitted = @package_name split: "/"
+      @user, @repository = splitted
+
+      # check for version, e.g. when passing in:
+      # $ fancy install bakkdoor/fyzmq=1.0.1
+      splitted = @repository split: "="
+      if: (splitted size > 1) then: {
+        @repository, @version = splitted
+        @package_name = @user + "/" + @repository
+      } else: {
+        @version = 'latest
+      }
 
       @install_path if_nil: {
         @install_path = Fancy Package DEFAULT_PACKAGES_PATH
@@ -28,43 +39,6 @@ class Fancy Package {
       }
 
       if: (Specification[@repository]) then: success_block else: else_block
-    }
-
-    def set_user_repo_version {
-      splitted = @package_name split: "/"
-      @user, @repository = splitted
-
-      # check for version, e.g. when passing in:
-      # $ fancy install bakkdoor/fyzmq=1.0.1
-      splitted = @repository split: "="
-      if: (splitted size > 1) then: {
-        @repository, @version = splitted
-        @package_name = @user + "/" + @repository
-      } else: {
-        @version = 'latest
-      }
-    }
-    private: 'set_user_repo_version
-
-    def user {
-      unless: @user do: {
-        set_user_repo_version
-      }
-      @user
-    }
-
-    def repository {
-      unless: @repository do: {
-        set_user_repo_version
-      }
-      @repository
-    }
-
-    def version {
-      unless: @version do: {
-        set_user_repo_version
-      }
-      @version
     }
 
     def installed_path {
