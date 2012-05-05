@@ -3,7 +3,7 @@
 require("rb-readline/readline")
 
 ["Welcome to the (still very simple) Fancy REPL",
- "Fancy " ++ FANCY_VERSION] println
+ "Fancy #{Fancy VERSION}"] println
 
 HISTORY_FILE = File expand_path("~/.fancy_history")
 HISTORY = []
