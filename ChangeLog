@@ -1,3 +1,95 @@
+v0.7.0 (May 05, 2012)
+----------------------
+  - ignore TAGS
+  - Moved FANCY_VERSION to Fancy::VERSION and bumped it to 0.7.0
+  - added Array#-
+  - some refactoring to Fancy Package classes
+  - updated fancy --help output (added list-packages option)
+  - Implemented Fancy Package Uninstaller and refactored parts of Installer out into Package Handler class.
+  - fixed method name in test
+  - added Class#instance_methods: and Class#methods:
+  - added support for installing/symlinking bin_files in package system
+  - added Fakefile list of auto-mode-alist for fancy-mode
+  - push NilLiteral in empty singleton method definition
+  - Added link to new twitter profile in README
+  - removed another .fy extension in lib/boot.fy
+  - omit .fy ending in lib/boot.fy
+  - added DynamicValueArray test
+  - added DynamicKeyHash test
+  - added tests for DynamicSlotObject
+  - set slot reader/writers in DynamicSlotObject#object itself
+  - added docstrings for DynamicKeyHash, DynamicSlotObject & DynamicValueArray
+  - more cleanups in Enumerable
+  - fixed docstring typo and default arg value for Enumerable#superior_by:taking:
+  - renamed Enumerable#uniq => Enumerable#unique
+  - added travis build status image to readme
+  - added notifications back to .travis.yml
+  - added -d option to fspec and also sort test files by name
+  - moved random into Number mixin
+  - remove rbx-2.0.0pre rvm option
+  - small fix to .travis.yml
+  - updated .travis.yml
+  - fixed String class docstring
+  - a bunch of Enumerable related refactorings, also added common to_s method and other improvements
+  - added Enumerable#count:
+  - added unless:then:else: alias for unless:do:else:
+  - simplify example and testcase
+  - Return superclass, if any, as well in Class#inspect
+  - added File##read_config:
+  - added ActorProxy class
+  - print amount of files compiled for fancy -c option
+  - added retry_with: parameter to Integer#times_try:retry_with:
+  - simplified stupid quicksort example
+  - updated copyright notice in README
+  - Refactored Object#message_name: into Symbol#message_name and String#message_name.
+  - Hash cleanup
+  - Added Class#lazy_slot:value:
+  - added File##eval:
+  - Added File##read_binary:with: and File##read_binary:
+  - Default to reading binary in File##open:
+  - Added IO#read: alias
+  - Fixed define_forward_method_missing call in compiler by adding missing pop instruction at the end
+  - make some class methods public
+  - fix set test: don't rely on ordering of values in set
+  - fix typo
+  - added Integer#times_try:
+  - fixed bootstrap bug
+  - added Module#[]: for setting constants within modules and classes
+  - some cleanups to Enumerable class
+  - added get_slot: and set_slot:value: in Hash
+  - added Alias for Fixnum#^ (bitwise xor)
+  - Use __send__() instead of send()
+  - moved BasicObject into Fancy namespace
+  - added Object#lambda:
+  - Added lib/rbx/proc
+  - Year update to LICENSE
+  - cleanup Rakefile
+  - allow single method names be passed to Class#delegate:to_slot:
+  - Added FutureSend#when_failed:
+  - small bugfix for Class#delegate:to_slot:
+  - allow more flexible usage of whitespace in hash literals.
+  - allow hash literals with trailing commas at the end, similar to tuples and arrays
+  - Added Class#delegate:to_slot:
+  - Added Class#class_eval: wrapper method.
+  - Added Enumerable#map_with_index:
+  - Always use stringliteral as docstring if its the first expression in an ExpressionList (method/class defs).
+  - cleanup
+  - added Object#with_mutable_slots:do:
+  - don't exit programm within lib/fancy_spec but in bin/fspec instead, for better seperation of concerns.
+  - Small fix to Tuple#from:to: to allow Tuples to be used in splat-assignments as well.
+  - added Tuple#from:to:
+  - typo fix in docstring
+  - Added docstring to FutureSend class
+  - true, false & nil only behave like message sends when explicitly expressed that way syntactically.
+  - refactored Array#[]
+  - Moved Array#first - #fourth to Enumerable
+  - Improved Array#[] and String#[] and updates tests
+  - properly end comment for fancy-mode.el
+  - Merge remote-tracking branch 'origin/master'
+  - Published fancy-mode.el on marmalade-repo.org.
+  - typo fix in docstring
+  - added Enumerable#map_chained:
+
 v0.6.0 (Jan 25, 2012)
 ----------------------
   - More Docstrings
