@@ -333,6 +333,14 @@ FancySpec describe: Array with: {
     ([1,2,3,4] + [-1,-2,-3,-4]) is: [1,2,3,4,-1,-2,-3,-4]
   }
 
+  it: "returns all elements not in another collection" with: '- when: {
+    [] - [] is: []
+    [] - [0] is: []
+    [1,2,3,4] - [2,4] is: [1,3]
+    [1,2,3] - [1,2,3,5] is: []
+    ["foo", "bar", "baz"] - ["bar"] is: ["foo", "baz"]
+  }
+
   it: "returns true for all elements" with: 'all?: when: {
     [1,2,3,4] all?: |x| { x < 5 } . is: true
     [1,2,3,4] all?: |x| { x > 0 } . is: true
