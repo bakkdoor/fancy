@@ -575,6 +575,8 @@ class Fancy {
       tmp = []
       enum = to_enum
 
+      { return groups } if: (size <= 0)
+
       loop: {
         size times: {
           tmp << (enum next)

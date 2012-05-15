@@ -51,4 +51,20 @@ FancySpec describe: Fancy Enumerable with: {
     }
     MyCollection new to_s is: "012345"
   }
+
+  it: "returns the array in groups of 3" with: 'in_groups_of: when: {
+    ['a,'b,'c] in_groups_of: 1 . is: [['a],['b],['c]]
+    array = 1 upto: 10
+    array in_groups_of: 3 . is: [[1,2,3], [4,5,6], [7,8,9], [10]]
+
+    (20,30,40) in_groups_of: 2 . is: [[20,30], [40]]
+
+    [1,2,3] in_groups_of: -1 . is: []
+    [1,2,3] in_groups_of: 0 . is: []
+    [1,2,3] in_groups_of: 1 . is: [[1],[2],[3]]
+
+    [] in_groups_of: -1 . is: []
+    [] in_groups_of: 0 . is: []
+    [] in_groups_of: 1 . is: []
+  }
 }
