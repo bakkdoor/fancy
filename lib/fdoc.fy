@@ -306,7 +306,7 @@ class Fancy FDoc {
     }
 
     def self create_code: str {
-      str gsub(/@([^\s,\]\)\{\}\.]+)/,
+      str gsub(/@([^\s,@\]\)\{\}\.]+)/,
                "<code data-lang=\"fancy\">\\1</code>")
     }
 
