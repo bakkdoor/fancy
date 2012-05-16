@@ -171,7 +171,7 @@ class Hash {
 
     Example:
           h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
-          h select_keys: @{ is_a?: Symbol } # => <['a => 1, 'b => \”hello\"]>
+          h select_keys: @{ is_a?: Symbol } # => <['a => 1, 'b => \"hello\"]>
     """
 
     h = <[]>
