@@ -351,7 +351,7 @@ class Fancy {
     def take: amount {
       """
       @amount Amount of elements to take from @self.
-      @return @Arra@ of first @amount elements in @self.
+      @return @Array@ of first @amount elements in @self.
 
       Example:
             [1,2,3,4] take: 2 # => [1,2]
