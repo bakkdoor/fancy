@@ -666,5 +666,26 @@ class Fancy {
 
       join
     }
+
+    def sorted? {
+      """
+      @return @true if @self is sorted, @false otherwise.
+
+      Example:
+            (1,2,3) sorted? # => true
+            (2,1,3) sorted? # => false
+            \"abc\" sorted? # => true
+            \"bac\" sorted? # => false
+      """
+
+      last = nil
+      each: |x| {
+        if: last then: {
+          { return false } unless: $ last <= x
+        }
+        last = x
+      }
+      true
+    }
   }
 }

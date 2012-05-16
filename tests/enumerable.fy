@@ -67,4 +67,19 @@ FancySpec describe: Fancy Enumerable with: {
     [] in_groups_of: 0 . is: []
     [] in_groups_of: 1 . is: []
   }
+
+  it: "indicates if it's sorted" with: 'sorted? when: {
+    [] sorted? is: true
+    [1] sorted? is: true
+    [1,2] sorted? is: true
+    [2,1] sorted? is: false
+
+    (1,2,3) sorted? is: true
+    (1,3,2) sorted? is: false
+
+    "" sorted? is: true
+    "a" sorted? is: true
+    "abc" sorted? is: true
+    "fabc" sorted? is: false
+  }
 }
