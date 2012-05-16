@@ -395,15 +395,6 @@ FancySpec describe: Array with: {
     arr is: [3,2,1]
   }
 
-  it: "takes elements from itself as long a block yields true" with: 'take_while: when: {
-    1 upto: 15 . take_while: |x| { x < 10 } . is: (1 upto: 9)
-  }
-
-
-  it: "drops elements from itself as long a block yields true" with: 'drop_while: when: {
-    1 upto: 15 . drop_while: |x| { x < 10 } . is: (10 upto: 15)
-  }
-
   it: "partitions an array via a given block" with: 'partition_by: when: {
     arr = [1,2,2,3,3,3,4,4,4,4,5]
     arr partition_by: 'identity . is: [[1], [2,2], [3,3,3], [4,4,4,4], [5]]

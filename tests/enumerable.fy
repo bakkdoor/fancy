@@ -107,4 +107,28 @@ FancySpec describe: Fancy Enumerable with: {
     "a" split_with: @{ false } . is: [[], ["a"]]
     "abcde" split_with: @{ <= "c" } . is: [["a", "b", "c"], ["d", "e"]]
   }
+
+  it: "takes elements from itself as long a block yields true" with: 'take_while: when: {
+    (1..15) take_while: |x| { x < 10 } . is: (1 upto: 9)
+  }
+
+  it: "drops elements from itself as long a block yields true" with: 'drop_while: when: {
+    (1..15) drop_while: |x| { x < 10 } . is: (10 upto: 15)
+  }
+
+  it: "returns the first n elements" with: 'first: when: {
+    (1,2,3) first: 0 . is: []
+    (1,2,3) first: 1 . is: [1]
+    (1,2,3) first: 2 . is: [1,2]
+    (1,2,3) first: 3 . is: [1,2,3]
+    (1,2,3) first: 4 . is: [1,2,3]
+  }
+
+  it: "returns the last n elements" with: 'last: when: {
+    (1,2,3) last: 0 . is: []
+    (1,2,3) last: 1 . is: [3]
+    (1,2,3) last: 2 . is: [2,3]
+    (1,2,3) last: 3 . is: [1,2,3]
+    (1,2,3) last: 4 . is: [1,2,3]
+  }
 }

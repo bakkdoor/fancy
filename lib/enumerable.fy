@@ -80,6 +80,39 @@ class Fancy {
       item
     }
 
+    def first: amount {
+      """
+      @amount Amount of first elements to take from @self.
+      @return @Array@ of first @amount elements in @self.
+
+      Example:
+            (1,2,3,4) first: 2 # => [1,2]
+      """
+
+      i = 0
+      take_while: {
+        i = i + 1
+        i <= amount
+      }
+    }
+
+    def last: amount {
+      """
+      @amount Amount of last elements to take from @self.
+      @return @Array@ of last @amount elements in @self.
+
+      Example:
+            (1,2,3,4) last: 2 # => [3,4]
+      """
+
+      start_index = size - amount
+      i = 0
+      drop_while: {
+        i = i + 1
+        i <= start_index
+      }
+    }
+
     def includes?: item {
       """
       @item Item to check if it's included in @self.
@@ -318,7 +351,7 @@ class Fancy {
     def take: amount {
       """
       @amount Amount of elements to take from @self.
-      @return First @amount elements of @self in an @Array@.
+      @return @Arra@ of first @amount elements in @self.
 
       Example:
             [1,2,3,4] take: 2 # => [1,2]
