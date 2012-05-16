@@ -21,7 +21,7 @@ For a quick feature overview, have a look at `doc/features.md`
 There's also a work-in-progress tutorial/book on Fancy here:
 https://github.com/fancy-lang/infancy
 
-## Contact information
+## Related links
 * **Website**: http://www.fancy-lang.org
 * **Mailinglist**: http://groups.google.com/group/fancy-lang
 * **IRC Channel**: irc://irc.freenode.net:6667/fancy
