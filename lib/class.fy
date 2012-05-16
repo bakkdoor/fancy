@@ -227,7 +227,7 @@ class Class {
     @return @Array@ of all instance methods defined in Fancy.
     """
 
-    instance_methods select: @{ =~ /:/ }
+    instance_methods select: @{ includes?: ":" }
   }
 
   def fancy_methods {
@@ -235,7 +235,7 @@ class Class {
     @return @Array@ of all class methods defined in Fancy.
     """
 
-    methods select: @{ =~ /:/ }
+    methods select: @{ includes?: ":" }
   }
 
   def ruby_instance_methods {
