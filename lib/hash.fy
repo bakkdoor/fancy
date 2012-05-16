@@ -163,4 +163,23 @@ class Hash {
 
     keys map: |k| { at: k }
   }
+
+  def select_keys: block {
+    """
+    @block @Block@ to be called with each key in @self.
+    @return @Hash@ of entries for which @block called with its key yields @true.
+
+    Example:
+          h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
+          h select_keys: @{ is_a?: Symbol } # => <['a => 1, 'b => \”hello\"]>
+    """
+
+    h = <[]>
+    keys each: |k| {
+      if: (block call: [k]) then: {
+        h[k]: $ self[k]
+      }
+    }
+    h
+  }
 }
