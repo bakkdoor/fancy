@@ -82,4 +82,29 @@ FancySpec describe: Fancy Enumerable with: {
     "abc" sorted? is: true
     "fabc" sorted? is: false
   }
+
+  it: "splits a collection at an index" with: 'split_at: when: {
+    [] split_at: 0 . is: [[],[]]
+    [1] split_at: 0 . is: [[],[1]]
+    [1] split_at: 1 . is: [[1],[]]
+
+    (1,2,3) split_at: 1 . is: [[1], [2,3]]
+    (1,2,3) split_at: 2 . is: [[1,2], [3]]
+
+    "foo" split_at: 1 . is: [["f"], ["o", "o"]]
+  }
+
+  it: "splits a collection based on a predicate block" with: 'split_with: when: {
+    [] split_with: @{ true } . is: [[],[]]
+    [] split_with: @{ false } . is: [[],[]]
+    [1] split_with: @{ true } . is: [[1], []]
+    [1] split_with: @{ false } . is: [[], [1]]
+    [1,2,3] split_with: @{ < 2 } . is: [[1], [2,3]]
+    [1,2,3] split_with: @{ <= 2 } . is: [[1,2], [3]]
+
+    "" split_with: @{ true } . is: [[], []]
+    "a" split_with: @{ true } . is: [["a"], []]
+    "a" split_with: @{ false } . is: [[], ["a"]]
+    "abcde" split_with: @{ <= "c" } . is: [["a", "b", "c"], ["d", "e"]]
+  }
 }

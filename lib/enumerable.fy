@@ -687,5 +687,29 @@ class Fancy {
       }
       true
     }
+
+    def split_at: index {
+      """
+      @index Index at which @self should be split.
+      @return @Array@ of 2 @Array@s of elements in self splitted at @index.
+
+      Example:
+            [1,2,3,4,5] split_at: 2 # => [[1,2], [3,4,5]]
+      """
+
+      [take: index, drop: index]
+    }
+
+    def split_with: predicate_block {
+      """
+      @predicate_block @Block@ to be used as a predicate on where to split in @self.
+      @return @Array@ of 2 @Array@s of elements split based on @predicate_block.
+
+      Example:
+            [1,2,3,4,5] split_with: @{ < 3 } # => [[1, 2], [3, 4, 5]]
+      """
+
+      [take_while: predicate_block, drop_while: predicate_block]
+    }
   }
 }
