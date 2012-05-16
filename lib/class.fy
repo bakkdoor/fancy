@@ -221,4 +221,36 @@ class Class {
       name
     }
   }
+
+  def fancy_instance_methods {
+    """
+    @return @Array@ of all instance methods defined in Fancy.
+    """
+
+    instance_methods select: @{ =~ /:/ }
+  }
+
+  def fancy_methods {
+    """
+    @return @Array@ of all class methods defined in Fancy.
+    """
+
+    methods select: @{ =~ /:/ }
+  }
+
+  def ruby_instance_methods {
+    """
+    @return @Array@ of all instance methods defined in Ruby.
+    """
+
+    instance_methods - fancy_instance_methods
+  }
+
+  def ruby_methods {
+    """
+    @return @Array@ of all class methods defined in Ruby.
+    """
+
+    methods - fancy_methods
+  }
 }
