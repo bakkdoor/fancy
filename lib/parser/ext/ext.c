@@ -27,6 +27,7 @@ fancy_parse_file(VALUE self) {
   }
   YY_BUFFER_STATE buffstate = yy_create_buffer(f, YY_BUF_SIZE);
   yy_switch_to_buffer(buffstate);
+  yylineno = NUM2INT(lineno);
   yyparse(self);
   yy_delete_buffer(buffstate);
   fclose(f);
