@@ -15,7 +15,7 @@ class ThreadPool {
             val = nil
             try {
               val = block call: args
-            } catch Exception => e {
+            } catch StandardError => e {
               e message println
               e backtrace() join: "\n" . println
             }

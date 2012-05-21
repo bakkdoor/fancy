@@ -39,7 +39,7 @@ class Directory {
 
     try {
       Dir delete(dirname)
-    } catch Exception => e {
+    } catch StandardError => e {
       IOError new: (e message) . raise!
     }
   }

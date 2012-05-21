@@ -466,7 +466,7 @@ class Object {
             val = self receive_message: msg with_params: params
             sender completed: val
         }
-      } catch Exception => e {
+      } catch StandardError => e {
         { sender failed: e } if: sender
         die!
         e raise!
@@ -691,7 +691,7 @@ class Object {
     try {
       Thread current[var_name]: value
       retval = block call
-    } catch Exception => e {
+    } catch StandardError => e {
       e raise!
     } finally {
       Thread current[var_name]: oldval

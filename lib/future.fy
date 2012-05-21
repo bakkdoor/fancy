@@ -41,13 +41,13 @@ class FutureSend {
     if: @failed then: {
       try {
         @fail_continuations each: @{ call: [@fail_reason] }
-      } catch Exception => ex {
+      } catch StandardError => ex {
         *stderr* println: "Error in FutureSend#completed! while calling fail continuations: #{ex}"
       }
     } else: {
       try {
         @continuations each: @{ call: [@value] }
-      } catch Exception => ex {
+      } catch StandardError => ex {
         *stderr* println: "Error in FutureSend#completed! while calling success continuations: #{ex}"
       }
     }

@@ -210,7 +210,7 @@ class FancySpec {
       @@total_tests = @@total_tests + 1
       try {
         @block call_with_receiver: self
-      } catch Exception => e {
+      } catch StandardError => e {
         failed: (e, "No Exception")
       }
 
@@ -296,7 +296,7 @@ class FancySpec {
         SpecTest current failed: (nil, exception_class)
       } catch exception_class {
         # ok
-      } catch Exception => e {
+      } catch StandardError => e {
         SpecTest current failed: (e class, exception_class)
       }
     }
@@ -309,7 +309,7 @@ class FancySpec {
       } catch exception_class => e {
         block call: [e]
         # ok
-      } catch Exception => e {
+      } catch StandardError => e {
         SpecTest current failed: (e class, exception_class)
       }
     }
@@ -360,7 +360,7 @@ class FancySpec {
         @actual_value call
       } catch exception_class {
         SpecTest current failed_negative: (exception_class, nil)
-      } catch Exception => e {
+      } catch StandardError => e {
         true
         # ok
       }

@@ -37,7 +37,7 @@ class Fancy {
       result = nil
       try {
         result = compiler run()
-      } catch Exception => e {
+      } catch StandardError => e {
         compiler_error("Error trying to compile " ++ file, e)
       }
       result
@@ -63,7 +63,7 @@ class Fancy {
         compiler run()
       } catch Fancy Parser ParseError => e {
         e raise!
-      } catch Exception => e {
+      } catch StandardError => e {
         compiler_error("Error trying to compile " ++ file, e)
       }
     }
