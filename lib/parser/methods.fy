@@ -68,32 +68,25 @@ class Fancy {
 
     def ast: line string: text {
       str = text from: 1 to: -2
-      match str {
-        # OK, I know this is ugly. But it works for now, so let's just go with it.
-        # TODO: Clean this up or make it simpler...
+      match_data = /#{([^}]*)}/ match: str
 
-        # this case handles string interpolation
-        case /(.*)#{(.*)}(.*)/m -> |matches|
-          prefix = matches[1]
-          interpol_str = matches[2]
-          suffix = matches[3]
+      { return AST StringLiteral new: line value: str } unless: match_data
 
-          prefix_str = ast: line string: (" " + prefix + " ") # hack, pre- & append " " since it gets removed
-          suffix_str = ast: line string: (" " + suffix + " ")
-          interpol_ast = AST StringInterpolation new: line code: interpol_str
-          # create messagesend to concatenate:
-          concat_ident = ast: line identifier: "<<"
-          interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [interpol_ast])
+      # this case handles string interpolation
+      prefix_str = ast: line string: (" " + (match_data pre_match) + " ") # hack, pre- & append " " since it gets removed
+      suffix_str = ast: line string: (" " + (match_data post_match) + " ")
+      interpol_ast = AST StringInterpolation new: line code: (match_data[1])
 
-          # don't concatenate suffix if it's empty..
-          unless: (suffix == "") do: {
-            interpol_send = AST MessageSend new: line message: concat_ident to: interpol_send args: (AST MessageArgs new: line args: [suffix_str])
-          }
+      # create messagesend to concatenate:
+      concat_ident = ast: line identifier: "<<"
+      interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [interpol_ast])
 
-          interpol_send # this shall get returned, yo
-        case _ ->
-          AST StringLiteral new: line value: str
+      # don't concatenate suffix if it's empty..
+      unless: (match_data post_match == "") do: {
+        interpol_send = AST MessageSend new: line message: concat_ident to: interpol_send args: (AST MessageArgs new: line args: [suffix_str])
       }
+
+      interpol_send
     }
 
     def ast: line multi_line_string: string {
