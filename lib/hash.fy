@@ -182,4 +182,30 @@ class Hash {
     }
     h
   }
+
+  def random_key {
+    """
+    @return Random key in @self.
+    """
+
+    keys random
+  }
+
+  def random_value {
+    """
+    @return Random value in @self.
+    """
+
+    values random
+  }
+
+  def random {
+    """
+    @return Random value in @self.
+
+    Same as @Hash#random_value@.
+    """
+
+    random_value
+  }
 }
