@@ -16,7 +16,7 @@ class Fancy Package {
     }
 
     def delete_package_dir {
-      require("FileUtils")
+      require("fileutils")
       if: (Directory exists?: installed_path) then: {
         "Deleting directory: #{installed_path}" println
         FileUtils rm_rf(installed_path)
