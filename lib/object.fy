@@ -290,6 +290,9 @@ class Object {
     cond if_true: else_block else: block
   }
 
+  alias_method: 'unless:then: for: 'unless:do:
+  alias_method: 'unless:then:else: for: 'unless:do:else:
+
   def method: method_name {
     """
     @return @Method@ with @method_name defined for @self, or @nil.
@@ -463,7 +466,7 @@ class Object {
             val = self receive_message: msg with_params: params
             sender completed: val
         }
-      } catch Exception => e {
+      } catch StandardError => e {
         { sender failed: e } if: sender
         die!
         e raise!
@@ -688,7 +691,7 @@ class Object {
     try {
       Thread current[var_name]: value
       retval = block call
-    } catch Exception => e {
+    } catch StandardError => e {
       e raise!
     } finally {
       Thread current[var_name]: oldval

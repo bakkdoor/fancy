@@ -5,7 +5,7 @@ class String {
   class.
 
   They also include @Fancy::Enumerable@, which means you can use all the
-  common sequence methods on them, like +map:+, +select:+ etc.
+  common sequence methods on them, like @Fancy::Enumerable#map:@, @Fancy::Enumerable#select:@ etc.
   """
 
   include: Fancy Enumerable

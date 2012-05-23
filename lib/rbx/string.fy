@@ -3,7 +3,7 @@ class String {
   # prepend a : to fancy version of ruby methods.
   ruby_aliases: [
     '==, 'upcase, 'downcase, '=~, 'to_i, 'to_f,
-    'chomp, 'inspect, 'to_sym, '<, '>
+    'chomp, 'inspect, 'to_sym, '<, '>, '<=, '>=, '<=>
   ]
 
   alias_method: 'ruby_idx: for_ruby: '[]

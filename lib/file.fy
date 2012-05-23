@@ -67,6 +67,45 @@ class File {
     File read: filename . eval
   }
 
+  def File read_config: filename {
+    """
+    @filename @String@ that is the name of file to be read as a config file.
+    @return @Hash@ of key-value pairs of the config file.
+
+    Reads a .fy source file as a config file.
+
+    Example:
+          # Given a file config.fy with these contents:
+          {
+            host: \"127.0.0.1\"
+            port: 1234
+            names: [
+              'foo,
+              'bar,
+              'baz
+            ]
+            something_else: {
+              another_value: 'foo
+            }
+          }
+
+          # It can be read like so:
+          config = File read_config: \"config.fy\"
+
+          # config is now:
+          <[
+            'host => \"127.0.0.1\",
+            'port => 1234,
+            'names => ['foo, 'bar, 'baz],
+            'something_else: <[
+              'another_value => 'foo
+            ]>
+          ]>
+    """
+
+    File read: filename . eval to_hash_deep
+  }
+
   def writeln: x {
     """
     Writes a given argument as a String followed by a newline into the

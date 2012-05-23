@@ -131,7 +131,7 @@ FancySpec describe: Hash with: {
     h includes?: nil . is: false
   }
 
-  it: "returns an object with slots based on key-value pairs in Hash" for: 'to_object when: {
+  it: "returns an object with slots based on key-value pairs in Hash" with: 'to_object when: {
     <[]> to_object slots empty? is: true
     <['name => "Chris"]> to_object tap: @{
       slots is: ['name]
@@ -150,5 +150,14 @@ FancySpec describe: Hash with: {
       a is: "world"
       b is: "hello"
     }
+  }
+
+  it: "returns a hash with all entries for which a block yields true" with: 'select_keys: when: {
+    <[]> select_keys: { true } . is: <[]>
+    <[]> select_keys: { false } . is: <[]>
+    <['hello => "world"]> select_keys: { true } . is: <['hello => "world"]>
+    <['hello => "world"]> select_keys: { false } . is: <[]>
+    <['hello => "world", "world" => 'hello]> select_keys: @{ is_a?: Symbol } . is: <['hello => "world"]>
+    <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> select_keys: @{ <= 3 } . is: <[1 => 5, 2 => 4, 3 => 3]>
   }
 }

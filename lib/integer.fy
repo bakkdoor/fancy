@@ -41,7 +41,7 @@ class Integer {
     value = nil
     try {
       value = block call: [max_retries]
-    } catch Exception => e {
+    } catch StandardError => e {
       max_retries = max_retries - 1
       { e raise! } unless: $ max_retries > 0
       retry_block call

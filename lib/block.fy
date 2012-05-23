@@ -152,7 +152,6 @@ class Block {
     """
 
     obj = DynamicSlotObject new do: self . object
-    obj metaclass read_write_slots: (obj slots)
     obj
   }
 

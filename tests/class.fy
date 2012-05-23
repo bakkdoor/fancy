@@ -623,4 +623,27 @@ FancySpec describe: Class with: {
     f foo is: 84
     Time now - start <= 0.01 is: true
   }
+
+  it: "returns a string representation of itself and its superclass, if any" with: 'inspect when: {
+    class MySuperClass
+    class MySubClass : MySuperClass
+
+    Fixnum inspect is: "Fixnum : Integer"
+    MySuperClass inspect is: "MySuperClass : Object"
+    MySubClass inspect is: "MySubClass : MySuperClass"
+    Object inspect is: "Object"
+  }
+
+  it: "returns the right amount of instance methods" with: 'instance_methods: when: {
+    class NoMethods
+    class OneMethod {
+      def bar
+    }
+
+    NoMethods instance_methods: false . size is: 0
+    OneMethod instance_methods: false . size is: 1
+
+    NoMethods instance_methods is: $ Object instance_methods
+    Set[OneMethod instance_methods] is: $ Set[Object instance_methods + (OneMethod instance_methods: false)]
+  }
 }

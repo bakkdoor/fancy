@@ -109,7 +109,7 @@ class File {
     modes_arr each: |m| {
       str << (@@open_mode_conversions[m])
     }
-    str uniq join: ""
+    str unique join: ""
   }
 
   def File delete: filename {

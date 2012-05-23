@@ -209,17 +209,6 @@ class Array {
     arr append: other_arr
   }
 
-  def join {
-    """
-    @return Elements of @Array@ joined to a @String@.
-
-    Joins all elements with the empty @String@.
-          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
-    """
-
-    join: ""
-  }
-
   def select!: condition {
     """
     @condition A condition @Block@ (or something @Callable) for selecting items from @self.
@@ -287,16 +276,6 @@ class Array {
     nil
   }
 
-  def to_s {
-    """
-    @return @String@ representation of @Array@.
-
-    Returns @String@ representation of @Array@.
-    """
-
-    reduce: |x y| { x ++ y } init_val: ""
-  }
-
   def inspect {
     """
     @return Pretty-printed @String@ representation of @self.
@@ -336,15 +315,32 @@ class Array {
     arr
   }
 
-  def + other_arr {
+  def + other {
     """
-    @return Concatenation of @self with another @Array@
+    @other @Fancy::Enumerable@ to be appended.
+    @return Concatenation of @self with @other.
 
-    Returns concatenation with another @Array@.
+    Returns concatenation with another @Fancy::Enumerable@.
+
+    Example:
           [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
     """
 
-    clone append: other_arr
+    clone append: other
+  }
+
+  def - other {
+    """
+    @other @Fancy::Enumerable@ to be subtracted from @self.
+    @return @Array@ of elements in @self excluding all elements in @self and @other.
+
+    Returns an @Array@ of all values in @self that are not in @other.
+
+    Example:
+          [1,2,3,4] - [2,4,5] # => [1,3]
+    """
+
+    self reject: |x| { other includes?: x }
   }
 
   def indices {

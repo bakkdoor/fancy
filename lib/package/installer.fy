@@ -1,8 +1,5 @@
-require("yaml")
-require("open-uri")
-
 class Fancy Package {
-  class Installer {
+  class Installer : Handler {
     """
 
     @Fancy::Package@ installer.
@@ -21,26 +18,7 @@ class Fancy Package {
       Fancy packages).
       """
 
-      splitted = @package_name split: "/"
-      @user, @repository = splitted
-
-      # check for version, e.g. when passing in:
-      # $ fancy install bakkdoor/fyzmq=1.0.1
-      splitted = @repository split: "="
-      if: (splitted size > 1) then: {
-        @repository, @version = splitted
-        @package_name = @user + "/" + @repository
-      }
-
-      @install_path if_nil: {
-        @install_path = Fancy Package DEFAULT_PACKAGES_PATH
-        Directory create!: $ Fancy Package DEFAULT_FANCY_ROOT
-        Directory create!: $ Fancy Package DEFAULT_PACKAGES_PATH
-        Directory create!: $ Fancy Package DEFAULT_PACKAGES_LIB_PATH
-        Directory create!: $ Fancy Package DEFAULT_PACKAGES_PATH ++ "/downloads"
-      }
-
-      @download_path = @install_path ++ "/downloads"
+      initialize: @package_name install_path: @install_path
     }
 
     def run {
@@ -69,7 +47,13 @@ class Fancy Package {
         # now unpack & check for dependencies
         unpack_dir = unpack_file: filename
         rename_dir: unpack_dir
-        load_fancypack
+        load_fancypack: |spec| {
+          fulfill_spec: spec
+          spec gh_user: @user
+          Specification save: spec to: $ Fancy Package package_list_file
+        } else: {
+          "Something wen't wrong. Did not find a fancypack specification for package: " ++ @repository . raise!
+        }
       } else: {
         STDERR println: "Installation aborted."
         STDERR println: "Got error while trying to install #{@package_name} with version: #{@version}"
@@ -87,6 +71,9 @@ class Fancy Package {
 
     def tags {
       "Returns a list of tags the repository has on Github."
+
+      require("yaml")
+      require("open-uri")
 
       url = "http://github.com/api/v2/yaml/repos/show/" ++ @package_name ++ "/tags/"
       YAML load_stream(open(url)) documents() first at: "tags"
@@ -141,13 +128,6 @@ class Fancy Package {
       dirname = output readlines first chomp
     }
 
-    def installed_path {
-      @install_path + "/" + @user + "_" + @repository + "-" + @version
-    }
-
-    def lib_path {
-      @install_path + "/lib"
-    }
 
     def rename_dir: dirname {
       """
@@ -156,25 +136,6 @@ class Fancy Package {
       """
 
       System do: $ ["mv ", @install_path, "/", dirname, " ", installed_path] join
-    }
-
-    def load_fancypack {
-      """
-      Loads the @.fancypack file within the downloaded package directory.
-      If no @.fancypack file is found, raise an error.
-      """
-
-      Dir glob(installed_path ++ "/*.fancypack") first if_true: |fpackfile| {
-        require: fpackfile
-      }
-
-      if: (Specification[@repository]) then: |spec| {
-        fulfill_spec: spec
-        spec gh_user: @user
-        Specification save: spec to: $ Fancy Package package_list_file
-      } else: {
-        "Something wen't wrong. Did not find a fancypack specification for package: " ++ @repository . raise!
-      }
     }
 
     def fulfill_spec: spec {
@@ -194,6 +155,15 @@ class Fancy Package {
             f writeln: "\""
           }
         }
+      }
+
+      spec bin_files each: |bf| {
+        basename = File basename(bf)
+        orig_path = "#{installed_path}/#{bf}"
+        link_path = "#{bin_path}/#{basename}"
+        "Creating symlink #{link_path} for #{orig_path}" println
+        { File delete: link_path } if: $ File exists?: link_path
+        File symlink(orig_path, link_path)
       }
 
       spec dependencies each: |dep| {

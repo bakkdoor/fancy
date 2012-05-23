@@ -30,6 +30,7 @@ fancy_parse_file(VALUE self) {
   yylineno = NUM2INT(lineno);
   yyparse(self);
   yy_delete_buffer(buffstate);
+  fclose(f);
   return self;
 }
 

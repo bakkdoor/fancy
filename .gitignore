@@ -24,3 +24,4 @@ lib/parser/ext/parser.output
 pygments/*
 .rbx/*
 lib/parser/ext/.rbx/*
+TAGS

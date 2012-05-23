@@ -210,4 +210,14 @@ class Number {
       other
     }
   }
+
+  def random {
+    """
+    @return Random number between 0 and @self.
+
+    Returns a random number between 0 and @self.
+    """
+
+    rand(self)
+  }
 }

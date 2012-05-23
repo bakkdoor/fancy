@@ -1,4 +1,9 @@
+Directory = Dir
+
 class Directory {
+  forwards_unary_ruby_methods
+  metaclass forwards_unary_ruby_methods
+
   def self create: dirname {
     """
     @dirname Path of @Directory@ to create.
@@ -39,7 +44,7 @@ class Directory {
 
     try {
       Dir delete(dirname)
-    } catch Exception => e {
+    } catch StandardError => e {
       IOError new: (e message) . raise!
     }
   }

@@ -1,5 +1,5 @@
 class Class {
-  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'inspect, 'to_s ]
+  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'to_s ]
 
   def new {
     """
@@ -180,6 +180,24 @@ class Class {
     method_names = method_names to_a()
     method_names = method_names map() |m| { m message_name }
     protected(*method_names)
+  }
+
+  def instance_methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if instance methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all instance method names for this @Class@.
+    """
+
+    instance_methods(include_superclasses?)
+  }
+
+  def methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all class method names for this @Class@.
+    """
+
+    methods(include_superclasses?)
   }
 
   def forwards_unary_ruby_methods {

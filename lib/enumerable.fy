@@ -80,6 +80,39 @@ class Fancy {
       item
     }
 
+    def first: amount {
+      """
+      @amount Amount of first elements to take from @self.
+      @return @Array@ of first @amount elements in @self.
+
+      Example:
+            (1,2,3,4) first: 2 # => [1,2]
+      """
+
+      i = 0
+      take_while: {
+        i = i + 1
+        i <= amount
+      }
+    }
+
+    def last: amount {
+      """
+      @amount Amount of last elements to take from @self.
+      @return @Array@ of last @amount elements in @self.
+
+      Example:
+            (1,2,3,4) last: 2 # => [3,4]
+      """
+
+      start_index = size - amount
+      i = 0
+      drop_while: {
+        i = i + 1
+        i <= start_index
+      }
+    }
+
     def includes?: item {
       """
       @item Item to check if it's included in @self.
@@ -104,7 +137,7 @@ class Fancy {
       }
     }
 
-    def join: str {
+    def join: str ("") {
       """
       @str Value (usually a @String@) to be used for the joined @String@.
       @return @String@ containing all elements in @self interspersed with @str.
@@ -318,7 +351,7 @@ class Fancy {
     def take: amount {
       """
       @amount Amount of elements to take from @self.
-      @return First @amount elements of @self in an @Array@.
+      @return @Array@ of first @amount elements in @self.
 
       Example:
             [1,2,3,4] take: 2 # => [1,2]
@@ -377,23 +410,23 @@ class Fancy {
       reduce: block init_val: val
     }
 
-    def uniq {
+    def unique {
       """
       @return @Array@ of all unique elements in @self.
 
       Returns a new Array with all unique values (double entries are skipped).
 
       Example:
-            [1,2,1,2,3] uniq # => [1,2,3]
+            [1,2,1,2,3] unique # => [1,2,3]
       """
 
-      uniq_vals = []
+      unique_vals = []
       each: |x| {
-        unless: (uniq_vals includes?: x) do: {
-          uniq_vals << x
+        unless: (unique_vals includes?: x) do: {
+          unique_vals << x
         }
       }
-      uniq_vals
+      unique_vals
     }
 
     def size {
@@ -433,13 +466,13 @@ class Fancy {
       reject: @{ nil? }
     }
 
-    def superior_by: comparison_block taking: selection_block ('identity) {
+    def superior_by: comparison_block taking: selection_block (@{ identity }) {
       """
       @comparison_block @Block@ to be used for comparison.
-      @selection_block @Block@ to be used for selecting the values to be used for comparison by @comparison_bock.
+      @selection_block @Block@ to be used for selecting the values to be used for comparison by @comparison_block.
       @return Superior element in @self in terms of @comparison_block.
 
-      Returns the superior element in the @Enumerable that has met
+      Returns the superior element in the @Fancy::Enumerable@ that has met
       the given comparison block with all other elements,
       applied to whatever @selection_block returns for each element.
       @selection_block defaults to @identity.
@@ -491,7 +524,7 @@ class Fancy {
       (assuming them to be @Number@s (implementing '+' & '*')).
       """
 
-      reduce: '+ init_val: 0
+      inject: 0 into: '+
     }
 
     def product {
@@ -500,7 +533,7 @@ class Fancy {
       (assuming them to be @Number@s (implementing @+ & @*)).
       """
 
-      reduce: '* init_val: 1
+      inject: 1 into: '*
     }
 
     def average {
@@ -518,7 +551,7 @@ class Fancy {
       @return @Array@ of @Array@s, partitioned by equal return values of calling @block with each element
 
       Example:
-            0 upto: 10 . partition_by: |x| { x < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
+            (0..10) partition_by: @{ < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
       """
       last = block call: [first]
       coll = []
@@ -574,6 +607,8 @@ class Fancy {
       groups = []
       tmp = []
       enum = to_enum
+
+      { return groups } if: (size <= 0)
 
       loop: {
         size times: {
@@ -632,6 +667,82 @@ class Fancy {
       """
 
       reverse each: block
+    }
+
+    def count: block {
+      """
+      @block Predicate @Block@ called with each element.
+      @return @Fixnum@ that is the amount of elements in @self for which @block yields @true.
+
+      Example:
+            (0..10) count: @{ even? }                   # => 6 (even numbers are: 0,2,4,6,8,10)
+            [1,2,3] count: @{ odd? }                    # => 2
+            [1,2, \"foo\"] count: @{ class == String }  # => 1
+      """
+
+      count = 0
+      each: |x| {
+        { count = count + 1 } if: $ block call: [x]
+      }
+      count
+    }
+
+    def to_s {
+      """
+      @return @String@ concatenation of elements in @self.
+
+      Example:
+            (1,2,3) to_s # => \"123\"
+            [1,2,3] to_s # => \"123\"
+            \"foo\" to_s # => \"foo\"
+      """
+
+      join
+    }
+
+    def sorted? {
+      """
+      @return @true if @self is sorted, @false otherwise.
+
+      Example:
+            (1,2,3) sorted? # => true
+            (2,1,3) sorted? # => false
+            \"abc\" sorted? # => true
+            \"bac\" sorted? # => false
+      """
+
+      last = nil
+      each: |x| {
+        if: last then: {
+          { return false } unless: $ last <= x
+        }
+        last = x
+      }
+      true
+    }
+
+    def split_at: index {
+      """
+      @index Index at which @self should be split.
+      @return @Array@ of 2 @Array@s of elements in self splitted at @index.
+
+      Example:
+            [1,2,3,4,5] split_at: 2 # => [[1,2], [3,4,5]]
+      """
+
+      [take: index, drop: index]
+    }
+
+    def split_with: predicate_block {
+      """
+      @predicate_block @Block@ to be used as a predicate on where to split in @self.
+      @return @Array@ of 2 @Array@s of elements split based on @predicate_block.
+
+      Example:
+            [1,2,3,4,5] split_with: @{ < 3 } # => [[1, 2], [3, 4, 5]]
+      """
+
+      [take_while: predicate_block, drop_while: predicate_block]
     }
   }
 }

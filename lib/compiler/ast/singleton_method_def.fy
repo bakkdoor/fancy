@@ -16,6 +16,9 @@ class Fancy AST {
 
   class SingletonMethodDefScope : Rubinius AST DefineSingletonScope {
     def initialize: @line name: @name args: @arguments body: @body {
+      if: (@body empty?) then: {
+        @body unshift_expression: $ NilLiteral new: @line
+      }
     }
 
     define_method("bytecode") |g, recv| {

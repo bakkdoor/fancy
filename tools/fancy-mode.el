@@ -47,6 +47,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
 (add-to-list 'auto-mode-alist '("\\.fancypack\\'" . fancy-mode))
+(add-to-list 'auto-mode-alist '("\\Fakefile\\'" . fancy-mode))
 
 (add-to-list 'interpreter-mode-alist '("fancy" . fancy-mode))
 

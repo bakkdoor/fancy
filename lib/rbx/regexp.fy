@@ -6,6 +6,8 @@ class Regexp {
   ruby_alias: 'inspect
   ruby_alias: 'to_s
 
+  alias_method: 'match: for_ruby: 'match
+
   def === string {
     ruby: 'match args: [string]
   }

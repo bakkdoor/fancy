@@ -11,7 +11,7 @@
 # define all the functionality to let fancy run on rbx.
 # also, they might override functionality defined in lib/ to reuse
 # existing ruby methods etc.
-require: "rbx.fy"
+require: "rbx"
 
 require: "object"
 require: "class"
@@ -51,6 +51,5 @@ require: "system"
 
 require: "documentation"
 
-require: "package.fy"
-
+require: "package"
 require: "rbx/celluloid"

@@ -4,7 +4,8 @@ class MatchData {
    (e.g. by using match/case expressions).
    """
 
-   ruby_alias: 'size
+   forwards_unary_ruby_methods
+
    ruby_alias: '[]
 
    def at: idx {

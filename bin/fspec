@@ -2,25 +2,31 @@
 require: "fancy_spec"
 
 test_dir = "tests"
-{ test_dir = ARGV[1] } if: $ ARGV[1]
 
-test_files = Directory list: "#{test_dir}/**/*.fy"
+ARGV for_option: "-d" do: |dir| {
+  test_dir = dir
+}
+
+test_files = ARGV rest
 if: (test_files empty?) then: {
-  if: (Directory exists?: test_dir) then: {
-    "No test files found. Add them to the tests/ directory." println
-  } else: {
-    "No tests/ directory found. Create it!" println
-  }
-
-} else: {
-  start = Time now
-  test_files each: |f| {
-    require: f
-  }
-  Console newline
-  FancySpec SpecTest print_failures: start no_failures: {
-    System exit: 0
-  } else: {
+  test_files = Directory list: "#{test_dir}/**/*.fy"
+  if: (test_files empty?) then: {
+    if: (Directory exists?: test_dir) then: {
+      "No test files found. Add them to the tests/ directory." println
+    } else: {
+      "Test directory '#{test_dir}' not found. Create it!" println
+    }
     System exit: 1
   }
+}
+
+start = Time now
+test_files sort each: |f| {
+  require: f
+}
+Console newline
+FancySpec SpecTest print_failures: start no_failures: {
+  System exit: 0
+} else: {
+  System exit: 1
 }

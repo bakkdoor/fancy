@@ -41,9 +41,9 @@ FancySpec describe: String with: {
     }
   }
 
-  it: "behaves like a collection/sequence via each:" with: 'uniq when: {
+  it: "behaves like a collection/sequence via each:" with: 'unique when: {
     str = "Hello, World!"
-    str uniq join: "" . is: "Helo, Wrd!"
+    str unique join: "" . is: "Helo, Wrd!"
   }
 
   it: "has all its characters as instances of String class" with: 'all?: when: {
