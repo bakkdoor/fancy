@@ -1,6 +1,6 @@
 rvm:
   - rbx
-before_script: rake clean && rbx -S rake
+before_script: rake clean && rbx -S rake && rbx -S gem install celluloid
 script: bin/fancy bin/fspec
 notifications:
   email:
