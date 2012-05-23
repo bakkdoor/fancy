@@ -19,7 +19,7 @@ module Celluloid
   module ClassMethods
     define_method(":new") do
       proxy = Celluloid::Actor.new(allocate).proxy
-      proxy.send(:__send__, ":initialize")
+      proxy._send_(":initialize")
       proxy
     end
 
@@ -29,16 +29,17 @@ module Celluloid
 
       proxy = Actor.new(allocate).proxy
       current_actor.link proxy
-      proxy.send(:__send__, ":initialize")
+      proxy._send_(":initialize")
       proxy
     end
 
 
     define_method("new:") do |arg|
       proxy = Celluloid::Actor.new(allocate).proxy
-      proxy.send(:__send__, "initialize:", arg)
+      proxy._send_("initialize:", arg)
       proxy
     end
+
 
     define_method("new_link:") do |arg|
       current_actor = Celluloid.current_actor
@@ -46,14 +47,14 @@ module Celluloid
 
       proxy = Celluloid::Actor.new(allocate).proxy
       current_actor.link proxy
-      proxy.send(:__send__, "initialize:", arg)
+      proxy._send_("initialize:", arg)
       proxy
     end
 
     define_method("define_constructor_class_method:") do |method_name|
       self.metaclass.send(:define_method, "new:#{method_name}") do |*args|
         proxy = Celluloid::Actor.new(allocate).proxy
-        proxy.send(:__send__, "initialize:#{method_name}", *args)
+        proxy._send_("initialize:#{method_name}", *args)
         proxy
       end
 
@@ -63,7 +64,7 @@ module Celluloid
 
         proxy = Actor.new(allocate).proxy
         current_actor.link proxy
-        proxy.send(:__send__, "initialize:#{method_name}", *args)
+        proxy._send_("initialize:#{method_name}", *args)
         proxy
       end
     end
