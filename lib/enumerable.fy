@@ -14,10 +14,8 @@ class Fancy {
             \"foo\” at: 3 # => nil
       """
 
-      i = 0
-      each: |x| {
+      each_with_index: |x i| {
         { return x } if: $ i == index
-        i = i + 1
       }
       return nil
     }
