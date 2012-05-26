@@ -128,6 +128,7 @@ FancySpec describe: String with: {
 
   it: "returns the character at a given index" with: '[] when: {
     s = "hello"
+    s[-1] is: "o"
     s[0] is: "h"
     s[1] is: "e"
     s[2] is: "l"
