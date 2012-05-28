@@ -1,6 +1,6 @@
 class Class {
   class Contracts {
-    class InterfaceMethodNotImplementedError : ArgumentError {
+    class InterfaceNotImplementedError : ArgumentError {
       """
       Exception class that gets raised during @Class@ inclusion
       whenever a class doesn't implement another class' required
@@ -79,7 +79,7 @@ class Class {
     unless: (class provides_interface?: expected_interface_methods) do: {
       not_implemented_methods = class missing_methods_for_interface: expected_interface_methods
       if: (not_implemented_methods size > 0) then: {
-        Contracts InterfaceMethodNotImplementedError new: not_implemented_methods interface: self including_class: class . raise!
+        Contracts InterfaceNotImplementedError new: not_implemented_methods interface: self including_class: class . raise!
       }
     }
     true

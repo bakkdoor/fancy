@@ -4,7 +4,7 @@ FancySpec describe: Class Contracts with: {
       class A {
         include: Fancy Enumerable
       }
-    } raises: Class Contracts InterfaceMethodNotImplementedError
+    } raises: Class Contracts InterfaceNotImplementedError
   }
 
   it: "doesn't fail inclusion" when: {
@@ -13,14 +13,14 @@ FancySpec describe: Class Contracts with: {
         def each: block { }
         include: Fancy Enumerable
       }
-    } does_not raise: Class Contracts InterfaceMethodNotImplementedError
+    } does_not raise: Class Contracts InterfaceNotImplementedError
 
     {
       class B {
         provides_interface: 'each:
         include: Fancy Enumerable
       }
-    } does_not raise: Class Contracts InterfaceMethodNotImplementedError
+    } does_not raise: Class Contracts InterfaceNotImplementedError
   }
 
   it: "returns the amount of not implemented interface methods" with: 'missing_methods_for_interface: when: {
@@ -31,7 +31,7 @@ FancySpec describe: Class Contracts with: {
       class C {
         include: Interface
       }
-    } raises: Class Contracts InterfaceMethodNotImplementedError with: |e| {
+    } raises: Class Contracts InterfaceNotImplementedError with: |e| {
       e methods is: ['hello, 'world]
       e interface is: Interface
       e including_class is: C
@@ -42,7 +42,7 @@ FancySpec describe: Class Contracts with: {
         def hello
         include: Interface
       }
-    } raises: Class Contracts InterfaceMethodNotImplementedError with: |e| {
+    } raises: Class Contracts InterfaceNotImplementedError with: |e| {
       e methods is: ['world]
       e interface is: Interface
       e including_class is: D
