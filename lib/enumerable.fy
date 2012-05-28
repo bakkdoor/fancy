@@ -4,7 +4,7 @@ class Fancy {
     Mixin-Class with useful methods for collections that implement an @each:@ method.
     """
 
-    expects_interface_on_inclusion: 'each:
+    expects_interface: 'each:
 
     def at: index {
       """

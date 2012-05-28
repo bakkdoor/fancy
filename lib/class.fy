@@ -262,4 +262,5 @@ class Class {
   def expects_interface_on_inclusion: methods {
     @expected_interface_methods = methods to_a
   }
+  alias_method: 'expects_interface: for: 'expects_interface_on_inclusion:
 }

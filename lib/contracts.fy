@@ -33,6 +33,8 @@ class Class {
     @expected_interface_methods = methods to_a
   }
 
+  alias_method: 'expects_interface: for: 'expects_interface_on_inclusion:
+
   def provides_interface: methods {
     """
     @methods Collection of method signatures this class explicitly declares to provide.
