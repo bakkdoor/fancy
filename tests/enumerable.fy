@@ -44,10 +44,10 @@ FancySpec describe: Fancy Enumerable with: {
     [] to_s is: ""
 
     class MyCollection {
-      include: Fancy Enumerable
       def each: block {
         (0..5) each: block
       }
+      include: Fancy Enumerable
     }
     MyCollection new to_s is: "012345"
   }

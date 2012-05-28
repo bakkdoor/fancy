@@ -4,6 +4,8 @@ class Fancy {
     Mixin-Class with useful methods for collections that implement an @each:@ method.
     """
 
+    expects_interface_on_inclusion: 'each:
+
     def at: index {
       """
       @index @Fixnum@ that is the 0-based index into @self.

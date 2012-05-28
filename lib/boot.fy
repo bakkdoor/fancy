@@ -50,5 +50,5 @@ require: "vars"
 require: "system"
 
 require: "documentation"
-
 require: "package"
+require: "contracts"

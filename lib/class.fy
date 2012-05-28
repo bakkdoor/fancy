@@ -253,4 +253,13 @@ class Class {
 
     methods - fancy_methods
   }
+
+  # dummy methods, get replaced at end of startup in lib/contracts.fy
+  def provides_interface: methods {
+    @provided_interface_methods = @provided_interface_methods to_a append: (methods to_a)
+  }
+
+  def expects_interface_on_inclusion: methods {
+    @expected_interface_methods = methods to_a
+  }
 }
