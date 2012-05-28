@@ -3,9 +3,9 @@ class Class {
 
   def new {
     """
-    @return A new @Class@ subclassed from @Object@.
+    @return A new instance of @Class@ @self.
 
-    Creates a new @Class@ instance by subclassing @Object@.
+    Creates a new instance of @self calling @initialize.
     """
 
     obj = allocate()
@@ -14,16 +14,16 @@ class Class {
   }
 
   # calls initialize:, if defined
-  def new: superclass {
+  def new: arg {
     """
-    @superclass The superclass to inherit from.
-    @return A new @Class@ inherited from @superclass.
+    @arg Argument to @initialize:.
+    @return A new instance of @Class@ @self.
 
-    Creates a new @Class@ instance by subclassing @superclass.
+    Creates a new instance of @self calling @initialize:.
     """
 
     obj = allocate()
-    obj initialize: superclass
+    obj initialize: arg
     obj
   }
 
