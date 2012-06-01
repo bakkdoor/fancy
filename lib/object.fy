@@ -721,4 +721,20 @@ class Object {
       let: '*stdout* be: f in: block
     }
   }
+
+  def fancy_methods {
+    """
+    @return @Array@ of all class methods defined in Fancy.
+    """
+
+    methods select: @{ includes?: ":" }
+  }
+
+  def ruby_methods {
+    """
+    @return @Array@ of all class methods defined in Ruby.
+    """
+
+    methods - fancy_methods
+  }
 }

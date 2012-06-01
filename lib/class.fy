@@ -230,28 +230,12 @@ class Class {
     instance_methods select: @{ includes?: ":" }
   }
 
-  def fancy_methods {
-    """
-    @return @Array@ of all class methods defined in Fancy.
-    """
-
-    methods select: @{ includes?: ":" }
-  }
-
   def ruby_instance_methods {
     """
     @return @Array@ of all instance methods defined in Ruby.
     """
 
     instance_methods - fancy_instance_methods
-  }
-
-  def ruby_methods {
-    """
-    @return @Array@ of all class methods defined in Ruby.
-    """
-
-    methods - fancy_methods
   }
 
   # dummy methods, get replaced at end of startup in lib/contracts.fy
