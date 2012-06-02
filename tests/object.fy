@@ -215,6 +215,22 @@ FancySpec describe: Object with: {
     }
   }
 
+  it: "calls a given block with self if the block takes an argument" with: 'do: when: {
+    arr = []
+    arr do: @{
+      << 1
+      << 2
+      << 3
+      select!: 'even?
+    } . is: [2]
+
+    arr do: @{
+      is: [2] # same
+    }
+
+    2 do: @{ inspect } . is: 2
+  }
+
   it: "calls a given block with the receiver before returning itself" with: 'tap: when: {
     10 + 2 tap: |x| {
       x is: 12
