@@ -32,8 +32,6 @@ class Rubinius Debugger Frame {
   def describe {
     arg_str = ""
     recv = nil
-    signature = method selectors_with_args
-
     loc = @location
 
     if: (loc is_block) then: {
@@ -44,11 +42,7 @@ class Rubinius Debugger Frame {
         recv = "|#{block_args}| { } in #{loc describe_receiver}#{loc name}"
       }
     } else: {
-      if: (method required_args == 0) then: {
-        recv = loc describe
-      } else: {
-        recv = "#{loc describe}"
-      }
+      recv = loc describe
     }
 
     recv = recv replace: "#:" with: "#"
