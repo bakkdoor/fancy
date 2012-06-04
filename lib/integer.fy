@@ -50,4 +50,25 @@ class Integer {
       return value
     }
   }
+
+  def decimals {
+    """
+    @return @Array@ of all decimals of @self.
+
+    Returns all decimals of an Integer as an Array.
+
+    Example:
+          100 decimals   # => [1, 0, 0]
+          12345 decimals # => [1, 2, 3, 4, 5]
+    """
+
+    decimals = []
+    tmp = self
+    while: { tmp >= 10 } do: {
+      decimals << (tmp modulo: 10)
+      tmp = tmp div: 10
+    }
+    decimals << tmp
+    decimals reverse
+  }
 }
