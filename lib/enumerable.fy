@@ -744,5 +744,38 @@ class Fancy {
 
       [take_while: predicate_block, drop_while: predicate_block]
     }
+
+    def grep: pattern {
+      """
+      @pattern Pattern to be filtered by (via @Object#===@)
+      @return Elements in @self for which @pattern matches.
+
+      Example:
+            \"hello world\" grep: /[a-h]/                 # => [\"h\", \"e\", \"d\"]
+            [\"hello\", \"world\", 1, 2, 3] grep: String  # => [\"hello\", \"world\"]
+      """
+
+      select: |x| { pattern === x }
+    }
+
+    def grep: pattern taking: block {
+      """
+      @pattern Pattern to be filtered by (via @Object#===@)
+      @block @Block@ to be called with each element for which @pattern matches.
+      @return Return values of elements in @self called with @block for which @pattern matches.
+
+      Example:
+            \"hello world\" grep: /[a-h]/ taking: @{ upcase }             # => [\"H\", \"E\", \"D\"]
+            [\"hello\", \"world\", 1, 2, 3] grep: String taking: 'upcase  # => [\"HELLO\", \"WORLD\"]
+      """
+
+      result = []
+      each: |x| {
+        match x {
+          case pattern -> result << (block call: [x])
+        }
+      }
+      result
+    }
   }
 }

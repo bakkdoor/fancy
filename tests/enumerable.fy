@@ -131,4 +131,20 @@ FancySpec describe: Fancy Enumerable with: {
     (1,2,3) last: 3 . is: [1,2,3]
     (1,2,3) last: 4 . is: [1,2,3]
   }
+
+  it: "returns the elements for which a pattern matches" with: 'grep: when: {
+    "hello world" grep: /[a-h]/ . is: ["h", "e", "d"]
+    ["hello", "world", 1, 2, 3] grep: String . is: ["hello", "world"]
+    (1,2,3,4,5) grep: @{ < 2 } . is: [1] # blocks can be used as patterns, too :)
+    (1,2,3) grep: String . is: []
+    (1,2,3,4) grep: (2..3) . is: [2, 3]
+  }
+
+  it: "returns the values of calling a block for all elements for which a pattern matches" with: 'grep:taking: when: {
+    "hello world" grep: /[a-h]/ taking: 'upcase . is: ["H", "E", "D"]
+    ["hello", "world", 1, 2, 3] grep: String taking: 'upcase . is: ["HELLO", "WORLD"]
+    (1,2,3,4,5) grep: @{ < 2 } taking: 'doubled . is: [2]
+    (1,2,3) grep: String taking: 'to_s . is: []
+    (1,2,3,4) grep: (2..3) taking: 'to_s . is: ["2", "3"]
+  }
 }
