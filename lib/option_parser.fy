@@ -38,7 +38,7 @@ class OptionParser {
 
     @options = <[]>
     @parsed_options = <[]>
-    @banner = ""
+    @banner = nil
     @exit_on_help = true
 
     with: "--help" doc: "Display this information" do: {
@@ -102,8 +102,10 @@ class OptionParser {
     """
 
     max_size = @options map: |name opt| { opt name_with_arg size } . max
-    *stdout* println: @banner
-    *stdout* println
+    if: @banner then: {
+      *stdout* println: @banner
+      *stdout* println
+    }
     @options each: |name opt| {
       *stdout* printf("  %-#{max_size}s  %s\n", opt name_with_arg, opt doc_string)
     }
