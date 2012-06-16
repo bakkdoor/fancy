@@ -193,16 +193,11 @@ class Class {
           }
       }
 
-      mdef = "def #{message_with_args}"
-
-      mdef << " {\n"
-      mdef << "@#{slotname} #{message_with_args}"
-
-      mdef << "\n}"
-
-      class_eval: {
-        mdef eval
+      class_eval: """
+      def #{message_with_args} {
+        @#{slotname} #{message_with_args}
       }
+      """
     }
   }
 
@@ -405,15 +400,13 @@ class Class {
     before_methods = before_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
     after_methods = after_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
 
-    class_eval: {
-      """
+    class_eval: """
       def #{method selector_with_args} {
         #{before_methods}
         return_val = #{orig_method selector_with_args}
         #{after_methods}
         return_val
       }
-      """ eval
-    }
+    """
   }
 }

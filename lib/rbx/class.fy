@@ -217,7 +217,7 @@ class Class {
   def class_eval: str_or_block {
     match str_or_block {
       case Block -> class_eval(&str_or_block)
-      case _ -> class_eval(str_or_block)
+      case _ -> class_eval: { str_or_block to_s eval }
     }
   }
 }
