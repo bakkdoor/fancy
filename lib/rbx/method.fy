@@ -96,6 +96,11 @@ class UnboundMethod {
   }
 
   def selector_with_args {
+    match name {
+      case ":[]" -> return "[arg_0]"
+      case "[]:" -> return "[arg_0]: arg_1"
+    }
+
     match arity {
       case 0 -> name rest
       case _ ->
