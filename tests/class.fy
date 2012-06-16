@@ -646,4 +646,155 @@ FancySpec describe: Class with: {
     NoMethods instance_methods is: $ Object instance_methods
     Set[OneMethod instance_methods] is: $ Set[Object instance_methods + (OneMethod instance_methods: false)]
   }
+
+  it: "defines a before_method handler" with: 'before_method:run: when: {
+    class BeforeMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def before: arr {
+        arr << "Before Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      before_method: 'my_method: run: 'before:
+    }
+
+    b1 = BeforeMethodClass new: 1
+    b2 = BeforeMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Before Method: 1", "My Method: 1",
+      "Before Method: 2", "My Method: 2"
+    ]
+
+    # we can also pass blocks
+
+    BeforeMethodClass before_method: 'my_method: run: |receiver array| {
+      array << "Before Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Before Block: 1", "Before Method: 1", "My Method: 1",
+      "Before Block: 2", "Before Method: 2", "My Method: 2"
+    ]
+  }
+
+  it: "defines an after_method handler" with: 'after_method:run: when: {
+    class AfterMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def after: arr {
+        arr << "After Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      after_method: 'my_method: run: 'after:
+    }
+
+    b1 = AfterMethodClass new: 1
+    b2 = AfterMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "My Method: 1", "After Method: 1",
+      "My Method: 2", "After Method: 2"
+    ]
+
+    AfterMethodClass after_method: 'my_method: run: |receiver array| {
+      "block getting called yo"
+      array << "After Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "My Method: 1", "After Method: 1", "After Block: 1",
+      "My Method: 2", "After Method: 2", "After Block: 2"
+    ]
+  }
+
+
+  it: "defines an around_method handler" with: 'around_method:run: when: {
+    class AroundMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def around: arr {
+        arr << "Around Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      around_method: 'my_method: run: 'around:
+    }
+
+    b1 = AroundMethodClass new: 1
+    b2 = AroundMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Around Method: 1", "My Method: 1", "Around Method: 1",
+      "Around Method: 2", "My Method: 2", "Around Method: 2"
+    ]
+
+
+    AroundMethodClass around_method: 'my_method: run: |receiver array| {
+      array << "Around Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Around Block: 1", "Around Method: 1", "My Method: 1", "Around Method: 1", "Around Block: 1",
+      "Around Block: 2", "Around Method: 2", "My Method: 2", "Around Method: 2", "Around Block: 2"
+    ]
+  }
+
+  it: "defines a custom calling chain for a method" with: 'define_calling_chain:for_method: when: {
+    class CallingChainClass {
+      def foo: arr { arr << "foo" }
+      def bar: arr { arr << "bar" }
+      def baz: arr { arr << "baz" }
+
+      define_calling_chain: ('foo:, 'bar:, 'baz:) for_method: 'foo:
+    }
+
+    arr = []
+    CallingChainClass new foo: arr
+    arr is: ["foo", "bar", "baz"]
+
+    CallingChainClass define_calling_chain: [|receiver arr|{ receiver baz: arr }, 'bar:] for_method: 'bar:
+
+    arr = []
+    CallingChainClass new bar: arr
+    arr is: ["baz", "bar"]
+  }
 }

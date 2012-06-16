@@ -247,4 +247,173 @@ class Class {
     @expected_interface_methods = methods to_a
   }
   alias_method: 'expects_interface: for: 'expects_interface_on_inclusion:
+
+  def before_method: method_name run: block_or_method_name {
+    """
+    @method_name Name of @Method@ to run another @Method@ or @Block@ before, when called.
+    @block_or_method_name @Block@ or name of other @Method@ to be called before @method_name.
+
+    Runs / Calls @block_or_method everytime before running @method_name.
+
+    Example:
+          Array before_method: 'inspect run: 'compact!
+          [1, nil, 2, nil, 3] inspect # => \"[1, 2, 3]\"
+
+          # Or pass a Block:
+          Array before_method: 'inspect run: @{ compact! }
+    """
+
+    define_calling_chain: [block_or_method_name, method_name] for_method: method_name
+  }
+
+  def after_method: method_name run: block_or_method_name {
+    """
+    @method_name Name of @Method@ to run another @Method@ or @Block@ after, when called.
+    @block_or_method_name @Block@ or name of other @Method@ to be called after @method_name.
+
+    Runs / Calls @block_or_method_name everytime after running @method_name.
+
+    Example:
+          Array after_method: 'inspect run: 'compact!
+          x = [1, nil, 2, nil, 3]
+          x inspect # => \"[1, nil, 2, nil, 3]\"
+          x inspect # => \"[1, 2, 3]\"
+
+          # Or pass a Block:
+          Array after_method: 'inspect run: @{ compact! }
+    """
+
+    define_calling_chain: [method_name, block_or_method_name] for_method: method_name
+  }
+
+  def around_method: method_name run: block_or_method_name {
+    """
+    @method_name Name of @Method@ to run another @Method@ or @Block@ before & after, when called.
+    @block_or_method_name @Block@ or name of other @Method@ to be called before & after @method_name.
+
+    Runs / Calls @block_or_method_name everytime before & after running @method_name.
+
+    Example:
+          class MyController {
+            def do_stuff {
+              \"Doing stuff\" println
+            }
+
+            def log_data {
+              \"Log data\" println
+            }
+
+            around_method: 'do_stuff run: 'log_data
+          }
+
+          controller = MyController new
+          controller do_stuff
+
+          # which will print:
+          # Log data
+          # Doing stuff
+          # Log data
+
+          # Or pass a Block:
+          MyController around_method: 'do_stuff run: { \"Log data\" println }
+    """
+
+    define_calling_chain: [block_or_method_name, method_name, block_or_method_name] for_method: method_name
+  }
+
+  def define_calling_chain: blocks_or_method_names for_method: method_name {
+    """
+    @blocks_or_method_names @Array@ of either method names or @Block@s to be called in order.
+    @method_name Name of method to define calling chain for.
+
+    Example:
+          class Foo {
+            def foo { 'foo println }
+            def bar { 'bar println }
+            def baz { 'baz println }
+
+            define_calling_chain: ['foo, 'bar, 'baz] for_method: 'foo
+          }
+
+          Foo new foo
+          # prints:
+          # foo
+          # bar
+          # baz
+
+          # You can also pass in Blocks:
+          Foo define_calling_chain: [@{ foo }, @{ bar }, @{ baz }] for_method: 'bar
+
+          Foo new bar
+          # prints:
+          # foo
+          # bar
+          # baz
+    """
+
+    # optimize for methods if all arguments are symbols (generate code instead of using dynamic #call: messages)
+    if: (blocks_or_method_names all?: @{ is_a?: Symbol }) then: {
+      return define_method_calling_chain: blocks_or_method_names for_method: method_name
+    }
+
+    method = instance_method: method_name
+
+    define_method: (method_name message_name) with: |args1| {
+      bound_method = method bind(self)
+
+      new_method_body = |args2| {
+        match bound_method arity {
+          case 0 -> args2 = []
+          case 1 -> args2 = [args2]
+        }
+
+        args_with_self = args2 dup unshift: self
+        return_val = nil
+        blocks_or_method_names each: |block| {
+          match block {
+            case method_name -> return_val = bound_method call: args2
+            case _ -> block call: args_with_self
+          }
+        }
+        return_val
+      }
+
+      # define new method body and run it afterwards as we lazily
+      # define the method the first time it's called for each new
+      # instance of this class
+      metaclass define_method: (method_name message_name) with: new_method_body
+
+      match method arity {
+        case 0 -> args1 = []
+        case 1 -> args1 = [args1]
+      }
+
+      new_method_body call: args1
+    }
+  }
+
+  def define_method_calling_chain: method_names for_method: method_name {
+    orig_method_name = "__original__#{method_name}"
+    alias_method: orig_method_name for: (method_name message_name)
+
+    method = instance_method: (method_name message_name)
+    orig_method = instance_method: orig_method_name
+
+    before_methods = method_names take_while: |m| { m != method_name }
+    _orig_method, *after_methods = method_names drop_while: |m| { m != method_name }
+
+    before_methods = before_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
+    after_methods = after_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
+
+    class_eval: {
+      """
+      def #{method selector_with_args} {
+        #{before_methods}
+        return_val = #{orig_method selector_with_args}
+        #{after_methods}
+        return_val
+      }
+      """ eval
+    }
+  }
 }
