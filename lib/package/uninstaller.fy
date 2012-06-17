@@ -26,7 +26,7 @@ class Fancy Package {
     def delete_lib_file: package_name {
       lib_file = "#{lib_path}/#{package_name}"
       "Deleting: #{lib_file}" println
-      File delete: lib_file
+      File delete!: lib_file
     }
   }
 }
