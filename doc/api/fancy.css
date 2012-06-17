@@ -78,11 +78,20 @@
     padding: 4px;
 }
 .signature .github {
-    display: none;
+    display: inline;
     float: right;
 }
 .method:hover .github {
     display: inline;
+}
+.github img {
+    width: 18px;
+    height: 18px;
+}
+.github:hover img {
+    display: inline;
+    width: 22px;
+    height: 22px;
 }
 .method .doctag > div {
     display: inline;
