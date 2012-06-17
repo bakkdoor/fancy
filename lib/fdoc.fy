@@ -343,8 +343,10 @@ class Fancy FDoc {
     def self create_code: str {
       md = /<pre>/ match: str
       if: (md) then: {
-        pre_code, post_code = str split: "<pre>"
-        code, post_code = post_code split: "</pre>"
+        md = /<pre>/ match: str
+        pre_code = md pre_match
+        md = /</pre>/ match: $ md post_match
+        code, post_code = md pre_match, md post_match
 
         pre_code = pre_code gsub(/@([^\s,@\]\)\{\}\.]+)/,
                                  "<code data-lang=\"fancy\">\\1</code>")
