@@ -35,11 +35,7 @@ class Fancy AST {
     def initialize: @line filename: @filename { }
     def bytecode: g {
       pos(g)
-      args = MessageArgs new: @line args: [StringLiteral new: @line value: @filename]
-      MessageSend new: @line message: (Identifier from: "current_file:" line: @line) \
-                  to: (Identifier from: "Fancy::CodeLoader" line: @line) \
-                  args: args .
-        bytecode: g
+      StringLiteral new: @line value: $ File absolute_path: @filename . bytecode: g
     }
   }
 
