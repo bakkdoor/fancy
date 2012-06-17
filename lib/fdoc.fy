@@ -1,4 +1,6 @@
 # Load all of fancy.
+require: "rbx/documentation"
+require: "fdoc_hook"
 require: "boot"
 require: "option_parser"
 
@@ -47,12 +49,6 @@ class Fancy FDoc {
       }
     } . parse: ARGV
 
-    if: with_stdlib then: {
-      @objects_to_remove = <[]>
-    } else: {
-      @objects_to_remove = @documented_objects dup
-    }
-
     output_dir = File absolute_path: output_dir . + "/"
 
     require("fileutils")
@@ -60,9 +56,18 @@ class Fancy FDoc {
 
     # check if we're in Fancy's root dir
     # if not, copy fdoc related files over to output_dir
-    unless: (output_dir relative_path: "../" == FANCY_ROOT_DIR) then: {
+    if: (output_dir relative_path: "../" == FANCY_ROOT_DIR) then: {
+      # add stdlib by default when in FANCY_ROOT_DIR
+      with_stdlib = true
+    } else: {
       files = Dir list: "#{FANCY_ROOT_DIR}/doc/api/*" . reject: |f| { f =~ /fancy\.jsonp$/ }
       FileUtils cp(files, output_dir)
+    }
+
+    if: with_stdlib then: {
+      @objects_to_remove = <[]>
+    } else: {
+      @objects_to_remove = @documented_objects dup
     }
 
     # Currently we just load any files given on ARGV.
