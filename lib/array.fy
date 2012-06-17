@@ -98,7 +98,7 @@ class Array {
   def each: block {
     """
     @block @Block@ to be called for each element in @self.
-    @return @self
+    @return @self.
 
     Calls a given @Block@ with each element in the @Array@.
     """
