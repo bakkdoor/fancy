@@ -209,8 +209,7 @@ class Block {
     @iterations @Fixnum@ of amount of iterations to run @self.
 
     Runs @self @iteration times.
-    Same as:
-          iterations times: self
+    Same as: `iterations times: self`
 
     Example:
           { \"Hello, World\" println } * 2
