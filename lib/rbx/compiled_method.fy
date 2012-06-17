@@ -13,7 +13,9 @@ class Rubinius CompiledMethod {
   }
 
   def definition_line {
-    lines[3] - (documentation to_s lines size) - 2
+    # don't use documentation#to_s since we need original docstring as written in source file to calculate the correct lines
+    docstring = documentation docs join: "\n"
+    lines[3] - (docstring lines size)
   }
 
   def last_line {
