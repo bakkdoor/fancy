@@ -186,4 +186,24 @@ FancySpec describe: String with: {
     "foobar" join: "-" . is: "f-o-o-b-a-r"
     "" join: "-" . is: ""
   }
+
+  it: "returns true if it's a multiline string and false otherwise" for: 'multiline? when: {
+    "foo\nbar" multiline? is: true
+    "\n" multiline? is: true
+    "\n\n" multiline? is: true
+    "foo bar" multiline? is: false
+    "" multiline? is: false
+
+    """    """ multiline? is: false
+
+    """
+    """ multiline? is: true
+
+    """
+    """ multiline? is: true
+
+    """
+
+    """ multiline? is: true
+  }
 }
