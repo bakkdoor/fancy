@@ -65,18 +65,22 @@ class Fancy Package {
 
       tags = self tags
       if: (tags size > 0) then: {
-        tags keys sort last
+        tags sort last
       }
     }
 
     def tags {
       "Returns a list of tags the repository has on Github."
 
-      require("yaml")
       require("open-uri")
+      require("rubygems")
+      require("json")
 
-      url = "http://github.com/api/v2/yaml/repos/show/" ++ @package_name ++ "/tags/"
-      YAML load_stream(open(url)) documents() first at: "tags"
+      url = "https://api.github.com/repos/#{@package_name}/git/refs/tags"
+
+      JSON load(open(url)) map: |tag| {
+        tag["ref"] split: "refs/tags/" . last
+      }
     }
 
     def has_version?: version {
