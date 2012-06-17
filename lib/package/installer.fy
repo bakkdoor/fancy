@@ -12,8 +12,8 @@ class Fancy Package {
 
     def initialize: @package_name version: @version ('latest) install_path: @install_path (ENV["FANCY_PACKAGE_DIR"]) {
       """
-      Creates a new @Package Installer@ for a given package name, an
-      optional version (default is 'latest) and an optional
+      Creates a new @Fancy::Package@ installer for a given package name, an
+      optional version (default is @'latest) and an optional
       installation path (default is the standard installation path for
       Fancy packages).
       """
