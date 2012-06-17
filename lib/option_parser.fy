@@ -106,7 +106,8 @@ class OptionParser {
       *stdout* println: @banner
       *stdout* println
     }
-    @options each: |name opt| {
+    @options keys sort each: |name| {
+      opt = @options[name]
       *stdout* printf("  %-#{max_size}s  %s\n", opt name_with_arg, opt doc_string)
     }
   }
