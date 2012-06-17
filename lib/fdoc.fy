@@ -233,8 +233,8 @@ class Fancy FDoc {
       str = create_tags: str with: tags
       str = create_class_references: str
       str = create_method_references: str
-      str = create_code: str
       str = htmlize: str
+      str = create_code: str
       str
     }
 
@@ -339,8 +339,21 @@ class Fancy FDoc {
     }
 
     def self create_code: str {
-      str gsub(/@([^\s,@\]\)\{\}\.]+)/,
-               "<code data-lang=\"fancy\">\\1</code>")
+      md = /<pre>/ match: str
+      if: (md) then: {
+        pre_code, post_code = str split: "<pre>"
+        code, post_code = post_code split: "</pre>"
+
+        pre_code = pre_code gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                                 "<code data-lang=\"fancy\">\\1</code>")
+        post_code = post_code gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                                  "<code data-lang=\"fancy\">\\1</code>")
+
+        "#{pre_code}<pre>#{code}</pre>#{post_code}"
+      } else: {
+        str gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                 "<code data-lang=\"fancy\">\\1</code>")
+      }
     }
 
     def self htmlize: str {
