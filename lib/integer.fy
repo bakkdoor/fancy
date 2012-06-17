@@ -21,11 +21,10 @@ class Integer {
     """
     @block @Block@ to be called and retries @self amount of times if exceptions get thrown.
     @retry_block @Block@ to be called before retrying execution of @block. Defaults to an empty @Block@.
-    @return Return value of calling @block or raises an exception after @self tries.
-            Returns @nil if @self <= 0.
+    @return Return value of calling @block or raises an exception after @self tries. Returns @nil if @self <= 0.
 
     Tries to call a @Block@ @self amount of times, returning its return
-    value or raising the last exception raised frin @block after @self tries.
+    value or raising the last exception raised from @block after @self tries.
 
     Example:
           2 times_try: {
