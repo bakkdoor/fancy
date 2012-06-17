@@ -160,4 +160,13 @@ FancySpec describe: Hash with: {
     <['hello => "world", "world" => 'hello]> select_keys: @{ is_a?: Symbol } . is: <['hello => "world"]>
     <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> select_keys: @{ <= 3 } . is: <[1 => 5, 2 => 4, 3 => 3]>
   }
+
+  it: "returns a hash with all entries for which a block yields false" with: 'reject_keys: when: {
+    <[]> reject_keys: { true } . is: <[]>
+    <[]> reject_keys: { false } . is: <[]>
+    <['hello => "world"]> reject_keys: { true } . is: <[]>
+    <['hello => "world"]> reject_keys: { false } . is: <['hello => "world"]>
+    <['hello => "world", "world" => 'hello]> reject_keys: @{ is_a?: Symbol } . is: <["world" => 'hello]>
+    <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> reject_keys: @{ <= 3 } . is: <[5 => 1, 4 => 2]>
+  }
 }

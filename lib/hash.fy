@@ -183,6 +183,19 @@ class Hash {
     h
   }
 
+  def reject_keys: block {
+    """
+    @block @Block@ to be called with each key in @self.
+    @return @Hash@ of entries for which @block called with its key yields @false.
+
+    Example:
+          h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
+          h reject_keys: @{ is_a?: Symbol } # => <[42 => (1,2,3)]>
+    """
+
+    select_keys: |k| { block call: [k] . not }
+  }
+
   def random_key {
     """
     @return Random key in @self.
