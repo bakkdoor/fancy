@@ -35,6 +35,8 @@ class Fancy FDoc {
 
     output_dir = OUTPUT_DIR
     with_stdlib = false
+    add_github_links = false
+    github_repo = "bakkdoor/fancy"
 
     OptionParser new: @{
       remove_after_parsed: true
@@ -42,6 +44,11 @@ class Fancy FDoc {
 
       with: "-o [output_dir]" doc: "Sets output directory of generated documentation page, defaults to #{output_dir}" do: |dir| {
         output_dir = dir
+      }
+
+      with: "-github-repo [repo_url]" doc: "Sets the Github repository to link to method definitions." do: |url| {
+        github_repo = url
+        add_github_links = true
       }
 
       with: "--with-stdlib" doc: "Include Fancy's standard library in generated documentation" do: {
@@ -59,6 +66,7 @@ class Fancy FDoc {
     if: (output_dir relative_path: "../" == FANCY_ROOT_DIR) then: {
       # add stdlib by default when in FANCY_ROOT_DIR
       with_stdlib = true
+      add_github_links = true
     } else: {
       files = Dir list: "#{FANCY_ROOT_DIR}/doc/api/*" . reject: |f| { f =~ /fancy\.jsonp$/ }
       FileUtils cp(files, output_dir)
@@ -76,7 +84,7 @@ class Fancy FDoc {
     @documented_objects = @documented_objects select_keys: |k| { @objects_to_remove includes?: k . not }
 
     # by now simply produce a apidoc/fancy.jsonp file.
-    json = JSON new: @documented_objects
+    json = JSON new: @documented_objects add_github_links: add_github_links github_repo: github_repo
     json write: (File expand_path("fancy.jsonp", output_dir))
 
     ["Open your browser at " ++ output_dir ++ "index.html ",
@@ -90,7 +98,7 @@ class Fancy FDoc {
 
     read_slots: ['classes, 'methods, 'blocks, 'objects]
 
-    def initialize: documented {
+    def initialize: documented add_github_links: @add_github_links github_repo: @github_repo {
       @documented_objects = documented
 
       is_class = |o| { o kind_of?: Module }
@@ -212,7 +220,7 @@ class Fancy FDoc {
     def write: filename call: name ("fancy.fdoc") {
       map = generate_map
       json = to_json: map
-      js = "(function() { " ++ name ++ "(" ++ json ++ "); })();"
+      js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
       File open: filename modes: ['write] with: |out| { out print: js }
     }
 
