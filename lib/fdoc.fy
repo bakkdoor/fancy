@@ -342,7 +342,7 @@ class Fancy FDoc {
 
     def self create_code: str {
       md = /<pre>/ match: str
-      if: (md) then: {
+      if: md then: {
         md = /<pre>/ match: str
         pre_code = md pre_match
         md = /</pre>/ match: $ md post_match
