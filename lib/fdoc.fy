@@ -329,11 +329,13 @@ class Fancy FDoc {
     }
 
     def self create_tags: str with: map {
+      max_width = map map: @{ first size } . max
       tags = map map: |pair| {
         name = pair[0]
         value = pair[1]
-        "<div class=\"doctag\"><label> @" ++ name ++ .
-          " </label><div>" ++ value ++ "</div></div>"
+        # make argument names all align nicely:
+        name = name + ("&nbsp;" * (max_width - (name size)))
+        "<div class=\"doctag\"><label> @#{name} </label><div>#{value}</div></div>"
       }
       str ++ "\n<div class=\"doctags\">" ++ (tags join()) ++ "</div>"
     }
