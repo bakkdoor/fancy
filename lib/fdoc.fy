@@ -1,5 +1,6 @@
 # Load all of fancy.
 require: "boot"
+require: "option_parser"
 
 class Fancy FDoc {
   """
@@ -22,6 +23,7 @@ class Fancy FDoc {
   """
 
   OUTPUT_DIR = "doc/api/"
+  FANCY_ROOT_DIR = __FILE__ relative_path: "../"
 
   def self main {
     """
@@ -30,18 +32,49 @@ class Fancy FDoc {
     """
 
     output_dir = OUTPUT_DIR
-    ARGV for_option: "-o" do: |d| { output_dir = d }
+    with_stdlib = false
+
+    OptionParser new: @{
+      remove_after_parsed: true
+      banner: "Usage: fdoc [options] [source_files]\nOptions:"
+
+      with: "-o [output_dir]" doc: "Sets output directory of generated documentation page, defaults to #{output_dir}" do: |dir| {
+        output_dir = dir
+      }
+
+      with: "--with-stdlib" doc: "Include Fancy's standard library in generated documentation" do: {
+        with_stdlib = true
+      }
+    } . parse: ARGV
+
+    if: with_stdlib then: {
+      @objects_to_remove = <[]>
+    } else: {
+      @objects_to_remove = @documented_objects dup
+    }
+
+    output_dir = File absolute_path: output_dir . + "/"
+
     require("fileutils")
     FileUtils mkdir_p(output_dir)
 
+    # check if we're in Fancy's root dir
+    # if not, copy fdoc related files over to output_dir
+    unless: (output_dir relative_path: "../" == FANCY_ROOT_DIR) then: {
+      files = Dir list: "#{FANCY_ROOT_DIR}/doc/api/*" . reject: |f| { f =~ /fancy\.jsonp$/ }
+      FileUtils cp(files, output_dir)
+    }
+
     # Currently we just load any files given on ARGV.
     ARGV each: |file| { Fancy CodeLoader load_compiled_file(file) }
+
+    @documented_objects = @documented_objects select_keys: |k| { @objects_to_remove includes?: k . not }
 
     # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects
     json write: (File expand_path("fancy.jsonp", output_dir))
 
-    ["Open your browser at " ++ output_dir ++ "index.html.",
+    ["Open your browser at " ++ output_dir ++ "index.html ",
      " " ++ (json classes size) ++ " classes. ",
      " " ++ (json methods size) ++ " methods. ",
      " " ++ (json objects size) ++ " other objects. "] println
