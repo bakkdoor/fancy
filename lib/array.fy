@@ -375,7 +375,7 @@ class Array {
   def from: from to: to {
     """
     @from Start index for sub-array.
-    @to End index ofr sub-array.
+    @to End index for sub-array.
 
     Returns sub-array starting at from: and going to to:
     """
