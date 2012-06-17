@@ -15,7 +15,11 @@ class Rubinius CompiledMethod {
   def definition_line {
     # don't use documentation#to_s since we need original docstring as written in source file to calculate the correct lines
     docstring = documentation docs join: "\n"
-    lines[3] - (docstring lines size)
+    if: (lines size > 3) then: {
+      lines[3] - (docstring lines size)
+    } else: {
+      0 # UNKNOWN?
+    }
   }
 
   def last_line {
