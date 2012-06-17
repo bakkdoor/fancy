@@ -54,8 +54,8 @@ class Directory {
     @pattern Directory pattern or name containing files to be returned as an @Array@.
     @return @Array@ of files matching directory @pattern.
 
-    Example usage:
-        Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
+    Example:
+          Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
     """
 
     match pattern {
