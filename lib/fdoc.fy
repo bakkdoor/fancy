@@ -125,7 +125,7 @@ class Fancy FDoc {
           mattr['file]: $ relative_file
           # TODO calculate line numbers from compiled method
           # right now we only use the first line of code in the body.
-          mattr['lines]: $ [lines[3], lines[3]]
+          mattr['lines]: $ [exec definition_line, exec last_line]
         }
         attr[(type ++ "s") intern()] [n]: mattr
       }

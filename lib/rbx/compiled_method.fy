@@ -11,4 +11,12 @@ class Rubinius CompiledMethod {
       name to_s rest
     }
   }
+
+  def definition_line {
+    lines[3] - (documentation to_s lines size) - 2
+  }
+
+  def last_line {
+    defined_line
+  }
 }
