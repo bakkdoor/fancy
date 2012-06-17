@@ -203,4 +203,20 @@ class Block {
 
     DynamicValueArray new do: self . array
   }
+
+  def * iterations {
+    """
+    @iterations @Fixnum@ of amount of iterations to run @self.
+
+    Runs @self @iteration times.
+    Same as:
+          iterations times: self
+
+    Example:
+          { \"Hello, World\" println } * 2
+          # => prints \"Hello, World\" 2 times
+    """
+
+    iterations times: self
+  }
 }
