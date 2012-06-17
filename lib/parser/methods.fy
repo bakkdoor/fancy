@@ -75,7 +75,7 @@ class Fancy {
       # this case handles string interpolation
       prefix_str = ast: line string: (" " + (match_data pre_match) + " ") # hack, pre- & append " " since it gets removed
       suffix_str = ast: line string: (" " + (match_data post_match) + " ")
-      interpol_ast = AST StringInterpolation new: line code: (match_data[1])
+      interpol_ast = AST StringInterpolation new: line code: (match_data[1]) filename: @filename
 
       # create messagesend to concatenate:
       concat_ident = ast: line identifier: "<<"
