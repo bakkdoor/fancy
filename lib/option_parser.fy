@@ -19,7 +19,7 @@ class OptionParser {
   class InvalidOptionsError : StandardError
 
   read_slots: ('options, 'parsed_options)
-  read_write_slots: ('banner, 'exit_on_help)
+  read_write_slots: ('banner, 'exit_on_help, 'remove_after_parsed)
 
   def initialize: @block (nil) {
     """
@@ -40,6 +40,7 @@ class OptionParser {
     @parsed_options = <[]>
     @banner = nil
     @exit_on_help = true
+    @removed_after_parsed = false
 
     with: "--help" doc: "Display this information" do: {
       print_help_info
@@ -91,7 +92,10 @@ class OptionParser {
             arg = args at: (idx + 1)
             block call: [arg]
             @parsed_options[name]: arg
+            { args remove_at: idx } if: @remove_after_parsed
         }
+
+        { args remove_at: idx } if: @remove_after_parsed
       }
     }
   }

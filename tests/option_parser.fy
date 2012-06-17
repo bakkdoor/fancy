@@ -66,4 +66,15 @@ FancySpec describe: OptionParser with: {
       out string is: "My Banner, yo\n\n  --help  Display this information\n"
     }
   }
+
+  it: "removes options and their arguments after they have been parsed" with: 'remove_after_parsed: when: {
+    o = OptionParser new: @{
+      remove_after_parsed: true
+      with: "-value [arg]" doc: "" do: |arg| {}
+      with: "--my-flag" doc: "" do: {}
+    }
+    args = [1, "-value", "foo", "--my-flag", 2]
+    o parse: args
+    args is: [1, 2]
+  }
 }
