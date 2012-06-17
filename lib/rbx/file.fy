@@ -148,6 +148,15 @@ class File {
     File rename(old_name, new_name)
   }
 
+  def File absolute_path: filename {
+    """
+    @filename Name of @File@ to get absolute path for.
+    @return Absolute (expanded) path for @filename.
+    """
+
+    File expand_path: filename
+  }
+
   def initialize: path {
     initialize(path)
   }
