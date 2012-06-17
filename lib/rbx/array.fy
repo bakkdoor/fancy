@@ -10,7 +10,8 @@ class Array {
     @return New @Array@ with @size values of @default in it.
 
     Creates a new Array with a given size and default-value.
-    If @default is a @Block@, call that block for each element instead.
+    If @default is a @Block@, call it with each index instead and
+    store the return value.
 
     Example:
           Array new: 3 with: 'hello    # => ['hello, 'hello, 'hello]
