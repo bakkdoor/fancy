@@ -84,9 +84,12 @@ class Tuple {
     """
 
     size times: |i| {
-      block call: [at: i]
+      try {
+        block call: [at: i]
+      } catch Fancy NextIteration {}
     }
-    self
+
+    return self
   }
 
   def reverse_each: block {
