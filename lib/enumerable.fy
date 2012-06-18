@@ -80,6 +80,14 @@ class Fancy {
       item
     }
 
+    def rest {
+      """
+      @return @Array@ of all but the first element in @self.
+      """
+
+      drop: 1
+    }
+
     def first: amount {
       """
       @amount Amount of first elements to take from @self.
