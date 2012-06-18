@@ -749,4 +749,24 @@ class Object {
 
     methods - fancy_methods
   }
+
+  def >< other {
+    """
+    @other Other @Object@ to create a @MatchAny@ matcher with.
+
+    Shorthand for: `MatchAny new: self with: other`
+    """
+
+    Matchers MatchAny new: self with: other
+  }
+
+  def <> other {
+    """
+    @other Other @Object@ to create a @MatchAll@ matcher with.
+
+    Shorthand for: `MatchAll new: self with: other`
+    """
+
+    Matchers MatchAll new: self with: other
+  }
 }
