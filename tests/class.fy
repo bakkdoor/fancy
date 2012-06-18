@@ -797,4 +797,20 @@ FancySpec describe: Class with: {
     CallingChainClass new bar: arr
     arr is: ["baz", "bar"]
   }
+
+  it: "exposes a Fancy method as a Ruby method to Ruby" with: 'expose_to_ruby:as: when: {
+    class ExposeToRuby {
+      def my_method { "in my_method" }
+      expose_to_ruby: 'my_method
+      def == other { true }
+      expose_to_ruby: '== as: 'ruby_==
+    }
+
+    ExposeToRuby new tap: @{
+      my_method is: "in my_method"
+      send('my_method) is: "in my_method"
+      == 1 is: true
+      send('ruby_==, 1) is: true
+    }
+  }
 }

@@ -231,4 +231,31 @@ class Class {
       case _ -> class_eval: { str_or_block to_s eval }
     }
   }
+
+  def expose_to_ruby: method_name as: ruby_method_name (nil) {
+    """
+    @method_name Fancy method name to be exposed.
+    @ruby_method_name Name of method exposed to Ruby (optional).
+
+    Explicitly exposes a Fancy method to Ruby. If @ruby_method_name is
+    passed, use that name explicitly, otherwise uses @method_name.
+
+    Example:
+          class Foo {
+            def === other {
+              # ...
+            }
+
+            expose_to_ruby: '===
+
+            # if you don't want to expose it as :=== in Ruby:
+            expose_to_ruby: '=== as: 'some_other_name_for_ruby
+          }
+    """
+
+    match ruby_method_name {
+      case nil -> alias_method(method_name, method_name message_name)
+      case _ -> alias_method(ruby_method_name, method_name message_name)
+    }
+  }
 }
