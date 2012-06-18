@@ -103,17 +103,13 @@ class Array {
     Calls a given @Block@ with each element in the @Array@.
     """
 
-    try {
-      size times: |i| {
-        try {
-          block call: [at: i]
-        } catch (Fancy NextIteration) => ex {
-        }
+    size times: |i| {
+      try {
+        block call: [at: i]
+      } catch (Fancy NextIteration) => ex {
       }
-      return self
-    } catch (Fancy BreakIteration) => ex {
-      ex result
     }
+    return self
   }
 
   def reverse_each: block {
