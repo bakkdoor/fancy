@@ -215,6 +215,17 @@ class Class {
   }
 
   def class_eval: str_or_block {
+    """
+    @str_or_block @String@ or @Block@ to be evaluated in the context of this @Class@.
+
+    Evaluates a given @String@ of Fancy code or a @Block@ in the class context of @self.
+    Useful for dynamically defining methods on a class etc.
+
+    Example:
+          Array class_eval: \"def foo { 'foo println }\"
+          [1,2,3] foo  # => prints 'foo
+    """
+
     match str_or_block {
       case Block -> class_eval(&str_or_block)
       case _ -> class_eval: { str_or_block to_s eval }
