@@ -769,4 +769,20 @@ class Object {
 
     Matchers MatchAll new: self with: other
   }
+
+  def ignoring: exception_classes do: block {
+    """
+    @exception_classes @Fancy::Enumerable@ of @Exception@s to ignore within @block.
+    @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
+
+    Example:
+          ignoring: (IOError, ZeroDivisionError) in: {
+            # do something
+          }
+    """
+
+    try {
+      block call
+    } catch (exception_classes to_a join_by: '>< ) {}
+  }
 }

@@ -320,4 +320,12 @@ FancySpec describe: Object with: {
     p age is: 24
     p city is: "Osnabrück"
   }
+
+  it: "ignores all specified exception types" with: 'ignoring:do: when: {
+    {
+      [{ 2 / 0 }, { "foo" unknown_method_on_string! }] each: |b| {
+        ignoring: (ZeroDivisionError, NoMethodError) do: b
+      }
+    } does_not raise: Exception
+  }
 }
