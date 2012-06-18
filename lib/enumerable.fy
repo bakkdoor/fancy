@@ -164,6 +164,21 @@ class Fancy {
       s
     }
 
+    def join_by: block {
+      """
+      @block @Block@ to be called pair-wise to produce a single value.
+      @return Result of calling @block pairwise (similar to using @Fancy::Enumerable#reduce:into:@).
+
+      Works similar to @Fancy::Enumerable#inject:into:@ but uses first element as value injected.
+
+      Example:
+            (1,2,3) reduce_by: '+  # => same as: (2,3) inject: 1 into: '+
+      """
+
+      first, *rest = self
+      rest inject: first into: block
+    }
+
     def any?: condition {
       """
       @condition @Block@ (or @Callable) that is used to check if any element in @self yields true for it.

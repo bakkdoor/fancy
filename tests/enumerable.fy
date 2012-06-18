@@ -147,4 +147,11 @@ FancySpec describe: Fancy Enumerable with: {
     (1,2,3) grep: String taking: 'to_s . is: []
     (1,2,3,4) grep: (2..3) taking: 'to_s . is: ["2", "3"]
   }
+
+  it: "joins all elements by a block" with: 'join_by: when: {
+    (1,2,3) join_by: '+ . is: $ (1,2,3) sum
+    ("foo", "bar", "baz") join_by: '+ . is: "foobarbaz"
+    [NoMethodError, IOError, ZeroDivisionError] join_by: '>< . is: (NoMethodError >< IOError >< ZeroDivisionError)
+    [NoMethodError, IOError, ZeroDivisionError] join_by: '<> . is: (NoMethodError <> IOError <> ZeroDivisionError)
+  }
 }
