@@ -783,6 +783,6 @@ class Object {
 
     try {
       block call
-    } catch (exception_classes to_a join_by: '>< ) {}
+    } catch (exception_classes to_a join_by: '><) {}
   }
 }
