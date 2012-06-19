@@ -46,7 +46,7 @@ class Fancy FDoc {
         output_dir = dir
       }
 
-      with: "-github-repo [repo_url]" doc: "Sets the Github repository to link to method definitions." do: |url| {
+      with: "-github-repo [repo_url]" doc: "Sets the Github repository to link to method definitions. Example: -github-repo bakkdoor/redis.fy" do: |url| {
         github_repo = url
         add_github_links = true
       }
