@@ -7,7 +7,8 @@ class DynamicSlotObject : Fancy BasicObject {
         dso name: \"Chris\"
         dso age: 25
         dso country: \"Germany\"
-        dso object                  # => Object with slots 'name, 'age and 'country defined
+
+        dso object  # => Object with slots 'name, 'age and 'country defined
   """
 
   def initialize {
@@ -15,6 +16,10 @@ class DynamicSlotObject : Fancy BasicObject {
   }
 
   def object {
+    """
+    @return @Object@ with slots defined dynamically by sending messages to @self.
+    """
+
     @object metaclass read_write_slots: (@object slots)
     @object
   }
@@ -35,14 +40,23 @@ class DynamicKeyHash : Fancy BasicObject {
         dkh name: \"Chris\"
         dkh age: 25
         dkh country: \"Germany\"
-        dkh hash                    # => <['name => \"Chris\", 'age => 25, 'country => \"Germany\"]>
+
+        dkh hash  # => <['name => \"Chris\", 'age => 25, 'country => \"Germany\"]>
   """
 
   def initialize: @deep (false) {
+    """
+    @deep If @true, recursively sends @to_hash to any value passed as an argument to @self that is a @Block@ (dynamically creating nested @Hash@es).
+    """
+
     @hash = <[]>
   }
 
   def hash {
+    """
+    @return @Hash@ generated dynamically by sending messages to @self.
+    """
+
     @hash
   }
 
@@ -70,7 +84,7 @@ class DynamicValueArray : Fancy BasicObject {
         dva country: \"Germany\"
         dva something_else
 
-        dva array                   # => [['name, \"Chris\"], ['age, 25], ['country, \"Germany\"], 'something_else]
+        dva array  # => [['name, \"Chris\"], ['age, 25], ['country, \"Germany\"], 'something_else]
   """
 
   def initialize {
@@ -78,6 +92,10 @@ class DynamicValueArray : Fancy BasicObject {
   }
 
   def array {
+    """
+    @return @Array@ generated dynamically by sending messages to @self.
+    """
+
     @arr
   }
 
