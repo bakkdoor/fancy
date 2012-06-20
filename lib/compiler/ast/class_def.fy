@@ -3,6 +3,7 @@ class Fancy AST {
     def initialize: @line name: @name parent: @parent body: @body (ExpressionList new: @line) {
       { @body = ExpressionList new: @line } unless: @body
       name = nil
+
       if: (@name is_a?: NestedConstant) then: {
         name = @name scoped
       } else: {
@@ -19,7 +20,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       docstring = body() body() docstring
-      docstring if_true: {
+      if: docstring then: {
         setdoc = MessageSend new: @line \
                              message: (Identifier from: "for:append:" line: @line) \
                              to: (Identifier from: "Fancy::Documentation" line: @line) \

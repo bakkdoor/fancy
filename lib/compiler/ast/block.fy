@@ -5,14 +5,19 @@ class Fancy AST {
       if: (@body empty?) then: {
         @body unshift_expression: $ NilLiteral new: @line
       }
+
       initialize(@line, @args, @body)
+
       @args create_locals: self
+
       if: (@args total_args == 0) then: {
         @arguments prelude=(nil)
       }
+
       if: (@args.total_args > 1) then: {
         @arguments prelude=('multi)
       }
+
       @arguments required_args=(@args required_args)
 
       if: @partial then: {

@@ -1,9 +1,7 @@
 class Fancy AST {
   class RangeLiteral : Node {
-    read_slots: ['from, 'to]
-
-    def initialize: @line from: @from to: @to {
-    }
+    read_slots: ('from, 'to)
+    def initialize: @line from: @from to: @to
 
     def bytecode: g {
       pos(g)

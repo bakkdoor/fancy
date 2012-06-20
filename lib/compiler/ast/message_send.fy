@@ -1,6 +1,6 @@
 class Fancy AST {
   class MessageSend : Node {
-    read_write_slots: ['name, 'receiver, 'args]
+    read_write_slots: ('name, 'receiver, 'args)
 
     # fast instructions to be used if possible
     FastOps = <[

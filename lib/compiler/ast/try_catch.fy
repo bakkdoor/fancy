@@ -131,8 +131,7 @@ class Fancy AST {
   }
 
   class ExceptionHandler : Node {
-    def initialize: @line condition: @condition var: @var body: @body {
-    }
+    def initialize: @line condition: @condition var: @var body: @body
 
     def bytecode: g final_tag: final_tag {
       pos(g)
@@ -160,8 +159,7 @@ class Fancy AST {
   }
 
   class CurrentException : Node {
-    def initialize: @line {
-    }
+    def initialize: @line
 
     def bytecode: g {
       pos(g)
@@ -170,8 +168,7 @@ class Fancy AST {
   }
 
   class Retry : Node {
-    def initialize: @line {
-    }
+    def initialize: @line
 
     def bytecode: g {
       pos(g)

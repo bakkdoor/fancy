@@ -1,7 +1,6 @@
 class Fancy AST {
   class Assignment : Node {
-    def initialize: @line var: @lvalue value: @rvalue {
-    }
+    def initialize: @line var: @lvalue value: @rvalue
 
     def bytecode: g {
       pos(g)
@@ -11,8 +10,7 @@ class Fancy AST {
 
   class MultipleAssignment : Node {
     class MultipleAssignmentExpr : Node {
-      def initialize: @line index: @index {
-      }
+      def initialize: @line index: @index
 
       def bytecode: g {
         pos(g)
@@ -24,8 +22,7 @@ class Fancy AST {
     }
 
     class SplatAssignmentExpr : Node {
-      def initialize: @line start_index: @start_index {
-      }
+      def initialize: @line start_index: @start_index
 
       def bytecode: g {
         pos(g)
@@ -36,8 +33,7 @@ class Fancy AST {
       }
     }
 
-    def initialize: @line var: @idents value: @values {
-    }
+    def initialize: @line var: @idents value: @values
 
     def bytecode: g {
       pos(g)
