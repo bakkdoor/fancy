@@ -2,8 +2,10 @@ require: "parse_error"
 
 class Fancy {
   class Parser {
-    SelectorVarDefault = Struct.new('selector, 'variable, 'default)
+    SelectorVarDefault = Struct new('selector, 'variable, 'default)
+    SelectorVarDefault read_write_slots: ('selector, 'variable, 'default)
     SelectorValue = Struct new('selector, 'value)
+    SelectorValue read_write_slots: ('selector, 'value)
 
     def self parse_file: filename line: line (1) {
       new: filename line: line . parse_file . script
@@ -17,9 +19,11 @@ class Fancy {
       ParseError new: line message: text filename: (Thread current['__fancy__parser__filename__]) . raise!
     }
 
-    read_write_slots: ['filename, 'line, 'script]
+    read_write_slots: ('filename, 'line, 'script)
 
-    def initialize: @filename line: @line { Thread current['__fancy__parser__filename__]: @filename }
+    def initialize: @filename line: @line {
+      Thread current['__fancy__parser__filename__]: @filename
+    }
 
     def body: body {
       @script = AST Script new: @line file: @filename body: body
@@ -33,8 +37,8 @@ class Fancy {
     def ast: line identity: identity { identity }
 
     def ast: line concat: object into: ary ([]) {
-      if: (object kind_of?(Array)) then: {
-        ary concat(object)
+      if: (object is_a?: Array) then: {
+        ary append: object
       } else: {
         { ary << object } if: object
       }
@@ -49,16 +53,16 @@ class Fancy {
     }
 
     def ast: line fixnum: text base: base (10) {
-      AST FixnumLiteral new: line value: (text to_i(base))
+      AST FixnumLiteral new: line value: $ text to_i: base
     }
 
     def ast: line number: text base: base (10) {
-      AST NumberLiteral new: line value: (text to_f())
+      AST NumberLiteral new: line value: $ text to_f
     }
 
     def ast: line symbol: text {
       str = text from: 1 to: -1
-      AST SymbolLiteral new: line value: (str to_sym())
+      AST SymbolLiteral new: line value: $ str to_sym
     }
 
     def ast: line regexp: text {
@@ -73,29 +77,29 @@ class Fancy {
       { return AST StringLiteral new: line value: str } unless: match_data
 
       # this case handles string interpolation
-      prefix_str = ast: line string: (" " + (match_data pre_match) + " ") # hack, pre- & append " " since it gets removed
-      suffix_str = ast: line string: (" " + (match_data post_match) + " ")
+      prefix_str = ast: line string: $ " " + (match_data pre_match) + " "  # hack, pre- & append " " since it gets removed
+      suffix_str = ast: line string: $ " " + (match_data post_match) + " "
       interpol_ast = AST StringInterpolation new: line code: (match_data[1]) filename: @filename
 
       # create messagesend to concatenate:
       concat_ident = ast: line identifier: "<<"
-      interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: (AST MessageArgs new: line args: [interpol_ast])
+      interpol_send = AST MessageSend new: line message: concat_ident to: prefix_str args: $ AST MessageArgs new: line args: [interpol_ast]
 
       # don't concatenate suffix if it's empty..
       unless: (match_data post_match == "") do: {
-        interpol_send = AST MessageSend new: line message: concat_ident to: interpol_send args: (AST MessageArgs new: line args: [suffix_str])
+        interpol_send = AST MessageSend new: line message: concat_ident to: interpol_send args: $ AST MessageArgs new: line args: [suffix_str]
       }
 
       interpol_send
     }
 
     def ast: line multi_line_string: string {
-      ast: line string: (string from: 2 to: -3)
+      ast: line string: $ string from: 2 to: -3
     }
 
     def ast: line backtick: backtick_string {
       str = ast: line string: backtick_string
-      selector = (ast: line identifier: "backtick:")
+      selector = ast: line identifier: "backtick:"
       args = AST MessageArgs new: line args: [str]
       AST MessageSend new: line message: selector to: (AST Self new: line) args: args
     }
@@ -187,13 +191,13 @@ class Fancy {
         AST MessageArgs new: line args: []
       }
       name = message
-      if: (message kind_of?(String)) then: {
+      if: (message is_a?: String) then: {
         name = AST Identifier from: message line: line
       }
-      if: (message kind_of?(Array)) then: {
-        name = message map: |m| { m selector() string } . join
+      if: (message is_a?: Array) then: {
+        name = message map: |m| { m selector string } . join
         name = AST Identifier new: line string: name
-        args = message map: |m| { m value() }
+        args = message map: |m| { m value }
         args = AST MessageArgs new: line args: args
       }
       AST MessageSend new: line message: name to: receiver args: args
@@ -210,13 +214,13 @@ class Fancy {
     }
 
     def method_name: margs {
-      margs map: |a| { a selector() string } . join("")
+      margs map: |a| { a selector string } . join("")
     }
 
     def method: margs delegators: block {
-      idx = margs index() |m| { m default() != nil }
+      idx = margs index: |m| { m default != nil }
       if: idx then: {
-        line = margs first selector() line
+        line = margs first selector line
         target = method_name: margs
         (margs size - idx) times: |pos| {
           required = margs from: 0 to: (idx + pos - 1)
@@ -225,7 +229,7 @@ class Fancy {
           if: only_default_args then: {
             required = []
           }
-          params = required map: |r| { r variable() } . + $ default map: |d| { d default() }
+          params = required map: |r| { r variable } . + $ default map: |d| { d default }
 
           forward = AST MessageSend new: line \
                                     message: (AST Identifier from: target line: line) \
@@ -238,7 +242,7 @@ class Fancy {
           # use base method name (e.g. "foo:" -> "foo") for the method to be generated
           # if there are no more arguments left (only default args left)
           if: only_default_args then: {
-            required = AST Identifier from: (margs first selector() string from: 0 to: -2) line: line
+            required = AST Identifier from: (margs first selector string from: 0 to: -2) line: line
           }
 
           block call: [required, body]
@@ -268,7 +272,7 @@ class Fancy {
       } else: {
         name = method_name: margs
         name = AST Identifier new: line string: name
-        args = margs map() |m| { m variable() string }
+        args = margs map: |m| { m variable string }
         args = AST MethodArgs new: line args: args
         if: owner then: {
           AST SingletonMethodDef new: line name: name args: args \
