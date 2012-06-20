@@ -10,45 +10,76 @@ class FalseClass {
   }
 
   def if_true: block {
-    "Returns @nil."
+    """
+    @return @nil.
+    """
+
     nil
   }
 
   def if_true: then_block else: else_block {
-    "Calls @else_block."
+    """
+    Calls @else_block.
+    """
+
     else_block call
   }
 
   def if_false: block {
+    """
+    Calls @block with @self.
+    """
+
     block call: [self]
   }
 
   def if_false: then_block else: else_block {
+    """
+    Calls @then_block with @self.
+    """
+
     then_block call: [self]
   }
 
   def if_nil: then_block {
+    """
+    @return @nil.
+    """
+
     nil
   }
 
   def if_nil: then_block else: else_block {
+    """
+    Calls @else_block with @self.
+    """
+
     else_block call: [self]
   }
 
   def false? {
-    "Returns @true."
+    """
+    @return @true.
+    """
+
     true
   }
 
   def to_s {
-    "Returns @false as a @String@."
+    """
+    @return @false as a @String@.
+    """
+
     "false"
   }
 
   alias_method: 'inspect for: 'to_s
 
   def to_a {
-    "Returns an empty @Array@."
+    """
+    @return An empty @Array@.
+    """
+
     []
   }
 
