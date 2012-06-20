@@ -93,8 +93,13 @@ class Array {
     @return Index of the value passed in within the @Array@, or @nil, if value not present.
 
     Returns the index of an item (or nil, if it isn't in the @Array@).
+    If @item is a @Block@, it will return the index of an element for which it yields @true.
     """
-    index(item)
+
+    match item {
+      case Block -> index(&item)
+      case _ -> index(item)
+    }
   }
 
   def last: count {

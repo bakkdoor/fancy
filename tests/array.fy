@@ -122,6 +122,9 @@ FancySpec describe: Array with: {
     arr index: 3 . is: 3
     arr index: 4 . is: 4
     arr index: 'foo . is: nil
+
+    arr index: @{ is_a?: Symbol } . is: 2
+    arr index: @{ is_a?: String } . is: nil
   }
 
   it: "returns an Array of all its indices" with: 'indices when: {
