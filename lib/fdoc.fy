@@ -3,6 +3,7 @@ require: "rbx/documentation"
 require: "fdoc_hook"
 require: "boot"
 require: "option_parser"
+require: "fancy_spec"
 
 class Fancy FDoc {
   """
