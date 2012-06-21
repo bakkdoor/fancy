@@ -129,4 +129,17 @@ FancySpec describe: StdError with: {
       e message is: msg
     }
   }
+
+  it: "always executes the finally block, even when raise_returning from within the try block" when: {
+    def do_something {
+      try {
+        return "Ok"
+      } finally {
+        @ran_finally? = true
+      }
+    }
+    @ran_finally? = false
+    do_something is: "Ok"
+    @ran_finally? is: true
+  }
 }
