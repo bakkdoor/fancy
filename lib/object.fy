@@ -585,15 +585,13 @@ class Object {
     """
 
     metaclass read_write_slots: slotnames
-    val = nil
     try {
-      val = block call: [self]
+      return block call: [self]
     } finally {
       slotnames each: |s| {
         metaclass undefine_method: s
         metaclass undefine_method: "#{s}:"
       }
-      return val
     }
   }
   private: 'with_mutable_slots:do:
@@ -699,15 +697,11 @@ class Object {
     }
 
     oldval = Thread current[var_name]
-    retval = nil
     try {
       Thread current[var_name]: value
-      retval = block call
-    } catch StandardError => e {
-      e raise!
+      return block call
     } finally {
       Thread current[var_name]: oldval
-      return retval
     }
   }
 
