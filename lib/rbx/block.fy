@@ -47,8 +47,6 @@ class Block {
     @top_scope receiver: recv
   }
 
-  # Ugh. HACK.
-  # Use try/catch to deal with older and latest version of rbx (method got changed)
   def call_with_receiver: receiver {
     """
     @receiver Receiver (value of @self) when calling the @Block@.
@@ -63,11 +61,7 @@ class Block {
           b call_with_receiver: r2 # => String
     """
 
-    try {
-      return call_under(receiver, method() scope())
-    } catch {
-      return call_on_instance(receiver)
-    }
+    call_on_instance(receiver)
   }
 
   def call: args with_receiver: receiver {
