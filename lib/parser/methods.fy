@@ -320,7 +320,7 @@ class Fancy {
       AST MatchClause new: line expr: expr body: body args: match_args
     }
 
-    def ast: line ex_handler: expr_list cond: cond (AST Identifier from: "Object" line: line) var: var (nil) {
+    def ast: line ex_handler: expr_list cond: cond (AST Identifier from: "StandardError" line: line) var: var (nil) {
       AST ExceptionHandler new: line condition: cond var: var body: expr_list
     }
 
