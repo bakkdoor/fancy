@@ -45,9 +45,8 @@ class Integer {
       { e raise! } unless: $ max_retries > 0
       retry_block call
       retry
-    } finally {
-      return value
     }
+    value
   }
 
   def decimals {
