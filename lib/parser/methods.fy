@@ -325,7 +325,12 @@ class Fancy {
     }
 
     def ast: line try_block: body ex_handlers: handlers finally_block: finaly (AST NilLiteral new: line) {
-      AST TryCatch new: line body: body handlers: handlers ensure: finaly
+      match finaly {
+        case AST NilLiteral -> AST TryCatch new: line body: body handlers: handlers ensure: finaly
+        case _ ->
+          inner = AST TryCatch new: line body: body handlers: handlers ensure: (AST NilLiteral new: line)
+          AST TryCatch new: line body: (AST ExpressionList new: line list: [inner]) handlers: [] ensure: finaly
+      }
     }
 
     def ast: line ruby_send: text {

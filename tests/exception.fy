@@ -142,4 +142,19 @@ FancySpec describe: StdError with: {
     do_something is: "Ok"
     @ran_finally? is: true
   }
+
+  it: "always executes the finally block, even when raising from within a catch block" when: {
+    def do_something {
+      try {
+        10 / 0
+      } catch ZeroDivisionError => e {
+        IOError new: (e message) . raise!
+      } finally {
+        @ran_finally? = true
+      }
+    }
+    @ran_finally? = false
+    { do_something } raises: IOError
+    @ran_finally? is: true
+  }
 }
