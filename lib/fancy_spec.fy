@@ -371,7 +371,7 @@ class FancySpec {
         @actual_value call
       } catch exception_class {
         SpecTest current failed_negative: (exception_class, nil)
-      } catch StandardError => e {
+      } catch StandardError {
         true
         # ok
       }

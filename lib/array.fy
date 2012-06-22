@@ -106,10 +106,10 @@ class Array {
     size times: |i| {
       try {
         block call: [at: i]
-      } catch (Fancy NextIteration) => ex {
+      } catch Fancy NextIteration {
       }
     }
-    return self
+    self
   }
 
   def reverse_each: block {
