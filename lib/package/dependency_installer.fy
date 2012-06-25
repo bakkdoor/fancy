@@ -16,7 +16,7 @@ class Fancy {
             "Installing dependency: #{dep name} (#{dep version})" println
             Fancy Package install: (dep name) version: (dep version)
           }
-          s rubygem_dependencies each: |dep| {
+          s ruby_dependencies each: |dep| {
             "Installing Ruby dependency: #{dep gem_name} (#{dep version})" println
             dep install
          }
