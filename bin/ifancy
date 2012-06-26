@@ -64,7 +64,7 @@ Readline completion: |str| {
   3 times: {
     try {
       receiver = Readline line_buffer() split: " " . [[0,end_idx]] . join: " " . eval
-      methods = receiver class instance_methods
+      methods = receiver methods
     } catch Fancy Parser ParseError => e {
       end_idx = end_idx - 1
     } catch Exception => e {
