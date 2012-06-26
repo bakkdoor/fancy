@@ -3,9 +3,9 @@ class Fancy Package {
     @@specs = <[]>
 
     read_write_slots: ['author, 'email, 'include_files, 'bin_files,
-                       'description, 'homepage, 'version, 'gh_user]
+                       'description, 'homepage, 'version, 'gh_user, 'package_name]
 
-    read_slots: ['package_name, 'dependencies, 'ruby_dependencies]
+    read_slots: ['dependencies, 'ruby_dependencies]
 
     def initialize: @package_name with: block {
       @dependencies = []
