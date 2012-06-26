@@ -169,4 +169,47 @@ FancySpec describe: Hash with: {
     <['hello => "world", "world" => 'hello]> reject_keys: @{ is_a?: Symbol } . is: <["world" => 'hello]>
     <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> reject_keys: @{ <= 3 } . is: <[5 => 1, 4 => 2]>
   }
+
+  class HashCallable {
+    read_write_slots: ('foo, 'bar)
+  }
+
+  it: "is callable, like a block" with: 'call: when: {
+    hc = HashCallable new
+
+    hc foo is: nil
+    hc bar is: nil
+
+    <['foo: => "bar", 'bar: => 123]> call: [hc] . is: hc
+
+    hc foo is: "bar"
+    hc bar is: 123
+
+    <['foo => "foobar", 'bar => 456]> call: [hc]
+
+    hc foo is: "foobar"
+    hc bar is: 456
+  }
+
+  it: "returns itself as a block" with: 'to_block when: {
+    hc = HashCallable new
+
+    hc foo is: nil
+    hc bar is: nil
+
+    <['foo: => "hello", 'bar: => "world"]> tap: |hash| {
+      block = hash to_block
+      block is_a?: Block . is: true
+      block arity is: 1
+      block call: [hc] . is: hc
+    }
+
+    hc foo is: "hello"
+    hc bar is: "world"
+
+    <['foo => 123, 'bar => 'baz]> to_block call: [hc]
+
+    hc foo is: 123
+    hc bar is: 'baz
+  }
 }

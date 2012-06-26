@@ -221,4 +221,49 @@ class Hash {
 
     random_value
   }
+
+  def call: receiver {
+    """
+    @receiver Receiver to apply @self to.
+    @return @receiver.
+
+    Sends each key-value pair as a message (with one argument) to @receiver.
+
+    Example:
+          Person = Struct new: ('firstname, 'lastname)
+          p = Person new
+          <['firstname => \”Tom\”, 'lastname => \”Cruise\"]> call: [p]
+
+          p firstname # => \"Tom\"
+          p lastname  # => \"Cruise\"
+    """
+
+    to_block call: receiver
+  }
+
+  def to_block {
+    """
+    @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
+
+    Example:
+          <['x => 100, 'y => 150]> to_block
+          # would be the same as:
+          |receiver| {
+            receiver tap: @{
+              x: 100
+              y: 150
+            }
+          }
+    """
+
+    |receiver| {
+      each: |k v| {
+        match k to_s {
+          case /:/ -> receiver receive_message: k with_params: [v]
+          case _ -> receiver receive_message: "#{k}:" with_params: [v]
+        }
+      }
+      receiver
+    }
+  }
 }
