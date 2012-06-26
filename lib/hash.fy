@@ -232,7 +232,7 @@ class Hash {
     Example:
           Person = Struct new: ('firstname, 'lastname)
           p = Person new
-          <['firstname => \”Tom\”, 'lastname => \”Cruise\"]> call: [p]
+          <['firstname => \"Tom\", 'lastname => \"Cruise\"]> call: [p]
 
           p firstname # => \"Tom\"
           p lastname  # => \"Cruise\"
