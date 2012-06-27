@@ -48,7 +48,7 @@ class Fancy AST {
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
         case /^@/ -> InstanceVariable
-        case /^\*/ -> DynamicVariable
+        case /^\*[a-zA-Z0-9_-]+\*$/ -> DynamicVariable
         case _ -> Identifier
       }
       type new: line string: string
