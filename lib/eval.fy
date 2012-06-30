@@ -21,7 +21,7 @@ def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: li
   # if the new version fails, retry with the old name for backwards compatibility (for now).
   try {
     cm scope=(binding constant_scope() dup())
-  } catch NoMethodError => e {
+  } catch NoMethodError {
     cm scope=(binding static_scope() dup())
   }
   cm name=('__fancy_eval__)
