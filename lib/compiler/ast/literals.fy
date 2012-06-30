@@ -1,6 +1,8 @@
 class Fancy AST {
   class NilLiteral : Rubinius AST NilLiteral {
-    def initialize: line { initialize(line) }
+    def initialize: line {
+      initialize(line)
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -8,7 +10,9 @@ class Fancy AST {
   }
 
   class FixnumLiteral : Rubinius AST FixnumLiteral {
-    def initialize: line value: value { initialize(line, value) }
+    def initialize: line value: value {
+      initialize(line, value)
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -16,7 +20,9 @@ class Fancy AST {
   }
 
   class NumberLiteral : Rubinius AST NumberLiteral {
-    def initialize: line value: value { initialize(line, value) }
+    def initialize: line value: value {
+      initialize(line, value)
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -24,7 +30,9 @@ class Fancy AST {
   }
 
   class StringLiteral : Rubinius AST StringLiteral {
-    def initialize: line value: value { initialize(line, StringHelper unescape_string(value)) }
+    def initialize: line value: value {
+      initialize(line, StringHelper unescape_string(value))
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -32,19 +40,15 @@ class Fancy AST {
   }
 
   class CurrentFile : Node {
-    def initialize: @line filename: @filename { }
+    def initialize: @line filename: @filename
     def bytecode: g {
       pos(g)
-      args = MessageArgs new: @line args: [StringLiteral new: @line value: @filename]
-      MessageSend new: @line message: (Identifier from: "current_file:" line: @line) \
-                  to: (Identifier from: "Fancy::CodeLoader" line: @line) \
-                  args: args .
-        bytecode: g
+      StringLiteral new: @line value: $ File absolute_path: @filename . bytecode: g
     }
   }
 
   class CurrentLine : Node {
-    def initialize: @line { }
+    def initialize: @line
     def bytecode: g {
       pos(g)
       FixnumLiteral new: @line value: @line . bytecode: g
@@ -52,12 +56,12 @@ class Fancy AST {
   }
 
   class Nothing : Node {
-    def initialize: @line { }
+    def initialize: @line
     def bytecode: g { pos(g) }
   }
 
   class StackTop : Node {
-    def initialize: @line { }
+    def initialize: @line
     def bytecode: g {
       pos(g)
       g dup()
@@ -65,8 +69,10 @@ class Fancy AST {
   }
 
   class StackLocal : Node {
-    def initialize: @line { }
-    def set: g { @local = g new_stack_local(); g set_stack_local(@local) }
+    def initialize: @line
+    def set: g {
+      @local = g new_stack_local(); g set_stack_local(@local)
+    }
     def bytecode: g {
       pos(g)
       g push_stack_local(@local)
@@ -74,7 +80,9 @@ class Fancy AST {
   }
 
   class Self : Rubinius AST Self {
-    def initialize: line { initialize(line) }
+    def initialize: line {
+      initialize(line)
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -90,7 +98,9 @@ class Fancy AST {
 
   class SymbolLiteral : Rubinius AST SymbolLiteral {
     read_slot: 'value
-    def initialize: line value: value { initialize(line, value) }
+    def initialize: line value: value {
+     initialize(line, value)
+    }
     def string {
       value
     }
@@ -101,7 +111,9 @@ class Fancy AST {
   }
 
   class RegexpLiteral : Rubinius AST RegexLiteral  {
-    def initialize: line value: value { initialize(line, value, 0) }
+    def initialize: line value: value {
+      initialize(line, value, 0)
+    }
     def bytecode: g {
       pos(g)
       bytecode(g)
@@ -109,7 +121,7 @@ class Fancy AST {
   }
 
   class ArrayLiteral : Rubinius AST ArrayLiteral {
-    read_slots: ['array]
+    read_slot: 'array
     def initialize: line array: @array {
       @array if_nil: { @array = [] }
       initialize(line, @array)

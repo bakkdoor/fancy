@@ -20,6 +20,7 @@ class FancySpec {
     Factory method for creating FancySpec instances.
     Calls @block with the new FancySpec instance as the receiver, then runs it.
 
+    Example:
           FancySpec describe: MyTestClass with: {
             # test cases using it:for:when: here.
           }
@@ -32,8 +33,9 @@ class FancySpec {
 
   def FancySpec describe: description for: test_obj with: block {
     """
-    Similar to FancySpec##describe:with: but also taking an explicit @test_obj.
+    Similar to @FancySpec~describe:with:@ but also taking an explicit @test_obj.
 
+    Example:
           FancySpec describe: \"My cool class\" for: MyCoolClass with: {
             # test cases using it:for:when: here.
           }
@@ -53,7 +55,7 @@ class FancySpec {
           it: \"should be an empty Array\" when: {
             arr = [1,2,3]
             3 times: { arr pop }
-            arr empty? is == true
+            arr empty? is: true
           }
     """
 
@@ -71,7 +73,7 @@ class FancySpec {
           it: \"should be an empty Array\" with: 'empty? when: {
             arr = [1,2,3]
             3 times: { arr pop }
-            arr empty? is == true
+            arr empty? is: true
           }
     """
 
@@ -175,7 +177,7 @@ class FancySpec {
       @@current
     }
 
-    def SpecTest print_failures: start_time {
+    def SpecTest print_failures: start_time no_failures: ok_block else: error_block {
       @@failed_positive each: |test_obj failed_tests| {
         failed_tests each: |t| {
           Console newline
@@ -194,11 +196,7 @@ class FancySpec {
 
       Console newline
       "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
-      if: (@@failed_count > 0) then: {
-        System exit: 1
-      } else: {
-        System exit: 0
-      }
+      if: (@@failed_count == 0) then: ok_block else: error_block
     }
 
     def initialize: @info_str block: @block {
@@ -214,8 +212,8 @@ class FancySpec {
       @@total_tests = @@total_tests + 1
       try {
         @block call_with_receiver: self
-      } catch Exception => e {
-        failed: (e, "No Exception")
+      } catch StandardError => e {
+        failed: (e, "No Exception") location: (e backtrace)
       }
 
       if: failed? then: {
@@ -225,14 +223,18 @@ class FancySpec {
       }
     }
 
-    def failed: actual_and_expected {
-      @failed_positive << (actual_and_expected, caller(5) at: 0)
+    def failed: actual_and_expected location: location (nil) {
+      unless: location do: {
+        location = caller() find: |l| { l =~ /__script__/ }
+      }
+      @failed_positive << (actual_and_expected, location)
       SpecTest failed_test: self
     }
 
     def failed_negative: value {
       { value = [value, 'negative_failure] } unless: $ value responds_to?: 'at:
-      @failed_negative << (value, caller(6) at: 0)
+      location = caller() find: |l| { l =~ /__script__/ }
+      @failed_negative << (value, location)
       SpecTest failed_negative_test: self
     }
 
@@ -255,10 +257,15 @@ class FancySpec {
     def print_failed_common: failures {
       failures each: |f| {
         actual, expected = f first
-        location = f second gsub(/:(\d+):in `[^']+'/, " +\1")
-        location = location split: "/" . from: -2 to: -1 . join: "/"
+        locations = f second
 
-        location println
+        locations to_a map: |loc| {
+          loc = loc gsub(/:(\d+):in `[^']+'/, " +\1")
+          file, line = loc split: " +"
+          loc = "#{file} +#{line to_i - 1}" # somehow line is off by +1
+          loc = loc split: (Directory pwd + "/") . second
+        } . compact println
+
         unless: (expected == 'negative_failure) do: {
           "    Expected: #{expected inspect}" println
           "    Received: #{actual inspect}" println
@@ -300,7 +307,7 @@ class FancySpec {
         SpecTest current failed: (nil, exception_class)
       } catch exception_class {
         # ok
-      } catch Exception => e {
+      } catch StandardError => e {
         SpecTest current failed: (e class, exception_class)
       }
     }
@@ -313,7 +320,7 @@ class FancySpec {
       } catch exception_class => e {
         block call: [e]
         # ok
-      } catch Exception => e {
+      } catch StandardError => e {
         SpecTest current failed: (e class, exception_class)
       }
     }
@@ -364,7 +371,7 @@ class FancySpec {
         @actual_value call
       } catch exception_class {
         SpecTest current failed_negative: (exception_class, nil)
-      } catch Exception => e {
+      } catch StandardError {
         true
         # ok
       }

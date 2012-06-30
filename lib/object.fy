@@ -29,9 +29,9 @@ class Object {
   def println {
     """
     Same as:
-          Console println: self
+          *stdout* println: self
 
-    Prints @self on @STDOUT, followed by a newline.
+    Prints @self on @*stdout*, followed by a newline.
     """
 
     *stdout* println: to_s
@@ -40,9 +40,9 @@ class Object {
   def print {
     """
     Same as:
-          Console print: self
+          *stdout* print: self
 
-    Prints @self on STDOUT.
+    Prints @self on @*stdout*.
     """
 
     *stdout* print: to_s
@@ -149,19 +149,19 @@ class Object {
 
   def to_enum {
     """
-    @return @FancyEnumerator@ for @self using 'each: for iteration.
+    @return @Fancy::Enumerator@ for @self using 'each: for iteration.
     """
 
-    FancyEnumerator new: self
+    Fancy Enumerator new: self
   }
 
   def to_enum: iterator {
     """
     @iterator Message to use for iteration on @self.
-    @return @FancyEnumerator@ for @self using @iterator for iteration.
+    @return @Fancy::Enumerator@ for @self using @iterator for iteration.
     """
 
-    FancyEnumerator new: self with: iterator
+    Fancy Enumerator new: self with: iterator
   }
 
   def and: other {
@@ -290,13 +290,16 @@ class Object {
     cond if_true: else_block else: block
   }
 
+  alias_method: 'unless:then: for: 'unless:do:
+  alias_method: 'unless:then:else: for: 'unless:do:else:
+
   def method: method_name {
     """
     @return @Method@ with @method_name defined for @self, or @nil.
     Returns the method with a given name for self, if defined.
     """
 
-    method(message_name: method_name)
+    method(method_name message_name)
   }
 
   def documentation {
@@ -463,7 +466,7 @@ class Object {
             val = self receive_message: msg with_params: params
             sender completed: val
         }
-      } catch Exception => e {
+      } catch StandardError => e {
         { sender failed: e } if: sender
         die!
         e raise!
@@ -539,9 +542,26 @@ class Object {
   }
 
   def copy_slots: slots from: object {
+    """
+    @slots @Fancy::Enumerable@ of slot names to copy from @object.
+    @object Target @Object@ to copy slots from.
+
+    Copies slots from @object to @self.
+    """
+
     slots each: |s| {
       set_slot: s value: (object get_slot: s)
     }
+  }
+
+  def copy_slots_from: object {
+    """
+    @object @Object@ to copy slots from.
+
+    Copies all slots from @object to @self.
+    """
+
+    copy_slots: (object slots) from: object
   }
 
   def get_slots: slots {
@@ -554,6 +574,27 @@ class Object {
       get_slot: s
     }
   }
+
+  def with_mutable_slots: slotnames do: block {
+    """
+    @slotnames @Fancy Enumerable@ of slotnames to be mutable within @block.
+    @block @Block@ to be called with @self.
+
+    Calls @block with @self while having slots defined in @slotnames
+    be mutable during execution of @block.
+    """
+
+    metaclass read_write_slots: slotnames
+    try {
+      return block call: [self]
+    } finally {
+      slotnames each: |s| {
+        metaclass undefine_method: s
+        metaclass undefine_method: "#{s}:"
+      }
+    }
+  }
+  private: 'with_mutable_slots:do:
 
   def <=> other {
     """
@@ -584,9 +625,33 @@ class Object {
           some_complex_object method_1: arg1
           some_complex_object method_2: arg2
           some_complex_object method_3: arg3
+
+    If you pass it a block with 1 argument this method behaves exactly like @Object#tap:@
+
+    Example:
+          some_complex_object do: @{
+            method_1: arg1
+            method_2: arg2
+            method_3: arg3
+          }
     """
 
-    block call_with_receiver: self
+    match block arity {
+      case 0 -> block call_with_receiver: self
+      case _ -> block call: [self]
+    }
+    self
+  }
+
+  def tap: block {
+    """
+    @block @Block@ to be called with @self.
+    @return @self.
+
+    Calls a given @Block@ with @self before returning @self.
+    """
+
+    block call: [self]
     self
   }
 
@@ -595,9 +660,7 @@ class Object {
     @return @Array@ of slot names that @self has.
     """
 
-    instance_variables map: |s| {
-      s rest to_sym
-    }
+    instance_variables map: @{ rest to_sym }
   }
 
   def sleep: seconds {
@@ -620,7 +683,7 @@ class Object {
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
 
     Example:
-          File open: \"/tmp/output.txt\" modes: ['write] with: |f| {
+          File write: \"/tmp/output.txt\" with: |f| {
             let: '*stdout* be: f in: {
               \"hello, world!\" println # writes it to file not STDOUT
             }
@@ -634,19 +697,15 @@ class Object {
     }
 
     oldval = Thread current[var_name]
-    retval = nil
     try {
       Thread current[var_name]: value
-      retval = block call
-    } catch Exception => e {
-      e raise!
+      return block call
     } finally {
       Thread current[var_name]: oldval
-      return retval
     }
   }
 
-  def with_output_to_file: filename do: block {
+  def with_output_to: filename do: block {
     """
     @filename Filename of file to write to.
     @block @Block@ to be executed with *stdout* being bound to the output file.
@@ -664,12 +723,60 @@ class Object {
     to /tmp/hello_world.txt
     """
 
-    File open: filename modes: ['write] with: |f| {
-      with_output_to: f do: block
+    File write: filename with: |f| {
+      let: '*stdout* be: f in: block
     }
   }
 
-  def with_output_to: io do: block {
-    let: '*stdout* be: io in: block
+  def fancy_methods {
+    """
+    @return @Array@ of all class methods defined in Fancy.
+    """
+
+    methods select: @{ includes?: ":" }
+  }
+
+  def ruby_methods {
+    """
+    @return @Array@ of all class methods defined in Ruby.
+    """
+
+    methods - fancy_methods
+  }
+
+  def >< other {
+    """
+    @other Other @Object@ to create a @MatchAny@ matcher with.
+
+    Shorthand for: `MatchAny new: self with: other`
+    """
+
+    Matchers MatchAny new: self with: other
+  }
+
+  def <> other {
+    """
+    @other Other @Object@ to create a @MatchAll@ matcher with.
+
+    Shorthand for: `MatchAll new: self with: other`
+    """
+
+    Matchers MatchAll new: self with: other
+  }
+
+  def ignoring: exception_classes do: block {
+    """
+    @exception_classes @Fancy::Enumerable@ of @Exception@s to ignore within @block.
+    @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
+
+    Example:
+          ignoring: (IOError, ZeroDivisionError) in: {
+            # do something
+          }
+    """
+
+    try {
+      block call
+    } catch (exception_classes to_a join_by: '><) {}
   }
 }

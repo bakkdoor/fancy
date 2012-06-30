@@ -1,4 +1,9 @@
+Directory = Dir
+
 class Directory {
+  forwards_unary_ruby_methods
+  metaclass forwards_unary_ruby_methods
+
   def self create: dirname {
     """
     @dirname Path of @Directory@ to create.
@@ -39,7 +44,7 @@ class Directory {
 
     try {
       Dir delete(dirname)
-    } catch Exception => e {
+    } catch StandardError => e {
       IOError new: (e message) . raise!
     }
   }
@@ -49,8 +54,8 @@ class Directory {
     @pattern Directory pattern or name containing files to be returned as an @Array@.
     @return @Array@ of files matching directory @pattern.
 
-    Example usage:
-        Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
+    Example:
+          Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
     """
 
     match pattern {

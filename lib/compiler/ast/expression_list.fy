@@ -2,8 +2,7 @@ class Fancy AST {
   class ExpressionList : Node {
     read_slot: 'expressions
 
-    def initialize: @line list: @expressions ([]) {
-    }
+    def initialize: @line list: @expressions ([]);
 
     def unshift_expression: expression {
       @expressions unshift(expression)
@@ -20,11 +19,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       size = @expressions size
-      @expressions each: |expr| {
-        size = size - 1
-        expr bytecode: g
-        { g pop() } if: (size > 0)
-      }
+      @expressions each: @{ bytecode: g } in_between: { g pop() }
     }
 
     # This method is only used by Rubinius' compiler classes and
@@ -33,13 +28,9 @@ class Fancy AST {
       []
     }
 
-    # If this expression list contains more than one expression
-    # and the first one is an string literal, it'll be used as doc.
-    # This method removes the first documentation string.
-    def shift_docstring {
-      if: ((@expressions first kind_of?(Rubinius AST StringLiteral)) && \
-           (@expressions size > 1)) then: {
-        @expressions shift()
+    def docstring {
+      if: (@expressions first kind_of?(Rubinius AST StringLiteral)) then: {
+        @expressions first
       }
     }
   }

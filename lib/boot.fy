@@ -11,7 +11,7 @@
 # define all the functionality to let fancy run on rbx.
 # also, they might override functionality defined in lib/ to reuse
 # existing ruby methods etc.
-require: "rbx.fy"
+require: "rbx"
 
 require: "object"
 require: "class"
@@ -36,19 +36,20 @@ require: "set"
 require: "symbol"
 require: "stack"
 require: "proxy"
-require: "thread_pool"
 require: "fiber"
-require: "fiber_pool"
 require: "future"
 require: "struct"
+require: "message_sink"
+require: "kvo"
 
 # version holds fancy's version number
 require: "version"
 require: "argv"
 require: "vars"
+require: "system"
 
 require: "documentation"
-
-require: "package.fy"
-
+require: "package"
+require: "contracts"
+require: "matchers"
 require: "conditions"

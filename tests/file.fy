@@ -5,6 +5,34 @@ FancySpec describe: File with: {
     file close
   }
 
+  it: "reads a file correctly" with: 'read:with: when: {
+    lines = File read: "README.md" . lines
+    idx = 0
+
+    File read: "README.md" with: |f| {
+      until: { f eof? } do: {
+        lines[idx] is: (f readline chomp)
+        idx = idx + 1
+      }
+    }
+  }
+
+  it: "writes a file correctly" with: 'write:with: when: {
+    dirname = "tmp"
+    filename = "#{dirname}/write_test.txt"
+
+    Directory create!: dirname
+    File write: filename with: |f| {
+      10 times: |i| {
+        f println: i
+      }
+    }
+
+    File read: filename . lines is: $ ["0","1","2","3","4","5","6","7","8","9"]
+    File delete: filename
+    Directory delete: dirname
+  }
+
   it: "is open after opening it and closed after closing" with: 'close when: {
     file = File open: "README.md" modes: ['read]
     file open? is: true
@@ -73,5 +101,43 @@ FancySpec describe: File with: {
     File directory?: "src/Makefile" . is: false
     File directory?: "README" . is: false
     File directory?: "src/bootstrap/Makefile" . is: false
+  }
+
+  it: "evals a file" with: 'eval: when: {
+    "/tmp/test_#{Time now to_i}.fy" tap: |filename| {
+      File tap: @{
+        write: filename with: @{ print: "2 * 3 to_s inspect" }
+        eval: filename . is: $ 6 to_s inspect
+        delete: filename
+      }
+      # File write: filename with: @{ print: "2 * 3 to_s inspect" }
+      # File eval: filename . is: $ 6 to_s inspect
+      # File delete: filename
+    }
+  }
+
+  it: "reads a config file" with: 'read_config: when: {
+    contents = """
+    {
+      test: 'value
+      other: 123
+      more: {
+        again: 'foo
+        yup: [1,2,3]
+      }
+    }
+    """
+
+    filename = "/tmp/#{Time now to_i random}_fy_test.txt"
+    File write: filename with: @{ write: contents }
+    File read_config: filename . is: <[
+      'test => 'value,
+      'other => 123,
+      'more => <[
+        'again => 'foo,
+        'yup => [1,2,3]
+      ]>
+    ]>
+    File delete: filename
   }
 }

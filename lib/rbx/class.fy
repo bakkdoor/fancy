@@ -1,11 +1,11 @@
 class Class {
-  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'inspect, 'to_s ]
+  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'to_s ]
 
   def new {
     """
-    @return A new @Class@ subclassed from @Object@.
+    @return A new instance of @Class@ @self.
 
-    Creates a new @Class@ instance by subclassing @Object@.
+    Creates a new instance of @self calling @initialize.
     """
 
     obj = allocate()
@@ -14,16 +14,16 @@ class Class {
   }
 
   # calls initialize:, if defined
-  def new: superclass {
+  def new: arg {
     """
-    @superclass The superclass to inherit from.
-    @return A new @Class@ inherited from @superclass.
+    @arg Argument to @initialize:.
+    @return A new instance of @Class@ @self.
 
-    Creates a new @Class@ instance by subclassing @superclass.
+    Creates a new instance of @self calling @initialize:.
     """
 
     obj = allocate()
-    obj initialize: superclass
+    obj initialize: arg
     obj
   }
 
@@ -63,7 +63,7 @@ class Class {
     body.
     """
 
-    define_method(message_name: name, &block)
+    define_method(name message_name, &block)
   }
 
   def undefine_method: name {
@@ -73,7 +73,7 @@ class Class {
     Undefines an instance method on a Class with a given name.
     """
 
-    remove_method(message_name: name)
+    remove_method(name message_name)
   }
 
   def define_class_method: name with: block {
@@ -127,7 +127,7 @@ class Class {
     Returns an instance method for a @Class@ with a given name.
     """
 
-    instance_method(message_name: name)
+    instance_method(name message_name)
   }
 
   def alias_method_rbx: new_method_name for: old_method_name {
@@ -136,14 +136,14 @@ class Class {
     reasons. Should not be used directly.
     """
 
-    alias_method(message_name: new_method_name, message_name: old_method_name)
+    alias_method(new_method_name message_name, old_method_name message_name)
   }
 
   def alias_method: new_method_name for_ruby: ruby_method_name {
     """
     Creates a method alias for a Ruby method.
     """
-    alias_method(message_name: new_method_name, ruby_method_name)
+    alias_method(new_method_name message_name, ruby_method_name)
   }
 
   def public: method_names {
@@ -154,7 +154,7 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map: |m| { message_name: m }
+    method_names = method_names map: |m| { m message_name }
     public(*method_names)
   }
 
@@ -166,7 +166,7 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map() |m| { message_name: m }
+    method_names = method_names map() |m| { m message_name }
     private(*method_names)
   }
 
@@ -178,8 +178,26 @@ class Class {
     """
 
     method_names = method_names to_a()
-    method_names = method_names map() |m| { message_name: m }
+    method_names = method_names map() |m| { m message_name }
     protected(*method_names)
+  }
+
+  def instance_methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if instance methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all instance method names for this @Class@.
+    """
+
+    instance_methods(include_superclasses?)
+  }
+
+  def methods: include_superclasses? (true) {
+    """
+    @include_superclasses? Boolean indicating if methods of all superclasses should be included (defaults to @true).
+    @return @Array@ of all class method names for this @Class@.
+    """
+
+    methods(include_superclasses?)
   }
 
   def forwards_unary_ruby_methods {
@@ -193,6 +211,51 @@ class Class {
       instance_method(m) arity() == 0
     } each() |m| {
       ruby_alias: m
+    }
+  }
+
+  def class_eval: str_or_block {
+    """
+    @str_or_block @String@ or @Block@ to be evaluated in the context of this @Class@.
+
+    Evaluates a given @String@ of Fancy code or a @Block@ in the class context of @self.
+    Useful for dynamically defining methods on a class etc.
+
+    Example:
+          Array class_eval: \"def foo { 'foo println }\"
+          [1,2,3] foo  # => prints 'foo
+    """
+
+    match str_or_block {
+      case Block -> class_eval(&str_or_block)
+      case _ -> class_eval: { str_or_block to_s eval }
+    }
+  }
+
+  def expose_to_ruby: method_name as: ruby_method_name (nil) {
+    """
+    @method_name Fancy method name to be exposed.
+    @ruby_method_name Name of method exposed to Ruby (optional).
+
+    Explicitly exposes a Fancy method to Ruby. If @ruby_method_name is
+    passed, use that name explicitly, otherwise uses @method_name.
+
+    Example:
+          class Foo {
+            def === other {
+              # ...
+            }
+
+            expose_to_ruby: '===
+
+            # if you don't want to expose it as :=== in Ruby:
+            expose_to_ruby: '=== as: 'some_other_name_for_ruby
+          }
+    """
+
+    match ruby_method_name {
+      case nil -> alias_method(method_name, method_name message_name)
+      case _ -> alias_method(ruby_method_name, method_name message_name)
     }
   }
 }

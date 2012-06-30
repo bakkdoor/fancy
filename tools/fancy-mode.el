@@ -1,3 +1,10 @@
+;;; fancy-mode.el --- Major mode for programming with the Fancy language.
+;;
+;; URL: http://www.fancy-lang.org
+;; Version: 0.1
+;; Author: Christopher Bertels <chris@fancy-lang.org>
+
+
 (require 'generic-x)
 
 (define-generic-mode
@@ -40,6 +47,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.fy\\'" . fancy-mode))
 (add-to-list 'auto-mode-alist '("\\.fancypack\\'" . fancy-mode))
+(add-to-list 'auto-mode-alist '("\\Fakefile\\'" . fancy-mode))
+
+(add-to-list 'interpreter-mode-alist '("fancy" . fancy-mode))
 
 ;; Ignore .fyc (compiled fancy bytecode) files
 (add-to-list 'completion-ignored-extensions ".fyc")
@@ -63,3 +73,5 @@
 (setq indent-line-function 'fancy-indent-line)
 
 (provide 'fancy-mode)
+
+;;; fancy-mode.el ends here

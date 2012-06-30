@@ -4,7 +4,10 @@ class Hash {
   Maps a key to a value.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
+
+  alias_method: 'get_slot: for: 'at:
+  alias_method: 'set_slot:value: for: 'at:put:
 
   def [key] {
     """
@@ -25,12 +28,43 @@ class Hash {
 
     Returns the value for a given key.
     If the key is not found, calls @else_block and returns the value it yields.
+
+    Example:
+          <['foo => 'bar]> at: 'foo else: { 42 } # => 'bar
+          <['foo => 'bar]> at: 'unknown else: { 42 } # => 42
+          <['nil => nil]> at: 'nil else: { 'not_found } # => nil
     """
 
     if: (includes?: key) then: {
       at: key
-    } else: else_block
+    } else: {
+      else_block call: [key]
+    }
   }
+
+  alias_method: 'fetch:else: for: 'at:else:
+
+  def at: key else_put: else_block {
+    """
+    @key Key of value to get.
+    @else_block @Block@ that gets called and its value inserted into @self if @key not in @self.
+
+    Example:
+          h = <['foo => 'bar]>
+          h at: 'foo else_put: { 42 } # => 'bar
+          h['foo] # => 'bar
+          h at: 'undefined else_put: { 42 } # => 42
+          h['undefined] # => 42
+    """
+
+    if: (includes?: key) then: {
+      at: key
+    } else: {
+      at: key put: $ else_block call: [key]
+    }
+  }
+
+  alias_method: 'fetch:else_put: for: 'at:else_put:
 
   def each: block {
     """
@@ -85,14 +119,24 @@ class Hash {
     map: |pair| { pair }
   }
 
-  def to_s {
+  def to_object {
     """
-    @return @String@ representation of @self.
+    @return New @Object@ with slots defined by keys and values in @self.
 
-    Returns a @String@ representation of a @Hash@.
+    Creates and returns a new @Object@ with slot names and values based on keys and values in @self.
+
+    Example:
+          o = <['name => \"Christopher Bertels\", 'interest => \"programming languages\"]> to_object
+          o name        # => \"Christopher Bertels\"
+          o interest    # => 42
     """
 
-    to_a to_s
+    o = Object new
+    self each: |k v| {
+      o set_slot: k value: v
+    }
+    o metaclass read_write_slots: keys
+    o
   }
 
   def inspect {
@@ -118,5 +162,108 @@ class Hash {
     """
 
     keys map: |k| { at: k }
+  }
+
+  def select_keys: block {
+    """
+    @block @Block@ to be called with each key in @self.
+    @return @Hash@ of entries for which @block called with its key yields @true.
+
+    Example:
+          h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
+          h select_keys: @{ is_a?: Symbol } # => <['a => 1, 'b => \"hello\"]>
+    """
+
+    h = <[]>
+    keys each: |k| {
+      if: (block call: [k]) then: {
+        h[k]: $ self[k]
+      }
+    }
+    h
+  }
+
+  def reject_keys: block {
+    """
+    @block @Block@ to be called with each key in @self.
+    @return @Hash@ of entries for which @block called with its key yields @false.
+
+    Example:
+          h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
+          h reject_keys: @{ is_a?: Symbol } # => <[42 => (1,2,3)]>
+    """
+
+    select_keys: |k| { block call: [k] . not }
+  }
+
+  def random_key {
+    """
+    @return Random key in @self.
+    """
+
+    keys random
+  }
+
+  def random_value {
+    """
+    @return Random value in @self.
+    """
+
+    values random
+  }
+
+  def random {
+    """
+    @return Random value in @self.
+
+    Same as @Hash#random_value@.
+    """
+
+    random_value
+  }
+
+  def call: receiver {
+    """
+    @receiver Receiver to apply @self to.
+    @return @receiver.
+
+    Sends each key-value pair as a message (with one argument) to @receiver.
+
+    Example:
+          Person = Struct new: ('firstname, 'lastname)
+          p = Person new
+          <['firstname => \"Tom\", 'lastname => \"Cruise\"]> call: [p]
+
+          p firstname # => \"Tom\"
+          p lastname  # => \"Cruise\"
+    """
+
+    to_block call: receiver
+  }
+
+  def to_block {
+    """
+    @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
+
+    Example:
+          <['x => 100, 'y => 150]> to_block
+          # would be the same as:
+          |receiver| {
+            receiver tap: @{
+              x: 100
+              y: 150
+            }
+          }
+    """
+
+    |receiver| {
+      each: |k v| {
+        match k to_s {
+          case /:/ -> receiver receive_message: k with_params: [v]
+          case _ -> receiver receive_message: "#{k}:" with_params: [v]
+        }
+      }
+      receiver
+    }
   }
 }

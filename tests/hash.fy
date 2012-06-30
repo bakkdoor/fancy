@@ -42,6 +42,14 @@ FancySpec describe: Hash with: {
     hash at: 'foo1 else: { "hello" } . is: "hello"
   }
 
+  it: "calls the block if it can't find the key and inserts the return value" with: 'at:else_put: when: {
+    hash = <['foo => "bar", 'bar => nil]>
+    hash at: 'foo else_put: { "hello" } . is: "bar"
+    hash at: 'bar else_put: { "hello" } . is: nil
+    hash at: 'foo1 else_put: { "hello" } . is: "hello"
+    hash['foo1] is: "hello"
+  }
+
   it: "returns all keys" with: 'keys when: {
     hash = <['foo => "bar", 'bar => "baz", 'foobar => 112.21]>
     hash keys is =? ['foo, 'bar, 'foobar]
@@ -121,5 +129,87 @@ FancySpec describe: Hash with: {
     h includes?: "foo" . is: false
     h includes?: "bar" . is: false
     h includes?: nil . is: false
+  }
+
+  it: "returns an object with slots based on key-value pairs in Hash" with: 'to_object when: {
+    <[]> to_object slots empty? is: true
+    <['name => "Chris"]> to_object tap: @{
+      slots is: ['name]
+      name is: "Chris"
+      name: "New Name"
+      name is: "New Name"
+    }
+    <['a => "hello", 'b => "world"]> to_object tap: @{
+      slots size is: 2
+      slots includes?: 'a . is: true
+      slots includes?: 'b . is: true
+      a is: "hello"
+      b is: "world"
+      a: "world"
+      b: "hello"
+      a is: "world"
+      b is: "hello"
+    }
+  }
+
+  it: "returns a hash with all entries for which a block yields true" with: 'select_keys: when: {
+    <[]> select_keys: { true } . is: <[]>
+    <[]> select_keys: { false } . is: <[]>
+    <['hello => "world"]> select_keys: { true } . is: <['hello => "world"]>
+    <['hello => "world"]> select_keys: { false } . is: <[]>
+    <['hello => "world", "world" => 'hello]> select_keys: @{ is_a?: Symbol } . is: <['hello => "world"]>
+    <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> select_keys: @{ <= 3 } . is: <[1 => 5, 2 => 4, 3 => 3]>
+  }
+
+  it: "returns a hash with all entries for which a block yields false" with: 'reject_keys: when: {
+    <[]> reject_keys: { true } . is: <[]>
+    <[]> reject_keys: { false } . is: <[]>
+    <['hello => "world"]> reject_keys: { true } . is: <[]>
+    <['hello => "world"]> reject_keys: { false } . is: <['hello => "world"]>
+    <['hello => "world", "world" => 'hello]> reject_keys: @{ is_a?: Symbol } . is: <["world" => 'hello]>
+    <[5 => 1, 4 => 2, 3 => 3, 2 => 4, 1 => 5]> reject_keys: @{ <= 3 } . is: <[5 => 1, 4 => 2]>
+  }
+
+  class HashCallable {
+    read_write_slots: ('foo, 'bar)
+  }
+
+  it: "is callable, like a block" with: 'call: when: {
+    hc = HashCallable new
+
+    hc foo is: nil
+    hc bar is: nil
+
+    <['foo: => "bar", 'bar: => 123]> call: [hc] . is: hc
+
+    hc foo is: "bar"
+    hc bar is: 123
+
+    <['foo => "foobar", 'bar => 456]> call: [hc]
+
+    hc foo is: "foobar"
+    hc bar is: 456
+  }
+
+  it: "returns itself as a block" with: 'to_block when: {
+    hc = HashCallable new
+
+    hc foo is: nil
+    hc bar is: nil
+
+    <['foo: => "hello", 'bar: => "world"]> tap: |hash| {
+      block = hash to_block
+      block is_a?: Block . is: true
+      block arity is: 1
+      block call: [hc] . is: hc
+    }
+
+    hc foo is: "hello"
+    hc bar is: "world"
+
+    <['foo => 123, 'bar => 'baz]> to_block call: [hc]
+
+    hc foo is: 123
+    hc bar is: 'baz
   }
 }

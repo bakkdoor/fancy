@@ -4,7 +4,7 @@ class Integer {
   def times: block {
     """
     @block @Block@ to be called with each number between 0 and @self.
-    @return @self
+    @return @self.
 
     Calls a given @Block@ with each number between 0 and @self.
     """

@@ -41,6 +41,14 @@ class Fancy Documentation {
     doc
   }
 
+  def self for_method: method_name on_class: class is: docstring {
+    """
+    Similar to @Fancy::Documentation##for:is:@ but taking the method name and the @Class@ for which @Method@ to define the docstring.
+    """
+
+    class instance_method: method_name . documentation: docstring
+  }
+
   for: (instance_method('initialize:)) is: "Create a new documentation object."
   for: (method('for:is:)) is: "Sets the documentation for obj."
 

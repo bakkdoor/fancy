@@ -28,7 +28,7 @@ class Fancy AST {
       finally_ = g new_label()
       done = g new_label()
 
-      g setup_unwind(handler, Rubinius AST RescueType)
+      g setup_unwind(handler, Rubinius AST EnsureType)
 
       # make a break available to use
       current_break = g break()
@@ -42,9 +42,11 @@ class Fancy AST {
       if: current_redo then: { g redo=(g new_label()) }
 
       @body bytecode(g)
+      retval = g new_stack_local()
+      g set_stack_local(retval)
+      g pop()
 
       g pop_unwind()
-      g pop()
       g goto(finally_)
 
       if: current_break then: {
@@ -109,7 +111,7 @@ class Fancy AST {
 
       reraise set!()
 
-      # execte the finally block before propagating the exception
+      # execute the finally block before propagating the exception
       @ensure bytecode: g
 
       # remove the exception so we have the state
@@ -120,6 +122,7 @@ class Fancy AST {
       g reraise()
 
       finally_ set!()
+
       @ensure bytecode: g
 
       done set!()
@@ -127,12 +130,15 @@ class Fancy AST {
       g push_stack_local(outer_ex)
       g restore_exception_state()
       g pop_modifiers()
+
+      g pop()
+
+      g push_stack_local(retval)
     }
   }
 
   class ExceptionHandler : Node {
-    def initialize: @line condition: @condition var: @var body: @body {
-    }
+    def initialize: @line condition: @condition var: @var body: @body
 
     def bytecode: g final_tag: final_tag {
       pos(g)
@@ -160,8 +166,7 @@ class Fancy AST {
   }
 
   class CurrentException : Node {
-    def initialize: @line {
-    }
+    def initialize: @line
 
     def bytecode: g {
       pos(g)
@@ -170,8 +175,7 @@ class Fancy AST {
   }
 
   class Retry : Node {
-    def initialize: @line {
-    }
+    def initialize: @line
 
     def bytecode: g {
       pos(g)

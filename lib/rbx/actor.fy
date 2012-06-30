@@ -8,25 +8,24 @@ class Actor {
   first-come, first-serve manner.
 
   Actors are used to implement asynchronous and future message sends in Fancy
-  using the @@ and @@@ syntax.
+  using the @ and @@ syntax.
 
-  Example usage:
-
-      a = Actor spawn: {
-        loop: {
-          match Actor receive {
-            case 'hello -> \"Hello World\" println
-            case 'quit ->
-              \"OK, done!\" println
-              break # Quit loop and let actor die
+  Example:
+        a = Actor spawn: {
+          loop: {
+            match Actor receive {
+              case 'hello -> \"Hello World\" println
+              case 'quit ->
+                \"OK, done!\" println
+                break # Quit loop and let actor die
+            }
           }
         }
-      }
 
-      10 times: {
-        a ! 'hello # send 'hello to actor asynchronously
-      }
-      a ! 'quit
+        10 times: {
+          a ! 'hello # send 'hello to actor asynchronously
+        }
+        a ! 'quit
   """
 
   alias_method(':!, '<<)
@@ -39,8 +38,7 @@ class Actor {
     @block @Block@ that represents the @Actor@'s code body to be executed in a new @Thread@.
     @return A new @Actor@ running @block in a seperate @Thread@.
 
-    Example usage:
-
+    Example:
           Actor spawn: {
             loop: {
               Actor receive println # print all incoming messages

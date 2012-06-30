@@ -171,9 +171,7 @@ FancySpec describe: Object with: {
     }
     MyClass new do_wacky_things is: false
 
-    {
-      true is: false
-    } call_with_receiver: (MyClass new)
+    @{ true is: false } call: [MyClass new]
   }
 
   it: "overrides nil" with: 'nil when: {
@@ -183,7 +181,7 @@ FancySpec describe: Object with: {
       }
     }
 
-    { nil is: true } call_with_receiver: (MyClass new)
+    @{ nil is: true } call: [MyClass new]
   }
 
   it: "overrides false" with: 'false when: {
@@ -193,7 +191,7 @@ FancySpec describe: Object with: {
       }
     }
 
-    { false is: true } call_with_receiver: (MyClass2 new)
+    @{ false is: true } call: [MyClass2 new]
   }
 
   it: "implicitly sends a message to self if no receiver is specified" when: {
@@ -217,6 +215,31 @@ FancySpec describe: Object with: {
     }
   }
 
+  it: "calls a given block with self if the block takes an argument" with: 'do: when: {
+    arr = []
+    arr do: @{
+      << 1
+      << 2
+      << 3
+      select!: 'even?
+    } . is: [2]
+
+    arr do: @{
+      is: [2] # same
+    }
+
+    2 do: @{ inspect } . is: 2
+  }
+
+  it: "calls a given block with the receiver before returning itself" with: 'tap: when: {
+    10 + 2 tap: |x| {
+      x is: 12
+      x is_a?: Number . is: true
+    } . is: 12
+
+    "foo" + "bar" tap: @{ is: "foobar"; * 2 is: "foobarfoobar" } . is: "foobar"
+  }
+
   it: "returns an array of its slot names" with: 'slots when: {
     class GotSlots {
       def initialize {
@@ -230,5 +253,79 @@ FancySpec describe: Object with: {
     Set[gs slots] is: $ Set[['x, 'y]]
     gs set_another_slot
     Set[gs slots] is: $ Set[['x,'y,'z]]
+  }
+
+  it: "copies a given list of slots from one object to another" with: 'copy_slots:from: when: {
+    o1 = { slot1: "foo" slot2: "bar" } to_object
+    o2 = {} to_object
+    o2 copy_slots: ['slot1] from: o1
+    o2 slots includes?: 'slot1 . is: true
+    o2 get_slot: 'slot1 == (o1 slot1) is: true
+  }
+
+  it: "copies all slots from one object to another" with: 'copy_slots_from: when: {
+    o1 = { slot1: "foo" slot2: "bar" } to_object
+    o2 = {} to_object
+    o2 slots is: []
+    o2 copy_slots_from: o1
+    o2 slots includes?: 'slot1 . is: true
+    o2 slots includes?: 'slot2 . is: true
+    o2 slots is: $ o1 slots
+    o2 get_slot: 'slot1 == (o1 slot1) is: true
+    o2 get_slot: 'slot2 == (o1 slot2) is: true
+  }
+
+  it: "returns itself when return is send as a message" with: 'return when: {
+    def foo: array {
+      array each: @{ return }
+    }
+    foo: [1,2,3] . is: 1
+
+    def bar: array values: vals {
+      array each: |x| {
+        vals << x
+        x return
+      }
+    }
+
+    v = []
+    bar: [1,2,3] values: v . is: 1
+    v is: [1]
+  }
+
+  it: "provides temporarily mutable slots" with: 'with_mutable_slots: when: {
+    class Student {
+      read_slots: ('name, 'age, 'city)
+      def initialize: block {
+        with_mutable_slots: ('name, 'age, 'city) do: block
+      }
+    }
+
+    p = Student new: @{
+      name: "Chris"
+      age: 24
+      city: "Osnabrück"
+    }
+
+    p name is: "Chris"
+    p age is: 24
+    p city is: "Osnabrück"
+
+    { p name: "New Name" } raises: NoMethodError
+    { p age: 25 } raises: NoMethodError
+    { p city: "New City" } raises: NoMethodError
+
+    # no changes
+    p name is: "Chris"
+    p age is: 24
+    p city is: "Osnabrück"
+  }
+
+  it: "ignores all specified exception types" with: 'ignoring:do: when: {
+    {
+      [{ 2 / 0 }, { "foo" unknown_method_on_string! }] each: |b| {
+        ignoring: (ZeroDivisionError, NoMethodError) do: b
+      }
+    } does_not raise: Exception
   }
 }

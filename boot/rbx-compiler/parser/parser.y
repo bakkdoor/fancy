@@ -24,6 +24,7 @@ extern char *yytext;
 
 %token                  LPAREN
 %token                  RPAREN
+%token                  AT_LCURLY
 %token                  LCURLY
 %token                  RCURLY
 %token                  LBRACKET
@@ -101,6 +102,7 @@ extern char *yytext;
 %type  <object>         code
 %type  <object>         expression_list
 %type  <object>         expression_block
+%type  <object>         partial_expression_block
 %type  <object>         exp
 %type  <object>         assignment
 %type  <object>         multiple_assignment
@@ -194,6 +196,11 @@ expression_block: LCURLY space expression_list space RCURLY {
                 }
                 ;
 
+partial_expression_block: AT_LCURLY space expression_list space RCURLY {
+                   $$ = $3;
+                }
+                ;
+
 statement:      assignment
                 | return_local_statement
                 | return_statement
@@ -248,6 +255,9 @@ identifier:     IDENTIFIER {
                 }
                 | CLASS {
                   $$ = fy_terminal_node_from(self, "identifier", "class");
+                }
+                | RETURN {
+                  $$ = fy_terminal_node_from(self, "identifier", "return");
                 }
                 ;
 
@@ -640,7 +650,10 @@ hash_literal:   LEFTHASH space key_value_list space RIGHTHASH {
                 }
                 ;
 
-block_literal:  expression_block {
+block_literal:  partial_expression_block {
+                  $$ = rb_funcall(self, rb_intern("partial_block"), 2, INT2NUM(yylineno), $1);
+                }
+                | expression_block {
                   $$ = rb_funcall(self, rb_intern("block_literal"), 3, INT2NUM(yylineno), Qnil, $1);
                 }
                 | STAB block_args STAB space expression_block {
@@ -683,6 +696,15 @@ key_value_list: exp space ARROW space exp {
                 }
                 | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(self, rb_intern("key_value_list"), 4, INT2NUM(yylineno), $4, $8, $1);
+                }
+                | key_value_list space COMMA space {
+                  $$ = $1;
+                }
+                | key_value_list COMMA space {
+                  $$ = $1;
+                }
+                | key_value_list COMMA {
+                  $$ = $1;
                 }
                 ;
 

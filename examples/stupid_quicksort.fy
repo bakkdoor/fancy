@@ -1,12 +1,14 @@
-def quicksort: arr {
-  match arr size {
-    case (0..1) -> arr
-    case _ ->
-      piv = arr at: $ rand(arr size)
-      (quicksort: $ arr select: |x| { x < piv }) + (quicksort: $ arr select: |x| { x >= piv })
+class Array {
+  def quicksort {
+    match size {
+      case 0 -> self
+      case _ ->
+        (rest select: @{ < first } . quicksort) + [first] + (rest select: @{ >= first } . quicksort)
+    }
   }
 }
 
-arr = 0 upto: 10 . map: { rand(100) }
-arr inspect println
-quicksort: arr . inspect println
+(1..10) map: { 100 random } . tap: @{
+  inspect println
+  quicksort inspect println
+}

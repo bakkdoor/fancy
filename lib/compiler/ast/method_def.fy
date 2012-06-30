@@ -3,7 +3,7 @@ class Fancy AST {
     def initialize: @line name: @name args: @arguments (MethodArgs new: @line) body: @body (ExpressionList new: @line) access: @access ('public) {
       { @body = ExpressionList new: @line } unless: @body
       @name = @name method_name: nil
-      @docstring = @body shift_docstring
+      @docstring = @body docstring
       generate_ivar_assignment
 
       if: (@body empty?) then: {
@@ -71,6 +71,7 @@ class Fancy AST {
                        to:      (Self new: @line)                                                 \
                        args:    (MessageArgs new: @line args: [method_ident])
       ms bytecode: g
+      g pop()
     }
 
     def define_method_missing: g {
@@ -79,6 +80,7 @@ class Fancy AST {
                        to:      (Self new: @line)                                              \
                        args:    (MessageArgs new: @line)
       ms bytecode: g
+      g pop()
     }
   }
 

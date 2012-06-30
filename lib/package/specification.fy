@@ -3,13 +3,13 @@ class Fancy Package {
     @@specs = <[]>
 
     read_write_slots: ['author, 'email, 'include_files, 'bin_files,
-                       'description, 'homepage, 'version, 'gh_user]
+                       'description, 'homepage, 'version, 'gh_user, 'package_name]
 
-    read_slots: ['package_name, 'dependencies, 'rubygem_dependencies]
+    read_slots: ['dependencies, 'ruby_dependencies]
 
     def initialize: @package_name with: block {
       @dependencies = []
-      @rubygem_dependencies = []
+      @ruby_dependencies = []
       @include_files = []
       @bin_files = []
 
@@ -34,7 +34,7 @@ class Fancy Package {
         version = d second
         { version = 'latest } unless: version
         dep = RubyDependency new: gem_name version: version
-        @rubygem_dependencies << dep
+        @ruby_dependencies << dep
       }
     }
 
@@ -45,7 +45,7 @@ class Fancy Package {
 
     def add_ruby_dependency: gem_name version: version ('latest) {
       dep = RubyDependency new: gem_name version: version
-      @rubygem_dependencies << dep
+      @ruby_dependencies << dep
     }
 
     def to_s {
@@ -62,12 +62,19 @@ class Fancy Package {
       }
     }
 
-    def self delete: spec_name from: specs_file {
-      File open: specs_file modes: ['read, 'write] with: |f| {
-        f readlines reject: |l| { l includes?: "name=#{spec_name}" } . each: |l| {
-          f writeln: l
-        }
+    def self delete_specs_from: specs_file if: filter_block {
+      lines = File read: specs_file . lines reject: filter_block
+      File write: specs_file with: |f| {
+        lines each: |l| { f writeln: l }
       }
+    }
+
+    def self delete: spec_name from: specs_file {
+      delete_specs_from: specs_file if: @{ includes?: "name=#{spec_name}" }
+    }
+
+    def self delete_specification: spec from: specs_file {
+      delete_specs_from: specs_file if: @{ includes?: "name=#{spec package_name} version=#{spec version}" }
     }
   }
 }

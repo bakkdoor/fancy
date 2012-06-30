@@ -37,6 +37,13 @@ FancySpec describe: Tuple with: {
     { Tuple new: 2 } does_not raise: ArgumentError
   }
 
+  it: "creates tuples dynamically" with: 'with_values when: {
+    Tuple with_values: [1,2,3] . is: (1,2,3)
+    Tuple with_values: ["foo",'bar,42] . is: ("foo", 'bar, 42)
+    Tuple with_values: ('hello, 'world) . is: ('hello, 'world)
+    Tuple with_values: "test" . is: ("t","e","s","t")
+  }
+
   it: "runs a Block for each element" with: 'each: when: {
     sum = 0
     vals = []
@@ -57,5 +64,12 @@ FancySpec describe: Tuple with: {
     }
     sum is: 6
     vals is: [3,2,1]
+  }
+
+  it: "returns an array of all elements between two indices" with: 'from:to: when: {
+    (1,2) from: 2 to: 3 . is: []
+    (1,2,3) from: 0 to: 2 . is: [1,2,3]
+    (4,5,6,7,8,9) from: 3 to: 5 . is: [7,8,9]
+    (1,2,3) from: 1 to: -1 . is: [2,3]
   }
 }

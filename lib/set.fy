@@ -3,11 +3,11 @@ class Set {
   A simple Set data structure class.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def initialize: values {
     """
-    @values @FancyEnumerable@ of values to be used as values for @self.
+    @values @Fancy::Enumerable@ of values to be used as values for @self.
 
     Initialize a new Set with a given collection of values.
     """
@@ -70,7 +70,7 @@ class Set {
 
   def Set [values] {
     """
-    @values @FancyEnumerable@ of values used for new Set.
+    @values @Fancy::Enumerable@ of values used for new Set.
 
     Initialize a new Set with a given collection of values.
     """
@@ -95,10 +95,21 @@ class Set {
     @value Value to be checked for if included in @self.
     @return @true if @value in @self, @false otherwise.
 
-    Indicates, if the Set includes a given value.
+    Indicates, if the Set includes @value.
     """
 
     @hash includes?: value
+  }
+
+  def [value] {
+    """
+    @value Value to be checked for if included in @self.
+    @return @true if @value is in @self, @nil otherwise.
+
+    Indicates, if the Set includes @value.
+    """
+
+    @hash[value]
   }
 
   def each: block {

@@ -1,3 +1,211 @@
+v0.7.0 (May 05, 2012)
+----------------------
+  - ignore TAGS
+  - Moved FANCY_VERSION to Fancy::VERSION and bumped it to 0.7.0
+  - added Array#-
+  - some refactoring to Fancy Package classes
+  - updated fancy --help output (added list-packages option)
+  - Implemented Fancy Package Uninstaller and refactored parts of Installer out into Package Handler class.
+  - fixed method name in test
+  - added Class#instance_methods: and Class#methods:
+  - added support for installing/symlinking bin_files in package system
+  - added Fakefile list of auto-mode-alist for fancy-mode
+  - push NilLiteral in empty singleton method definition
+  - Added link to new twitter profile in README
+  - removed another .fy extension in lib/boot.fy
+  - omit .fy ending in lib/boot.fy
+  - added DynamicValueArray test
+  - added DynamicKeyHash test
+  - added tests for DynamicSlotObject
+  - set slot reader/writers in DynamicSlotObject#object itself
+  - added docstrings for DynamicKeyHash, DynamicSlotObject & DynamicValueArray
+  - more cleanups in Enumerable
+  - fixed docstring typo and default arg value for Enumerable#superior_by:taking:
+  - renamed Enumerable#uniq => Enumerable#unique
+  - added travis build status image to readme
+  - added notifications back to .travis.yml
+  - added -d option to fspec and also sort test files by name
+  - moved random into Number mixin
+  - remove rbx-2.0.0pre rvm option
+  - small fix to .travis.yml
+  - updated .travis.yml
+  - fixed String class docstring
+  - a bunch of Enumerable related refactorings, also added common to_s method and other improvements
+  - added Enumerable#count:
+  - added unless:then:else: alias for unless:do:else:
+  - simplify example and testcase
+  - Return superclass, if any, as well in Class#inspect
+  - added File##read_config:
+  - added ActorProxy class
+  - print amount of files compiled for fancy -c option
+  - added retry_with: parameter to Integer#times_try:retry_with:
+  - simplified stupid quicksort example
+  - updated copyright notice in README
+  - Refactored Object#message_name: into Symbol#message_name and String#message_name.
+  - Hash cleanup
+  - Added Class#lazy_slot:value:
+  - added File##eval:
+  - Added File##read_binary:with: and File##read_binary:
+  - Default to reading binary in File##open:
+  - Added IO#read: alias
+  - Fixed define_forward_method_missing call in compiler by adding missing pop instruction at the end
+  - make some class methods public
+  - fix set test: don't rely on ordering of values in set
+  - fix typo
+  - added Integer#times_try:
+  - fixed bootstrap bug
+  - added Module#[]: for setting constants within modules and classes
+  - some cleanups to Enumerable class
+  - added get_slot: and set_slot:value: in Hash
+  - added Alias for Fixnum#^ (bitwise xor)
+  - Use __send__() instead of send()
+  - moved BasicObject into Fancy namespace
+  - added Object#lambda:
+  - Added lib/rbx/proc
+  - Year update to LICENSE
+  - cleanup Rakefile
+  - allow single method names be passed to Class#delegate:to_slot:
+  - Added FutureSend#when_failed:
+  - small bugfix for Class#delegate:to_slot:
+  - allow more flexible usage of whitespace in hash literals.
+  - allow hash literals with trailing commas at the end, similar to tuples and arrays
+  - Added Class#delegate:to_slot:
+  - Added Class#class_eval: wrapper method.
+  - Added Enumerable#map_with_index:
+  - Always use stringliteral as docstring if its the first expression in an ExpressionList (method/class defs).
+  - cleanup
+  - added Object#with_mutable_slots:do:
+  - don't exit programm within lib/fancy_spec but in bin/fspec instead, for better seperation of concerns.
+  - Small fix to Tuple#from:to: to allow Tuples to be used in splat-assignments as well.
+  - added Tuple#from:to:
+  - typo fix in docstring
+  - Added docstring to FutureSend class
+  - true, false & nil only behave like message sends when explicitly expressed that way syntactically.
+  - refactored Array#[]
+  - Moved Array#first - #fourth to Enumerable
+  - Improved Array#[] and String#[] and updates tests
+  - properly end comment for fancy-mode.el
+  - Merge remote-tracking branch 'origin/master'
+  - Published fancy-mode.el on marmalade-repo.org.
+  - typo fix in docstring
+  - added Enumerable#map_chained:
+
+v0.6.0 (Jan 25, 2012)
+----------------------
+  - More Docstrings
+  - Added docstrings to FutureSend
+  - Added docstring for File#expanded_path
+  - Bumped version for next release so it won't be forgotten.
+  - Pass args as explicit array to Block#call:
+  - use partial blocks where appropriate
+  - backported support for partial blocks to bootstrap compiler
+  - small naming fixes
+  - uncomment assertion
+  - Fix typo in KVO docstring
+  - Added KVO Mixin - Objective-C style Key-Value Observing
+  - Removed explicit typecheck in Array#remove_at:. It's bad..
+  - added Enumerable#to_hash:
+  - Fixed bug in FancyEnumerable#find:
+  - fixed Hash testcase to not rely on order of values in Array returned by Object#slots
+  - some fixes to Object docstrings
+  - fix bootstrap failing error. dammit.
+  - added fancy syntax highlighting to doc/features.md
+  - fixed Set#[]
+  - small positional fix
+  - fixed FutureSend#when_done: and also added FutureSend#with_value: as an alias for #when_done:
+  - Don't crash the vm when dealing with a parse/lex error. Closes #66
+  - cleanup
+  - added File##write:with: and File##read:with:
+  - Added Fancy code highlighting to README file
+  - Quit ifancy when entering 'quit' or 'exit'. Closes #67
+  - added System##abort
+  - added Fancy MessageSink class.
+  - added auto-load for files with fancy shebang line
+  - added support for Module#included: hook.
+  - added Hash#to_object
+  - renamed Block#object to Block#to_object for consistency reasons
+  - Moved installation logic for ruby dependencies in .fancypack files into RubyDependency class. And make sure to also install Ruby dependencies when running fancy install --deps
+  - Allow return as message selector and transform it at compile time into raise_returning it. This means that the following 2 lines of code are identical:     (1,2,3) each: |x| { x println; return x }     # and the new version:     (1,2,3) each: |x| { x println; x return }     # or short, using partial blocks:     (1,2,3) each: @{ println; return }
+  - moves FancyEnumerable and FancyEnumerator into Fancy namespace instead of prefixing their names
+  - added Object#tap:
+  - fixed typo in Module#[] and added tests for it
+  - added some methods to Module
+  - added Array#to_hash
+  - added Object#copy_slots_from:
+  - added Block#to_hash_deep
+  - added Hash#fetch:else:
+  - added String#relative_path:
+  - Added Set#[]
+  - Added Tuple##with_values:
+  - Moved Array#each_with_index: into FancyEnumerable.
+  - added System##abort:
+  - added alias for Method#executable
+  - docstring fixes to String class
+  - added docstrings for aliased String methods
+  - reformatted docstring
+  - String#uppercase & String#lowercase
+  - added Symbol#to_sym
+  - cleanup
+  - added more aliases to Date
+  - Added Number#upto:in_steps_of:do: and Number#downto:in_steps_of:do:. Also moved Number specific tests into tests/number.fy
+  - added ruby alias for Array#flatten
+  - fixed docstring formatting for FDoc class and handle @{ partial block syntax correctly
+  - Reraise any exceptions thrown within a let binding's block.
+  - added another testcase for Block#to_a
+  - Return self for easy chaining
+  - Added Block#to_a for dynamically creating Arrays from Blocks, similar to Block#object and Block#to_hash
+  - Small fix to web server example and some Socket class changes.
+  - File improvements.
+  - Merge branch 'master' of github.com:bakkdoor/fancy
+  - check for eof? in Console#readln:
+  - added Hash#at:else:
+  - allow '. as symbol name
+  - Merge branch 'master' of github.com:bakkdoor/fancy
+  - Added Number#cubed.
+  - added mission lib/stringio.fy file
+  - always call blocks with html object
+  - changed partial blocks to send any messages in the block that don't have an explicit receiver to the first argument. this is nice for dsls while not changing the value of self unexpectedly
+  - added Enumerable#skip: as alias for Enumerable#drop:
+  - added Block#[] as alias for Block#call:
+  - small improvements to HTML class
+  - added html generator library
+  - added lib/parser/ext/.rbx/ to .gitignore
+  - Remove travis ci build status image since travis fails to run my tests correctly at the moment, even though they are passing.
+  - improved performance for Block#object and Block#to_hash
+  - use set to prevent failure in case the slots aren't returned in the exact same order
+  - fix bootstrap failure
+  - Let Object#slots return an Array instead of a Set.
+  - A bunch of optimizations for string interpolations and stuff.
+  - small improvement to Block#to_hash
+  - Some improvements to DynamicSlotObject and added Block#to_hash
+  - Added support for installing dependencies from a .fancypack file. Looks in the current directory. Run via:     $ fancy install --deps
+  - added Block#object
+  - added TCPSocket#read:
+  - Added support for creating Arrays with a predefined size and a block to call for each element in that Array. Also added some more TCPSocket method wrappers.
+  - fix test
+  - explicitly wait for future completion
+  - Fix string interpolation for multi-line strings. Also added Regexp#m and Regexp#x methods.
+  - Get rid of old test
+  - Moved Method class doctstring.
+  - More docstrings to methods and classes in lib/rbx/ dir.
+  - fixed docstring for Fancy::Package::Uninstaller
+  - added docstring for Array#unshift:
+  - removed old spec file
+  - added String#substitute:with:
+  - Small fixes to html generator example
+  - Added Fixnum#random
+  - Small test with travis config.
+  - Added unary ruby methods to File class, ARGV#main?: and some more.
+  - small fix to highlighting of message selectors in fancy-mode.el
+  - added << and >> ruby aliases for Bignum and Fixnum classes (for left and right shifting)
+  - removed duplicate select: method from Array (already in FancyEnumerable)
+  - Updated AUTHORS file
+  - Catch errors when passing weird characters to RbReadline.
+  - Added tab-completion to infancy. Use RbReadline explicitly over c-readline as we need support for Readline#line_buffer which only RbReadline provides. Try to eval the current receiver when auto-completing method names, if possible.
+  - Correctly highlight dynamic variables.
+  - bumped version in lib/version.fy - oops...
+  - added Object#with_output_to:do:
+
 v0.5.0 (Oct 05, 2011)
 ----------------------
   - Use ruby instead of rbx in fancy_lib/ scripts that are used when fancy is installed via rubygems.

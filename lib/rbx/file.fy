@@ -75,7 +75,7 @@ class File {
     File read(filename, length, offset)
   }
 
-  def File open: filename modes: modes_arr {
+  def File open: filename modes: modes_arr (('read, 'binary)) {
     """
     @filename Filename to open/create.
     @modes_arr Array of symbols that describe the desired operations to perform.
@@ -109,7 +109,7 @@ class File {
     modes_arr each: |m| {
       str << (@@open_mode_conversions[m])
     }
-    str uniq join: ""
+    str unique join: ""
   }
 
   def File delete: filename {
@@ -124,6 +124,19 @@ class File {
     } catch Errno::ENOENT => e {
       IOError new: (e message) . raise!
     }
+  }
+
+  def File delete!: filename {
+    """
+    @filename Path to @File@ to be deleted.
+
+    Deletes a @File@ with a given @filename. If an @IOError@ occurs,
+    it gets ignored.
+    """
+
+    try {
+      File delete: filename
+    } catch IOError {}
   }
 
   def File directory?: path {
@@ -146,6 +159,15 @@ class File {
     """
 
     File rename(old_name, new_name)
+  }
+
+  def File absolute_path: filename {
+    """
+    @filename Name of @File@ to get absolute path for.
+    @return Absolute (expanded) path for @filename.
+    """
+
+    File expand_path: filename
   }
 
   def initialize: path {

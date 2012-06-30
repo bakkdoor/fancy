@@ -1,9 +1,15 @@
 rvm:
   - rbx
-  - rbx-2.0.0pre
-script: "rake clean && rbx -S rake"
-after_script: "bin/fancy bin/fspec"
+before_script: rake clean && rbx -S rake
+script: bin/fancy bin/fspec
 notifications:
-  email: false
+  email:
+    recipients:
+      - chris@fancy-lang.org
+    on_success: change
+    on_failure: always
   irc:
-    - "irc.freenode.org#fancy"
+    channels:
+      - "irc.freenode.org#fancy"
+    on_success: change
+    on_failure: always

@@ -219,7 +219,7 @@ FancySpec describe: Block with: {
     b2("foo") is: (b2 call: ["foo"])
   }
 
-  it: "dynamically creates a object with slots defined in a Block" with: 'object when: {
+  it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
     o = {
       name: "John Connor"
       age: 12
@@ -227,8 +227,8 @@ FancySpec describe: Block with: {
       persecuted_by: $ {
         name: "The Terminator"
         age: 'unknown
-      } object
-    } object
+      } to_object
+    } to_object
 
     o name is: "John Connor"
     o age is: 12
@@ -261,6 +261,30 @@ FancySpec describe: Block with: {
               'age => 'unknown
             ]>
     ]>
+  }
+
+  it: "dynamically creates a hash with keys and values defined in a Block (deep)" with: 'to_hash_deep when: {
+    { } to_hash_deep is: <[]>
+    { foo: "bar" } to_hash_deep is: <['foo => "bar"]>
+    h = {
+      name: "John Connor"
+      age: 12
+      city: "Los Angeles"
+      persecuted_by: {
+        name: "The Terminator"
+        age: 'unknown
+      }
+    } to_hash_deep
+
+    h is: <['name => "John Connor",
+            'age => 12,
+            'city => "Los Angeles",
+            'persecuted_by => <[
+              'name => "The Terminator",
+              'age => 'unknown
+            ]>
+    ]>
+    h['persecuted_by] is: <['name => "The Terminator", 'age => 'unknown]>
   }
 
   it: "dynamically creates an array with values defined in a Block" with: 'to_a when: {

@@ -6,9 +6,9 @@ class Fancy AST {
     It works...
     """
 
-    def initialize: @line code: @code
+    def initialize: @line code: @code filename: @filename
     def parse_code {
-      Fancy Parser parse_code: @code file: ("<<StringInterpolation: " ++ (@code inspect) ++ ">>") line: @line
+      Fancy Parser parse_code: @code file: @filename line: @line
     }
     def bytecode: g {
       parse_code body expressions first bytecode: g

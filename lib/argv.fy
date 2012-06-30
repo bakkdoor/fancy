@@ -39,9 +39,3 @@ def ARGV for_options: op_names do: block {
     }
   }
 }
-
-def ARGV main?: filename {
-  if: (ARGV[0]) then: {
-    File expand_path: (ARGV[0]) . == filename
-  }
-}

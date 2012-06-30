@@ -5,7 +5,7 @@ class Array {
   index-based access to members.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def Array new: size {
     """
@@ -71,47 +71,19 @@ class Array {
 
   def [index] {
     """
-    @index Index to get the value for or @Array@ of 2 indices used for a sub-array.
+    @index Index to get the value for or @Fancy::Enumerable@ of 2 indices used for a sub-array.
     @return Element(s) stored in @self at @index, possibly @nil or an empty @Array@.
 
-    Given an @Array@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
+    Given an @Fancy::Enumerable@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
     If given a single @Fixnum@, returns the element at that index.
     """
 
-    # if given an Array, interpret it as a from:to: range subarray
-    if: (index is_a?: Array) then: {
-      from: (index[0]) to: (index[1])
+    if: (index is_a?: Fancy Enumerable) then: {
+      start, end = index
+      from: start to: end
     } else: {
       at: index
     }
-  }
-
-  def first {
-    """
-    @return The first element in the @Array@.
-    """
-    at: 0
-  }
-
-  def second {
-    """
-    @return The second element in the @Array@.
-    """
-    at: 1
-  }
-
-  def third {
-    """
-    @return The third element in the @Array@.
-    """
-    at: 2
-  }
-
-  def fourth {
-    """
-    @return The fourth element in the @Array@.
-    """
-    at: 3
   }
 
   def rest {
@@ -126,22 +98,18 @@ class Array {
   def each: block {
     """
     @block @Block@ to be called for each element in @self.
-    @return @self
+    @return @self.
 
     Calls a given @Block@ with each element in the @Array@.
     """
 
-    try {
-      size times: |i| {
-        try {
-          block call: [at: i]
-        } catch (Fancy NextIteration) => ex {
-        }
+    size times: |i| {
+      try {
+        block call: [at: i]
+      } catch Fancy NextIteration {
       }
-      return self
-    } catch (Fancy BreakIteration) => ex {
-      ex result
     }
+    self
   }
 
   def reverse_each: block {
@@ -158,22 +126,6 @@ class Array {
       block call: [at: i]
     }
     self
-  }
-
-  def each_with_index: block {
-    """
-    @block @Block@ to be called with each element and its inde in the @Array@.
-    @return @self
-
-    Iterate over all elements in @Array@.
-    Calls a given @Block@ with each element and its index.
-    """
-
-    i = 0
-    each: |x| {
-      block call: [x, i]
-      i = i + 1
-    }
   }
 
   def =? other {
@@ -253,17 +205,6 @@ class Array {
     arr append: other_arr
   }
 
-  def join {
-    """
-    @return Elements of @Array@ joined to a @String@.
-
-    Joins all elements with the empty @String@.
-          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
-    """
-
-    join: ""
-  }
-
   def select!: condition {
     """
     @condition A condition @Block@ (or something @Callable) for selecting items from @self.
@@ -331,16 +272,6 @@ class Array {
     nil
   }
 
-  def to_s {
-    """
-    @return @String@ representation of @Array@.
-
-    Returns @String@ representation of @Array@.
-    """
-
-    reduce: |x y| { x ++ y } init_val: ""
-  }
-
   def inspect {
     """
     @return Pretty-printed @String@ representation of @self.
@@ -380,15 +311,32 @@ class Array {
     arr
   }
 
-  def + other_arr {
+  def + other {
     """
-    @return Concatenation of @self with another @Array@
+    @other @Fancy::Enumerable@ to be appended.
+    @return Concatenation of @self with @other.
 
-    Returns concatenation with another @Array@.
+    Returns concatenation with another @Fancy::Enumerable@.
+
+    Example:
           [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
     """
 
-    clone append: other_arr
+    clone append: other
+  }
+
+  def - other {
+    """
+    @other @Fancy::Enumerable@ to be subtracted from @self.
+    @return @Array@ of elements in @self excluding all elements in @self and @other.
+
+    Returns an @Array@ of all values in @self that are not in @other.
+
+    Example:
+          [1,2,3,4] - [2,4,5] # => [1,3]
+    """
+
+    self reject: |x| { other includes?: x }
   }
 
   def indices {
@@ -423,7 +371,7 @@ class Array {
   def from: from to: to {
     """
     @from Start index for sub-array.
-    @to End index ofr sub-array.
+    @to End index for sub-array.
 
     Returns sub-array starting at from: and going to to:
     """
@@ -454,6 +402,22 @@ class Array {
       }
     }
     tmp
+  }
+
+  def to_hash {
+    """
+    Returns a @Hash@ with each key-value pair in @self.
+
+    Example:
+          [[1,2],[3,4]] to_hash  # => <[1 => 2, 3 => 4]>
+    """
+
+    h = <[]>
+    self each: |pair| {
+      k,v = pair
+      h[k]: v
+    }
+    h
   }
 
   def Array === object {

@@ -1,5 +1,5 @@
 class Object {
-  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables ]
+  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables, 'methods ]
 
   def initialize {
     initialize()
@@ -97,7 +97,7 @@ class Object {
     Dynamically sends a given message (without parameters) to @self.
     """
 
-    send(message_name: message)
+    __send__(message message_name)
   }
 
   def receive_message: message with_params: params {
@@ -108,16 +108,7 @@ class Object {
     Dynamically sends a given message with parameters to @self.
     """
 
-   ruby: (message_name: message) args: params
-  }
-
-  def message_name: symbol {
-    symbol = symbol to_s
-    val = symbol include?(":")
-    match val {
-      case true -> symbol
-      case false -> ":" <<(symbol)
-    }
+    ruby: (message message_name) args: params
   }
 
   def responds_to?: message {
@@ -128,7 +119,7 @@ class Object {
     Indicates if an object responds to a given message.
     """
 
-    respond_to?(message_name: message)
+    respond_to?(message message_name)
   }
 
   def extend: class {
@@ -139,5 +130,14 @@ class Object {
     """
 
     metaclass include: class
+  }
+
+  def lambda: block {
+    """
+    @block @Block@ to be used as the lambda's body.
+    @return @Proc@ with Ruby's lambda semantics (e.g. @return always becomes @return_local)
+    """
+
+    lambda(&block)
   }
 }

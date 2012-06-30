@@ -3,7 +3,7 @@
 require("rb-readline/readline")
 
 ["Welcome to the (still very simple) Fancy REPL",
- "Fancy " ++ FANCY_VERSION] println
+ "Fancy #{Fancy VERSION}"] println
 
 HISTORY_FILE = File expand_path("~/.fancy_history")
 HISTORY = []
@@ -64,7 +64,7 @@ Readline completion: |str| {
   3 times: {
     try {
       receiver = Readline line_buffer() split: " " . [[0,end_idx]] . join: " " . eval
-      methods = receiver class instance_methods
+      methods = receiver methods
     } catch Fancy Parser ParseError => e {
       end_idx = end_idx - 1
     } catch Exception => e {
@@ -96,6 +96,10 @@ try {
   bnd = binding()
 
   while: { read_line } do: |line| {
+    if: (line =~ /^\s*(exit|quit)\s*$/) then: {
+      break
+    }
+
     HISTORY << line
     if: (double_or_empty?: line) then: {
       Readline::HISTORY pop()

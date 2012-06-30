@@ -2,7 +2,7 @@ class Fancy
   class AST
 
     class BlockLiteral < Rubinius::AST::Iter
-      def initialize(line, args, body)
+      def initialize(line, args, body, partial = false)
         @args = args
         body = body || Rubinius::AST::NilLiteral.new(line)
 
@@ -20,6 +20,34 @@ class Fancy
           @arguments.prelude = :multi
         end
         @arguments.required_args = args.required_args
+
+        @partial = partial
+
+        if @partial
+          @body = ExpressionList.new @line, *@body.expressions.map{ |e| convert_to_implicit_arg_send(e) }
+        end
+      end
+
+      def convert_to_implicit_arg_send(expr)
+        # see self-hosted version in lib/compiler/block.fy
+        # this is just a port of it so we can use partial blocks
+        # in fancy's stdlib
+
+        new_receiver = Identifier.new(@line, @args.args.first.to_s)
+        case expr
+          when Identifier
+          expr = MessageSend.new(@line, new_receiver, expr, MessageArgs.new(@line))
+          when MessageSend
+          case expr.receiver
+            when Self
+            expr.receiver = new_receiver
+            when Identifier
+            expr.receiver = MessageSend.new(@line, new_receiver, expr.receiver, MessageArgs.new(@line))
+            when MessageSend
+            expr.receiver = convert_to_implicit_arg_send(expr.receiver)
+          end
+        end
+        expr
       end
 
       def bytecode(g)

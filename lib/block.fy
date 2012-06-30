@@ -120,6 +120,10 @@ class Block {
     call: [val]
   }
 
+  def Block inspect {
+    name
+  }
+
   def Block name {
     "Block"
   }
@@ -132,7 +136,7 @@ class Block {
     call: args
   }
 
-  def object {
+  def to_object {
     """
     Creates and returns a new @Object@ with slots defined dynamically in @self.
     Looks and feels similar to Javascript object literals.
@@ -141,14 +145,13 @@ class Block {
           o = {
             something: \"foo bar baz\"
             with: 42
-          } object
+          } to_object
 
           o something # => \"foo bar baz\"
           o with      # => 42
     """
 
     obj = DynamicSlotObject new do: self . object
-    obj metaclass read_write_slots: (obj slots)
     obj
   }
 
@@ -167,6 +170,24 @@ class Block {
     DynamicKeyHash new do: self . hash
   }
 
+  def to_hash_deep {
+    """
+    Creates and returns a new @Hash@ with keys and values defined dynamically in @self.
+    Similar to @Block#to_hash@ but converting any value that's a @Block@ to a @Hash@ as well.
+
+    Example:
+          o = {
+            something: \"foo bar baz\"
+            with: 42
+            and: {
+              another: 'field
+            }
+          } to_hash_deep   # => <['something => \"foo bar baz\", 'with => 42, 'and => <['another => 'field]>]>
+    """
+
+    DynamicKeyHash new: true . do: self . hash
+  }
+
   def to_a {
     """
     Creates and returns a new @Array@ with values defined dynamically in @self.
@@ -181,5 +202,20 @@ class Block {
     """
 
     DynamicValueArray new do: self . array
+  }
+
+  def * iterations {
+    """
+    @iterations @Fixnum@ of amount of iterations to run @self.
+
+    Runs @self @iteration times.
+    Same as: `iterations times: self`
+
+    Example:
+          { \"Hello, World\" println } * 2
+          # => prints \"Hello, World\" 2 times
+    """
+
+    iterations times: self
   }
 }

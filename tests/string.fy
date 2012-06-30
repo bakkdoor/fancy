@@ -20,16 +20,16 @@ FancySpec describe: String with: {
     "hello, world"[[2,5]] . is: "llo,"
   }
 
-  it: "returns the upcased string" with: 'upcase when: {
-    "hello, world" upcase is: "HELLO, WORLD"
+  it: "returns the uppercased string" with: 'uppercase when: {
+    "hello, world" uppercase is: "HELLO, WORLD"
   }
 
-  it: "returns the downcased string" with: 'downcase when: {
-    "HELLO, WORLD" downcase is: "hello, world"
+  it: "returns the lowercased string" with: 'lowercase when: {
+    "HELLO, WORLD" lowercase is: "hello, world"
   }
 
-  it: "returns the same string by down- and upcasing in a row" when: {
-    "HELLO, WORLD" downcase upcase is: "HELLO, WORLD"
+  it: "returns the same string by lower- and uppercasing in a row" when: {
+    "HELLO, WORLD" lowercase uppercase is: "HELLO, WORLD"
   }
 
   it: "iterates over each character in a string" with: 'each: when: {
@@ -41,9 +41,9 @@ FancySpec describe: String with: {
     }
   }
 
-  it: "behaves like a collection/sequence via each:" with: 'uniq when: {
+  it: "behaves like a collection/sequence via each:" with: 'unique when: {
     str = "Hello, World!"
-    str uniq join: "" . is: "Helo, Wrd!"
+    str unique join: "" . is: "Helo, Wrd!"
   }
 
   it: "has all its characters as instances of String class" with: 'all?: when: {
@@ -74,7 +74,7 @@ FancySpec describe: String with: {
     x = "'foo" eval
     x is: 'foo
     "3 + 4" eval is: 7
-    "'foo to_s upcase" eval is: "FOO"
+    "'foo to_s uppercase" eval is: "FOO"
     "33.33" eval is: 33.33
   }
 
@@ -97,7 +97,7 @@ FancySpec describe: String with: {
     x = "world"
     "hello, #{x}!!" is: "hello, world!!"
 
-    "hello, #{x}, Fancy #{'rocks to_s upcase}!!" is: "hello, world, Fancy ROCKS!!"
+    "hello, #{x}, Fancy #{'rocks to_s uppercase}!!" is: "hello, world, Fancy ROCKS!!"
   }
 
   it: "supports string interpolation with multi-line strings" when: {
@@ -124,6 +124,23 @@ FancySpec describe: String with: {
     s is: "Good day. Hello"
     s[-1]: "o."
     s is: "Good day. Hello."
+  }
+
+  it: "returns the character at a given index" with: '[] when: {
+    s = "hello"
+    s[-1] is: "o"
+    s[0] is: "h"
+    s[1] is: "e"
+    s[2] is: "l"
+    s[3] is: "l"
+    s[4] is: "o"
+    # out of bounds yields nil:
+    s[5] is: nil
+    s[s size] is: nil
+    s[s size + 1] is: nil
+    "" at: 0 . is: nil
+    "" at: 1 . is: nil
+    "" at: -1 . is: nil
   }
 
   it: "contains a substring" with: 'includes?: when: {
@@ -161,12 +178,32 @@ FancySpec describe: String with: {
   }
 
   it: "returns an enumerator for its all bytes (fixnum ascii values)" with: 'bytes when: {
-    "foo" bytes class is: FancyEnumerator
-    "" bytes class is: FancyEnumerator
+    "foo" bytes class is: Fancy Enumerator
+    "" bytes class is: Fancy Enumerator
   }
 
   it: "returns a joined string using FancyEnumerable#join:" for: 'join: when: {
     "foobar" join: "-" . is: "f-o-o-b-a-r"
     "" join: "-" . is: ""
+  }
+
+  it: "returns true if it's a multiline string and false otherwise" for: 'multiline? when: {
+    "foo\nbar" multiline? is: true
+    "\n" multiline? is: true
+    "\n\n" multiline? is: true
+    "foo bar" multiline? is: false
+    "" multiline? is: false
+
+    """    """ multiline? is: false
+
+    """
+    """ multiline? is: true
+
+    """
+    """ multiline? is: true
+
+    """
+
+    """ multiline? is: true
   }
 }

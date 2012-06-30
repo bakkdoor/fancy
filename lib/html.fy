@@ -1,4 +1,36 @@
 class HTML {
+  """
+  HTML generator class.
+
+  Example:
+        require: \"html\"
+        html = HTML new: @{
+          html: @{
+            head: @{ title: \"My Fancy Website\" }
+            body: @{
+              div: { id: \"main\" } with: \"Hello, Fancy World!\"
+            }
+          }
+        } . to_s
+
+        # html is now:
+        \"\"\"
+        <html>
+          <head>
+            <title>
+              My Fancy Website
+            </title>
+          </head>
+          <body>
+            <div id=\"main\">
+              Hello, Fancy World!
+            </div>
+          </body>
+        </html>
+        \"\"\"
+
+  """
+
   def initialize {
     @buf = ""
     @indent = 0
@@ -18,7 +50,7 @@ class HTML {
     unless: (attrs empty?) do: {
       @buf << " "
       attrs each: |k v| {
-        @buf << k << "=" << (v inspect)
+        @buf << k << "=" << (v to_s inspect)
       } in_between: {
         @buf << " "
       }

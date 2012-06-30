@@ -273,6 +273,9 @@ identifier:     IDENTIFIER {
                 | CLASS {
                   $$ = fy_terminal_node_from(self, "ast:identifier:", "class");
                 }
+                | RETURN {
+                  $$ = fy_terminal_node_from(self, "ast:identifier:", "return");
+                }
                 ;
 
 any_identifier: const_identifier
@@ -783,6 +786,15 @@ key_value_list: exp space ARROW space exp {
                 | key_value_list COMMA space exp space ARROW space exp {
                   $$ = rb_funcall(self, rb_intern("ast:key:value:into:"), 4, INT2NUM(yylineno), $4, $8, $1);
                 }
+                | key_value_list space COMMA space {
+                  $$ = $1;
+                }
+                | key_value_list COMMA space {
+                  $$ = $1;
+                }
+                | key_value_list COMMA {
+                  $$ = $1;
+                }
                 ;
 
 match_expr:     MATCH exp LCURLY space match_body space RCURLY {
@@ -821,7 +833,7 @@ VALUE fy_terminal_node_from(VALUE self, char* method, char* text) {
 
 int yyerror(VALUE self, char *s)
 {
-  rb_funcall(self, rb_intern("ast:parse_error:"), 2, INT2NUM(yylineno), rb_str_new2(yytext));
+  rb_funcall(self, rb_intern("ast:parse_error:"), 2, INT2NUM(yylineno), rb_str_new2(s));
   return 1;
 }
 

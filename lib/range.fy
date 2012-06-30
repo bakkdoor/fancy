@@ -8,7 +8,7 @@ class Range {
         Range new: 10 to: 100
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
 
   def to_s {
     """

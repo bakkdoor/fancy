@@ -1,7 +1,6 @@
 class Fancy AST {
   class Return : Node {
-    def initialize: @line expr: @expr {
-    }
+    def initialize: @line expr: @expr
 
     def bytecode: g {
       pos(g)
@@ -11,8 +10,7 @@ class Fancy AST {
   }
 
   class ReturnLocal : Node {
-    def initialize: @line expr: @expr {
-    }
+    def initialize: @line expr: @expr
 
     def bytecode: g {
       pos(g)

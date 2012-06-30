@@ -5,8 +5,18 @@ class Array {
 
   def Array new: size with: default {
     """
+    @size Initial size of @Array@.
+    @default Default value of new @Array@. Inserted @size times.
+    @return New @Array@ with @size values of @default in it.
+
     Creates a new Array with a given size and default-value.
-    If @default is a @Block@, call that block for each element instead.
+    If @default is a @Block@, call it with each index instead and
+    store the return value.
+
+    Example:
+          Array new: 3 with: 'hello    # => ['hello, 'hello, 'hello]
+          # default can also be a block, taking the current index.
+          Array new: 3 with: @{ * 2 }  # => [0, 2, 4]
     """
 
     match default {
@@ -38,16 +48,14 @@ class Array {
       delete_at(index)
       return deleted
     } else: {
-      if: (index is_a?: Array) then: {
-        count = 0
-        deleted_values = []
-        index each: |idx| {
-          deleted_values << (at: (idx - count))
-          delete_at(idx - count)
-          count = count + 1
-        }
-        return deleted_values
+      count = 0
+      deleted_values = []
+      index each: |idx| {
+        deleted_values << (at: (idx - count))
+        delete_at(idx - count)
+        count = count + 1
       }
+      return deleted_values
     }
     nil
   }
@@ -69,7 +77,7 @@ class Array {
     """
     @idx Index to set a value for.
     @obj Value (object) to be set at the given index.
-    @return @obj
+    @return @obj.
 
     Inserts a given object at a given index (position) in the Array.
     """
@@ -85,8 +93,13 @@ class Array {
     @return Index of the value passed in within the @Array@, or @nil, if value not present.
 
     Returns the index of an item (or nil, if it isn't in the @Array@).
+    If @item is a @Block@, it will return the index of an element for which it yields @true.
     """
-    index(item)
+
+    match item {
+      case Block -> index(&item)
+      case _ -> index(item)
+    }
   }
 
   def last: count {
@@ -105,10 +118,25 @@ class Array {
     @return Joined @String@ with all elements with @join_str.
 
     Joins all elements in the Array with a given @String@.
-        [1,2,3] join: \", \” # => \”1, 2, 3\"
+
+    Example:
+          [1,2,3] join: \", \” # => \”1, 2, 3\"
     """
 
     join(join_str)
+  }
+
+  def join {
+    """
+    @return Elements of @Array@ joined to a @String@.
+
+    Joins all elements with the empty @String@.
+
+    Example:
+          [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
+    """
+
+    join: ""
   }
 
   def unshift: value {

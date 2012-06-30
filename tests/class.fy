@@ -548,4 +548,269 @@ FancySpec describe: Class with: {
     b to_s is: "foobar"
     b empty_method is: nil
   }
+
+  class WithConstants {
+    Foo = "foo"
+    Bar = "bar"
+    class Nested
+  }
+
+  it: "returns its nested constants" with: 'constants when: {
+    WithConstants constants =? ["Foo", "Bar", "Nested"] is: true
+  }
+
+  it: "returns a constants value" with: '[] when: {
+    WithConstants["Foo"] is: "foo"
+    WithConstants["Foo"] is: WithConstants Foo
+    WithConstants["Bar"] is: "bar"
+    WithConstants["Bar"] is: WithConstants Bar
+    WithConstants["Nested"] is_a?: Class . is: true
+    WithConstants["Nested"] is: WithConstants Nested
+  }
+
+  it: "sets a constants value" with: '[]: when: {
+    Kernel["Object"] is: Object
+    { Kernel["Something"] } raises: NameError
+    Kernel["Something"]: Array
+    { Kernel["Something"] is: Array } does_not raise: NameError
+  }
+
+  it: "delegates methods correctly" with: 'delegate:to_slot: when: {
+    class Delegation {
+      delegate: ('[], '[]:, '<<, 'to_s, 'to_s:, 'inspect, 'each:in_between:) to_slot: 'object
+      def initialize: @object
+    }
+
+    d = Delegation new: "hello, world!"
+    d to_s is: "hello, world!"
+    d inspect is: $ "hello, world!" inspect
+    d = Delegation new: 2
+    d to_s is: "2"
+    d inspect is: "2"
+    d to_s: 2 . is: "10"
+    d = Delegation new: [1,2,3]
+    d << 5
+    d get_slot: 'object . is: [1,2,3,5]
+    d << nil
+    d get_slot: 'object . is: [1,2,3,5, nil]
+    d[2]: "foo"
+    d get_slot: 'object . is: [1,2,"foo",5,nil]
+    d[1] is: 2
+  }
+
+  it: "allows delegating only a single method" with: 'delegate:to_slot: when: {
+    class Delegation {
+      delegate: 'to_s to_slot: 'number
+      read_write_slot: 'number
+    }
+
+    d = Delegation new
+    d number: 5
+    d to_s is: $ 5 to_s
+  }
+
+  it: "defines a lazy slot" with: 'lazy_slot:value: when: {
+    class LazyClass {
+      lazy_slot: 'foo value: { Thread sleep: 0.01; 42 * @count }
+      def initialize: @count
+    }
+
+    f = LazyClass new: 2
+    start = Time now
+    f foo is: 84
+    Time now - start >= 0.01 is: true
+    start = Time now
+    f foo is: 84
+    Time now - start <= 0.01 is: true
+  }
+
+  it: "returns a string representation of itself and its superclass, if any" with: 'inspect when: {
+    class MySuperClass
+    class MySubClass : MySuperClass
+
+    Fixnum inspect is: "Fixnum : Integer"
+    MySuperClass inspect is: "MySuperClass : Object"
+    MySubClass inspect is: "MySubClass : MySuperClass"
+    Object inspect is: "Object"
+  }
+
+  it: "returns the right amount of instance methods" with: 'instance_methods: when: {
+    class NoMethods
+    class OneMethod {
+      def bar
+    }
+
+    NoMethods instance_methods: false . size is: 0
+    OneMethod instance_methods: false . size is: 1
+
+    NoMethods instance_methods is: $ Object instance_methods
+    Set[OneMethod instance_methods] is: $ Set[Object instance_methods + (OneMethod instance_methods: false)]
+  }
+
+  it: "defines a before_method handler" with: 'before_method:run: when: {
+    class BeforeMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def before: arr {
+        arr << "Before Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      before_method: 'my_method: run: 'before:
+    }
+
+    b1 = BeforeMethodClass new: 1
+    b2 = BeforeMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Before Method: 1", "My Method: 1",
+      "Before Method: 2", "My Method: 2"
+    ]
+
+    # we can also pass blocks
+
+    BeforeMethodClass before_method: 'my_method: run: |receiver array| {
+      array << "Before Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Before Block: 1", "Before Method: 1", "My Method: 1",
+      "Before Block: 2", "Before Method: 2", "My Method: 2"
+    ]
+  }
+
+  it: "defines an after_method handler" with: 'after_method:run: when: {
+    class AfterMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def after: arr {
+        arr << "After Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      after_method: 'my_method: run: 'after:
+    }
+
+    b1 = AfterMethodClass new: 1
+    b2 = AfterMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "My Method: 1", "After Method: 1",
+      "My Method: 2", "After Method: 2"
+    ]
+
+    AfterMethodClass after_method: 'my_method: run: |receiver array| {
+      "block getting called yo"
+      array << "After Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "My Method: 1", "After Method: 1", "After Block: 1",
+      "My Method: 2", "After Method: 2", "After Block: 2"
+    ]
+  }
+
+
+  it: "defines an around_method handler" with: 'around_method:run: when: {
+    class AroundMethodClass {
+      read_slot: 'x
+      def initialize: @x
+      def around: arr {
+        arr << "Around Method: #{@x}"
+      }
+      def my_method: arr {
+        arr << "My Method: #{@x}"
+      }
+
+      around_method: 'my_method: run: 'around:
+    }
+
+    b1 = AroundMethodClass new: 1
+    b2 = AroundMethodClass new: 2
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Around Method: 1", "My Method: 1", "Around Method: 1",
+      "Around Method: 2", "My Method: 2", "Around Method: 2"
+    ]
+
+
+    AroundMethodClass around_method: 'my_method: run: |receiver array| {
+      array << "Around Block: #{receiver x}"
+    }
+
+    array = []
+
+    b1 my_method: array
+    b2 my_method: array
+
+    array is: [
+      "Around Block: 1", "Around Method: 1", "My Method: 1", "Around Method: 1", "Around Block: 1",
+      "Around Block: 2", "Around Method: 2", "My Method: 2", "Around Method: 2", "Around Block: 2"
+    ]
+  }
+
+  it: "defines a custom calling chain for a method" with: 'define_calling_chain:for_method: when: {
+    class CallingChainClass {
+      def foo: arr { arr << "foo" }
+      def bar: arr { arr << "bar" }
+      def baz: arr { arr << "baz" }
+
+      define_calling_chain: ('foo:, 'bar:, 'baz:) for_method: 'foo:
+    }
+
+    arr = []
+    CallingChainClass new foo: arr
+    arr is: ["foo", "bar", "baz"]
+
+    CallingChainClass define_calling_chain: [|receiver arr|{ receiver baz: arr }, 'bar:] for_method: 'bar:
+
+    arr = []
+    CallingChainClass new bar: arr
+    arr is: ["baz", "bar"]
+  }
+
+  it: "exposes a Fancy method as a Ruby method to Ruby" with: 'expose_to_ruby:as: when: {
+    class ExposeToRuby {
+      def my_method { "in my_method" }
+      expose_to_ruby: 'my_method
+      def == other { true }
+      expose_to_ruby: '== as: 'ruby_==
+    }
+
+    ExposeToRuby new tap: @{
+      my_method is: "in my_method"
+      send('my_method) is: "in my_method"
+      == 1 is: true
+      send('ruby_==, 1) is: true
+    }
+  }
 }

@@ -8,8 +8,11 @@ class Symbol {
 
   def call: arg {
     """
-    This allows Symbols to be used like Blocks
-    (e.g. in all methods of Enumerable).
+    @arg Argument to send @self to.
+    @return Value of sending @self as message to @arg.
+
+    This allows Symbols to be used like Blocks (e.g. in all methods of Enumerable).
+
     Example:
           [1, 2, 3] map: 'squared # => [1, 4, 9]
     """
@@ -24,6 +27,7 @@ class Symbol {
   def call {
     """
     Sends @self as message to the sender in its context.
+
     Example:
           'foo call
            # => same as
@@ -43,5 +47,9 @@ class Symbol {
 
   def arity {
     1
+  }
+
+  def to_sym {
+    self
   }
 }

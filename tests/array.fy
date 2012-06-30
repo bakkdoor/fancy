@@ -122,6 +122,9 @@ FancySpec describe: Array with: {
     arr index: 3 . is: 3
     arr index: 4 . is: 4
     arr index: 'foo . is: nil
+
+    arr index: @{ is_a?: Symbol } . is: 2
+    arr index: @{ is_a?: String } . is: nil
   }
 
   it: "returns an Array of all its indices" with: 'indices when: {
@@ -195,9 +198,9 @@ FancySpec describe: Array with: {
     arr values_at: [1, 3, 4, 10] . is: [2, 'foo, "bar", nil]
   }
 
-  it: "returns unique values only" with: 'uniq when: {
+  it: "returns unique values only" with: 'unique when: {
     arr = ['foo, 'bar, "baz", 'foo, "baz", "hello", 1, 0, 0, 1, 'bar, 'foo, "hello"]
-    arr uniq is: ['foo, 'bar, "baz", "hello", 1, 0]
+    arr unique is: ['foo, 'bar, "baz", "hello", 1, 0]
   }
 
   it: "prepends self to another array" with: '>> when: {
@@ -225,6 +228,10 @@ FancySpec describe: Array with: {
     arr[[-1,-1]] is: [arr last]
     arr[[-2,-1]] is: ['bar, 'baz]
     arr[[-2,-1]] is: (arr last: 2)
+    # works with any Enumerable as argument:
+    arr[(0,2)] is: $ arr[[0,2]]
+    arr[(1,2)] is: $ arr[[1,2]]
+    arr[(0,-1)] is: $ arr[[0,-1]]
   }
 
   it: "joins all elements with a string to a new string" with: 'join: when: {
@@ -329,6 +336,14 @@ FancySpec describe: Array with: {
     ([1,2,3,4] + [-1,-2,-3,-4]) is: [1,2,3,4,-1,-2,-3,-4]
   }
 
+  it: "returns all elements not in another collection" with: '- when: {
+    [] - [] is: []
+    [] - [0] is: []
+    [1,2,3,4] - [2,4] is: [1,3]
+    [1,2,3] - [1,2,3,5] is: []
+    ["foo", "bar", "baz"] - ["bar"] is: ["foo", "baz"]
+  }
+
   it: "returns true for all elements" with: 'all?: when: {
     [1,2,3,4] all?: |x| { x < 5 } . is: true
     [1,2,3,4] all?: |x| { x > 0 } . is: true
@@ -381,15 +396,6 @@ FancySpec describe: Array with: {
     arr = [1,2,3]
     arr reverse! is: [3,2,1]
     arr is: [3,2,1]
-  }
-
-  it: "takes elements from itself as long a block yields true" with: 'take_while: when: {
-    1 upto: 15 . take_while: |x| { x < 10 } . is: (1 upto: 9)
-  }
-
-
-  it: "drops elements from itself as long a block yields true" with: 'drop_while: when: {
-    1 upto: 15 . drop_while: |x| { x < 10 } . is: (10 upto: 15)
   }
 
   it: "partitions an array via a given block" with: 'partition_by: when: {
@@ -535,11 +541,13 @@ FancySpec describe: Array with: {
     arr sort_by: 'second . is: sorted
   }
 
-  it: "returns the array in groups of 3" with: 'in_groups_of: when: {
-    ['a,'b,'c] in_groups_of: 1 . is: [['a],['b],['c]]
-    array = 1 upto: 10
-    array in_groups_of: 3 . is: [[1,2,3], [4,5,6], [7,8,9], [10]]
+  it: "returns a hash" with: 'to_hash when: {
+    [] to_hash is: <[]>
+    [[1,2],[3,4]] to_hash is: <[1 => 2, 3 => 4]>
+  }
 
-    (20,30,40) in_groups_of: 2 . is: [[20,30], [40]]
+  it: "returns a hash based on a key-block" with: 'to_hash: when: {
+    [] to_hash: @{ size } . is: <[]>
+    [[1,2],[3,4,5]] to_hash: @{ size } . is: <[2 => [1,2], 3 => [3,4,5]]>
   }
 }

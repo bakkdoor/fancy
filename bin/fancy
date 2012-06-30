@@ -4,6 +4,12 @@
 base = File.dirname(__FILE__)
 require File.expand_path("../boot/fancy_ext", base)
 
+class Object
+  define_method("__AFTER__BOOTSTRAP__:") do |block|
+    block.call
+  end
+end
+
 # Use the bootstrapping code loader.
 require File.expand_path("../boot/load", base)
 

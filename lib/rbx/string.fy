@@ -3,24 +3,29 @@ class String {
   # prepend a : to fancy version of ruby methods.
   ruby_aliases: [
     '==, 'upcase, 'downcase, '=~, 'to_i, 'to_f,
-    'chomp, 'inspect, 'to_sym, '<, '>
+    'chomp, 'inspect, 'to_sym, '<, '>, '<=, '>=, '<=>
   ]
 
   alias_method: 'ruby_idx: for_ruby: '[]
   alias_method: '[]: for_ruby: '[]=
   alias_method: 'scan: for_ruby: 'scan
+  alias_method: 'to_i: for_ruby: 'to_i
+  alias_method: 'uppercase for: 'upcase
+  alias_method: 'lowercase for: 'downcase
 
   forwards_unary_ruby_methods
 
   def [index] {
-    """Given an Array of 2 Numbers, it returns the substring between the given indices.
-       If given a Number, returns the character at that index."""
+    """
+    Given an Array of 2 Numbers, it returns the substring between the given indices.
+    If given a Number, returns the character at that index.
+    """
 
     # if given an Array, interpret it as a from:to: range substring
     match index {
       case Array -> from: (index[0]) to: (index[1])
       case Tuple -> ruby_idx: index
-      case _ -> ruby_idx: index . chr()
+      case _ -> if: (ruby_idx: index) then: @{ chr() }
     }
   }
 
@@ -157,5 +162,9 @@ class String {
     """
 
     gsub(substring, substitution)
+  }
+
+  def message_name {
+    self to_sym message_name to_s
   }
 }

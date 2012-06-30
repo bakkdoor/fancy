@@ -1,22 +1,37 @@
 #!/usr/bin/env fancy
 require: "fancy_spec"
+require: "option_parser"
 
 test_dir = "tests"
-{ test_dir = ARGV[1] } if: $ ARGV[1]
 
-test_files = Directory list: "#{test_dir}/**/*.fy"
+OptionParser new: @{
+  remove_after_parsed: true
+  banner: "FSpec - FancySpec runner\nOptions:"
+  with: "-d [path]" doc: "Set the tests directory" do: |dir| {
+    test_dir = dir
+  }
+} . parse: ARGV
+
+test_files = ARGV rest
 if: (test_files empty?) then: {
-  if: (Directory exists?: test_dir) then: {
-    "No test files found. Add them to the tests/ directory." println
-  } else: {
-    "No tests/ directory found. Create it!" println
+  test_files = Directory list: "#{test_dir}/**/*.fy"
+  if: (test_files empty?) then: {
+    if: (Directory exists?: test_dir) then: {
+      "No test files found. Add them to the tests/ directory." println
+    } else: {
+      "Test directory '#{test_dir}' not found. Create it!" println
+    }
+    System exit: 1
   }
+}
 
+start = Time now
+test_files sort each: |f| {
+  require: f
+}
+Console newline
+FancySpec SpecTest print_failures: start no_failures: {
+  System exit: 0
 } else: {
-  start = Time now
-  test_files each: |f| {
-    require: f
-  }
-  Console newline
-  FancySpec SpecTest print_failures: start
+  System exit: 1
 }

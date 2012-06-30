@@ -1,10 +1,47 @@
+ObjectBoundsExceededError = Rubinius ObjectBoundsExceededError
+
 class Tuple {
   """
   Tuples are fixed-size containers providing index-based access to its
   elements.
   """
 
-  include: FancyEnumerable
+  include: Fancy Enumerable
+
+  def Tuple with_values: values {
+    """
+    @values Values of the @Tuple@ to be created.
+
+    Creates a new @Tuple@ with the @values passed in.
+
+    Example:
+          Tuple with_values: [1,2,3] # => (1,2,3)
+    """
+
+    t = Tuple new: $ values size
+    values each_with_index: |v i| {
+      t[i]: v
+    }
+    t
+  }
+
+  def Tuple === obj {
+    """
+    Matches @Tuple@ class against an object.
+    If the given object is a Tuple instance, return a Tuple object.
+
+    @obj Object to be matched against
+    @return Tuple instance containing the values of @obj to be used in pattern matching.
+    """
+
+    if: (obj is_a?: Tuple) then: {
+      [obj] + (obj map: 'identity)
+    }
+  }
+
+  def Tuple name {
+    "Tuple"
+  }
 
   def [idx] {
     """
@@ -14,36 +51,28 @@ class Tuple {
     at: idx
   }
 
-  def first {
+  def from: from to: to {
     """
-    @return The first element in @self.
+    @from Start index for sub-array.
+    @to End index ofr sub-array.
+
+    Returns sub-array starting at from: and going to to:
     """
 
-    at: 0
-  }
-
-  def second {
-    """
-    @return The second element in @self.
-    """
-
-    at: 1
-  }
-
-  def third {
-    """
-    @return The third element in @self.
-    """
-
-    at: 2
-  }
-
-  def fourth {
-    """
-    @return The fourth element in @self.
-    """
-
-    at: 3
+    if: (from < 0) then: {
+      from = size + from
+    }
+    if: (to < 0) then: {
+      to = size + to
+    }
+    subarr = []
+    try {
+      from upto: to do: |i| {
+        subarr << (at: i)
+      }
+    } catch ObjectBoundsExceededError {
+    }
+    subarr
   }
 
   def each: block {
@@ -55,9 +84,12 @@ class Tuple {
     """
 
     size times: |i| {
-      block call: [at: i]
+      try {
+        block call: [at: i]
+      } catch Fancy NextIteration {}
     }
-    self
+
+    return self
   }
 
   def reverse_each: block {
@@ -112,21 +144,11 @@ class Tuple {
     str
   }
 
-  def Tuple === obj {
+  def to_s {
     """
-    Matches @Tuple@ class against an object.
-    If the given object is a Tuple instance, return a Tuple object.
-
-    @obj Object to be matched against
-    @return Tuple instance containing the values of @obj to be used in pattern matching.
+    @return @String@ concatenation of elements in @self.
     """
 
-    if: (obj is_a?: Tuple) then: {
-      [obj] + (obj map: 'identity)
-    }
-  }
-
-  def Tuple name {
-    "Tuple"
+    join
   }
 }
