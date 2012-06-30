@@ -4,6 +4,8 @@ class Fancy {
     Mixin-Class with useful methods for collections that implement an @each:@ method.
     """
 
+    expects_interface: 'each:
+
     def at: index {
       """
       @index @Fixnum@ that is the 0-based index into @self.
@@ -14,10 +16,8 @@ class Fancy {
             \"foo\” at: 3 # => nil
       """
 
-      i = 0
-      each: |x| {
+      each_with_index: |x i| {
         { return x } if: $ i == index
-        i = i + 1
       }
       return nil
     }
@@ -78,6 +78,14 @@ class Fancy {
         item = x
       }
       item
+    }
+
+    def rest {
+      """
+      @return @Array@ of all but the first element in @self.
+      """
+
+      drop: 1
     }
 
     def first: amount {
@@ -154,6 +162,21 @@ class Fancy {
         s << str
       }
       s
+    }
+
+    def join_by: block {
+      """
+      @block @Block@ to be called pair-wise to produce a single value.
+      @return Result of calling @block pairwise (similar to using @Fancy::Enumerable#reduce:into:@).
+
+      Works similar to @Fancy::Enumerable#inject:into:@ but uses first element as value injected.
+
+      Example:
+            (1,2,3) reduce_by: '+  # => same as: (2,3) inject: 1 into: '+
+      """
+
+      first, *rest = self
+      rest inject: first into: block
     }
 
     def any?: condition {
@@ -743,6 +766,39 @@ class Fancy {
       """
 
       [take_while: predicate_block, drop_while: predicate_block]
+    }
+
+    def grep: pattern {
+      """
+      @pattern Pattern to be filtered by (via @Object#===@)
+      @return Elements in @self for which @pattern matches.
+
+      Example:
+            \"hello world\" grep: /[a-h]/                 # => [\"h\", \"e\", \"d\"]
+            [\"hello\", \"world\", 1, 2, 3] grep: String  # => [\"hello\", \"world\"]
+      """
+
+      select: |x| { pattern === x }
+    }
+
+    def grep: pattern taking: block {
+      """
+      @pattern Pattern to be filtered by (via @Object#===@)
+      @block @Block@ to be called with each element for which @pattern matches.
+      @return Return values of elements in @self called with @block for which @pattern matches.
+
+      Example:
+            \"hello world\" grep: /[a-h]/ taking: @{ upcase }             # => [\"H\", \"E\", \"D\"]
+            [\"hello\", \"world\", 1, 2, 3] grep: String taking: 'upcase  # => [\"HELLO\", \"WORLD\"]
+      """
+
+      result = []
+      each: |x| {
+        match x {
+          case pattern -> result << (block call: [x])
+        }
+      }
+      result
     }
   }
 }

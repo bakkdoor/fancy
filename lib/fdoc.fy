@@ -1,5 +1,9 @@
 # Load all of fancy.
+require: "rbx/documentation"
+require: "fdoc_hook"
 require: "boot"
+require: "option_parser"
+require: "fancy_spec"
 
 class Fancy FDoc {
   """
@@ -22,6 +26,7 @@ class Fancy FDoc {
   """
 
   OUTPUT_DIR = "doc/api/"
+  FANCY_ROOT_DIR = __FILE__ relative_path: "../"
 
   def self main {
     """
@@ -30,18 +35,60 @@ class Fancy FDoc {
     """
 
     output_dir = OUTPUT_DIR
-    ARGV for_option: "-o" do: |d| { output_dir = d }
+    with_stdlib = false
+    add_github_links = false
+    github_repo = "bakkdoor/fancy"
+
+    OptionParser new: @{
+      remove_after_parsed: true
+      banner: "Usage: fdoc [options] [source_files]\nOptions:"
+
+      with: "-o [output_dir]" doc: "Sets output directory of generated documentation page, defaults to #{output_dir}" do: |dir| {
+        output_dir = dir
+      }
+
+      with: "-github-repo [repo_url]" doc: "Sets the Github repository to link to method definitions. Example: -github-repo bakkdoor/redis.fy" do: |url| {
+        github_repo = url
+        add_github_links = true
+      }
+
+      with: "--with-stdlib" doc: "Include Fancy's standard library in generated documentation" do: {
+        with_stdlib = true
+      }
+    } . parse: ARGV
+
+    output_dir = File absolute_path: output_dir . + "/"
+
     require("fileutils")
     FileUtils mkdir_p(output_dir)
+
+    # check if we're in Fancy's root dir
+    # if not, copy fdoc related files over to output_dir
+    if: (output_dir relative_path: "../" == FANCY_ROOT_DIR) then: {
+      # add stdlib by default when in FANCY_ROOT_DIR
+      with_stdlib = true
+      add_github_links = true
+    } else: {
+      files = Dir list: "#{FANCY_ROOT_DIR}/doc/api/*" . reject: |f| { f =~ /fancy\.jsonp$/ }
+      FileUtils cp(files, output_dir)
+    }
+
+    if: with_stdlib then: {
+      @objects_to_remove = <[]>
+    } else: {
+      @objects_to_remove = @documented_objects dup
+    }
 
     # Currently we just load any files given on ARGV.
     ARGV each: |file| { Fancy CodeLoader load_compiled_file(file) }
 
+    @documented_objects = @documented_objects select_keys: |k| { @objects_to_remove includes?: k . not }
+
     # by now simply produce a apidoc/fancy.jsonp file.
-    json = JSON new: @documented_objects
+    json = JSON new: @documented_objects add_github_links: add_github_links github_repo: github_repo
     json write: (File expand_path("fancy.jsonp", output_dir))
 
-    ["Open your browser at " ++ output_dir ++ "index.html.",
+    ["Open your browser at " ++ output_dir ++ "index.html ",
      " " ++ (json classes size) ++ " classes. ",
      " " ++ (json methods size) ++ " methods. ",
      " " ++ (json objects size) ++ " other objects. "] println
@@ -52,7 +99,7 @@ class Fancy FDoc {
 
     read_slots: ['classes, 'methods, 'blocks, 'objects]
 
-    def initialize: documented {
+    def initialize: documented add_github_links: @add_github_links github_repo: @github_repo {
       @documented_objects = documented
 
       is_class = |o| { o kind_of?: Module }
@@ -125,7 +172,7 @@ class Fancy FDoc {
           mattr['file]: $ relative_file
           # TODO calculate line numbers from compiled method
           # right now we only use the first line of code in the body.
-          mattr['lines]: $ [lines[3], lines[3]]
+          mattr['lines]: $ [exec definition_line, exec last_line]
         }
         attr[(type ++ "s") intern()] [n]: mattr
       }
@@ -174,7 +221,7 @@ class Fancy FDoc {
     def write: filename call: name ("fancy.fdoc") {
       map = generate_map
       json = to_json: map
-      js = "(function() { " ++ name ++ "(" ++ json ++ "); })();"
+      js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
       File open: filename modes: ['write] with: |out| { out print: js }
     }
 
@@ -200,8 +247,8 @@ class Fancy FDoc {
       str = create_tags: str with: tags
       str = create_class_references: str
       str = create_method_references: str
-      str = create_code: str
       str = htmlize: str
+      str = create_code: str
       str
     }
 
@@ -296,18 +343,35 @@ class Fancy FDoc {
     }
 
     def self create_tags: str with: map {
+      max_width = map map: @{ first size } . max
       tags = map map: |pair| {
         name = pair[0]
         value = pair[1]
-        "<div class=\"doctag\"><label> @" ++ name ++ .
-          " </label><div>" ++ value ++ "</div></div>"
+        # make argument names all align nicely:
+        name = name + ("&nbsp;" * (max_width - (name size)))
+        "<div class=\"doctag\"><label> @#{name} </label><div>#{value}</div></div>"
       }
       str ++ "\n<div class=\"doctags\">" ++ (tags join()) ++ "</div>"
     }
 
     def self create_code: str {
-      str gsub(/@([^\s,@\]\)\{\}\.]+)/,
-               "<code data-lang=\"fancy\">\\1</code>")
+      md = /<pre>/ match: str
+      if: md then: {
+        md = /<pre>/ match: str
+        pre_code = md pre_match
+        md = /</pre>/ match: $ md post_match
+        code, post_code = md pre_match, md post_match
+
+        pre_code = pre_code gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                                 "<code data-lang=\"fancy\">\\1</code>")
+        post_code = post_code gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                                  "<code data-lang=\"fancy\">\\1</code>")
+
+        "#{pre_code}<pre>#{code}</pre>#{post_code}"
+      } else: {
+        str gsub(/@([^\s,@\]\)\{\}\.]+)/,
+                 "<code data-lang=\"fancy\">\\1</code>")
+      }
     }
 
     def self htmlize: str {

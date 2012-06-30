@@ -1,7 +1,6 @@
 class Fancy AST {
   class Script : Node {
-    read_slots: ['file, 'line, 'body]
-
+    read_slots: ('file, 'line, 'body)
     @@stack = []
 
     def push_script {
@@ -16,8 +15,7 @@ class Fancy AST {
       @@stack last()
     }
 
-    def initialize: @line file: @file body: @body {
-    }
+    def initialize: @line file: @file body: @body
 
     def bytecode: g {
       pos(g)

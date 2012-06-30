@@ -3,13 +3,13 @@ class Fancy Package {
     @@specs = <[]>
 
     read_write_slots: ['author, 'email, 'include_files, 'bin_files,
-                       'description, 'homepage, 'version, 'gh_user]
+                       'description, 'homepage, 'version, 'gh_user, 'package_name]
 
-    read_slots: ['package_name, 'dependencies, 'rubygem_dependencies]
+    read_slots: ['dependencies, 'ruby_dependencies]
 
     def initialize: @package_name with: block {
       @dependencies = []
-      @rubygem_dependencies = []
+      @ruby_dependencies = []
       @include_files = []
       @bin_files = []
 
@@ -34,7 +34,7 @@ class Fancy Package {
         version = d second
         { version = 'latest } unless: version
         dep = RubyDependency new: gem_name version: version
-        @rubygem_dependencies << dep
+        @ruby_dependencies << dep
       }
     }
 
@@ -45,7 +45,7 @@ class Fancy Package {
 
     def add_ruby_dependency: gem_name version: version ('latest) {
       dep = RubyDependency new: gem_name version: version
-      @rubygem_dependencies << dep
+      @ruby_dependencies << dep
     }
 
     def to_s {

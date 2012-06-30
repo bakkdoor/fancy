@@ -2,8 +2,7 @@ class Fancy AST {
   class ExpressionList : Node {
     read_slot: 'expressions
 
-    def initialize: @line list: @expressions ([]) {
-    }
+    def initialize: @line list: @expressions ([]);
 
     def unshift_expression: expression {
       @expressions unshift(expression)

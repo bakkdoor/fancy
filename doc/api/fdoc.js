@@ -4,12 +4,23 @@
   var fancy = {};
   window.fancy = fancy;
 
-  /* A function to set the documentation json */
   var docs;
-  fancy.fdoc = function(_docs) { docs = _docs; }
+  var addGithubLinks = false;
+  var githubRepo;
+
+  /* A function to set the documentation json */
+  fancy.fdoc = function(_addGithubLinks, _githubRepo, _docs) {
+    addGithubLinks = _addGithubLinks;
+    if(_addGithubLinks) {
+      if(_githubRepo) {
+        githubRepo = _githubRepo;
+      }
+    }
+    docs = _docs;
+  }
 
   var github_src = function(file, lines) {
-    return "http://github.com/bakkdoor/fancy/blob/master/"+file+"#L"+lines[0]+"-L"+lines[1];
+    return "http://github.com/"+githubRepo+"/blob/master/"+file+"#L"+lines[0]+"-L"+lines[1];
   }
 
 
@@ -80,12 +91,14 @@
           var content = $("<div>").addClass("docs").addClass("ui-widget-content").html(mdoc.doc || "Not documented").appendTo(method);
 
           if(mdoc.file && /\.fy$/.test(mdoc.file)) {
-            $("<a>").attr("href", github_src(mdoc.file, mdoc.lines)).
-              attr("target", "_blank").
-              attr("title", "Source at GitHub").
-              append(
-                $("<img>").attr("src", "http://static.tumblr.com/vwpvxmx/5Wclbbqbj/github.png")
-            ).addClass("github").appendTo(signature)
+            if(addGithubLinks) {
+              $("<a>").attr("href", github_src(mdoc.file, mdoc.lines)).
+                attr("target", "_blank").
+                attr("title", "Source at GitHub").
+                append(
+                  $("<img>").attr("src", "octocat.png")
+              ).addClass("github").appendTo(signature)
+            }
           }
         });
       });

@@ -36,7 +36,6 @@ require: "set"
 require: "symbol"
 require: "stack"
 require: "proxy"
-require: "thread_pool"
 require: "fiber"
 require: "future"
 require: "struct"
@@ -50,6 +49,8 @@ require: "vars"
 require: "system"
 
 require: "documentation"
-
 require: "package"
+require: "contracts"
+require: "matchers"
+
 require: "rbx/celluloid"

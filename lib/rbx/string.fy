@@ -9,6 +9,7 @@ class String {
   alias_method: 'ruby_idx: for_ruby: '[]
   alias_method: '[]: for_ruby: '[]=
   alias_method: 'scan: for_ruby: 'scan
+  alias_method: 'to_i: for_ruby: 'to_i
   alias_method: 'uppercase for: 'upcase
   alias_method: 'lowercase for: 'downcase
 

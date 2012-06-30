@@ -585,15 +585,13 @@ class Object {
     """
 
     metaclass read_write_slots: slotnames
-    val = nil
     try {
-      val = block call: [self]
+      return block call: [self]
     } finally {
       slotnames each: |s| {
         metaclass undefine_method: s
         metaclass undefine_method: "#{s}:"
       }
-      return val
     }
   }
   private: 'with_mutable_slots:do:
@@ -627,9 +625,21 @@ class Object {
           some_complex_object method_1: arg1
           some_complex_object method_2: arg2
           some_complex_object method_3: arg3
+
+    If you pass it a block with 1 argument this method behaves exactly like @Object#tap:@
+
+    Example:
+          some_complex_object do: @{
+            method_1: arg1
+            method_2: arg2
+            method_3: arg3
+          }
     """
 
-    block call_with_receiver: self
+    match block arity {
+      case 0 -> block call_with_receiver: self
+      case _ -> block call: [self]
+    }
     self
   }
 
@@ -687,15 +697,11 @@ class Object {
     }
 
     oldval = Thread current[var_name]
-    retval = nil
     try {
       Thread current[var_name]: value
-      retval = block call
-    } catch StandardError => e {
-      e raise!
+      return block call
     } finally {
       Thread current[var_name]: oldval
-      return retval
     }
   }
 
@@ -720,5 +726,57 @@ class Object {
     File write: filename with: |f| {
       let: '*stdout* be: f in: block
     }
+  }
+
+  def fancy_methods {
+    """
+    @return @Array@ of all class methods defined in Fancy.
+    """
+
+    methods select: @{ includes?: ":" }
+  }
+
+  def ruby_methods {
+    """
+    @return @Array@ of all class methods defined in Ruby.
+    """
+
+    methods - fancy_methods
+  }
+
+  def >< other {
+    """
+    @other Other @Object@ to create a @MatchAny@ matcher with.
+
+    Shorthand for: `MatchAny new: self with: other`
+    """
+
+    Matchers MatchAny new: self with: other
+  }
+
+  def <> other {
+    """
+    @other Other @Object@ to create a @MatchAll@ matcher with.
+
+    Shorthand for: `MatchAll new: self with: other`
+    """
+
+    Matchers MatchAll new: self with: other
+  }
+
+  def ignoring: exception_classes do: block {
+    """
+    @exception_classes @Fancy::Enumerable@ of @Exception@s to ignore within @block.
+    @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
+
+    Example:
+          ignoring: (IOError, ZeroDivisionError) in: {
+            # do something
+          }
+    """
+
+    try {
+      block call
+    } catch (exception_classes to_a join_by: '><) {}
   }
 }

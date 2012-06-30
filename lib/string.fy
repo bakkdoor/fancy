@@ -198,4 +198,18 @@ class String {
 
     File expand_path: $ File dirname(self) + "/" + path
   }
+
+  def multiline? {
+    """
+    @return @true if @self is a multiline string, @false otherwise.
+
+    Example:
+          \"foo\nbar\" multiline? # => true
+          \"foo bar\" multiline?  # => false
+          \"\" multiline?         # => false
+          \"\n\n\n\" multiline?   # => true
+    """
+
+    grep: /\n/ . size > 0
+  }
 }

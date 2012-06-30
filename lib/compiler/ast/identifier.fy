@@ -1,6 +1,6 @@
 class Fancy AST {
   class Identifier : Node {
-    read_slots: ['string, 'line]
+    read_slots: ('string, 'line)
     read_write_slot: 'ruby_ident
 
     @@gen_ident_start = 0
@@ -28,10 +28,10 @@ class Fancy AST {
     }
 
     def method_name: receiver ruby_send: ruby (false) {
-      ruby || @ruby_ident if_true: {
+      if: (ruby || @ruby_ident) then: {
         @string to_sym()
       } else: {
-        @string =~ /:$/ . if_true: {
+        if: (@string =~ /:$/) then: {
           @string to_sym()
         } else: {
           ":" + @string . to_sym()
@@ -48,7 +48,7 @@ class Fancy AST {
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
         case /^@/ -> InstanceVariable
-        case /^\*/ -> DynamicVariable
+        case /^\*[a-zA-Z0-9_-]+\*$/ -> DynamicVariable
         case _ -> Identifier
       }
       type new: line string: string
@@ -72,7 +72,7 @@ class Fancy AST {
   }
 
   class InstanceVariable : Identifier {
-    def initialize: @line string: @string {}
+    def initialize: @line string: @string
     def bytecode: g {
       pos(g)
       Rubinius AST InstanceVariableAccess new(@line, name) bytecode(g)
@@ -80,7 +80,7 @@ class Fancy AST {
   }
 
   class ClassVariable : Identifier {
-    def initialize: @line string: @string {}
+    def initialize: @line string: @string
     def bytecode: g {
       pos(g)
       Rubinius AST ClassVariableAccess new(@line, name) bytecode(g)
@@ -88,7 +88,7 @@ class Fancy AST {
   }
 
   class Constant : Identifier {
-    def initialize: @line string: @string {}
+    def initialize: @line string: @string
     def bytecode: g {
       pos(g)
       Rubinius AST ConstantAccess new(@line, name) bytecode(g)

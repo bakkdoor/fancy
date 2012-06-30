@@ -98,22 +98,18 @@ class Array {
   def each: block {
     """
     @block @Block@ to be called for each element in @self.
-    @return @self
+    @return @self.
 
     Calls a given @Block@ with each element in the @Array@.
     """
 
-    try {
-      size times: |i| {
-        try {
-          block call: [at: i]
-        } catch (Fancy NextIteration) => ex {
-        }
+    size times: |i| {
+      try {
+        block call: [at: i]
+      } catch Fancy NextIteration {
       }
-      return self
-    } catch (Fancy BreakIteration) => ex {
-      ex result
     }
+    self
   }
 
   def reverse_each: block {
@@ -375,7 +371,7 @@ class Array {
   def from: from to: to {
     """
     @from Start index for sub-array.
-    @to End index ofr sub-array.
+    @to End index for sub-array.
 
     Returns sub-array starting at from: and going to to:
     """

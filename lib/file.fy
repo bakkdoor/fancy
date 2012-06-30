@@ -38,6 +38,14 @@ class File {
   }
 
   def File read_binary: filename {
+    """
+    @filename Filename of @File@ to read from.
+    @return @String@ that is the binary data in @filename.
+
+    Opens and reads the contents of a @File@ in binary mode and
+    returns its binary contents as a @String@.
+    """
+
     content = nil
     File read_binary: filename with: |f| {
       content = f read

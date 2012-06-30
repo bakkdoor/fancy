@@ -126,6 +126,19 @@ class File {
     }
   }
 
+  def File delete!: filename {
+    """
+    @filename Path to @File@ to be deleted.
+
+    Deletes a @File@ with a given @filename. If an @IOError@ occurs,
+    it gets ignored.
+    """
+
+    try {
+      File delete: filename
+    } catch IOError {}
+  }
+
   def File directory?: path {
     """
     @path Path to check if it's a @Directory@.
@@ -146,6 +159,15 @@ class File {
     """
 
     File rename(old_name, new_name)
+  }
+
+  def File absolute_path: filename {
+    """
+    @filename Name of @File@ to get absolute path for.
+    @return Absolute (expanded) path for @filename.
+    """
+
+    File expand_path: filename
   }
 
   def initialize: path {

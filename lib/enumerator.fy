@@ -135,7 +135,7 @@ class Fancy {
       loop: {
         try {
           block call: [next]
-        } catch (Fancy StopIteration) => ex {
+        } catch Fancy StopIteration {
           return self
         }
       }

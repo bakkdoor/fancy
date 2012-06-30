@@ -77,11 +77,8 @@ class Fancy {
           }
         }
         @@load_path each: |p| {
-          try {
-            if: (find_file: filename in_path: p) then: |f| {
-              return f
-            }
-          } catch {
+          if: (find_file: filename in_path: p) then: |f| {
+            return f
           }
         }
       }

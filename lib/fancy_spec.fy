@@ -20,6 +20,7 @@ class FancySpec {
     Factory method for creating FancySpec instances.
     Calls @block with the new FancySpec instance as the receiver, then runs it.
 
+    Example:
           FancySpec describe: MyTestClass with: {
             # test cases using it:for:when: here.
           }
@@ -32,8 +33,9 @@ class FancySpec {
 
   def FancySpec describe: description for: test_obj with: block {
     """
-    Similar to FancySpec##describe:with: but also taking an explicit @test_obj.
+    Similar to @FancySpec~describe:with:@ but also taking an explicit @test_obj.
 
+    Example:
           FancySpec describe: \"My cool class\" for: MyCoolClass with: {
             # test cases using it:for:when: here.
           }
@@ -53,7 +55,7 @@ class FancySpec {
           it: \"should be an empty Array\" when: {
             arr = [1,2,3]
             3 times: { arr pop }
-            arr empty? is == true
+            arr empty? is: true
           }
     """
 
@@ -71,7 +73,7 @@ class FancySpec {
           it: \"should be an empty Array\" with: 'empty? when: {
             arr = [1,2,3]
             3 times: { arr pop }
-            arr empty? is == true
+            arr empty? is: true
           }
     """
 
@@ -369,7 +371,7 @@ class FancySpec {
         @actual_value call
       } catch exception_class {
         SpecTest current failed_negative: (exception_class, nil)
-      } catch StandardError => e {
+      } catch StandardError {
         true
         # ok
       }

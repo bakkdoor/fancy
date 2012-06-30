@@ -75,6 +75,10 @@ class Method {
   ruby_alias: 'executable
   include: MethodMixin
   forwards_unary_ruby_methods
+
+  def call: args ([]) {
+    call(*args)
+  }
 }
 
 class UnboundMethod {
@@ -86,4 +90,24 @@ class UnboundMethod {
   ruby_alias: 'executable
   include: MethodMixin
   forwards_unary_ruby_methods
+
+  def call: args ([]) {
+    call(*args)
+  }
+
+  def selector_with_args {
+    match name {
+      case ":[]" -> return "[arg_0]"
+      case "[]:" -> return "[arg_0]: arg_1"
+    }
+
+    match arity {
+      case 0 -> name rest
+      case _ ->
+        selectors = name split: ":"
+        (0..arity - 1) map: |i| {
+          "#{selectors[i]}: arg_#{i}"
+        } . join: " "
+    }
+  }
 }

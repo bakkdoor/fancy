@@ -1,7 +1,6 @@
 class Fancy AST {
   class TupleLiteral : Node {
-    def initialize: @line entries: @elements {
-    }
+    def initialize: @line entries: @elements
 
     def bytecode: g {
       pos(g)

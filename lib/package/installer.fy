@@ -12,8 +12,8 @@ class Fancy Package {
 
     def initialize: @package_name version: @version ('latest) install_path: @install_path (ENV["FANCY_PACKAGE_DIR"]) {
       """
-      Creates a new @Package Installer@ for a given package name, an
-      optional version (default is 'latest) and an optional
+      Creates a new @Fancy::Package@ installer for a given package name, an
+      optional version (default is @'latest) and an optional
       installation path (default is the standard installation path for
       Fancy packages).
       """
@@ -65,18 +65,22 @@ class Fancy Package {
 
       tags = self tags
       if: (tags size > 0) then: {
-        tags keys sort last
+        tags sort last
       }
     }
 
     def tags {
       "Returns a list of tags the repository has on Github."
 
-      require("yaml")
       require("open-uri")
+      require("rubygems")
+      require("json")
 
-      url = "http://github.com/api/v2/yaml/repos/show/" ++ @package_name ++ "/tags/"
-      YAML load_stream(open(url)) documents() first at: "tags"
+      url = "https://api.github.com/repos/#{@package_name}/git/refs/tags"
+
+      JSON load(open(url)) map: |tag| {
+        tag["ref"] split: "refs/tags/" . last
+      }
     }
 
     def has_version?: version {
@@ -142,9 +146,9 @@ class Fancy Package {
       unless: (spec include_files empty?) do: {
         File open: (lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
           spec include_files each: |if| {
-            unless: (spec rubygem_dependencies empty?) do: {
+            unless: (spec ruby_dependencies empty?) do: {
               f writeln: "require(\"rubygems\")"
-              spec rubygem_dependencies each: |rd| {
+              spec ruby_dependencies each: |rd| {
                 f writeln: "require(\"#{rd gem_name}\")"
               }
             }
@@ -170,7 +174,7 @@ class Fancy Package {
         Package install: dep
       }
 
-      spec rubygem_dependencies each: |dep| { dep install }
+      spec ruby_dependencies each: |dep| { dep install }
     }
   }
 }
