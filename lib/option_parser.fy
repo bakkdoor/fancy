@@ -40,7 +40,7 @@ class OptionParser {
     @parsed_options = <[]>
     @banner = nil
     @exit_on_help = true
-    @removed_after_parsed = false
+    @remove_after_parsed = false
 
     with: "--help" doc: "Display this information" do: {
       print_help_info
