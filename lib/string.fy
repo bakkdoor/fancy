@@ -212,4 +212,24 @@ class String {
 
     grep: /\n/ . size > 0
   }
+
+  def main? {
+    """
+    @return @true if @self is the filename of the script that got executed initially.
+    """
+
+    File expand_path: (ARGV[0] to_s) == self
+  }
+
+  def if_main: main_block else: else_block ({}) {
+    """
+    @main_block @Block@ to be run if @String#:main?@ returns true.
+    @else_block @Block@ to be called otherwise.
+
+    Same as:
+          if: main? then: else_block else: else_block
+    """
+
+    if: main? then: main_block else: else_block
+  }
 }
