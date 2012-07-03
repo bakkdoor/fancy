@@ -40,7 +40,7 @@ class Stack {
     Pops the top-of-stack element from the Stack and returns it.
     """
 
-    @arr remove_at: (size - 1)
+    @arr remove_at: -1
   }
 
   def top {
