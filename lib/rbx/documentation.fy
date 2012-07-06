@@ -6,7 +6,7 @@ class Fancy Documentation {
     @docs = [docstring]
   }
 
-  def meta: @meta { }
+  def meta: @meta
   def meta { @meta }
 
   # A list of handlers that would like to get adviced when

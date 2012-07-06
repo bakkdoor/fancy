@@ -96,8 +96,7 @@ class Fancy AST {
   }
 
   class NestedConstant : Identifier {
-    def initialize: @line string: @string {
-    }
+    def initialize: @line string: @string
 
     def initialize: @line const: const parent: parent {
       @string = (parent string) ++ "::" ++ (const string)

@@ -244,10 +244,8 @@ FancySpec describe: Class with: {
   }
 
   it: "is a subclass of another Class" with: 'subclass?: when: {
-    class Super {
-    }
-    class Sub : Super {
-    }
+    class Super
+    class Sub : Super
 
     Super subclass?: Object . is: true
     Sub subclass?: Object . is: true
@@ -450,12 +448,9 @@ FancySpec describe: Class with: {
   }
 
   it: "has the correct list of ancestors" with: 'ancestors when: {
-    class A {
-    }
-    class B : A {
-    }
-    class C : B {
-    }
+    class A
+    class B : A
+    class C : B
 
     A ancestors is: [A, Object, Kernel]
     B ancestors is: [B, A, Object, Kernel]

@@ -6,7 +6,7 @@ class Foo {
 
 Foo Bar name println
 
-class Foo Baz {  }
+class Foo Baz
 
 Foo Baz == Foo::Baz println
 

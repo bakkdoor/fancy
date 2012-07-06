@@ -10,8 +10,7 @@
       # Also, the friends: parameter is optional (has a default value
       # of [], the empty Array).
 
-      def initialize: @name age: @age friends: @friends ([]) {
-      }
+      def initialize: @name age: @age friends: @friends ([]);
     }
 
     # Nested class:

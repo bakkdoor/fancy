@@ -5,10 +5,8 @@ class Fancy Package {
     Represents a Dependency to another Package with a given version.
     """
 
-    read_slots: ['name, 'version]
-
-    def initialize: @name version: @version ('latest) {
-    }
+    read_slots: ('name, 'version)
+    def initialize: @name version: @version ('latest);
   }
 
   class RubyDependency {
@@ -16,10 +14,8 @@ class Fancy Package {
     Same as @Fancy::Package::Dependency@, just for rubygem packages.
     """
 
-    read_slots: ['gem_name, 'version]
-
-    def initialize: @gem_name version: @version ('latest) {
-    }
+    read_slots: ('gem_name, 'version)
+    def initialize: @gem_name version: @version ('latest);
 
     def install {
       """

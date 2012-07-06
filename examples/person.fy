@@ -3,8 +3,7 @@
 
 class City {
   read_slot: 'name
-  def initialize: @name {
-  }
+  def initialize: @name
 
   def to_s {
     "City: " ++ @name

@@ -12,8 +12,7 @@ class Fancy AST {
       ':> => 'meta_send_op_gt
     ]>
 
-    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line) {
-    }
+    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line);
 
     def redirect_via: redirect_message {
       message_name = SymbolLiteral new: @line value: (@name string to_sym)
@@ -96,8 +95,7 @@ class Fancy AST {
   class MessageArgs : Node {
     read_slot: 'args
 
-    def initialize: @line args: @args ([]) {
-    }
+    def initialize: @line args: @args ([]);
 
     def bytecode: g {
       pos(g)
