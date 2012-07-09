@@ -91,6 +91,8 @@ class UnboundMethod {
   include: MethodMixin
   forwards_unary_ruby_methods
 
+  alias_method: 'bind: for_ruby: 'bind
+
   def call: args ([]) {
     call(*args)
   }
