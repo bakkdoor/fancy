@@ -63,7 +63,10 @@ class Class {
     body.
     """
 
-    define_method(name message_name, &block)
+    match block {
+      case Block -> define_method(name message_name, &block)
+      case _ -> define_method(name message_name, block)
+    }
   }
 
   def undefine_method: name {
