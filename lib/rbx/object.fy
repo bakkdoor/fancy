@@ -5,6 +5,10 @@ class Object {
     initialize()
   }
 
+  def to_a {
+    [self]
+  }
+
   def require: file_path {
     """
     Loads and evaluates a given Fancy source file by trying to find the specified

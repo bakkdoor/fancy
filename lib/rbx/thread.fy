@@ -29,7 +29,7 @@ class Thread {
 
   Thread metaclass ruby_alias: 'abort_on_exception
   Thread metaclass ruby_alias: 'current
-  Thread metaclass ruby_alias: 'critical
+#  Thread metaclass ruby_alias: 'critical
   Thread metaclass ruby_alias: 'exit
   Thread metaclass ruby_alias: 'list
   Thread metaclass ruby_alias: 'main
