@@ -275,7 +275,7 @@ FancySpec describe: Object with: {
     o2 get_slot: 'slot2 == (o1 slot2) is: true
   }
 
-  it: "returns itself when return is send as a message" with: 'return when: {
+  it: "returns itself when return is send as a message" when: {
     def foo: array {
       array each: @{ return }
     }
@@ -293,7 +293,7 @@ FancySpec describe: Object with: {
     v is: [1]
   }
 
-  it: "provides temporarily mutable slots" with: 'with_mutable_slots: when: {
+  it: "provides temporarily mutable slots" with: 'with_mutable_slots:do: when: {
     class Student {
       read_slots: ('name, 'age, 'city)
       def initialize: block {
