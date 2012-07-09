@@ -133,6 +133,10 @@ class Class {
     instance_method(name message_name)
   }
 
+  def has_method?: method_name {
+    lookup_method(method_name message_name) nil? not
+  }
+
   def alias_method_rbx: new_method_name for: old_method_name {
     """
     Rbx specific version of alias_method:for: due to bootstrap order
