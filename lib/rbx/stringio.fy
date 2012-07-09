@@ -12,6 +12,18 @@ class StringIO {
   }
 
   def each_line: block {
+    """
+    @block @Block@ to be called with each line in @self.
+    """
+
     each_line(&block)
+  }
+
+  def string: str {
+    """
+    @str @String@ to set @string in @self to.
+    """
+
+    string=(str)
   }
 }
