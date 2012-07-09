@@ -328,4 +328,31 @@ FancySpec describe: Object with: {
       }
     } does_not raise: Exception
   }
+
+  it: "rebinds a singleton method within a block" with: 'rebind_method:with:within: when: {
+    s = "foo"
+    s rebind_method: 'hello with: { 42 } within: {
+      s hello is: 42
+    }
+
+    s rebind_method: 'hello with: 'to_s within: {
+      s hello is: "foo"
+    }
+
+    { s hello } raises: NoMethodError
+
+    def s bar {
+      "bar!"
+    }
+
+    s bar is: "bar!"
+
+    s rebind_method: 'bar with: { "new bar!" } within: {
+      s bar is: "new bar!"
+    }
+
+    s rebind_method: 'bar with: { "another bar!" } within: |x| { x bar } . is: "another bar!"
+
+    s bar is: "bar!"
+  }
 }

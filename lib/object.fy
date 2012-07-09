@@ -779,4 +779,27 @@ class Object {
       block call
     } catch (exception_classes to_a join_by: '><) {}
   }
+
+  def rebind_method: method_name with: rebind_callable within: within_block {
+    """
+    @method_name Name of (singleton) method to rebind for @self.
+    @rebind_callable Name of method or @Block@ to rebind @method_name to.
+    @within_block @Block@ in which @method_name is rebound to @rebind_callable.
+    @return Value of calling @within_block with @self.
+
+    If @within_block takes an argument, it is called with @self.
+
+    Example:
+          class MyRebindableClass {
+            def foo {
+              42
+            }
+          }
+
+          r = MyRebindableClass new
+          r rebind_method: 'foo with: { 0 } within: @{ foo } # => 0
+    """
+
+    metaclass rebind_instance_method: method_name with: rebind_callable within: within_block receiver: self
+  }
 }

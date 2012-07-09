@@ -808,4 +808,43 @@ FancySpec describe: Class with: {
       send('ruby_==, 1) is: true
     }
   }
+
+  it: "rebinds an instance method within a block" with: 'rebind_instance_method:with:within: when: {
+    class RebindInstanceMethod {
+      def foo: msg ("foo!") {
+        msg println
+      }
+      def bar: msg {
+        "bar: #{msg}" println
+      }
+    }
+
+    rim = RebindInstanceMethod new
+    s = StringIO new
+    let: '*stdout* be: s in: {
+      rim foo
+      rim foo: "hello!"
+      s string is: "foo!\nhello!\n"
+      s string: ""
+
+      RebindInstanceMethod rebind_instance_method: 'foo: with: |msg| {
+        msg * 2 println
+      } within: {
+        let: '*stdout* be: s in: {
+          rim foo: "hello!"
+        }
+      }
+      s string is: "hello!hello!\n"
+
+      s string: ""
+      rim foo: "hello!"
+      s string is: "hello!\n"
+
+      s string: ""
+      RebindInstanceMethod rebind_instance_method: 'foo: with: 'bar: within: {
+        rim foo: "Test"
+      }
+      s string is: "bar: Test\n"
+    }
+  }
 }

@@ -409,4 +409,37 @@ class Class {
       }
     """
   }
+
+  def rebind_instance_method: method_name with: rebind_callable within: within_block receiver: receiver (self) {
+    """
+    @method_name Name of instance method to rebind in @self.
+    @rebind_callable Name of method or @Block@ to rebind @method_name to.
+    @within_block @Block@ to be called with @receiver or @self.
+    @receiver Argument to @within_block. Defaults to @self.
+    @return Value of calling @within_block with @receiver.
+
+    Rebinds @method_name to @rebind_callable within @within_block.
+    If @within_block takes an argument, it will be called with @receiver (defaults to @self).
+    """
+
+    try {
+      old_method = nil
+      try {
+        old_method = instance_method: method_name
+      } catch NameError {}
+
+      match rebind_callable {
+        case Symbol -> alias_method: method_name for: rebind_callable
+        case _ -> define_method: method_name with: rebind_callable
+      }
+
+      return within_block call: [receiver]
+    } finally {
+      if: old_method then: {
+        define_method: method_name with: old_method
+      } else: {
+        undefine_method: method_name
+      }
+    }
+  }
 }
