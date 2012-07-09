@@ -23,6 +23,7 @@ https://github.com/fancy-lang/infancy
 
 ## Related links
 * **Website**: http://www.fancy-lang.org
+* **Blog**: http://bakkdoor.net
 * **Mailinglist**: http://groups.google.com/group/fancy-lang
 * **IRC Channel**: irc://irc.freenode.net:6667/fancy
 * **IRC Logs**: http://irc.fancy-lang.org
