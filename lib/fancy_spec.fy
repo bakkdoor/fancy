@@ -78,14 +78,18 @@ class FancySpec {
     """
 
     test = SpecTest new: spec_info_string block: spec_block
-    # try {
-    #   @test_obj method: method_name . if_true: |method| {
-    #     method tests << test
-    #   }
-    # } catch MethodNotFoundError => e {
-    #   # ignore errors
-    # }
+
     @spec_tests << test
+
+    match @test_obj {
+      case Class ->
+        has_method? = @test_obj has_method?: method_name
+        { has_method? = @test_obj metaclass has_method?: method_name } unless: has_method?
+
+        unless: has_method? do: {
+          SpecTest method_not_found: method_name for: @test_obj
+        }
+    }
   }
 
   alias_method: 'it:for:when: for: 'it:with:when:
@@ -144,6 +148,7 @@ class FancySpec {
     @@failed_count = 0
     @@total_tests = 0
     @@total_expectations = 0
+    @@methods_not_found = <[]>
 
     def SpecTest add_expectation {
       @@total_expectations = @@total_expectations + 1
@@ -173,29 +178,43 @@ class FancySpec {
       @@failed_count = @@failed_count + 1
     }
 
+    def SpecTest method_not_found: method_name for: type {
+      { @@methods_not_found[type]: []} unless: $ @@methods_not_found[type]
+      @@methods_not_found[type] << method_name
+    }
+
     def SpecTest current {
       @@current
     }
 
     def SpecTest print_failures: start_time no_failures: ok_block else: error_block {
-      @@failed_positive each: |test_obj failed_tests| {
-        failed_tests each: |t| {
-          Console newline
-          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
-          t print_failed_positive
+      let: '*stdout* be: *stderr* in: {
+        @@failed_positive each: |test_obj failed_tests| {
+          failed_tests each: |t| {
+            "\n> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+            t print_failed_positive
+          }
         }
+
+        @@failed_negative each: |test_obj failed_tests| {
+          failed_tests each: |t| {
+            "\n> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+            t print_failed_negative
+          }
+        }
+
+        unless: (@@methods_not_found empty? ) do: {
+          "The following methods were referenced in tests but could not be found:" println
+          max_size = @@methods_not_found keys map: @{ to_s size } . max
+          @@methods_not_found each: |type, methods| {
+            *stdout* printf("%-#{max_size}s : ", type)
+            methods map: @{ to_fancy_message } . join: ", " . println
+          }
+        }
+
+        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
       }
 
-      @@failed_negative each: |test_obj failed_tests| {
-        failed_tests each: |t| {
-          Console newline
-          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
-          t print_failed_negative
-        }
-      }
-
-      Console newline
-      "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
       if: (@@failed_count == 0) then: ok_block else: error_block
     }
 
