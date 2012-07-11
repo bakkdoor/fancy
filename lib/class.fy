@@ -125,6 +125,23 @@ class Class {
     }
   }
 
+  def remove_slot_accessors_for: slotnames {
+    """
+    @slotnames Name of slot or @Array@ of slotnames to remove accessor methods for.
+
+    Removes both reader and writer methods for slots in @slotnames.
+    """
+
+    slotnames to_a each: |s| {
+      try {
+        undefine_method: s
+      } catch NameError {}
+      try {
+        undefine_method: "#{s}:"
+      } catch NameError {}
+    }
+  }
+
   def subclass?: class_obj {
     """
     @class_obj Class object to check for, if @self is a subclass of @class_obj.

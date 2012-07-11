@@ -847,4 +847,53 @@ FancySpec describe: Class with: {
       s string is: "bar: Test\n"
     }
   }
+
+  it: "removes defined slot accessor methods" with: 'remove_slot_accessors_for: when: {
+    class SlotAccessors {
+      read_write_slots: ('rw1, 'rw2)
+      read_slots: ('r1, 'r2)
+      write_slots: ('w1, 'w2)
+    }
+
+    sa = SlotAccessors new
+    {
+      sa rw1 is: nil
+      sa rw2 is: nil
+      sa r1 is: nil
+      sa r2 is: nil
+
+      sa rw1: "rw1"
+      sa rw2: "rw2"
+      sa w1: "w1"
+      sa w2: "w2"
+
+      sa rw1 is: "rw1"
+      sa rw2 is: "rw2"
+      sa r1 is: nil
+      sa r2 is: nil
+    } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w2 } raises: NoMethodError
+
+    SlotAccessors remove_slot_accessors_for: ('rw1, 'r1, 'w1)
+
+    { sa rw1 } raises: NoMethodError
+    { sa rw1: "foo"} raises: NoMethodError
+
+    {
+      sa rw2
+      sa rw2: "foo"
+    } does_not raise: NoMethodError
+
+    { sa r1 } raises: NoMethodError
+    { sa r2 } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w1: "foo" } raises: NoMethodError
+
+    { sa w2 } raises: NoMethodError
+    { sa w2: "foo" } does_not raise: NoMethodError
+
+  }
 }

@@ -588,10 +588,7 @@ class Object {
     try {
       return block call: [self]
     } finally {
-      slotnames each: |s| {
-        metaclass undefine_method: s
-        metaclass undefine_method: "#{s}:"
-      }
+      metaclass remove_slot_accessors_for: slotnames
     }
   }
   private: 'with_mutable_slots:do:
