@@ -7,10 +7,7 @@ class Regexp {
   ruby_alias: 'to_s
 
   alias_method: 'match: for_ruby: 'match
-
-  def === string {
-    ruby: 'match args: [string]
-  }
+  alias_method: '=== for_ruby: 'match
 
   def i {
     Regexp new(source(), true)
