@@ -5,8 +5,10 @@
 
 class Fixnum {
   def decimals {
-    """Returns all decimals of a Number as an Array.
-      E.g. 123 decimals # => [1,2,3]"""
+    """
+    Returns all decimals of a Number as an Array.
+    E.g. 123 decimals # => [1,2,3]
+    """
 
     decimals = []
     tmp = self
@@ -19,7 +21,9 @@ class Fixnum {
   }
 
   def armstrong? {
-    "Indicates, if a Number is a Armstrong Number."
+    """
+    Indicates, if a Number is a Armstrong Number.
+    """
 
     decimals = self decimals
     n_decimals = decimals size
