@@ -71,17 +71,17 @@ class Proxies {
     returning @nil instead of a @FutureSend@, as expected.
 
     Example:
-    ap = ActorProxy new: target_actor
+          ap = ActorProxy new: target_actor
 
-    # this:
-    f = ap some_future_send: an_arg
-    # is the same as:
-    f = target_actor @ some_future_send: an_arg
+          # this:
+          f = ap some_future_send: an_arg
+          # is the same as:
+          f = target_actor @ some_future_send: an_arg
 
-    # and this:
-    ap @@ some_async_send: another_arg
-    # is the same as:
-    target_actor @@ some_async_send: another_arg
+          # and this:
+          ap @@ some_async_send: another_arg
+          # is the same as:
+          target_actor @@ some_async_send: another_arg
     """
 
     def initialize: @target
@@ -105,11 +105,11 @@ class Proxies {
     in a @Fancy::Enumerable@ specified upon creation.
 
     Example:
-    p = DistributingProxy new: [worker1, worker2, worker3, worker4]
-    loop: {
-      req = @input receive_request
-      p handle_request: req         # will be forwarded to worker1-4
-    }
+          p = DistributingProxy new: [worker1, worker2, worker3, worker4]
+          loop: {
+            req = @input receive_request
+            p handle_request: req         # will be forwarded to worker1-4
+          }
     """
 
     def initialize {
