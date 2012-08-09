@@ -12,14 +12,14 @@ class Class
   define_method("define_constructor_class_method:") do |method_name|
     self.metaclass.send(:define_method, "new:" + method_name) do |*args|
       obj = self.allocate
-      obj.send("initialize:" + method_name, *args)
+      obj.__send__("initialize:" + method_name, *args)
       return obj
     end
   end
 
   define_method(":define_forward_method_missing") do
     define_method("method_missing") do |method_name, *args|
-      self.send("unknown_message:with_params:", method_name, args)
+      self.__send__("unknown_message:with_params:", method_name, args)
     end
   end
 
