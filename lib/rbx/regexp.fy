@@ -28,4 +28,8 @@ class Regexp {
   def Regexp [string] {
     new(string)
   }
+
+  def call: args {
+    args first =~ self
+  }
 }
