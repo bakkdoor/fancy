@@ -97,3 +97,53 @@ class ActorProxy : Fancy BasicObject {
     @target send_future: m with_params: p
   }
 }
+
+class DistributingProxy : Fancy BasicObject {
+  """
+  DistributingProxy is a Proxy that round-robin distributes messages to objects
+  in a @Fancy::Enumerable@ specified upon creation.
+
+  Example:
+        p = DistributingProxy new: [worker1, worker2, worker3, worker4]
+        loop: {
+          req = @input receive_request
+          p handle_request: req         # will be forwarded to worker1-4
+        }
+  """
+
+  def initialize {
+    ArgumentError raise: "Missing list of proxy targets"
+  }
+
+  def initialize: @targets {
+    @free = @targets to_a dup
+    @mutex = Mutex new
+    @waiting = ConditionVariable new
+  }
+
+  def __with_target__: block {
+    t = @mutex synchronize: {
+      { @waiting wait: @mutex } until: { @free empty? not }
+      @free shift
+    }
+    val = block call: [t]
+    @mutex synchronize: { @free << t; @waiting broadcast }
+    val
+  }
+
+  instance_methods reject: /^(:initialize|initialize:|__with_target__:|unknown_message:with_params:|send_async:with_params:|send_future:with_params:|__send__)$/ . each: |m| {
+    undef_method(m)
+  }
+
+  def unknown_message: m with_params: p {
+    __with_target__: @{ receive_message: m with_params: p }
+  }
+
+  def send_async: m with_params: p {
+    __with_target__: @{ send_async: m with_params: p }
+  }
+
+  def send_future: m with_params: p {
+    __with_target__: @{ send_future: m with_params: p }
+  }
+}
