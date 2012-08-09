@@ -9,7 +9,7 @@ class Worker {
 class Supervisor {
   def initialize: @amount {
     @done = []
-    @workers = DistributingProxy new: $ (1..@amount) map: |i| { Worker new: i supervisor: self }
+    @workers = Proxies DistributingProxy new: $ (1..@amount) map: |i| { Worker new: i supervisor: self }
   }
 
   def start {

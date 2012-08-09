@@ -355,9 +355,9 @@ class Object {
 
   def if_responds? {
     """
-    @return RespondsToProxy for @self
+    @return @Proxies::RespondsToProxy@ for @self
 
-    Returns a @RespondsToProxy@ for @self that forwards any messages
+    Returns a @Proxies::RespondsToProxy@ for @self that forwards any messages
     only if @self responds to them.
 
     Example:
@@ -365,7 +365,7 @@ class Object {
           object if_responds? some_message: some_parameter
     """
 
-    RespondsToProxy new: self
+    Proxies RespondsToProxy new: self
   }
 
   def backtick: str {

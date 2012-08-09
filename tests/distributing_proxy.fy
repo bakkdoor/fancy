@@ -1,6 +1,6 @@
-FancySpec describe: DistributingProxy with: {
+FancySpec describe: Proxies DistributingProxy with: {
   it: "forwards messages to each element in turn" when: {
-    p = DistributingProxy new: [1,2,3]
+    p = Proxies DistributingProxy new: [1,2,3]
     p is: 1
     p is: 2
     p is: 3
@@ -15,7 +15,7 @@ FancySpec describe: DistributingProxy with: {
   }
 
   it: "waits appropriately if all elements are currently in use" when: {
-    p = DistributingProxy new: ["foo", "bar", "baz"]
+    p = Proxies DistributingProxy new: ["foo", "bar", "baz"]
     results = []
     threads = (1..10) map: |i| {
       Thread new: {
