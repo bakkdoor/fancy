@@ -24,17 +24,17 @@ class Fancy AST {
     }
 
     def name {
-      @string to_sym()
+      @string to_sym
     }
 
     def method_name: receiver ruby_send: ruby (false) {
       if: (ruby || @ruby_ident) then: {
-        @string to_sym()
+        @string to_sym
       } else: {
         if: (@string =~ /:$/) then: {
-          @string to_sym()
+          @string to_sym
         } else: {
-          ":" + @string . to_sym()
+          ":" + @string . to_sym
         }
       }
     }
@@ -107,7 +107,7 @@ class Fancy AST {
       parent = Constant new: @line string: (names shift())
       scoped = nil
       names each() |name| {
-        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym())
+        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym)
         parent = scoped
       }
       scoped
