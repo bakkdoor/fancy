@@ -54,6 +54,7 @@ identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 selector        ({letter}|[_&*])({letter}|{digit}|{special_under})*":"
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
+toplevel_constant ::({constant}|{nested_constant})
 symbol_lit      \'({identifier}|{operator}|{constant}|:|"[]"|"|"|".")+
 ruby_send_open  ({constant}|{identifier}){lparen}
 ruby_oper_open  {operator}{lparen}
@@ -163,6 +164,10 @@ escaped_newline "\\".*\n
                   return CONSTANT;
                 }
 {nested_constant} {
+                  yylval.object = rb_str_new2(yytext);
+                  return CONSTANT;
+                }
+{toplevel_constant} {
                   yylval.object = rb_str_new2(yytext);
                   return CONSTANT;
                 }
