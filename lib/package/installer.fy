@@ -78,8 +78,12 @@ class Fancy Package {
 
       url = "https://api.github.com/repos/#{@package_name}/git/refs/tags"
 
-      JSON load(open(url)) map: |tag| {
-        tag["ref"] split: "refs/tags/" . last
+      try {
+        return JSON load(open(url)) map: |tag| {
+          tag["ref"] split: "refs/tags/" . last
+        }
+      } catch OpenURI::HTTPError {
+        return [] # no tags available, default to master (latest)
       }
     }
 
