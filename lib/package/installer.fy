@@ -175,7 +175,7 @@ class Fancy Package {
       }
 
       spec dependencies each: |dep| {
-        Package install: dep
+        Fancy Package install: (dep name) version: (dep version)
       }
 
       spec ruby_dependencies each: |dep| { dep install }
