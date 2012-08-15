@@ -63,10 +63,7 @@ class Fancy Package {
     def latest_tag {
       "Returns the latest tag (sorted alphabetically)."
 
-      tags = self tags
-      if: (tags size > 0) then: {
-        tags sort last
-      }
+      tags sort last
     }
 
     def tags {
