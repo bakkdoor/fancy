@@ -82,7 +82,7 @@ class Fancy Package {
         return JSON load(open(url)) map: |tag| {
           tag["ref"] split: "refs/tags/" . last
         }
-      } catch OpenURI::HTTPError {
+      } catch OpenURI HTTPError {
         return [] # no tags available, default to master (latest)
       }
     }
