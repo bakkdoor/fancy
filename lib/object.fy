@@ -799,4 +799,12 @@ class Object {
 
     metaclass rebind_instance_method: method_name with: rebind_callable within: within_block receiver: self
   }
+
+  def _ {
+    """
+    @return @Object@.
+    """
+
+    Object
+  }
 }
