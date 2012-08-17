@@ -473,6 +473,20 @@ FancySpec describe: Class with: {
     { x b } raises: NoMethodError
     AClassWithPrivateMethods instance_method: 'a . private? is: true
     AClassWithPrivateMethods instance_method: 'b . private? is: true
+
+    class AClassWithPrivateMethods {
+      private: {
+        def c {
+          "private c"
+        }
+        def d {
+          "private d"
+        }
+      }
+    }
+
+    AClassWithPrivateMethods instance_method: 'c . private? is: true
+    AClassWithPrivateMethods instance_method: 'd . private? is: true
   }
 
   it: "makes methods protected" with: 'protected: when: {
@@ -493,6 +507,25 @@ FancySpec describe: Class with: {
     AClassWithProtectedMethods instance_method: 'b . private? is: false
     AClassWithProtectedMethods instance_method: 'a . protected? is: true
     AClassWithProtectedMethods instance_method: 'b . protected? is: true
+
+    class AClassWithProtectedMethods {
+      protected: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x a } raises: NoMethodError
+    { x b } raises: NoMethodError
+    AClassWithProtectedMethods instance_method: 'c . private? is: false
+    AClassWithProtectedMethods instance_method: 'd . private? is: false
+    AClassWithProtectedMethods instance_method: 'c . protected? is: true
+    AClassWithProtectedMethods instance_method: 'd . protected? is: true
+
   }
 
   it: "makes methods public" with: 'public: when: {
@@ -516,6 +549,26 @@ FancySpec describe: Class with: {
     AClassWithPublicMethods instance_method: 'b . protected? is: false
     AClassWithPublicMethods instance_method: 'a . public? is: true
     AClassWithPublicMethods instance_method: 'b . public? is: true
+
+    class AClassWithPublicMethods {
+      public: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x c } does_not raise: NoMethodError
+    { x d } does_not raise: NoMethodError
+    AClassWithPublicMethods instance_method: 'c . private? is: false
+    AClassWithPublicMethods instance_method: 'd . private? is: false
+    AClassWithPublicMethods instance_method: 'c . protected? is: false
+    AClassWithPublicMethods instance_method: 'd . protected? is: false
+    AClassWithPublicMethods instance_method: 'c . public? is: true
+    AClassWithPublicMethods instance_method: 'd . public? is: true
   }
 
   it: "defines a class without a body" when: {
@@ -894,6 +947,5 @@ FancySpec describe: Class with: {
 
     { sa w2 } raises: NoMethodError
     { sa w2: "foo" } does_not raise: NoMethodError
-
   }
 }

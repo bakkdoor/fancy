@@ -8,6 +8,112 @@ class Class {
 
   forwards_unary_ruby_methods
 
+  alias_method: '__private__: for: 'private:
+  alias_method: '__protected__: for: 'protected:
+  alias_method: '__public__: for: 'public:
+
+  def private: private_methods {
+    """
+    @private_methods @Block@ or @Fancy::Enumerable@ of method names to be private.
+
+    Sets any given method names to private on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            private: 'foo
+            private: 'bar
+
+            # same as:
+            private: ('foo, 'bar)
+
+            # same as:
+            private: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __private__: $ match private_methods {
+      case Block ->
+        methods = instance_methods: false
+        private_methods call
+        instance_methods: false - methods
+      case _ -> private_methods
+    }
+  }
+
+  def protected: protected_methods {
+    """
+    @protected_methods @Block@ or @Fancy::Enumerable@ of method names to be protected.
+
+    Sets any given method names to protected on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            protected: 'foo
+            protected: 'bar
+
+            # same as:
+            protected: ('foo, 'bar)
+
+            # same as:
+            protected: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __protected__: $ match protected_methods {
+      case Block ->
+        methods = instance_methods: false
+        protected_methods call
+        instance_methods: false - methods
+      case _ -> protected_methods
+    }
+  }
+
+  def public: public_methods {
+    """
+    @public_methods @Block@ or @Fancy::Enumerable@ of method names to be public.
+
+    Sets any given method names to public on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            public: 'foo
+            public: 'bar
+
+            # same as:
+            public: ('foo, 'bar)
+
+            # same as:
+            public: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __public__: $ match public_methods {
+      case Block ->
+        methods = instance_methods: false
+        public_methods call
+        instance_methods: false - methods
+      case _ -> public_methods
+    }
+  }
+
   def define_slot_reader: slotname {
     """
     @slotname Name of the slot to define a getter method for.
