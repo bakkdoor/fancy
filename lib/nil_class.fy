@@ -79,6 +79,14 @@ class NilClass {
     []
   }
 
+  def to_hash {
+    """
+    @return An empty @Hash@.
+    """
+
+    <[]>
+  }
+
   def not {
     """
     @return @true.
