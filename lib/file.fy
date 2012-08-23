@@ -15,6 +15,17 @@ class File {
     File open: filename modes: ['write] with: block
   }
 
+  def File append: filename with: block {
+    """
+    @filename Filename of @File@ to append to.
+    @block @Block@ called with a @File@ object to append to.
+
+    Opens a @File@ for appending and calls @block with it.
+    """
+
+    File open: filename modes: ['append] with: block
+  }
+
   def File read: filename with: block {
     """
     @filename Filename of @File@ to read from.
