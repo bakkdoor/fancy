@@ -241,6 +241,14 @@ class Hash {
     to_block call: receiver
   }
 
+  def to_hash_deep {
+    each: |k v| {
+      match v {
+        case Block -> self[k]: $ v to_hash_deep
+      }
+    }
+  }
+
   def to_block {
     """
     @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
