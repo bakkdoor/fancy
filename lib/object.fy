@@ -670,11 +670,12 @@ class Object {
     Thread sleep: seconds
   }
 
-  def let: var_name be: value in: block (nil) {
+  def let: var_name be: value in: block (nil) ensuring: ensure_block ({}) {
     """
     @var_name @Symbol@ that represents the name of the dynamic variable to be set.
     @value Value for the variable.
     @block @Block@ in which @var_name will be dynamically bound to @value.
+    @ensure_block @Block@ to be always called, even when @block raised an exception.
     @return Returns @value
 
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
@@ -699,6 +700,7 @@ class Object {
       return block call
     } finally {
       Thread current[var_name]: oldval
+      ensure_block call
     }
   }
 
