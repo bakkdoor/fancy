@@ -242,11 +242,13 @@ class Hash {
   }
 
   def to_hash_deep {
-    each: |k v| {
+    h = dup
+    h each: |k v| {
       match v {
-        case Block -> self[k]: $ v to_hash_deep
+        case Block -> h[k]: $ v to_hash_deep
       }
     }
+    h
   }
 
   def to_block {

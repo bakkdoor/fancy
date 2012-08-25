@@ -212,4 +212,23 @@ FancySpec describe: Hash with: {
     hc foo is: 123
     hc bar is: 'baz
   }
+
+  it: "returns a nested Hash" with: 'to_hash_deep when: {
+    <[]> to_hash_deep is: <[]>
+    <['foo => "bar"]> to_hash_deep is: <['foo => "bar"]>
+    <['foo => {bar: "baz"}]> to_hash_deep is: <['foo => <['bar => "baz"]>]>
+    <[
+      'foo => {
+        bar: {
+          baz: "quux"
+        }
+      }
+    ]> to_hash_deep is: <[
+      'foo => <[
+        'bar => <[
+          'baz => "quux"
+        ]>
+      ]>
+    ]>
+  }
 }
