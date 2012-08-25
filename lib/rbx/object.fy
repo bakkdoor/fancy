@@ -14,8 +14,13 @@ class Object {
     Fancy CodeLoader require: file_path
   }
 
-  def dclone {
-    "Returns a deep clone of self using Ruby's Marshal class."
+  def dup {
+    """
+    @return Copy (clone) of self.
+
+    Returns a deep clone of self using Ruby's Marshal class.
+    """
+
     Marshal load(Marshal dump(self))
   }
 
