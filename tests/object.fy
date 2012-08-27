@@ -355,4 +355,27 @@ FancySpec describe: Object with: {
 
     s bar is: "bar!"
   }
+
+  it: "binds a dynvar correctly" with: 'let:be:in:ensuring: when: {
+    *var* is: nil
+    let: '*var* be: 'hello in: {
+      *var* is: 'hello
+    } ensuring: {
+      *var* is: 'hello
+    }
+    *var* is: nil
+
+    @val = nil
+    def check {
+      *var* is: @val
+    }
+
+    check
+    @val = "test"
+    let: '*var* be: @val in: {
+      check
+    }
+    @val = nil
+    check
+  }
 }

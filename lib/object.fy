@@ -679,6 +679,8 @@ class Object {
     @return Returns @value
 
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
+    Exceptions raised within @ensure_block are ignored.
+    Those raised in @block will be reraised up the callstack.
 
     Example:
           File write: \"/tmp/output.txt\" with: |f| {
@@ -697,10 +699,11 @@ class Object {
     oldval = Thread current[var_name]
     try {
       Thread current[var_name]: value
-      return block call
+      block call
+      return value
     } finally {
+      try { ensure_block call } catch {}
       Thread current[var_name]: oldval
-      ensure_block call
     }
   }
 
