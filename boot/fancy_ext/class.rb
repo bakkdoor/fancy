@@ -22,6 +22,4 @@ class Class
       self.__send__("unknown_message:with_params:", method_name, args)
     end
   end
-
-  public :public, :private, :protected, :include, :extend
 end
