@@ -7,9 +7,6 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      g push_self()
-      g send(@access, 0)
-      g pop()
       bytecode(g)
     }
   }
