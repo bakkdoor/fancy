@@ -122,7 +122,7 @@ class File {
           ]>
     """
 
-    File read: filename . eval to_hash_deep
+    File eval: filename . to_hash_deep
   }
 
   def writeln: x {
