@@ -206,4 +206,19 @@ FancySpec describe: String with: {
 
     """ multiline? is: true
   }
+
+  it: "returns a snake cased version of itself" with: 'snake_cased when: {
+    "" snake_cased is: ""
+    "Foo" snake_cased is: "foo"
+    "FooB" snake_cased is: "foo_b"
+    "FooBarBaz" snake_cased is: "foo_bar_baz"
+    "Foo Bar Baz" snake_cased is: "foo bar baz"
+  }
+
+  it: "returns a camel cased version of itself" with: 'camel_cased when: {
+    "" camel_cased is: ""
+    "foo" camel_cased is: "Foo"
+    "foo_" camel_cased is: "Foo"
+    "foo_bar_baz" camel_cased is: "FooBarBaz"
+  }
 }

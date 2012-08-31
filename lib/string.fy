@@ -232,4 +232,23 @@ class String {
 
     if: main? then: main_block else: else_block
   }
+
+  def snake_cased {
+    """
+    Returns a snake cased version of @self.
+    """
+
+    r1 = Regexp new("([A-Z]+)([A-Z][a-z])")
+    r2 = Regexp new("([a-z\d])([A-Z])")
+    gsub(r1,"\1_\2") gsub(r2,"\1_\2") tr("-", "_") lowercase
+  }
+
+  def camel_cased {
+    """
+    Returns camel cased version of @self which is expected
+    to be a snake cased @String@.
+    """
+
+    self split: "_" . map: @{ capitalize } . join
+  }
 }
