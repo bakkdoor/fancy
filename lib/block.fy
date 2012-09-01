@@ -155,6 +155,34 @@ class Block {
     obj
   }
 
+  def to_object_deep {
+    """
+    Creates and returns a new @Object@ with slots defined dynamically in @self.
+    Looks and feels similar to Javascript object literals.
+    Nested blocks are converted to objects as well.
+
+    Example:
+          o = {
+            something: \"foo bar baz\"
+            with: {
+              age: 42
+            }
+          } to_object_deep
+
+          o something # => \"foo bar baz\"
+          o with age  # => 42
+    """
+
+    to_object tap: |o| {
+      o slots each: |s| {
+        val = o get_slot: s
+        match val {
+          case Block -> o set_slot: s value: (val to_object_deep)
+        }
+      }
+    }
+  }
+
   def to_hash {
     """
     Creates and returns a new @Hash@ with keys and values defined dynamically in @self.

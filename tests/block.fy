@@ -239,6 +239,26 @@ FancySpec describe: Block with: {
     }
   }
 
+  it: "dynamically creates a new object with slots recursively defined in blocks" with: 'to_object_deep when: {
+    o = {
+      name: "Sarah Connor"
+      age: 42
+      city: "Los Angeles"
+      persecuted_by: {
+        name: "The Terminator"
+        age: 'unknown
+      }
+    } to_object_deep
+
+    o name is: "Sarah Connor"
+    o age is: 42
+    o city is: "Los Angeles"
+    o persecuted_by do: {
+      name is: "The Terminator"
+      age is: 'unknown
+    }
+  }
+
   it: "dynamically creates a hash with keys and values defined in a Block" with: 'to_hash when: {
     { } to_hash is: <[]>
     { foo: "bar" } to_hash is: <['foo => "bar"]>
