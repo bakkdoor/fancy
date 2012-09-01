@@ -231,4 +231,36 @@ FancySpec describe: Hash with: {
       ]>
     ]>
   }
+
+  it: "updates its values with a block" with: 'update_values: when: {
+    <[]> update_values: @{ to_s } . is: <[]>
+    h = <['name => "Tom", 'age => 21]>
+    h update_values: @{ * 2 }
+    h is: <['name => "TomTom", 'age => 42]>
+  }
+
+  it: "updates its keys with a block" with: 'update_keys: when: {
+    <[]> update_keys: @{ to_s } . is: <[]>
+    h = <['name => "Tom", 'age => 21]>
+    h update_keys: @{ to_s * 2 }
+    h is: <["namename" => "Tom", "ageage" => 21]>
+  }
+
+  it: "returns a new hash based on self with values updated with a block" with: 'with_updated_values: when: {
+    <[]> with_updated_values: @{ * 2 } . is: <[]>
+    h1 = <['name => "Tom", 'age => 21]>
+    h2 = h1 with_updated_values: @{ * 2 }
+
+    h1 is: <['name => "Tom", 'age => 21]>
+    h2 is: <['name => "TomTom", 'age => 42]>
+  }
+
+  it: "returns a new hash based on self with keys updated with a block" with: 'with_updated_keys: when: {
+    <[]> with_updated_keys: @{ * 2 } . is: <[]>
+    h1 = <['name => "Tom", 'age => 21]>
+    h2 = h1 with_updated_keys: @{ to_s * 2 }
+
+    h1 is: <['name => "Tom", 'age => 21]>
+    h2 is: <["namename" => "Tom", "ageage" => 21]>
+  }
 }

@@ -276,4 +276,64 @@ class Hash {
       receiver
     }
   }
+
+  def update_values: block {
+    """
+    @block @Block@ that returns an updated value for each value in @self.
+
+    Example:
+          h = <['name => \"Tom\", 'age => 21 ]>
+          h update_values: @{ * 2}
+          h # => <['name => \”TomTom\”, 'age => 42]>
+    """
+
+    each: |k v| {
+      self[k]: $ block call: [v]
+    }
+  }
+
+  def update_keys: block {
+    """
+    @block @Block@ that returns an updated key for each key in @self.
+
+    Example:
+          h = <['name => \"Tom\", 'age => 21 ]>
+          h update_keys: @{ to_s * 2}
+          h # => <[\"namename\" => \”Tom\”, \"ageage\" => 21]>
+    """
+
+    deletions = []
+    insertions = <[]>
+
+    each: |k v| {
+      new_key = block call: [k]
+      if: (new_key != k) then: {
+        deletions << k
+        insertions[new_key]: v
+      }
+    }
+
+    deletions each: |k| { delete: k }
+    insertions each: |k v| {
+      self[k]: v
+    }
+  }
+
+  def with_updated_values: block {
+    """
+    @block @Block@ that returns an updated value for each value in @self.
+    @return @Hash@ based on self but with updated values via @block.
+    """
+
+    dup update_values: block
+  }
+
+  def with_updated_keys: block {
+    """
+    @block @Block@ that returns an updated key for each key in @self.
+    @return @Hash@ based on self but with updated keys via @block.
+    """
+
+    dup update_keys: block
+  }
 }
