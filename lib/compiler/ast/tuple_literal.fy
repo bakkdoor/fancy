@@ -17,7 +17,7 @@ class Fancy AST {
 
       ms bytecode: g
 
-      @elements each_with_index() |e i| {
+      @elements each_with_index: |e i| {
         g dup()
         ary = [FixnumLiteral new: @line value: i, e]
 
