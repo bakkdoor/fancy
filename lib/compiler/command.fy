@@ -33,7 +33,7 @@ class Fancy {
         size = argv size()
         files = "file"
         { files = files + "s" } if: (size > 1)
-        "Compiled " ++ (argv size()) ++ " " ++ files ++ "." . println
+        "Compiled " ++ (argv size) ++ " " ++ files ++ "." . println
       }
     }
 
