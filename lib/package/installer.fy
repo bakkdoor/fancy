@@ -193,11 +193,8 @@ class Fancy Package {
         File symlink(orig_path, link_path)
       }
 
-      spec dependencies each: |dep| {
-        Fancy Package install: (dep name) version: (dep version)
-      }
-
-      spec ruby_dependencies each: |dep| { dep install }
+      spec dependencies each: @{ install }
+      spec ruby_dependencies each: @{ install }
     }
   }
 }

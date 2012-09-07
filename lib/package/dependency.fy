@@ -7,6 +7,14 @@ class Fancy Package {
 
     read_slots: ('name, 'version)
     def initialize: @name version: @version ('latest);
+
+    def install {
+      """
+      Installs the Dependency on the System.
+      """
+
+      Fancy Package install: name version: version
+    }
   }
 
   class RubyDependency {
