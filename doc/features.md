@@ -180,7 +180,7 @@
     # call blocks with arguments:
     b = |x y| { x + y println }
     b call: [2, 3]      # prints 5
-    b(2,3)              # same as above
+    b[(2,3)]            # same as above
 ```
 
 ### Local & non-local returns from Blocks & Methods ###

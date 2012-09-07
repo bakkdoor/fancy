@@ -206,17 +206,17 @@ FancySpec describe: Block with: {
     block call: [42] with_receiver: (ClassD new) . is: "in ClassD#inspect: 42"
   }
 
-  it: "calls a block using the ruby-send syntax" with: 'call: when: {
+  it: "calls a block using []" with: '[] when: {
     b = |x y| {
       x + y
     }
 
     b call: [2,3] . is: 5
-    b(2,3) . is: 5
+    b[(2,3)] . is: 5
 
     b2 = |x| { x * 5 }
-    b2("hello") is: ("hello" * 5)
-    b2("foo") is: (b2 call: ["foo"])
+    b2["hello"] is: ("hello" * 5)
+    b2["foo"] is: (b2 call: ["foo"])
   }
 
   it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
