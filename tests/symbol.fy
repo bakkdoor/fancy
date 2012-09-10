@@ -32,4 +32,13 @@ FancySpec describe: Symbol with: {
     'foo to_sym is: 'foo
     'bar to_sym is: 'bar
   }
+
+  it: "returns itself as a Block" with: 'to_block when: {
+    b = 'inspect to_block
+    b call: [2] . is: "2"
+    b call: ["foo"] . is: "\"foo\""
+
+    str = "hello, world yo!\"foo\""
+    b call: [str] . is: $ @{ inspect } call: [str]
+  }
 }

@@ -52,4 +52,17 @@ class Symbol {
   def to_sym {
     self
   }
+
+  def to_block {
+    """
+    @return @Block@ that sends @self as a message to its argument.
+
+    Example:
+          'inspect to_block
+          # is equal to:
+          @{ inspect }
+    """
+
+    @{ receive_message: self }
+  }
 }
