@@ -431,6 +431,10 @@ class Object {
     is == expected
   }
 
+  def is_a: class {
+    is_a?: class . is: true
+  }
+
   def is_not: expected {
     does_not == expected
   }
