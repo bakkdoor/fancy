@@ -246,4 +246,32 @@ class Block {
 
     iterations times: self
   }
+
+  def then: block {
+    """
+    @block @Block@ to call after @self.
+    @return @Block@ that calls @self, then @block.
+
+    Example:
+          # prints \"Hello World!\"
+          { \"Hello\" print } then: { \"World!\" println }
+    """
+
+    { self call; block call }
+  }
+
+  alias_method: 'before: for: 'then:
+
+  def after: block {
+    """
+    @block @Block@ to call before @self.
+    @return @Block@ that calls @self after calling @block.
+
+    Example:
+          # prints \"Hello World!\"
+          { \"World!\" println } after: { \"Hello\" print }
+    """
+
+    { block call; self call }
+  }
 }
