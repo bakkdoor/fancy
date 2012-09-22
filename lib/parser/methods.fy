@@ -298,7 +298,7 @@ class Fancy {
     }
 
     def ast: line partial_block: body {
-      gen_blockarg = AST Identifier generate: line
+      gen_blockarg = AST BlockArg new: line ident: $ AST Identifier generate: line
       args = AST BlockArgs new: line args: [gen_blockarg]
       AST BlockLiteral new: line args: args body: body partial: true
     }
@@ -306,6 +306,14 @@ class Fancy {
     def ast: line block: body args: args {
       args = AST BlockArgs new: line args: args
       AST BlockLiteral new: line args: args body: body
+    }
+
+    def ast: line block_arg: ident {
+      AST BlockArg new: line ident: ident
+    }
+
+    def ast: line destructuring_block_arg: args {
+      AST DestructuringBlockArg new: line args: args
     }
 
     def ast: line class: name parent: parent body: body (AST ExpressionList new: line) {

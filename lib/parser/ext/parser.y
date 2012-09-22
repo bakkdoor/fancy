@@ -93,6 +93,8 @@ extern char *yytext;
 %type  <object>         literal_value
 %type  <object>         block_literal
 %type  <object>         block_args
+%type  <object>         block_arg
+%type  <object>         destructuring_block_arg
 %type  <object>         block_args_without_comma
 %type  <object>         block_args_with_comma
 %type  <object>         hash_literal
@@ -764,18 +766,29 @@ block_args:     block_args_with_comma
                 | block_args_without_comma
                 ;
 
-block_args_without_comma: identifier {
+block_arg:      identifier {
+                  $$ = rb_funcall(self, rb_intern("ast:block_arg:"), 2, INT2NUM(yylineno), $1);
+                }
+                | destructuring_block_arg
+                ;
+
+destructuring_block_arg: LPAREN block_args RPAREN {
+                  $$ = rb_funcall(self, rb_intern("ast:destructuring_block_arg:"), 2, INT2NUM(yylineno), $2);
+                }
+                ;
+
+block_args_without_comma: block_arg {
                   $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
-                | block_args_without_comma identifier {
+                | block_args_without_comma block_arg {
                   $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $2, $1);
                 }
                 ;
 
-block_args_with_comma: identifier {
+block_args_with_comma: block_arg {
                   $$ = rb_funcall(self, rb_intern("ast:concat:"), 2, INT2NUM(yylineno), $1);
                 }
-                | block_args_with_comma COMMA identifier {
+                | block_args_with_comma COMMA block_arg {
                   $$ = rb_funcall(self, rb_intern("ast:concat:into:"), 3, INT2NUM(yylineno), $3, $1);
                 }
                 ;

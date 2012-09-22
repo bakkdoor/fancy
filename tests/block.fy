@@ -322,4 +322,21 @@ FancySpec describe: Block with: {
                 ['city, "San Francisco"],
                 'male, 'programmer, 'happy]
   }
+
+  it: "allows argument destructuring / pattern matching" when: {
+    people = <[
+      "Tom Hanks" => (55, 'male, "New York"),
+      "Tom Cruise" => (58, 'male, "Los Angeles"),
+      "Sandra Bullock" => (45, 'female, "Hollywood")
+    ]>
+    result = <[]>
+    people each: |name (age _ city)| {
+      result[name]: (age, city)
+    }
+    result is: <[
+      "Tom Hanks" => (55, "New York"),
+      "Tom Cruise" => (58, "Los Angeles"),
+      "Sandra Bullock" => (45, "Hollywood")
+    ]>
+  }
 }

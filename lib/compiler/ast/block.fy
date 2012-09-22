@@ -55,20 +55,65 @@ class Fancy AST {
     }
   }
 
+  class BlockArg : Node {
+    def initialize: @line ident: @ident
+
+    def name {
+      @ident name
+    }
+
+    def to_s {
+      name to_s
+    }
+
+    def bytecode: g then: block {
+      g shift_array()
+      block call
+    }
+
+    def create_local: block {
+      if: (@ident name != '_) then: {
+        block new_local(@ident name)
+      }
+    }
+  }
+
+  class DestructuringBlockArg : Node {
+    def initialize: @line args: @args
+
+    def bytecode: g then: block {
+      g shift_array()
+
+      @args each_with_index: |a i| {
+        if: (a name != '_) then: {
+          g dup()
+          FixnumLiteral new: @line value: i . bytecode: g
+          g send('at:, 1, false)
+          block call
+        }
+      }
+    }
+
+    def create_local: block {
+      @args each: @{ create_local: block }
+    }
+  }
+
   class BlockArgs : Node {
     read_write_slots: ['args, 'block]
 
-    def initialize: @line args: @args ([]) {
-      @args = @args map: |a| { a name to_sym() }
-    }
+    def initialize: @line args: @args ([]);
 
     def bytecode: g {
       pos(g)
       if: (@args size > 1) then: {
+        local_offset = 0
         @args each_with_index: |a i| {
-            g shift_array()
-            g set_local(i)
+          a bytecode: g then: {
+            g set_local(local_offset)
             g pop()
+            local_offset = local_offset + 1
+          }
         }
       } else: {
         @args each_with_index: |a i| {
@@ -86,9 +131,7 @@ class Fancy AST {
     }
 
     def create_locals: block {
-      @args each: |a| {
-        block new_local(a)
-      }
+      @args each: @{ create_local: block }
     }
   }
 }
