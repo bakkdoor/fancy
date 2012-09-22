@@ -68,7 +68,9 @@ class Fancy AST {
 
     def bytecode: g then: block {
       g shift_array()
-      block call
+      if: (@ident name != '_) then: block else: {
+        g pop()
+      }
     }
 
     def create_local: block {
@@ -108,7 +110,7 @@ class Fancy AST {
       pos(g)
       if: (@args size > 1) then: {
         local_offset = 0
-        @args each_with_index: |a i| {
+        @args each: |a| {
           a bytecode: g then: {
             g set_local(local_offset)
             g pop()

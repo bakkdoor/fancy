@@ -338,5 +338,12 @@ FancySpec describe: Block with: {
       "Tom Cruise" => (58, "Los Angeles"),
       "Sandra Bullock" => (45, "Hollywood")
     ]>
+
+    people select: |_ (age _ _)| { age > 50 } to_hash tap: @{
+      size is: 2
+      includes?: "Tom Hanks" . is: true
+      includes?: "Tom Cruise" . is: true
+      includes?: "Sandra Bullock" . is: false
+    }
   }
 }
