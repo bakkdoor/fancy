@@ -322,4 +322,22 @@ FancySpec describe: Block with: {
                 ['city, "San Francisco"],
                 'male, 'programmer, 'happy]
   }
+
+  it: "returns a Block that calls self then a given Block" with: 'then: when: {
+    a = []
+    block = { a << 1 } then: { a << 2 }
+    block call
+    a is: [1,2]
+    block call
+    a is: [1,2,1,2]
+  }
+
+  it: "returns a Block that calls itself after a given Block" with: 'after: when: {
+    a = []
+    block = { a << 1 } after: { a << 2}
+    block call
+    a is: [2,1]
+    block call
+    a is: [2,1,2,1]
+  }
 }
