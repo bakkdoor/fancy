@@ -232,6 +232,47 @@ class Fancy {
       }
     }
 
+    def find: item do: block {
+      """
+      @item Item to find in @self.
+      @block @Block@ to be called with @item if found in @self.
+
+      Calls @block with @item, if found.
+      If @item is not in @self, @block is not called.
+      """
+
+      if: (find: item) then: block
+    }
+
+    def find_with_index: item do: block {
+      """
+      @item Item to find in @self.
+      @block @Block@ to be called with @item and its index in @self.
+
+      Calls @block with @item and its index in @self, if found.
+      If @item is not in @self, @block is not called.
+      """
+
+      last = nil
+      each_with_index: |x i| {
+        if: (item == x) then: {
+          last = block call: [x, i]
+        }
+      }
+      last
+    }
+
+    def last_index_of: item {
+      """
+      @item Item for which the last index in @self should be found.
+      @return Last index of @item in @self, or @nil (if not in @self).
+
+      Returns the last index for @item in @self, or @nil, if @item is not in @self.
+      """
+
+      find_with_index: item do: |_ i| { i }
+    }
+
     def find_by: block {
       """
       Similar to @find:@ but takes a block that is called for each element to find it.

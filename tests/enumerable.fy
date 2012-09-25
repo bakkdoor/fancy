@@ -154,4 +154,48 @@ FancySpec describe: Fancy Enumerable with: {
     [NoMethodError, IOError, ZeroDivisionError] join_by: '>< . is: (NoMethodError >< IOError >< ZeroDivisionError)
     [NoMethodError, IOError, ZeroDivisionError] join_by: '<> . is: (NoMethodError <> IOError <> ZeroDivisionError)
   }
+
+  it: "returns the element if found" with: 'find: when: {
+    [1,2,3] tap: @{
+      find: 0 . is: nil
+      find: 1 . is: 1
+      find: 2 . is: 2
+      find: 3 . is: 3
+      find: 4 . is: nil
+    }
+  }
+
+  it: "calls a block with the element if found" with: 'find:do: when: {
+    found = []
+    [1,2,3] tap: @{
+      insert = |x| { found << x }
+      find: 0 do: insert
+      find: 1 do: insert
+      find: 2 do: insert
+      find: 3 do: insert
+      find: 4 do: insert
+    }
+    found is: [1,2,3]
+  }
+
+  it: "calls a block with the element and its index if found" with: 'find_with_index:do: when: {
+    found = []
+    [1,2,3] tap: @{
+      insert = |x i| { found << (x,i) }
+      find_with_index: 0 do: insert
+      find_with_index: 1 do: insert
+      find_with_index: 2 do: insert
+      find_with_index: 3 do: insert
+      find_with_index: 4 do: insert
+    }
+    found is: [(1,0), (2,1), (3,2)]
+  }
+
+  it: "returns the last index of an element or nil" with: 'last_index_of: when: {
+    [] last_index_of: nil . is: nil
+    [] last_index_of: 1 . is: nil
+    [1,2,1,2] last_index_of: 1 . is: 2
+    [1,2,1,2] last_index_of: 2 . is: 3
+    [1,2,1,2] last_index_of: 3 . is: nil
+  }
 }
