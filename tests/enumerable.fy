@@ -191,6 +191,19 @@ FancySpec describe: Fancy Enumerable with: {
     found is: [(1,0), (2,1), (3,2)]
   }
 
+  it: "calls a block with an element and its indexes" with: 'for_all:with_index_do: when: {
+    found = []
+    [1,2,3,2,1] tap: @{
+      insert = |x i| { found << (x,i) }
+      for_all: 0 with_index_do: insert
+      for_all: 1 with_index_do: insert
+      for_all: 2 with_index_do: insert
+      for_all: 3 with_index_do: insert
+      for_all: 4 with_index_do: insert
+    }
+    found is: [(1,0), (1,4), (2,1), (2,3), (3,2)]
+  }
+
   it: "returns the last index of an element or nil" with: 'last_index_of: when: {
     [] last_index_of: nil . is: nil
     [] last_index_of: 1 . is: nil

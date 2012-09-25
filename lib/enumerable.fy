@@ -253,13 +253,25 @@ class Fancy {
       If @item is not in @self, @block is not called.
       """
 
-      last = nil
+      for_all: item with_index_do: |x i| {
+        return block call: [x, i]
+      }
+      nil
+    }
+
+    def for_all: item with_index_do: block {
+      """
+      @item Item to call @block with.
+      @block @Block@ to be called with @item and each of its indexes in @self.
+
+      Calls @block with @item and each of its indexes in @self, if @item is in @self.
+      """
+
       each_with_index: |x i| {
         if: (item == x) then: {
-          last = block call: [x, i]
+          block call: [x, i]
         }
       }
-      last
     }
 
     def last_index_of: item {
@@ -270,7 +282,9 @@ class Fancy {
       Returns the last index for @item in @self, or @nil, if @item is not in @self.
       """
 
-      find_with_index: item do: |_ i| { i }
+      last_idx = nil
+      for_all: item with_index_do: |_ i| { last_idx = i }
+      last_idx
     }
 
     def find_by: block {
