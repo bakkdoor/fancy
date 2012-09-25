@@ -45,6 +45,14 @@ class Symbol {
     recv receive_message: self
   }
 
+  def call_with_receiver: receiver {
+    call: [receiver]
+  }
+
+  def call: args with_receiver: receiver {
+    call: $ args unshift: receiver
+  }
+
   def arity {
     1
   }
