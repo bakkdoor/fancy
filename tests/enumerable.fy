@@ -191,15 +191,15 @@ FancySpec describe: Fancy Enumerable with: {
     found is: [(1,0), (2,1), (3,2)]
   }
 
-  it: "calls a block with an element and its indexes" with: 'for_all:with_index_do: when: {
+  it: "calls a block with an element and its indexes" with: 'for_every:with_index_do: when: {
     found = []
     [1,2,3,2,1] tap: @{
       insert = |x i| { found << (x,i) }
-      for_all: 0 with_index_do: insert
-      for_all: 1 with_index_do: insert
-      for_all: 2 with_index_do: insert
-      for_all: 3 with_index_do: insert
-      for_all: 4 with_index_do: insert
+      for_every: 0 with_index_do: insert
+      for_every: 1 with_index_do: insert
+      for_every: 2 with_index_do: insert
+      for_every: 3 with_index_do: insert
+      for_every: 4 with_index_do: insert
     }
     found is: [(1,0), (1,4), (2,1), (2,3), (3,2)]
   }

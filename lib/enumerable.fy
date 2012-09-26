@@ -253,13 +253,13 @@ class Fancy {
       If @item is not in @self, @block is not called.
       """
 
-      for_all: item with_index_do: |x i| {
+      for_every: item with_index_do: |x i| {
         return block call: [x, i]
       }
       nil
     }
 
-    def for_all: item with_index_do: block {
+    def for_every: item with_index_do: block {
       """
       @item Item to call @block with.
       @block @Block@ to be called with @item and each of its indexes in @self.
@@ -283,7 +283,7 @@ class Fancy {
       """
 
       last_idx = nil
-      for_all: item with_index_do: |_ i| { last_idx = i }
+      for_every: item with_index_do: |_ i| { last_idx = i }
       last_idx
     }
 
