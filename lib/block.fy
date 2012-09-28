@@ -274,4 +274,12 @@ class Block {
 
     { block call; self call }
   }
+
+  def to_block {
+    """
+    @return @self.
+    """
+
+    self
+  }
 }
