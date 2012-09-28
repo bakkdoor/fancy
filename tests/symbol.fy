@@ -40,5 +40,11 @@ FancySpec describe: Symbol with: {
 
     str = "hello, world yo!\"foo\""
     b call: [str] . is: $ @{ inspect } call: [str]
+
+    add = '+ to_block
+    { add call: [2] } raises: ArgumentError
+    add call: [0,1] . is: 1
+    add call: [2,3] . is: 5
+    { add call: [2,3,4] } raises: ArgumentError
   }
 }

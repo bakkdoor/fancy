@@ -63,7 +63,7 @@ class Symbol {
 
   def to_block {
     """
-    @return @Block@ that sends @self as a message to its argument.
+    @return @Block@ that sends @self to its first argument, passing along any remaining arguments.
 
     Example:
           'inspect to_block
@@ -71,6 +71,8 @@ class Symbol {
           @{ inspect }
     """
 
-    @{ receive_message: self }
+    |args| {
+      call: args
+    }
   }
 }
