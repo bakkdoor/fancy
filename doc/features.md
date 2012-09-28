@@ -44,8 +44,13 @@
 
       }
 
-      def class_method: another_argument {
-        @@a_class_var = another_argument another_method
+      def self class_method: another_argument {
+        # ...
+      }
+
+      # alternatively use the name of the class itself (as in Ruby):
+      def Foo class_method: another_argument {
+        # ...
       }
     }
 ```
