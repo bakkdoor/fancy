@@ -497,7 +497,7 @@ class Fancy {
 
       acc = init_val
       each: |x| {
-        acc = (block call: [acc, x])
+        acc = block call: [acc, x]
       }
       acc
     }
