@@ -274,6 +274,24 @@ class Fancy {
       }
     }
 
+    def for_every: item do: block {
+      """
+      @item Item to call @block with.
+      @block @Block@ to be called with @item for every occurance of @item in @self.
+
+      Calls @block with @item for each occurance of @item in @self.
+
+      Example:
+            count = 0
+            [1,2,3,2,1] for_every: 1 do: { count = count + 1 }
+            # count is now 2
+      """
+
+      each: |x| {
+        if: (item == x) then: { block call: [x] }
+      }
+    }
+
     def last_index_of: item {
       """
       @item Item for which the last index in @self should be found.

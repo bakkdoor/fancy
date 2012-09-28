@@ -204,6 +204,33 @@ FancySpec describe: Fancy Enumerable with: {
     found is: [(1,0), (1,4), (2,1), (2,3), (3,2)]
   }
 
+  it: "calls a block with an element for every occurance" with: 'for_every:do: when: {
+    arr = [1,2,3,2,1]
+
+    c = 0
+    arr for_every: 0 do: { c = c + 1 }
+    c is: 0
+
+    arr for_every: 1 do: { c = c + 1 }
+    c is: 2
+
+    c = 0
+    arr for_every: 2 do: { c = c + 1 }
+    c is: 2
+
+    c = 0
+    arr for_every: 2 do: { c = c + 1 }
+    c is: 2
+
+    c = 0
+    arr for_every: 3 do: { c = c + 1 }
+    c is: 1
+
+    arr for_every: 1 do: @{ is: 1 }
+    arr for_every: 2 do: @{ is: 2 }
+    arr for_every: 3 do: @{ is: 3 }
+  }
+
   it: "returns the last index of an element or nil" with: 'last_index_of: when: {
     [] last_index_of: nil . is: nil
     [] last_index_of: 1 . is: nil
