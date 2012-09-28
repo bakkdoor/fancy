@@ -47,7 +47,7 @@ https://github.com/fancy-lang/infancy
 
 Given the tools & libraries mentioned above, Fancy _should_ build without problems
 on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
-and Mac OS X 10.5 and 10.6.
+and Mac OS X 10.5, 10.6 & 10.7.
 
 ### Standard building procedure:
 Building Fancy is just that easy:
