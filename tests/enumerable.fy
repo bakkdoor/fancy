@@ -6,6 +6,17 @@ FancySpec describe: Fancy Enumerable with: {
     [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first . is: [-1]
   }
 
+  it: "returns an Array of mapped values" with: 'map: when: {
+    [] map: 'identity . is: []
+    (1,2,3) map: 'squared . is: [1,4,9]
+    "foo" map: 'upcase . is: ["F", "O", "O"]
+  }
+
+  it: "returns an Array of mapped values by calling a block with each element and its index" with: 'map_with_index: when: {
+    [] map_with_index: 'identity . is: []
+    [1,2,3] map_with_index: |x i| { i * 2 } . is: [0,2,4]
+  }
+
   it: "chain-maps all blocks on all values" with: 'map_chained: when: {
     (1,2,3) map_chained: ('doubled, 'squared, 'to_s) . is: ["4", "16", "36"]
     (1,2,3) map_chained: (@{ + 1 }, 'to_s) . is: ["2", "3", "4"]
@@ -14,15 +25,18 @@ FancySpec describe: Fancy Enumerable with: {
   }
 
   it: "maps over its elements with their index" with: 'map_with_index: when: {
-    (1,2,3) map_with_index: |x i| {
-      x + i
-    } . is: [1,3,5]
+    (1,2,3) map_with_index: |x i| { x + i } . is: [1,3,5]
 
-    [1,2,3,4] map_with_index: |x i| {
-      i
-    } . is: [0,1,2,3]
+    [1,2,3,4] map_with_index: |_ i| { i } . is: [0,1,2,3]
 
-    [] map_with_index: |x i| { i } . is: []
+    [] map_with_index: |_ i| { i } . is: []
+  }
+
+  it: "returns a flattened Array of mapped values" with: 'flat_map: when: {
+    [] flat_map: 'identity . is: []
+    (1,2,3) flat_map: 'identity . is: [1,2,3]
+    [(1,2,3), (4,5,6)] flat_map: 'sum . is: [6, 15]
+    [[1,2,3], [4,5,6]] flat_map: 'identity . is: [1,2,3,4,5,6]
   }
 
   it: "counts the amount of elements for which a block yields true" with: 'count: when: {

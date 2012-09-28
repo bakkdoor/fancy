@@ -365,6 +365,14 @@ class Fancy {
       }
     }
 
+    def flat_map: block {
+      """
+      Similar to @Fancy::Enumerable#map:@ but returns the result @Array@ flattened.
+      """
+
+      map: block . tap: @{ flatten! }
+    }
+
     def select: condition {
       """
       @condition A @Block@ that is used as a filter on all elements in @self.

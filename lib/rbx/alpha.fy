@@ -34,4 +34,5 @@ class Class {
 
 class String {
   alias_method: ":+" for: "+"
+  alias_method: ":to_sym" for: "to_sym"
 }
