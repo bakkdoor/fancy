@@ -36,8 +36,8 @@ https://github.com/fancy-lang/infancy
 ## Compiling / Installing from source:
 ### Dependencies:
 - Rubinius.
-  You'll need at least version 1.2.1 for Fancy to work as expected.
-  See http://rubini.us/releases/1.2.1/ for more information.
+  You'll need at least version 1.2.4 for Fancy to work as expected.
+  See http://rubini.us/releases/1.2.4/ for more information.
   If you want to take advantage of the latest VM improvements, we
   suggest using rvm and installing rbx-head.
   See http://rvm.beginrescueend.com/ for more information.
