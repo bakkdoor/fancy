@@ -28,6 +28,15 @@ FancySpec describe: Symbol with: {
     if: x then: 'foo else: 'bar . is: "foo"
   }
 
+  it: "returns its arity correctly (when interpreted as a method name)" with: 'arity when: {
+    'foo arity is: 1
+    'foo_bar_baz arity is: 1
+    ('+, '-, '*, '/) each: @{ arity is: 2 }
+    'foo: arity is: 2
+    'foo:bar: arity is: 3
+    'foo:bar:baz: arity is: 4
+  }
+
   it: "returns self" with: 'to_sym when: {
     'foo to_sym is: 'foo
     'bar to_sym is: 'bar
