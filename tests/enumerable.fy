@@ -252,4 +252,8 @@ FancySpec describe: Fancy Enumerable with: {
     [1,2,1,2] last_index_of: 2 . is: 3
     [1,2,1,2] last_index_of: 3 . is: nil
   }
+
+  it: "is selected from it with each index" with: 'select_with_index: when: {
+    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is: [[2,1], [3,2], [1,3]]
+  }
 }

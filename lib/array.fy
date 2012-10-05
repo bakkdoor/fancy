@@ -389,24 +389,6 @@ class Array {
     subarr
   }
 
-  def select_with_index: condition {
-    """
-    @condition A @Block@ that is used as a filter on all elements in @self.
-    @return An @Array@ containing all elements and their indices in @self that yield @true when called with @condition.
-
-    Returns a new @Array@ with all elements and their indices that meet the given condition block.
-    @condition is called with each element and its index in @self.
-    """
-
-    tmp = []
-    each_with_index: |obj idx| {
-      if: (condition call: [obj, idx]) then: {
-        tmp << [obj, idx]
-      }
-    }
-    tmp
-  }
-
   def to_hash {
     """
     Returns a @Hash@ with each key-value pair in @self.

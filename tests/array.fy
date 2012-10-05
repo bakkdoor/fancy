@@ -356,10 +356,6 @@ FancySpec describe: Array with: {
     [1,2,3,4] any?: |x| { x > 4 } . is: false
   }
 
-  it: "is selected from it with each index" with: 'select_with_index: when: {
-    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is: [[2,1], [3,2], [1,3]]
-  }
-
   it: "returns its remaining (all but the first) elements as a new Array" with: 'rest when: {
     [1,2,3,4] rest is: [2,3,4]
     [] rest is: []
