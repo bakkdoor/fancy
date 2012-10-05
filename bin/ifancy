@@ -1,25 +1,26 @@
 #!/usr/bin/env fancy
-# -*- fancy -*-
+# -*- set ft=fancy -*-
 
 class Fancy Interactive {
-	@@info = <[ ]>
+  @@info = <[ ]>
 
-	def self at: key {
-		return @@info[key]
-	}
+  def self at: key {
+    return @@info[key]
+  }
 
-	def self set: key to: value {
-		return @@info at: key put: value
-	}
+  def self set: key to: value {
+    return @@info at: key put: value
+  }
 }
 
 require("rb-readline/readline")
 try {
-	require("coderay")
-	require(File.expand_path(File.dirname(__FILE__)) ++ "/../ruby_lib/interactive/hilight")
-	Fancy Interactive set: 'coderay to: true
+  require("rubygems")
+  require("coderay")
+  require(File.expand_path(File.dirname(__FILE__)) ++ "/../ruby_lib/interactive/hilight")
+  Fancy Interactive set: 'coderay to: true
 } catch LoadError {
-	Fancy Interactive set: 'coderay to: false
+  Fancy Interactive set: 'coderay to: false
 }
 
 ["Welcome to the (still very simple) Fancy REPL",
@@ -32,39 +33,39 @@ PROMPT = "ifancy[%d]> "
 
 class Prompt {
 	
-	def initialize: @str {
-		@line  = 0
-	}
+  def initialize: @str {
+    @line  = 0
+  }
 
-	def inc_line { @line =  (@line + 1) }
-	def aug_line: num { @line = (@line + num) }
-	def to_s { return sprintf(@str, @line) }
+  def inc_line { @line =  (@line + 1) }
+  def aug_line: num { @line = (@line + num) }
+  def to_s { return sprintf(@str, @line) }
 }
 
 class Feature {
-	@@hooks = <[ ]>
+  @@hooks = <[ ]>
 
-	def initialize: @name will: @desc by: @block {
-		@@hooks at: @name put: self
-	}
+  def initialize: @name will: @desc by: @block {
+    @@hooks at: @name put: self
+  }
 	
-	def run: string { @block call: string }
+  def run: string { @block call: string }
 
-	def about { @name ++ ": " ++ @desc }
+  def about { @name ++ ": " ++ @desc }
 
-	def Feature match: mod str: string {
-		if: (@@hooks[mod]) then: {
-			@@hooks[mod] run: string
-			return true
-		}
-		return false
-	}
+  def Feature match: mod str: string {
+    if: (@@hooks[mod]) then: {
+      @@hooks[mod] run: string
+      return true
+    }
+    return false
+  }
 
-	def Feature get: mod {
-		if: (@@hooks[mod]) then: {
-			return @@hooks[mod]
-		} else: { return false }
-	}
+  def Feature get: mod {
+    if: (@@hooks[mod]) then: {
+      return @@hooks[mod]
+    } else: { return false }
+  }
 }
 
 ARGV rest each: |file| {
@@ -152,31 +153,31 @@ prompt = Prompt new: PROMPT
 Feature new: "exit" will: "Exit the shell" by: |x| { System exit }
 Feature new: "quit" will: "Exit the shell" by: |x| { System exit }
 Feature new: "?" will: "Give information on a command" by: |x| { 
-	f = Feature get: $ x words [1]
-	if: f then: {
-		if:	(f is_a?: Feature) then: { 
-			f about . println 
-		} else: {
-			"Sorry, #{x words [1]} is not a feature that is loaded}" println
-		}
-	} else: {	
-		"Please supply the name of a feature as an argument" println
-	}
+  f = Feature get: $ x words [1]
+  if: f then: {
+    if:	(f is_a?: Feature) then: { 
+      f about . println 
+    } else: {
+      "Sorry, #{x words [1]} is not a feature that is loaded}" println
+    }
+  } else: {	
+    "Please supply the name of a feature as an argument" println
+  }
 }
 
 Feature new: "#{" will: "Create multiline capabilities" by: |x| {
-	line = read_line: "-> "
-	line_s = ""
-	until: { line =~ /^\#}$/ == 0} do: {
-		line_s = line_s ++  line ++ "\n"
-		line = read_line: "-> "
-	}
-	try {
-		Fancy eval: line_s binding: bnd . inspect println
-		prompt aug_line: (( line_s split: "\n") size)
-	} catch Exception => e {
-		e message() println
-	}	
+  line = read_line: "-> "
+  line_s = ""
+  until: { line =~ /^\#}$/ == 0} do: {
+    line_s = line_s ++  line ++ "\n"
+    line = read_line: "-> "
+  }
+  try {
+    Fancy eval: line_s binding: bnd . inspect println
+    prompt aug_line: (( line_s split: "\n") size)
+  } catch Exception => e {
+    e message() println
+  }	
 }
 
 loop: {
@@ -190,12 +191,12 @@ loop: {
   }
   try {
     if: (Fancy Interactive at: 'coderay) then: { 
-		"=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
-	} else: {
-		"=> #{Fancy eval: line binding: bnd . inspect}"  println
-	}
-	prompt inc_line
+      "=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
+    } else: {
+      "=> #{Fancy eval: line binding: bnd . inspect}"  println
+    }
+	  prompt inc_line
   } catch Exception => e {
-      e message() println
+    e message() println
   }
 }
