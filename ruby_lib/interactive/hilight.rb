@@ -33,7 +33,7 @@ module CodeRay
       BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=]=?[a-zA-Z0-9$&*+!\/_?<>\-\#]*/
       CLASS_IDENTIFIER = /[A-Z]+[A-Za-z0-9]*|[A-Z]+[A-Za-z0-9]\:\:|\:\:[A-Z]+[A-Za-z0-9]*/
       IDENTIFIER = /(?!-\d)(?:(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
-      SYMBOL = /\'[A-Za-z]/o
+      SYMBOL = /\'[A-z]+[A-z0-9\:\!\%\^\&\*\_\-\+\=\|\?\\\/\>\<\.]*/o
       DIGIT = /\d+/
       DIGIT10 = DIGIT
       DIGIT16 = /[0-9a-f]/i
