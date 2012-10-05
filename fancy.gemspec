@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
     ["ruby_lib/fancy", "ruby_lib/ifancy", "ruby_lib/fdoc", "ruby_lib/fyi", "ruby_lib/fspec"] +
     Dir.glob("lib/**/*.fy") + Dir.glob("lib/parser/ext/**/*") +
     Dir.glob("tests/**/*.fy") + ["tools/fancy-mode.el"] + ["bin/fancy", "bin/fdoc", "bin/fyi", "bin/ifancy", "bin/fspec"] +
-    Dir.glob("examples/**/*.fy") + Dir.glob("doc/**/*")
+    Dir.glob("examples/**/*.fy") + Dir.glob("doc/**/*") + Dir.glob("ruby_lib/interactive/*")
 
   files = files.reject{ |f| f =~ /\.(fyc|rbc|o|log|plist)/ }.reject{ |f| f =~ /conftest\.dSYM/ }
   files += Dir.glob("boot/**/*").reject{ |f| f =~ /conftest\.dSYM/ }.reject{ |f| f =~ /\.(fyc|rbc|o|log|plist)/ }
