@@ -393,8 +393,8 @@ class Fancy {
       @condition A @Block@ that is used as a filter on all elements in @self.
       @return An @Array@ containing all elements and their indices in @self that yield @true when called with @condition.
 
-      Returns a new @Array@ with all elements and their indices that meet the given condition block.
-      @condition is called with each element and its index in @self.
+      Returns a new @Array@ with all elements and their indices that meet the given
+      condition block. @condition is called with each element and its index in @self.
       """
 
       tmp = []
