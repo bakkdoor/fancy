@@ -44,7 +44,7 @@ class Block {
       return b result
     } catch Fancy StopIteration => s {
       return s result
-    } catch Fancy NextIteration => n {
+    } catch Fancy NextIteration {
       retry
     }
   }
