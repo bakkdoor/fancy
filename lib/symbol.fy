@@ -56,9 +56,9 @@ class Symbol {
   def arity {
     m = message_name to_s
     match m {
-      case /^:[a-zA-Z0-9_]+$/ -> m count: @{ == ":" }
+      case /^:[a-zA-Z0-9_]+$/ -> m count: |c| { c == ":" }
       case /^:\W+$/ -> 2
-      case _ -> m count: @{ == ":" } + 1
+      case _ -> m count: |c| { c == ":" } + 1
     }
   }
 
