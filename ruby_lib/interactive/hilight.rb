@@ -1,35 +1,35 @@
 # encoding: utf-8
 module CodeRay
   module Scanners
-    
+
     # Fancy scanner by swarley.
     class Fancy < Scanner
-      
+
       register_for :fancy
       file_extension 'fy'
-      
+
       SPECIAL_FORMS = %w[
         def throw try catch class
       ]  # :nodoc:
-      
+
       CORE_FORMS = %w[
         + - > < == != >= <= % ** * = && || =~
       ]  # :nodoc:
-      
+
       PREDEFINED_CONSTANTS = %w[
         true false nil
       ]  # :nodoc:
-      
+
       IDENT_KIND = WordList.new(:ident).
         add(SPECIAL_FORMS, :keyword).
         add(CORE_FORMS, :keyword).
         add(PREDEFINED_CONSTANTS, :predefined_constant)
-      
+
       KEYWORD_NEXT_TOKEN_KIND = WordList.new(nil).
         add(%w[ def defn defn- definline defmacro defmulti defmethod defstruct defonce declare ], :function).
         add(%w[ ns ], :namespace).
         add(%w[ defprotocol defrecord ], :class)
-      
+
       BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=]=?[a-zA-Z0-9$&*+!\/_?<>\-\#]*/
       CLASS_IDENTIFIER = /[A-Z]+[A-Za-z0-9]*|[A-Z]+[A-Za-z0-9]\:\:|\:\:[A-Z]+[A-Za-z0-9]*/
       IDENTIFIER = /(?!-\d)(?:(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
@@ -43,15 +43,14 @@ module CodeRay
       NUM = /(?:\-)*(?:#{DIGIT}|#{DIGIT16}|#{DIGIT8}|#{DIGIT2}|#{DECIMAL})/
       MESSAGE = /[A-Za-z0-9\&\_]+?(?:\:|\?\:)/
       CAPTURE = /\|.+?\|/
-    protected
-      
-      def scan_tokens encoder, options
-        
+
+      protected
+
+      def scan_tokens(encoder, options)
         state = :initial
         kind = nil
-        
+
         until eos?
-          
           case state
           when :initial
             if match = scan(/ \s+ | \n | , /x)
@@ -98,7 +97,7 @@ module CodeRay
             else
               encoder.text_token getch, :error
             end
-            
+
           when :string, :regexp
             if match = scan(/[^"\\]+|\\.?/)
               encoder.text_token match, :content
@@ -110,20 +109,16 @@ module CodeRay
               raise_inspect "else case \" reached; %p not handled." % peek(1),
                 encoder, state
             end
-            
           else
             raise 'else case reached'
-            
           end
-          
         end
-        
+
         if [:string, :regexp].include? state
           encoder.end_group state
         end
-        
+
         encoder
-        
       end
     end
   end

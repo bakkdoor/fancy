@@ -32,7 +32,7 @@ HISTORY = []
 PROMPT = "ifancy[%d]> "
 
 class Prompt {
-	
+
   def initialize: @str {
     @line  = 0
   }
@@ -48,7 +48,7 @@ class Feature {
   def initialize: @name will: @desc by: @block {
     @@hooks at: @name put: self
   }
-	
+
   def run: string { @block call: string }
 
   def about { @name ++ ": " ++ @desc }
@@ -152,15 +152,15 @@ prompt = Prompt new: PROMPT
 
 Feature new: "exit" will: "Exit the shell" by: |x| { System exit }
 Feature new: "quit" will: "Exit the shell" by: |x| { System exit }
-Feature new: "?" will: "Give information on a command" by: |x| { 
+Feature new: "?" will: "Give information on a command" by: |x| {
   f = Feature get: $ x words [1]
   if: f then: {
-    if:	(f is_a?: Feature) then: { 
-      f about . println 
+    if: (f is_a?: Feature) then: {
+      f about . println
     } else: {
       "Sorry, #{x words [1]} is not a feature that is loaded}" println
     }
-  } else: {	
+  } else: {
     "Please supply the name of a feature as an argument" println
   }
 }
@@ -177,11 +177,11 @@ Feature new: "#{" will: "Create multiline capabilities" by: |x| {
     prompt aug_line: (( line_s split: "\n") size)
   } catch Exception => e {
     e message() println
-  }	
+  }
 }
 
 loop: {
-  line = read_line: prompt  
+  line = read_line: prompt
   { next } if: (Feature match: (line words [0]) str: line)
 
   HISTORY << line
@@ -190,7 +190,7 @@ loop: {
     HISTORY pop()
   }
   try {
-    if: (Fancy Interactive at: 'coderay) then: { 
+    if: (Fancy Interactive at: 'coderay) then: {
       "=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
     } else: {
       "=> #{Fancy eval: line binding: bnd . inspect}"  println
