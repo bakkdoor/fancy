@@ -2,14 +2,14 @@
 # -*- set ft=fancy -*-
 
 class Fancy Interactive {
-  @@info = <[ ]>
+  @@info = <[]>
 
-  def self at: key {
-    return @@info[key]
+  def self [key] {
+    @@info[key]
   }
 
-  def self set: key to: value {
-    return @@info at: key put: value
+  def self [key]: value {
+    @@info[key]: value
   }
 }
 
@@ -18,9 +18,9 @@ try {
   require("rubygems")
   require("coderay")
   require(File.expand_path(File.dirname(__FILE__)) ++ "/../ruby_lib/interactive/hilight")
-  Fancy Interactive set: 'coderay to: true
+  Fancy Interactive['coderay]: true
 } catch LoadError {
-  Fancy Interactive set: 'coderay to: false
+  Fancy Interactive['coderay]: false
 }
 
 ["Welcome to the (still very simple) Fancy REPL",
@@ -37,16 +37,16 @@ class Prompt {
     @line  = 0
   }
 
-  def inc_line { @line =  (@line + 1) }
-  def aug_line: num { @line = (@line + num) }
-  def to_s { return sprintf(@str, @line) }
+  def inc_line { @line = @line + 1 }
+  def aug_line: num { @line = @line + num }
+  def to_s { sprintf(@str, @line) }
 }
 
 class Feature {
-  @@hooks = <[ ]>
+  @@hooks = <[]>
 
   def initialize: @name will: @desc by: @block {
-    @@hooks at: @name put: self
+    @@hooks[@name]: self
   }
 
   def run: string { @block call: string }
@@ -54,17 +54,15 @@ class Feature {
   def about { @name ++ ": " ++ @desc }
 
   def Feature match: mod str: string {
-    if: (@@hooks[mod]) then: {
-      @@hooks[mod] run: string
+    if: (@@hooks[mod]) then: |feature| {
+      feature run: string
       return true
     }
     return false
   }
 
   def Feature get: mod {
-    if: (@@hooks[mod]) then: {
-      return @@hooks[mod]
-    } else: { return false }
+    @@hooks[mod] || false
   }
 }
 
@@ -183,7 +181,7 @@ Feature new: "#{" will: "Create multiline capabilities" by: |x| {
 loop: {
   line = read_line: prompt
   { System exit } unless: line
-  { next } if: (Feature match: (line words [0]) str: line)
+  { next } if: (Feature match: (line words[0]) str: line)
 
   HISTORY << line
   if: (double_or_empty?: line) then: {
@@ -191,7 +189,7 @@ loop: {
     HISTORY pop()
   }
   try {
-    if: (Fancy Interactive at: 'coderay) then: {
+    if: (Fancy Interactive['coderay]) then: {
       "=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
     } else: {
       "=> #{Fancy eval: line binding: bnd . inspect}"  println
