@@ -182,6 +182,7 @@ Feature new: "#{" will: "Create multiline capabilities" by: |x| {
 
 loop: {
   line = read_line: prompt
+  { System exit } unless: line
   { next } if: (Feature match: (line words [0]) str: line)
 
   HISTORY << line
