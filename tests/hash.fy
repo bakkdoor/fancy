@@ -263,4 +263,22 @@ FancySpec describe: Hash with: {
     h1 is: <['name => "Tom", 'age => 21]>
     h2 is: <["namename" => "Tom", "ageage" => 21]>
   }
+
+  it: "calls a block with a value for a given key, if available" with: 'with_value_for_key:do:else: when: {
+    h = <['hello => "world", 1 => 2, "foo" => "barbaz"]>
+    else_ran? = false
+    else_block = { else_ran? = true }
+
+    h with_value_for_key: 'hello do: @{ is: "world" } else: else_block
+    h with_value_for_key: 1 do: @{ is: 2 } else: else_block
+    h with_value_for_key: "foo" do: @{ "barbaz" } else: else_block
+
+    else_ran? = false
+
+    h with_value_for_key: "not in hash" do: {
+      "should not call this block!" raise!
+    } else: else_block
+
+    else_ran? is: true
+  }
 }

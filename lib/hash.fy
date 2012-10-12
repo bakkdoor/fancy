@@ -336,4 +336,16 @@ class Hash {
 
     dup update_keys: block
   }
+
+  def with_value_for_key: key do: block else: else_block ({}) {
+    """
+    @key Key of value to find in @self.
+    @block @Block@ to be called with value for @key, if found.
+    @else_block @Block@ to be called if @key not found in @self.
+    """
+
+    if: (includes?: key) then: {
+      block call: [at: key]
+    } else: else_block
+  }
 }
