@@ -27,18 +27,25 @@ try {
  "Fancy #{Fancy VERSION}"] println
 
 HISTORY_FILE = File expand_path("~/.fancy_history")
-HISTORY = []
-
-PROMPT = "ifancy[%d]> "
+HISTORY      = []
+PROMPT       = "ifancy[%d]> "
 
 class Prompt {
   def initialize: @str {
     @line = 0
   }
 
-  def inc_line { @line = @line + 1 }
-  def aug_line: num { @line = @line + num }
-  def to_s { sprintf(@str, @line) }
+  def inc_line {
+    @line = @line + 1
+  }
+
+  def aug_line: num {
+    @line = @line + num
+  }
+
+  def to_s {
+    sprintf(@str, @line)
+  }
 }
 
 class Feature {
@@ -50,7 +57,9 @@ class Feature {
     @@hooks[@name]: self
   }
 
-  def run: string { @block call: string }
+  def run: string {
+    @block call: string
+  }
 
   def about: name_width (@name size) {
     sprintf("%-#{name_width}s : %s", @name, @desc)
@@ -76,7 +85,7 @@ class Feature {
 }
 
 ARGV rest each: |file| {
-  "LOADING: " ++ file println
+  "LOADING: #{file}" println
   require: file
 }
 
@@ -177,14 +186,14 @@ Feature new: "#{" will: "Create multiline capabilities" by: {
   line = read_line: "-> "
   line_s = ""
   until: { line =~ /^\#}$/ == 0} do: {
-    line_s = line_s ++  line ++ "\n"
+    line_s = line_s ++ line ++ "\n"
     line = read_line: "-> "
   }
   try {
     Fancy eval: line_s binding: bnd . inspect println
-    prompt aug_line: (( line_s split: "\n") size)
+    prompt aug_line: (line_s split: "\n" . size)
   } catch Exception => e {
-    e message() println
+    e message println
   }
 }
 
@@ -206,6 +215,6 @@ loop: {
     }
 	  prompt inc_line
   } catch Exception => e {
-    e message() println
+    e message println
   }
 }
