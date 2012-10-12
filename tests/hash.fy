@@ -1,20 +1,23 @@
 FancySpec describe: Hash with: {
   it: "is empty on initialization" with: 'empty? when: {
-    hash = <[]>
-    hash size is: 0
-    hash empty? is: true
+    <[]> tap: @{
+      size is: 0
+      empty? is: true
+    }
   }
 
   it: "is empty on initialization via Hash#new" with: 'size when: {
-    hash = Hash new
-    hash size is: 0
-    hash empty? is: true
+    Hash new tap: @{
+      size is: 0
+      empty? is: true
+    }
   }
 
   it: "contains one entry" when: {
-    hash = <['foo => "bar"]>
-    hash size is: 1
-    hash empty? is: false
+    <['foo => "bar"]> tap: @{
+      size is: 1
+      empty? is: false
+    }
   }
 
   it: "contains 10 square values after 10 insertions" with: 'at: when: {
