@@ -281,4 +281,46 @@ FancySpec describe: Hash with: {
 
     else_ran? is: true
   }
+
+  it: "sets the default value on creation" when: {
+    h = Hash new: "default"
+    h['key] is: "default"
+    h['key]: "hallo"
+    h['key] is: "hallo"
+  }
+
+  it: "sets the default value" with: 'default: when: {
+    h = Hash new
+    h default is: nil
+    h default: "foo"
+    h default is: "foo"
+
+    block = |_ k| { k }
+    h default: block
+    h default is: block
+  }
+
+  it: "returns the default value" with: 'default when: {
+    Hash new default is: nil
+    Hash new: "foo" . default is: "foo"
+
+    block = |h k| { k * 2 }
+    Hash new: block . default is: block
+    Hash new: block . tap: |h| {
+      h[1] is: 2
+      h["foo"] is: "foofoo"
+    }
+  }
+
+  it: "returns the return value for a given key" with: 'default_for: when: {
+    Hash new: 2 . tap: @{
+      default_for: "foo" . is: 2
+      default_for: "bar" . is: 2
+    }
+
+    Hash new: |_ k| { k * 2 } . tap: @{
+      default_for: "foo" . is: "foofoo"
+      default_for: 100 . is: 200
+    }
+  }
 }
