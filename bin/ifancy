@@ -44,25 +44,35 @@ class Prompt {
 class Feature {
   @@hooks = <[]>
 
+  read_slots: ('name, 'desc)
+
   def initialize: @name will: @desc by: @block {
     @@hooks[@name]: self
   }
 
   def run: string { @block call: string }
 
-  def about { @name ++ ": " ++ @desc }
+  def about: name_width (@name size) {
+    sprintf("%-#{name_width}s : %s", @name, @desc)
+  }
 
-  def Feature match: mod str: string {
-    if: (@@hooks[mod]) then: |feature| {
+  def Feature match: name str: string {
+    if: (@@hooks[name]) then: |feature| {
       feature run: string
       return true
     }
     return false
   }
 
-  def Feature get: mod {
-    @@hooks[mod] || false
+  def Feature find: name do: block else: else_block {
+    @@hooks with_value_for_key: name do: block else: else_block
   }
+
+  def Feature each: block {
+    @@hooks values sort_by: 'name . each: block
+  }
+
+  extend: Fancy Enumerable
 }
 
 ARGV rest each: |file| {
@@ -147,22 +157,23 @@ bnd = binding()
 
 prompt = Prompt new: PROMPT
 
-Feature new: "exit" will: "Exit the shell" by: |x| { System exit }
-Feature new: "quit" will: "Exit the shell" by: |x| { System exit }
-Feature new: "?" will: "Give information on a command" by: |x| {
-  f = Feature get: $ x words [1]
-  if: f then: {
-    if: (f is_a?: Feature) then: {
-      f about . println
+Feature new: "exit" will: "Exit the shell" by: { System exit }
+Feature new: "quit" will: "Exit the shell" by: { System exit }
+Feature new: "?" will: "Give information on a command" by: |line| {
+  feature_name = line words[1]
+  if: feature_name then: {
+    Feature find: feature_name do: @{
+      about println
     } else: {
-      "Sorry, #{x words [1]} is not a feature that is loaded}" println
+      "Sorry, #{feature_name} is not a feature that is loaded" println
     }
   } else: {
-    "Please supply the name of a feature as an argument" println
+    max_width = Feature map: @{ name size } . max
+    Feature each: @{ about: max_width . println }
   }
 }
 
-Feature new: "#{" will: "Create multiline capabilities" by: |x| {
+Feature new: "#{" will: "Create multiline capabilities" by: {
   line = read_line: "-> "
   line_s = ""
   until: { line =~ /^\#}$/ == 0} do: {
