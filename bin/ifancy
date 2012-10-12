@@ -32,9 +32,8 @@ HISTORY = []
 PROMPT = "ifancy[%d]> "
 
 class Prompt {
-
   def initialize: @str {
-    @line  = 0
+    @line = 0
   }
 
   def inc_line { @line = @line + 1 }
