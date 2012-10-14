@@ -368,22 +368,23 @@ class Array {
     tmp
   }
 
-  def from: from to: to {
+  def from: start to: end {
     """
-    @from Start index for sub-array.
-    @to End index for sub-array.
+    @start Start index for sub-array.
+    @end End index for sub-array.
 
     Returns sub-array starting at from: and going to to:
     """
 
-    if: (from < 0) then: {
-      from = size + from
-    }
-    if: (to < 0) then: {
-      to = size + to
-    }
+    { return [] } if: empty?
+    { return [] } if: (start >= size)
+
+    { start = size + start } if: (start < 0)
+    { end = size + end } if: (end < 0)
+    { end = size - 1 } if: (end >= size)
+
     subarr = []
-    from upto: to do: |i| {
+    start upto: end do: |i| {
       subarr << (at: i)
     }
     subarr

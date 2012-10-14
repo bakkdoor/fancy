@@ -546,4 +546,15 @@ FancySpec describe: Array with: {
     [] to_hash: @{ size } . is: <[]>
     [[1,2],[3,4,5]] to_hash: @{ size } . is: <[2 => [1,2], 3 => [3,4,5]]>
   }
+
+  it: "returns an sub-array within a given range" with: 'from:to: when: {
+    [] from: 0 to: 1 . is: []
+    [1] from: 0 to: 0 . is: [1]
+    [1] from: 0 to: 1 . is: [1]
+    [1] from: 0 to: 2 . is: [1]
+    [1] from: 0 to: -1 . is: [1]
+    [1] from: 0 to: -2 . is: []
+    [0,1,2,3] from: 0 to: 3 . is: [0,1,2,3]
+    [0,1,2,3] from: -1 to: 3 . is: [3]
+  }
 }
