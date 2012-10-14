@@ -172,7 +172,7 @@ class Fancy {
       Works similar to @Fancy::Enumerable#inject:into:@ but uses first element as value injected.
 
       Example:
-            (1,2,3) reduce_by: '+  # => same as: (2,3) inject: 1 into: '+
+            (1,2,3) join_by: '+  # => same as: (2,3) inject: 1 into: '+
       """
 
       first, *rest = self

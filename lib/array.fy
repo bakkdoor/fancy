@@ -106,8 +106,7 @@ class Array {
     size times: |i| {
       try {
         block call: [at: i]
-      } catch Fancy NextIteration {
-      }
+      } catch Fancy NextIteration {}
     }
     self
   }
@@ -360,10 +359,8 @@ class Array {
     """
 
     tmp = []
-    each_with_index: |obj, idx| {
-      if: (item == obj) then: {
-        tmp << idx
-      }
+    each_with_index: |obj idx| {
+      { tmp << idx } if: (item == obj)
     }
     tmp
   }
@@ -393,14 +390,14 @@ class Array {
   def to_hash {
     """
     Returns a @Hash@ with each key-value pair in @self.
+    Expects values in @self to be 2-element @Array@s (used as key-value pairs).
 
     Example:
           [[1,2],[3,4]] to_hash  # => <[1 => 2, 3 => 4]>
     """
 
     h = <[]>
-    self each: |pair| {
-      k,v = pair
+    self each: |k v| {
       h[k]: v
     }
     h
