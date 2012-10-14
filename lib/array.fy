@@ -232,7 +232,7 @@ class Array {
     Removes all nil-value elements in place.
     """
 
-    reject!: |x| { x nil? }
+    reject!: @{ nil? }
     return self
   }
 
@@ -265,9 +265,7 @@ class Array {
     Prints each element on a seperate line.
     """
 
-    each: |x| {
-      x println
-    }
+    each: @{ println }
     nil
   }
 
