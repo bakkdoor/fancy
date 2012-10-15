@@ -20,15 +20,10 @@
     cursor: pointer;
 }
 .expand {
-    padding-left: 16px;
+/*    padding-left: 16px;*/
 }
 .expand:hover{
     cursor: pointer;
-}
-.sidebar .theme-roller {
-    position: absolute;
-    top: 5px;
-    right: 2em;
 }
 .main {
     margin: 0;
