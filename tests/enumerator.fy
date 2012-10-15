@@ -98,6 +98,13 @@ FancySpec describe: Fancy Enumerator with: {
     10 times: { enum ended? is: false; enum next } # move forward
     enum ended? is: true
   }
+
+  it: "is an Enumerable" when: {
+    enum = (1..9) to_enum
+    enum select: 'even? . is: [2,4,6,8]
+    enum rewind
+    enum map: @{ + 1 } . is: $ (2..10) to_a
+  }
 }
 
 # => [:each, :each_with_index, :each_with_object, :with_index, :with_object, :next_values, :peek_values, :next, :peek, :feed, :rewind, :inspect]

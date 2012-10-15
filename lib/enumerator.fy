@@ -1,5 +1,13 @@
 class Fancy {
   class Enumerator {
+    class Generator {
+      def initialize: @block
+
+      def each: block {
+        @block call: [block]
+      }
+    }
+
     def initialize: @collection {
       """
       @collection Collection to iterate over.
@@ -141,6 +149,8 @@ class Fancy {
       }
     }
 
+    include: Fancy Enumerable
+
     def chunk: block {
       Generator new: |inner_block| {
         enums = []
@@ -167,14 +177,6 @@ class Fancy {
 
         self
       } . to_enum
-    }
-
-    class Generator {
-      def initialize: @block
-
-      def each: block {
-        @block call: [block]
-      }
     }
 
     def to_a {
