@@ -170,7 +170,7 @@ class Fancy {
     }
 
     class Generator {
-      def initialize: @block {}
+      def initialize: @block
 
       def each: block {
         @block call: [block]
