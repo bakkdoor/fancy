@@ -182,6 +182,7 @@ class Fancy {
     def to_a {
       output = []
       each: |element| { output << element }
+      rewind
       output
     }
   }
