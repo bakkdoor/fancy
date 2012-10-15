@@ -692,6 +692,40 @@ class Fancy {
       coll
     }
 
+    def chunk_by: block {
+      """
+      @block @Block@ to chunk @self by.
+      @return @Array@ of chunks, each including the return value of calling @block with elements in the chunk, as well as the elements themselves (within another @Array@).
+
+      Similar to @Fancy::Enumerable#partition_by:@ but includes the value of
+      calling @block with an element within the chunk.
+
+      Example:
+            [1,3,4,5,6,8,10] chunk_by: 'odd?
+            # => [[true, [1,3]], [false, [4]], [true, [5]], [false, [6,8,10]]]
+      """
+
+      { return [] } if: empty?
+
+      chunks = []
+      curr_chunk = []
+      initial = first
+      last_val = block call: [initial]
+      curr_chunk << initial
+
+      rest each: |x| {
+        val = block call: [x]
+        if: (val != last_val) then: {
+          chunks << [last_val, curr_chunk]
+          curr_chunk = []
+        }
+        curr_chunk << x
+        last_val = val
+      }
+      { chunks << [last_val, curr_chunk] } unless: $ curr_chunk empty?
+      chunks
+    }
+
     def random {
       """
       @return Random element in @self.

@@ -256,4 +256,35 @@ FancySpec describe: Fancy Enumerable with: {
   it: "is selected from it with each index" with: 'select_with_index: when: {
     ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is: [[2,1], [3,2], [1,3]]
   }
+
+  it: "returns a chunked array based on a given block" with: 'chunk_by: when: {
+    [] chunk_by: @{ nil? } . is: []
+    [1] chunk_by: @{ nil? } . is: [[false, [1]]]
+    [1,2] chunk_by: @{ odd? } . is: [
+      [true, [1]],
+      [false, [2]]
+    ]
+
+    [1,3,4,5,7,2,6,8,10,9] do: @{
+      chunk_by: 'even? . is: [
+        [false, [1,3]],
+        [true, [4]],
+        [false, [5,7]],
+        [true, [2,6,8,10]],
+        [false, [9]]
+      ]
+
+      chunk_by: 'odd? . is: [
+        [true, [1,3]],
+        [false, [4]],
+        [true, [5,7]],
+        [false, [2,6,8,10]],
+        [true, [9]]
+      ]
+
+      chunk_by: 'nil? . is: [
+        [false, [1,3,4,5,7,2,6,8,10,9]]
+      ]
+    }
+  }
 }
