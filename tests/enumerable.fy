@@ -295,4 +295,16 @@ FancySpec describe: Fancy Enumerable with: {
     ('foo, 1, 2, 'bar) group_by: @{ class } . is: <[Symbol => ['foo, 'bar], Fixnum => [1,2]]>
     "FooBar" group_by: @{ uppercase? } . is: <[true => ["F", "B"], false => ["o", "o", "a", "r"]]>
   }
+
+  it: "returns its min and max value" with: 'min_max when: {
+    [] min_max is: (nil, nil)
+    [1] min_max is: (1, 1)
+    (1,2,3,4) min_max is: (1, 4)
+  }
+
+  it: "returns its min and max value based on a given block" with: 'min_max_by: when: {
+    [] min_max_by: 'nil . is: (nil, nil)
+    ["foo"] min_max_by: 'size . is: ("foo", "foo")
+    ["a", "bc", "def"] min_max_by: @{ size } . is: ("a", "def")
+  }
 }

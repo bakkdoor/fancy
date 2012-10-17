@@ -640,6 +640,43 @@ class Fancy {
       superior_by: '<
     }
 
+    def min_max {
+      """
+      @return @Tuple@ of min and max value in @self.
+
+      If @self is empty, returns (nil, nil).
+
+      Example:
+            (1,2,3,4) min_max # => (1, 3)
+      """
+
+      min_max_by: @{ identity }
+    }
+
+    def min_max_by: block {
+      """
+      @block @Block@ to calculate the min and max value by.
+      @return @Tuple@ of min and max value based on @block in @self.
+
+      Calls @block with each element in @self to determine min and max values.
+      If @self is empty, returns (nil, nil).
+
+      Example:
+            (\"a\", \”bc\", \”def\") min_max_by: 'size # => (1, 3)
+      """
+
+      min, max = nil, nil
+      min_val, max_val = nil, nil
+      each: |x| {
+        val = block call: [x]
+        { min = val; min_val = x } unless: min
+        { min = val; min_val = x } if: (val < min)
+        { max = val; max_val = x } unless: max
+        { max = val; max_val = x } if: (val > max)
+      }
+      (min_val, max_val)
+    }
+
     def sum {
       """
       Calculates the sum of all the elements in the @Enumerable
