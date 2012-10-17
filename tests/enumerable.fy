@@ -300,11 +300,13 @@ FancySpec describe: Fancy Enumerable with: {
     [] min_max is: (nil, nil)
     [1] min_max is: (1, 1)
     (1,2,3,4) min_max is: (1, 4)
+    (4,2,1,3) min_max is: (1, 4)
   }
 
   it: "returns its min and max value based on a given block" with: 'min_max_by: when: {
     [] min_max_by: 'nil . is: (nil, nil)
     ["foo"] min_max_by: 'size . is: ("foo", "foo")
     ["a", "bc", "def"] min_max_by: @{ size } . is: ("a", "def")
+    ["long", "a", "bc", "def"] min_max_by: @{ size } . is: ("a", "long")
   }
 }
