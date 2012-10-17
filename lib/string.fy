@@ -251,4 +251,34 @@ class String {
 
     self split: "_" . map: @{ capitalize } . join
   }
+
+  def uppercase? {
+    """
+    @return @true if @self is completely uppercase, @false otherwise.
+
+    Example:
+        \"F\"   uppercase? # => true
+        \"FOO\" uppercase? # => true
+        \"f\”   uppercase? # => false
+        \"Foo\" uppercase? # => false
+    """
+
+    { return false } if: blank?
+    uppercase == self
+  }
+
+  def lowercase? {
+    """
+    @return @true if @self is completely lowercase, @false otherwise.
+
+    Example:
+        \"f\”   lowercase? # => true
+        \"foo\" lowercase? # => true
+        \"F\"   lowercase? # => false
+        \"Foo\" lowercase? # => false
+    """
+
+    { return false } if: blank?
+    lowercase == self
+  }
 }

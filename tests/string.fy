@@ -221,4 +221,20 @@ FancySpec describe: String with: {
     "foo_" camel_cased is: "Foo"
     "foo_bar_baz" camel_cased is: "FooBarBaz"
   }
+
+  it: "returns true if its uppercase" with: 'uppercase? when: {
+    "" uppercase? is: false
+    "foo" uppercase? is: false
+    "F" uppercase? is: true
+    "Foo" uppercase? is: false
+    "ABC" uppercase? is: true
+  }
+
+  it: "returns true if its lowercase" with: 'lowercase? when: {
+    "" lowercase? is: false
+    "foo" lowercase? is: true
+    "foA" lowercase? is: false
+    "A" lowercase? is: false
+    "abc" lowercase? is: true
+  }
 }
