@@ -783,6 +783,27 @@ class Fancy {
       groups
     }
 
+    def group_by: block {
+      """
+      @block @Block@ used to group elements in @self by.
+      @return @Hash@ with elements in @self grouped by return value of calling @block with them.
+
+      Returns the elements grouped by @block in a @Hash@ (the keys being the
+      value of calling @block with the elements).
+
+      Example:
+            ('foo, 1, 2, 'bar) group_by: @{ class }
+            # => <[Symbol => ['foo, 'bar], Fixnum => [1,2]]>
+      """
+
+      h = <[]>
+      each: |x| {
+        group = h at: (block call: [x]) else_put: { [] }
+        group << x
+      }
+      h
+    }
+
     def reverse {
       """
       @return @self in reverse order.

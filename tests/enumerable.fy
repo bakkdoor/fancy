@@ -287,4 +287,12 @@ FancySpec describe: Fancy Enumerable with: {
       ]
     }
   }
+
+  it: "returns a hash grouped by the value returned by a block called with the elements" with: 'group_by: when: {
+    [] group_by: 'nil? . is: <[]>
+    [1,3,5] group_by: @{ odd? } . is: <[true => [1,3,5]]>
+    (0,1,2,3) group_by: 'even? . is: <[false => [1,3], true => [0,2]]>
+    ('foo, 1, 2, 'bar) group_by: @{ class } . is: <[Symbol => ['foo, 'bar], Fixnum => [1,2]]>
+    "FooBar" group_by: @{ uppercase? } . is: <[true => ["F", "B"], false => ["o", "o", "a", "r"]]>
+  }
 }
