@@ -991,5 +991,38 @@ class Fancy {
       }
       result
     }
+
+    def one?: block {
+      """
+      @block @Block@ to be used to check for a condition expected only once in @self.
+      @return @true if @block yields @true only once for all elements in @self.
+
+      Example:
+            (0,1,2) one?: 'odd?  # => true
+            (0,1,2) one?: 'even? # => false
+      """
+
+      got_one? = false
+      each: |x| {
+        if: (block call: [x]) then: {
+          { return false } if: got_one?
+          got_one? = true
+        }
+      }
+      return got_one?
+    }
+
+    def none?: block {
+      """
+      @block @Block@ to be used to check for a condition expected not once in @self.
+      @return @true if none of the elements in @self called with @block yield @true.
+
+      Example:
+            (0,2,4) none?: 'odd?   # => true
+            (0,2,5) none?: 'odd? # => false
+      """
+
+      any?: block . not
+    }
   }
 }

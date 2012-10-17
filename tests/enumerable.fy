@@ -309,4 +309,19 @@ FancySpec describe: Fancy Enumerable with: {
     ["a", "bc", "def"] min_max_by: @{ size } . is: ("a", "def")
     ["long", "a", "bc", "def"] min_max_by: @{ size } . is: ("a", "long")
   }
+
+  it: "returns true if exactly one element yields true with a given block" with: 'one?: when: {
+    [] one?: 'nil? . is: false
+    (1,2) one?: 'odd? . is: true
+    (1,2,3) one?: 'odd? . is: false
+    "fooBar" one?: 'uppercase? . is: true
+  }
+
+  it: "returns true if a given block yields true for none of the elements" with: 'none?: when: {
+    [] none?: 'nil? . is: true
+    [1] none?: 'odd? . is: false
+    [1] none?: 'even? . is: true
+    [1,3,5] none?: 'even? . is: true
+    "foobarBaz" none?: 'uppercase? . is: false
+  }
 }
