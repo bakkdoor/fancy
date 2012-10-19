@@ -324,4 +324,29 @@ FancySpec describe: Fancy Enumerable with: {
     [1,3,5] none?: 'even? . is: true
     "foobarBaz" none?: 'uppercase? . is: false
   }
+
+  it: "returns the sum of all the elements" with: 'sum when: {
+    [] sum is: 0
+    [1] sum is: 1
+    [-1,0,1] sum is: 0
+    (1,2,3) sum is: 6
+  }
+
+  it: "returns the product of all the elements" with: 'product when: {
+    [] product is: 1
+    [1] product is: 1
+    [1,2] product is: 2
+    [1,2,3] product is: 6
+    [-1,5,2] product is: -10
+    [1,0,1] product is: 0
+  }
+
+  it: "retuns the average value of all elements" with: 'average when: {
+    [] average is: 0
+    [1] average is: 1
+    [1,2] average is: 1.5
+    [2,4,6] average is: 4
+    [-1,0,1] average is: 0
+    [-1,1,2] average is: $ 2.0 / 3
+  }
 }

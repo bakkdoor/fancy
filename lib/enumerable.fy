@@ -700,7 +700,7 @@ class Fancy {
       @return Average value in @self (expecting @Number@s or Objects implementing @+ and @*).
       """
 
-      { return 0 } if: (size == 0)
+      { return 0 } if: empty?
       sum to_f / size
     }
 
