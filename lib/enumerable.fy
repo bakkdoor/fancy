@@ -606,18 +606,17 @@ class Fancy {
             [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
       """
 
+      retval     = first
+      retval_cmp = selection_block call: [retval]
 
-      pairs = self map: |val| {
-        (val, selection_block call: [val])
-      }
-
-      retval = pairs first
-      pairs each: |p| {
-        if: (comparison_block call: [p second, retval second]) then: {
-          retval = p
+      rest each: |p| {
+        cmp = selection_block call: [p]
+        if: (comparison_block call: [cmp, retval_cmp]) then: {
+          retval     = p
+          retval_cmp = cmp
         }
       }
-      retval first
+      retval
     }
 
     def max {
