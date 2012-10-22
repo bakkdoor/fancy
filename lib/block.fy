@@ -259,7 +259,7 @@ class Block {
           { \"Hello\" print } then: { \"World!\" println }
     """
 
-    { self call; block call }
+    { block call: [self call] }
   }
 
   alias_method: 'before: for: 'then:
@@ -274,7 +274,7 @@ class Block {
           { \"World!\" println } after: { \"Hello\" print }
     """
 
-    { block call; self call }
+    { self call: [block call]  }
   }
 
   def to_block {
