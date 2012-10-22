@@ -8,7 +8,7 @@ def ARGV for_option: op_name do: block {
 
   ARGV index: op_name . if_true: |idx| {
     if: (block arity > 0) then: {
-      ARGV[idx + 1] if_true: |arg| {
+      if: (ARGV[idx + 1]) then: |arg| {
         block call: [arg]
         ARGV remove_at: idx
         ARGV remove_at: idx
