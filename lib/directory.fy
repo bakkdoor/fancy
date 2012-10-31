@@ -12,6 +12,6 @@ class Directory {
     Indicates, if a Directory exists with a given pathname.
     """
 
-    (File exists?: dirname) and: (File directory?: dirname)
+    (File exists?: dirname) && { File directory?: dirname }
   }
 }

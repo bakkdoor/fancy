@@ -1,4 +1,4 @@
-require: "rbx/stringio"
+require: "lib/stringio"
 
 FancySpec describe: StringIO with: {
   before_each: {

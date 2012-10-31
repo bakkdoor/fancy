@@ -275,7 +275,7 @@ FancySpec describe: Object with: {
     o2 get_slot: 'slot2 == (o1 slot2) is: true
   }
 
-  it: "returns itself when return is send as a message" with: 'return when: {
+  it: "returns itself when return is send as a message" when: {
     def foo: array {
       array each: @{ return }
     }
@@ -293,7 +293,7 @@ FancySpec describe: Object with: {
     v is: [1]
   }
 
-  it: "provides temporarily mutable slots" with: 'with_mutable_slots: when: {
+  it: "provides temporarily mutable slots" with: 'with_mutable_slots:do: when: {
     class Student {
       read_slots: ('name, 'age, 'city)
       def initialize: block {
@@ -327,5 +327,55 @@ FancySpec describe: Object with: {
         ignoring: (ZeroDivisionError, NoMethodError) do: b
       }
     } does_not raise: Exception
+  }
+
+  it: "rebinds a singleton method within a block" with: 'rebind_method:with:within: when: {
+    s = "foo"
+    s rebind_method: 'hello with: { 42 } within: {
+      s hello is: 42
+    }
+
+    s rebind_method: 'hello with: 'to_s within: {
+      s hello is: "foo"
+    }
+
+    { s hello } raises: NoMethodError
+
+    def s bar {
+      "bar!"
+    }
+
+    s bar is: "bar!"
+
+    s rebind_method: 'bar with: { "new bar!" } within: {
+      s bar is: "new bar!"
+    }
+
+    s rebind_method: 'bar with: { "another bar!" } within: |x| { x bar } . is: "another bar!"
+
+    s bar is: "bar!"
+  }
+
+  it: "binds a dynvar correctly" with: 'let:be:in:ensuring: when: {
+    *var* is: nil
+    let: '*var* be: 'hello in: {
+      *var* is: 'hello
+    } ensuring: {
+      *var* is: 'hello
+    }
+    *var* is: nil
+
+    @val = nil
+    def check {
+      *var* is: @val
+    }
+
+    check
+    @val = "test"
+    let: '*var* be: @val in: {
+      check
+    }
+    @val = nil
+    check
   }
 }

@@ -1,23 +1,92 @@
 #!/usr/bin/env fancy
-# -*- fancy -*-
+# -*- set ft=fancy -*-
+
+class Fancy Interactive {
+  @@info = <[]>
+
+  def self [key] {
+    @@info[key]
+  }
+
+  def self [key]: value {
+    @@info[key]: value
+  }
+}
+
 require("rb-readline/readline")
+try {
+  require("rubygems")
+  require("coderay")
+  require(File.expand_path(File.dirname(__FILE__)) ++ "/../ruby_lib/interactive/hilight")
+  Fancy Interactive['coderay]: true
+} catch LoadError {
+  Fancy Interactive['coderay]: false
+}
 
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy #{Fancy VERSION}"] println
 
 HISTORY_FILE = File expand_path("~/.fancy_history")
-HISTORY = []
+HISTORY      = []
+PROMPT       = "ifancy[%d]> "
 
-ARGV rest each: |file| {
-  "LOADING: " ++ file println
-  require: file
+class Prompt {
+  def initialize: @str {
+    @line = 0
+  }
+
+  def inc_line {
+    @line = @line + 1
+  }
+
+  def aug_line: num {
+    @line = @line + num
+  }
+
+  def to_s {
+    sprintf(@str, @line)
+  }
 }
 
-# handle SIGINT
-trap("INT") {
-  "Quitting." println
-  save_history
-  System exit
+class Feature {
+  @@hooks = <[]>
+
+  read_slots: ('name, 'desc)
+
+  def initialize: @name will: @desc by: @block {
+    @@hooks[@name]: self
+  }
+
+  def run: string {
+    @block call: string
+  }
+
+  def about: name_width (@name size) {
+    sprintf("%-#{name_width}s : %s", @name, @desc)
+  }
+
+  def Feature match: name str: string {
+    if: (@@hooks[name]) then: |feature| {
+      feature run: string
+      return true
+    }
+    return false
+  }
+
+  def Feature find: name do: block else: else_block {
+    @@hooks with_value_for_key: name do: block else: else_block
+  }
+
+  def Feature each: block {
+    @@hooks values sort_by: 'name . each: block
+  }
+
+  extend: Fancy Enumerable
+}
+
+ARGV rest each: |file| {
+  "LOADING: #{file}" println
+  require: file
 }
 
 Console newline;
@@ -28,7 +97,7 @@ def double_or_empty?: line {
 
 def load_history {
   if: (File exists?: HISTORY_FILE) then: {
-    File open: HISTORY_FILE modes: ['read] with: |f| {
+    File read: HISTORY_FILE with: |f| {
       f readlines each: |l| {
         l = l strip()
         Readline HISTORY <<(l)
@@ -43,7 +112,7 @@ def load_history {
 def save_history {
   puts("saving history")
   unless: @history_saved do: {
-    File open: HISTORY_FILE modes: ['write] with: |f| {
+    File write: HISTORY_FILE with: |f| {
       HISTORY last: 100 . each: |l| {
         f writeln: l
       }
@@ -82,40 +151,70 @@ Readline completion: |str| {
   }
 }
 
-def read_line {
+def read_line: prompt {
   try {
-    return Readline readline(">> ", true)
+    return Readline readline(prompt to_s, true)
   } catch ArgumentError {
     return ""
   }
 }
 
 load_history
+at_exit() { save_history }
 
-try {
-  bnd = binding()
+bnd = binding()
 
-  while: { read_line } do: |line| {
-    if: (line =~ /^\s*(exit|quit)\s*$/) then: {
-      break
+prompt = Prompt new: PROMPT
+
+Feature new: "exit" will: "Exit the shell" by: { System exit }
+Feature new: "quit" will: "Exit the shell" by: { System exit }
+Feature new: "?" will: "Give information on a command" by: |line| {
+  feature_name = line words[1]
+  if: feature_name then: {
+    Feature find: feature_name do: @{
+      about println
+    } else: {
+      "Sorry, #{feature_name} is not a feature that is loaded" println
     }
-
-    HISTORY << line
-    if: (double_or_empty?: line) then: {
-      Readline::HISTORY pop()
-      HISTORY pop()
-    }
-
-    unless: (line =~ /^\s*$/) do: {
-      try {
-        Fancy eval: line binding: bnd . inspect println
-      } catch Exception => e {
-        e message() println
-      }
-    }
+  } else: {
+    max_width = Feature map: @{ name size } . max
+    Feature each: @{ about: max_width . println }
   }
-  save_history
-} catch Interrupt => e {
-  save_history
-  System exit
+}
+
+Feature new: "#{" will: "Create multiline capabilities" by: {
+  line = read_line: "-> "
+  line_s = ""
+  until: { line =~ /^\#}$/ == 0} do: {
+    line_s = line_s ++ line ++ "\n"
+    line = read_line: "-> "
+  }
+  try {
+    Fancy eval: line_s binding: bnd . inspect println
+    prompt aug_line: (line_s split: "\n" . size)
+  } catch Exception => e {
+    e message println
+  }
+}
+
+loop: {
+  line = read_line: prompt
+  { System exit } unless: line
+  { next } if: (Feature match: (line words[0]) str: line)
+
+  HISTORY << line
+  if: (double_or_empty?: line) then: {
+    Readline::HISTORY pop()
+    HISTORY pop()
+  }
+  try {
+    if: (Fancy Interactive['coderay]) then: {
+      "=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
+    } else: {
+      "=> #{Fancy eval: line binding: bnd . inspect}"  println
+    }
+	  prompt inc_line
+  } catch Exception => e {
+    e message println
+  }
 }

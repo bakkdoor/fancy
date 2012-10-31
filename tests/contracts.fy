@@ -10,7 +10,7 @@ FancySpec describe: Class Contracts with: {
   it: "doesn't fail inclusion" when: {
     {
       class A {
-        def each: block { }
+        def each: block
         include: Fancy Enumerable
       }
     } does_not raise: Class Contracts InterfaceNotImplementedError

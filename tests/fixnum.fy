@@ -118,7 +118,7 @@ FancySpec describe: Fixnum with: {
     sum is: ((10..19) sum)
   }
 
-  it: "tries to run a code block self amount of times or fails" with: 'try_times: when: {
+  it: "tries to run a code block self amount of times or fails" with: 'times_try: when: {
     { -2 times_try: { 2 / 0 } } does_not raise: Exception
     { -1 times_try: { 2 / 0 } } does_not raise: Exception
     { 0 times_try: { 2 / 0 } } does_not raise: Exception

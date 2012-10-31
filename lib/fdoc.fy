@@ -7,7 +7,6 @@ require: "fancy_spec"
 
 class Fancy FDoc {
   """
-
   FDoc is a tool to generate API documentation from Fancy source.
 
   Works as follows:
@@ -22,7 +21,6 @@ class Fancy FDoc {
    4. Generate output file.
       Currently the plan is to output a json formatted object.
       To be loaded by an html file and use jquery to build a GUI from it.
-
   """
 
   OUTPUT_DIR = "doc/api/"
@@ -30,8 +28,8 @@ class Fancy FDoc {
 
   def self main {
     """
-     FDoc will load all .fy files you give to it, and optionally run
-     any specified FancySpec, and later produce documentation output.
+    FDoc will load all .fy files you give to it, and optionally run
+    any specified FancySpec, and later produce documentation output.
     """
 
     output_dir = OUTPUT_DIR
@@ -96,7 +94,6 @@ class Fancy FDoc {
 
 
   class JSON {
-
     read_slots: ['classes, 'methods, 'blocks, 'objects]
 
     def initialize: documented add_github_links: @add_github_links github_repo: @github_repo {
@@ -115,8 +112,13 @@ class Fancy FDoc {
       @objects = @documented_objects keys select: all_other
     }
 
-    def string_to_json: obj { obj to_s inspect }
-    def symbol_to_json: obj { obj to_s }
+    def string_to_json: obj {
+      obj to_s inspect
+    }
+
+    def symbol_to_json: obj {
+      obj to_s
+    }
 
     def array_to_json: obj {
       str = ["["]
@@ -217,16 +219,13 @@ class Fancy FDoc {
       map
     }
 
-
     def write: filename call: name ("fancy.fdoc") {
       map = generate_map
       json = to_json: map
       js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
       File open: filename modes: ['write] with: |out| { out print: js }
     }
-
   }
-
 
   class Formatter {
     """
@@ -237,7 +236,6 @@ class Fancy FDoc {
     """
 
     Fancy Documentation formatter: 'fdoc is: |d| { format: d }
-
 
     def self format: doc {
       str = doc to_s
@@ -287,6 +285,7 @@ class Fancy FDoc {
       A singleton method:
       @Fancy::FDoc::Formatter~format:@
       """
+
       str gsub(/@[A-Z][^\r\n\s]+?@/) |cstr| {
        names = cstr slice(1, cstr size() - 2) split("::")
        refs = []
@@ -388,9 +387,7 @@ class Fancy FDoc {
       gsub(/@:([a-z_]+)@/,
            "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>")
     }
-
   }
-
 }
 
 Fancy FDoc main

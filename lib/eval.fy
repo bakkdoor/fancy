@@ -16,7 +16,14 @@ def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: li
 
   # The compiled method
   cm = Fancy Compiler compile_code: code vars: (binding variables()) file: file line: line
-  cm scope=(binding static_scope() dup())
+
+  # Binding#static_scope was renamed to Binding#constant_scope a while ago.
+  # if the new version fails, retry with the old name for backwards compatibility (for now).
+  try {
+    cm scope=(binding constant_scope() dup())
+  } catch NoMethodError {
+    cm scope=(binding static_scope() dup())
+  }
   cm name=('__fancy_eval__)
 
   script = Rubinius CompiledMethod Script new(cm, file, true)

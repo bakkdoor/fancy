@@ -355,9 +355,9 @@ class Object {
 
   def if_responds? {
     """
-    @return RespondsToProxy for @self
+    @return @Proxies::RespondsToProxy@ for @self
 
-    Returns a @RespondsToProxy@ for @self that forwards any messages
+    Returns a @Proxies::RespondsToProxy@ for @self that forwards any messages
     only if @self responds to them.
 
     Example:
@@ -365,7 +365,7 @@ class Object {
           object if_responds? some_message: some_parameter
     """
 
-    RespondsToProxy new: self
+    Proxies RespondsToProxy new: self
   }
 
   def backtick: str {
@@ -588,10 +588,7 @@ class Object {
     try {
       return block call: [self]
     } finally {
-      slotnames each: |s| {
-        metaclass undefine_method: s
-        metaclass undefine_method: "#{s}:"
-      }
+      metaclass remove_slot_accessors_for: slotnames
     }
   }
   private: 'with_mutable_slots:do:
@@ -673,14 +670,17 @@ class Object {
     Thread sleep: seconds
   }
 
-  def let: var_name be: value in: block (nil) {
+  def let: var_name be: value in: block (nil) ensuring: ensure_block ({}) {
     """
     @var_name @Symbol@ that represents the name of the dynamic variable to be set.
     @value Value for the variable.
     @block @Block@ in which @var_name will be dynamically bound to @value.
+    @ensure_block @Block@ to be always called, even when @block raised an exception.
     @return Returns @value
 
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
+    Exceptions raised within @ensure_block are ignored.
+    Those raised in @block will be reraised up the callstack.
 
     Example:
           File write: \"/tmp/output.txt\" with: |f| {
@@ -699,8 +699,10 @@ class Object {
     oldval = Thread current[var_name]
     try {
       Thread current[var_name]: value
-      return block call
+      block call
+      return value
     } finally {
+      try { ensure_block call } catch {}
       Thread current[var_name]: oldval
     }
   }
@@ -778,5 +780,36 @@ class Object {
     try {
       block call
     } catch (exception_classes to_a join_by: '><) {}
+  }
+
+  def rebind_method: method_name with: rebind_callable within: within_block {
+    """
+    @method_name Name of (singleton) method to rebind for @self.
+    @rebind_callable Name of method or @Block@ to rebind @method_name to.
+    @within_block @Block@ in which @method_name is rebound to @rebind_callable.
+    @return Value of calling @within_block with @self.
+
+    If @within_block takes an argument, it is called with @self.
+
+    Example:
+          class MyRebindableClass {
+            def foo {
+              42
+            }
+          }
+
+          r = MyRebindableClass new
+          r rebind_method: 'foo with: { 0 } within: @{ foo } # => 0
+    """
+
+    metaclass rebind_instance_method: method_name with: rebind_callable within: within_block receiver: self
+  }
+
+  def _ {
+    """
+    @return @Object@.
+    """
+
+    Object
   }
 }

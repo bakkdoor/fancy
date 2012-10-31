@@ -356,10 +356,6 @@ FancySpec describe: Array with: {
     [1,2,3,4] any?: |x| { x > 4 } . is: false
   }
 
-  it: "is selected from it with each index" with: 'select_with_index: when: {
-    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is: [[2,1], [3,2], [1,3]]
-  }
-
   it: "returns its remaining (all but the first) elements as a new Array" with: 'rest when: {
     [1,2,3,4] rest is: [2,3,4]
     [] rest is: []
@@ -549,5 +545,16 @@ FancySpec describe: Array with: {
   it: "returns a hash based on a key-block" with: 'to_hash: when: {
     [] to_hash: @{ size } . is: <[]>
     [[1,2],[3,4,5]] to_hash: @{ size } . is: <[2 => [1,2], 3 => [3,4,5]]>
+  }
+
+  it: "returns an sub-array within a given range" with: 'from:to: when: {
+    [] from: 0 to: 1 . is: []
+    [1] from: 0 to: 0 . is: [1]
+    [1] from: 0 to: 1 . is: [1]
+    [1] from: 0 to: 2 . is: [1]
+    [1] from: 0 to: -1 . is: [1]
+    [1] from: 0 to: -2 . is: []
+    [0,1,2,3] from: 0 to: 3 . is: [0,1,2,3]
+    [0,1,2,3] from: -1 to: 3 . is: [3]
   }
 }

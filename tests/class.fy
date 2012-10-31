@@ -244,10 +244,8 @@ FancySpec describe: Class with: {
   }
 
   it: "is a subclass of another Class" with: 'subclass?: when: {
-    class Super {
-    }
-    class Sub : Super {
-    }
+    class Super
+    class Sub : Super
 
     Super subclass?: Object . is: true
     Sub subclass?: Object . is: true
@@ -450,12 +448,9 @@ FancySpec describe: Class with: {
   }
 
   it: "has the correct list of ancestors" with: 'ancestors when: {
-    class A {
-    }
-    class B : A {
-    }
-    class C : B {
-    }
+    class A
+    class B : A
+    class C : B
 
     A ancestors is: [A, Object, Kernel]
     B ancestors is: [B, A, Object, Kernel]
@@ -478,6 +473,20 @@ FancySpec describe: Class with: {
     { x b } raises: NoMethodError
     AClassWithPrivateMethods instance_method: 'a . private? is: true
     AClassWithPrivateMethods instance_method: 'b . private? is: true
+
+    class AClassWithPrivateMethods {
+      private: {
+        def c {
+          "private c"
+        }
+        def d {
+          "private d"
+        }
+      }
+    }
+
+    AClassWithPrivateMethods instance_method: 'c . private? is: true
+    AClassWithPrivateMethods instance_method: 'd . private? is: true
   }
 
   it: "makes methods protected" with: 'protected: when: {
@@ -498,6 +507,25 @@ FancySpec describe: Class with: {
     AClassWithProtectedMethods instance_method: 'b . private? is: false
     AClassWithProtectedMethods instance_method: 'a . protected? is: true
     AClassWithProtectedMethods instance_method: 'b . protected? is: true
+
+    class AClassWithProtectedMethods {
+      protected: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x a } raises: NoMethodError
+    { x b } raises: NoMethodError
+    AClassWithProtectedMethods instance_method: 'c . private? is: false
+    AClassWithProtectedMethods instance_method: 'd . private? is: false
+    AClassWithProtectedMethods instance_method: 'c . protected? is: true
+    AClassWithProtectedMethods instance_method: 'd . protected? is: true
+
   }
 
   it: "makes methods public" with: 'public: when: {
@@ -521,6 +549,26 @@ FancySpec describe: Class with: {
     AClassWithPublicMethods instance_method: 'b . protected? is: false
     AClassWithPublicMethods instance_method: 'a . public? is: true
     AClassWithPublicMethods instance_method: 'b . public? is: true
+
+    class AClassWithPublicMethods {
+      public: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x c } does_not raise: NoMethodError
+    { x d } does_not raise: NoMethodError
+    AClassWithPublicMethods instance_method: 'c . private? is: false
+    AClassWithPublicMethods instance_method: 'd . private? is: false
+    AClassWithPublicMethods instance_method: 'c . protected? is: false
+    AClassWithPublicMethods instance_method: 'd . protected? is: false
+    AClassWithPublicMethods instance_method: 'c . public? is: true
+    AClassWithPublicMethods instance_method: 'd . public? is: true
   }
 
   it: "defines a class without a body" when: {
@@ -812,5 +860,92 @@ FancySpec describe: Class with: {
       == 1 is: true
       send('ruby_==, 1) is: true
     }
+  }
+
+  it: "rebinds an instance method within a block" with: 'rebind_instance_method:with:within: when: {
+    class RebindInstanceMethod {
+      def foo: msg ("foo!") {
+        msg println
+      }
+      def bar: msg {
+        "bar: #{msg}" println
+      }
+    }
+
+    rim = RebindInstanceMethod new
+    s = StringIO new
+    let: '*stdout* be: s in: {
+      rim foo
+      rim foo: "hello!"
+      s string is: "foo!\nhello!\n"
+      s string: ""
+
+      RebindInstanceMethod rebind_instance_method: 'foo: with: |msg| {
+        msg * 2 println
+      } within: {
+        let: '*stdout* be: s in: {
+          rim foo: "hello!"
+        }
+      }
+      s string is: "hello!hello!\n"
+
+      s string: ""
+      rim foo: "hello!"
+      s string is: "hello!\n"
+
+      s string: ""
+      RebindInstanceMethod rebind_instance_method: 'foo: with: 'bar: within: {
+        rim foo: "Test"
+      }
+      s string is: "bar: Test\n"
+    }
+  }
+
+  it: "removes defined slot accessor methods" with: 'remove_slot_accessors_for: when: {
+    class SlotAccessors {
+      read_write_slots: ('rw1, 'rw2)
+      read_slots: ('r1, 'r2)
+      write_slots: ('w1, 'w2)
+    }
+
+    sa = SlotAccessors new
+    {
+      sa rw1 is: nil
+      sa rw2 is: nil
+      sa r1 is: nil
+      sa r2 is: nil
+
+      sa rw1: "rw1"
+      sa rw2: "rw2"
+      sa w1: "w1"
+      sa w2: "w2"
+
+      sa rw1 is: "rw1"
+      sa rw2 is: "rw2"
+      sa r1 is: nil
+      sa r2 is: nil
+    } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w2 } raises: NoMethodError
+
+    SlotAccessors remove_slot_accessors_for: ('rw1, 'r1, 'w1)
+
+    { sa rw1 } raises: NoMethodError
+    { sa rw1: "foo"} raises: NoMethodError
+
+    {
+      sa rw2
+      sa rw2: "foo"
+    } does_not raise: NoMethodError
+
+    { sa r1 } raises: NoMethodError
+    { sa r2 } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w1: "foo" } raises: NoMethodError
+
+    { sa w2 } raises: NoMethodError
+    { sa w2: "foo" } does_not raise: NoMethodError
   }
 }

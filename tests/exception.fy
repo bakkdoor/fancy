@@ -157,4 +157,11 @@ FancySpec describe: StdError with: {
     { do_something } raises: IOError
     @ran_finally? is: true
   }
+
+  it: "raises an exception" with: 'raise: when: {
+    { StandardError raise: "error" } raises: Exception with: @{ message is: "error" }
+    { StandardError raise: "error" } raises: StandardError with: @{ message is: "error" }
+    { ArgumentError raise: "error2" } raises: ArgumentError with: @{ message is: "error2" }
+    { IOError raise: "bar" } raises: IOError with: @{ message is: "bar" }
+  }
 }

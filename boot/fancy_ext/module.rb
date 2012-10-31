@@ -90,4 +90,6 @@ class Module
 
     return self
   end
+
+  public :public, :private, :protected, :include, :extend
 end

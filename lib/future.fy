@@ -188,8 +188,7 @@ class FutureSend {
 class FutureCollection {
   include: Fancy Enumerable
 
-  def initialize: @futures {
-  }
+  def initialize: @futures
 
   def each: block {
     @futures each: @{ when_done: block }

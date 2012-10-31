@@ -1,11 +1,16 @@
 #!/usr/bin/env fancy
 require: "fancy_spec"
+require: "option_parser"
 
 test_dir = "tests"
 
-ARGV for_option: "-d" do: |dir| {
-  test_dir = dir
-}
+OptionParser new: @{
+  remove_after_parsed: true
+  banner: "FSpec - FancySpec runner\nOptions:"
+  with: "-d [path]" doc: "Set the tests directory" do: |dir| {
+    test_dir = dir
+  }
+} . parse: ARGV
 
 test_files = ARGV rest
 if: (test_files empty?) then: {

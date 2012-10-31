@@ -12,8 +12,7 @@ class Fancy AST {
       ':> => 'meta_send_op_gt
     ]>
 
-    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line) {
-    }
+    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line);
 
     def redirect_via: redirect_message {
       message_name = SymbolLiteral new: @line value: (@name string to_sym)
@@ -41,19 +40,6 @@ class Fancy AST {
         if: return_send? then: {
           Return new: @line expr: @receiver . bytecode: g
           return nil
-        }
-
-        # check if we might have a block invocation using block(x,y) syntax.
-        if: ruby_send? then: {
-          if: (@receiver is_a?: Self) then: {
-            if: (g state() scope() search_local(@name name)) then: {
-              @name bytecode: g
-              args = ArrayLiteral new: @line array: (@args args)
-              args bytecode: g
-              g send('call:, 1, false)
-              return nil
-            }
-          }
         }
 
         @receiver bytecode: g
@@ -96,8 +82,7 @@ class Fancy AST {
   class MessageArgs : Node {
     read_slot: 'args
 
-    def initialize: @line args: @args ([]) {
-    }
+    def initialize: @line args: @args ([]);
 
     def bytecode: g {
       pos(g)

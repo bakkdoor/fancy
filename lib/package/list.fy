@@ -1,7 +1,6 @@
 class Fancy Package {
   class List {
-    def initialize: @package_list_file {
-    }
+    def initialize: @package_list_file
 
     def println {
       packages each: |p| {

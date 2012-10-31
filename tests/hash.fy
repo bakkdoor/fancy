@@ -1,20 +1,23 @@
 FancySpec describe: Hash with: {
   it: "is empty on initialization" with: 'empty? when: {
-    hash = <[]>
-    hash size is: 0
-    hash empty? is: true
+    <[]> tap: @{
+      size is: 0
+      empty? is: true
+    }
   }
 
   it: "is empty on initialization via Hash#new" with: 'size when: {
-    hash = Hash new
-    hash size is: 0
-    hash empty? is: true
+    Hash new tap: @{
+      size is: 0
+      empty? is: true
+    }
   }
 
   it: "contains one entry" when: {
-    hash = <['foo => "bar"]>
-    hash size is: 1
-    hash empty? is: false
+    <['foo => "bar"]> tap: @{
+      size is: 1
+      empty? is: false
+    }
   }
 
   it: "contains 10 square values after 10 insertions" with: 'at: when: {
@@ -211,5 +214,116 @@ FancySpec describe: Hash with: {
 
     hc foo is: 123
     hc bar is: 'baz
+  }
+
+  it: "returns a nested Hash" with: 'to_hash_deep when: {
+    <[]> to_hash_deep is: <[]>
+    <['foo => "bar"]> to_hash_deep is: <['foo => "bar"]>
+    <['foo => {bar: "baz"}]> to_hash_deep is: <['foo => <['bar => "baz"]>]>
+    <[
+      'foo => {
+        bar: {
+          baz: "quux"
+        }
+      }
+    ]> to_hash_deep is: <[
+      'foo => <[
+        'bar => <[
+          'baz => "quux"
+        ]>
+      ]>
+    ]>
+  }
+
+  it: "updates its values with a block" with: 'update_values: when: {
+    <[]> update_values: @{ to_s } . is: <[]>
+    h = <['name => "Tom", 'age => 21]>
+    h update_values: @{ * 2 }
+    h is: <['name => "TomTom", 'age => 42]>
+  }
+
+  it: "updates its keys with a block" with: 'update_keys: when: {
+    <[]> update_keys: @{ to_s } . is: <[]>
+    h = <['name => "Tom", 'age => 21]>
+    h update_keys: @{ to_s * 2 }
+    h is: <["namename" => "Tom", "ageage" => 21]>
+  }
+
+  it: "returns a new hash based on self with values updated with a block" with: 'with_updated_values: when: {
+    <[]> with_updated_values: @{ * 2 } . is: <[]>
+    h1 = <['name => "Tom", 'age => 21]>
+    h2 = h1 with_updated_values: @{ * 2 }
+
+    h1 is: <['name => "Tom", 'age => 21]>
+    h2 is: <['name => "TomTom", 'age => 42]>
+  }
+
+  it: "returns a new hash based on self with keys updated with a block" with: 'with_updated_keys: when: {
+    <[]> with_updated_keys: @{ * 2 } . is: <[]>
+    h1 = <['name => "Tom", 'age => 21]>
+    h2 = h1 with_updated_keys: @{ to_s * 2 }
+
+    h1 is: <['name => "Tom", 'age => 21]>
+    h2 is: <["namename" => "Tom", "ageage" => 21]>
+  }
+
+  it: "calls a block with a value for a given key, if available" with: 'with_value_for_key:do:else: when: {
+    h = <['hello => "world", 1 => 2, "foo" => "barbaz"]>
+    else_ran? = false
+    else_block = { else_ran? = true }
+
+    h with_value_for_key: 'hello do: @{ is: "world" } else: else_block
+    h with_value_for_key: 1 do: @{ is: 2 } else: else_block
+    h with_value_for_key: "foo" do: @{ "barbaz" } else: else_block
+
+    else_ran? = false
+
+    h with_value_for_key: "not in hash" do: {
+      "should not call this block!" raise!
+    } else: else_block
+
+    else_ran? is: true
+  }
+
+  it: "sets the default value on creation" when: {
+    h = Hash new: "default"
+    h['key] is: "default"
+    h['key]: "hallo"
+    h['key] is: "hallo"
+  }
+
+  it: "sets the default value" with: 'default: when: {
+    h = Hash new
+    h default is: nil
+    h default: "foo"
+    h default is: "foo"
+
+    block = |_ k| { k }
+    h default: block
+    h default is: block
+  }
+
+  it: "returns the default value" with: 'default when: {
+    Hash new default is: nil
+    Hash new: "foo" . default is: "foo"
+
+    block = |h k| { k * 2 }
+    Hash new: block . default is: block
+    Hash new: block . tap: |h| {
+      h[1] is: 2
+      h["foo"] is: "foofoo"
+    }
+  }
+
+  it: "returns the return value for a given key" with: 'default_for: when: {
+    Hash new: 2 . tap: @{
+      default_for: "foo" . is: 2
+      default_for: "bar" . is: 2
+    }
+
+    Hash new: |_ k| { k * 2 } . tap: @{
+      default_for: "foo" . is: "foofoo"
+      default_for: 100 . is: 200
+    }
   }
 }

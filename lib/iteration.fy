@@ -22,7 +22,7 @@ class Fancy {
     """
 
     read_slots: ['result]
-    def initialize: @result {}
+    def initialize: @result
   }
 
   class NextIteration : StdError {
@@ -32,7 +32,7 @@ class Fancy {
     """
 
     read_slots: ['result]
-    def initialize: @result {}
+    def initialize: @result
   }
 
   class StopIteration : StdError {
@@ -54,7 +54,7 @@ class Fancy {
     """
 
     def initialize { @result = nil }
-    def initialize: @result { }
+    def initialize: @result
 
     def result {
       """

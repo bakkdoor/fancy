@@ -167,4 +167,11 @@ class String {
   def message_name {
     self to_sym message_name to_s
   }
+
+  def to_fancy_message {
+    match self {
+      case /^:/ -> rest to_sym
+      case _ -> self
+    }
+  }
 }

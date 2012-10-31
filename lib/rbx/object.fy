@@ -1,5 +1,5 @@
 class Object {
-  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables, 'methods ]
+  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables, 'methods, 'instance_variable_get, 'instance_variable_set ]
 
   def initialize {
     initialize()
@@ -14,8 +14,13 @@ class Object {
     Fancy CodeLoader require: file_path
   }
 
-  def dclone {
-    "Returns a deep clone of self using Ruby's Marshal class."
+  def dup {
+    """
+    @return Copy (clone) of self.
+
+    Returns a deep clone of self using Ruby's Marshal class.
+    """
+
     Marshal load(Marshal dump(self))
   }
 

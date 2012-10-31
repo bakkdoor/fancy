@@ -12,13 +12,6 @@ class Fancy
         @body = SingletonMethodDefScope.new line, @name, args, body
         @access = access
       end
-
-      def bytecode(g)
-        g.push_self
-        g.send @access, 0
-        g.pop
-        super(g)
-      end
     end
 
     class SingletonMethodDefScope < Rubinius::AST::DefineSingletonScope
