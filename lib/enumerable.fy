@@ -504,6 +504,18 @@ class Fancy {
 
     alias_method: 'skip: for: 'drop:
 
+    def drop_last: amount (1) {
+      """
+      @amount Amount of elements to drop from the end.
+      @return New @Array@ without last @amount elements.
+
+      Example:
+            [1,2,3,4] drop_last: 2  # => [3,4]
+      """
+
+      first: (size - amount)
+    }
+
     def reduce: block init_val: init_val {
       """
       Calculates a value based on a given block to be called on an accumulator

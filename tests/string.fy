@@ -55,6 +55,25 @@ FancySpec describe: String with: {
     "hello world" drop_while: |c| { c != " " } . join: "" . is: " world"
   }
 
+  it: "drops the last element" with: 'drop_last: when: {
+    [] drop_last is: []
+    [1] drop_last is: []
+    "foo" drop_last is: ["f", "o"]
+    (1,2,3) drop_last is: [1,2]
+  }
+
+  it: "rops the last n elements" with: 'drop_last: when: {
+    [] drop_last: 1 . is: []
+    [] drop_last: 2 . is: []
+    [] drop_last: 0 . is: []
+    [1] drop_last: 0 . is: [1]
+    [1] drop_last: 1 . is: []
+    [1] drop_last: 2 . is: []
+    [1,2,3] drop_last: 1 . is: [1, 2]
+    [1,2,3] drop_last: 2 . is: [1]
+    [1,2,3] drop_last: 3 . is: []
+  }
+
   it: "is empty" with: 'empty? when: {
     "" empty? is: true
     " " empty? is: false
