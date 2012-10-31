@@ -510,7 +510,7 @@ class Fancy {
       @return New @Array@ without last @amount elements.
 
       Example:
-            [1,2,3,4] drop_last: 2  # => [3,4]
+            [1,2,3,4] drop_last: 2  # => [1,2]
       """
 
       first: (size - amount)
