@@ -535,10 +535,13 @@ class Object {
 
     Runs a given @Block@ in a synchronized fashion if called by multiple Threads.
     Uses a @Mutex@ in the background for synchronization (created on demand for each @Object@).
+    Calls @block with @self.
     """
 
     @__mutex__ = @__mutex__ || { Mutex new() }
-    @__mutex__ synchronize(&block)
+    @__mutex__ synchronize() {
+      block call: [self]
+    }
   }
 
   def copy_slots: slots from: object {
