@@ -34,11 +34,11 @@ class Fancy Package {
       If no @.fancypack file is found, raise an error.
       """
 
-      Dir glob(installed_path ++ "/*.fancypack") first if_true: |fpackfile| {
-        require: fpackfile
+      spec = nil
+      if: (Dir glob(installed_path ++ "/*.fancypack") first) then: |fpackfile| {
+        spec = File eval: fpackfile
       }
-
-      if: (Specification[@repository]) then: success_block else: else_block
+      if: spec then: success_block else: else_block
     }
 
     def installed_path {
