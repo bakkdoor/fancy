@@ -29,8 +29,6 @@ class Proxies {
     }
   }
 
-  Proxy = ProxyReceiver
-
   class RespondsToProxy : Fancy BasicObject {
     """
     A RespondsToProxy is a Proxy that forwards any message sent to it to it's @target instance variable
