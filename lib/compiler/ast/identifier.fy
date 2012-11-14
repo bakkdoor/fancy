@@ -148,7 +148,7 @@ class Fancy AST {
       thread bytecode: g
       g send('current, 0, false)
       @varname bytecode: g
-      g send(':[], 1, false)
+      g send('dynamic_var:, 1, false)
     }
   }
 }
