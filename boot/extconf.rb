@@ -1,4 +1,3 @@
-base = File.dirname(__FILE__)
 puts "Fancy hasn't been bootstrapped yet. Doing that now.\n\n"
 File.open("Makefile", "w") do |f|
   f.puts "install:"
