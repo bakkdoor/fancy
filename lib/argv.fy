@@ -3,10 +3,16 @@ ARGV documentation: """
   arguments passed to a Fancy programm before it starts executing.
   """
 
-def ARGV for_option: op_name do: block {
-  "Runs a given block if an option is in ARGV."
+def ARGV for_option: option_name do: block {
+  """
+  @option_name Name of command-line option.
+  @block @Block@ to be called with value of command-line option @option_name, if given.
+  @return @true, if @option_name was found in @ARGV and @block was called, @false otherwise.
 
-  ARGV index: op_name . if_true: |idx| {
+  Calls a given Block if a command-line option is in @ARGV.
+  """
+
+  if: (ARGV index: option_name) then: |idx| {
     if: (block arity > 0) then: {
       if: (ARGV[idx + 1]) then: |arg| {
         block call: [arg]
@@ -17,25 +23,24 @@ def ARGV for_option: op_name do: block {
       block call
       ARGV remove_at: idx
     }
+    return true
   }
+  return false
 }
 
-def ARGV for_options: op_names do: block {
-  "Runs a given block if any of the given options is in ARGV."
+def ARGV for_options: option_names do: block {
+  """
+  @option_names @Fancy::Enumerable@ of related command-line option names.
+  @block @Block@ to be called with value of any command-line option in @option_names, if given.
+  @return @true, if any of @option_names was found in @ARGV and @block was called, @false otherwise.
 
-  op_names size times: |i| {
-    if: (ARGV index: (op_names[i])) then: |idx| {
-      if: (block arity > 0) then: {
-        if: (ARGV[idx + 1]) then: |arg| {
-          block call: [arg]
-          ARGV remove_at: idx
-          ARGV remove_at: idx
-        }
-      } else: {
-        block call
-        ARGV remove_at: idx
-      }
+  Calls a given Block if any of the given command-line options are in @ARGV.
+  """
+
+  option_names each: |option_name| {
+    if: (ARGV for_option: option_name do: block) then: {
       return true
     }
   }
+  return false
 }
