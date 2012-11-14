@@ -775,7 +775,7 @@ class Object {
     @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
 
     Example:
-          ignoring: (IOError, ZeroDivisionError) in: {
+          ignoring: (IOError, ZeroDivisionError) do: {
             # do something
           }
     """
