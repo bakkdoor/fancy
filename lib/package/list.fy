@@ -11,7 +11,8 @@ class Fancy Package {
 
     def packages {
       packages = []
-      try {
+      # ignore file not found, as no packages might have been installed yet.
+      ignoring: IOError do: {
         File open: @package_list_file modes: ['read] with: |f| {
           f readlines each: |l| {
             match l {
@@ -20,8 +21,6 @@ class Fancy Package {
             }
           }
         }
-      } catch IOError => e {
-        # ignore file not found, as no packages might have been installed yet.
       }
       packages
     }
