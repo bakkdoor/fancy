@@ -535,10 +535,13 @@ class Object {
 
     Runs a given @Block@ in a synchronized fashion if called by multiple Threads.
     Uses a @Mutex@ in the background for synchronization (created on demand for each @Object@).
+    Calls @block with @self.
     """
 
     @__mutex__ = @__mutex__ || { Mutex new() }
-    @__mutex__ synchronize(&block)
+    @__mutex__ synchronize() {
+      block call: [self]
+    }
   }
 
   def copy_slots: slots from: object {
@@ -692,18 +695,18 @@ class Object {
 
     { return value } unless: var_name
     unless: block do: {
-      Thread current[var_name]: value
+      Thread current set_dynamic_var: var_name to: value
       return value
     }
 
-    oldval = Thread current[var_name]
+    oldval = Thread current dynamic_var: var_name
     try {
-      Thread current[var_name]: value
+      Thread current set_dynamic_var: var_name to: value
       block call
       return value
     } finally {
       try { ensure_block call } catch {}
-      Thread current[var_name]: oldval
+      Thread current set_dynamic_var: var_name to: oldval
     }
   }
 
@@ -772,7 +775,7 @@ class Object {
     @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
 
     Example:
-          ignoring: (IOError, ZeroDivisionError) in: {
+          ignoring: (IOError, ZeroDivisionError) do: {
             # do something
           }
     """
