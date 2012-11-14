@@ -9,6 +9,7 @@ class Fancy Package {
         Specification delete_specification: spec from: $ Fancy Package package_list_file
         delete_package_dir
         delete_lib_file: (spec package_name)
+        delete_bin_files: (installed_bin_symlinks: spec)
         "Successfully uninstalled package #{spec package_name} with version: #{spec version}." println
       } else: {
         System abort: "No package found for #{@package_name} with version '#{@version}'."
@@ -27,6 +28,12 @@ class Fancy Package {
       lib_file = "#{lib_path}/#{package_name}"
       "Deleting: #{lib_file}" println
       File delete!: lib_file
+    }
+
+    def delete_bin_files: bin_files {
+      bin_files each: |bf| {
+        File delete!: bf
+      }
     }
   }
 }

@@ -1,18 +1,4 @@
 class Module
-  define_method :"included:" do |mod|
-    nil # do nothing by default
-  end
-
-  # Fancy version does not restricts to only modules.
-  define_method :"include:" do |modules|
-    modules = [modules] unless modules.kind_of?(Array)
-    modules.reverse_each do |mod|
-      mod.send :"append_features:", self
-      mod.send :included, self
-      mod.send :"included:", self
-    end
-  end
-
   # Fancy version does not restricts to only modules.
   ###
   #
@@ -90,4 +76,6 @@ class Module
 
     return self
   end
+
+  public :public, :private, :protected, :include, :extend
 end

@@ -140,4 +140,10 @@ FancySpec describe: Method with: {
     def fooaa: bar ("fo");
     fooaa: 10
   }
+
+  it: "can handle a singleton method def with an empty body" when: {
+    obj = "foo"
+    def obj bar
+    def obj bar: @x
+  }
 }

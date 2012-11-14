@@ -61,16 +61,17 @@ class Fancy Package {
     }
 
     def latest_tag {
-      "Returns the latest tag (sorted alphabetically)."
+      """
+      Returns the latest tag (sorted alphabetically).
+      """
 
-      tags = self tags
-      if: (tags size > 0) then: {
-        tags sort last
-      }
+      tags sort last
     }
 
     def tags {
-      "Returns a list of tags the repository has on Github."
+      """
+      @return @Array@ of git tags in the package's Github repository.
+      """
 
       require("open-uri")
       require("rubygems")
@@ -78,13 +79,22 @@ class Fancy Package {
 
       url = "https://api.github.com/repos/#{@package_name}/git/refs/tags"
 
-      JSON load(open(url)) map: |tag| {
-        tag["ref"] split: "refs/tags/" . last
+      try {
+        return JSON load(open(url)) map: |tag| {
+          tag["ref"] split: "refs/tags/" . last
+        }
+      } catch OpenURI HTTPError {
+        return [] # no tags available, default to master (latest)
       }
     }
 
     def has_version?: version {
-      "Indicates, if a given version is available on Github."
+      """
+      @version Version of package to check for.
+      @return @true, if this package has the given version, @false otherwise.
+
+      Indicates, if a given version for this package is available on Github.
+      """
 
       match version {
         case "master" -> true
@@ -126,6 +136,12 @@ class Fancy Package {
     }
 
     def unpack_file: filename {
+      """
+      @filename File name of package's downloaded .tar.gz file (from Github) to extract
+
+      Unpacks the given @filename and installs it into Fancy's package install dir.
+      """
+
       "Unpacking " ++ filename println
       System do: $ ["tar xf ", @download_path, "/", filename, " -C ", @install_path, "/"] join
       output = System pipe: $ ["tar tf ", @download_path, "/", filename] join
@@ -143,6 +159,13 @@ class Fancy Package {
     }
 
     def fulfill_spec: spec {
+      """
+      @spec @Fancy::Package::Specification@ to be fulfilled.
+
+      Installs all dependencies of @spec, sets up symlinks for binary files in @spec,
+      as well as installing the include-file into the Fancy package lib dir.
+      """
+
       unless: (spec include_files empty?) do: {
         File open: (lib_path + "/" + (spec package_name)) modes: ['write] with: |f| {
           spec include_files each: |if| {
@@ -170,11 +193,8 @@ class Fancy Package {
         File symlink(orig_path, link_path)
       }
 
-      spec dependencies each: |dep| {
-        Package install: dep
-      }
-
-      spec ruby_dependencies each: |dep| { dep install }
+      spec dependencies each: @{ install }
+      spec ruby_dependencies each: @{ install }
     }
   }
 }

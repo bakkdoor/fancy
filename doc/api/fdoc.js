@@ -30,12 +30,13 @@
   var addTree = function(into, tree, depth) {
     $.each(_.keys(tree).sort(), function(i, name){
       var div = $("<div>").
-        css("padding-left", (8*depth.length)+"px").appendTo(into);
+        css("padding-left", (8*depth.length + 16)+"px").appendTo(into);
       var sub = tree[name];
       var len = _.keys(sub).length;
       var open = $("<span>").addClass("expand").appendTo(div);
       if(len > 0) {
         open.addClass("ui-icon").addClass("ui-icon-carat-1-e");
+        open.attr("style", "float:left")
       }
       $("<span>").attr("data-class", depth.concat([name]).join(" ")).
         text(name).addClass("selectable").appendTo(div);
@@ -208,9 +209,6 @@
       active: false,
       fillSpace: true
     });
-
-    $('.sidebar .theme-roller').themeswitcher({ loadTheme: 'Flick' });
-
   }
 
   $(main);

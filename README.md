@@ -23,6 +23,7 @@ https://github.com/fancy-lang/infancy
 
 ## Related links
 * **Website**: http://www.fancy-lang.org
+* **Blog**: http://bakkdoor.net
 * **Mailinglist**: http://groups.google.com/group/fancy-lang
 * **IRC Channel**: irc://irc.freenode.net:6667/fancy
 * **IRC Logs**: http://irc.fancy-lang.org
@@ -35,8 +36,8 @@ https://github.com/fancy-lang/infancy
 ## Compiling / Installing from source:
 ### Dependencies:
 - Rubinius.
-  You'll need at least version 1.2.1 for Fancy to work as expected.
-  See http://rubini.us/releases/1.2.1/ for more information.
+  You'll need at least version 1.2.4 for Fancy to work as expected.
+  See http://rubini.us/releases/1.2.4/ for more information.
   If you want to take advantage of the latest VM improvements, we
   suggest using rvm and installing rbx-head.
   See http://rvm.beginrescueend.com/ for more information.
@@ -46,7 +47,7 @@ https://github.com/fancy-lang/infancy
 
 Given the tools & libraries mentioned above, Fancy _should_ build without problems
 on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
-and Mac OS X 10.5 and 10.6.
+and Mac OS X 10.5, 10.6 & 10.7.
 
 ### Standard building procedure:
 Building Fancy is just that easy:

@@ -7,15 +7,13 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      g push_self()
-      g send(@access, 0)
-      g pop()
       bytecode(g)
     }
   }
 
   class SingletonMethodDefScope : Rubinius AST DefineSingletonScope {
     def initialize: @line name: @name args: @arguments body: @body {
+      { @body = ExpressionList new: @line } unless: @body
       if: (@body empty?) then: {
         @body unshift_expression: $ NilLiteral new: @line
       }

@@ -206,17 +206,17 @@ FancySpec describe: Block with: {
     block call: [42] with_receiver: (ClassD new) . is: "in ClassD#inspect: 42"
   }
 
-  it: "calls a block using the ruby-send syntax" with: 'call: when: {
+  it: "calls a block using []" with: '[] when: {
     b = |x y| {
       x + y
     }
 
     b call: [2,3] . is: 5
-    b(2,3) . is: 5
+    b[(2,3)] . is: 5
 
     b2 = |x| { x * 5 }
-    b2("hello") is: ("hello" * 5)
-    b2("foo") is: (b2 call: ["foo"])
+    b2["hello"] is: ("hello" * 5)
+    b2["foo"] is: (b2 call: ["foo"])
   }
 
   it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
@@ -232,6 +232,26 @@ FancySpec describe: Block with: {
 
     o name is: "John Connor"
     o age is: 12
+    o city is: "Los Angeles"
+    o persecuted_by do: {
+      name is: "The Terminator"
+      age is: 'unknown
+    }
+  }
+
+  it: "dynamically creates a new object with slots recursively defined in blocks" with: 'to_object_deep when: {
+    o = {
+      name: "Sarah Connor"
+      age: 42
+      city: "Los Angeles"
+      persecuted_by: {
+        name: "The Terminator"
+        age: 'unknown
+      }
+    } to_object_deep
+
+    o name is: "Sarah Connor"
+    o age is: 42
     o city is: "Los Angeles"
     o persecuted_by do: {
       name is: "The Terminator"
@@ -301,5 +321,23 @@ FancySpec describe: Block with: {
                 ['age, 24],
                 ['city, "San Francisco"],
                 'male, 'programmer, 'happy]
+  }
+
+  it: "returns a Block that calls self then a given Block" with: 'then: when: {
+    a = []
+    block = { a << 1 } then: { a << 2 }
+    block call
+    a is: [1,2]
+    block call
+    a is: [1,2,1,2]
+  }
+
+  it: "returns a Block that calls itself after a given Block" with: 'after: when: {
+    a = []
+    block = { a << 1 } after: { a << 2}
+    block call
+    a is: [2,1]
+    block call
+    a is: [2,1,2,1]
   }
 }

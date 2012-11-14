@@ -24,9 +24,6 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      g push_self()
-      g send(@access, 0)
-      g pop()
 
       @name to_s =~ /^initialize:(\S)+/ if_true: {
         define_constructor_class_method: g

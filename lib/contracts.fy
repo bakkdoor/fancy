@@ -57,7 +57,7 @@ class Class {
     """
 
     pim = Set new: $ provided_interface_methods map: @{ message_name to_s } + instance_methods
-    methods all?: |m| { pim includes?: (m message_name to_s) }
+    methods to_a all?: |m| { pim includes?: (m message_name to_s) }
   }
 
   def missing_methods_for_interface: methods {

@@ -232,4 +232,53 @@ class String {
 
     if: main? then: main_block else: else_block
   }
+
+  def snake_cased {
+    """
+    Returns a snake cased version of @self.
+    """
+
+    r1 = Regexp new("([A-Z]+)([A-Z][a-z])")
+    r2 = Regexp new("([a-z\d])([A-Z])")
+    gsub(r1,"\1_\2") gsub(r2,"\1_\2") tr("-", "_") lowercase
+  }
+
+  def camel_cased {
+    """
+    Returns camel cased version of @self which is expected
+    to be a snake cased @String@.
+    """
+
+    self split: "_" . map: @{ capitalize } . join
+  }
+
+  def uppercase? {
+    """
+    @return @true if @self is completely uppercase, @false otherwise.
+
+    Example:
+        \"F\"   uppercase? # => true
+        \"FOO\" uppercase? # => true
+        \"f\”   uppercase? # => false
+        \"Foo\" uppercase? # => false
+    """
+
+    { return false } if: blank?
+    uppercase == self
+  }
+
+  def lowercase? {
+    """
+    @return @true if @self is completely lowercase, @false otherwise.
+
+    Example:
+        \"f\”   lowercase? # => true
+        \"foo\" lowercase? # => true
+        \"F\"   lowercase? # => false
+        \"Foo\" lowercase? # => false
+    """
+
+    { return false } if: blank?
+    lowercase == self
+  }
 }

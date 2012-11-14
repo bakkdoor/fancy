@@ -52,5 +52,11 @@ class Fancy Package {
     def bin_path {
       @install_path + "/bin"
     }
+
+    def installed_bin_symlinks: spec {
+      spec bin_files map: |bf| {
+        "#{bin_path}/#{File basename(bf)}"
+      }
+    }
   }
 }

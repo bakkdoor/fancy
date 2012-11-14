@@ -44,8 +44,13 @@
 
       }
 
-      def class_method: another_argument {
-        @@a_class_var = another_argument another_method
+      def self class_method: another_argument {
+        # ...
+      }
+
+      # alternatively use the name of the class itself (as in Ruby):
+      def Foo class_method: another_argument {
+        # ...
       }
     }
 ```
@@ -180,7 +185,7 @@
     # call blocks with arguments:
     b = |x y| { x + y println }
     b call: [2, 3]      # prints 5
-    b(2,3)              # same as above
+    b[(2,3)]            # same as above
 ```
 
 ### Local & non-local returns from Blocks & Methods ###

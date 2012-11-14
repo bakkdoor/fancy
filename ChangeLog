@@ -1,3 +1,166 @@
+v0.8.0 (Aug 29, 2012)
+----------------------
+  - Cleanup method definition bytecode generation.
+  - relocating some bootstrap code
+  - ignore Exceptions raised in ensure_block in Object#let:be:in:ensuring:
+  - rename Object#dclone -> Object#dup for consistency with other classes implementing dup
+  - fix Hash#to_hash_deep and add tests
+  - add Hash#to_hash_deep
+  - add optional ensure_block parameter to Object#let:be:in:
+  - add File##append:with:
+  - add NilClass#to_hash
+  - add Object#_
+  - add support for passing blocks to Class#private:, Class#protected: & Class#public:
+  - fix formatting in lib/fdoc.fy
+  - fix docstrings for Fancy::Package::Installer
+  - simplify Fancy::Package::Installer#latest_tag
+  - remove ::
+  - Pass correct arguments to Fancy::Package##install:version: when installing package dependencies.
+  - fix errors with package installation when no git tags are available for versions.
+  - add support for toplevel constants via ::ConstName
+  - use to_sym instead of to_sym()
+  - Fix docstring indentation
+  - Moved proxy classes into Proxies namespace.
+  - Add DistributingProxy
+  - Add Regexp#call:
+  - Add instance_variable_get / instance_variable_set to ruby_aliases in Object
+  - Use __send__ in boot/fancy_ext/class.rb
+  - add StandardError##raise:
+  - cleanup examples/ dir
+  - delete symlinks to bin-files when uninstalling a package
+  - use alias_method:for_ruby: in Regexp
+  - rafactoring, add Class#remove_slot_accessors_for:
+  - add newline
+  - check if documentation available before calculating CompiledMethod#definition_line
+  - add link to dev blog
+  - Fix referenced method names.
+  - Print out invalid method names referenced by test cases in spec. Also print all errors to *stderr*.
+  - Add String#to_fancy_message & Symbol#to_fancy_message
+  - Add Class#has_method?:
+  - Add Class#rebind_instance_method:with:within:receiver: and Object#rebind_method:with:within:
+  - Add ruby alias for UnboundMethod#bind:
+  - Allow non-Block arguments to Class#define_method:with:
+  - Add docstrings to StringIO
+  - cleanup code with empty methods
+  - require lib/stringio in tests/stringio.fy
+  - simplify Stack#pop
+  - add String#main? & String#if_main:else:
+  - add System##aborting:do:
+  - use OptionParser in bin/fspec
+  - fix typo
+  - small cleanup
+  - Use new Binding#constant_scope (was renamed from static_scope a while ago in Rubinius).
+  - make sure dynvars always start & end with '*'
+  - use receiver methods instead of its class' instance methods in ifancy
+  - fix docstring for Hash#call:
+  - Add Hash#call: and Hash#to_block
+  - Make Specification#package_name a writable slot
+  - rename remaining Fancy::Packge::Specification#rubygem_dependencies sends
+  - rename rubygem_dependencies -> ruby_dependencies in Fancy::Package::Specification
+  - small cleanup
+  - fix Integer#times_try:retry_with:
+  - make sure finally block gets run even when raising an exception within a catch block
+  - some cleanup to try/catch/finally blocks in Object
+  - Catch StandardError instead of Object when no exception class defined for catch block
+  - add testcase to tests/exception.fy
+  - cleanup in CodeLoader
+  - just use call_on_instance in Block#call_with_receiver:
+  - some fixes to try/catch/finally bytecode generation
+  - Cleanup lib/parser/methods.fy
+  - Add String#to_i:
+  - Support Block arguments passed to Array#index:
+  - Code cleanup in compiler code
+  - Add docstring for File##read_binary:
+  - Fix whitespace.
+  - fix FancySpec docstrings and make sure to generate documentation for FancySpec in fdoc
+  - fix FalseClass docstrings
+  - add docstring to Fancy##eval:binding:file:line:
+  - Improve / Add docstrings
+  - cleanup old code
+  - Add example for -github-repo option in fdoc
+  - fix spacing
+  - Add Object#ignoring:do:
+  - Add Matchers module with MatchAny and MatchAll matchers.
+  - Add Class#expose_to_ruby:as:
+  - Add doctoring to Class#class_eval:
+  - Add Fancy::Enumerable#join_by:
+  - Add Fancy::Enumerable#rest
+  - Simplify Array#each:
+  - Handle Fancy::NextIteration in Tuple#each:
+  - Add support to fdoc for custom github-links via -github-repo option.
+  - Add github octocat icon to doc/api/ and always show it on fdoc generated page.
+  - Rewrote bin/fdoc as a simple fancy script and put all logic in lib/fdoc.fy.
+  - Fix issue in CompiledMethod#definition_line
+  - Fix docstring for Fancy::Package::Installer
+  - Fix Package installer to use new Github API (v3). Fixes #68
+  - Use File#delete!: in Package uninstaller
+  - Add File#delete!:
+  - Fix docstring for Directory#list:
+  - remove unnecessary parens
+  - Small doctstring tweak for Block#*
+  - FDoc: Allow multiple code blocks in docstrings.
+  - Add Block#*
+  - Fix Array##new:with: docstring
+  - FDoc: align argument descriptions in generated html nicely
+  - Improve Array method docstrings
+  - fix Symbol docstrings
+  - fix typo in docstring
+  - Fix FDoc html generation for code examples.
+  - Fix doctstrings for Integer methods
+  - Fix StringInterpolation with __FILE__
+  - Improve FDoc documentation generator tool.
+  - Add File##absolute_path: (alias for File##expand_path:)
+  - Improve __FILE__ special string compilation
+  - add Hash#reject_keys:
+  - Add remove_after_parsed option to OptionParser.
+  - Sort by option name when printing --help info in OptionParser
+  - add String#multiline?
+  - fix CompiledMethod#definition_line for non-multiline docstrings
+  - Add CompiledMethod#definition_line & CompiledMethod#last_line and use that in fdoc
+  - Fix UnboundMethod#selector_with_args for [] and []: methods.
+  - Fix Class#class_eval: for String arguments
+  - Add before/after/around methods & blocks to classes.
+  - add UnboundMethod#call: and Method#call:
+  - only print banner in OptionParser if any given
+  - add OptionParser class
+  - Add Enumerable#grep: & Enumerable#grep:taking:
+  - add Integer#decimals
+  - Small cleanups in lib/rbx/debugger
+  - Add initial version of debugger support
+  - Allow 1-arg blocks passed to Object#do:
+  - moved Class#ruby_methods and Class#fancy_methods into Object
+  - fix docstring for Class#new & Class#new:
+  - add alias Class#expects_interface:
+  - rename contracts error class
+  - Add contracts / runtime enforceable interface definitions.
+  - add assertion to String#[] test
+  - use each_with_index: in Fancy::Enumerable#at:
+  - fix require in package uninstaller
+  - fix error location output in FancySpec
+  - Make Directory class an alias for Ruby's Dir class.
+  - close opened source files
+  - catch StandardError instead of Exception
+  - simplify handling of string interpolation in parser
+  - forward unary methods in MatchData and Regexp#match:
+  - add Hash#random, Hash#random_key & Hash#random_value
+  - fix typo in Fancy::Enumerable#take: docstring
+  - Add Fancy::Enumerable#first: and Fancy::Enumerable#last:
+  - Add Fancy::Enumerable#split_with: and Fancy::Enumerable#split_at:
+  - Merge branch 'master' of github.com:bakkdoor/fancy
+  - use includes?:
+  - use includes?:
+  - fix spacing
+  - Add Fancy::Enumerable#sorted?
+  - Add ruby_alias for '<=, '>=, '<=> on String.
+  - fix docstring for Hash#select_keys:
+  - Add more Class methods
+  - Add Hash#select_keys:
+  - update README
+  - fix code indentation in README
+  - Clean up README
+  - some fdoc & docstring fixes
+  - fix Enumerable#in_groups_of: when passed size <= 0
+
 v0.7.0 (May 05, 2012)
 ----------------------
   - ignore TAGS

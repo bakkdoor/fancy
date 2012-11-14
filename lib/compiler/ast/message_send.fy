@@ -42,19 +42,6 @@ class Fancy AST {
           return nil
         }
 
-        # check if we might have a block invocation using block(x,y) syntax.
-        if: ruby_send? then: {
-          if: (@receiver is_a?: Self) then: {
-            if: (g state() scope() search_local(@name name)) then: {
-              @name bytecode: g
-              args = ArrayLiteral new: @line array: (@args args)
-              args bytecode: g
-              g send('call:, 1, false)
-              return nil
-            }
-          }
-        }
-
         @receiver bytecode: g
         @args bytecode: g
         pos(g)
