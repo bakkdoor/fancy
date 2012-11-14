@@ -284,4 +284,51 @@ class Block {
 
     self
   }
+
+  def call_with_errors_logged {
+    """
+    Calls @self while logging any errors to @*stdout*.
+    """
+
+    call_with_errors_logged_to: *stdout*
+  }
+
+  def call_with_errors_logged: args {
+    """
+    @args @Array@ of arguments to call @self with.
+
+    Calls @self with @args while logging any errors to @*stdout*.
+    """
+
+    call: args with_errors_logged_to: *stdout*
+  }
+
+  def call_with_errors_logged_to: io {
+    """
+    @io @IO@ object to log any errors to.
+
+    Calls @self while logging any errors to @io.
+    """
+
+    try {
+      self call
+    } catch StandardError => e {
+      io println: e
+    }
+  }
+
+  def call: args with_errors_logged_to: io {
+    """
+    @args @Array@ of arguments to call @self with.
+    @io @IO@ object to log any errors to.
+
+    Calls @self with @args while logging any errors to @io.
+    """
+
+    try {
+      self call: args
+    } catch StandardError => e {
+      io println: e
+    }
+  }
 }

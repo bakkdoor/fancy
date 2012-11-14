@@ -340,4 +340,47 @@ FancySpec describe: Block with: {
     block call
     a is: [2,1,2,1]
   }
+
+  it: "calls itself while logging errors to *stdout*" with: 'call_with_errors_logged when: {
+    io = StringIO new
+    let: '*stdout* be: io in: {
+      {
+        "hello" println
+        2 / 0
+      } call_with_errors_logged
+    }
+    io string is: "hello\ndivided by 0\n"
+  }
+
+  it: "calls itself with arguments while logging errors to *stdout*" with: 'call_with_errors_logged: when: {
+    io = StringIO new
+    let: '*stdout* be: io in: {
+      |x y| {
+        "x: #{x} y: #{y}" println
+        2 / 0
+      } call_with_errors_logged: [10, 20]
+    }
+    io string is: "x: 10 y: 20\ndivided by 0\n"
+  }
+
+  it: "calls itself while logging errors to a given IO object" with: 'call_with_errors_logged_to: when: {
+    io = StringIO new
+    {
+      2 / 0
+    } call_with_errors_logged_to: io
+    io string is: "divided by 0\n"
+
+    io = StringIO new
+    { "fail!" raise! } call_with_errors_logged_to: io
+    io string is: "fail!\n"
+  }
+
+  it: "calls itself with arguments while logging errors to a given IO object" with: 'call:with_errors_logged_to: when: {
+    io = StringIO new
+    |x y| {
+      io println: "x: #{x} y: #{y}"
+      2 / 0
+    } call: [10, 20] with_errors_logged_to: io
+    io string is: "x: 10 y: 20\ndivided by 0\n"
+  }
 }
