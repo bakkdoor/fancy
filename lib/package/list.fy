@@ -5,7 +5,7 @@ class Fancy Package {
     def println {
       packages each: |p| {
         name, version, url = p
-        "#{name} (#{version})" println
+        "#{name} (#{version}) - #{url}" println
       }
     }
 
