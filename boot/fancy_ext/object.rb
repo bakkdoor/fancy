@@ -22,6 +22,10 @@ class Object
   define_method("require:") do |path|
     Fancy::CodeLoader.send "require:", path
   end
+
+  def to_a
+    [self]
+  end
 end
 
 class Fancy

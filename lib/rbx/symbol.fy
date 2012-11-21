@@ -36,4 +36,8 @@ class Symbol {
   def to_fancy_message {
     to_s to_fancy_message to_sym
   }
+
+  def =~ regexp {
+    to_s =~ regexp
+  }
 }
