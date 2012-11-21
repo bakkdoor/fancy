@@ -16,18 +16,21 @@ FancySpec describe: HTML with: {
       }
     }
 
-    h to_s is: \
-"""<html>
-  <head>
-    <title>
-      Hello
-    </title>
-  </head>
-  <body>
-    <h1>
-      Hello, World!
-    </h1>
-  </body>
-</html>"""
+    html = """
+    <html>
+      <head>
+        <title>
+          Hello
+        </title>
+      </head>
+      <body>
+        <h1>
+          Hello, World!
+        </h1>
+      </body>
+    </html>
+    """
+
+    h to_s is: $ html skip_leading_indentation
   }
 }

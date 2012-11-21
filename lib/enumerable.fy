@@ -42,6 +42,7 @@ class Fancy {
       """
       @return The first element in the @Fancy::Enumerable@.
       """
+
       at: 0
     }
 
@@ -49,6 +50,7 @@ class Fancy {
       """
       @return The second element in the @Fancy::Enumerable@.
       """
+
       at: 1
     }
 
@@ -56,6 +58,7 @@ class Fancy {
       """
       @return The third element in the @Fancy::Enumerable@.
       """
+
       at: 2
     }
 
@@ -63,6 +66,7 @@ class Fancy {
       """
       @return The fourth element in the @Fancy::Enumerable@.
       """
+
       at: 3
     }
 

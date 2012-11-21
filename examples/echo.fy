@@ -3,13 +3,13 @@
 
 if: (ARGV[1]) then: |filename| {
  try {
-    File open: filename modes: ['read] with: |f| {
+    File read: filename with: |f| {
       until: { f eof? } do: {
         f readln println
       }
     }
   } catch IOError => e {
-    "[ERROR] " ++ (e message) println
+    "[ERROR] #{e message}" println
   }
 } else: {
   "Usage: fancy echo.fy [filename]" println

@@ -13,7 +13,12 @@ class Fancy Interactive {
   }
 }
 
-require("rb-readline/readline")
+try {
+  require("readline")
+} catch LoadError {
+  require("rb-readline/readline")
+}
+
 try {
   require("rubygems")
   require("coderay")

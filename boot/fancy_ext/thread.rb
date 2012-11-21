@@ -1,13 +1,28 @@
 class Thread
-  def dynamic_vars
-    @dynamic_vars ||= []
+  def __dynamic_vars__
+    @dynamic_vars ||= {}
     @dynamic_vars
   end
-  alias_method :set_thread_local, :[]=
+  private :__dynamic_vars__
 
-  def []=(var, val)
-    dynamic_vars << var unless dynamic_vars.include? var
-    set_thread_local(var, val)
+  def dynamic_vars
+    __dynamic_vars__.keys
+  end
+
+  def get_dynamic_variable(var)
+    var = var.to_s
+    __dynamic_vars__[var]
+  end
+
+  def set_dynamic_variable(var, val)
+    var = var.to_s
+    __dynamic_vars__[var] = val
+  end
+
+  def copy_dynamic_variables_from(other_thread)
+    other_thread.send(:__dynamic_vars__).each do |var, val|
+      self.set_dynamic_variable(var, val)
+    end
   end
 
   class << self
@@ -15,9 +30,7 @@ class Thread
     def new(*args, &block)
       parent = current
       old_new(*args) do
-        parent.dynamic_vars.each do |v|
-          current[v] = parent[v]
-        end
+        current.copy_dynamic_variables_from(parent)
         block.call
       end
     end

@@ -83,7 +83,7 @@ class Fancy AST {
 
   class MethodArgs : Rubinius AST FormalArguments {
     def initialize: @line args: @array ([]) {
-      initialize(@line, @array map() |a| { a to_sym() }, nil, nil)
+      initialize(@line, @array map: @{ to_sym }, nil, nil)
     }
   }
 }

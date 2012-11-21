@@ -1,5 +1,4 @@
 FancySpec describe: "Control Flow" with: {
-
   it: "does NOT call the block if not nil" with: 'if_nil: when: {
     'foo if_nil: { 'is_nil } . is: nil
     "hello, world" if_nil: { 'is_nil } . is: nil

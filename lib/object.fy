@@ -695,18 +695,18 @@ class Object {
 
     { return value } unless: var_name
     unless: block do: {
-      Thread current[var_name]: value
+      Thread current set_dynamic_var: var_name to: value
       return value
     }
 
-    oldval = Thread current[var_name]
+    oldval = Thread current dynamic_var: var_name
     try {
-      Thread current[var_name]: value
+      Thread current set_dynamic_var: var_name to: value
       block call
       return value
     } finally {
       try { ensure_block call } catch {}
-      Thread current[var_name]: oldval
+      Thread current set_dynamic_var: var_name to: oldval
     }
   }
 
