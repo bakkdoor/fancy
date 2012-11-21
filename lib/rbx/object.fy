@@ -1,5 +1,5 @@
 class Object {
-  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables, 'methods, 'instance_variable_get, 'instance_variable_set ]
+  ruby_aliases: [ '==, '===, 'class, 'inspect, 'object_id, 'instance_variables, 'methods, 'instance_variable_get, 'instance_variable_set, 'singleton_methods ]
 
   def initialize {
     initialize()
