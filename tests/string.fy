@@ -89,12 +89,20 @@ FancySpec describe: String with: {
     "hello world" at: 5 . blank? is: true
   }
 
-  it: "is evaluated as fancy code and returns the correct value" when: {
+  it: "is evaluated as fancy code and returns the correct value" with: 'eval when: {
     x = "'foo" eval
     x is: 'foo
     "3 + 4" eval is: 7
     "'foo to_s uppercase" eval is: "FOO"
     "33.33" eval is: 33.33
+  }
+
+  it: "parses empty code with newlines correctly" with: 'eval when: {
+    "" eval is: nil
+    "\n" eval is: nil
+    "\n\n" eval is: nil
+    "\n \n \n" eval is: nil
+    " \n " eval is: nil
   }
 
   it: "returns itself times n" with: '* when: {
