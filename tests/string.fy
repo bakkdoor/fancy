@@ -264,4 +264,14 @@ FancySpec describe: String with: {
     "A" lowercase? is: false
     "abc" lowercase? is: true
   }
+
+  it: "returns true if its begins with another string" with: 'starts_with?: when: {
+    "" starts_with?: "" . is: true
+    "foo" starts_with?: "f" . is: true
+    "foo" starts_with?: "fo" . is: true
+    "foo" starts_with?: "foo" . is: true
+    "foo" starts_with?: "fooo" . is: false
+    "foo" starts_with?: "oo" . is: false
+    "foo" starts_with?: "" . is: false
+  }
 }
