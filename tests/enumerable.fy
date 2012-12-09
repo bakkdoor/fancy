@@ -97,6 +97,12 @@ FancySpec describe: Fancy Enumerable with: {
     "fabc" sorted? is: false
   }
 
+  it: "sorts by a given block" with: 'sort_by: when: {
+    [[1,2], [1,2,3], [1], []] sort_by: @{ size } . is: [[], [1], [1,2], [1,2,3]]
+    [[1,2], [1,2,3], [1], []] sort_by: 'size . is: [[], [1], [1,2], [1,2,3]]
+    ["abc", "abcd", "ab", "a", ""] sort_by: @{ size } . is: ["", "a", "ab", "abc", "abcd"]
+  }
+
   it: "splits a collection at an index" with: 'split_at: when: {
     [] split_at: 0 . is: [[],[]]
     [1] split_at: 0 . is: [[],[1]]

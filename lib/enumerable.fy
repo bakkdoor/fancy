@@ -786,20 +786,32 @@ class Fancy {
       at: $ size random
     }
 
-    def sort_by: block {
+    def sort: comparison_block {
       """
-      @block @Block@ taking 2 arguments used to compare elements in a collection.
+      @comparison_block @Block@ taking 2 arguments used to compare elements in a collection.
       @return Sorted @Array@ of elements in @self.
 
       Sorts a collection by a given comparison block.
       """
 
-      if: (block is_a?: Symbol) then: {
-        sort() |a b| {
-          a receive_message: block . <=> (b receive_message: block)
-        }
-      } else: {
-        sort(&block)
+      sort(&comparison_block)
+    }
+
+    def sort_by: block {
+      """
+      @block @Block@ taking 1 argument used to extract a value to use for comparison.
+      @return Sorted @Array@ of elements in @self based on @block.
+
+      Sorts a collection by calling a @Block@ with every element
+      and using the return values for comparison.
+
+      Example:
+            [\"abc\", \"abcd\", \"ab\", \"a\", \"\"] sort_by: @{ size }
+            # => [\"\", \"a\", \"ab\", \"abc\", \"abcd\"]
+      """
+
+      sort_by() |x| {
+        block call: [x]
       }
     }
 
