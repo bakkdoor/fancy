@@ -25,6 +25,13 @@ if: (test_files empty?) then: {
   }
 }
 
+
+test_helper = "#{test_dir}/test_helper.fy"
+if: (test_files includes?: test_helper) then: {
+  require: test_helper
+  test_files remove: test_helper
+}
+
 start = Time now
 test_files sort each: |f| {
   require: f

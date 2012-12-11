@@ -65,7 +65,7 @@ class DynamicKeyHash : Fancy BasicObject {
       val = p[idx]
       if: @deep then: {
         match val {
-          case Block -> val = val to_hash
+          case Block -> val = val to_hash_deep
         }
       }
       @hash[slotname to_sym]: val

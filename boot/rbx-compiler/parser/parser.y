@@ -152,6 +152,7 @@ extern char *yytext;
 %%
 
 programm:       /*empty*/
+                | nls
                 | expression_list {
                   rb_funcall(self, rb_intern("body="), 1, $1);
                 }

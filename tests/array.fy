@@ -525,15 +525,20 @@ FancySpec describe: Array with: {
     arr is: [1,5,4,2,3]
   }
 
-  it: "sorts the array with a given comparison block" with: 'sort_by: when: {
+  it: "sorts the array with a given comparison block" with: 'sort: when: {
     arr = [1,5,4,2,3]
     sorted = [1,2,3,4,5]
-    arr sort_by: |a b| { a <=>  b } . is: sorted
+    arr sort: |a b| { a <=>  b } . is: sorted
     arr is: [1,5,4,2,3]
 
     arr = [(1,2), (0,1), (3,0)]
     sorted = [(3,0), (0,1), (1,2)]
-    arr sort_by: |a b| { a second <=> (b second) } . is: sorted
+    arr sort: |a b| { a second <=> (b second) } . is: sorted
+  }
+
+  it: "sorts the array by a given block" with: 'sort_by: when: {
+    arr = [(1,2), (0,1), (3,0)]
+    sorted = [(3,0), (0,1), (1,2)]
     arr sort_by: 'second . is: sorted
   }
 

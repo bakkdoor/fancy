@@ -1,4 +1,6 @@
-require("actor")
+require("rubygems")
+require("rubinius/actor")
+Actor = Rubinius Actor
 
 class Actor {
   """

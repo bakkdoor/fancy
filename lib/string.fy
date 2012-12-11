@@ -281,4 +281,8 @@ class String {
     { return false } if: blank?
     lowercase == self
   }
+
+  def starts_with?: string {
+    from: 0 to: (string size - 1) == string
+  }
 }
