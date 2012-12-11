@@ -440,7 +440,7 @@ FancySpec describe: Class with: {
     try {
       [] equal?: [1,2] . is: true # is fail
     } catch NoMethodError => e {
-      e method_name is: 'equal?:
+      e message does =~ /equal/
     }
 
     class Array {
