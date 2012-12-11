@@ -1,4 +1,4 @@
-#!/usr/bin/env rbx -X19
+#!/usr/bin/env rbx
 # -*- ruby -*-
 
 base = File.dirname(__FILE__)
