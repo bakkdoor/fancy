@@ -36,6 +36,8 @@ class ClassWithPrivate {
   private: 'private_method
 }
 
+require: "stringio"
+
 FancySpec describe: Class with: {
   it: "does NOT find the method when not mixed-in" with: 'responds_to?: when: {
     instance = ClassWithMixin new
@@ -208,7 +210,8 @@ FancySpec describe: Class with: {
     Symbol superclass is: Object
     StdError superclass is: Exception
     Class superclass is: Module
-    Object superclass is: nil
+    Object superclass is: BasicObject
+    BasicObject superclass is: nil
 
     IOError superclass is: StandardError
     NoMethodError superclass is: NameError
@@ -452,9 +455,9 @@ FancySpec describe: Class with: {
     class B : A
     class C : B
 
-    A ancestors is: [A, Object, Kernel]
-    B ancestors is: [B, A, Object, Kernel]
-    C ancestors is: [C, B, A, Object, Kernel]
+    A ancestors is: [A, Object, Kernel, BasicObject]
+    B ancestors is: [B, A, Object, Kernel, BasicObject]
+    C ancestors is: [C, B, A, Object, Kernel, BasicObject]
   }
 
   it: "makes methods private" with: 'private: when: {
@@ -604,7 +607,7 @@ FancySpec describe: Class with: {
   }
 
   it: "returns its nested constants" with: 'constants when: {
-    WithConstants constants =? ["Foo", "Bar", "Nested"] is: true
+    WithConstants constants =? ['Foo, 'Bar, 'Nested] is: true
   }
 
   it: "returns a constants value" with: '[] when: {
@@ -679,7 +682,8 @@ FancySpec describe: Class with: {
     Fixnum inspect is: "Fixnum : Integer"
     MySuperClass inspect is: "MySuperClass : Object"
     MySubClass inspect is: "MySubClass : MySuperClass"
-    Object inspect is: "Object"
+    Object inspect is: "Object : BasicObject"
+    BasicObject inspect is: "BasicObject"
   }
 
   it: "returns the right amount of instance methods" with: 'instance_methods: when: {
