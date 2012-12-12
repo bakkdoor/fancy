@@ -8,7 +8,9 @@ class File {
       'truncate => "w+"]>
 
   ruby_aliases: [ 'eof?, 'closed?, 'flush ]
+
   metaclass alias_method: 'expand_path: for_ruby: 'expand_path
+  metaclass alias_method: 'dirname: for_ruby: 'dirname
 
   forwards_unary_ruby_methods
 
@@ -168,6 +170,10 @@ class File {
     """
 
     File expand_path: filename
+  }
+
+  def File join: path_components {
+    File join(*path_components)
   }
 
   def initialize: path {
