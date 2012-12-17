@@ -240,7 +240,17 @@ class Object {
           cond_block while_do: body_block
     """
 
-    cond_block while_do: body_block
+    cond_block while_true: body_block
+  }
+
+  def while: condition do: body else: alternative {
+    """
+    @condition @Block@ to be used as condition for while loop.
+    @body @Block@ to be called while @condition yields @true.
+    @alternative @Block@ to be called if @body never got called (@condition never yielded @true).
+    """
+
+    condition while_true: body else: alternative
   }
 
   def until: cond_block do: body_block {
