@@ -32,6 +32,24 @@ FancySpec describe: Block with: {
     i is be: { i >= 10 }
   }
 
+  it: "calls a block while another is true or calls the alternative" with: 'while_true:else: when: {
+    i = 0
+    { i < 10 } while_true: {
+      i = i + 1
+    } else: {
+      i = "nope"
+    }
+    i is: 10
+
+    i = 0
+    { i > 10 } while_true: {
+      i = i + 1
+    } else: {
+      i = "nope"
+    }
+    i is: "nope"
+  }
+
   it: "calls a block while another is not true (boolean false)" with: 'while_false: when: {
     i = 0
     {i == 10} while_false: {

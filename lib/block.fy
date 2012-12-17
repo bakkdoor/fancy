@@ -51,6 +51,18 @@ class Block {
 
   alias_method: 'while_do: for: 'while_true:
 
+  def while_true: block else: alternative {
+    """
+    @block @Block@ to be called while @self yields @true.
+    @alternative @Block@ to be called if @self never yielded @true.
+    """
+
+    if: call then: {
+      block call
+      while_true: block
+    } else: alternative
+  }
+
   def until_do: block {
     """
     @block @Block@ to be called while @self yields @nil or @false.
