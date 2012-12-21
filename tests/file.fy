@@ -140,4 +140,16 @@ FancySpec describe: File with: {
     ]>
     File delete: filename
   }
+
+  it: "overwrites a file correctly" with: 'overwrite:with: when: {
+    filename = "/tmp/#{Time now to_i random}_overwrite_test.fy"
+    try {
+      File write: filename with: @{ println: "foo"; println: "bar" }
+      File read: filename . is: "foo\nbar\n"
+      File overwrite: filename with: @{ println: "bar"; println: "foo" }
+      File read: filename . is: "bar\nfoo\n"
+    } finally {
+      File delete!: filename
+    }
+  }
 }
