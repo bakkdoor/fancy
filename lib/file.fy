@@ -15,6 +15,19 @@ class File {
     File open: filename modes: ['write] with: block
   }
 
+  def File overwrite: filename with: block {
+    """
+    @filename Filename of @File@ to overwrite.
+    @block @Block@ called with a @File@ object to write to (overwriting old contents.
+
+    Opens a @File@ for writing, overwriting old content.
+    """
+
+    File open: filename modes: ['truncate] with: block
+  }
+
+  metaclass alias_method: 'truncate:with: for: 'overwrite:with:
+
   def File append: filename with: block {
     """
     @filename Filename of @File@ to append to.
