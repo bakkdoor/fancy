@@ -35,3 +35,9 @@ class Fancy
     end
   end
 end
+
+class BasicObject
+  def method_missing(meth, *args)
+    ::Kernel.raise ::NoMethodError, "Unable to send '#{meth}' to instance of #{self.class}"
+  end
+end
