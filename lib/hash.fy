@@ -139,6 +139,21 @@ class Hash {
     o
   }
 
+  def to_object_deep {
+    """
+    Similar to @Hash#to_object@ but converting any nested @Hash@ slots to @Object@s as well.
+    """
+
+    o = dup to_hash_deep to_object
+    o slots each: |s| {
+      val = o get_slot: s
+      match val {
+        case Hash >< Block -> o set_slot: s value: $ val to_object_deep
+      }
+    }
+    o
+  }
+
   def inspect {
     str = "<["
     each: |key val| {
