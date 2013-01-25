@@ -155,6 +155,34 @@ FancySpec describe: Hash with: {
     }
   }
 
+  it: "returns a nested object with slots based on key-value pairs in hashes" with: 'to_object_deep when: {
+    hashes = [
+      <[]>,
+      <['name => "foo", 'age => 42]>
+    ]
+
+    hashes each: |h| {
+      o = h to_object_deep
+      o slots each: |s| {
+        o receive_message: s . is: $ h[s]
+      }
+    }
+
+
+    people = [
+      <['person => <['name => "foo", 'age => 42, 'city => "London"]>]>,
+      <['person => { name: "foo" age: 42 city: "London" }]> # even works with blocks, yay
+    ]
+
+    people each: @{
+      to_object_deep tap: @{
+        person name is: "foo"
+        person age is: 42
+        person city is: "London"
+      }
+    }
+  }
+
   it: "returns a hash with all entries for which a block yields true" with: 'select_keys: when: {
     <[]> select_keys: { true } . is: <[]>
     <[]> select_keys: { false } . is: <[]>
