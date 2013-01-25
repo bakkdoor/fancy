@@ -25,7 +25,7 @@ FancySpec describe: Object with: {
     { self a_singleton_method } raises: NoMethodError
   }
 
-  it: "returns its class" when: {
+  it: "returns its class" with: 'class when: {
     nil class is: NilClass
     true class is: TrueClass
     "foo" class is: String
@@ -44,13 +44,13 @@ FancySpec describe: Object with: {
     obj this_is_not_defined: "It's true!" . is: "Got: this_is_not_defined: It's true!"
   }
 
-  it: "returns a correct string representation" when: {
+  it: "returns a correct string representation" with: 'to_s when: {
     3 to_s is: "3"
     'foo to_s is: "foo"
     nil to_s is: ""
   }
 
-  it: "returns a correct array representation" when: {
+  it: "returns a correct array representation" with: 'to_a when: {
     nil to_a is: []
     'foo to_a is: ['foo]
     <['foo => "bar", 'bar => "baz"]> to_a is =? [['bar, "baz"], ['foo, "bar"]]
@@ -69,7 +69,7 @@ FancySpec describe: Object with: {
     3.28437 to_i is: 3
   }
 
-  it: "is an Object of the correct Class (or Superclass)" when: {
+  it: "is an Object of the correct Class (or Superclass)" with: 'is_a?: when: {
     Object new is_a?: Object . is: true
     "foo" is_a?: String . is: true
     "foo" is_a?: Object . is: true
