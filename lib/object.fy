@@ -139,6 +139,19 @@ class Object {
     [self]
   }
 
+  @@__to_hash_exclude_slots__ = ['_fancy_documentation]
+  def to_hash {
+    """
+    @return @Hash@ representation of @self based on slot values.
+    """
+
+    h = <[]>
+    slots - @@__to_hash_exclude_slots__ each: |s| {
+      h[s]: $ get_slot: s
+    }
+    h
+  }
+
   def to_i {
     """
     @return @Fixnum@ representation of @self.

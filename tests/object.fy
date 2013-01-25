@@ -56,7 +56,14 @@ FancySpec describe: Object with: {
     <['foo => "bar", 'bar => "baz"]> to_a is =? [['bar, "baz"], ['foo, "bar"]]
   }
 
-  it: "returns a correct fixnum representation" when: {
+  it: "returns a hash based on own slot values" with: 'to_hash when: {
+    nil to_hash is: <[]>
+    false to_hash is: <[]>
+    true to_hash is: <[]>
+    (0..10) each: @{ to_hash is: <[]> }
+  }
+
+  it: "returns a correct fixnum representation" with: 'to_i when: {
     nil to_i is: 0
     3 to_i is: 3
     3.28437 to_i is: 3
