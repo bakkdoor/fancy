@@ -75,9 +75,10 @@ class HTML {
   def html_block: tag body: body attrs: attrs (<[]>) {
     tag = tag from: 0 to: -2
     open_tag: tag attrs: attrs
-    match body first {
-      case Block -> @buf << (body first call: [self])
-      case _ -> @buf << "\n" << (" " * (@indent + @indent_offset)) << (body first)
+    content = body first
+    match content {
+      case Block -> @buf << (content call: [self])
+      case _ -> @buf << "\n" << (" " * (@indent + @indent_offset)) << content
     }
     close_tag: tag
     nil
