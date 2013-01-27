@@ -106,6 +106,17 @@ class HTML {
     nil
   }
 
+  def link: attrs {
+    open_tag: "link" attrs: (attrs to_hash) indent: false
+    nil
+  }
+
+  def script: attrs {
+    open_tag: "script" attrs: (attrs to_hash) indent: true
+    close_tag: "script" linebreak: false
+    nil
+  }
+
   def to_s {
     @buf from: 1 to: -1 . to_s
   }
