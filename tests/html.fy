@@ -33,4 +33,18 @@ FancySpec describe: HTML with: {
 
     h to_s is: $ html skip_leading_indentation
   }
+
+  it: "indents the generated html by a common offset" when: {
+    h = HTML new: @{
+      foo: @{ bar: "baz" }
+    } indentation: 3
+
+    h to_s lines is: [
+      "   <foo>",
+      "     <bar>",
+      "       baz",
+      "     </bar>",
+      "   </foo>"
+    ]
+  }
 }

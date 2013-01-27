@@ -34,16 +34,20 @@ class HTML {
   def initialize {
     @buf = ""
     @indent = 0
+    @indent_offset = 0
   }
 
-  def initialize: block {
+  def initialize: block indentation: indent_offset (0) {
     initialize
+    @indent_offset = indent_offset
     block call: [self]
   }
 
+  def indentation: @indent_offset
+
   def open_tag: name attrs: attrs (<[]>) indent: indent (true) {
     @buf << "\n"
-    @buf << (" " * @indent)
+    @buf << (" " * (@indent + @indent_offset))
     @indent = @indent + 2
 
     @buf << "<" << name
@@ -60,10 +64,10 @@ class HTML {
     { @indent = @indent - 2 } unless: indent
   }
 
-  def close_tag: name {
-    @buf << "\n"
+  def close_tag: name linebreak: linebreak (true) {
+    { @buf << "\n" } if: linebreak
     @indent = @indent - 2
-    @buf << (" " * @indent)
+    @buf << (" " * (@indent + @indent_offset))
 
     @buf << "</" << name << ">"
   }
@@ -73,7 +77,7 @@ class HTML {
     open_tag: tag attrs: attrs
     match body first {
       case Block -> @buf << (body first call: [self])
-      case _ -> @buf << "\n" << (" " * @indent) << (body first)
+      case _ -> @buf << "\n" << (" " * (@indent + @indent_offset)) << (body first)
     }
     close_tag: tag
     nil
