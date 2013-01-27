@@ -96,7 +96,7 @@ class HTML {
   }
 
   def br {
-    @buf << "\n" << (" " * @indent)
+    @buf << "\n" << (" " * (@indent + @indent_offset))
     @buf << "<br/>"
     nil
   }
