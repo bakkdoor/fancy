@@ -101,16 +101,6 @@ class HTML {
     nil
   }
 
-  def input: attrs {
-    open_tag: "input" attrs: (attrs to_hash) indent: false
-    nil
-  }
-
-  def link: attrs {
-    open_tag: "link" attrs: (attrs to_hash) indent: false
-    nil
-  }
-
   def script: attrs {
     open_tag: "script" attrs: (attrs to_hash) indent: true
     close_tag: "script" linebreak: false
@@ -120,4 +110,16 @@ class HTML {
   def to_s {
     @buf from: 1 to: -1 . to_s
   }
+
+
+  def self single_tags: single_tags {
+    single_tags each: |t| {
+      define_method: "#{t}:" with: |attrs| {
+        open_tag: t attrs: (attrs to_hash) indent: false
+        nil
+      }
+    }
+  }
+
+  single_tags: ('input, 'link, 'img)
 }
