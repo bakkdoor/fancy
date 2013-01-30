@@ -107,10 +107,21 @@ class HTML {
     nil
   }
 
+  def textarea: attrs with: content ("") {
+    @buf << "\n" << (" " * (@indent + @indent_offset))
+    @buf << "<textarea "
+    attrs to_hash each: |name val| {
+      @buf << name << "=" << (val to_s inspect)
+    } in_between: {
+      @buf << " "
+    }
+    @buf << ">" << content << "</textarea>"
+    nil
+  }
+
   def to_s {
     @buf from: 1 to: -1 . to_s
   }
-
 
   def self single_tags: single_tags {
     single_tags each: |t| {
