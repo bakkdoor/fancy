@@ -1,7 +1,7 @@
 class DateTime {
-  """
-  DateTime class. Used for yet more timely stuff.
-  """
+  # """
+  # DateTime class. Used for yet more timely stuff.
+  # """
 
   forwards_unary_ruby_methods
 
