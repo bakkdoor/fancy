@@ -5,5 +5,8 @@ FancySpec describe: Integer with: {
     100 decimals is: [1, 0, 0]
     123 decimals is: [1, 2, 3]
     998811 decimals is: [9, 9, 8, 8, 1, 1]
+    -0 decimals is: [0]
+    -10 decimals is: [1,0]
+    -1234 decimals is: [1, 2, 3, 4]
   }
 }

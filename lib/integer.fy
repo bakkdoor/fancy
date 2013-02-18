@@ -60,6 +60,10 @@ class Integer {
           12345 decimals # => [1, 2, 3, 4, 5]
     """
 
+    if: (self < 0) then: {
+      return negate decimals
+    }
+
     decimals = []
     tmp = self
     while: { tmp >= 10 } do: {
