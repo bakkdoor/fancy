@@ -44,8 +44,10 @@ ARGV for_option: "-e" do: |eval_string| {
 ARGV for_option: "-c" do: {
   ARGV index: "-c" . if_true: |idx| {
     ARGV[[idx + 1, -1]] . tap: |filenames| {
-      filenames each: |filename| {
-        "Compiling " ++ filename println
+      total = filenames size
+      max_width = total decimals size
+      filenames each_with_index: |filename idx| {
+        *stdout* printf("[%#{max_width}i / %i] Compiling %s\n", idx + 1, total, filename)
         Fancy Compiler compile_file: filename to: nil line: 1 print: false
       }
       files = "file"
