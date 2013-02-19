@@ -1,5 +1,5 @@
 rvm:
-  - rbx
+  - rbx-18mode
 before_script: rake clean && rbx -S rake
 script: bin/fancy bin/fspec
 notifications:
