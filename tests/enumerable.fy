@@ -134,6 +134,7 @@ FancySpec describe: Fancy Enumerable with: {
 
   it: "drops elements from itself as long a block yields true" with: 'drop_while: when: {
     (1..15) drop_while: |x| { x < 10 } . is: (10 upto: 15)
+    "aaabcd" drop_while: /a/ . is: ["b","c","d"]
   }
 
   it: "returns the first n elements" with: 'first: when: {
