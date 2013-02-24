@@ -140,6 +140,15 @@ class Fancy {
       """
       Similar to @each:@ but calls an additional @Block@ between
       calling the first @Block@ for each element in self.
+
+      Example:
+            result = \"\"
+            [1,2,3,4,5] each: |i| {
+              result << i
+            } in_between: {
+              result << \"-\"
+            }
+            result # => \"1-2-3-4-5\"
       """
 
       between = { between = between_block }
@@ -156,6 +165,7 @@ class Fancy {
 
       Joins a collection with a @String@ between each element, returning a new @String@.
 
+      Example:
             \"hello, world\" join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
       """
 
