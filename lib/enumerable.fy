@@ -467,14 +467,14 @@ class Fancy {
       """
 
       coll = []
-      drop = nil
-      first_check = true
+      drop? = false
+      first_check? = true
       each: |x| {
-        if: (drop or: first_check) then: {
-          drop = condition call: [x]
-          first_check = nil
+        if: (drop? or: first_check?) then: {
+          drop? = condition call: [x]
+          first_check? = false
           # check, if we actually have to insert this one:
-          unless: drop do: {
+          unless: drop? do: {
             coll << x
           }
         } else: {
