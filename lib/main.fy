@@ -47,13 +47,16 @@ ARGV for_option: "-c" do: {
       total = filenames size
       max_width = total decimals size
       start_time = Time now
-      filenames each_with_index: |filename idx| {
-        *stdout* printf("[%#{max_width}i / %i] Compiling %s\n", idx + 1, total, filename)
-        Fancy Compiler compile_file: filename to: nil line: 1 print: false
+      duration = Time duration: {
+        filenames each_with_index: |filename idx| {
+          *stdout* printf("[%#{max_width}i / %i] Compiling %s\n", idx + 1, total, filename)
+          Fancy Compiler compile_file: filename to: nil line: 1 print: false
+        }
       }
-      duration = sprintf("%.2f", Time now - start_time to_f)
-      files = "file"
-      { files = "files" } if: $ filenames size != 1
+      files = match filenames size {
+        case 1 -> "file"
+        case _ -> "files"
+      }
       "Compiled #{filenames size} #{files} in #{duration} seconds." println
     }
   }
