@@ -114,7 +114,7 @@ Something new open: |s| { s work }
 ```
 
 ## Copyright:
-(C) 2010, 2011, 2012 Christopher Bertels <chris@fancy-lang.org>
+(C) 2010, 2011, 2012, 2013, Christopher Bertels <chris@fancy-lang.org>
 
 Fancy is licensed under the terms of the BSD license. For more
 information on licensing issues have a look at the LICENSE file.
