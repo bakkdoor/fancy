@@ -7,7 +7,7 @@
 if: (ARGV size == 1) then: {
   ARGV for_options: ["-v", "--version"] do: {
     "Fancy #{Fancy VERSION}" println
-    "(C) 2010, 2011, 2012 Christopher Bertels <chris@fancy-lang.org>" println
+    "(C) 2010, 2011, 2012, 2013 Christopher Bertels <chris@fancy-lang.org>" println
     System exit
   }
 
