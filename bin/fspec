@@ -32,12 +32,20 @@ if: (test_files includes?: test_helper) then: {
 }
 
 if: (File exists?: test_helper) then: {
-  require: test_helper
+  try {
+    require: test_helper
+  } catch StandardError => e {
+    *stderr* println: "Error loading #{test_helper}: #{e}"
+  }
 }
 
 start = Time now
 test_files sort each: |f| {
-  require: f
+  try {
+    require: f
+  } catch StandardError => e {
+    *stderr* println: "Error loading #{f}: #{e}"
+  }
 }
 Console newline
 FancySpec SpecTest print_failures: start no_failures: {
