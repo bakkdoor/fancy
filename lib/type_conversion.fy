@@ -43,7 +43,7 @@ class Class {
 }
 
 class Object {
-  def ==> klass {
+  def =~> klass {
     class convert: self to: klass
   }
 
