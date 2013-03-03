@@ -77,4 +77,13 @@ FancySpec describe: OptionParser with: {
     o parse: args
     args is: [1, 2]
   }
+
+  it: "parses options as a hash" with: 'parse_hash: when: {
+    o = OptionParser new: @{
+      with: "--some-option [some-value]" doc: "foo"
+    }
+
+    hash = o parse_hash: ["foo", "bar", "--some-option", "hello world!", "baz"]
+    hash is: <["--some-option" => "hello world!"]>
+  }
 }
