@@ -657,6 +657,20 @@ class Fancy {
       superior_by: '>
     }
 
+    def max_by: block {
+      """
+      @block @Block@ by which to calculate the maximum value in @self.
+      @return Maximum value in @self based on @block.
+
+      Returns the maximum value in the Enumerable (via the '>' comparison message).
+
+      Example:
+            [[1,2,3], [1,2], [1]] max_by: @{ size } # => [1,2,3]
+      """
+
+      superior_by: '> taking: block
+    }
+
     def min {
       """
       @return Minimum value in @self.
@@ -665,6 +679,20 @@ class Fancy {
       """
 
       superior_by: '<
+    }
+
+    def min_by: block {
+      """
+      @block @Block@ by which to calculate the minimum value in @self.
+      @return Minimum value in @self based on @block.
+
+      Returns the minimum value in the Enumerable (via the '<' comparison message).
+
+      Example:
+            [[1,2,3], [1,2], [1]] min_by: @{ size } # => [1]
+      """
+
+      superior_by: '< taking: block
     }
 
     def min_max {

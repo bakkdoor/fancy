@@ -317,6 +317,36 @@ FancySpec describe: Fancy Enumerable with: {
     ["long", "a", "bc", "def"] min_max_by: @{ size } . is: ("a", "long")
   }
 
+  it: "returns the minimum" with: 'min when: {
+    [] min is: nil
+    [100] min is: 100
+    [0, 1] min is: 0
+    [-100, 100] min is: -100
+    [-4,-3,-2,-1,0,1,2,3,4,5] min is: -4
+  }
+
+  it: "returns the minimum based on a block" with: 'min_by: when: {
+    [] min_by: 'size . is: nil
+    [[1, 2, 3]] min_by: 'size . is: [1, 2, 3]
+    ["foo", "foobar"] min_by: @{ size } . is: "foo"
+    [[1, 2], ["foo", "bar", "baz"]] min_by: @{ size } . is: [1, 2]
+  }
+
+  it: "returns the maximum" with: 'max when: {
+    [] max is: nil
+    [100] max is: 100
+    [0, 1] max is: 1
+    [-100, 100] max is: 100
+    [-4,-3,-2,-1,0,1,2,3,4,5] max is: 5
+  }
+
+  it: "returns the maximum based on a block" with: 'max_by: when: {
+    [] max_by: 'size . is: nil
+    [[1, 2, 3]] max_by: 'size . is: [1, 2, 3]
+    ["foo", "foobar"] max_by: @{ size } . is: "foobar"
+    [[1, 2], ["foo", "bar", "baz"]] max_by: @{ size } . is: ["foo", "bar", "baz"]
+  }
+
   it: "returns true if exactly one element yields true with a given block" with: 'one?: when: {
     [] one?: 'nil? . is: false
     (1,2) one?: 'odd? . is: true
