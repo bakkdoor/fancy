@@ -43,6 +43,7 @@ require: "struct"
 require: "message_sink"
 require: "kvo"
 require: "time"
+require: "class_dependencies"
 
 # version holds fancy's version number
 require: "version"
