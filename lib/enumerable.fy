@@ -632,6 +632,8 @@ class Fancy {
             [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
       """
 
+      { return nil } if: empty?
+
       retval     = first
       retval_cmp = selection_block call: [retval]
 
