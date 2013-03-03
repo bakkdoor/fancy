@@ -167,6 +167,10 @@ class Hash {
     str
   }
 
+  def to_s {
+    inspect
+  }
+
   def values_at: keys {
     """
     @keys Collection of keys to get the values for.
