@@ -66,4 +66,34 @@ FancySpec describe: Class with: {
     Person Array is: Hash
     Person City is: CityBar
   }
+
+  it: "overrides setup_class_dependencies: successfully" when: {
+    class MyList {
+      class_dependencies: ['Array, 'Mixin]
+
+      def self setup_class_dependencies: dependency_mappings {
+        super setup_class_dependencies: dependency_mappings
+        include: Mixin
+      }
+
+      def initialize: @size {
+        @list = Array new: @size with: { @size random }
+      }
+
+      def each: block {
+        @list each: block
+      }
+    }
+
+    MyList ancestors includes?: Fancy Enumerable . is: false
+    MyList setup_class_dependencies: <['Array => Array, 'Mixin => Fancy Enumerable]>
+    MyList ancestors includes?: Fancy Enumerable . is: true
+
+    l = MyList new: 10
+    l size is: 10
+    range = (0..l size)
+    l each: |x| {
+      range includes?: x . is: true
+    }
+  }
 }
