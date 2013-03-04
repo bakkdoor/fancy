@@ -21,6 +21,7 @@ class Class {
   }
 
   def setup_class_dependencies: dependency_mappings {
+    dependency_mappings = dependency_mappings to_hash
     @class_dependencies each: |dep_name| {
       if: (dependency_mappings[dep_name]) then: |class| {
         const_set(dep_name, class)

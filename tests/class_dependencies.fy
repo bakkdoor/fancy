@@ -31,18 +31,18 @@ FancySpec describe: "Class dependencies" with: {
       }
     }
 
-    Person setup_class_dependencies: <[
-      'Array => Array,
-      'City => CityFoo
-    ]>
+    Person setup_class_dependencies: @{
+      Array: Array
+      City:  CityFoo
+    }
 
     p = Person new: @{ city: "hello" }
     p city name is: "CityFoo: hello"
 
-    Person setup_class_dependencies: <[
-      'Array => Array,
-      'City => CityBar
-    ]>
+    Person setup_class_dependencies: @{
+      Array: Array
+      City:  CityBar
+    }
 
     Person Array is: Array
     Person City is: CityBar
@@ -54,9 +54,7 @@ FancySpec describe: "Class dependencies" with: {
       class is: Array
     }
 
-    Person setup_class_dependencies: <[
-      'Array => Hash
-    ]>
+    Person setup_class_dependencies: @{ Array: Hash }
 
     Person new friends tap: @{
       is: <[]>
@@ -86,7 +84,7 @@ FancySpec describe: "Class dependencies" with: {
     }
 
     MyList ancestors includes?: Fancy Enumerable . is: false
-    MyList setup_class_dependencies: <['Array => Array, 'Mixin => Fancy Enumerable]>
+    MyList setup_class_dependencies: @{ Array: Array; Mixin: Fancy Enumerable }
     MyList ancestors includes?: Fancy Enumerable . is: true
 
     l = MyList new: 10
