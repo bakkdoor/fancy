@@ -1,4 +1,4 @@
-FancySpec describe: Class with: {
+FancySpec describe: "Class dependencies" with: {
   it: "manages class dependencies correctly" when: {
     class CityFoo {
       def initialize: @name

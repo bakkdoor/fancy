@@ -2,8 +2,10 @@ class Class {
   class MissingClassDependenciesError : StandardError {
     read_slots: ('class_dependencies, 'depending_class)
     def initialize: @class_dependencies on: @depending_class {
-      dependency_names = @class_dependencies values map: @{ name } inspect
-      initialize: $ "Missing class dependencies: #{dependency_names} for class: #{@depending_class name}"
+      dependency_names = @class_dependencies values map: |d| {
+        d name
+      } . inspect
+      initialize: "Missing class dependencies: #{dependency_names} for class: #{@depending_class name}"
     }
   }
 
