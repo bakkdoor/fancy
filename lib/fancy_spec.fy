@@ -13,6 +13,8 @@ class FancySpec {
     @spec_tests = []
     @before_blocks = []
     @after_blocks = []
+    @before_all_block = {}
+    @after_all_block = {}
   }
 
   def FancySpec describe: test_obj with: block {
@@ -95,10 +97,18 @@ class FancySpec {
   alias_method: 'it:for:when: for: 'it:with:when:
 
   def before: block {
+    """
+    @block @Block@ to be run before all test cases.
+    """
+
     @before_all_block = block
   }
 
   def after: block {
+    """
+    @block @Block@ to be run after all test cases.
+    """
+
     @after_all_block = block
   }
 
@@ -125,7 +135,7 @@ class FancySpec {
 
     # "  " ++ @description ++ ": " print
 
-    { @before_all_block call } if: @before_all_block
+    @before_all_block call
 
     @spec_tests each: |test| {
       @before_blocks each: |b| {
@@ -137,7 +147,7 @@ class FancySpec {
       }
     }
 
-    { @after_all_block call } if: @after_all_block
+    @after_all_block call
 
     # untested_methods = @test_obj methods select: |m| {
     #   m tests size == 0
