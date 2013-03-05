@@ -94,6 +94,14 @@ class FancySpec {
 
   alias_method: 'it:for:when: for: 'it:with:when:
 
+  def before: block {
+    @before_all_block = block
+  }
+
+  def after: block {
+    @after_all_block = block
+  }
+
   def before_each: block {
     """
     @block @Block@ to be run before each test case.
@@ -116,6 +124,9 @@ class FancySpec {
     """
 
     # "  " ++ @description ++ ": " print
+
+    { @before_all_block call } if: @before_all_block
+
     @spec_tests each: |test| {
       @before_blocks each: |b| {
         b call_with_receiver: test
@@ -125,6 +136,8 @@ class FancySpec {
         b call_with_receiver: test
       }
     }
+
+    { @after_all_block call } if: @after_all_block
 
     # untested_methods = @test_obj methods select: |m| {
     #   m tests size == 0
