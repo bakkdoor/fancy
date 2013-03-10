@@ -1,3 +1,4 @@
+[![Logo](http://fancy-lang.org/fancy-logo.png)](http://fancy-lang.org)
 # The Fancy Programming Language
 
 [![Build Status](https://secure.travis-ci.org/bakkdoor/fancy.png)](http://travis-ci.org/bakkdoor/fancy)
