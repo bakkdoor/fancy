@@ -57,10 +57,9 @@ class String {
     Indicates, if a @String@ consists only of whitespace.
     """
 
-    self =~ /^\s*$/ if_true: {
-      true
-    } else: {
-      false
+    match self {
+      case /^\s*$/ -> true
+      case _ -> false
     }
   }
 
