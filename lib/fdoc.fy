@@ -133,7 +133,7 @@ class Fancy FDoc {
       keys each: |i| {
         str << $ to_json: i
         str << ":"
-        str << $ to_json: (obj at: i)
+        str << $ to_json: (obj[i])
       } in_between: { str << ", " }
       str << "}"
       str join
@@ -162,7 +162,7 @@ class Fancy FDoc {
         if: mdoc then: {
           mattr['doc]: $ mdoc format: 'fdoc
           if: (mdoc meta) then: {
-            mattr['arg]: $ mdoc meta at: 'argnames
+            mattr['arg]: $ mdoc meta['argnames]
           }
         }
         if: (exec class() == Rubinius CompiledMethod) then: {
@@ -176,7 +176,7 @@ class Fancy FDoc {
           # right now we only use the first line of code in the body.
           mattr['lines]: $ [exec definition_line, exec last_line]
         }
-        attr[(type ++ "s") intern()] [n]: mattr
+        attr["#{type}s" intern()] [n to_s]: mattr
       }
     }
 
@@ -193,7 +193,7 @@ class Fancy FDoc {
           'doc => doc format: 'fdoc,
           'instance_methods => <[]>,
           'methods => <[]>,
-          'ancestors => cls ancestors() map: |c| { c name() gsub("::", " ") }
+          'ancestors => cls ancestors() map: |c| { (c name || "") gsub("::", " ") }
         ]>
         popuplate_methods: cls on: attr type: 'instance_method known: methods
         popuplate_methods: cls on: attr type: 'method known: methods
@@ -202,14 +202,14 @@ class Fancy FDoc {
 
       methods each: |cm| {
         cls = cm scope() module()
-        cls_name = cls name() gsub("::", " ")
-        cls_attr = map['classes] at: cls_name
+        cls_name = cls name gsub("::", " ")
+        cls_attr = map['classes][cls_name]
 
-        full_name = cls_name ++ "#" ++ (cm name())
+        full_name = "#{cls_name}##{cm name}"
 
         doc = Fancy Documentation for: cm
         attr = <[
-          'args => doc meta at: 'argnames,
+          'args => doc meta['argnames],
           'doc => doc format: 'fdoc
         ]>
 
