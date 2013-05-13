@@ -50,6 +50,17 @@ class File {
     File open: filename modes: ['read] with: block
   }
 
+  def File readlines: filename {
+    """
+    @filename Filename of @File@ to read lines from.
+    @return @Array@ of lines in @filename.
+
+    Opens & reads a @File@ and returns all of its lines in an @Array@.
+    """
+
+    File read: filename with: @{ readlines }
+  }
+
   def File read_binary: filename with: block {
     """
     @filename Filename of @File@ to read from.
