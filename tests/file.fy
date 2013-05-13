@@ -17,6 +17,10 @@ FancySpec describe: File with: {
     }
   }
 
+  it: "reads all lines in a file correctly" with: 'readlines: when: {
+    File readlines: "README.md" . is: $ File read: "README.md" with: @{ readlines }
+  }
+
   it: "writes a file correctly" with: 'write:with: when: {
     dirname = "tmp"
     filename = "#{dirname}/write_test.txt"
