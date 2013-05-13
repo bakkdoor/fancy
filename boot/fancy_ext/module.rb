@@ -70,7 +70,11 @@ class Module
 
     if changed
       method_table.each do |meth, obj, vis|
-        Rubinius::VM.reset_method_cache meth
+        begin
+          Rubinius::VM.reset_method_cache klass, meth
+        rescue ArgumentError
+          Rubinius::VM.reset_method_cache meth
+        end
       end
     end
 
