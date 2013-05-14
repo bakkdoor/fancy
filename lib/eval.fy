@@ -27,7 +27,6 @@ def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: li
   cm name=('__fancy_eval__)
 
   script = Rubinius CompiledMethod Script new(cm, file, true)
-  script eval_binding=(binding)
   script eval_source=(code)
 
   cm scope() script=(script)
@@ -38,8 +37,6 @@ def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: li
   if: (binding from_proc?()) then: {
     be proc_environment=(binding proc_environment)
   }
-
-  be from_eval!()
 
   be call()
 }
