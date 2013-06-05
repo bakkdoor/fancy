@@ -662,17 +662,21 @@ FancySpec describe: Class with: {
 
   it: "defines a lazy slot" with: 'lazy_slot:value: when: {
     class LazyClass {
-      lazy_slot: 'foo value: { Thread sleep: 0.01; 42 * @count }
-      def initialize: @count
+      read_slot: 'count
+      lazy_slot: 'foo value: { @count = @count + 1; 42 }
+      def initialize {
+        @count = 0
+      }
     }
 
-    f = LazyClass new: 2
-    start = Time now
-    f foo is: 84
-    Time now - start >= 0.01 is: true
-    start = Time now
-    f foo is: 84
-    Time now - start <= 0.01 is: true
+    f = LazyClass new
+    f count is: 0
+    f foo is: 42
+    f count is: 1
+    f foo is: 42
+    f count is: 1
+    10 times: { f foo }
+    f count is: 1
   }
 
   it: "returns a string representation of itself and its superclass, if any" with: 'inspect when: {
