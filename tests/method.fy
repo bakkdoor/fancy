@@ -3,17 +3,6 @@ FancySpec describe: Method with: {
     [1,2,3] method: "each:" . class is: Method
   }
 
-  # it: "returns the (correct) sender object of the MessageSend" when: {
-  #   class SenderTest {
-  #     def give_me_the_sender! {
-  #       __sender__
-  #     }
-  #   }
-
-  #   x = SenderTest new
-  #   x give_me_the_sender! is: self
-  # }
-
   it: "returns the amount of arguments a Method takes" with: 'arity when: {
     class Foo {
       def no_args
