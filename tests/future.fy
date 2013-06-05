@@ -16,19 +16,9 @@ FancySpec describe: FutureSend with: {
     a is: nil
   }
 
-  # it: "composes Futures to create execution pipelines" with: '&& when: {
-  #   def some_computation: num {
-  #     num upto: (num ** num ** num)
-  #   }
-
-  #   f = self @ some_computation: 2 && @{select: 'even?} && @{size}
-  #   f is_a?: FutureSend . is: true
-  #   f value is_a?: Fixnum . is: true
-  # }
-
   it: "accesses the same future from multiple threads and blocks them until the value is computed" when: {
     def another_method {
-      Thread sleep: 0.25
+      Thread sleep: 0.01
       42
     }
 
