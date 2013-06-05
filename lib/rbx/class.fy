@@ -114,12 +114,12 @@ class Class {
 
   def nested_classes {
     """
-    @return @Array@ of all nested classes for @self.
+    @return @Set@ of all nested classes for @self.
 
     Returns all the nested classes within a @Class@ as an @Array@.
     """
 
-    constants map: |c| { const_get(c) } . select: @{ is_a?: Class }
+    Set[constants map: |c| { const_get(c) } . select: @{ is_a?: Class }]
   }
 
   def instance_method: name {
