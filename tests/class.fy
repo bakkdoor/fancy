@@ -359,19 +359,19 @@ FancySpec describe: Class with: {
     class OuterB {
       NotAClass = 'nope
     }
-    OuterB nested_classes is: []
+    OuterB nested_classes is: $ Set[[]]
 
     class OuterB {
       class InnerB1 {
       }
     }
-    OuterB nested_classes is: [OuterB::InnerB1]
+    OuterB nested_classes is: $ Set[[OuterB::InnerB1]]
 
     class OuterB {
       class InnerB2 {
       }
     }
-    OuterB nested_classes is: [OuterB InnerB1, OuterB InnerB2]
+    OuterB nested_classes is: $ Set[[OuterB InnerB1, OuterB InnerB2]]
   }
 
   it: "finds other nested classes in the same parent class" when: {
