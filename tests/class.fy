@@ -355,23 +355,24 @@ FancySpec describe: Class with: {
     NameSpace Array is_not: Array
   }
 
-  # it: "returns all nested classes of a class" with: 'nested_classes when: {
-  #   class Outer {
-  #   }
-  #   Outer nested_classes is: []
+  it: "returns all nested classes of a class" with: 'nested_classes when: {
+    class OuterB {
+      NotAClass = 'nope
+    }
+    OuterB nested_classes is: []
 
-  #   class Outer {
-  #     class Inner1 {
-  #     }
-  #   }
-  #   Outer nested_classes is: [Outer::Inner1]
+    class OuterB {
+      class InnerB1 {
+      }
+    }
+    OuterB nested_classes is: [OuterB::InnerB1]
 
-  #   class Outer {
-  #     class Inner2 {
-  #     }
-  #   }
-  #   Outer nested_classes is: [Outer Inner1, Outer Inner2]
-  # }
+    class OuterB {
+      class InnerB2 {
+      }
+    }
+    OuterB nested_classes is: [OuterB InnerB1, OuterB InnerB2]
+  }
 
   it: "finds other nested classes in the same parent class" when: {
     class MyOuter {

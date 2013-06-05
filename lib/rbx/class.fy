@@ -119,7 +119,7 @@ class Class {
     Returns all the nested classes within a @Class@ as an @Array@.
     """
 
-    "Not Yet Implemented" raise!
+    constants map: |c| { const_get(c) } . select: @{ is_a?: Class }
   }
 
   def instance_method: name {
