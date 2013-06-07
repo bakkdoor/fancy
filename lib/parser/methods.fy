@@ -250,14 +250,22 @@ class Fancy {
       }
     }
 
-    def ast: line oper: op arg: arg body: body access: access ('public) owner: owner (nil) {
+    def ast: line oper: op arg: arg body: body {
       margs = [ast: line param: op var: arg]
-      ast: line method: margs body: body access: access owner: owner
+      ast: line method_spec: margs body: body
     }
 
-    def ast: line oper: op arg: arg1 arg: arg2 body: body access: access ('public) owner: owner (nil) {
+    def ast: line oper: op arg: arg1 arg: arg2 body: body {
       margs = [SelectorVarDefault new(op, arg1, nil), SelectorVarDefault new(ast: line identifier: "", arg2, nil)]
-      ast: line method: margs body: body access: access owner: owner
+      ast: line method_spec: margs body: body
+    }
+
+    def ast: line define: define method: spec on: receiver {
+      ary = []
+      Array(spec) each: |spec| {
+        ary << $ ast: (spec line) method: (spec margs) body: (spec body) access: 'public owner: receiver
+      }
+      AST ExpressionList new: line list: ary
     }
 
     def ast: line method: margs body: body access: access ('public) owner: owner (nil) {
@@ -283,13 +291,17 @@ class Fancy {
       }
     }
 
-    def ast: line method: margs expand: body access: access ('public) owner: owner (nil) {
+    def ast: line method_spec: margs expand: body {
       defs = []
       method: margs delegators: |sel fwd| {
-        defs << $ ast: line method: sel body: fwd access: access owner: owner
+        defs << $ ast: line method_spec: sel body: fwd
       }
-      defs << $ ast: line method: margs body: body access: access owner: owner
-      AST ExpressionList new: line list: defs
+      defs << $ ast: line method_spec: margs body: body
+      defs
+    }
+
+    def ast: line method_spec: margs body: body {
+      AST MethodSpec new: line margs: margs body: body
     }
 
     def ast: line block: body {

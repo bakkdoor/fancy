@@ -7,8 +7,8 @@ int yyerror(VALUE self, char *s);
 
 %option yylineno
 
-digit		[0-9]
-octdigit	[0-7]
+digit           [0-9]
+octdigit        [0-7]
 hexdigit        [0-9a-fA-F]
 bindigit        [01]
 capital         [A-Z]
@@ -16,8 +16,8 @@ lower           [a-z]
 letter          [A-Za-z]
 special         [-+?!=*/^><%&~]
 special_under   ({special}|"_")
-operator        ({special}+|" | "|"||"{special_under}*)
-int_lit 	[-+]?{digit}({digit}|_{digit})*
+operator        (" / "|" | "|{special}+|"||"{special_under}*)
+int_lit         [-+]?{digit}({digit}|_{digit})*
 double_lit      {int_lit}\.{digit}+
 hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+

@@ -135,4 +135,9 @@ FancySpec describe: Method with: {
     def obj bar
     def obj bar: @x
   }
+
+  it: "parses correcly / with a single slash on method body" when: {
+    def / x { '/ }
+    self / 1 . is: '/
+  }
 }
