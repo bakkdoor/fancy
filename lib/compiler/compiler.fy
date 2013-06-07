@@ -40,7 +40,6 @@ class Fancy {
       try {
         result = compiler run()
       } catch StandardError => e {
-        p(e)
         compiler_error("Error trying to compile " ++ file, e)
       }
       result
