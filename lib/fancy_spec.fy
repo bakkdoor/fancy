@@ -65,7 +65,7 @@ class FancySpec {
     @spec_tests << test
   }
 
-  def it: spec_info_string with: method_name when: spec_block {
+  def it: spec_info_string with: method_names when: spec_block {
     """
     @spec_info_string Info @String@ related to the test case defined in @spec_block.
     @method_name Name of Method that this testcase is related to.
@@ -77,6 +77,13 @@ class FancySpec {
             3 times: { arr pop }
             arr empty? is: true
           }
+
+          # you can also pass multiple method names if the test coveres more
+          # than one method:
+
+          it: \"tests multiple methods\" with: ['method_a, 'method_b] when: {
+            # do something with method_a and method_b
+          }
     """
 
     test = SpecTest new: spec_info_string block: spec_block
@@ -85,11 +92,13 @@ class FancySpec {
 
     match @test_obj {
       case Class ->
-        has_method? = @test_obj has_method?: method_name
-        { has_method? = @test_obj metaclass has_method?: method_name } unless: has_method?
+        method_names to_a each: |method_name| {
+          has_method? = @test_obj has_method?: method_name
+          { has_method? = @test_obj metaclass has_method?: method_name } unless: has_method?
 
-        unless: has_method? do: {
-          SpecTest method_not_found: method_name for: @test_obj
+          unless: has_method? do: {
+            SpecTest method_not_found: method_name for: @test_obj
+          }
         }
     }
   }
