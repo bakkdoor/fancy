@@ -314,9 +314,10 @@ class Block {
     call: args with_errors_logged_to: *stdout*
   }
 
-  def call_with_errors_logged_to: io {
+  def call_with_errors_logged_to: io reraise: reraise? (false) {
     """
     @io @IO@ object to log any errors to.
+    @reraise? Optional boolean indicating if any raised exception should be reraised.
 
     Calls @self while logging any errors to @io.
     """
@@ -325,13 +326,15 @@ class Block {
       self call
     } catch StandardError => e {
       io println: e
+      { e raise! } if: reraise?
     }
   }
 
-  def call: args with_errors_logged_to: io {
+  def call: args with_errors_logged_to: io reraise: reraise? (false) {
     """
     @args @Array@ of arguments to call @self with.
     @io @IO@ object to log any errors to.
+    @reraise? Optional boolean indicating if any raised exception should be reraised.
 
     Calls @self with @args while logging any errors to @io.
     """
@@ -340,6 +343,7 @@ class Block {
       self call: args
     } catch StandardError => e {
       io println: e
+      { e raise! } if: reraise?
     }
   }
 }
