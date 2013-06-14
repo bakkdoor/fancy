@@ -389,16 +389,41 @@ FancySpec describe: Block with: {
     io string is: "divided by 0\n"
 
     io = StringIO new
-    { "fail!" raise! } call_with_errors_logged_to: io
+    {
+      { "fail!" raise! } call_with_errors_logged_to: io
+    } does_not raise: StandardError
+    io string is: "fail!\n"
+  }
+
+  it: "calls itself while logging errors to a given IO object and reraising exceptions" with: 'call_with_errors_logged_to:reraise: when: {
+    io = StringIO new
+    {
+      {
+        "fail!" raise!
+      } call_with_errors_logged_to: io reraise: true
+    } raises: StandardError
     io string is: "fail!\n"
   }
 
   it: "calls itself with arguments while logging errors to a given IO object" with: 'call:with_errors_logged_to: when: {
     io = StringIO new
-    |x y| {
-      io println: "x: #{x} y: #{y}"
-      2 / 0
-    } call: [10, 20] with_errors_logged_to: io
+    {
+      |x y| {
+        io println: "x: #{x} y: #{y}"
+        2 / 0
+      } call: [10, 20] with_errors_logged_to: io
+    } does_not raise: ZeroDivisionError
+    io string is: "x: 10 y: 20\ndivided by 0\n"
+  }
+
+  it: "calls itself with arguments while logging errors to a given IO object and reraising exceptions" with: 'call:with_errors_logged_to:reraise: when: {
+    io = StringIO new
+    {
+      |x y| {
+        io println: "x: #{x} y: #{y}"
+        2 / 0
+      } call: [10, 20] with_errors_logged_to: io reraise: true
+    } raises: ZeroDivisionError
     io string is: "x: 10 y: 20\ndivided by 0\n"
   }
 }
