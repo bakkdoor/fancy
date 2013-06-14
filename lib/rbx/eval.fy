@@ -1,4 +1,4 @@
-require: "compiler"
+require: "../compiler"
 
 def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: line (1) {
   """
