@@ -56,13 +56,17 @@ class Symbol {
   def arity {
     m = message_name to_s
     match m {
-      case /^:[a-zA-Z0-9_]+$/ -> m count: |c| { c == ":" }
-      case /^:\W+$/ -> 2
-      case _ -> m count: |c| { c == ":" } + 1
+      case /^:[a-zA-Z0-9_]+$/ -> m count: |c| { c == ":" } # unary message
+      case /^:\W+$/ -> 2 # binary operator
+      case _ -> m count: |c| { c == ":" } + 1 # multi-arg message
     }
   }
 
   def to_sym {
+    """
+    @return @self.
+    """
+
     self
   }
 
