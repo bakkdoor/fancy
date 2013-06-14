@@ -23,6 +23,6 @@ class Range {
     @return @String@ representation of @self.
     """
 
-    "(" ++ @start ++ ".." ++ @end ++ ")"
+    "(#{@start}..#{@end})"
   }
 }

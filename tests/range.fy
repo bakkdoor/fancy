@@ -8,4 +8,9 @@ FancySpec describe: Range with: {
   it: "has a working literal syntax" when: {
     (1..10) is: (Range new: 1 to: 10)
   }
+
+  it: "returns a string representation" with: ['inspect, 'to_s] when: {
+    (1..10) inspect is: "(1..10)"
+    (100..1000) inspect is: "(100..1000)"
+  }
 }
