@@ -78,7 +78,7 @@ class FancySpec {
             arr empty? is: true
           }
 
-          # you can also pass multiple method names if the test coveres more
+          # you can also pass multiple method names if the test covers more
           # than one method:
 
           it: \"tests multiple methods\" with: ['method_a, 'method_b] when: {
