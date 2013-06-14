@@ -9,7 +9,8 @@ module CodeRay
       file_extension 'fy'
 
       SPECIAL_FORMS = %w[
-        def throw try catch class
+        self super return return_local def class
+        throw try catch finally retry match case
       ]  # :nodoc:
 
       CORE_FORMS = %w[
@@ -26,9 +27,8 @@ module CodeRay
         add(PREDEFINED_CONSTANTS, :predefined_constant)
 
       KEYWORD_NEXT_TOKEN_KIND = WordList.new(nil).
-        add(%w[ def defn defn- definline defmacro defmulti defmethod defstruct defonce declare ], :function).
-        add(%w[ ns ], :namespace).
-        add(%w[ defprotocol defrecord ], :class)
+        add(%w[ def ], :function).
+        add(%w[ class ], :class)
 
       BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=]=?[a-zA-Z0-9$&*+!\/_?<>\-\#]*/
       CLASS_IDENTIFIER = /[A-Z]+[A-Za-z0-9]*|[A-Z]+[A-Za-z0-9]\:\:|\:\:[A-Z]+[A-Za-z0-9]*/
