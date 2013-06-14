@@ -10,8 +10,8 @@ def Fancy eval: code binding: binding (nil) file: file ("(fancy-eval)") line: li
 
   binding if_nil: {
     binding = Binding setup(Rubinius VariableScope of_sender(),
-                        Rubinius CompiledMethod of_sender(),
-                        Rubinius StaticScope of_sender())
+                            Rubinius CompiledMethod of_sender(),
+                            Rubinius StaticScope of_sender())
   }
 
   # The compiled method
