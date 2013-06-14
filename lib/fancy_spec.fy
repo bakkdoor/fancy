@@ -24,7 +24,7 @@ class FancySpec {
 
     Example:
           FancySpec describe: MyTestClass with: {
-            # test cases using it:for:when: here.
+            # test cases using it:with:when: here.
           }
     """
 
@@ -132,8 +132,6 @@ class FancySpec {
     """
     Runs a FancySpec's test cases.
     """
-
-    # "  " ++ @description ++ ": " print
 
     @before_all_block call
 
