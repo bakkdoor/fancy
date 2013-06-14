@@ -7,7 +7,6 @@ class Array
   # definition, this fails. To make it work, we define these. Kinda
   # stupid, i know, but oh well. Maybe need to fix this in the future.
   def public
-    puts self.inspect
     Rubinius::VariableScope.of_sender.method_visibility = nil
   end
   def private
