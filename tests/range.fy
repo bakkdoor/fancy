@@ -11,6 +11,9 @@ FancySpec describe: Range with: {
 
   it: "returns a string representation" with: ['inspect, 'to_s] when: {
     (1..10) inspect is: "(1..10)"
-    (100..1000) inspect is: "(100..1000)"
+    (100..1000) tap: @{
+      inspect is: "(100..1000)"
+      to_s is: "(100..1000)"
+    }
   }
 }
