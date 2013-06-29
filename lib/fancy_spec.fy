@@ -10,11 +10,11 @@ class FancySpec {
     @test_obj Object to be tested, defaults to @description.
     """
 
-    @spec_tests = []
-    @before_blocks = []
-    @after_blocks = []
+    @spec_tests       = []
+    @before_blocks    = []
+    @after_blocks     = []
     @before_all_block = {}
-    @after_all_block = {}
+    @after_all_block  = {}
   }
 
   def FancySpec describe: test_obj with: block {
@@ -173,12 +173,12 @@ class FancySpec {
 
     read_slot: 'info_str
 
-    @@failed_positive = <[]>
-    @@failed_negative = <[]>
-    @@failed_count = 0
-    @@total_tests = 0
+    @@failed_positive    = <[]>
+    @@failed_negative    = <[]>
+    @@failed_count       = 0
+    @@total_tests        = 0
     @@total_expectations = 0
-    @@methods_not_found = <[]>
+    @@methods_not_found  = <[]>
 
     def SpecTest add_expectation {
       @@total_expectations = @@total_expectations + 1
