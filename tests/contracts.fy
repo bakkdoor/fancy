@@ -27,14 +27,15 @@ FancySpec describe: Class Contracts with: {
     class Interface {
       expects_interface_on_inclusion: ['hello, 'world]
     }
+
     {
       class C {
         include: Interface
       }
-    } raises: Class Contracts InterfaceNotImplementedError with: |e| {
-      e methods is: ['hello, 'world]
-      e interface is: Interface
-      e including_class is: C
+    } raises: Class Contracts InterfaceNotImplementedError with: @{
+      methods is: ['hello, 'world]
+      interface is: Interface
+      including_class is: C
     }
 
     {
@@ -42,10 +43,10 @@ FancySpec describe: Class Contracts with: {
         def hello
         include: Interface
       }
-    } raises: Class Contracts InterfaceNotImplementedError with: |e| {
-      e methods is: ['world]
-      e interface is: Interface
-      e including_class is: D
+    } raises: Class Contracts InterfaceNotImplementedError with: @{
+      methods is: ['world]
+      interface is: Interface
+      including_class is: D
     }
   }
 }
