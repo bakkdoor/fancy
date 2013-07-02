@@ -200,7 +200,7 @@ class Fancy FDoc {
         'objects => <[]>
       ]>
 
-      methods = @methods dup()
+      methods = @methods dup
 
       @classes each: |cls| {
         name = cls name gsub("::", " ")
@@ -209,7 +209,7 @@ class Fancy FDoc {
           'doc => doc format: 'fdoc,
           'instance_methods => <[]>,
           'methods => <[]>,
-          'ancestors => cls ancestors() map: |c| { (c name || "") gsub("::", " ") }
+          'ancestors => cls ancestors map: @{ name to_s gsub("::", " ") }
         ]>
         popuplate_methods: cls on: attr type: 'instance_method known: methods
         popuplate_methods: cls on: attr type: 'method known: methods
@@ -217,7 +217,7 @@ class Fancy FDoc {
       }
 
       methods each: |cm| {
-        cls = cm scope() module()
+        cls = cm scope module
         cls_name = cls name gsub("::", " ")
         cls_attr = map['classes][cls_name]
 
