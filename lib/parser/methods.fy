@@ -112,6 +112,10 @@ class Fancy {
       AST HashLiteral new: line entries: key_values
     }
 
+    def ast: line set: set_values {
+      AST SetLiteral new: line values: set_values
+    }
+
     def ast: line tuple: expr_ary {
       if: (expr_ary size == 1) then: {
         expr_ary first

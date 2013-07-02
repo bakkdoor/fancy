@@ -142,4 +142,20 @@ class Fancy AST {
       bytecode(g)
     }
   }
+
+  class SetLiteral : Node {
+    def initialize: @line values: @values {
+      @values = @values || []
+    }
+
+    def bytecode: g {
+      pos(g)
+      vals = ArrayLiteral new: @line array: @values
+      ms = MessageSend new: @line \
+                       message: (Identifier from: "new:" line: @line) \
+                       to: (Constant new: @line string: "Set") \
+                       args: (MessageArgs new: @line args: [vals])
+      ms bytecode: g
+    }
+  }
 }

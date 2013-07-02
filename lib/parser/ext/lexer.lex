@@ -36,6 +36,7 @@ lbracket        "["
 rbracket        "]"
 lhash           "<["
 rhash           "]>"
+set_start       "%["
 stab            "|"
 arrow           "=>"
 thin_arrow      "->"
@@ -118,6 +119,7 @@ escaped_newline "\\".*\n
 {rbracket}      { return RBRACKET; }
 {lhash}         { return LEFTHASH; }
 {rhash}         { return RIGHTHASH; }
+{set_start}     { return SET_START; }
 {stab}          { return STAB; }
 {arrow}         { return ARROW; }
 {thin_arrow}    { return THIN_ARROW; }

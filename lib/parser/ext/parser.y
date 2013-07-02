@@ -33,6 +33,7 @@ extern char *yytext;
 %token                  RBRACKET
 %token                  LEFTHASH
 %token                  RIGHTHASH
+%token                  SET_START
 %token                  STAB
 %token                  ARROW
 %token                  THIN_ARROW
@@ -99,6 +100,7 @@ extern char *yytext;
 %type  <object>         block_args_with_comma
 %type  <object>         hash_literal
 %type  <object>         array_literal
+%type  <object>         set_literal
 %type  <object>         empty_array
 %type  <object>         tuple_literal
 %type  <object>         range_literal
@@ -673,6 +675,7 @@ literal_value:  integer_literal
                 | string_literal
                 | symbol_literal
                 | hash_literal
+                | set_literal
                 | array_literal
                 | regex_literal
                 | block_literal
@@ -710,6 +713,14 @@ hash_literal:   LEFTHASH space key_value_list space RIGHTHASH {
                 }
                 | LEFTHASH space RIGHTHASH {
                   $$ = rb_funcall(self, rb_intern("ast:hash:"), 2, INT2NUM(yylineno), Qnil);
+                }
+                ;
+
+set_literal:    SET_START space RBRACKET {
+                  $$ = rb_funcall(self, rb_intern("ast:set:"), 2, INT2NUM(yylineno), Qnil);
+                }
+                | SET_START space exp_comma_list space RBRACKET {
+                  $$ = rb_funcall(self, rb_intern("ast:set:"), 2, INT2NUM(yylineno), $3);
                 }
                 ;
 
