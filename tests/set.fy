@@ -122,6 +122,16 @@ FancySpec describe: Set with: {
   it: "returns the intersection of two sets" with: '& when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(2,3,4,5)]
-    s1 & s2 is: (Set[(2,3)])
+    s1 & s2 is: $ Set[(2,3)]
+  }
+
+  it: "removes all elements from a Set" with: 'clear when: {
+    s = Set[(1,2,3)]
+    s empty? is: false
+    s size is: 3
+    s clear
+    s empty? is: true
+    s size is: 0
+    s is: $ Set[[]]
   }
 }
