@@ -87,10 +87,9 @@ FancySpec describe: FutureSend with: {
 
 FancySpec describe: FutureCollection with: {
   it: "iterates over each future's value" with: 'each: when: {
-    letters = ("a".."z") to_a
-    futures = letters map: |l| { l @ inspect }
-    FutureCollection[futures] each_with_index: |val idx| {
-      val is: $ letters[idx] inspect
+    futures = ("a".."z") map: |l| { l @ inspect }
+    FutureCollection[futures] each: |val| {
+      val =~ /[a-z]/ . is_not: nil
     }
   }
 
