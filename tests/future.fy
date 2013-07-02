@@ -84,3 +84,22 @@ FancySpec describe: FutureSend with: {
     val is_a?: Exception
   }
 }
+
+FancySpec describe: FutureCollection with: {
+  it: "iterates over each future's value" with: 'each: when: {
+    letters = ("a".."z") to_a
+    futures = letters map: |l| { l @ inspect }
+    FutureCollection[futures] each_with_index: |val idx| {
+      val is: $ letters[idx] inspect
+    }
+  }
+
+  it: "awaits all futures to complete" with: 'await_all when: {
+    futures = (0..100) map: |i| {
+      { Thread sleep: 0.01; i * 2 } @ call
+    }
+    futures all?: @{ completed? } . is: false
+    FutureCollection[futures] await_all
+    futures all?: @{ completed? } . is: true
+  }
+}
