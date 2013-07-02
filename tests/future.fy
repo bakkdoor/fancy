@@ -67,14 +67,15 @@ FancySpec describe: FutureSend with: {
     called? = false
     failed? = false
     val = 0
-    f = { Thread sleep: 0.01; "Fail!" raise! } @ call
-    f when_done: |v| {
-      val = v
-      called? = true
-    }
-    f when_failed: |err| {
-      val = err
-      failed? = true
+    f = { Thread sleep: 0.01; "Fail!" raise! } @ call . tap: @{
+      when_done: |v| {
+        val = v
+        called? = true
+      }
+      when_failed: |err| {
+        val = err
+        failed? = true
+      }
     }
 
     f value
