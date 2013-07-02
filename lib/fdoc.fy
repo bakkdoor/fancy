@@ -192,8 +192,13 @@ class Fancy FDoc {
     }
 
     def generate_map {
-      map = <['title => "Fancy Documentation", 'date => Time now() to_s(),
-              'classes => <[]>, 'methods => <[]>, 'objects => <[]> ]>
+      map = <[
+        'title => "Fancy Documentation",
+        'date => Time now to_s,
+        'classes => <[]>,
+        'methods => <[]>,
+        'objects => <[]>
+      ]>
 
       methods = @methods dup()
 
