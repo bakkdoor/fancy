@@ -18,30 +18,31 @@ class Fancy Documentation {
 
   read_write_slots: ['object, 'docs, 'specs]
 
-  instance_method: 'docs . executable() . documentation: """
-    An array of docstrings for the object beind documented.
+  method_documentation: <[
+    'docs => """
+      An array of docstrings for the object beind documented.
 
-    We have an array of docstrings because in Fancy, some
-    things like classes can be re-openned and the user may
-    specify new documentation for it each time. Thus we dont
-    want to loose the previous documentation but rather build
-    upon it. That is, fancy supports incremental documentation.
-  """
+      We have an array of docstrings because in Fancy, some
+      things like classes can be re-openned and the user may
+      specify new documentation for it each time. Thus we dont
+      want to loose the previous documentation but rather build
+      upon it. That is, fancy supports incremental documentation.
+    """,
+    'specs => """
+      An array of associated Fancy specs for the object
+      being documented.
 
-  instance_method: 'specs . documentation: """
-    An array of associated Fancy specs for the object
-    being documented.
+      Its a lot better to keep the associated specs in
+      Fancy Documentation objects instead of just having them
+      in method instances. This allows us to associate any object
+      with an spec example.
 
-    Its a lot better to keep the associated specs in
-    Fancy Documentation objects instead of just having them
-    in method instances. This allows us to associate any object
-    with an spec example.
-
-    This way you can have a single Fancy spec example that
-    is related to many objects (methods, constants, classes)
-    that are being specified. Later in documentation, we can
-    provide links to all specs where an object is being exercised.
-  """
+      This way you can have a single Fancy spec example that
+      is related to many objects (methods, constants, classes)
+      that are being specified. Later in documentation, we can
+      provide links to all specs where an object is being exercised.
+    """
+  ]>
 
   def to_s {
     @docs join: "\n" . skip_leading_indentation
