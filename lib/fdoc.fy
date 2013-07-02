@@ -82,14 +82,24 @@ class Fancy FDoc {
 
     @documented_objects = @documented_objects select_keys: |k| { @objects_to_remove includes?: k . not }
 
+    # display progress
+    t = Thread new: {
+      loop: {
+        "." print
+        sleep: 0.1
+      }
+    }
+
     # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects add_github_links: add_github_links github_repo: github_repo
     json write: (File expand_path("fancy.jsonp", output_dir))
 
-    ["Open your browser at " ++ output_dir ++ "index.html ",
+    ["\n\nOpen your browser at " ++ output_dir ++ "index.html ",
      " " ++ (json classes size) ++ " classes. ",
      " " ++ (json methods size) ++ " methods. ",
      " " ++ (json objects size) ++ " other objects. "] println
+
+     t kill
   }
 
 
@@ -224,7 +234,7 @@ class Fancy FDoc {
       map = generate_map
       json = to_json: map
       js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
-      File open: filename modes: ['write] with: |out| { out print: js }
+      File open: filename modes: ['write] with: @{ print: js }
     }
   }
 
