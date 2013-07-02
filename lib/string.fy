@@ -10,23 +10,23 @@ class String {
 
   include: Fancy Enumerable
 
-  instance_method: '== . documentation: """
-    Compares @self to another @String@ and returns @true, if equal, @false otherwise.
-  """
+  method_documentation: <[
+    '== => """
+      Compares @self to another @String@ and returns @true, if equal, @false otherwise.
+    """,
+    'uppercase => """
+      @return Uppercased version of @self.
 
-  instance_method: 'uppercase . documentation: """
-    @return Uppercased version of @self.
+      Example:
+            \"hello world\" uppercase # => \"HELLO WORLD\"
+    """,
+    'lowercase => """
+      @return Lowercased version of @self.
 
-    Example:
-          \"hello world\" uppercase # => \"HELLO WORLD\"
-  """
-
-  instance_method: 'lowercase . documentation: """
-    @return Lowercased version of @self.
-
-    Example:
-          \"HELLO WORLD\" lowercase # => \"hello world\"
-  """
+      Example:
+            \"HELLO WORLD\" lowercase # => \"hello world\"
+    """
+  ]>
 
   def ++ other {
     """
