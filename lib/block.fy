@@ -298,20 +298,20 @@ class Block {
 
   def call_with_errors_logged {
     """
-    Calls @self while logging any errors to @*stdout*.
+    Calls @self while logging any errors to @*stderr*.
     """
 
-    call_with_errors_logged_to: *stdout*
+    call_with_errors_logged_to: *stderr*
   }
 
   def call_with_errors_logged: args {
     """
     @args @Array@ of arguments to call @self with.
 
-    Calls @self with @args while logging any errors to @*stdout*.
+    Calls @self with @args while logging any errors to @*stderr*.
     """
 
-    call: args with_errors_logged_to: *stdout*
+    call: args with_errors_logged_to: *stderr*
   }
 
   def call_with_errors_logged_to: io reraise: reraise? (false) {
