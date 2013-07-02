@@ -29,3 +29,7 @@ class Rubinius CompiledMethod {
     defined_line
   }
 }
+
+class Rubinius CompiledCode {
+  forwards_unary_ruby_methods
+}
