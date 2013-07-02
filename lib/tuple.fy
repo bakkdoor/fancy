@@ -59,19 +59,14 @@ class Tuple {
     Returns sub-array starting at from: and going to to:
     """
 
-    if: (from < 0) then: {
-      from = size + from
-    }
-    if: (to < 0) then: {
-      to = size + to
-    }
+    { from = size + from } if: $ from < 0
+    { to = size + to } if: $ to < 0
     subarr = []
     try {
       from upto: to do: |i| {
         subarr << (at: i)
       }
-    } catch ObjectBoundsExceededError {
-    }
+    } catch ObjectBoundsExceededError {}
     subarr
   }
 
