@@ -109,17 +109,18 @@ class Fancy FDoc {
     def initialize: documented add_github_links: @add_github_links github_repo: @github_repo {
       @documented_objects = documented
 
-      is_class = |o| { o kind_of?: Module }
-      is_method = |o| { o kind_of?: Rubinius CompiledMethod }
-      is_block = |o| { o kind_of?: Rubinius BlockEnvironment }
-      all_other = |o| {
-        [is_class, is_method, is_block] all?() |b| { b call: [o] == false }
+      class?  = @{ kind_of?: Module }
+      method? = @{ kind_of?: Rubinius CompiledMethod }
+      block?  = @{ kind_of?: Rubinius BlockEnvironment }
+      other?  = |o| {
+        [class?, method?, block?] any?: @{ call: [o] } . not
       }
 
-      @classes = @documented_objects keys select: is_class
-      @methods = @documented_objects keys select: is_method
-      @blocks =  @documented_objects keys select: is_block
-      @objects = @documented_objects keys select: all_other
+      types = [class?, method?, block?, other?]
+
+      @classes, @methods, @blocks, @objects = types map: |type| {
+        @documented_objects keys select: type
+      }
     }
 
     def string_to_json: obj {
