@@ -96,7 +96,7 @@ FancySpec describe: FutureCollection with: {
 
   it: "awaits all futures to complete" with: 'await_all when: {
     futures = (0..100) map: |i| {
-      { Thread sleep: 0.01; i * 2 } @ call
+      { Thread sleep: 0.001; i * 2 } @ call
     }
     futures all?: @{ completed? } . is: false
     FutureCollection[futures] await_all
