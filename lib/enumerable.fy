@@ -920,6 +920,18 @@ class Fancy {
       self to_a reverse
     }
 
+    def to_a {
+      """
+      Default implementation for converting @Fancy::Enumerable@s into @Array@s.
+      """
+
+      a = []
+      each: |x| {
+        a << x
+      }
+      a
+    }
+
     def to_hash: block {
       """
       @block @Block@ to be called to get the key for each element in @self.

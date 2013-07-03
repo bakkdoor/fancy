@@ -86,6 +86,7 @@ class Feature {
     @@hooks values sort_by: 'name . each: block
   }
 
+  metaclass provides_interface: 'each:
   extend: Fancy Enumerable
 }
 

@@ -22,6 +22,10 @@ class Object
   define_method("require:") do |path|
     Fancy::CodeLoader.send "require:", path
   end
+
+  def to_a
+    [self]
+  end
 end
 
 class Fancy
@@ -29,5 +33,11 @@ class Fancy
     instance_methods.each do |m|
       undef_method(m) if m.to_s !~ /(?:^__|^nil?$|^send$|^object_id$)/
     end
+  end
+end
+
+class BasicObject
+  def method_missing(meth, *args)
+    ::Kernel.raise ::NoMethodError, "Unable to send '#{meth}' to instance of #{self.class}"
   end
 end

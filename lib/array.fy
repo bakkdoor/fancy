@@ -287,6 +287,10 @@ class Array {
     str << "]"
   }
 
+  def to_s {
+    join: ""
+  }
+
   def to_a {
     """
     @return @self.

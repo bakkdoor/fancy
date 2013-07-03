@@ -98,6 +98,7 @@ class UnboundMethod {
   }
 
   def selector_with_args {
+    name = name to_s
     match name {
       case ":[]" -> return "[arg_0]"
       case "[]:" -> return "[arg_0]: arg_1"

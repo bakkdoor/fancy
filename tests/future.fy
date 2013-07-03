@@ -18,7 +18,7 @@ FancySpec describe: FutureSend with: {
 
   it: "accesses the same future from multiple threads and blocks them until the value is computed" when: {
     def another_method {
-      Thread sleep: 0.01
+      Thread sleep: 0.1
       42
     }
 

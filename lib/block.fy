@@ -165,8 +165,7 @@ class Block {
           o with      # => 42
     """
 
-    obj = DynamicSlotObject new do: self . object
-    obj
+    DynamicSlotObject new do: self . object
   }
 
   def to_object_deep {

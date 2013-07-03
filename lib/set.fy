@@ -150,6 +150,17 @@ class Set {
     @hash delete: obj
   }
 
+  def clear {
+    """
+    @return @self.
+
+    Removes all elements from @self.
+    """
+
+    @hash = <[]>
+    self
+  }
+
   def + other {
     """
     @other Other Set to use for creating union Set.

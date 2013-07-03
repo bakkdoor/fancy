@@ -72,9 +72,15 @@ class Hash {
     """
 
     match default_value {
-      case Block -> @default_proc = true
+      case Block ->
+        @got_default_proc = true
+        @default = nil
+        @default_proc = default_value
+      case _ ->
+        @got_default_proc = false
+        @default = default_value
+        @default_proc = nil
     }
-    @default = default_value
   }
 
   def default {
@@ -82,7 +88,11 @@ class Hash {
     @return Default value for @self.
     """
 
-    @default
+    if: @got_default_proc then: {
+      @default_proc
+    } else: {
+      @default
+    }
   }
 
   def default_for: key {
