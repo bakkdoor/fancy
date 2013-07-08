@@ -17,7 +17,7 @@ if: (test_files empty?) then: {
   test_files = Directory list: "#{test_dir}/**/*.fy"
   if: (test_files empty?) then: {
     if: (Directory exists?: test_dir) then: {
-      "No test files found. Add them to the tests/ directory." println
+      "No test files found. Add them to '#{test_dir}'." println
     } else: {
       "Test directory '#{test_dir}' not found. Create it!" println
     }
