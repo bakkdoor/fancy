@@ -394,10 +394,13 @@ class Object {
   def backtick: str {
     """
     This is the default implementation for backtick: which gets called when using the backtick syntax.
+
     For example:
           `cat README`
+
     Gets translated to the following message send:
           self backtick: \"cat README\"
+
     Which allows for custom implementations of the backtick: method, if needed.
     This default implementation works the same way as in Ruby, Perl or Bash.
     It returns the output of running the given string on the command line as a @String@.
