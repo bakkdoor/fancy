@@ -1,7 +1,7 @@
 rvm:
   - rbx-19mode
 before_script: rake clean && rbx -S rake
-script: bin/fancy bin/fspec
+script: bundle exec bin/fancy bin/fspec
 notifications:
   email:
     recipients:
