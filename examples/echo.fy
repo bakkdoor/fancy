@@ -12,5 +12,5 @@ if: (ARGV[1]) then: |filename| {
     "[ERROR] #{e message}" println
   }
 } else: {
-  "Usage: fancy echo.fy [filename]" println
+  "Usage: fancy #{ARGV[0]} [filename]" println
 }
