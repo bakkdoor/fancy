@@ -258,6 +258,19 @@ class Fancy {
       if: (find: item) then: block
     }
 
+    def find_by: block {
+      """
+      Similar to @find:@ but takes a block that is called for each element to find it.
+      """
+
+      each: |x| {
+        if: (block call: [x]) then: {
+          return x
+        }
+      }
+      nil
+    }
+
     def find_with_index: item do: block {
       """
       @item Item to find in @self.
@@ -317,19 +330,6 @@ class Fancy {
       last_idx = nil
       for_every: item with_index_do: |_ i| { last_idx = i }
       last_idx
-    }
-
-    def find_by: block {
-      """
-      Similar to @find:@ but takes a block that is called for each element to find it.
-      """
-
-      each: |x| {
-        if: (block call: [x]) then: {
-          return x
-        }
-      }
-      nil
     }
 
     def map: block {
