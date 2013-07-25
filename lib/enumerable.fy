@@ -234,15 +234,15 @@ class Fancy {
       Otherwise returns that element that is equal to @item.
       """
 
-      if: (item is_a?: Block) then: {
-        find_by: item
-      } else: {
-        each: |x| {
-          if: (item == x) then: {
-            return x
+      match item {
+        case Block -> find_by: item
+        case _ ->
+          each: |x| {
+            if: (item == x) then: {
+              return x
+            }
           }
-        }
-        nil
+          nil
       }
     }
 
