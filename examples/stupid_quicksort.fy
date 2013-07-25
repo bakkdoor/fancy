@@ -1,7 +1,7 @@
 class Array {
   def quicksort {
     match size {
-      case 0 -> self
+      case (0..1) -> self
       case _ ->
         (rest select: @{ < first } . quicksort) + [first] + (rest select: @{ >= first } . quicksort)
     }
