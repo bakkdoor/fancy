@@ -25,3 +25,4 @@ pygments/*
 .rbx/*
 lib/parser/ext/.rbx/*
 TAGS
+Gemfile.lock
