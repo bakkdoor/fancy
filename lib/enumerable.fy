@@ -261,6 +261,11 @@ class Fancy {
     def find_by: block {
       """
       Similar to @find:@ but takes a block that is called for each element to find it.
+
+      Example:
+            [1,2,3,4,5] find_by: @{ even? } # => 2
+            [1,2,3,4,5] find_by: @{ odd? } # => 1
+            [1,2,3,4,5] find_by: @{ % 3 == 0 } # => 3
       """
 
       each: |x| {
