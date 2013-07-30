@@ -1,3 +1,107 @@
+v0.10.0 (Jul 30, 2013)
+-----------------------
+  - refactor simple quicksort example
+  - improve echo example script
+  - remove Gemfile.lock & add to .gitignore
+  - add rake to Gemfile
+  - use bundle exec in travis before script as well
+  - try using bundle exec to get travis build working again
+  - add code example to Enumerable#find_by: docstring
+  - reorganize method position
+  - refactor Enumerable#find:
+  - refactor Ruby->Fancy interop.
+  - fix Object#backtick: docstring formatting
+  - fix error message in fspec to use specified test directory
+  - Revert set rbx version to 19 mode
+  - Merge branch 'rbx19' - Require rbx 1.9 mode
+  - set rbx version to 19 mode
+  - increase wait time in future test
+  - refactor future test
+  - fix FutureCollection test
+  - increase sleep time in future test to prevent failure on travis
+  - more fdoc refactoring & code cleanup
+  - add ruby aliases for Rubinius CompiledCode & ConstantScope
+  - refactor FDoc::Json#generate_map
+  - more fdoc refactoring and add progress indicator
+  - refactor fdoc JSON#initialize:
+  - shorter sleep in test
+  - Block#call_with_errors_logged - log to *stderr* by default
+  - small code cleanup
+  - add Class#method_documentation: and use it where it makes sense
+  - add docstrings and tests to FutureCollection
+  - cleanup Set tests
+  - add Set#clear
+  - improve code alignment
+  - cleanup Class::Contracts tests
+  - add test case for Range#to_s
+  - improve Range#inspect and add spec
+  - allow to specifiy more than one method associated with a FancySpec test case
+  - fix typo
+  - FancySpec cleanup
+  - add optional reraise: argument to Block#call_with_errors_logged_to: & Block#call:with_errors_logged_to:
+  - cleanup Block#to_object
+  - moved lib/eval.fy into lib/rbx/eval.fy since it's pretty rbx specific
+  - fix formatting
+  - cleanup
+  - cleanup ifancy CodeRay code highlighting
+  - add comments & docstring to Symbol for clarity
+  - fix symbol highlighting in ifancy
+  - Remove bug hunting expression.
+  - Fix parsing on / operator. closes #64. Refactor method_def parsing.
+  - let Class#nested_classes return a Set instead of Array
+  - reimplement Class#nested_classes and uncomment previously failing test
+  - cleanup method spec
+  - future spec cleanup
+  - don't use sleep for testing Class#lazy_slot
+  - remove calls to depecrated methods
+  - default to new version of Rubinius::VM.reset_method_cache
+  - add File##readlines:
+  - refactor String#blank?
+  - refactor lib/main.fy
+  - refactor fdoc & fix bug on rbx 19 mode
+  - add logo to README
+  - small refactoring of handling before/after blocks and also add missing docstrings
+  - add before: and after: handlers to FancySpec
+  - add Enumerable#max_by: & #min_by:
+  - return nil if Enumerable empty in Enumerable#superior_by:
+  - use inspect for Hash#to_s
+  - add OptionParser#parse_hash: and default to identity for option handler block
+  - specify parse: method for OptionParser tests
+  - update copyright notice for fancy -v cmd-line option
+  - update copyright notice in README
+  - small refactoring to Fancy::Enumerable#drop_while:
+  - improve docsrings in Fancy::Enumerable
+  - fspec: print any exception when loading test files instead of crashing completely
+  - display compile duration time for fancy -c option
+  - display total amount of files being compiled for -c command-line option
+  - fix Integer#decimals for negative numbers
+  - comment out DateTime class docstring for now
+  - Year update to LICENSE
+  - add DateTime to lib/rbx/
+  - HTML: add support for textarea
+  - HTML: refactor single tags & add img:
+  - add indent_offset to br tag as well
+  - add HTML#link: & HTML#script: gen methods
+  - refactor HTML#html_block:body:attrs:
+  - add indentation offset option to HMTL class
+  - add missing method identifiers to tests
+  - add Object#to_hash
+  - add Hash#to_object_deep
+  - add custom BasicObject#method_missing
+  - Add File##overwrite:with:
+  - add *fancy_root* dynvar
+  - fix failing travis test
+  - fix spec
+  - force rbx -X19 mode
+  - disable custom method chaining (+ before/after methods) for now (getting an error in 19 mode)
+  - test fix for 19 mode
+  - fix default value handling for Hash in 19 mode
+  - fix Range#to_a and add Enumerable#to_a
+  - fix many tests for 19 mode
+  - get ifancy working
+  - fix some bugs for 19 mode
+  - get Fancy working in Rubinius' 1.9 mode
+
 v0.9.0 (Jun 05, 2013)
 ----------------------
   - release v0.9.0

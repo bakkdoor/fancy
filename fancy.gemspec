@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name = "fancy"
-  s.version = "0.9.0"
+  s.version = "0.10.0"
 
   s.authors = ["Christopher Bertels"]
-  s.date = "2013-06-05"
+  s.date = "2013-07-30"
   s.email = "chris@fancy-lang.org"
 
   files =
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.summary = "The Fancy Programming Language"
 
   s.add_dependency "rubinius-actor"
+  s.required_ruby_version = '>= 1.9.3'
 
   s.description = <<EOS
 The Fancy Programming Language
