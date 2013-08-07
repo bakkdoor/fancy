@@ -144,15 +144,13 @@ class String {
     This method expects the first character to be an line return.
     """
 
-    str = self
-    m = /^(\r?\n)*(\s+)/ match(str)
-    str = str strip()
-    if: m then: {
-      pattern = "^ {" ++ (m[2] size()) ++ "}"
-      rex = Regexp.new(pattern)
-      str = str gsub(rex, "");
+    match self {
+      case /^(\r?\n)*(\s+)/ -> |m|
+        pattern = Regexp["^ {#{m[2] size}}"]
+        return self strip substitute: pattern with: ""
     }
-    str
+
+    return self
   }
 
   def characters {
@@ -237,8 +235,8 @@ class String {
     Returns a snake cased version of @self.
     """
 
-    r1 = Regexp new("([A-Z]+)([A-Z][a-z])")
-    r2 = Regexp new("([a-z\d])([A-Z])")
+    r1 = Regexp["([A-Z]+)([A-Z][a-z])"]
+    r2 = Regexp["([a-z\d])([A-Z])"]
     gsub(r1,"\1_\2") gsub(r2,"\1_\2") tr("-", "_") lowercase
   }
 
