@@ -178,9 +178,6 @@ class String {
     """
 
     enum = bytes()
-    def enum each: block {
-      each(&block)
-    }
     Fancy Enumerator new: enum
   }
 
