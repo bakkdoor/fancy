@@ -21,6 +21,7 @@ FancySpec describe: Block with: {
   it: "returns the argument count" with: 'arity when: {
     { } arity . is: 0
     |x| { } arity . is: 1
+    |x y| { } arity . is: 2
     |x y z| { } arity . is: 3
   }
 
