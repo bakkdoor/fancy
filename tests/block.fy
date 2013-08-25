@@ -348,6 +348,13 @@ FancySpec describe: Block with: {
     a is: [1,2]
     block call
     a is: [1,2,1,2]
+
+    a = []
+    block = @{ << 1 } then: @{ << 2 }
+    block call: [a]
+    a is: [1,2]
+    block call: [a]
+    a is: [1,2,1,2]
   }
 
   it: "returns a Block that calls itself after a given Block" with: 'after: when: {
@@ -356,6 +363,13 @@ FancySpec describe: Block with: {
     block call
     a is: [2,1]
     block call
+    a is: [2,1,2,1]
+
+    a = []
+    block = @{ << 1 } after: @{ << 2 }
+    block call: [a]
+    a is: [2,1]
+    block call: [a]
     a is: [2,1,2,1]
   }
 
