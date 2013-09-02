@@ -5,6 +5,8 @@ class DateTime {
 
   forwards_unary_ruby_methods
 
+  metaclass alias_method: 'parse: for_ruby: 'parse
+
   metaclass ruby_alias: 'now
   ruby_aliases: [ '==, '-, '+, '<, '>, '<=, '>= ]
 
