@@ -1,37 +1,27 @@
 #!/usr/bin/env fancy
 # -*- set ft=fancy -*-
 
-class Fancy Interactive {
-  @@info = <[]>
-
-  def self [key] {
-    @@info[key]
-  }
-
-  def self [key]: value {
-    @@info[key]: value
-  }
-}
-
 try {
   require("readline")
 } catch LoadError {
   require("rb-readline/readline")
 }
 
+hightlight_code? = false
+
 try {
   require("rubygems")
   require("coderay")
-  require(File.expand_path(File.dirname(__FILE__)) ++ "/../ruby_lib/interactive/hilight")
-  Fancy Interactive['coderay]: true
+  require(File absolute_path: $ __DIR__ + "/../ruby_lib/interactive/hilight")
+  hightlight_code? = true
 } catch LoadError {
-  Fancy Interactive['coderay]: false
+  hightlight_code? = false
 }
 
 ["Welcome to the (still very simple) Fancy REPL",
  "Fancy #{Fancy VERSION}"] println
 
-HISTORY_FILE = File expand_path("~/.fancy_history")
+HISTORY_FILE = File absolute_path: "~/.fancy_history"
 HISTORY      = []
 PROMPT       = "ifancy[%d]> "
 
@@ -214,7 +204,7 @@ loop: {
     HISTORY pop()
   }
   try {
-    if: (Fancy Interactive['coderay]) then: {
+    if: hightlight_code? then: {
       "=> #{CodeRay.scan((Fancy eval: line binding: bnd . inspect), 'fancy).term()}" println
     } else: {
       "=> #{Fancy eval: line binding: bnd . inspect}"  println
