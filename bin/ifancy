@@ -150,7 +150,7 @@ Readline completion: |str| {
   completions = []
   try {
     regexp = Regexp new(str)
-    completions = methods select: @{ =~ regexp } . map: @{ gsub(/^:/, "") }
+    completions = methods map: @{ to_s } . select: @{ =~ regexp } . map: @{ gsub(/^:/, "") }
   } catch RegexpError {
   } finally {
     completions
