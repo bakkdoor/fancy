@@ -54,7 +54,7 @@ class Fancy {
       } else: {
         result = @fiber resume
         if: (@fiber alive?) then: {
-          return result
+          result
         } else: {
           (Fancy StopIteration new: result) raise!
         }
