@@ -32,4 +32,16 @@ class Regexp {
   def call: args {
     args first =~ self
   }
+
+  def matches?: string {
+    """
+    @string @String@ to match against @self.
+    @return @true, if @string matches @self, @false otherwise.
+    """
+
+    if: (string =~ self) then: {
+      return true
+    }
+    return false
+  }
 }
