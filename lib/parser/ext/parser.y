@@ -251,6 +251,9 @@ multiple_assignment: identifier_list EQUALS exp_comma_list {
 operator:       OPERATOR {
                   $$ = fy_terminal_node(self, "ast:identifier:");
                 }
+                | THIN_ARROW {
+                  $$ = fy_terminal_node_from(self, "ast:identifier:", "->");
+                }
                 ;
 
 constant:       CONSTANT {
