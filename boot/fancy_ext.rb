@@ -18,7 +18,10 @@ require base + "symbol"
 require base + "array"
 
 unless Rubinius::VERSION =~ /^1\./
-  Rubinius::Compiler  = Rubinius::ToolSet.current::TS::Compiler
-  Rubinius::AST       = Rubinius::ToolSet.current::TS::AST
-  Rubinius::Generator = Rubinius::ToolSet.current::TS::Generator
+  begin
+    Rubinius::Compiler  = Rubinius::ToolSet.current::TS::Compiler
+    Rubinius::AST       = Rubinius::ToolSet.current::TS::AST
+    Rubinius::Generator = Rubinius::ToolSet.current::TS::Generator
+  rescue NameError
+  end
 end
