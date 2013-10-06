@@ -101,11 +101,7 @@ class Fancy {
             (1,2,3,4) first: 2 # => [1,2]
       """
 
-      i = 0
-      take_while: {
-        i = i + 1
-        i <= amount
-      }
+      take: amount
     }
 
     def last: amount {
