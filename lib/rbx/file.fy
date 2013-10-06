@@ -7,7 +7,7 @@ class File {
       'binary => "b",
       'truncate => "w+"]>
 
-  ruby_aliases: [ 'eof?, 'closed?, 'flush ]
+  ruby_aliases: [ 'eof?, 'closed?, 'flush, '<< ]
 
   metaclass alias_method: 'expand_path: for_ruby: 'expand_path
   metaclass alias_method: 'dirname: for_ruby: 'dirname
