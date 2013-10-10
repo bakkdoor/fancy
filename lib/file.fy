@@ -88,6 +88,18 @@ class File {
     content
   }
 
+  def File empty?: filename {
+    """
+    @filename Name of @File@ to check if its empty.
+    @return @true if @filename is empty, @false otherwise.
+
+    Indicates, if a @File@ with a given @filename is empty or not.
+    A @File@ is considered empty, if its size (in bytes) is 0.
+    """
+
+    File size: filename == 0
+  }
+
   def File touch: filename {
     """
     @filename Name of @File@ to be created, if not already existant.
