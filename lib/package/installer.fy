@@ -73,17 +73,17 @@ class Fancy Package {
       @return @Array@ of git tags in the package's Github repository.
       """
 
-      require("open-uri")
       require("rubygems")
       require("json")
+      require("http")
 
       url = "https://api.github.com/repos/#{@package_name}/git/refs/tags"
 
       try {
-        return JSON load(open(url)) map: |tag| {
+        return JSON load(HTTP get(url)) map: |tag| {
           tag["ref"] split: "refs/tags/" . last
         }
-      } catch OpenURI HTTPError {
+      } catch StandardError {
         return [] # no tags available, default to master (latest)
       }
     }
