@@ -119,9 +119,11 @@ class Fancy Documentation RDiscount {
   Fancy Documentation formatter: 'markdown is: |d| { rdiscount: d }
 
   def self rdiscount: doc {
-    "Format string as HTML using RDiscount ruby gem."
-    require("rubygems")
+    """
+    Format string as HTML using RDiscount ruby gem.
+    """
+
     require("rdiscount")
-    RDiscount.new(doc to_s).to_html()
+    RDiscount new(doc to_s) to_html()
   }
 }

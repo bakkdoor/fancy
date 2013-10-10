@@ -1,4 +1,3 @@
-require("rubygems")
 require("rubinius/actor")
 Actor = Rubinius Actor
 

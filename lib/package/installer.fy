@@ -73,7 +73,6 @@ class Fancy Package {
       @return @Array@ of git tags in the package's Github repository.
       """
 
-      require("rubygems")
       require("json")
       require("http")
 

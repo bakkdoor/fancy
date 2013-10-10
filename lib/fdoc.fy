@@ -390,7 +390,6 @@ class Fancy FDoc {
     }
 
     def self htmlize: str {
-      require("rubygems")
       require("rdiscount")
       RDiscount new(str) to_html()
     }

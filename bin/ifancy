@@ -10,7 +10,6 @@ try {
 hightlight_code? = false
 
 try {
-  require("rubygems")
   require("coderay")
   require(File absolute_path: $ __DIR__ + "/../ruby_lib/interactive/hilight")
   hightlight_code? = true
