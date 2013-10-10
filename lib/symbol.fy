@@ -84,4 +84,16 @@ class Symbol {
       call: args
     }
   }
+
+  def unary_message? {
+    to_s unary_message?
+  }
+
+  def binary_message? {
+    to_s binary_message?
+  }
+
+  def keyword_message? {
+    to_s keyword_message?
+  }
 }
