@@ -196,7 +196,7 @@ Feature new: "#{" will: "Create multiline capabilities" by: {
 loop: {
   line = read_line: prompt
   { System exit } unless: line
-  { next } if: (Feature match: (line words[0]) str: line)
+  { next } if: $ Feature match: (line words[0]) str: line
 
   HISTORY << line
   if: (double_or_empty?: line) then: {
