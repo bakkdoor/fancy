@@ -243,7 +243,7 @@ class File {
     closed? not
   }
 
-  def write: str {
+  def print: str {
     """
     @str String to be written to a @File@.
 

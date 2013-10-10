@@ -109,7 +109,7 @@ class File {
 
     file = File expand_path(filename)
     File open: file modes: ['write] with: |f| {
-      f write: ""
+      f print: ""
     }
   }
 
@@ -161,18 +161,18 @@ class File {
     File eval: filename . to_hash_deep
   }
 
-  def writeln: x {
+  def println: x {
     """
     Writes a given argument as a String followed by a newline into the
     File.
     """
 
-    write: x
+    print: x
     newline
   }
 
-  alias_method: 'print: for: 'write:
-  alias_method: 'println: for: 'writeln:
+  alias_method: 'write:   for: 'print:
+  alias_method: 'writeln: for: 'println:
 
   def expanded_path {
     """

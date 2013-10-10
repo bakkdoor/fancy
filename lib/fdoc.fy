@@ -239,7 +239,7 @@ class Fancy FDoc {
       map = generate_map
       json = to_json: map
       js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
-      File open: filename modes: ['write] with: @{ print: js }
+      File write: filename with: @{ print: js }
     }
   }
 

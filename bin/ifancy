@@ -110,7 +110,7 @@ def save_history {
   unless: @history_saved do: {
     File write: HISTORY_FILE with: |f| {
       HISTORY last: 100 . each: |l| {
-        f writeln: l
+        f println: l
       }
     }
     @history_saved = true
