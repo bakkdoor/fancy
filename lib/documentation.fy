@@ -12,8 +12,8 @@ class Fancy Documentation {
 
   By default two formatters are defined:
 
-      'fancy    => Returns the Fancy::Documentation object
-      'string   => Returns the docs string representation
+        'fancy   # Returns the Fancy::Documentation object
+        'string  # Returns the docs string representation
   """
 
   read_write_slots: ['object, 'docs, 'specs]
