@@ -21,7 +21,7 @@ class Symbol {
                             Rubinius CompiledMethod of_sender(),
                             Rubinius StaticScope of_sender())
 
-    binding send('self) class const_defined?(self)
+    binding self() class const_defined?(self)
   }
 
   def message_name {
