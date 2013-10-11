@@ -131,6 +131,8 @@ class Object {
     respond_to?(message message_name)
   }
 
+  alias_method(':?!, 'responds_to?:)
+
   def extend: class {
     """
     @class @Class@ to extend @self with.
