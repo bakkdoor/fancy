@@ -410,7 +410,7 @@ FancySpec describe: Array with: {
     a is: []
   }
 
-  it: "appends another Array onto self" with: 'append: when: {
+  it: "appends another Enumerable onto self" with: 'append: when: {
     a = [1,2,3]
     a append: [4,5,6] . is: a
     a is: [1,2,3,4,5,6]
@@ -420,9 +420,10 @@ FancySpec describe: Array with: {
 
     [] append: [] . is: []
     [] append: (1,2,3) . is: [1,2,3] # works with any Enumerable
+    [1,2,3] append: "hello" . is: [1,2,3,"h","e","l","l","o"]
   }
 
-  it: "prepends another Array onto self" with: 'prepend: when: {
+  it: "prepends another Enumerable onto self" with: 'prepend: when: {
     a = [1,2,3]
     a prepend: [4,5,6]
     a is: [4,5,6,1,2,3]
@@ -432,6 +433,7 @@ FancySpec describe: Array with: {
 
     [] prepend: [] . is: []
     [] prepend: (1,2,3) . is: [1,2,3] # works with any Enumerable
+    [1,2,3] prepend: "hello" . is: ["h","e","l","l","o",1,2,3]
   }
 
   it: "prepends a value at the front" with: 'unshift: when: {

@@ -31,12 +31,12 @@ class Array {
     new
   }
 
-  def append: arr {
+  def append: enum {
     """
-    @arr Other @Array@ to be appended to @self.
+    @enum Other @Fancy::Enumerable@ to be appended to @self.
     @return @self
 
-    Appends another @Array@ onto this one.
+    Appends another @Fancy::Enumerable@ onto this one.
 
     Example:
           a = [1,2,3]
@@ -44,18 +44,18 @@ class Array {
           a # => [1,2,3,3,4,5]
     """
 
-    arr each: |x| {
+    enum each: |x| {
       self << x
     }
     self
   }
 
-  def prepend: arr {
+  def prepend: enum {
     """
-    @arr Other @Array@ to be prepended to @self.
+    @enum Other @Fancy::Enumerable@ to be prepended to @self.
     @return @self
 
-    Prepends another @Array@ to this one.
+    Prepends another @Fancy::Enumerable@ to this one.
 
     Example:
           a = [1,2,3]
@@ -63,7 +63,7 @@ class Array {
           a # => [4,5,6,1,2,3]
     """
 
-    arr reverse_each: |x| {
+    enum reverse_each: |x| {
       self unshift: x
     }
     self
