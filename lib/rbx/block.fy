@@ -79,11 +79,7 @@ class Block {
           b call: [\"foo\"] with_receiver: r2 # => \"hello worldfoo\"
     """
 
-    try {
-      return call_under(receiver, method() scope(), *args)
-    } catch {
-      return call_on_instance(receiver, *args)
-    }
+    return call_on_instance(receiver, *args)
   }
 
   def to_proc {

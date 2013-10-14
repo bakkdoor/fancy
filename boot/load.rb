@@ -36,11 +36,7 @@ class Fancy
         raise "File not found #{file}" unless File.exist?(file)
 
         cl = Rubinius::CodeLoader.new(file)
-        begin
-          cm = cl.load_compiled_file(file, 0)
-        rescue ArgumentError
-          cm = cl.load_compiled_file(file, 0, 0)
-        end
+        cm = cl.load_compiled_file(file, 0, 0)
 
         source = file.sub(/\.fyc/, ".fy")
 
