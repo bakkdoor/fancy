@@ -345,7 +345,7 @@ class Class {
     @return @Array@ of all instance methods defined in Fancy.
     """
 
-    instance_methods select: @{ includes?: ":" }
+    instance_methods grep: /:/
   }
 
   def ruby_instance_methods {

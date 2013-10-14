@@ -704,6 +704,29 @@ FancySpec describe: Class with: {
     Set[OneMethod instance_methods] is: $ Set[Object instance_methods + (OneMethod instance_methods: false)]
   }
 
+  it: "returns all fancy instance methods" with: 'fancy_instance_methods when: {
+    eval("class RubyClass < BasicObject\ndef ruby_foo(x)\nputs(x)\nend\nend")
+    class RubyClass {
+      def fancy_foo: x {
+        x println
+      }
+    }
+
+    RubyClass fancy_instance_methods is: ['fancy_foo:]
+  }
+
+  it: "returns all ruby instance methods" with: 'ruby_instance_methods when: {
+    eval("class RubyClass < BasicObject\ndef ruby_foo(x)\nputs(x)\nend\nend")
+    class RubyClass {
+      def fancy_foo: x {
+        x println
+      }
+    }
+
+    RubyClass ruby_instance_methods is: $ \
+      RubyClass instance_methods - ['fancy_foo:]
+  }
+
   # it: "defines a before_method handler" with: 'before_method:run: when: {
   #   class BeforeMethodClass {
   #     read_slot: 'x
