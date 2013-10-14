@@ -6,7 +6,7 @@ class Fancy
         super(line)
         @body = body
         @handlers = handlers
-        @finally = finally || Rubinius::ToolSet::Runtime::AST::NilLiteral.new(line)
+        @finally = finally || Rubinius::ToolSet.current::TS::AST::NilLiteral.new(line)
       end
 
       def bytecode(g)
@@ -31,7 +31,7 @@ class Fancy
         finally = g.new_label
         done = g.new_label
 
-        g.setup_unwind handler, Rubinius::ToolSet::Runtime::AST::RescueType
+        g.setup_unwind handler, Rubinius::ToolSet.current::TS::AST::RescueType
 
         # make a break available to use
         if current_break = g.break

@@ -1,5 +1,5 @@
 class Fancy AST {
-  class SingletonMethodDef : Rubinius ToolSet Runtime AST DefineSingleton {
+  class SingletonMethodDef : Rubinius AST DefineSingleton {
     def initialize: @line name: @name args: @arguments body: @body access: @access owner: @receiver {
       name = @name method_name: @receiver
       @body = SingletonMethodDefScope new: @line name: name args: @arguments body: @body
@@ -11,7 +11,7 @@ class Fancy AST {
     }
   }
 
-  class SingletonMethodDefScope : Rubinius ToolSet Runtime AST DefineSingletonScope {
+  class SingletonMethodDefScope : Rubinius AST DefineSingletonScope {
     def initialize: @line name: @name args: @arguments body: @body {
       { @body = ExpressionList new: @line } unless: @body
       if: (@body empty?) then: {
@@ -26,7 +26,7 @@ class Fancy AST {
     def bytecode: g receiver: receiver {
       pos(g)
       docstring = @body docstring
-      sup = Rubinius ToolSet Runtime AST DefineSingletonScope instance_method('bytecode)
+      sup = Rubinius AST DefineSingletonScope instance_method('bytecode)
       sup bind(self) call(g, receiver)
       MethodDef set: g docstring: docstring line: @line argnames: $ @arguments names()
     }

@@ -1,5 +1,5 @@
 class Fancy AST {
-  class Node : Rubinius ToolSet Runtime AST Node {
+  class Node : Rubinius AST Node {
     define_method('bytecode) |g| {
       bytecode: g
     }

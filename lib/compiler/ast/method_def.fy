@@ -1,5 +1,5 @@
 class Fancy AST {
-  class MethodDef : Rubinius ToolSet Runtime AST Define {
+  class MethodDef : Rubinius AST Define {
     def initialize: @line name: @name args: @arguments (MethodArgs new: @line) body: @body (ExpressionList new: @line) access: @access ('public) {
       { @body = ExpressionList new: @line } unless: @body
       @name = @name method_name: nil
@@ -15,7 +15,7 @@ class Fancy AST {
       @arguments required() reverse() each: |name| {
         if: (name to_s =~ /^@/) then: {
           ident = Identifier from: (name to_s) line: @line
-          value = Rubinius ToolSet Runtime AST LocalVariableAccess new(@line, name)
+          value = Rubinius AST LocalVariableAccess new(@line, name)
           asign = Assignment new: @line var: ident value: value
           @body unshift_expression: asign
         }
@@ -81,7 +81,7 @@ class Fancy AST {
     }
   }
 
-  class MethodArgs : Rubinius ToolSet Runtime AST FormalArguments {
+  class MethodArgs : Rubinius AST FormalArguments {
     def initialize: @line args: @array ([]) {
       initialize(@line, @array map: @{ to_sym }, nil, nil)
     }
