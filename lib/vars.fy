@@ -18,4 +18,8 @@ __AFTER__BOOTSTRAP__: {
     The Standard Error Output stream.
     Can be rebound to any @IO@ stream via @Object#let:be:in:@.
   """
+
+  *fancy_root* documentation: """
+    Absolute path to Fancy's root directory.
+  """
 }
