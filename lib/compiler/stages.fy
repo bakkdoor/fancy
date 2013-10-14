@@ -25,7 +25,7 @@ class Fancy Compiler Stages {
     }
 
     def run {
-      @output = Rubinius ToolSet Runtime Generator new()
+      @output = Rubinius Generator new()
       @input variable_scope=(@variable_scope)
       @input bytecode(@output)
       @output close()
