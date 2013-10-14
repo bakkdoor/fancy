@@ -7,10 +7,10 @@ class Conditions {
     """
 
     def handle: condition {
-      with_output_to: *stderr* do: {
+      let: '*stdout* be: *stderr* in: {
         "" println
         "-" * 50 println
-        "Unhandled condition: #{condition}" println
+        "Unhandled condition: #{condition inspect}" println
 
         if: (*restarts* empty?) then: {
           "No restarts available. Quitting." println
