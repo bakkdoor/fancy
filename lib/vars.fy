@@ -1,7 +1,7 @@
 *stdin*      = STDIN
 *stdout*     = STDOUT
 *stderr*     = STDERR
-*fancy_root* = File absolute_path: $ File join: (File dirname: __FILE__, "..")
+*fancy_root* = File absolute_path: $ File join: (__DIR__, "..")
 
 __AFTER__BOOTSTRAP__: {
   *stdin* documentation: """

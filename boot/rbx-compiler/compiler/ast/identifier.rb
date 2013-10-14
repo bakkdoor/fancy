@@ -96,6 +96,11 @@ class Fancy
             bytecode(g)
         elsif "__LINE__" == @identifier
           Rubinius::ToolSet.current::TS::AST::FixnumLiteral.new(line, line).bytecode(g)
+        elsif "__DIR__" == @identifier
+          Rubinius::ToolSet.current::TS::AST::StringLiteral.new(
+            line,
+            File.dirname(Fancy::AST::Script.current.filename)
+          ).bytecode(g)
         elsif nested_classname?
           classnames = @identifier.split("::")
           parent = Identifier.new(@line, classnames.shift)
