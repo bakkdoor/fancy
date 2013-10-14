@@ -17,7 +17,10 @@ class Object {
     """
 
     try {
-      return let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: block
+      val = nil
+      set_val = { val = block call }
+      let: '*restarts* be: (*restarts* merge: (restarts to_hash)) in: set_val
+      return val
     } catch Exception => e {
       return e signal!
     }
