@@ -17,7 +17,7 @@ class Fancy
           @receiver.bytecode(g)
           @message_args.bytecode(g)
           pos(g)
-          g.allow_private if @receiver.is_a?(Rubinius::ToolSet.current::TS::AST::Self)
+          g.allow_private if @receiver.is_a?(Rubinius::AST::Self)
 
           name = @message_name.method_name(@receiver, ruby_send?)
           if ruby_send_block?

@@ -1,7 +1,7 @@
 class Fancy
   class AST
 
-    class SingletonMethodDef < Rubinius::ToolSet.current::TS::AST::DefineSingleton
+    class SingletonMethodDef < Rubinius::AST::DefineSingleton
       def initialize(line, obj_ident, method_ident, args, body, access = :public)
         body = AST::ExpressionList.new(line) unless body
 
@@ -14,7 +14,7 @@ class Fancy
       end
     end
 
-    class SingletonMethodDefScope < Rubinius::ToolSet.current::TS::AST::DefineSingletonScope
+    class SingletonMethodDefScope < Rubinius::AST::DefineSingletonScope
       def initialize(line, name, args, body)
         @line = line
         @name = name

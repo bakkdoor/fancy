@@ -240,7 +240,7 @@ class Fancy
     end
 
     def nil_literal(line)
-      Rubinius::ToolSet.current::TS::AST::NilLiteral.new(line)
+      Rubinius::AST::NilLiteral.new(line)
     end
 
     def partial_block(line, block_body)

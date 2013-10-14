@@ -4,7 +4,7 @@ require "rubinius/compiler"
 
 class Fancy
 
-  class Compiler < Rubinius::ToolSet.current::TS::Compiler
+  class Compiler < Rubinius::Compiler
 
     def self.fancy_compiled_name(file)
       if file.suffix? ".fy"
@@ -19,7 +19,7 @@ class Fancy
       compiler = new :fancy_file, :compiled_file
 
       parser = compiler.parser
-      parser.root Rubinius::ToolSet.current::TS::AST::Script
+      parser.root Rubinius::AST::Script
 
       parser.input file, line
 
@@ -44,7 +44,7 @@ class Fancy
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root Rubinius::ToolSet.current::TS::AST::Script
+      parser.root Rubinius::AST::Script
       parser.input code, filename, line
 
       if print
@@ -65,7 +65,7 @@ class Fancy
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root Rubinius::ToolSet.current::TS::AST::EvalExpression
+      parser.root Rubinius::AST::EvalExpression
       parser.input code, filename, line
 
       if print
