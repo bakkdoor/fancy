@@ -28,7 +28,7 @@ class Fancy AST {
       finally_ = g new_label()
       done = g new_label()
 
-      g setup_unwind(handler, Rubinius ToolSet Runtime AST EnsureType)
+      g setup_unwind(handler, Rubinius AST EnsureType)
 
       # make a break available to use
       current_break = g break()

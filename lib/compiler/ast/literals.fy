@@ -1,5 +1,5 @@
 class Fancy AST {
-  class NilLiteral : Rubinius ToolSet Runtime AST NilLiteral {
+  class NilLiteral : Rubinius AST NilLiteral {
     def initialize: line {
       initialize(line)
     }
@@ -9,7 +9,7 @@ class Fancy AST {
     }
   }
 
-  class FixnumLiteral : Rubinius ToolSet Runtime AST FixnumLiteral {
+  class FixnumLiteral : Rubinius AST FixnumLiteral {
     def initialize: line value: value {
       initialize(line, value)
     }
@@ -19,7 +19,7 @@ class Fancy AST {
     }
   }
 
-  class NumberLiteral : Rubinius ToolSet Runtime AST NumberLiteral {
+  class NumberLiteral : Rubinius AST NumberLiteral {
     def initialize: line value: value {
       initialize(line, value)
     }
@@ -29,7 +29,7 @@ class Fancy AST {
     }
   }
 
-  class StringLiteral : Rubinius ToolSet Runtime AST StringLiteral {
+  class StringLiteral : Rubinius AST StringLiteral {
     def initialize: line value: value {
       initialize(line, StringHelper unescape_string(value))
     }
@@ -94,7 +94,7 @@ class Fancy AST {
     }
   }
 
-  class Self : Rubinius ToolSet Runtime AST Self {
+  class Self : Rubinius AST Self {
     def initialize: line {
       initialize(line)
     }
@@ -111,7 +111,7 @@ class Fancy AST {
     }
   }
 
-  class SymbolLiteral : Rubinius ToolSet Runtime AST SymbolLiteral {
+  class SymbolLiteral : Rubinius AST SymbolLiteral {
     read_slot: 'value
     def initialize: line value: value {
      initialize(line, value)
@@ -125,7 +125,7 @@ class Fancy AST {
     }
   }
 
-  class RegexpLiteral : Rubinius ToolSet Runtime AST RegexLiteral  {
+  class RegexpLiteral : Rubinius AST RegexLiteral  {
     def initialize: line value: value {
       initialize(line, value, 0)
     }
@@ -135,7 +135,7 @@ class Fancy AST {
     }
   }
 
-  class ArrayLiteral : Rubinius ToolSet Runtime AST ArrayLiteral {
+  class ArrayLiteral : Rubinius AST ArrayLiteral {
     read_slot: 'array
     def initialize: line array: @array {
       @array if_nil: { @array = [] }
@@ -147,7 +147,7 @@ class Fancy AST {
     }
   }
 
-  class HashLiteral : Rubinius ToolSet Runtime AST HashLiteral {
+  class HashLiteral : Rubinius AST HashLiteral {
     def initialize: line entries: @key_values {
       @key_values if_nil: { @key_values = [] }
       initialize(line, @key_values)

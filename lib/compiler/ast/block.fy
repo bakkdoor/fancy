@@ -1,5 +1,5 @@
 class Fancy AST {
-  class BlockLiteral : Rubinius ToolSet Runtime AST Iter {
+  class BlockLiteral : Rubinius AST Iter {
     read_slot: 'body
     def initialize: @line args: @args body: @body (NilLiteral new: line) partial: @partial (false) {
       if: (@body empty?) then: {
