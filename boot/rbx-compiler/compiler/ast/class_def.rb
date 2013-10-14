@@ -1,7 +1,7 @@
 class Fancy
   class AST
 
-    class ClassDef < Rubinius::AST::Class
+    class ClassDef < Rubinius::ToolSet::Runtime::AST::Class
       def initialize(line, name, parent, body)
         body = AST::ExpressionList.new(line) unless body
 
@@ -12,7 +12,7 @@ class Fancy
         super(line, name, parent, body)
 
         if body.empty?
-          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+          body.unshift_expression Rubinius::ToolSet::Runtime::AST::NilLiteral.new(line)
         end
       end
 
@@ -23,7 +23,7 @@ class Fancy
                                    Identifier.new(line, "Fancy::Documentation"),
                                    Identifier.new(line, "for:append:"),
                                    MessageArgs.new(line,
-                                                   Rubinius::AST::Self.new(line),
+                                                   Rubinius::ToolSet::Runtime::AST::Self.new(line),
                                                    docstring))
           # Replace first string expression to set documentation.
           body.body.expressions.unshift setdoc

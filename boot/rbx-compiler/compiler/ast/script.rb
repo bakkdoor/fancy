@@ -29,7 +29,7 @@ class Fancy
           push_script
 
           #docs, code = body.expressions.partition do |s|
-          #  s.kind_of?(Rubinius::AST::StringLiteral)
+          #  s.kind_of?(Rubinius::ToolSet::Runtime::AST::StringLiteral)
           #end
 
           #if code.empty?

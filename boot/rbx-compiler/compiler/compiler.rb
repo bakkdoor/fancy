@@ -1,6 +1,10 @@
+# TODO: Maybe load from Gemfile?
+require "rubygems"
+require "rubinius/compiler"
+
 class Fancy
 
-  class Compiler < Rubinius::Compiler
+  class Compiler < Rubinius::ToolSet::Runtime::Compiler
 
     def self.fancy_compiled_name(file)
       if file.suffix? ".fy"
@@ -15,7 +19,7 @@ class Fancy
       compiler = new :fancy_file, :compiled_file
 
       parser = compiler.parser
-      parser.root Rubinius::AST::Script
+      parser.root Rubinius::ToolSet::Runtime::AST::Script
 
       parser.input file, line
 
@@ -40,7 +44,7 @@ class Fancy
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root Rubinius::AST::Script
+      parser.root Rubinius::ToolSet::Runtime::AST::Script
       parser.input code, filename, line
 
       if print
@@ -61,7 +65,7 @@ class Fancy
       compiler = new :fancy_code, :compiled_method
 
       parser = compiler.parser
-      parser.root Rubinius::AST::EvalExpression
+      parser.root Rubinius::ToolSet::Runtime::AST::EvalExpression
       parser.input code, filename, line
 
       if print

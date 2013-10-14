@@ -1,7 +1,7 @@
 class Fancy
   class AST
 
-    class MethodDef < Rubinius::AST::Define
+    class MethodDef < Rubinius::ToolSet::Runtime::AST::Define
       def initialize(line, method_ident, args, body, access = :public)
         body = AST::ExpressionList.new(line) unless body
 
@@ -13,7 +13,7 @@ class Fancy
         generate_ivar_assignment
 
         if body.empty?
-          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+          body.unshift_expression Rubinius::ToolSet::Runtime::AST::NilLiteral.new(line)
         end
       end
 
@@ -21,7 +21,7 @@ class Fancy
         @arguments.required.reverse.each do |name|
           if name.to_s =~ /^@/
             ident = Fancy::AST::Identifier.new(line, name.to_s)
-            value = Rubinius::AST::LocalVariableAccess.new(line, name)
+            value = Rubinius::ToolSet::Runtime::AST::LocalVariableAccess.new(line, name)
             asign = Fancy::AST::Assignment.new(line, ident, value)
             body.unshift_expression(asign)
           end
@@ -69,9 +69,9 @@ class Fancy
       # defines a class method names "new:foo:" if we're defining a
       # method named e.g. "initialize:foo:" (a constructor method).
       def define_constructor_class_method(g)
-        method_ident = Rubinius::AST::StringLiteral.new(@line, @name.to_s[11..-1])
+        method_ident = Rubinius::ToolSet::Runtime::AST::StringLiteral.new(@line, @name.to_s[11..-1])
         ms = MessageSend.new(@line,
-                             Rubinius::AST::Self.new(@line),
+                             Rubinius::ToolSet::Runtime::AST::Self.new(@line),
                              Identifier.new(@line, "define_constructor_class_method:"),
                              MessageArgs.new(@line, method_ident))
         ms.bytecode(g)
@@ -80,14 +80,14 @@ class Fancy
 
       def define_method_missing(g)
         MessageSend.new(@line,
-                        Rubinius::AST::Self.new(@line),
+                        Rubinius::ToolSet::Runtime::AST::Self.new(@line),
                         Identifier.new(@line, "define_forward_method_missing"),
                         MessageArgs.new(@line)).bytecode(g)
         g.pop
       end
     end
 
-    SymbolLiteral = Rubinius::AST::SymbolLiteral
+    SymbolLiteral = Rubinius::ToolSet::Runtime::AST::SymbolLiteral
 
     class Nothing
       def bytecode(g)
@@ -106,7 +106,7 @@ class Fancy
       end
     end
 
-    class MethodArgs < Rubinius::AST::FormalArguments
+    class MethodArgs < Rubinius::ToolSet::Runtime::AST::FormalArguments
       def initialize(line, *args)
         super(line, args.map(&:to_sym), nil, nil)
       end

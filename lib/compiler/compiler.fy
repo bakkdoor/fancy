@@ -1,5 +1,5 @@
 class Fancy {
-  class Compiler : Rubinius Compiler {
+  class Compiler : Rubinius ToolSet Runtime Compiler {
     read_write_slots: [ 'parser, 'generator, 'packager, 'writer ]
 
     def self compiled_name: file {
@@ -28,7 +28,7 @@ class Fancy {
     def self compile_code: code vars: scope file: file line: line print: print (false) {
       compiler = from: 'fancy_code to: 'compiled_method
       parser = compiler parser
-      parser root: Rubinius AST EvalExpression
+      parser root: Rubinius ToolSet Runtime AST EvalExpression
       parser input: code file: file line: line
       if: print then: {
         parser print: true
@@ -48,7 +48,7 @@ class Fancy {
     def self compile_file: file to: output (nil) line: line (1) print: print (false) {
       compiler = from: 'fancy_file to: 'compiled_file
       parser = compiler parser
-      parser root: Rubinius AST Script
+      parser root: Rubinius ToolSet Runtime AST Script
       parser input: file line: line
       if: print then: {
         parser print: true

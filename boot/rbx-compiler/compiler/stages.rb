@@ -6,9 +6,9 @@ class Fancy
   class Compiler
 
     # FancyAST -> Rubinius Symbolic bytecode
-    class FancyGenerator < Rubinius::Compiler::Stage
+    class FancyGenerator < Rubinius::ToolSet::Runtime::Compiler::Stage
       stage :fancy_bytecode
-      next_stage Rubinius::Compiler::Encoder
+      next_stage Rubinius::ToolSet::Runtime::Compiler::Encoder
 
       attr_accessor :variable_scope
 
@@ -19,7 +19,7 @@ class Fancy
       end
 
       def run
-        @output = Rubinius::Generator.new
+        @output = Rubinius::ToolSet::Runtime::Generator.new
         @input.variable_scope = @variable_scope
         @input.bytecode @output
         @output.close
@@ -32,7 +32,7 @@ class Fancy
     end
 
     # Fancy string -> AST
-    class FancyCodeParser < Rubinius::Compiler::Stage
+    class FancyCodeParser < Rubinius::ToolSet::Runtime::Compiler::Stage
       stage :fancy_code
       next_stage FancyGenerator
 
@@ -64,7 +64,7 @@ class Fancy
     end
 
     # Fancy file -> AST
-    class FancyFileParser < Rubinius::Compiler::Stage
+    class FancyFileParser < Rubinius::ToolSet::Runtime::Compiler::Stage
       stage :fancy_file
       next_stage FancyGenerator
 

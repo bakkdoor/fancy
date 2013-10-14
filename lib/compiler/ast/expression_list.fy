@@ -29,7 +29,7 @@ class Fancy AST {
     }
 
     def docstring {
-      if: (@expressions first kind_of?(Rubinius AST StringLiteral)) then: {
+      if: (@expressions first kind_of?(Rubinius ToolSet Runtime AST StringLiteral)) then: {
         @expressions first
       }
     }

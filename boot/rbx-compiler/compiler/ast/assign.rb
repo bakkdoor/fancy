@@ -10,15 +10,15 @@ class Fancy
 
       def bytecode(g)
         if @ident.constant?
-          Rubinius::AST::ConstantAssignment.new(line, @ident.name, @value).bytecode(g)
+          Rubinius::ToolSet::Runtime::AST::ConstantAssignment.new(line, @ident.name, @value).bytecode(g)
         elsif @ident.instance_variable?
-          Rubinius::AST::InstanceVariableAssignment.new(line, @ident.name, @value).
+          Rubinius::ToolSet::Runtime::AST::InstanceVariableAssignment.new(line, @ident.name, @value).
             bytecode(g)
         elsif @ident.class_variable?
-          Rubinius::AST::ClassVariableAssignment.new(line, @ident.name, @value).
+          Rubinius::ToolSet::Runtime::AST::ClassVariableAssignment.new(line, @ident.name, @value).
             bytecode(g)
         else
-          Rubinius::AST::LocalVariableAssignment.new(line, @ident.name, @value).
+          Rubinius::ToolSet::Runtime::AST::LocalVariableAssignment.new(line, @ident.name, @value).
             bytecode(g)
         end
       end

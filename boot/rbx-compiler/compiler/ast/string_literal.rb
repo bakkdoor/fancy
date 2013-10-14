@@ -1,6 +1,6 @@
 class Fancy
   class AST
-    class StringLiteral < Rubinius::AST::StringLiteral
+    class StringLiteral < Rubinius::ToolSet::Runtime::AST::StringLiteral
       def initialize(line, str)
         super(line, unescape_chars(str))
       end
