@@ -14,7 +14,7 @@ class Fancy
                              Identifier.new(@line, "new"),
                              MessageArgs.new(@line,
                                              RubyArgs.new(@line,
-                                                          ArrayLiteral.new(@line, Rubinius::AST::FixnumLiteral.new(@line, @elements.size)))))
+                                                          ArrayLiteral.new(@line, Rubinius::ToolSet::Runtime::AST::FixnumLiteral.new(@line, @elements.size)))))
         ms.bytecode(g)
         @elements.each_with_index do |e, i|
           g.dup
@@ -22,7 +22,7 @@ class Fancy
                           Nothing.new,
                           Identifier.new(@line, "at:put:"),
                           MessageArgs.new(@line,
-                                          Rubinius::AST::FixnumLiteral.new(@line, i),
+                                          Rubinius::ToolSet::Runtime::AST::FixnumLiteral.new(@line, i),
                                           e)).bytecode(g)
           g.pop
         end

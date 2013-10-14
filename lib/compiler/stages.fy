@@ -1,7 +1,7 @@
 class Fancy Compiler Stages {
-  class Stage : Rubinius Compiler Stage {
+  class Stage : Rubinius ToolSet Runtime Compiler Stage {
     define_method('initialize) |compiler last| {
-      sup = Rubinius Compiler Stage instance_method('initialize)
+      sup = Rubinius ToolSet Runtime Compiler Stage instance_method('initialize)
       sup bind(self) call(compiler, last)
       initialize: compiler last: last
     }
@@ -16,7 +16,7 @@ class Fancy Compiler Stages {
   }
 
   class FancyGenerator : Stage {
-    stage: 'fancy_bytecode next: Rubinius Compiler Encoder
+    stage: 'fancy_bytecode next: Rubinius ToolSet Runtime Compiler Encoder
     read_write_slot: 'variable_scope
 
     def initialize: compiler last: last {
@@ -25,7 +25,7 @@ class Fancy Compiler Stages {
     }
 
     def run {
-      @output = Rubinius Generator new()
+      @output = Rubinius ToolSet Runtime Generator new()
       @input variable_scope=(@variable_scope)
       @input bytecode(@output)
       @output close()

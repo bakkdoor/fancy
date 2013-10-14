@@ -62,7 +62,7 @@ class Fancy AST {
         case "nil" -> g push_nil()
         case _ ->
           if: (g state() scope() search_local(name)) then: {
-            Rubinius AST LocalVariableAccess new(@line, name) bytecode(g)
+            Rubinius ToolSet Runtime AST LocalVariableAccess new(@line, name) bytecode(g)
           } else: {
             ms = MessageSend new: @line message: self to: (Self new: @line) args: (MessageArgs new: @line args: [])
             ms bytecode: g
@@ -75,7 +75,7 @@ class Fancy AST {
     def initialize: @line string: @string
     def bytecode: g {
       pos(g)
-      Rubinius AST InstanceVariableAccess new(@line, name) bytecode(g)
+      Rubinius ToolSet Runtime AST InstanceVariableAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -83,7 +83,7 @@ class Fancy AST {
     def initialize: @line string: @string
     def bytecode: g {
       pos(g)
-      Rubinius AST ClassVariableAccess new(@line, name) bytecode(g)
+      Rubinius ToolSet Runtime AST ClassVariableAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -91,7 +91,7 @@ class Fancy AST {
     def initialize: @line string: @string
     def bytecode: g {
       pos(g)
-      Rubinius AST ConstantAccess new(@line, name) bytecode(g)
+      Rubinius ToolSet Runtime AST ConstantAccess new(@line, name) bytecode(g)
     }
   }
 
@@ -114,7 +114,7 @@ class Fancy AST {
       }
       scoped = nil
       names each: |name| {
-        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym)
+        scoped = Rubinius ToolSet Runtime AST ScopedConstant new(@line, parent, name to_sym)
         parent = scoped
       }
       scoped
@@ -132,7 +132,7 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       const_name = @string from: 2 to: -1 . to_sym # skip leading ::
-      Rubinius AST ToplevelConstant new(@line, const_name) . bytecode(g)
+      Rubinius ToolSet Runtime AST ToplevelConstant new(@line, const_name) . bytecode(g)
     }
   }
 

@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.summary = "The Fancy Programming Language"
 
   s.add_dependency "rubinius-actor"
+  s.add_dependency "rubinius-compiler"
   s.required_ruby_version = '>= 1.9.3'
 
   s.description = <<EOS

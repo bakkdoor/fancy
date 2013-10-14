@@ -1,13 +1,13 @@
 class Fancy
   class AST
 
-    class BlockLiteral < Rubinius::AST::Iter
+    class BlockLiteral < Rubinius::ToolSet::Runtime::AST::Iter
       def initialize(line, args, body, partial = false)
         @args = args
-        body = body || Rubinius::AST::NilLiteral.new(line)
+        body = body || Rubinius::ToolSet::Runtime::AST::NilLiteral.new(line)
 
         if body.empty?
-          body.unshift_expression Rubinius::AST::NilLiteral.new(line)
+          body.unshift_expression Rubinius::ToolSet::Runtime::AST::NilLiteral.new(line)
         end
 
         super(line, args, body)

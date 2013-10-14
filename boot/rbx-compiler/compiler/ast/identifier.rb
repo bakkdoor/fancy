@@ -92,24 +92,24 @@ class Fancy
 
       def bytecode(g)
         if "__FILE__" == @identifier
-          Rubinius::AST::StringLiteral.new(line, Fancy::AST::Script.current.filename).
+          Rubinius::ToolSet::Runtime::AST::StringLiteral.new(line, Fancy::AST::Script.current.filename).
             bytecode(g)
         elsif "__LINE__" == @identifier
-          Rubinius::AST::FixnumLiteral.new(line, line).bytecode(g)
+          Rubinius::ToolSet::Runtime::AST::FixnumLiteral.new(line, line).bytecode(g)
         elsif nested_classname?
           classnames = @identifier.split("::")
           parent = Identifier.new(@line, classnames.shift)
           classnames.each do |cn|
-            Rubinius::AST::ScopedConstant.new(@line, parent, cn.to_sym).bytecode(g)
+            Rubinius::ToolSet::Runtime::AST::ScopedConstant.new(@line, parent, cn.to_sym).bytecode(g)
             child = Identifier.new(@line, cn)
             parent = child
           end
         elsif constant?
-          Rubinius::AST::ConstantAccess.new(line, name).bytecode(g)
+          Rubinius::ToolSet::Runtime::AST::ConstantAccess.new(line, name).bytecode(g)
         elsif class_variable?
-          Rubinius::AST::ClassVariableAccess.new(line, name).bytecode(g)
+          Rubinius::ToolSet::Runtime::AST::ClassVariableAccess.new(line, name).bytecode(g)
         elsif instance_variable?
-          Rubinius::AST::InstanceVariableAccess.new(line, name).bytecode(g)
+          Rubinius::ToolSet::Runtime::AST::InstanceVariableAccess.new(line, name).bytecode(g)
         elsif true?
           g.push_true
         elsif false?
@@ -118,7 +118,7 @@ class Fancy
           g.push_nil
         else
           if g.state.scope.search_local(name)
-            Rubinius::AST::LocalVariableAccess.new(@line, name).bytecode(g)
+            Rubinius::ToolSet::Runtime::AST::LocalVariableAccess.new(@line, name).bytecode(g)
           else
             MessageSend.new(line, Self.new(line), self, MessageArgs.new(line)).bytecode(g)
           end
