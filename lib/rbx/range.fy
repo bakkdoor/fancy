@@ -1,5 +1,5 @@
 class Range {
-  ruby_aliases: [ 'to_a, '==, '===, 'first, 'last ]
+  ruby_aliases: [ '==, '===, 'first, 'last ]
 
   def initialize: @start to: @end {
     """

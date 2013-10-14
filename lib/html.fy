@@ -34,16 +34,20 @@ class HTML {
   def initialize {
     @buf = ""
     @indent = 0
+    @indent_offset = 0
   }
 
-  def initialize: block {
+  def initialize: block indentation: indent_offset (0) {
     initialize
+    @indent_offset = indent_offset
     block call: [self]
   }
 
+  def indentation: @indent_offset
+
   def open_tag: name attrs: attrs (<[]>) indent: indent (true) {
     @buf << "\n"
-    @buf << (" " * @indent)
+    @buf << (" " * (@indent + @indent_offset))
     @indent = @indent + 2
 
     @buf << "<" << name
@@ -60,10 +64,10 @@ class HTML {
     { @indent = @indent - 2 } unless: indent
   }
 
-  def close_tag: name {
-    @buf << "\n"
+  def close_tag: name linebreak: linebreak (true) {
+    { @buf << "\n" } if: linebreak
     @indent = @indent - 2
-    @buf << (" " * @indent)
+    @buf << (" " * (@indent + @indent_offset))
 
     @buf << "</" << name << ">"
   }
@@ -71,9 +75,10 @@ class HTML {
   def html_block: tag body: body attrs: attrs (<[]>) {
     tag = tag from: 0 to: -2
     open_tag: tag attrs: attrs
-    match body first {
-      case Block -> @buf << (body first call: [self])
-      case _ -> @buf << "\n" << (" " * @indent) << (body first)
+    content = body first
+    match content {
+      case Block -> @buf << (content call: [self])
+      case _ -> @buf << "\n" << (" " * (@indent + @indent_offset)) << content
     }
     close_tag: tag
     nil
@@ -91,17 +96,41 @@ class HTML {
   }
 
   def br {
-    @buf << "\n" << (" " * @indent)
+    @buf << "\n" << (" " * (@indent + @indent_offset))
     @buf << "<br/>"
     nil
   }
 
-  def input: attrs {
-    open_tag: "input" attrs: (attrs to_hash) indent: false
+  def script: attrs {
+    open_tag: "script" attrs: (attrs to_hash) indent: true
+    close_tag: "script" linebreak: false
+    nil
+  }
+
+  def textarea: attrs with: content ("") {
+    @buf << "\n" << (" " * (@indent + @indent_offset))
+    @buf << "<textarea "
+    attrs to_hash each: |name val| {
+      @buf << name << "=" << (val to_s inspect)
+    } in_between: {
+      @buf << " "
+    }
+    @buf << ">" << content << "</textarea>"
     nil
   }
 
   def to_s {
     @buf from: 1 to: -1 . to_s
   }
+
+  def self single_tags: single_tags {
+    single_tags each: |t| {
+      define_method: "#{t}:" with: |attrs| {
+        open_tag: t attrs: (attrs to_hash) indent: false
+        nil
+      }
+    }
+  }
+
+  single_tags: ('input, 'link, 'img)
 }

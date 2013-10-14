@@ -1,12 +1,5 @@
-This directory contains all the code for compiling Fancy source files
-(.fy) to Rubinius bytecode files (.fyc).
-
-The compiler implementation is in the compiler/ directory.
+The bootstrap compiler implementation is in the rbx-compiler/ directory.
 
 The fancy_ext/ directory contains a small amount of methods defined in
 Ruby to existing classes in Rubinius to allow Fancy to run on rbx. See
 fancy_ext.rb for more information.
-
-The parser/ directory contains the bison & flex written parser and
-lexer which are used as a C-extension in rbx to generate the
-appropriate AST node instances in parser/parser.rb.

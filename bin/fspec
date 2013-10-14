@@ -17,7 +17,7 @@ if: (test_files empty?) then: {
   test_files = Directory list: "#{test_dir}/**/*.fy"
   if: (test_files empty?) then: {
     if: (Directory exists?: test_dir) then: {
-      "No test files found. Add them to the tests/ directory." println
+      "No test files found. Add them to '#{test_dir}'." println
     } else: {
       "Test directory '#{test_dir}' not found. Create it!" println
     }
@@ -25,9 +25,27 @@ if: (test_files empty?) then: {
   }
 }
 
+
+test_helper = "#{test_dir}/test_helper.fy"
+if: (test_files includes?: test_helper) then: {
+  test_files remove: test_helper
+}
+
+if: (File exists?: test_helper) then: {
+  try {
+    require: test_helper
+  } catch StandardError => e {
+    *stderr* println: "Error loading #{test_helper}: #{e}"
+  }
+}
+
 start = Time now
 test_files sort each: |f| {
-  require: f
+  try {
+    require: f
+  } catch StandardError => e {
+    *stderr* println: "Error loading #{f}: #{e}"
+  }
 }
 Console newline
 FancySpec SpecTest print_failures: start no_failures: {

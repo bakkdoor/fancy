@@ -3,27 +3,12 @@ FancySpec describe: Method with: {
     [1,2,3] method: "each:" . class is: Method
   }
 
-  # it: "returns the (correct) sender object of the MessageSend" when: {
-  #   class SenderTest {
-  #     def give_me_the_sender! {
-  #       __sender__
-  #     }
-  #   }
-
-  #   x = SenderTest new
-  #   x give_me_the_sender! is: self
-  # }
-
   it: "returns the amount of arguments a Method takes" with: 'arity when: {
     class Foo {
-      def no_args {
-      }
-      def one_arg: yo {
-      }
-      def two: a args: b {
-      }
-      def three: a args: b ok: c {
-      }
+      def no_args
+      def one_arg: yo
+      def two: a args: b
+      def three: a args: b ok: c
     }
 
     Foo instance_method: 'no_args . arity is: 0
@@ -86,13 +71,11 @@ FancySpec describe: Method with: {
   }
 
   class Foo {
-    def bar {
-    }
-    def private_bar {
-    }
+    def bar
+    def private_bar
     private: 'private_bar
-    def protected_bar {
-    }
+
+    def protected_bar
     protected: 'protected_bar
   }
 
@@ -145,5 +128,16 @@ FancySpec describe: Method with: {
   it: "parses methods without a body and default args correctly" when: {
     def fooaa: bar ("fo");
     fooaa: 10
+  }
+
+  it: "can handle a singleton method def with an empty body" when: {
+    obj = "foo"
+    def obj bar
+    def obj bar: @x
+  }
+
+  it: "parses correcly / with a single slash on method body" when: {
+    def / x { '/ }
+    self / 1 . is: '/
   }
 }

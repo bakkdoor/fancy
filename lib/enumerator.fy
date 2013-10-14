@@ -1,5 +1,13 @@
 class Fancy {
   class Enumerator {
+    class Generator {
+      def initialize: @block
+
+      def each: block {
+        @block call: [block]
+      }
+    }
+
     def initialize: @collection {
       """
       @collection Collection to iterate over.
@@ -46,7 +54,7 @@ class Fancy {
       } else: {
         result = @fiber resume
         if: (@fiber alive?) then: {
-          return result
+          result
         } else: {
           (Fancy StopIteration new: result) raise!
         }
@@ -141,6 +149,8 @@ class Fancy {
       }
     }
 
+    include: Fancy Enumerable
+
     def chunk: block {
       Generator new: |inner_block| {
         enums = []
@@ -169,17 +179,10 @@ class Fancy {
       } . to_enum
     }
 
-    class Generator {
-      def initialize: @block {}
-
-      def each: block {
-        @block call: [block]
-      }
-    }
-
     def to_a {
       output = []
       each: |element| { output << element }
+      rewind
       output
     }
   }

@@ -21,6 +21,7 @@ FancySpec describe: Block with: {
   it: "returns the argument count" with: 'arity when: {
     { } arity . is: 0
     |x| { } arity . is: 1
+    |x y| { } arity . is: 2
     |x y z| { } arity . is: 3
   }
 
@@ -30,6 +31,24 @@ FancySpec describe: Block with: {
       i = i + 1
     }
     i is be: { i >= 10 }
+  }
+
+  it: "calls a block while another is true or calls the alternative" with: 'while_true:else: when: {
+    i = 0
+    { i < 10 } while_true: {
+      i = i + 1
+    } else: {
+      i = "nope"
+    }
+    i is: 10
+
+    i = 0
+    { i > 10 } while_true: {
+      i = i + 1
+    } else: {
+      i = "nope"
+    }
+    i is: "nope"
   }
 
   it: "calls a block while another is not true (boolean false)" with: 'while_false: when: {
@@ -206,17 +225,17 @@ FancySpec describe: Block with: {
     block call: [42] with_receiver: (ClassD new) . is: "in ClassD#inspect: 42"
   }
 
-  it: "calls a block using the ruby-send syntax" with: 'call: when: {
+  it: "calls a block using []" with: '[] when: {
     b = |x y| {
       x + y
     }
 
     b call: [2,3] . is: 5
-    b(2,3) . is: 5
+    b[(2,3)] . is: 5
 
     b2 = |x| { x * 5 }
-    b2("hello") is: ("hello" * 5)
-    b2("foo") is: (b2 call: ["foo"])
+    b2["hello"] is: ("hello" * 5)
+    b2["foo"] is: (b2 call: ["foo"])
   }
 
   it: "dynamically creates a object with slots defined in a Block" with: 'to_object when: {
@@ -232,6 +251,26 @@ FancySpec describe: Block with: {
 
     o name is: "John Connor"
     o age is: 12
+    o city is: "Los Angeles"
+    o persecuted_by do: {
+      name is: "The Terminator"
+      age is: 'unknown
+    }
+  }
+
+  it: "dynamically creates a new object with slots recursively defined in blocks" with: 'to_object_deep when: {
+    o = {
+      name: "Sarah Connor"
+      age: 42
+      city: "Los Angeles"
+      persecuted_by: {
+        name: "The Terminator"
+        age: 'unknown
+      }
+    } to_object_deep
+
+    o name is: "Sarah Connor"
+    o age is: 42
     o city is: "Los Angeles"
     o persecuted_by do: {
       name is: "The Terminator"
@@ -301,5 +340,103 @@ FancySpec describe: Block with: {
                 ['age, 24],
                 ['city, "San Francisco"],
                 'male, 'programmer, 'happy]
+  }
+
+  it: "returns a Block that calls self then a given Block" with: 'then: when: {
+    a = []
+    block = { a << 1 } then: { a << 2 }
+    block call
+    a is: [1,2]
+    block call
+    a is: [1,2,1,2]
+
+    a = []
+    block = @{ << 1 } then: @{ << 2 }
+    block call: [a]
+    a is: [1,2]
+    block call: [a]
+    a is: [1,2,1,2]
+  }
+
+  it: "returns a Block that calls itself after a given Block" with: 'after: when: {
+    a = []
+    block = { a << 1 } after: { a << 2}
+    block call
+    a is: [2,1]
+    block call
+    a is: [2,1,2,1]
+
+    a = []
+    block = @{ << 1 } after: @{ << 2 }
+    block call: [a]
+    a is: [2,1]
+    block call: [a]
+    a is: [2,1,2,1]
+  }
+
+  it: "calls itself while logging errors to *stderr*" with: 'call_with_errors_logged when: {
+    io = StringIO new
+    let: '*stderr* be: io in: {
+      {
+        2 / 0
+      } call_with_errors_logged
+    }
+    io string is: "divided by 0\n"
+  }
+
+  it: "calls itself with arguments while logging errors to *stderr*" with: 'call_with_errors_logged: when: {
+    io = StringIO new
+    let: '*stderr* be: io in: {
+      |x y| {
+        2 / 0
+      } call_with_errors_logged: [10, 20]
+    }
+    io string is: "divided by 0\n"
+  }
+
+  it: "calls itself while logging errors to a given IO object" with: 'call_with_errors_logged_to: when: {
+    io = StringIO new
+    {
+      2 / 0
+    } call_with_errors_logged_to: io
+    io string is: "divided by 0\n"
+
+    io = StringIO new
+    {
+      { "fail!" raise! } call_with_errors_logged_to: io
+    } does_not raise: StandardError
+    io string is: "fail!\n"
+  }
+
+  it: "calls itself while logging errors to a given IO object and reraising exceptions" with: 'call_with_errors_logged_to:reraise: when: {
+    io = StringIO new
+    {
+      {
+        "fail!" raise!
+      } call_with_errors_logged_to: io reraise: true
+    } raises: StandardError
+    io string is: "fail!\n"
+  }
+
+  it: "calls itself with arguments while logging errors to a given IO object" with: 'call:with_errors_logged_to: when: {
+    io = StringIO new
+    {
+      |x y| {
+        io println: "x: #{x} y: #{y}"
+        2 / 0
+      } call: [10, 20] with_errors_logged_to: io
+    } does_not raise: ZeroDivisionError
+    io string is: "x: 10 y: 20\ndivided by 0\n"
+  }
+
+  it: "calls itself with arguments while logging errors to a given IO object and reraising exceptions" with: 'call:with_errors_logged_to:reraise: when: {
+    io = StringIO new
+    {
+      |x y| {
+        io println: "x: #{x} y: #{y}"
+        2 / 0
+      } call: [10, 20] with_errors_logged_to: io reraise: true
+    } raises: ZeroDivisionError
+    io string is: "x: 10 y: 20\ndivided by 0\n"
   }
 }

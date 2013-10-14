@@ -25,7 +25,7 @@ FancySpec describe: Object with: {
     { self a_singleton_method } raises: NoMethodError
   }
 
-  it: "returns its class" when: {
+  it: "returns its class" with: 'class when: {
     nil class is: NilClass
     true class is: TrueClass
     "foo" class is: String
@@ -44,25 +44,32 @@ FancySpec describe: Object with: {
     obj this_is_not_defined: "It's true!" . is: "Got: this_is_not_defined: It's true!"
   }
 
-  it: "returns a correct string representation" when: {
+  it: "returns a correct string representation" with: 'to_s when: {
     3 to_s is: "3"
     'foo to_s is: "foo"
     nil to_s is: ""
   }
 
-  it: "returns a correct array representation" when: {
+  it: "returns a correct array representation" with: 'to_a when: {
     nil to_a is: []
     'foo to_a is: ['foo]
     <['foo => "bar", 'bar => "baz"]> to_a is =? [['bar, "baz"], ['foo, "bar"]]
   }
 
-  it: "returns a correct fixnum representation" when: {
+  it: "returns a hash based on own slot values" with: 'to_hash when: {
+    nil to_hash is: <[]>
+    false to_hash is: <[]>
+    true to_hash is: <[]>
+    (0..10) each: @{ to_hash is: <[]> }
+  }
+
+  it: "returns a correct fixnum representation" with: 'to_i when: {
     nil to_i is: 0
     3 to_i is: 3
     3.28437 to_i is: 3
   }
 
-  it: "is an Object of the correct Class (or Superclass)" when: {
+  it: "is an Object of the correct Class (or Superclass)" with: 'is_a?: when: {
     Object new is_a?: Object . is: true
     "foo" is_a?: String . is: true
     "foo" is_a?: Object . is: true
@@ -275,7 +282,7 @@ FancySpec describe: Object with: {
     o2 get_slot: 'slot2 == (o1 slot2) is: true
   }
 
-  it: "returns itself when return is send as a message" with: 'return when: {
+  it: "returns itself when return is send as a message" when: {
     def foo: array {
       array each: @{ return }
     }
@@ -293,7 +300,7 @@ FancySpec describe: Object with: {
     v is: [1]
   }
 
-  it: "provides temporarily mutable slots" with: 'with_mutable_slots: when: {
+  it: "provides temporarily mutable slots" with: 'with_mutable_slots:do: when: {
     class Student {
       read_slots: ('name, 'age, 'city)
       def initialize: block {
@@ -327,5 +334,55 @@ FancySpec describe: Object with: {
         ignoring: (ZeroDivisionError, NoMethodError) do: b
       }
     } does_not raise: Exception
+  }
+
+  it: "rebinds a singleton method within a block" with: 'rebind_method:with:within: when: {
+    s = "foo"
+    s rebind_method: 'hello with: { 42 } within: {
+      s hello is: 42
+    }
+
+    s rebind_method: 'hello with: 'to_s within: {
+      s hello is: "foo"
+    }
+
+    { s hello } raises: NoMethodError
+
+    def s bar {
+      "bar!"
+    }
+
+    s bar is: "bar!"
+
+    s rebind_method: 'bar with: { "new bar!" } within: {
+      s bar is: "new bar!"
+    }
+
+    s rebind_method: 'bar with: { "another bar!" } within: |x| { x bar } . is: "another bar!"
+
+    s bar is: "bar!"
+  }
+
+  it: "binds a dynvar correctly" with: 'let:be:in:ensuring: when: {
+    *var* is: nil
+    let: '*var* be: 'hello in: {
+      *var* is: 'hello
+    } ensuring: {
+      *var* is: 'hello
+    }
+    *var* is: nil
+
+    @val = nil
+    def check {
+      *var* is: @val
+    }
+
+    check
+    @val = "test"
+    let: '*var* be: @val in: {
+      check
+    }
+    @val = nil
+    check
   }
 }

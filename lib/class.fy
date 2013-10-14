@@ -8,6 +8,112 @@ class Class {
 
   forwards_unary_ruby_methods
 
+  alias_method: '__private__: for: 'private:
+  alias_method: '__protected__: for: 'protected:
+  alias_method: '__public__: for: 'public:
+
+  def private: private_methods {
+    """
+    @private_methods @Block@ or @Fancy::Enumerable@ of method names to be private.
+
+    Sets any given method names to private on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            private: 'foo
+            private: 'bar
+
+            # same as:
+            private: ('foo, 'bar)
+
+            # same as:
+            private: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __private__: $ match private_methods {
+      case Block ->
+        methods = instance_methods: false
+        private_methods call
+        instance_methods: false - methods
+      case _ -> private_methods
+    }
+  }
+
+  def protected: protected_methods {
+    """
+    @protected_methods @Block@ or @Fancy::Enumerable@ of method names to be protected.
+
+    Sets any given method names to protected on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            protected: 'foo
+            protected: 'bar
+
+            # same as:
+            protected: ('foo, 'bar)
+
+            # same as:
+            protected: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __protected__: $ match protected_methods {
+      case Block ->
+        methods = instance_methods: false
+        protected_methods call
+        instance_methods: false - methods
+      case _ -> protected_methods
+    }
+  }
+
+  def public: public_methods {
+    """
+    @public_methods @Block@ or @Fancy::Enumerable@ of method names to be public.
+
+    Sets any given method names to public on this @Class@.
+
+    Example:
+          class MyClass {
+            def foo {}
+            def bar {}
+
+            public: 'foo
+            public: 'bar
+
+            # same as:
+            public: ('foo, 'bar)
+
+            # same as:
+            public: {
+              def foo {}
+              def bar {}
+            }
+          }
+    """
+
+    __public__: $ match public_methods {
+      case Block ->
+        methods = instance_methods: false
+        public_methods call
+        instance_methods: false - methods
+      case _ -> public_methods
+    }
+  }
+
   def define_slot_reader: slotname {
     """
     @slotname Name of the slot to define a getter method for.
@@ -125,6 +231,23 @@ class Class {
     }
   }
 
+  def remove_slot_accessors_for: slotnames {
+    """
+    @slotnames Name of slot or @Array@ of slotnames to remove accessor methods for.
+
+    Removes both reader and writer methods for slots in @slotnames.
+    """
+
+    slotnames to_a each: |s| {
+      try {
+        undefine_method: s
+      } catch NameError {}
+      try {
+        undefine_method: "#{s}:"
+      } catch NameError {}
+    }
+  }
+
   def subclass?: class_obj {
     """
     @class_obj Class object to check for, if @self is a subclass of @class_obj.
@@ -222,7 +345,7 @@ class Class {
     @return @Array@ of all instance methods defined in Fancy.
     """
 
-    instance_methods select: @{ includes?: ":" }
+    instance_methods grep: /:/
   }
 
   def ruby_instance_methods {
@@ -408,5 +531,59 @@ class Class {
         return_val
       }
     """
+  }
+
+  def rebind_instance_method: method_name with: rebind_callable within: within_block receiver: receiver (self) {
+    """
+    @method_name Name of instance method to rebind in @self.
+    @rebind_callable Name of method or @Block@ to rebind @method_name to.
+    @within_block @Block@ to be called with @receiver or @self.
+    @receiver Argument to @within_block. Defaults to @self.
+    @return Value of calling @within_block with @receiver.
+
+    Rebinds @method_name to @rebind_callable within @within_block.
+    If @within_block takes an argument, it will be called with @receiver (defaults to @self).
+    """
+
+    try {
+      old_method = nil
+      try {
+        old_method = instance_method: method_name
+      } catch NameError {}
+
+      match rebind_callable {
+        case Symbol -> alias_method: method_name for: rebind_callable
+        case _ -> define_method: method_name with: rebind_callable
+      }
+
+      return within_block call: [receiver]
+    } finally {
+      if: old_method then: {
+        define_method: method_name with: old_method
+      } else: {
+        undefine_method: method_name
+      }
+    }
+  }
+
+  def method_documentation: documentation_hash {
+    """
+    @documentation_hash @Hash@ of method name to documentation string.
+
+    Sets documentation strings for methods defined in @documentation_hash.
+    Useful for documenting methods without touching their implementation.
+
+    Example:
+          class SomeRubyLibraryClass {
+            method_documentation: <[
+              'some_method_a => \"Docstring A\",
+              'some_method_b => \"Docstring B\"
+            ]>
+          }
+    """
+
+    documentation_hash each: |method_name doc| {
+      instance_method: method_name . documentation: doc
+    }
   }
 }

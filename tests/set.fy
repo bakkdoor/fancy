@@ -24,7 +24,7 @@ FancySpec describe: Set with: {
     s << 'foo
     s << 'foo
     s size is: 1
-    s is: (Set[['foo]])
+    s is: $ Set[['foo]]
     s is_not: ['foo] # Sets and Arrays differ
   }
 
@@ -100,9 +100,9 @@ FancySpec describe: Set with: {
   it: "removes a value in the Set" with: 'remove: when: {
     s = Set[(1,2,3)]
     s remove: 2
-    s is: (Set[(1,3)])
+    s is: $ Set[(1,3)]
     s remove: 1
-    s is: (Set[[3]])
+    s is: $ Set[[3]]
     s remove: 3
     s empty? . is: true
   }
@@ -110,18 +110,28 @@ FancySpec describe: Set with: {
   it: "returns the union of two sets" with: '+ when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(3,4,5)]
-    s1 + s2 is: (Set[(1,2,3,4,5)])
+    s1 + s2 is: $ Set[(1,2,3,4,5)]
   }
 
   it: "returns the difference of two sets" with: '- when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(3,4,5)]
-    s1 - s2 is: (Set[(1,2)])
+    s1 - s2 is: $ Set[(1,2)]
   }
 
   it: "returns the intersection of two sets" with: '& when: {
     s1 = Set[(1,2,3)]
     s2 = Set[(2,3,4,5)]
-    s1 & s2 is: (Set[(2,3)])
+    s1 & s2 is: $ Set[(2,3)]
+  }
+
+  it: "removes all elements from a Set" with: 'clear when: {
+    s = Set[(1,2,3)]
+    s empty? is: false
+    s size is: 3
+    s clear
+    s empty? is: true
+    s size is: 0
+    s is: $ Set[[]]
   }
 }

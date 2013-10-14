@@ -1,11 +1,10 @@
 class Fancy Compiler Stages {
   class Stage : Rubinius Compiler Stage {
-    initialize = |compiler, last| {
+    define_method('initialize) |compiler last| {
       sup = Rubinius Compiler Stage instance_method('initialize)
       sup bind(self) call(compiler, last)
       initialize: compiler last: last
     }
-    define_method('initialize, &initialize)
 
     def self stage: name next: next (nil) {
       stage(name)
@@ -41,8 +40,7 @@ class Fancy Compiler Stages {
       compiler parser: self
     }
 
-    def input: @code file: @filename line: @line (1) {
-    }
+    def input: @code file: @filename line: @line (1);
 
     def run {
       ast = Fancy Parser parse_code: @code file: @filename line: @line
@@ -60,8 +58,7 @@ class Fancy Compiler Stages {
       compiler parser: self
     }
 
-    def input: @filename line: @line (1) {
-    }
+    def input: @filename line: @line (1);
 
     def run {
       ast = Fancy Parser parse_file: @filename line: @line

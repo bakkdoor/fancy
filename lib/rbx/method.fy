@@ -91,11 +91,14 @@ class UnboundMethod {
   include: MethodMixin
   forwards_unary_ruby_methods
 
+  alias_method: 'bind: for_ruby: 'bind
+
   def call: args ([]) {
     call(*args)
   }
 
   def selector_with_args {
+    name = name to_s
     match name {
       case ":[]" -> return "[arg_0]"
       case "[]:" -> return "[arg_0]: arg_1"

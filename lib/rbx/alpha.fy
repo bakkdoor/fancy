@@ -34,4 +34,28 @@ class Class {
 
 class String {
   alias_method: ":+" for: "+"
+  alias_method: ":to_sym" for: "to_sym"
+}
+
+class Module {
+  def included: module
+
+  def include: modules {
+    modules = modules to_a()
+    modules reverse_each() |mod| {
+      mod append_features: self
+      mod send('included, self)
+    }
+  }
+}
+
+class Class{
+  def include: modules {
+    modules = modules to_a()
+    modules reverse_each() |mod| {
+      mod append_features: self
+      mod send('included, self)
+      mod included: self
+    }
+  }
 }

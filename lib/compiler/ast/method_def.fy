@@ -24,9 +24,6 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
-      g push_self()
-      g send(@access, 0)
-      g pop()
 
       @name to_s =~ /^initialize:(\S)+/ if_true: {
         define_constructor_class_method: g
@@ -86,7 +83,7 @@ class Fancy AST {
 
   class MethodArgs : Rubinius AST FormalArguments {
     def initialize: @line args: @array ([]) {
-      initialize(@line, @array map() |a| { a to_sym() }, nil, nil)
+      initialize(@line, @array map: @{ to_sym }, nil, nil)
     }
   }
 }

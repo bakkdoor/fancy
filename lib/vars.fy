@@ -1,6 +1,7 @@
-*stdin* = STDIN
-*stdout* = STDOUT
-*stderr* = STDERR
+*stdin*      = STDIN
+*stdout*     = STDOUT
+*stderr*     = STDERR
+*fancy_root* = File absolute_path: $ File join: (__DIR__, "..")
 
 __AFTER__BOOTSTRAP__: {
   *stdin* documentation: """
@@ -16,5 +17,9 @@ __AFTER__BOOTSTRAP__: {
   *stderr* documentation: """
     The Standard Error Output stream.
     Can be rebound to any @IO@ stream via @Object#let:be:in:@.
+  """
+
+  *fancy_root* documentation: """
+    Absolute path to Fancy's root directory.
   """
 }

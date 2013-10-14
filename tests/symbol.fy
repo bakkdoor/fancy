@@ -28,8 +28,32 @@ FancySpec describe: Symbol with: {
     if: x then: 'foo else: 'bar . is: "foo"
   }
 
+  it: "returns its arity correctly (when interpreted as a method name)" with: 'arity when: {
+    'foo arity is: 1
+    'foo_bar_baz arity is: 1
+    ('+, '-, '*, '/) each: @{ arity is: 2 }
+    'foo: arity is: 2
+    'foo:bar: arity is: 3
+    'foo:bar:baz: arity is: 4
+  }
+
   it: "returns self" with: 'to_sym when: {
     'foo to_sym is: 'foo
     'bar to_sym is: 'bar
+  }
+
+  it: "returns itself as a Block" with: 'to_block when: {
+    b = 'inspect to_block
+    b call: [2] . is: "2"
+    b call: ["foo"] . is: "\"foo\""
+
+    str = "hello, world yo!\"foo\""
+    b call: [str] . is: $ @{ inspect } call: [str]
+
+    add = '+ to_block
+    { add call: [2] } raises: ArgumentError
+    add call: [0,1] . is: 1
+    add call: [2,3] . is: 5
+    { add call: [2,3,4] } raises: ArgumentError
   }
 }

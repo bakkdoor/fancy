@@ -138,11 +138,7 @@ class Fancy
           @@loaded[file] = true
 
           cl = Rubinius::CodeLoader.new(file)
-          begin
-            cm = cl.load_compiled_file(file, 0)
-          rescue ArgumentError
-            cm = cl.load_compiled_file(file, 0, 0)
-          end
+          cm = cl.load_compiled_file(file, 0, 0)
 
           script = cm.create_script(false)
           script.file_path = filename

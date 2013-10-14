@@ -1,8 +1,7 @@
 # Does the same as actors_primitive.fy but using
 # normal objects as actors by sending messages asynchronously (via @@ syntax).
 class PingPong {
-  def initialize: @block {
-  }
+  def initialize: @block
 
   def count: count reply: other notify: parent {
     @block call

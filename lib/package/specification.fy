@@ -58,14 +58,14 @@ class Fancy Package {
 
     def self save: spec to: specs_file {
       File open: specs_file modes: ['append] with: |f| {
-        f writeln: $ spec to_s
+        f println: $ spec to_s
       }
     }
 
     def self delete_specs_from: specs_file if: filter_block {
       lines = File read: specs_file . lines reject: filter_block
       File write: specs_file with: |f| {
-        lines each: |l| { f writeln: l }
+        lines each: |l| { f println: l }
       }
     }
 

@@ -186,16 +186,40 @@ class FutureSend {
 }
 
 class FutureCollection {
+  """
+  Helper class for dealing with a collection of @FutureSend@s.
+  Implements the @Fancy::Enumerable@ interface.
+  """
+
   include: Fancy Enumerable
 
-  def initialize: @futures {
+  def self [futures] {
+    """
+    @futures @Fany::Enumerable@ of @FutureSend@s.
+    @return @FutureCollection@ for @futures.
+    """
+
+    new: futures
   }
 
+  def initialize: @futures
+
   def each: block {
+    """
+    @block @Block@ to be called with the value of each future.
+
+    Calls @block with each value of each future in @self.
+    Registers @block as a continuation for each future.
+    """
+
     @futures each: @{ when_done: block }
   }
 
   def await_all {
-    @futures each: 'value
+    """
+    Awaits all futures in @self to complete, before returning.
+    """
+
+    @futures each: @{ value }
   }
 }

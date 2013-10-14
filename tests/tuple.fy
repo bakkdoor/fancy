@@ -37,7 +37,7 @@ FancySpec describe: Tuple with: {
     { Tuple new: 2 } does_not raise: ArgumentError
   }
 
-  it: "creates tuples dynamically" with: 'with_values when: {
+  it: "creates tuples dynamically" with: 'with_values: when: {
     Tuple with_values: [1,2,3] . is: (1,2,3)
     Tuple with_values: ["foo",'bar,42] . is: ("foo", 'bar, 42)
     Tuple with_values: ('hello, 'world) . is: ('hello, 'world)

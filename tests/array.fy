@@ -356,10 +356,6 @@ FancySpec describe: Array with: {
     [1,2,3,4] any?: |x| { x > 4 } . is: false
   }
 
-  it: "is selected from it with each index" with: 'select_with_index: when: {
-    ["yooo",2,3,1,'foo,"bar"] select_with_index: |x i| { x is_a?: Fixnum } . is: [[2,1], [3,2], [1,3]]
-  }
-
   it: "returns its remaining (all but the first) elements as a new Array" with: 'rest when: {
     [1,2,3,4] rest is: [2,3,4]
     [] rest is: []
@@ -414,7 +410,7 @@ FancySpec describe: Array with: {
     a is: []
   }
 
-  it: "appends another Array onto self" with: 'append: when: {
+  it: "appends another Enumerable onto self" with: 'append: when: {
     a = [1,2,3]
     a append: [4,5,6] . is: a
     a is: [1,2,3,4,5,6]
@@ -424,9 +420,10 @@ FancySpec describe: Array with: {
 
     [] append: [] . is: []
     [] append: (1,2,3) . is: [1,2,3] # works with any Enumerable
+    [1,2,3] append: "hello" . is: [1,2,3,"h","e","l","l","o"]
   }
 
-  it: "prepends another Array onto self" with: 'prepend: when: {
+  it: "prepends another Enumerable onto self" with: 'prepend: when: {
     a = [1,2,3]
     a prepend: [4,5,6]
     a is: [4,5,6,1,2,3]
@@ -436,6 +433,7 @@ FancySpec describe: Array with: {
 
     [] prepend: [] . is: []
     [] prepend: (1,2,3) . is: [1,2,3] # works with any Enumerable
+    [1,2,3] prepend: "hello" . is: ["h","e","l","l","o",1,2,3]
   }
 
   it: "prepends a value at the front" with: 'unshift: when: {
@@ -529,15 +527,20 @@ FancySpec describe: Array with: {
     arr is: [1,5,4,2,3]
   }
 
-  it: "sorts the array with a given comparison block" with: 'sort_by: when: {
+  it: "sorts the array with a given comparison block" with: 'sort: when: {
     arr = [1,5,4,2,3]
     sorted = [1,2,3,4,5]
-    arr sort_by: |a b| { a <=>  b } . is: sorted
+    arr sort: |a b| { a <=>  b } . is: sorted
     arr is: [1,5,4,2,3]
 
     arr = [(1,2), (0,1), (3,0)]
     sorted = [(3,0), (0,1), (1,2)]
-    arr sort_by: |a b| { a second <=> (b second) } . is: sorted
+    arr sort: |a b| { a second <=> (b second) } . is: sorted
+  }
+
+  it: "sorts the array by a given block" with: 'sort_by: when: {
+    arr = [(1,2), (0,1), (3,0)]
+    sorted = [(3,0), (0,1), (1,2)]
     arr sort_by: 'second . is: sorted
   }
 
@@ -549,5 +552,16 @@ FancySpec describe: Array with: {
   it: "returns a hash based on a key-block" with: 'to_hash: when: {
     [] to_hash: @{ size } . is: <[]>
     [[1,2],[3,4,5]] to_hash: @{ size } . is: <[2 => [1,2], 3 => [3,4,5]]>
+  }
+
+  it: "returns an sub-array within a given range" with: 'from:to: when: {
+    [] from: 0 to: 1 . is: []
+    [1] from: 0 to: 0 . is: [1]
+    [1] from: 0 to: 1 . is: [1]
+    [1] from: 0 to: 2 . is: [1]
+    [1] from: 0 to: -1 . is: [1]
+    [1] from: 0 to: -2 . is: []
+    [0,1,2,3] from: 0 to: 3 . is: [0,1,2,3]
+    [0,1,2,3] from: -1 to: 3 . is: [3]
   }
 }

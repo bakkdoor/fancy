@@ -12,28 +12,40 @@ bcl.load_compiled_file File.expand_path("../lib/rbx/code_loader", base)
 Fancy::CodeLoader.push_loadpath File.expand_path("../lib", base)
 
 # Load compiler+eval support
-Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/eval", base)
+Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/rbx/eval", base)
 
-class Object
-  def fancy_message_args name_and_args
-    method_name = []
-    args = []
-    name_and_args.each_with_index do |a, i|
-      if i % 2 == 0
-        method_name << a
+class Fancy
+  class RubyResponder < BasicObject
+    def initialize(target)
+      @target = target
+    end
+
+    def method_missing(method, arg = nil, rest = nil)
+      message = arg ? "#{method}:" : ":#{method}"
+      unless arg
+        return @target.__send__(message)
+      end
+      unless rest
+        @target.__send__(message, arg)
       else
-        args << a
+        message << rest.keys.join(":") << ":"
+        @target.__send__(message, arg, *rest.values)
       end
     end
-    return [method_name.join(":") + ":", args]
   end
+end
 
-  def fy(*array_or_name)
-    if array_or_name.size > 1
-      message_name, args = fancy_message_args array_or_name
-      self.send(message_name, *args)
+class Object
+  def fy(message = nil)
+    if message
+      case message
+      when Hash
+        __send__(message.keys.join(":") << ":", *message.values)
+      else
+        __send__(":#{message}")
+      end
     else
-      self.send(":#{array_or_name}")
+      Fancy::RubyResponder.new(self)
     end
   end
 

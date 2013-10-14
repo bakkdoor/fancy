@@ -44,10 +44,24 @@ class Block {
       return b result
     } catch Fancy StopIteration => s {
       return s result
+    } catch Fancy NextIteration {
+      retry
     }
   }
 
   alias_method: 'while_do: for: 'while_true:
+
+  def while_true: block else: alternative {
+    """
+    @block @Block@ to be called while @self yields @true.
+    @alternative @Block@ to be called if @self never yielded @true.
+    """
+
+    if: call then: {
+      block call
+      while_true: block
+    } else: alternative
+  }
 
   def until_do: block {
     """
@@ -151,8 +165,35 @@ class Block {
           o with      # => 42
     """
 
-    obj = DynamicSlotObject new do: self . object
-    obj
+    DynamicSlotObject new do: self . object
+  }
+
+  def to_object_deep {
+    """
+    Creates and returns a new @Object@ with slots defined dynamically in @self.
+    Looks and feels similar to Javascript object literals.
+    Nested blocks are converted to objects as well.
+
+    Example:
+          o = {
+            something: \"foo bar baz\"
+            with: {
+              age: 42
+            }
+          } to_object_deep
+
+          o something # => \"foo bar baz\"
+          o with age  # => 42
+    """
+
+    to_object tap: |o| {
+      o slots each: |s| {
+        val = o get_slot: s
+        match val {
+          case Block -> o set_slot: s value: (val to_object_deep)
+        }
+      }
+    }
   }
 
   def to_hash {
@@ -217,5 +258,92 @@ class Block {
     """
 
     iterations times: self
+  }
+
+  def then: block {
+    """
+    @block @Block@ to call after @self.
+    @return @Block@ that calls @self, then @block.
+
+    Example:
+          # prints \"Hello World!\"
+          { \"Hello\" print } then: { \"World!\" println }
+    """
+
+    |x| { block call: [self call: [x]] }
+  }
+
+  alias_method: 'before: for: 'then:
+
+  def after: block {
+    """
+    @block @Block@ to call before @self.
+    @return @Block@ that calls @self after calling @block.
+
+    Example:
+          # prints \"Hello World!\"
+          { \"World!\" println } after: { \"Hello\" print }
+    """
+
+    |x| { self call: [block call: [x]]  }
+  }
+
+  def to_block {
+    """
+    @return @self.
+    """
+
+    self
+  }
+
+  def call_with_errors_logged {
+    """
+    Calls @self while logging any errors to @*stderr*.
+    """
+
+    call_with_errors_logged_to: *stderr*
+  }
+
+  def call_with_errors_logged: args {
+    """
+    @args @Array@ of arguments to call @self with.
+
+    Calls @self with @args while logging any errors to @*stderr*.
+    """
+
+    call: args with_errors_logged_to: *stderr*
+  }
+
+  def call_with_errors_logged_to: io reraise: reraise? (false) {
+    """
+    @io @IO@ object to log any errors to.
+    @reraise? Optional boolean indicating if any raised exception should be reraised.
+
+    Calls @self while logging any errors to @io.
+    """
+
+    try {
+      self call
+    } catch StandardError => e {
+      io println: e
+      { e raise! } if: reraise?
+    }
+  }
+
+  def call: args with_errors_logged_to: io reraise: reraise? (false) {
+    """
+    @args @Array@ of arguments to call @self with.
+    @io @IO@ object to log any errors to.
+    @reraise? Optional boolean indicating if any raised exception should be reraised.
+
+    Calls @self with @args while logging any errors to @io.
+    """
+
+    try {
+      self call: args
+    } catch StandardError => e {
+      io println: e
+      { e raise! } if: reraise?
+    }
   }
 }

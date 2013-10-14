@@ -1,4 +1,8 @@
 class File {
+  class Stat {
+    forwards_unary_ruby_methods
+  }
+
   @@open_mode_conversions =
     <['read => "r",
       'write => "w",
@@ -7,8 +11,12 @@ class File {
       'binary => "b",
       'truncate => "w+"]>
 
-  ruby_aliases: [ 'eof?, 'closed?, 'flush ]
+  ruby_aliases: [ 'eof?, 'closed?, 'flush, '<< ]
+
   metaclass alias_method: 'expand_path: for_ruby: 'expand_path
+  metaclass alias_method: 'dirname:     for_ruby: 'dirname
+  metaclass alias_method: 'stat:        for_ruby: 'stat
+  metaclass alias_method: 'lstat:       for_ruby: 'lstat
 
   forwards_unary_ruby_methods
 
@@ -170,6 +178,25 @@ class File {
     File expand_path: filename
   }
 
+  def File join: path_components {
+    File join(*path_components)
+  }
+
+  def File size: filename {
+    """
+    @filename Name of @File@ to get file size for.
+    @return Size of @File@ with @filename in bytes.
+
+    Returns the size of a @File@ with a given @filename in bytes.
+
+    Example:
+
+          File size: \"/path/to/file\" # => 123456
+    """
+
+    File stat: filename . size
+  }
+
   def initialize: path {
     initialize(path)
   }
@@ -216,7 +243,7 @@ class File {
     closed? not
   }
 
-  def write: str {
+  def print: str {
     """
     @str String to be written to a @File@.
 

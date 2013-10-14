@@ -29,21 +29,19 @@ class Thread {
 
   Thread metaclass ruby_alias: 'abort_on_exception
   Thread metaclass ruby_alias: 'current
-  Thread metaclass ruby_alias: 'critical
+#  Thread metaclass ruby_alias: 'critical
   Thread metaclass ruby_alias: 'exit
   Thread metaclass ruby_alias: 'list
   Thread metaclass ruby_alias: 'main
   Thread metaclass ruby_alias: 'pass
   Thread metaclass ruby_alias: 'stop
+
   ruby_alias: 'dynamic_vars
+  alias_method: 'dynamic_var: for_ruby: 'get_dynamic_variable
+  alias_method: 'set_dynamic_var:to: for_ruby: 'set_dynamic_variable
 
-  def [dynamic_var_name] {
-    send('[], dynamic_var_name)
-  }
-
-  def [dynamic_var_name]: value {
-    send('[]=, dynamic_var_name, value)
-  }
+  alias_method: '[] for_ruby: '[]
+  alias_method: '[]: for_ruby: '[]=
 
   def priority: new_prio {
     priority=(new_prio)

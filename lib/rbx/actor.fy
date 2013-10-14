@@ -1,4 +1,5 @@
-require("actor")
+require("rubinius/actor")
+Actor = Rubinius Actor
 
 class Actor {
   """

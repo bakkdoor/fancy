@@ -13,8 +13,11 @@ class Rubinius CompiledMethod {
   }
 
   def definition_line {
-    # don't use documentation#to_s since we need original docstring as written in source file to calculate the correct lines
-    docstring = documentation docs join: "\n"
+    # don't use documentation#to_s since we need original docstring as written in source file to calculate the correct lines#
+    docstring = ""
+    if: documentation then: {
+      docstring = documentation docs join: "\n"
+    }
     if: (lines size > 3) then: {
       lines[3] - (docstring lines size)
     } else: {
@@ -25,4 +28,8 @@ class Rubinius CompiledMethod {
   def last_line {
     defined_line
   }
+}
+
+class Rubinius CompiledCode {
+  forwards_unary_ruby_methods
 }

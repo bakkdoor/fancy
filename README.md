@@ -1,3 +1,4 @@
+[![Logo](http://fancy-lang.org/fancy-logo.png)](http://fancy-lang.org)
 # The Fancy Programming Language
 
 [![Build Status](https://secure.travis-ci.org/bakkdoor/fancy.png)](http://travis-ci.org/bakkdoor/fancy)
@@ -23,6 +24,7 @@ https://github.com/fancy-lang/infancy
 
 ## Related links
 * **Website**: http://www.fancy-lang.org
+* **Blog**: http://bakkdoor.net
 * **Mailinglist**: http://groups.google.com/group/fancy-lang
 * **IRC Channel**: irc://irc.freenode.net:6667/fancy
 * **IRC Logs**: http://irc.fancy-lang.org
@@ -35,8 +37,8 @@ https://github.com/fancy-lang/infancy
 ## Compiling / Installing from source:
 ### Dependencies:
 - Rubinius.
-  You'll need at least version 1.2.1 for Fancy to work as expected.
-  See http://rubini.us/releases/1.2.1/ for more information.
+  You'll need at least version 2.0.0 for Fancy to work as expected.
+  See http://rubini.us/downloads/ for more information.
   If you want to take advantage of the latest VM improvements, we
   suggest using rvm and installing rbx-head.
   See http://rvm.beginrescueend.com/ for more information.
@@ -46,7 +48,7 @@ https://github.com/fancy-lang/infancy
 
 Given the tools & libraries mentioned above, Fancy _should_ build without problems
 on most *nix systems. We successfully have built Fancy on Debian & Ubuntu, OpenSuSE
-and Mac OS X 10.5 and 10.6.
+and Mac OS X 10.5, 10.6 & 10.7.
 
 ### Standard building procedure:
 Building Fancy is just that easy:
@@ -113,7 +115,7 @@ Something new open: |s| { s work }
 ```
 
 ## Copyright:
-(C) 2010, 2011, 2012 Christopher Bertels <chris@fancy-lang.org>
+(C) 2010, 2011, 2012, 2013, Christopher Bertels <chris@fancy-lang.org>
 
 Fancy is licensed under the terms of the BSD license. For more
 information on licensing issues have a look at the LICENSE file.

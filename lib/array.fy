@@ -31,12 +31,12 @@ class Array {
     new
   }
 
-  def append: arr {
+  def append: enum {
     """
-    @arr Other @Array@ to be appended to @self.
+    @enum Other @Fancy::Enumerable@ to be appended to @self.
     @return @self
 
-    Appends another @Array@ onto this one.
+    Appends another @Fancy::Enumerable@ onto this one.
 
     Example:
           a = [1,2,3]
@@ -44,18 +44,18 @@ class Array {
           a # => [1,2,3,3,4,5]
     """
 
-    arr each: |x| {
+    enum each: |x| {
       self << x
     }
     self
   }
 
-  def prepend: arr {
+  def prepend: enum {
     """
-    @arr Other @Array@ to be prepended to @self.
+    @enum Other @Fancy::Enumerable@ to be prepended to @self.
     @return @self
 
-    Prepends another @Array@ to this one.
+    Prepends another @Fancy::Enumerable@ to this one.
 
     Example:
           a = [1,2,3]
@@ -63,7 +63,7 @@ class Array {
           a # => [4,5,6,1,2,3]
     """
 
-    arr reverse_each: |x| {
+    enum reverse_each: |x| {
       self unshift: x
     }
     self
@@ -106,8 +106,7 @@ class Array {
     size times: |i| {
       try {
         block call: [at: i]
-      } catch Fancy NextIteration {
-      }
+      } catch Fancy NextIteration {}
     }
     self
   }
@@ -233,7 +232,7 @@ class Array {
     Removes all nil-value elements in place.
     """
 
-    reject!: |x| { x nil? }
+    reject!: @{ nil? }
     return self
   }
 
@@ -266,9 +265,7 @@ class Array {
     Prints each element on a seperate line.
     """
 
-    each: |x| {
-      x println
-    }
+    each: @{ println }
     nil
   }
 
@@ -288,6 +285,10 @@ class Array {
       str << ", "
     }
     str << "]"
+  }
+
+  def to_s {
+    join: ""
   }
 
   def to_a {
@@ -360,61 +361,45 @@ class Array {
     """
 
     tmp = []
-    each_with_index: |obj, idx| {
-      if: (item == obj) then: {
-        tmp << idx
-      }
+    each_with_index: |obj idx| {
+      { tmp << idx } if: (item == obj)
     }
     tmp
   }
 
-  def from: from to: to {
+  def from: start to: end {
     """
-    @from Start index for sub-array.
-    @to End index for sub-array.
+    @start Start index for sub-array.
+    @end End index for sub-array.
 
     Returns sub-array starting at from: and going to to:
     """
 
-    if: (from < 0) then: {
-      from = size + from
-    }
-    if: (to < 0) then: {
-      to = size + to
-    }
+    { return [] } if: empty?
+    { return [] } if: (start >= size)
+
+    { start = size + start } if: (start < 0)
+    { end = size + end } if: (end < 0)
+    { end = size - 1 } if: (end >= size)
+
     subarr = []
-    from upto: to do: |i| {
+    start upto: end do: |i| {
       subarr << (at: i)
     }
     subarr
   }
 
-  def select_with_index: block {
-    """
-    Same as #select:, just gets also called with an additional argument
-    for each element's index value.
-    """
-
-    tmp = []
-    each_with_index: |obj idx| {
-      if: (block call: [obj, idx]) then: {
-        tmp << [obj, idx]
-      }
-    }
-    tmp
-  }
-
   def to_hash {
     """
     Returns a @Hash@ with each key-value pair in @self.
+    Expects values in @self to be 2-element @Array@s (used as key-value pairs).
 
     Example:
           [[1,2],[3,4]] to_hash  # => <[1 => 2, 3 => 4]>
     """
 
     h = <[]>
-    self each: |pair| {
-      k,v = pair
+    self each: |k v| {
       h[k]: v
     }
     h

@@ -6,13 +6,13 @@ FancySpec describe: Struct with: {
   }
 
   it: "creates setter methods for a struct's fields" when: {
-    Point instance_methods includes?: "x:" . is: true
-    Point instance_methods includes?: "y:" . is: true
+    Point instance_methods includes?: 'x: . is: true
+    Point instance_methods includes?: 'y: . is: true
   }
 
   it: "creates getter methods for a struct's fields" when: {
-    Point instance_methods includes?: ":x" . is: true
-    Point instance_methods includes?: ":y" . is: true
+    Point instance_methods includes?: ':x . is: true
+    Point instance_methods includes?: ':y . is: true
   }
 
   it: "works with getter and setter methods as expected" when: {

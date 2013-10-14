@@ -3,10 +3,7 @@
 
 # method that returns a closure
 def create_counter: number {
-  closure = {
-    number = number + 1
-  }
-  closure
+  { number = number + 1 }
 }
 
 # create a counter from 100 upwards

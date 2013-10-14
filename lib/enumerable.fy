@@ -42,6 +42,7 @@ class Fancy {
       """
       @return The first element in the @Fancy::Enumerable@.
       """
+
       at: 0
     }
 
@@ -49,6 +50,7 @@ class Fancy {
       """
       @return The second element in the @Fancy::Enumerable@.
       """
+
       at: 1
     }
 
@@ -56,6 +58,7 @@ class Fancy {
       """
       @return The third element in the @Fancy::Enumerable@.
       """
+
       at: 2
     }
 
@@ -63,6 +66,7 @@ class Fancy {
       """
       @return The fourth element in the @Fancy::Enumerable@.
       """
+
       at: 3
     }
 
@@ -97,11 +101,7 @@ class Fancy {
             (1,2,3,4) first: 2 # => [1,2]
       """
 
-      i = 0
-      take_while: {
-        i = i + 1
-        i <= amount
-      }
+      take: amount
     }
 
     def last: amount {
@@ -136,6 +136,15 @@ class Fancy {
       """
       Similar to @each:@ but calls an additional @Block@ between
       calling the first @Block@ for each element in self.
+
+      Example:
+            result = \"\"
+            [1,2,3,4,5] each: |i| {
+              result << i
+            } in_between: {
+              result << \"-\"
+            }
+            result # => \"1-2-3-4-5\"
       """
 
       between = { between = between_block }
@@ -152,6 +161,7 @@ class Fancy {
 
       Joins a collection with a @String@ between each element, returning a new @String@.
 
+      Example:
             \"hello, world\" join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
       """
 
@@ -172,7 +182,7 @@ class Fancy {
       Works similar to @Fancy::Enumerable#inject:into:@ but uses first element as value injected.
 
       Example:
-            (1,2,3) reduce_by: '+  # => same as: (2,3) inject: 1 into: '+
+            (1,2,3) join_by: '+  # => same as: (2,3) inject: 1 into: '+
       """
 
       first, *rest = self
@@ -220,21 +230,38 @@ class Fancy {
       Otherwise returns that element that is equal to @item.
       """
 
-      if: (item is_a?: Block) then: {
-        find_by: item
-      } else: {
-        each: |x| {
-          if: (item == x) then: {
-            return x
+      match item {
+        case Block -> find_by: item
+        case _ ->
+          each: |x| {
+            if: (item == x) then: {
+              return x
+            }
           }
-        }
-        nil
+          nil
       }
+    }
+
+    def find: item do: block {
+      """
+      @item Item to find in @self.
+      @block @Block@ to be called with @item if found in @self.
+
+      Calls @block with @item, if found.
+      If @item is not in @self, @block is not called.
+      """
+
+      if: (find: item) then: block
     }
 
     def find_by: block {
       """
       Similar to @find:@ but takes a block that is called for each element to find it.
+
+      Example:
+            [1,2,3,4,5] find_by: @{ even? } # => 2
+            [1,2,3,4,5] find_by: @{ odd? } # => 1
+            [1,2,3,4,5] find_by: @{ % 3 == 0 } # => 3
       """
 
       each: |x| {
@@ -243,6 +270,67 @@ class Fancy {
         }
       }
       nil
+    }
+
+    def find_with_index: item do: block {
+      """
+      @item Item to find in @self.
+      @block @Block@ to be called with @item and its index in @self.
+
+      Calls @block with @item and its index in @self, if found.
+      If @item is not in @self, @block is not called.
+      """
+
+      for_every: item with_index_do: |x i| {
+        return block call: [x, i]
+      }
+      nil
+    }
+
+    def for_every: item with_index_do: block {
+      """
+      @item Item to call @block with.
+      @block @Block@ to be called with @item and each of its indexes in @self.
+
+      Calls @block with @item and each of its indexes in @self, if @item is in @self.
+      """
+
+      each_with_index: |x i| {
+        if: (item == x) then: {
+          block call: [x, i]
+        }
+      }
+    }
+
+    def for_every: item do: block {
+      """
+      @item Item to call @block with.
+      @block @Block@ to be called with @item for every occurance of @item in @self.
+
+      Calls @block with @item for each occurance of @item in @self.
+
+      Example:
+            count = 0
+            [1,2,3,2,1] for_every: 1 do: { count = count + 1 }
+            # count is now 2
+      """
+
+      each: |x| {
+        if: (item == x) then: { block call: [x] }
+      }
+    }
+
+    def last_index_of: item {
+      """
+      @item Item for which the last index in @self should be found.
+      @return Last index of @item in @self, or @nil (if not in @self).
+
+      Returns the last index for @item in @self, or @nil, if @item is not in @self.
+      """
+
+      last_idx = nil
+      for_every: item with_index_do: |_ i| { last_idx = i }
+      last_idx
     }
 
     def map: block {
@@ -292,6 +380,14 @@ class Fancy {
       }
     }
 
+    def flat_map: block {
+      """
+      Similar to @Fancy::Enumerable#map:@ but returns the result @Array@ flattened.
+      """
+
+      map: block . tap: @{ flatten! }
+    }
+
     def select: condition {
       """
       @condition A @Block@ that is used as a filter on all elements in @self.
@@ -305,6 +401,24 @@ class Fancy {
         { coll << x } if: $ condition call: [x]
       }
       coll
+    }
+
+    def select_with_index: condition {
+      """
+      @condition A @Block@ that is used as a filter on all elements in @self.
+      @return An @Array@ containing all elements and their indices in @self that yield @true when called with @condition.
+
+      Returns a new @Array@ with all elements and their indices that meet the given
+      condition block. @condition is called with each element and its index in @self.
+      """
+
+      tmp = []
+      each_with_index: |obj idx| {
+        if: (condition call: [obj, idx]) then: {
+          tmp << [obj, idx]
+        }
+      }
+      tmp
     }
 
     def reject: condition {
@@ -354,14 +468,14 @@ class Fancy {
       """
 
       coll = []
-      drop = nil
-      first_check = true
+      drop? = false
+      first_check? = true
       each: |x| {
-        if: (drop or: first_check) then: {
-          drop = condition call: [x]
-          first_check = nil
+        if: (drop? or: first_check?) then: {
+          drop? = condition call: [x]
+          first_check? = false
           # check, if we actually have to insert this one:
-          unless: drop do: {
+          unless: drop? do: {
             coll << x
           }
         } else: {
@@ -405,6 +519,18 @@ class Fancy {
 
     alias_method: 'skip: for: 'drop:
 
+    def drop_last: amount (1) {
+      """
+      @amount Amount of elements to drop from the end.
+      @return New @Array@ without last @amount elements.
+
+      Example:
+            [1,2,3,4] drop_last: 2  # => [1,2]
+      """
+
+      first: (size - amount)
+    }
+
     def reduce: block init_val: init_val {
       """
       Calculates a value based on a given block to be called on an accumulator
@@ -416,7 +542,7 @@ class Fancy {
 
       acc = init_val
       each: |x| {
-        acc = (block call: [acc, x])
+        acc = block call: [acc, x]
       }
       acc
     }
@@ -507,18 +633,19 @@ class Fancy {
             [[1,2], [2,3,4], [-1]] superior_by: '< taking: 'first # => [-1]
       """
 
+      { return nil } if: empty?
 
-      pairs = self map: |val| {
-        (val, selection_block call: [val])
-      }
+      retval     = first
+      retval_cmp = selection_block call: [retval]
 
-      retval = pairs first
-      pairs each: |p| {
-        if: (comparison_block call: [p second, retval second]) then: {
-          retval = p
+      rest each: |p| {
+        cmp = selection_block call: [p]
+        if: (comparison_block call: [cmp, retval_cmp]) then: {
+          retval     = p
+          retval_cmp = cmp
         }
       }
-      retval first
+      retval
     }
 
     def max {
@@ -531,6 +658,20 @@ class Fancy {
       superior_by: '>
     }
 
+    def max_by: block {
+      """
+      @block @Block@ by which to calculate the maximum value in @self.
+      @return Maximum value in @self based on @block.
+
+      Returns the maximum value in the Enumerable (via the '>' comparison message).
+
+      Example:
+            [[1,2,3], [1,2], [1]] max_by: @{ size } # => [1,2,3]
+      """
+
+      superior_by: '> taking: block
+    }
+
     def min {
       """
       @return Minimum value in @self.
@@ -539,6 +680,57 @@ class Fancy {
       """
 
       superior_by: '<
+    }
+
+    def min_by: block {
+      """
+      @block @Block@ by which to calculate the minimum value in @self.
+      @return Minimum value in @self based on @block.
+
+      Returns the minimum value in the Enumerable (via the '<' comparison message).
+
+      Example:
+            [[1,2,3], [1,2], [1]] min_by: @{ size } # => [1]
+      """
+
+      superior_by: '< taking: block
+    }
+
+    def min_max {
+      """
+      @return @Tuple@ of min and max value in @self.
+
+      If @self is empty, returns (nil, nil).
+
+      Example:
+            (1,2,3,4) min_max # => (1, 3)
+      """
+
+      min_max_by: @{ identity }
+    }
+
+    def min_max_by: block {
+      """
+      @block @Block@ to calculate the min and max value by.
+      @return @Tuple@ of min and max value based on @block in @self.
+
+      Calls @block with each element in @self to determine min and max values.
+      If @self is empty, returns (nil, nil).
+
+      Example:
+            (\"a\", \”bc\", \”def\") min_max_by: 'size # => (1, 3)
+      """
+
+      min, max = nil, nil
+      min_val, max_val = nil, nil
+      each: |x| {
+        val = block call: [x]
+        { min = val; min_val = x } unless: min
+        { min = val; min_val = x } if: (val < min)
+        { max = val; max_val = x } unless: max
+        { max = val; max_val = x } if: (val > max)
+      }
+      (min_val, max_val)
     }
 
     def sum {
@@ -564,7 +756,7 @@ class Fancy {
       @return Average value in @self (expecting @Number@s or Objects implementing @+ and @*).
       """
 
-      { return 0 } if: (size == 0)
+      { return 0 } if: empty?
       sum to_f / size
     }
 
@@ -593,6 +785,40 @@ class Fancy {
       coll
     }
 
+    def chunk_by: block {
+      """
+      @block @Block@ to chunk @self by.
+      @return @Array@ of chunks, each including the return value of calling @block with elements in the chunk, as well as the elements themselves (within another @Array@).
+
+      Similar to @Fancy::Enumerable#partition_by:@ but includes the value of
+      calling @block with an element within the chunk.
+
+      Example:
+            [1,3,4,5,6,8,10] chunk_by: 'odd?
+            # => [[true, [1,3]], [false, [4]], [true, [5]], [false, [6,8,10]]]
+      """
+
+      { return [] } if: empty?
+
+      chunks = []
+      curr_chunk = []
+      initial = first
+      last_val = block call: [initial]
+      curr_chunk << initial
+
+      rest each: |x| {
+        val = block call: [x]
+        if: (val != last_val) then: {
+          chunks << [last_val, curr_chunk]
+          curr_chunk = []
+        }
+        curr_chunk << x
+        last_val = val
+      }
+      { chunks << [last_val, curr_chunk] } unless: $ curr_chunk empty?
+      chunks
+    }
+
     def random {
       """
       @return Random element in @self.
@@ -601,20 +827,32 @@ class Fancy {
       at: $ size random
     }
 
-    def sort_by: block {
+    def sort: comparison_block {
       """
-      @block @Block@ taking 2 arguments used to compare elements in a collection.
+      @comparison_block @Block@ taking 2 arguments used to compare elements in a collection.
       @return Sorted @Array@ of elements in @self.
 
       Sorts a collection by a given comparison block.
       """
 
-      if: (block is_a?: Symbol) then: {
-        sort() |a b| {
-          a receive_message: block . <=> (b receive_message: block)
-        }
-      } else: {
-        sort(&block)
+      sort(&comparison_block)
+    }
+
+    def sort_by: block {
+      """
+      @block @Block@ taking 1 argument used to extract a value to use for comparison.
+      @return Sorted @Array@ of elements in @self based on @block.
+
+      Sorts a collection by calling a @Block@ with every element
+      and using the return values for comparison.
+
+      Example:
+            [\"abc\", \"abcd\", \"ab\", \"a\", \"\"] sort_by: @{ size }
+            # => [\"\", \"a\", \"ab\", \"abc\", \"abcd\"]
+      """
+
+      sort_by() |x| {
+        block call: [x]
       }
     }
 
@@ -650,6 +888,27 @@ class Fancy {
       groups
     }
 
+    def group_by: block {
+      """
+      @block @Block@ used to group elements in @self by.
+      @return @Hash@ with elements in @self grouped by return value of calling @block with them.
+
+      Returns the elements grouped by @block in a @Hash@ (the keys being the
+      value of calling @block with the elements).
+
+      Example:
+            ('foo, 1, 2, 'bar) group_by: @{ class }
+            # => <[Symbol => ['foo, 'bar], Fixnum => [1,2]]>
+      """
+
+      h = <[]>
+      each: |x| {
+        group = h at: (block call: [x]) else_put: { [] }
+        group << x
+      }
+      h
+    }
+
     def reverse {
       """
       @return @self in reverse order.
@@ -660,6 +919,18 @@ class Fancy {
       """
 
       self to_a reverse
+    }
+
+    def to_a {
+      """
+      Default implementation for converting @Fancy::Enumerable@s into @Array@s.
+      """
+
+      a = []
+      each: |x| {
+        a << x
+      }
+      a
     }
 
     def to_hash: block {
@@ -799,6 +1070,39 @@ class Fancy {
         }
       }
       result
+    }
+
+    def one?: block {
+      """
+      @block @Block@ to be used to check for a condition expected only once in @self.
+      @return @true if @block yields @true only once for all elements in @self.
+
+      Example:
+            (0,1,2) one?: 'odd?  # => true
+            (0,1,2) one?: 'even? # => false
+      """
+
+      got_one? = false
+      each: |x| {
+        if: (block call: [x]) then: {
+          { return false } if: got_one?
+          got_one? = true
+        }
+      }
+      return got_one?
+    }
+
+    def none?: block {
+      """
+      @block @Block@ to be used to check for a condition expected not once in @self.
+      @return @true if none of the elements in @self called with @block yield @true.
+
+      Example:
+            (0,2,4) none?: 'odd?   # => true
+            (0,2,5) none?: 'odd? # => false
+      """
+
+      any?: block . not
     }
   }
 }

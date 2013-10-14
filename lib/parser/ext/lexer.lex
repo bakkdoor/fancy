@@ -7,8 +7,8 @@ int yyerror(VALUE self, char *s);
 
 %option yylineno
 
-digit		[0-9]
-octdigit	[0-7]
+digit           [0-9]
+octdigit        [0-7]
 hexdigit        [0-9a-fA-F]
 bindigit        [01]
 capital         [A-Z]
@@ -16,8 +16,8 @@ lower           [a-z]
 letter          [A-Za-z]
 special         [-+?!=*/^><%&~]
 special_under   ({special}|"_")
-operator        ({special}+|" | "|"||"{special_under}*)
-int_lit 	[-+]?{digit}({digit}|_{digit})*
+operator        (" / "|" | "|{special}+|"||"{special_under}*)
+int_lit         [-+]?{digit}({digit}|_{digit})*
 double_lit      {int_lit}\.{digit}+
 hex_lit         0[xX]{hexdigit}+
 bin_lit         0[bB]{bindigit}+
@@ -54,6 +54,7 @@ identifier      @?@?({lower}|[_&*])({letter}|{digit}|{special_under})*
 selector        ({letter}|[_&*])({letter}|{digit}|{special_under})*":"
 constant        {capital}({letter}|{digit}|{special_under})*
 nested_constant ({constant}::)+{constant}
+toplevel_constant ::({constant}|{nested_constant})
 symbol_lit      \'({identifier}|{operator}|{constant}|:|"[]"|"|"|".")+
 ruby_send_open  ({constant}|{identifier}){lparen}
 ruby_oper_open  {operator}{lparen}
@@ -163,6 +164,10 @@ escaped_newline "\\".*\n
                   return CONSTANT;
                 }
 {nested_constant} {
+                  yylval.object = rb_str_new2(yytext);
+                  return CONSTANT;
+                }
+{toplevel_constant} {
                   yylval.object = rb_str_new2(yytext);
                   return CONSTANT;
                 }

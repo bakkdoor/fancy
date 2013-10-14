@@ -55,6 +55,25 @@ FancySpec describe: String with: {
     "hello world" drop_while: |c| { c != " " } . join: "" . is: " world"
   }
 
+  it: "drops the last element" with: 'drop_last: when: {
+    [] drop_last is: []
+    [1] drop_last is: []
+    "foo" drop_last is: ["f", "o"]
+    (1,2,3) drop_last is: [1,2]
+  }
+
+  it: "rops the last n elements" with: 'drop_last: when: {
+    [] drop_last: 1 . is: []
+    [] drop_last: 2 . is: []
+    [] drop_last: 0 . is: []
+    [1] drop_last: 0 . is: [1]
+    [1] drop_last: 1 . is: []
+    [1] drop_last: 2 . is: []
+    [1,2,3] drop_last: 1 . is: [1, 2]
+    [1,2,3] drop_last: 2 . is: [1]
+    [1,2,3] drop_last: 3 . is: []
+  }
+
   it: "is empty" with: 'empty? when: {
     "" empty? is: true
     " " empty? is: false
@@ -70,12 +89,20 @@ FancySpec describe: String with: {
     "hello world" at: 5 . blank? is: true
   }
 
-  it: "is evaluated as fancy code and returns the correct value" when: {
+  it: "is evaluated as fancy code and returns the correct value" with: 'eval when: {
     x = "'foo" eval
     x is: 'foo
     "3 + 4" eval is: 7
     "'foo to_s uppercase" eval is: "FOO"
     "33.33" eval is: 33.33
+  }
+
+  it: "parses empty code with newlines correctly" with: 'eval when: {
+    "" eval is: nil
+    "\n" eval is: nil
+    "\n\n" eval is: nil
+    "\n \n \n" eval is: nil
+    " \n " eval is: nil
   }
 
   it: "returns itself times n" with: '* when: {
@@ -205,5 +232,46 @@ FancySpec describe: String with: {
     """
 
     """ multiline? is: true
+  }
+
+  it: "returns a snake cased version of itself" with: 'snake_cased when: {
+    "" snake_cased is: ""
+    "Foo" snake_cased is: "foo"
+    "FooB" snake_cased is: "foo_b"
+    "FooBarBaz" snake_cased is: "foo_bar_baz"
+    "Foo Bar Baz" snake_cased is: "foo bar baz"
+  }
+
+  it: "returns a camel cased version of itself" with: 'camel_cased when: {
+    "" camel_cased is: ""
+    "foo" camel_cased is: "Foo"
+    "foo_" camel_cased is: "Foo"
+    "foo_bar_baz" camel_cased is: "FooBarBaz"
+  }
+
+  it: "returns true if its uppercase" with: 'uppercase? when: {
+    "" uppercase? is: false
+    "foo" uppercase? is: false
+    "F" uppercase? is: true
+    "Foo" uppercase? is: false
+    "ABC" uppercase? is: true
+  }
+
+  it: "returns true if its lowercase" with: 'lowercase? when: {
+    "" lowercase? is: false
+    "foo" lowercase? is: true
+    "foA" lowercase? is: false
+    "A" lowercase? is: false
+    "abc" lowercase? is: true
+  }
+
+  it: "returns true if its begins with another string" with: 'starts_with?: when: {
+    "" starts_with?: "" . is: true
+    "foo" starts_with?: "f" . is: true
+    "foo" starts_with?: "fo" . is: true
+    "foo" starts_with?: "foo" . is: true
+    "foo" starts_with?: "fooo" . is: false
+    "foo" starts_with?: "oo" . is: false
+    "foo" starts_with?: "" . is: false
   }
 }

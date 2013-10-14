@@ -18,23 +18,21 @@ class Fancy AST {
     }
 
     def initialize: @line string: @string ruby_ident: @ruby_ident (false) {
-      match @string {
-        case /^ | $/ -> @string = "|"
-      }
+      @string = @string strip
     }
 
     def name {
-      @string to_sym()
+      @string to_sym
     }
 
     def method_name: receiver ruby_send: ruby (false) {
       if: (ruby || @ruby_ident) then: {
-        @string to_sym()
+        @string to_sym
       } else: {
         if: (@string =~ /:$/) then: {
-          @string to_sym()
+          @string to_sym
         } else: {
-          ":" + @string . to_sym()
+          ":" + @string . to_sym
         }
       }
     }
@@ -42,8 +40,10 @@ class Fancy AST {
     def self from: string line: line filename: filename (nil) {
       type = match string {
         case "__FILE__" -> return CurrentFile new: line filename: filename
+        case "__DIR__" -> return CurrentDir new: line filename: filename
         case "__LINE__" -> return CurrentLine new: line
         case "self" -> return Self new: line
+        case /^::/ -> ToplevelConstant
         case /^[A-Z].*::/ -> NestedConstant
         case /^[A-Z]/ -> Constant
         case /^@@/ -> ClassVariable
@@ -96,19 +96,25 @@ class Fancy AST {
   }
 
   class NestedConstant : Identifier {
-    def initialize: @line string: @string {
-    }
+    def initialize: @line string: @string
 
     def initialize: @line const: const parent: parent {
       @string = (parent string) ++ "::" ++ (const string)
     }
 
     def scoped {
-      names = @string split("::")
-      parent = Constant new: @line string: (names shift())
+      names = @string split: "::"
+      parent = nil
+      match @string {
+        case /^::/ ->
+          names = names rest
+          parent = ToplevelConstant new: @line string: "::#{names shift}"
+        case _ ->
+          parent = Constant new: @line string: $ names shift
+      }
       scoped = nil
-      names each() |name| {
-        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym())
+      names each: |name| {
+        scoped = Rubinius AST ScopedConstant new(@line, parent, name to_sym)
         parent = scoped
       }
       scoped
@@ -117,6 +123,16 @@ class Fancy AST {
     def bytecode: g {
       pos(g)
       scoped bytecode(g)
+    }
+  }
+
+  class ToplevelConstant : Identifier {
+    def initialize: @line string: @string
+
+    def bytecode: g {
+      pos(g)
+      const_name = @string from: 2 to: -1 . to_sym # skip leading ::
+      Rubinius AST ToplevelConstant new(@line, const_name) . bytecode(g)
     }
   }
 
@@ -131,7 +147,7 @@ class Fancy AST {
       thread bytecode: g
       g send('current, 0, false)
       @varname bytecode: g
-      g send(':[], 1, false)
+      g send('dynamic_var:, 1, false)
     }
   }
 }

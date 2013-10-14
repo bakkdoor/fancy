@@ -139,6 +139,21 @@ class Hash {
     o
   }
 
+  def to_object_deep {
+    """
+    Similar to @Hash#to_object@ but converting any nested @Hash@ slots to @Object@s as well.
+    """
+
+    o = dup to_hash_deep to_object
+    o slots each: |s| {
+      val = o get_slot: s
+      match val {
+        case Hash >< Block -> o set_slot: s value: $ val to_object_deep
+      }
+    }
+    o
+  }
+
   def inspect {
     str = "<["
     each: |key val| {
@@ -150,6 +165,10 @@ class Hash {
     }
     str << "]>"
     str
+  }
+
+  def to_s {
+    inspect
   }
 
   def values_at: keys {
@@ -241,6 +260,16 @@ class Hash {
     to_block call: receiver
   }
 
+  def to_hash_deep {
+    h = dup
+    h each: |k v| {
+      match v {
+        case Block -> h[k]: $ v to_hash_deep
+      }
+    }
+    h
+  }
+
   def to_block {
     """
     @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
@@ -265,5 +294,77 @@ class Hash {
       }
       receiver
     }
+  }
+
+  def update_values: block {
+    """
+    @block @Block@ that returns an updated value for each value in @self.
+
+    Example:
+          h = <['name => \"Tom\", 'age => 21 ]>
+          h update_values: @{ * 2}
+          h # => <['name => \”TomTom\”, 'age => 42]>
+    """
+
+    each: |k v| {
+      self[k]: $ block call: [v]
+    }
+  }
+
+  def update_keys: block {
+    """
+    @block @Block@ that returns an updated key for each key in @self.
+
+    Example:
+          h = <['name => \"Tom\", 'age => 21 ]>
+          h update_keys: @{ to_s * 2}
+          h # => <[\"namename\" => \”Tom\”, \"ageage\" => 21]>
+    """
+
+    deletions = []
+    insertions = <[]>
+
+    each: |k v| {
+      new_key = block call: [k]
+      if: (new_key != k) then: {
+        deletions << k
+        insertions[new_key]: v
+      }
+    }
+
+    deletions each: |k| { delete: k }
+    insertions each: |k v| {
+      self[k]: v
+    }
+  }
+
+  def with_updated_values: block {
+    """
+    @block @Block@ that returns an updated value for each value in @self.
+    @return @Hash@ based on self but with updated values via @block.
+    """
+
+    dup update_values: block
+  }
+
+  def with_updated_keys: block {
+    """
+    @block @Block@ that returns an updated key for each key in @self.
+    @return @Hash@ based on self but with updated keys via @block.
+    """
+
+    dup update_keys: block
+  }
+
+  def with_value_for_key: key do: block else: else_block ({}) {
+    """
+    @key Key of value to find in @self.
+    @block @Block@ to be called with value for @key, if found.
+    @else_block @Block@ to be called if @key not found in @self.
+    """
+
+    if: (includes?: key) then: {
+      block call: [at: key]
+    } else: else_block
   }
 }

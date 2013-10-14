@@ -12,13 +12,15 @@
 #
 # This program is indended to be run using rbx.
 
+require_relative "../fancy_ext"
+
 base = File.dirname(__FILE__)
-require base + '/compiler/compiler'
-require base + '/compiler/stages'
-require base + '/compiler/ast'
-require base + '/parser'
+require_relative 'compiler/compiler'
+require_relative 'compiler/stages'
+require_relative 'compiler/ast'
+require_relative 'parser'
 
 if __FILE__ == $0
-  require base + '/compiler/command'
+  require_relative 'compiler/command'
   Fancy::Compiler::Command.run ARGV
 end

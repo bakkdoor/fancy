@@ -1,5 +1,5 @@
 class Class {
-  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'to_s ]
+  ruby_aliases: [ 'superclass, '===, 'ancestors, 'instance_methods, 'methods, 'to_s, 'constants ]
 
   def new {
     """
@@ -63,7 +63,10 @@ class Class {
     body.
     """
 
-    define_method(name message_name, &block)
+    match block {
+      case Block -> define_method(name message_name, &block)
+      case _ -> define_method(name message_name, block)
+    }
   }
 
   def undefine_method: name {
@@ -111,12 +114,12 @@ class Class {
 
   def nested_classes {
     """
-    @return @Array@ of all nested classes for @self.
+    @return @Set@ of all nested classes for @self.
 
     Returns all the nested classes within a @Class@ as an @Array@.
     """
 
-    "Not Yet Implemented" raise!
+    Set[constants map: |c| { const_get(c) } . select: @{ is_a?: Class }]
   }
 
   def instance_method: name {
@@ -128,6 +131,10 @@ class Class {
     """
 
     instance_method(name message_name)
+  }
+
+  def has_method?: method_name {
+    lookup_method(method_name message_name) nil? not
   }
 
   def alias_method_rbx: new_method_name for: old_method_name {
@@ -153,8 +160,7 @@ class Class {
     Sets any given method names to public on this @Class@.
     """
 
-    method_names = method_names to_a()
-    method_names = method_names map: |m| { m message_name }
+    method_names = method_names to_a() map() @{ message_name }
     public(*method_names)
   }
 
@@ -165,8 +171,7 @@ class Class {
     Sets any given method names to private on this @Class@.
     """
 
-    method_names = method_names to_a()
-    method_names = method_names map() |m| { m message_name }
+    method_names = method_names to_a() map() @{ message_name }
     private(*method_names)
   }
 
@@ -177,8 +182,7 @@ class Class {
     Sets any given method names to protected on this @Class@.
     """
 
-    method_names = method_names to_a()
-    method_names = method_names map() |m| { m message_name }
+    method_names = method_names to_a() map() @{ message_name }
     protected(*method_names)
   }
 

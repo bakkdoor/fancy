@@ -40,18 +40,33 @@ class Fancy AST {
   }
 
   class CurrentFile : Node {
-    def initialize: @line filename: @filename
+    def initialize: @line filename: @filename {
+      @string = StringLiteral new: @line value: $ File absolute_path: @filename
+    }
     def bytecode: g {
       pos(g)
-      StringLiteral new: @line value: $ File absolute_path: @filename . bytecode: g
+      @string bytecode: g
+    }
+  }
+
+  class CurrentDir : Node {
+    def initialize: @line filename: @filename {
+      dir = File dirname: @filename
+      @string = StringLiteral new: @line value: $ File absolute_path: dir
+    }
+    def bytecode: g {
+      pos(g)
+      @string bytecode: g
     }
   }
 
   class CurrentLine : Node {
-    def initialize: @line
+    def initialize: @line {
+      @line_number = FixnumLiteral new: @line value: @line
+    }
     def bytecode: g {
       pos(g)
-      FixnumLiteral new: @line value: @line . bytecode: g
+      @line_number bytecode: g
     }
   }
 

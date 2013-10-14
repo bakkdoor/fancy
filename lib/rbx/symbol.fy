@@ -21,7 +21,7 @@ class Symbol {
                             Rubinius CompiledMethod of_sender(),
                             Rubinius StaticScope of_sender())
 
-    binding send('self) class const_defined?(self)
+    binding self() class const_defined?(self)
   }
 
   def message_name {
@@ -31,5 +31,13 @@ class Symbol {
       case true -> symbol to_sym
       case false -> ":" <<(symbol) to_sym
     }
+  }
+
+  def to_fancy_message {
+    to_s to_fancy_message to_sym
+  }
+
+  def =~ regexp {
+    to_s =~ regexp
   }
 }

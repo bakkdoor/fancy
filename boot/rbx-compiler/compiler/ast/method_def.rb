@@ -29,10 +29,6 @@ class Fancy
       end
 
       def bytecode(g)
-        g.push_self
-        g.send @access, 0
-        g.pop
-
         if @name.to_s =~ /^initialize:(\S)+/
           define_constructor_class_method g
         end

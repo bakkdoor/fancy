@@ -7,7 +7,6 @@ require: "fancy_spec"
 
 class Fancy FDoc {
   """
-
   FDoc is a tool to generate API documentation from Fancy source.
 
   Works as follows:
@@ -22,7 +21,6 @@ class Fancy FDoc {
    4. Generate output file.
       Currently the plan is to output a json formatted object.
       To be loaded by an html file and use jquery to build a GUI from it.
-
   """
 
   OUTPUT_DIR = "doc/api/"
@@ -30,8 +28,8 @@ class Fancy FDoc {
 
   def self main {
     """
-     FDoc will load all .fy files you give to it, and optionally run
-     any specified FancySpec, and later produce documentation output.
+    FDoc will load all .fy files you give to it, and optionally run
+    any specified FancySpec, and later produce documentation output.
     """
 
     output_dir = OUTPUT_DIR
@@ -84,39 +82,54 @@ class Fancy FDoc {
 
     @documented_objects = @documented_objects select_keys: |k| { @objects_to_remove includes?: k . not }
 
+    # display progress
+    t = Thread new: {
+      loop: {
+        "." print
+        sleep: 0.1
+      }
+    }
+
     # by now simply produce a apidoc/fancy.jsonp file.
     json = JSON new: @documented_objects add_github_links: add_github_links github_repo: github_repo
     json write: (File expand_path("fancy.jsonp", output_dir))
 
-    ["Open your browser at " ++ output_dir ++ "index.html ",
+    ["\n\nOpen your browser at " ++ output_dir ++ "index.html ",
      " " ++ (json classes size) ++ " classes. ",
      " " ++ (json methods size) ++ " methods. ",
      " " ++ (json objects size) ++ " other objects. "] println
+
+     t kill
   }
 
 
   class JSON {
-
     read_slots: ['classes, 'methods, 'blocks, 'objects]
 
     def initialize: documented add_github_links: @add_github_links github_repo: @github_repo {
       @documented_objects = documented
 
-      is_class = |o| { o kind_of?: Module }
-      is_method = |o| { o kind_of?: Rubinius CompiledMethod }
-      is_block = |o| { o kind_of?: Rubinius BlockEnvironment }
-      all_other = |o| {
-        [is_class, is_method, is_block] all?() |b| { b call: [o] == false }
+      class?  = @{ kind_of?: Module }
+      method? = @{ kind_of?: Rubinius CompiledMethod }
+      block?  = @{ kind_of?: Rubinius BlockEnvironment }
+      other?  = |o| {
+        [class?, method?, block?] any?: @{ call: [o] } . not
       }
 
-      @classes = @documented_objects keys select: is_class
-      @methods = @documented_objects keys select: is_method
-      @blocks =  @documented_objects keys select: is_block
-      @objects = @documented_objects keys select: all_other
+      types = [class?, method?, block?, other?]
+
+      @classes, @methods, @blocks, @objects = types map: |type| {
+        @documented_objects keys select: type
+      }
     }
 
-    def string_to_json: obj { obj to_s inspect }
-    def symbol_to_json: obj { obj to_s }
+    def string_to_json: obj {
+      obj to_s inspect
+    }
+
+    def symbol_to_json: obj {
+      obj to_s
+    }
 
     def array_to_json: obj {
       str = ["["]
@@ -131,7 +144,7 @@ class Fancy FDoc {
       keys each: |i| {
         str << $ to_json: i
         str << ":"
-        str << $ to_json: (obj at: i)
+        str << $ to_json: (obj[i])
       } in_between: { str << ", " }
       str << "}"
       str join
@@ -160,7 +173,7 @@ class Fancy FDoc {
         if: mdoc then: {
           mattr['doc]: $ mdoc format: 'fdoc
           if: (mdoc meta) then: {
-            mattr['arg]: $ mdoc meta at: 'argnames
+            mattr['arg]: $ mdoc meta['argnames]
           }
         }
         if: (exec class() == Rubinius CompiledMethod) then: {
@@ -174,15 +187,20 @@ class Fancy FDoc {
           # right now we only use the first line of code in the body.
           mattr['lines]: $ [exec definition_line, exec last_line]
         }
-        attr[(type ++ "s") intern()] [n]: mattr
+        attr["#{type}s" intern()] [n to_s]: mattr
       }
     }
 
     def generate_map {
-      map = <['title => "Fancy Documentation", 'date => Time now() to_s(),
-              'classes => <[]>, 'methods => <[]>, 'objects => <[]> ]>
+      map = <[
+        'title => "Fancy Documentation",
+        'date => Time now to_s,
+        'classes => <[]>,
+        'methods => <[]>,
+        'objects => <[]>
+      ]>
 
-      methods = @methods dup()
+      methods = @methods dup
 
       @classes each: |cls| {
         name = cls name gsub("::", " ")
@@ -191,7 +209,7 @@ class Fancy FDoc {
           'doc => doc format: 'fdoc,
           'instance_methods => <[]>,
           'methods => <[]>,
-          'ancestors => cls ancestors() map: |c| { c name() gsub("::", " ") }
+          'ancestors => cls ancestors map: @{ name to_s gsub("::", " ") }
         ]>
         popuplate_methods: cls on: attr type: 'instance_method known: methods
         popuplate_methods: cls on: attr type: 'method known: methods
@@ -199,15 +217,15 @@ class Fancy FDoc {
       }
 
       methods each: |cm| {
-        cls = cm scope() module()
-        cls_name = cls name() gsub("::", " ")
-        cls_attr = map['classes] at: cls_name
+        cls = cm scope module
+        cls_name = cls name gsub("::", " ")
+        cls_attr = map['classes][cls_name]
 
-        full_name = cls_name ++ "#" ++ (cm name())
+        full_name = "#{cls_name}##{cm name}"
 
         doc = Fancy Documentation for: cm
         attr = <[
-          'args => doc meta at: 'argnames,
+          'args => doc meta['argnames],
           'doc => doc format: 'fdoc
         ]>
 
@@ -217,16 +235,13 @@ class Fancy FDoc {
       map
     }
 
-
     def write: filename call: name ("fancy.fdoc") {
       map = generate_map
       json = to_json: map
       js = "(function() { #{name}(#{@add_github_links}, #{@github_repo inspect}, #{json}); })();"
-      File open: filename modes: ['write] with: |out| { out print: js }
+      File write: filename with: @{ print: js }
     }
-
   }
-
 
   class Formatter {
     """
@@ -237,7 +252,6 @@ class Fancy FDoc {
     """
 
     Fancy Documentation formatter: 'fdoc is: |d| { format: d }
-
 
     def self format: doc {
       str = doc to_s
@@ -287,6 +301,7 @@ class Fancy FDoc {
       A singleton method:
       @Fancy::FDoc::Formatter~format:@
       """
+
       str gsub(/@[A-Z][^\r\n\s]+?@/) |cstr| {
        names = cstr slice(1, cstr size() - 2) split("::")
        refs = []
@@ -375,7 +390,6 @@ class Fancy FDoc {
     }
 
     def self htmlize: str {
-      require("rubygems")
       require("rdiscount")
       RDiscount new(str) to_html()
     }
@@ -388,9 +402,7 @@ class Fancy FDoc {
       gsub(/@:([a-z_]+)@/,
            "<code data-lang=\"fancy\" data-method=\":\\1\" class=\"selectable\">\\1</code>")
     }
-
   }
-
 }
 
 Fancy FDoc main

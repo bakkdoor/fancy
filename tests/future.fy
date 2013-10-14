@@ -16,19 +16,9 @@ FancySpec describe: FutureSend with: {
     a is: nil
   }
 
-  # it: "composes Futures to create execution pipelines" with: '&& when: {
-  #   def some_computation: num {
-  #     num upto: (num ** num ** num)
-  #   }
-
-  #   f = self @ some_computation: 2 && @{select: 'even?} && @{size}
-  #   f is_a?: FutureSend . is: true
-  #   f value is_a?: Fixnum . is: true
-  # }
-
   it: "accesses the same future from multiple threads and blocks them until the value is computed" when: {
     def another_method {
-      Thread sleep: 0.25
+      Thread sleep: 0.1
       42
     }
 
@@ -77,14 +67,15 @@ FancySpec describe: FutureSend with: {
     called? = false
     failed? = false
     val = 0
-    f = { Thread sleep: 0.01; "Fail!" raise! } @ call
-    f when_done: |v| {
-      val = v
-      called? = true
-    }
-    f when_failed: |err| {
-      val = err
-      failed? = true
+    f = { Thread sleep: 0.01; "Fail!" raise! } @ call . tap: @{
+      when_done: |v| {
+        val = v
+        called? = true
+      }
+      when_failed: |err| {
+        val = err
+        failed? = true
+      }
     }
 
     f value
@@ -92,5 +83,23 @@ FancySpec describe: FutureSend with: {
     failed? is: true
     val message is: "Fail!"
     val is_a?: Exception
+  }
+}
+
+FancySpec describe: FutureCollection with: {
+  it: "iterates over each future's value" with: 'each: when: {
+    futures = ("a".."z") map: |l| { l @ inspect }
+    FutureCollection[futures] each: |val| {
+      val =~ /[a-z]/ . is_not: nil
+    }
+  }
+
+  it: "awaits all futures to complete" with: 'await_all when: {
+    futures = (0..100) map: |i| {
+      { Thread sleep: 0.01; i * 2 } @ call
+    }
+    futures all?: @{ completed? } . is: false
+    FutureCollection[futures] await_all
+    futures all?: @{ completed? } . is: true
   }
 }

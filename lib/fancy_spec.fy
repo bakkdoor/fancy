@@ -10,9 +10,11 @@ class FancySpec {
     @test_obj Object to be tested, defaults to @description.
     """
 
-    @spec_tests = []
-    @before_blocks = []
-    @after_blocks = []
+    @spec_tests       = []
+    @before_blocks    = []
+    @after_blocks     = []
+    @before_all_block = {}
+    @after_all_block  = {}
   }
 
   def FancySpec describe: test_obj with: block {
@@ -22,7 +24,7 @@ class FancySpec {
 
     Example:
           FancySpec describe: MyTestClass with: {
-            # test cases using it:for:when: here.
+            # test cases using it:with:when: here.
           }
     """
 
@@ -63,7 +65,7 @@ class FancySpec {
     @spec_tests << test
   }
 
-  def it: spec_info_string with: method_name when: spec_block {
+  def it: spec_info_string with: method_names when: spec_block {
     """
     @spec_info_string Info @String@ related to the test case defined in @spec_block.
     @method_name Name of Method that this testcase is related to.
@@ -75,20 +77,49 @@ class FancySpec {
             3 times: { arr pop }
             arr empty? is: true
           }
+
+          # you can also pass multiple method names if the test covers more
+          # than one method:
+
+          it: \"tests multiple methods\" with: ['method_a, 'method_b] when: {
+            # do something with method_a and method_b
+          }
     """
 
     test = SpecTest new: spec_info_string block: spec_block
-    # try {
-    #   @test_obj method: method_name . if_true: |method| {
-    #     method tests << test
-    #   }
-    # } catch MethodNotFoundError => e {
-    #   # ignore errors
-    # }
+
     @spec_tests << test
+
+    match @test_obj {
+      case Class ->
+        method_names to_a each: |method_name| {
+          has_method? = @test_obj has_method?: method_name
+          { has_method? = @test_obj metaclass has_method?: method_name } unless: has_method?
+
+          unless: has_method? do: {
+            SpecTest method_not_found: method_name for: @test_obj
+          }
+        }
+    }
   }
 
   alias_method: 'it:for:when: for: 'it:with:when:
+
+  def before: block {
+    """
+    @block @Block@ to be run before all test cases.
+    """
+
+    @before_all_block = block
+  }
+
+  def after: block {
+    """
+    @block @Block@ to be run after all test cases.
+    """
+
+    @after_all_block = block
+  }
 
   def before_each: block {
     """
@@ -111,7 +142,8 @@ class FancySpec {
     Runs a FancySpec's test cases.
     """
 
-    # "  " ++ @description ++ ": " print
+    @before_all_block call
+
     @spec_tests each: |test| {
       @before_blocks each: |b| {
         b call_with_receiver: test
@@ -121,6 +153,8 @@ class FancySpec {
         b call_with_receiver: test
       }
     }
+
+    @after_all_block call
 
     # untested_methods = @test_obj methods select: |m| {
     #   m tests size == 0
@@ -139,11 +173,12 @@ class FancySpec {
 
     read_slot: 'info_str
 
-    @@failed_positive = <[]>
-    @@failed_negative = <[]>
-    @@failed_count = 0
-    @@total_tests = 0
+    @@failed_positive    = <[]>
+    @@failed_negative    = <[]>
+    @@failed_count       = 0
+    @@total_tests        = 0
     @@total_expectations = 0
+    @@methods_not_found  = <[]>
 
     def SpecTest add_expectation {
       @@total_expectations = @@total_expectations + 1
@@ -173,29 +208,43 @@ class FancySpec {
       @@failed_count = @@failed_count + 1
     }
 
+    def SpecTest method_not_found: method_name for: type {
+      { @@methods_not_found[type]: []} unless: $ @@methods_not_found[type]
+      @@methods_not_found[type] << method_name
+    }
+
     def SpecTest current {
       @@current
     }
 
     def SpecTest print_failures: start_time no_failures: ok_block else: error_block {
-      @@failed_positive each: |test_obj failed_tests| {
-        failed_tests each: |t| {
-          Console newline
-          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
-          t print_failed_positive
+      let: '*stdout* be: *stderr* in: {
+        @@failed_positive each: |test_obj failed_tests| {
+          failed_tests each: |t| {
+            "\n> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+            t print_failed_positive
+          }
         }
+
+        @@failed_negative each: |test_obj failed_tests| {
+          failed_tests each: |t| {
+            "\n> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
+            t print_failed_negative
+          }
+        }
+
+        unless: (@@methods_not_found empty? ) do: {
+          "The following methods were referenced in tests but could not be found:" println
+          max_size = @@methods_not_found keys map: @{ to_s size } . max
+          @@methods_not_found each: |type, methods| {
+            *stdout* printf("%-#{max_size}s : ", type)
+            methods map: @{ to_fancy_message } . join: ", " . println
+          }
+        }
+
+        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
       }
 
-      @@failed_negative each: |test_obj failed_tests| {
-        failed_tests each: |t| {
-          Console newline
-          "> FAILED: " ++ test_obj ++ " " ++ (t info_str) print
-          t print_failed_negative
-        }
-      }
-
-      Console newline
-      "Ran #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
       if: (@@failed_count == 0) then: ok_block else: error_block
     }
 
@@ -410,6 +459,10 @@ class Object {
 
   def is: expected {
     is == expected
+  }
+
+  def is_a: class {
+    is_a?: class . is: true
   }
 
   def is_not: expected {

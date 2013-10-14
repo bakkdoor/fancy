@@ -1,3 +1,423 @@
+v0.10.0 (Jul 30, 2013)
+-----------------------
+  - refactor simple quicksort example
+  - improve echo example script
+  - remove Gemfile.lock & add to .gitignore
+  - add rake to Gemfile
+  - use bundle exec in travis before script as well
+  - try using bundle exec to get travis build working again
+  - add code example to Enumerable#find_by: docstring
+  - reorganize method position
+  - refactor Enumerable#find:
+  - refactor Ruby->Fancy interop.
+  - fix Object#backtick: docstring formatting
+  - fix error message in fspec to use specified test directory
+  - Revert set rbx version to 19 mode
+  - Merge branch 'rbx19' - Require rbx 1.9 mode
+  - set rbx version to 19 mode
+  - increase wait time in future test
+  - refactor future test
+  - fix FutureCollection test
+  - increase sleep time in future test to prevent failure on travis
+  - more fdoc refactoring & code cleanup
+  - add ruby aliases for Rubinius CompiledCode & ConstantScope
+  - refactor FDoc::Json#generate_map
+  - more fdoc refactoring and add progress indicator
+  - refactor fdoc JSON#initialize:
+  - shorter sleep in test
+  - Block#call_with_errors_logged - log to *stderr* by default
+  - small code cleanup
+  - add Class#method_documentation: and use it where it makes sense
+  - add docstrings and tests to FutureCollection
+  - cleanup Set tests
+  - add Set#clear
+  - improve code alignment
+  - cleanup Class::Contracts tests
+  - add test case for Range#to_s
+  - improve Range#inspect and add spec
+  - allow to specifiy more than one method associated with a FancySpec test case
+  - fix typo
+  - FancySpec cleanup
+  - add optional reraise: argument to Block#call_with_errors_logged_to: & Block#call:with_errors_logged_to:
+  - cleanup Block#to_object
+  - moved lib/eval.fy into lib/rbx/eval.fy since it's pretty rbx specific
+  - fix formatting
+  - cleanup
+  - cleanup ifancy CodeRay code highlighting
+  - add comments & docstring to Symbol for clarity
+  - fix symbol highlighting in ifancy
+  - Remove bug hunting expression.
+  - Fix parsing on / operator. closes #64. Refactor method_def parsing.
+  - let Class#nested_classes return a Set instead of Array
+  - reimplement Class#nested_classes and uncomment previously failing test
+  - cleanup method spec
+  - future spec cleanup
+  - don't use sleep for testing Class#lazy_slot
+  - remove calls to depecrated methods
+  - default to new version of Rubinius::VM.reset_method_cache
+  - add File##readlines:
+  - refactor String#blank?
+  - refactor lib/main.fy
+  - refactor fdoc & fix bug on rbx 19 mode
+  - add logo to README
+  - small refactoring of handling before/after blocks and also add missing docstrings
+  - add before: and after: handlers to FancySpec
+  - add Enumerable#max_by: & #min_by:
+  - return nil if Enumerable empty in Enumerable#superior_by:
+  - use inspect for Hash#to_s
+  - add OptionParser#parse_hash: and default to identity for option handler block
+  - specify parse: method for OptionParser tests
+  - update copyright notice for fancy -v cmd-line option
+  - update copyright notice in README
+  - small refactoring to Fancy::Enumerable#drop_while:
+  - improve docsrings in Fancy::Enumerable
+  - fspec: print any exception when loading test files instead of crashing completely
+  - display compile duration time for fancy -c option
+  - display total amount of files being compiled for -c command-line option
+  - fix Integer#decimals for negative numbers
+  - comment out DateTime class docstring for now
+  - Year update to LICENSE
+  - add DateTime to lib/rbx/
+  - HTML: add support for textarea
+  - HTML: refactor single tags & add img:
+  - add indent_offset to br tag as well
+  - add HTML#link: & HTML#script: gen methods
+  - refactor HTML#html_block:body:attrs:
+  - add indentation offset option to HMTL class
+  - add missing method identifiers to tests
+  - add Object#to_hash
+  - add Hash#to_object_deep
+  - add custom BasicObject#method_missing
+  - Add File##overwrite:with:
+  - add *fancy_root* dynvar
+  - fix failing travis test
+  - fix spec
+  - force rbx -X19 mode
+  - disable custom method chaining (+ before/after methods) for now (getting an error in 19 mode)
+  - test fix for 19 mode
+  - fix default value handling for Hash in 19 mode
+  - fix Range#to_a and add Enumerable#to_a
+  - fix many tests for 19 mode
+  - get ifancy working
+  - fix some bugs for 19 mode
+  - get Fancy working in Rubinius' 1.9 mode
+
+v0.9.0 (Jun 05, 2013)
+----------------------
+  - release v0.9.0
+  - let Class#nested_classes return a Set instead of Array
+  - reimplement Class#nested_classes and uncomment previously failing test
+  - cleanup method spec
+  - future spec cleanup
+  - don't use sleep for testing Class#lazy_slot
+  - remove calls to depecrated methods
+  - default to new version of Rubinius::VM.reset_method_cache
+  - add File##readlines:
+  - refactor String#blank?
+  - refactor lib/main.fy
+  - refactor fdoc & fix bug on rbx 19 mode
+  - add logo to README
+  - small refactoring of handling before/after blocks and also add missing docstrings
+  - add before: and after: handlers to FancySpec
+  - add Enumerable#max_by: & #min_by:
+  - return nil if Enumerable empty in Enumerable#superior_by:
+  - use inspect for Hash#to_s
+  - add OptionParser#parse_hash: and default to identity for option handler block
+  - specify parse: method for OptionParser tests
+  - update copyright notice for fancy -v cmd-line option
+  - Add Time#duration: and refactor fancy -c cmd-line option handling
+  - update copyright notice in README
+  - small refactoring to Fancy::Enumerable#drop_while:
+  - improve docsrings in Fancy::Enumerable
+  - fspec: print any exception when loading test files instead of crashing completely
+  - display compile duration time for fancy -c option
+  - use rbx-18mode in .travis.yml
+  - display total amount of files being compiled for -c command-line option
+  - fix Integer#decimals for negative numbers
+  - comment out DateTime class docstring for now
+  - Year update to LICENSE
+  - add DateTime to lib/rbx/
+  - HTML: add support for textarea
+  - HTML: refactor single tags & add img:
+  - add indent_offset to br tag as well
+  - add HTML#link: & HTML#script: gen methods
+  - refactor HTML#html_block:body:attrs:
+  - add indentation offset option to HMTL class
+  - add missing method identifiers to tests
+  - add Object#to_hash
+  - add Hash#to_object_deep
+  - Add File##overwrite:with:
+  - fspec: always require test_helper if it exists
+  - add Object#while:do:else: & Block#while_true:else:
+  - add *fancy_root* dynvar
+  - add Fancy wrappers for File##join: & File##dirname:
+  - improve tests for DynamicKeyHash
+  - fix DynamicKeyHash
+  - add support for test_helper file in fspec (load it before any other test files, if it exists)
+  - add Enumerable#sort: and fix Enumerable#sort_by:
+  - add Gemfile for bundler (needed by travis-ci for dependency management)
+  - add rubinius-actor as dependency and require it in lib/rbx/actor.fy
+  - add String#starts_with?:
+  - parse whitespace only code (including newlines) correctly and eval it to nil
+  - add newline after docstrings for consistency
+  - use map: in MethodDef
+  - remove unused variable from boot/extconf.rb
+  - simplify nested_classes example
+  - simplify echo example
+  - fix argv example
+  - simplify closure example
+  - add Block#call_with_errors_logged , #call_with_errors_logged: , #call_with_errors_logged_to: & #call:with_errors_logged_to:
+  - load c-readline by default and use rb-readline if not found
+  - don't alias ProxyReceiver to Proxy
+  - refactor Fancy::Package::Handler#load_fancypack:else:
+  - simplify Fancy::Package::DependencyInstaller#run
+  - cleanup some tests
+  - add guess the number example
+  - remove unused file
+  - refactor dynamic variable access & storage.
+  - use Object#ignoring:do: in Fancy::Packages::List#packages
+  - fix docstring for Object#ignoring:do:
+  - also print package url in Fancy::Package::List#println
+  - cleanup lib/argv.fy and add docstrings
+  - Object#synchronized: calls a given block with self.
+  - move Module / Class inclusion into lib/rbx/alpha.fy
+  - fix Enumerable#drop_last: docstring
+  - add Enumerable#drop_last:
+  - pass return value of first block as argument to second in Block#after: & #then:
+  - cleanup
+  - improve Fancy::Enumerable#superior_by:taking:
+  - simplify Fancy::Enumerable#average and add tests for #sum , #product & #average
+  - add Fancy::Enumerable#one?: & #none?:
+  - ensure order independence in min_max & min_max_by:
+  - add Fancy::Enumerable#min_max & Fancy::Enumerable#min_max_by:
+  - add Fancy::Enumerable#group_by:
+  - add String#lowercase? & String#uppercase?
+  - add Fancy::Enumerable#chunk_by:
+  - moved flick theme stuff into main dir
+  - hide dysfunctional fdoc search bar
+  - fix fdoc design (use flick theme and removed broken jquery-ui theme switcher
+  - make sure to rewind in Enumerator#to_a
+  - include Fancy::Enumerable into Fancy::Enumerator
+  - small cleanup
+  - use && in Directory##exists?:
+  - allow single method name for Class#provides_interface?:
+  - use partial blocks
+  - cleanup in Array and Fancy::Enumerable
+  - improve Array#from:to: and add test for it
+  - code & spacing cleanup in ifancy
+  - some fixes and improvements to Feature help output in ifancy
+  - use File##read:with: and File##write:with: in ifancy
+  - fix spacing
+  - simplify Hash tests
+  - add default value / block support to Hash
+  - add Hash#with_value_for_key:do:else:
+  - fix formatting and minor cleanup in ifancy
+  - exit from REPL on EOF
+  - fix spacing, remove trailing whitespace.
+  - cleanup
+  - Reformatting tabs to spaces to adhear to fancy's style practices
+  - Quick change to the SYMBOL pattern matching in ruby_lib/interactive/hilight.rb to fix the incomplete regular expression
+  - Merge pull request #69 from swarley/master
+  - Improvements to the REPL (ifancy) backwards compatibility has been preserved. A better API for loading plugins will come shortly to allow for easier adding of user plugins. If coderay is present, syntax hilighting will be used on returned values. Features have been implemented, documentation to come.
+  - use retry instead of return for Fancy::NextIteration
+  - also catch Fancy::NextIteration in Block#while_true:
+  - reformat docstring
+  - move Array#select_with_index: into Enumerable
+  - fix docstring for Array#select_with_index:
+  - fix bug caused by bootstrap compiler not supporting partial blocks with operator sends. need to fix this.
+  - fix Symbol#arity to return the correct value
+  - update README: fancy also runs on OSX 10.7
+  - Update min. required Rubinius version in README.
+  - allow multiple argument blocks to be returned from Symbol#to_block
+  - add Block#to_block
+  - cleanup in test case
+  - add Enumerable#flat_map: and add some missing aliases to Array and String needed during bootstrap
+  - add Enumerable#for_every:do:
+  - remove obsolete file: boot/rsexp_pretty_printer.rb
+  - fix README files in boot/
+  - fix class method example in doc/features.md
+  - rename Enumerable#for_all:with_index_do -> #for_every:with_index_do:
+  - add Enumerable#for_all:with_index_do: and fix #find_with_index:do:
+  - add Enumerable#find:do: #find_with_index:do: #last_index_of:
+  - add Symbol#call_with_receiver: and Symbol#call:with_receiver:
+  - add Block#then: & Block#after:
+  - small cleanup in compiler
+  - add Object#is_a: to FancySpec
+  - add Symbol#to_block
+  - simplify bootstrap versions of Class#private:, #protected: & #public:
+  - Use fancy method instead of ruby version
+  - Deprecate block invocation via ruby-send syntax
+  - indentation fixes and cleanups
+  - refactor package dependency install
+  - add Hash#update_keys: #update_values: #with_updated_keys: #with_updated_values:
+  - Add Block#to_object_deep
+  - fix bug in compiler for singleton method defs with an empty body
+  - add String#camel_cased and String#snake_cased
+  - simplify File##read_config:
+
+v0.8.0 (Aug 29, 2012)
+----------------------
+  - Cleanup method definition bytecode generation.
+  - relocating some bootstrap code
+  - ignore Exceptions raised in ensure_block in Object#let:be:in:ensuring:
+  - rename Object#dclone -> Object#dup for consistency with other classes implementing dup
+  - fix Hash#to_hash_deep and add tests
+  - add Hash#to_hash_deep
+  - add optional ensure_block parameter to Object#let:be:in:
+  - add File##append:with:
+  - add NilClass#to_hash
+  - add Object#_
+  - add support for passing blocks to Class#private:, Class#protected: & Class#public:
+  - fix formatting in lib/fdoc.fy
+  - fix docstrings for Fancy::Package::Installer
+  - simplify Fancy::Package::Installer#latest_tag
+  - remove ::
+  - Pass correct arguments to Fancy::Package##install:version: when installing package dependencies.
+  - fix errors with package installation when no git tags are available for versions.
+  - add support for toplevel constants via ::ConstName
+  - use to_sym instead of to_sym()
+  - Fix docstring indentation
+  - Moved proxy classes into Proxies namespace.
+  - Add DistributingProxy
+  - Add Regexp#call:
+  - Add instance_variable_get / instance_variable_set to ruby_aliases in Object
+  - Use __send__ in boot/fancy_ext/class.rb
+  - add StandardError##raise:
+  - cleanup examples/ dir
+  - delete symlinks to bin-files when uninstalling a package
+  - use alias_method:for_ruby: in Regexp
+  - rafactoring, add Class#remove_slot_accessors_for:
+  - add newline
+  - check if documentation available before calculating CompiledMethod#definition_line
+  - add link to dev blog
+  - Fix referenced method names.
+  - Print out invalid method names referenced by test cases in spec. Also print all errors to *stderr*.
+  - Add String#to_fancy_message & Symbol#to_fancy_message
+  - Add Class#has_method?:
+  - Add Class#rebind_instance_method:with:within:receiver: and Object#rebind_method:with:within:
+  - Add ruby alias for UnboundMethod#bind:
+  - Allow non-Block arguments to Class#define_method:with:
+  - Add docstrings to StringIO
+  - cleanup code with empty methods
+  - require lib/stringio in tests/stringio.fy
+  - simplify Stack#pop
+  - add String#main? & String#if_main:else:
+  - add System##aborting:do:
+  - use OptionParser in bin/fspec
+  - fix typo
+  - small cleanup
+  - Use new Binding#constant_scope (was renamed from static_scope a while ago in Rubinius).
+  - make sure dynvars always start & end with '*'
+  - use receiver methods instead of its class' instance methods in ifancy
+  - fix docstring for Hash#call:
+  - Add Hash#call: and Hash#to_block
+  - Make Specification#package_name a writable slot
+  - rename remaining Fancy::Packge::Specification#rubygem_dependencies sends
+  - rename rubygem_dependencies -> ruby_dependencies in Fancy::Package::Specification
+  - small cleanup
+  - fix Integer#times_try:retry_with:
+  - make sure finally block gets run even when raising an exception within a catch block
+  - some cleanup to try/catch/finally blocks in Object
+  - Catch StandardError instead of Object when no exception class defined for catch block
+  - add testcase to tests/exception.fy
+  - cleanup in CodeLoader
+  - just use call_on_instance in Block#call_with_receiver:
+  - some fixes to try/catch/finally bytecode generation
+  - Cleanup lib/parser/methods.fy
+  - Add String#to_i:
+  - Support Block arguments passed to Array#index:
+  - Code cleanup in compiler code
+  - Add docstring for File##read_binary:
+  - Fix whitespace.
+  - fix FancySpec docstrings and make sure to generate documentation for FancySpec in fdoc
+  - fix FalseClass docstrings
+  - add docstring to Fancy##eval:binding:file:line:
+  - Improve / Add docstrings
+  - cleanup old code
+  - Add example for -github-repo option in fdoc
+  - fix spacing
+  - Add Object#ignoring:do:
+  - Add Matchers module with MatchAny and MatchAll matchers.
+  - Add Class#expose_to_ruby:as:
+  - Add doctoring to Class#class_eval:
+  - Add Fancy::Enumerable#join_by:
+  - Add Fancy::Enumerable#rest
+  - Simplify Array#each:
+  - Handle Fancy::NextIteration in Tuple#each:
+  - Add support to fdoc for custom github-links via -github-repo option.
+  - Add github octocat icon to doc/api/ and always show it on fdoc generated page.
+  - Rewrote bin/fdoc as a simple fancy script and put all logic in lib/fdoc.fy.
+  - Fix issue in CompiledMethod#definition_line
+  - Fix docstring for Fancy::Package::Installer
+  - Fix Package installer to use new Github API (v3). Fixes #68
+  - Use File#delete!: in Package uninstaller
+  - Add File#delete!:
+  - Fix docstring for Directory#list:
+  - remove unnecessary parens
+  - Small doctstring tweak for Block#*
+  - FDoc: Allow multiple code blocks in docstrings.
+  - Add Block#*
+  - Fix Array##new:with: docstring
+  - FDoc: align argument descriptions in generated html nicely
+  - Improve Array method docstrings
+  - fix Symbol docstrings
+  - fix typo in docstring
+  - Fix FDoc html generation for code examples.
+  - Fix doctstrings for Integer methods
+  - Fix StringInterpolation with __FILE__
+  - Improve FDoc documentation generator tool.
+  - Add File##absolute_path: (alias for File##expand_path:)
+  - Improve __FILE__ special string compilation
+  - add Hash#reject_keys:
+  - Add remove_after_parsed option to OptionParser.
+  - Sort by option name when printing --help info in OptionParser
+  - add String#multiline?
+  - fix CompiledMethod#definition_line for non-multiline docstrings
+  - Add CompiledMethod#definition_line & CompiledMethod#last_line and use that in fdoc
+  - Fix UnboundMethod#selector_with_args for [] and []: methods.
+  - Fix Class#class_eval: for String arguments
+  - Add before/after/around methods & blocks to classes.
+  - add UnboundMethod#call: and Method#call:
+  - only print banner in OptionParser if any given
+  - add OptionParser class
+  - Add Enumerable#grep: & Enumerable#grep:taking:
+  - add Integer#decimals
+  - Small cleanups in lib/rbx/debugger
+  - Add initial version of debugger support
+  - Allow 1-arg blocks passed to Object#do:
+  - moved Class#ruby_methods and Class#fancy_methods into Object
+  - fix docstring for Class#new & Class#new:
+  - add alias Class#expects_interface:
+  - rename contracts error class
+  - Add contracts / runtime enforceable interface definitions.
+  - add assertion to String#[] test
+  - use each_with_index: in Fancy::Enumerable#at:
+  - fix require in package uninstaller
+  - fix error location output in FancySpec
+  - Make Directory class an alias for Ruby's Dir class.
+  - close opened source files
+  - catch StandardError instead of Exception
+  - simplify handling of string interpolation in parser
+  - forward unary methods in MatchData and Regexp#match:
+  - add Hash#random, Hash#random_key & Hash#random_value
+  - fix typo in Fancy::Enumerable#take: docstring
+  - Add Fancy::Enumerable#first: and Fancy::Enumerable#last:
+  - Add Fancy::Enumerable#split_with: and Fancy::Enumerable#split_at:
+  - Merge branch 'master' of github.com:bakkdoor/fancy
+  - use includes?:
+  - use includes?:
+  - fix spacing
+  - Add Fancy::Enumerable#sorted?
+  - Add ruby_alias for '<=, '>=, '<=> on String.
+  - fix docstring for Hash#select_keys:
+  - Add more Class methods
+  - Add Hash#select_keys:
+  - update README
+  - fix code indentation in README
+  - Clean up README
+  - some fdoc & docstring fixes
+  - fix Enumerable#in_groups_of: when passed size <= 0
+
 v0.7.0 (May 05, 2012)
 ----------------------
   - ignore TAGS

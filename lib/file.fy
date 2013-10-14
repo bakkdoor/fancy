@@ -15,6 +15,30 @@ class File {
     File open: filename modes: ['write] with: block
   }
 
+  def File overwrite: filename with: block {
+    """
+    @filename Filename of @File@ to overwrite.
+    @block @Block@ called with a @File@ object to write to (overwriting old contents.
+
+    Opens a @File@ for writing, overwriting old content.
+    """
+
+    File open: filename modes: ['truncate] with: block
+  }
+
+  metaclass alias_method: 'truncate:with: for: 'overwrite:with:
+
+  def File append: filename with: block {
+    """
+    @filename Filename of @File@ to append to.
+    @block @Block@ called with a @File@ object to append to.
+
+    Opens a @File@ for appending and calls @block with it.
+    """
+
+    File open: filename modes: ['append] with: block
+  }
+
   def File read: filename with: block {
     """
     @filename Filename of @File@ to read from.
@@ -24,6 +48,17 @@ class File {
     """
 
     File open: filename modes: ['read] with: block
+  }
+
+  def File readlines: filename {
+    """
+    @filename Filename of @File@ to read lines from.
+    @return @Array@ of lines in @filename.
+
+    Opens & reads a @File@ and returns all of its lines in an @Array@.
+    """
+
+    File read: filename with: @{ readlines }
   }
 
   def File read_binary: filename with: block {
@@ -53,6 +88,18 @@ class File {
     content
   }
 
+  def File empty?: filename {
+    """
+    @filename Name of @File@ to check if its empty.
+    @return @true if @filename is empty, @false otherwise.
+
+    Indicates, if a @File@ with a given @filename is empty or not.
+    A @File@ is considered empty, if its size (in bytes) is 0.
+    """
+
+    File size: filename == 0
+  }
+
   def File touch: filename {
     """
     @filename Name of @File@ to be created, if not already existant.
@@ -62,7 +109,7 @@ class File {
 
     file = File expand_path(filename)
     File open: file modes: ['write] with: |f| {
-      f write: ""
+      f print: ""
     }
   }
 
@@ -111,21 +158,21 @@ class File {
           ]>
     """
 
-    File read: filename . eval to_hash_deep
+    File eval: filename . to_hash_deep
   }
 
-  def writeln: x {
+  def println: x {
     """
     Writes a given argument as a String followed by a newline into the
     File.
     """
 
-    write: x
+    print: x
     newline
   }
 
-  alias_method: 'print: for: 'write:
-  alias_method: 'println: for: 'writeln:
+  alias_method: 'write:   for: 'print:
+  alias_method: 'writeln: for: 'println:
 
   def expanded_path {
     """

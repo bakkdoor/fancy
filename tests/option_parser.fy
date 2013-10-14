@@ -1,7 +1,7 @@
 require: "lib/option_parser"
 
 FancySpec describe: OptionParser with: {
-  it: "parses an option with no argument" when: {
+  it: "parses an option with no argument" with: 'parse: when: {
     parsed_option? = false
 
     o = OptionParser new: @{
@@ -15,7 +15,7 @@ FancySpec describe: OptionParser with: {
     parsed_option? is: true
   }
 
-  it: "parses no option if none are passed" when: {
+  it: "parses no option if none are passed" with: 'parse: when: {
     parsed_option? = false
     o = OptionParser new: @{
       with: "--foo [arg]" doc: "bla" do: |arg| {
@@ -31,7 +31,7 @@ FancySpec describe: OptionParser with: {
     parsed_option? is: false
   }
 
-  it: "parses an option with an argument" when: {
+  it: "parses an option with an argument" with: 'parse: when: {
     parsed_option? = false
     passed_args = []
 
@@ -76,5 +76,14 @@ FancySpec describe: OptionParser with: {
     args = [1, "-value", "foo", "--my-flag", 2]
     o parse: args
     args is: [1, 2]
+  }
+
+  it: "parses options as a hash" with: 'parse_hash: when: {
+    o = OptionParser new: @{
+      with: "--some-option [some-value]" doc: "foo"
+    }
+
+    hash = o parse_hash: ["foo", "bar", "--some-option", "hello world!", "baz"]
+    hash is: <["--some-option" => "hello world!"]>
   }
 }

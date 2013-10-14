@@ -139,6 +139,19 @@ class Object {
     [self]
   }
 
+  @@__to_hash_exclude_slots__ = ['_fancy_documentation]
+  def to_hash {
+    """
+    @return @Hash@ representation of @self based on slot values.
+    """
+
+    h = <[]>
+    slots - @@__to_hash_exclude_slots__ each: |s| {
+      h[s]: $ get_slot: s
+    }
+    h
+  }
+
   def to_i {
     """
     @return @Fixnum@ representation of @self.
@@ -240,7 +253,17 @@ class Object {
           cond_block while_do: body_block
     """
 
-    cond_block while_do: body_block
+    cond_block while_true: body_block
+  }
+
+  def while: condition do: body else: alternative {
+    """
+    @condition @Block@ to be used as condition for while loop.
+    @body @Block@ to be called while @condition yields @true.
+    @alternative @Block@ to be called if @body never got called (@condition never yielded @true).
+    """
+
+    condition while_true: body else: alternative
   }
 
   def until: cond_block do: body_block {
@@ -355,9 +378,9 @@ class Object {
 
   def if_responds? {
     """
-    @return RespondsToProxy for @self
+    @return @Proxies::RespondsToProxy@ for @self
 
-    Returns a @RespondsToProxy@ for @self that forwards any messages
+    Returns a @Proxies::RespondsToProxy@ for @self that forwards any messages
     only if @self responds to them.
 
     Example:
@@ -365,16 +388,19 @@ class Object {
           object if_responds? some_message: some_parameter
     """
 
-    RespondsToProxy new: self
+    Proxies RespondsToProxy new: self
   }
 
   def backtick: str {
     """
     This is the default implementation for backtick: which gets called when using the backtick syntax.
+
     For example:
           `cat README`
+
     Gets translated to the following message send:
           self backtick: \"cat README\"
+
     Which allows for custom implementations of the backtick: method, if needed.
     This default implementation works the same way as in Ruby, Perl or Bash.
     It returns the output of running the given string on the command line as a @String@.
@@ -535,10 +561,13 @@ class Object {
 
     Runs a given @Block@ in a synchronized fashion if called by multiple Threads.
     Uses a @Mutex@ in the background for synchronization (created on demand for each @Object@).
+    Calls @block with @self.
     """
 
     @__mutex__ = @__mutex__ || { Mutex new() }
-    @__mutex__ synchronize(&block)
+    @__mutex__ synchronize() {
+      block call: [self]
+    }
   }
 
   def copy_slots: slots from: object {
@@ -588,10 +617,7 @@ class Object {
     try {
       return block call: [self]
     } finally {
-      slotnames each: |s| {
-        metaclass undefine_method: s
-        metaclass undefine_method: "#{s}:"
-      }
+      metaclass remove_slot_accessors_for: slotnames
     }
   }
   private: 'with_mutable_slots:do:
@@ -660,7 +686,7 @@ class Object {
     @return @Array@ of slot names that @self has.
     """
 
-    instance_variables map: @{ rest to_sym }
+    instance_variables map: @{ to_s rest to_sym }
   }
 
   def sleep: seconds {
@@ -673,14 +699,17 @@ class Object {
     Thread sleep: seconds
   }
 
-  def let: var_name be: value in: block (nil) {
+  def let: var_name be: value in: block (nil) ensuring: ensure_block ({}) {
     """
     @var_name @Symbol@ that represents the name of the dynamic variable to be set.
     @value Value for the variable.
     @block @Block@ in which @var_name will be dynamically bound to @value.
+    @ensure_block @Block@ to be always called, even when @block raised an exception.
     @return Returns @value
 
     Dynamically rebinds @var_name as dynamic variable with @value as the value within @block.
+    Exceptions raised within @ensure_block are ignored.
+    Those raised in @block will be reraised up the callstack.
 
     Example:
           File write: \"/tmp/output.txt\" with: |f| {
@@ -692,16 +721,18 @@ class Object {
 
     { return value } unless: var_name
     unless: block do: {
-      Thread current[var_name]: value
+      Thread current set_dynamic_var: var_name to: value
       return value
     }
 
-    oldval = Thread current[var_name]
+    oldval = Thread current dynamic_var: var_name
     try {
-      Thread current[var_name]: value
-      return block call
+      Thread current set_dynamic_var: var_name to: value
+      block call
+      return value
     } finally {
-      Thread current[var_name]: oldval
+      try { ensure_block call } catch {}
+      Thread current set_dynamic_var: var_name to: oldval
     }
   }
 
@@ -770,7 +801,7 @@ class Object {
     @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
 
     Example:
-          ignoring: (IOError, ZeroDivisionError) in: {
+          ignoring: (IOError, ZeroDivisionError) do: {
             # do something
           }
     """
@@ -778,5 +809,36 @@ class Object {
     try {
       block call
     } catch (exception_classes to_a join_by: '><) {}
+  }
+
+  def rebind_method: method_name with: rebind_callable within: within_block {
+    """
+    @method_name Name of (singleton) method to rebind for @self.
+    @rebind_callable Name of method or @Block@ to rebind @method_name to.
+    @within_block @Block@ in which @method_name is rebound to @rebind_callable.
+    @return Value of calling @within_block with @self.
+
+    If @within_block takes an argument, it is called with @self.
+
+    Example:
+          class MyRebindableClass {
+            def foo {
+              42
+            }
+          }
+
+          r = MyRebindableClass new
+          r rebind_method: 'foo with: { 0 } within: @{ foo } # => 0
+    """
+
+    metaclass rebind_instance_method: method_name with: rebind_callable within: within_block receiver: self
+  }
+
+  def _ {
+    """
+    @return @Object@.
+    """
+
+    Object
   }
 }

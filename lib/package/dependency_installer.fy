@@ -8,15 +8,12 @@ class Fancy {
           return nil
         }
 
-        require: packfile
-
-        spec_name = packfile split: ".fancypack" . first
-        if: (Specification[spec_name]) then: |s| {
-          s dependencies each: |dep| {
+        if: (File eval: packfile) then: |spec| {
+          spec dependencies each: |dep| {
             "Installing dependency: #{dep name} (#{dep version})" println
             Fancy Package install: (dep name) version: (dep version)
           }
-          s ruby_dependencies each: |dep| {
+          spec ruby_dependencies each: |dep| {
             "Installing Ruby dependency: #{dep gem_name} (#{dep version})" println
             dep install
          }

@@ -50,7 +50,7 @@ class OptionParser {
     { @block call: [self] } if: @block
   }
 
-  def with: option_string doc: doc_string do: block {
+  def with: option_string doc: doc_string do: block ('identity) {
     """
     @option_string Option flag and (optional) argument within \"[]\", e.g. \"--file [filename]\".
     @doc_string Documentation @String@ for @option_string that is used in the standard @--help option.
@@ -98,6 +98,25 @@ class OptionParser {
         { args remove_at: idx } if: @remove_after_parsed
       }
     }
+  }
+
+  def parse_hash: args {
+    """
+    @args @Array@ of arguments to parse options from. Typically you'd pass @ARGV here.
+
+    Parses options as @Hash@ from @args and executes registered option handlers.
+
+    Example:
+          o = OptionParser new: @{
+            with: \"--some-option [option_value]\" doc: \"some docstring\"
+            # ...
+          }
+          opts = o parse_hash: [\"--some-option\", \"some-value\"]
+          opts # => <[\"--some-option\" => \"some-value\"]>
+    """
+
+    parse: args
+    parsed_options
   }
 
   def print_help_info {

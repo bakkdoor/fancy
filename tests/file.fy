@@ -17,6 +17,10 @@ FancySpec describe: File with: {
     }
   }
 
+  it: "reads all lines in a file correctly" with: 'readlines: when: {
+    File readlines: "README.md" . is: $ File read: "README.md" with: @{ readlines }
+  }
+
   it: "writes a file correctly" with: 'write:with: when: {
     dirname = "tmp"
     filename = "#{dirname}/write_test.txt"
@@ -44,11 +48,11 @@ FancySpec describe: File with: {
     { file = File new } raises: ArgumentError
   }
 
-  it: "writes and reads from a file correctly" with: 'writeln: when: {
+  it: "writes and reads from a file correctly" with: 'println: when: {
     filename = "/tmp/read_write_test.txt"
     file = File open: filename modes: ['write]
-    file writeln: "hello, world!"
-    file writeln: "line number two"
+    file println: "hello, world!"
+    file println: "line number two"
     file close
 
     File exists?: filename . is: true
@@ -77,9 +81,7 @@ FancySpec describe: File with: {
 
     Directory create: dirname
 
-    File open: filename  modes: ['write] with: |f| {
-      f writeln: "testing!"
-    }
+    File write: filename with: @{ println: "testing!" }
 
     Directory exists?: dirname . is: true
     File exists?: dirname . is: true
@@ -129,7 +131,7 @@ FancySpec describe: File with: {
     """
 
     filename = "/tmp/#{Time now to_i random}_fy_test.txt"
-    File write: filename with: @{ write: contents }
+    File write: filename with: @{ print: contents }
     File read_config: filename . is: <[
       'test => 'value,
       'other => 123,
@@ -139,5 +141,17 @@ FancySpec describe: File with: {
       ]>
     ]>
     File delete: filename
+  }
+
+  it: "overwrites a file correctly" with: 'overwrite:with: when: {
+    filename = "/tmp/#{Time now to_i random}_overwrite_test.fy"
+    try {
+      File write: filename with: @{ println: "foo"; println: "bar" }
+      File read: filename . is: "foo\nbar\n"
+      File overwrite: filename with: @{ println: "bar"; println: "foo" }
+      File read: filename . is: "bar\nfoo\n"
+    } finally {
+      File delete!: filename
+    }
   }
 }

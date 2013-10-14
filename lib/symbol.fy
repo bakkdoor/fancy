@@ -45,11 +45,55 @@ class Symbol {
     recv receive_message: self
   }
 
+  def call_with_receiver: receiver {
+    call: [receiver]
+  }
+
+  def call: args with_receiver: receiver {
+    call: $ args unshift: receiver
+  }
+
   def arity {
-    1
+    m = message_name to_s
+    match m {
+      case /^:[a-zA-Z0-9_]+$/ -> m count: |c| { c == ":" } # unary message
+      case /^:\W+$/ -> 2 # binary operator
+      case _ -> m count: |c| { c == ":" } + 1 # multi-arg message
+    }
   }
 
   def to_sym {
+    """
+    @return @self.
+    """
+
     self
+  }
+
+  def to_block {
+    """
+    @return @Block@ that sends @self to its first argument, passing along any remaining arguments.
+
+    Example:
+          'inspect to_block
+          # is equal to:
+          @{ inspect }
+    """
+
+    |args| {
+      call: args
+    }
+  }
+
+  def unary_message? {
+    to_s unary_message?
+  }
+
+  def binary_message? {
+    to_s binary_message?
+  }
+
+  def keyword_message? {
+    to_s keyword_message?
   }
 }

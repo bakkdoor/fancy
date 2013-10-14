@@ -36,6 +36,8 @@ class ClassWithPrivate {
   private: 'private_method
 }
 
+require: "stringio"
+
 FancySpec describe: Class with: {
   it: "does NOT find the method when not mixed-in" with: 'responds_to?: when: {
     instance = ClassWithMixin new
@@ -208,7 +210,8 @@ FancySpec describe: Class with: {
     Symbol superclass is: Object
     StdError superclass is: Exception
     Class superclass is: Module
-    Object superclass is: nil
+    Object superclass is: BasicObject
+    BasicObject superclass is: nil
 
     IOError superclass is: StandardError
     NoMethodError superclass is: NameError
@@ -244,10 +247,8 @@ FancySpec describe: Class with: {
   }
 
   it: "is a subclass of another Class" with: 'subclass?: when: {
-    class Super {
-    }
-    class Sub : Super {
-    }
+    class Super
+    class Sub : Super
 
     Super subclass?: Object . is: true
     Sub subclass?: Object . is: true
@@ -357,23 +358,24 @@ FancySpec describe: Class with: {
     NameSpace Array is_not: Array
   }
 
-  # it: "returns all nested classes of a class" with: 'nested_classes when: {
-  #   class Outer {
-  #   }
-  #   Outer nested_classes is: []
+  it: "returns all nested classes of a class" with: 'nested_classes when: {
+    class OuterB {
+      NotAClass = 'nope
+    }
+    OuterB nested_classes is: $ Set[[]]
 
-  #   class Outer {
-  #     class Inner1 {
-  #     }
-  #   }
-  #   Outer nested_classes is: [Outer::Inner1]
+    class OuterB {
+      class InnerB1 {
+      }
+    }
+    OuterB nested_classes is: $ Set[[OuterB::InnerB1]]
 
-  #   class Outer {
-  #     class Inner2 {
-  #     }
-  #   }
-  #   Outer nested_classes is: [Outer Inner1, Outer Inner2]
-  # }
+    class OuterB {
+      class InnerB2 {
+      }
+    }
+    OuterB nested_classes is: $ Set[[OuterB InnerB1, OuterB InnerB2]]
+  }
 
   it: "finds other nested classes in the same parent class" when: {
     class MyOuter {
@@ -439,7 +441,7 @@ FancySpec describe: Class with: {
     try {
       [] equal?: [1,2] . is: true # is fail
     } catch NoMethodError => e {
-      e method_name is: 'equal?:
+      e message does =~ /equal\?:/
     }
 
     class Array {
@@ -450,16 +452,13 @@ FancySpec describe: Class with: {
   }
 
   it: "has the correct list of ancestors" with: 'ancestors when: {
-    class A {
-    }
-    class B : A {
-    }
-    class C : B {
-    }
+    class A
+    class B : A
+    class C : B
 
-    A ancestors is: [A, Object, Kernel]
-    B ancestors is: [B, A, Object, Kernel]
-    C ancestors is: [C, B, A, Object, Kernel]
+    A ancestors is: [A, Object, Kernel, BasicObject]
+    B ancestors is: [B, A, Object, Kernel, BasicObject]
+    C ancestors is: [C, B, A, Object, Kernel, BasicObject]
   }
 
   it: "makes methods private" with: 'private: when: {
@@ -478,6 +477,20 @@ FancySpec describe: Class with: {
     { x b } raises: NoMethodError
     AClassWithPrivateMethods instance_method: 'a . private? is: true
     AClassWithPrivateMethods instance_method: 'b . private? is: true
+
+    class AClassWithPrivateMethods {
+      private: {
+        def c {
+          "private c"
+        }
+        def d {
+          "private d"
+        }
+      }
+    }
+
+    AClassWithPrivateMethods instance_method: 'c . private? is: true
+    AClassWithPrivateMethods instance_method: 'd . private? is: true
   }
 
   it: "makes methods protected" with: 'protected: when: {
@@ -498,6 +511,25 @@ FancySpec describe: Class with: {
     AClassWithProtectedMethods instance_method: 'b . private? is: false
     AClassWithProtectedMethods instance_method: 'a . protected? is: true
     AClassWithProtectedMethods instance_method: 'b . protected? is: true
+
+    class AClassWithProtectedMethods {
+      protected: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x a } raises: NoMethodError
+    { x b } raises: NoMethodError
+    AClassWithProtectedMethods instance_method: 'c . private? is: false
+    AClassWithProtectedMethods instance_method: 'd . private? is: false
+    AClassWithProtectedMethods instance_method: 'c . protected? is: true
+    AClassWithProtectedMethods instance_method: 'd . protected? is: true
+
   }
 
   it: "makes methods public" with: 'public: when: {
@@ -521,6 +553,26 @@ FancySpec describe: Class with: {
     AClassWithPublicMethods instance_method: 'b . protected? is: false
     AClassWithPublicMethods instance_method: 'a . public? is: true
     AClassWithPublicMethods instance_method: 'b . public? is: true
+
+    class AClassWithPublicMethods {
+      public: {
+        def c {
+          "in c"
+        }
+        def d {
+          "in d"
+        }
+      }
+    }
+
+    { x c } does_not raise: NoMethodError
+    { x d } does_not raise: NoMethodError
+    AClassWithPublicMethods instance_method: 'c . private? is: false
+    AClassWithPublicMethods instance_method: 'd . private? is: false
+    AClassWithPublicMethods instance_method: 'c . protected? is: false
+    AClassWithPublicMethods instance_method: 'd . protected? is: false
+    AClassWithPublicMethods instance_method: 'c . public? is: true
+    AClassWithPublicMethods instance_method: 'd . public? is: true
   }
 
   it: "defines a class without a body" when: {
@@ -556,7 +608,7 @@ FancySpec describe: Class with: {
   }
 
   it: "returns its nested constants" with: 'constants when: {
-    WithConstants constants =? ["Foo", "Bar", "Nested"] is: true
+    WithConstants constants =? ['Foo, 'Bar, 'Nested] is: true
   }
 
   it: "returns a constants value" with: '[] when: {
@@ -611,17 +663,21 @@ FancySpec describe: Class with: {
 
   it: "defines a lazy slot" with: 'lazy_slot:value: when: {
     class LazyClass {
-      lazy_slot: 'foo value: { Thread sleep: 0.01; 42 * @count }
-      def initialize: @count
+      read_slot: 'count
+      lazy_slot: 'foo value: { @count = @count + 1; 42 }
+      def initialize {
+        @count = 0
+      }
     }
 
-    f = LazyClass new: 2
-    start = Time now
-    f foo is: 84
-    Time now - start >= 0.01 is: true
-    start = Time now
-    f foo is: 84
-    Time now - start <= 0.01 is: true
+    f = LazyClass new
+    f count is: 0
+    f foo is: 42
+    f count is: 1
+    f foo is: 42
+    f count is: 1
+    10 times: { f foo }
+    f count is: 1
   }
 
   it: "returns a string representation of itself and its superclass, if any" with: 'inspect when: {
@@ -631,7 +687,8 @@ FancySpec describe: Class with: {
     Fixnum inspect is: "Fixnum : Integer"
     MySuperClass inspect is: "MySuperClass : Object"
     MySubClass inspect is: "MySubClass : MySuperClass"
-    Object inspect is: "Object"
+    Object inspect is: "Object : BasicObject"
+    BasicObject inspect is: "BasicObject"
   }
 
   it: "returns the right amount of instance methods" with: 'instance_methods: when: {
@@ -647,156 +704,179 @@ FancySpec describe: Class with: {
     Set[OneMethod instance_methods] is: $ Set[Object instance_methods + (OneMethod instance_methods: false)]
   }
 
-  it: "defines a before_method handler" with: 'before_method:run: when: {
-    class BeforeMethodClass {
-      read_slot: 'x
-      def initialize: @x
-      def before: arr {
-        arr << "Before Method: #{@x}"
+  it: "returns all fancy instance methods" with: 'fancy_instance_methods when: {
+    eval("class RubyClass < BasicObject\ndef ruby_foo(x)\nputs(x)\nend\nend")
+    class RubyClass {
+      def fancy_foo: x {
+        x println
       }
-      def my_method: arr {
-        arr << "My Method: #{@x}"
-      }
-
-      before_method: 'my_method: run: 'before:
     }
 
-    b1 = BeforeMethodClass new: 1
-    b2 = BeforeMethodClass new: 2
-
-    array = []
-
-    b1 my_method: array
-    b2 my_method: array
-
-    array is: [
-      "Before Method: 1", "My Method: 1",
-      "Before Method: 2", "My Method: 2"
-    ]
-
-    # we can also pass blocks
-
-    BeforeMethodClass before_method: 'my_method: run: |receiver array| {
-      array << "Before Block: #{receiver x}"
-    }
-
-    array = []
-
-    b1 my_method: array
-    b2 my_method: array
-
-    array is: [
-      "Before Block: 1", "Before Method: 1", "My Method: 1",
-      "Before Block: 2", "Before Method: 2", "My Method: 2"
-    ]
+    RubyClass fancy_instance_methods is: ['fancy_foo:]
   }
 
-  it: "defines an after_method handler" with: 'after_method:run: when: {
-    class AfterMethodClass {
-      read_slot: 'x
-      def initialize: @x
-      def after: arr {
-        arr << "After Method: #{@x}"
+  it: "returns all ruby instance methods" with: 'ruby_instance_methods when: {
+    eval("class RubyClass < BasicObject\ndef ruby_foo(x)\nputs(x)\nend\nend")
+    class RubyClass {
+      def fancy_foo: x {
+        x println
       }
-      def my_method: arr {
-        arr << "My Method: #{@x}"
-      }
-
-      after_method: 'my_method: run: 'after:
     }
 
-    b1 = AfterMethodClass new: 1
-    b2 = AfterMethodClass new: 2
-
-    array = []
-
-    b1 my_method: array
-    b2 my_method: array
-
-    array is: [
-      "My Method: 1", "After Method: 1",
-      "My Method: 2", "After Method: 2"
-    ]
-
-    AfterMethodClass after_method: 'my_method: run: |receiver array| {
-      "block getting called yo"
-      array << "After Block: #{receiver x}"
-    }
-
-    array = []
-
-    b1 my_method: array
-    b2 my_method: array
-
-    array is: [
-      "My Method: 1", "After Method: 1", "After Block: 1",
-      "My Method: 2", "After Method: 2", "After Block: 2"
-    ]
+    RubyClass ruby_instance_methods is: $ \
+      RubyClass instance_methods - ['fancy_foo:]
   }
 
+  # it: "defines a before_method handler" with: 'before_method:run: when: {
+  #   class BeforeMethodClass {
+  #     read_slot: 'x
+  #     def initialize: @x
+  #     def before: arr {
+  #       arr << "Before Method: #{@x}"
+  #     }
+  #     def my_method: arr {
+  #       arr << "My Method: #{@x}"
+  #     }
 
-  it: "defines an around_method handler" with: 'around_method:run: when: {
-    class AroundMethodClass {
-      read_slot: 'x
-      def initialize: @x
-      def around: arr {
-        arr << "Around Method: #{@x}"
-      }
-      def my_method: arr {
-        arr << "My Method: #{@x}"
-      }
+  #     before_method: 'my_method: run: 'before:
+  #   }
 
-      around_method: 'my_method: run: 'around:
-    }
+  #   b1 = BeforeMethodClass new: 1
+  #   b2 = BeforeMethodClass new: 2
 
-    b1 = AroundMethodClass new: 1
-    b2 = AroundMethodClass new: 2
+  #   array = []
 
-    array = []
+  #   b1 my_method: array
+  #   b2 my_method: array
 
-    b1 my_method: array
-    b2 my_method: array
+  #   array is: [
+  #     "Before Method: 1", "My Method: 1",
+  #     "Before Method: 2", "My Method: 2"
+  #   ]
 
-    array is: [
-      "Around Method: 1", "My Method: 1", "Around Method: 1",
-      "Around Method: 2", "My Method: 2", "Around Method: 2"
-    ]
+  #   # we can also pass blocks
+
+  #   BeforeMethodClass before_method: 'my_method: run: |receiver array| {
+  #     array << "Before Block: #{receiver x}"
+  #   }
+
+  #   array = []
+
+  #   b1 my_method: array
+  #   b2 my_method: array
+
+  #   array is: [
+  #     "Before Block: 1", "Before Method: 1", "My Method: 1",
+  #     "Before Block: 2", "Before Method: 2", "My Method: 2"
+  #   ]
+  # }
+
+  # it: "defines an after_method handler" with: 'after_method:run: when: {
+  #   class AfterMethodClass {
+  #     read_slot: 'x
+  #     def initialize: @x
+  #     def after: arr {
+  #       arr << "After Method: #{@x}"
+  #     }
+  #     def my_method: arr {
+  #       arr << "My Method: #{@x}"
+  #     }
+
+  #     after_method: 'my_method: run: 'after:
+  #   }
+
+  #   b1 = AfterMethodClass new: 1
+  #   b2 = AfterMethodClass new: 2
+
+  #   array = []
+
+  #   b1 my_method: array
+  #   b2 my_method: array
+
+  #   array is: [
+  #     "My Method: 1", "After Method: 1",
+  #     "My Method: 2", "After Method: 2"
+  #   ]
+
+  #   AfterMethodClass after_method: 'my_method: run: |receiver array| {
+  #     "block getting called yo"
+  #     array << "After Block: #{receiver x}"
+  #   }
+
+  #   array = []
+
+  #   b1 my_method: array
+  #   b2 my_method: array
+
+  #   array is: [
+  #     "My Method: 1", "After Method: 1", "After Block: 1",
+  #     "My Method: 2", "After Method: 2", "After Block: 2"
+  #   ]
+  # }
 
 
-    AroundMethodClass around_method: 'my_method: run: |receiver array| {
-      array << "Around Block: #{receiver x}"
-    }
+  # it: "defines an around_method handler" with: 'around_method:run: when: {
+  #   class AroundMethodClass {
+  #     read_slot: 'x
+  #     def initialize: @x
+  #     def around: arr {
+  #       arr << "Around Method: #{@x}"
+  #     }
+  #     def my_method: arr {
+  #       arr << "My Method: #{@x}"
+  #     }
 
-    array = []
+  #     around_method: 'my_method: run: 'around:
+  #   }
 
-    b1 my_method: array
-    b2 my_method: array
+  #   b1 = AroundMethodClass new: 1
+  #   b2 = AroundMethodClass new: 2
 
-    array is: [
-      "Around Block: 1", "Around Method: 1", "My Method: 1", "Around Method: 1", "Around Block: 1",
-      "Around Block: 2", "Around Method: 2", "My Method: 2", "Around Method: 2", "Around Block: 2"
-    ]
-  }
+  #   array = []
 
-  it: "defines a custom calling chain for a method" with: 'define_calling_chain:for_method: when: {
-    class CallingChainClass {
-      def foo: arr { arr << "foo" }
-      def bar: arr { arr << "bar" }
-      def baz: arr { arr << "baz" }
+  #   b1 my_method: array
+  #   b2 my_method: array
 
-      define_calling_chain: ('foo:, 'bar:, 'baz:) for_method: 'foo:
-    }
+  #   array is: [
+  #     "Around Method: 1", "My Method: 1", "Around Method: 1",
+  #     "Around Method: 2", "My Method: 2", "Around Method: 2"
+  #   ]
 
-    arr = []
-    CallingChainClass new foo: arr
-    arr is: ["foo", "bar", "baz"]
 
-    CallingChainClass define_calling_chain: [|receiver arr|{ receiver baz: arr }, 'bar:] for_method: 'bar:
+  #   AroundMethodClass around_method: 'my_method: run: |receiver array| {
+  #     array << "Around Block: #{receiver x}"
+  #   }
 
-    arr = []
-    CallingChainClass new bar: arr
-    arr is: ["baz", "bar"]
-  }
+  #   array = []
+
+  #   b1 my_method: array
+  #   b2 my_method: array
+
+  #   array is: [
+  #     "Around Block: 1", "Around Method: 1", "My Method: 1", "Around Method: 1", "Around Block: 1",
+  #     "Around Block: 2", "Around Method: 2", "My Method: 2", "Around Method: 2", "Around Block: 2"
+  #   ]
+  # }
+
+  # it: "defines a custom calling chain for a method" with: 'define_calling_chain:for_method: when: {
+  #   class CallingChainClass {
+  #     def foo: arr { arr << "foo" }
+  #     def bar: arr { arr << "bar" }
+  #     def baz: arr { arr << "baz" }
+
+  #     define_calling_chain: ('foo:, 'bar:, 'baz:) for_method: 'foo:
+  #   }
+
+  #   arr = []
+  #   CallingChainClass new foo: arr
+  #   arr is: ["foo", "bar", "baz"]
+
+  #   CallingChainClass define_calling_chain: [|receiver arr|{ receiver baz: arr }, 'bar:] for_method: 'bar:
+
+  #   arr = []
+  #   CallingChainClass new bar: arr
+  #   arr is: ["baz", "bar"]
+  # }
 
   it: "exposes a Fancy method as a Ruby method to Ruby" with: 'expose_to_ruby:as: when: {
     class ExposeToRuby {
@@ -812,5 +892,92 @@ FancySpec describe: Class with: {
       == 1 is: true
       send('ruby_==, 1) is: true
     }
+  }
+
+  it: "rebinds an instance method within a block" with: 'rebind_instance_method:with:within: when: {
+    class RebindInstanceMethod {
+      def foo: msg ("foo!") {
+        msg println
+      }
+      def bar: msg {
+        "bar: #{msg}" println
+      }
+    }
+
+    rim = RebindInstanceMethod new
+    s = StringIO new
+    let: '*stdout* be: s in: {
+      rim foo
+      rim foo: "hello!"
+      s string is: "foo!\nhello!\n"
+      s string: ""
+
+      RebindInstanceMethod rebind_instance_method: 'foo: with: |msg| {
+        msg * 2 println
+      } within: {
+        let: '*stdout* be: s in: {
+          rim foo: "hello!"
+        }
+      }
+      s string is: "hello!hello!\n"
+
+      s string: ""
+      rim foo: "hello!"
+      s string is: "hello!\n"
+
+      s string: ""
+      RebindInstanceMethod rebind_instance_method: 'foo: with: 'bar: within: {
+        rim foo: "Test"
+      }
+      s string is: "bar: Test\n"
+    }
+  }
+
+  it: "removes defined slot accessor methods" with: 'remove_slot_accessors_for: when: {
+    class SlotAccessors {
+      read_write_slots: ('rw1, 'rw2)
+      read_slots: ('r1, 'r2)
+      write_slots: ('w1, 'w2)
+    }
+
+    sa = SlotAccessors new
+    {
+      sa rw1 is: nil
+      sa rw2 is: nil
+      sa r1 is: nil
+      sa r2 is: nil
+
+      sa rw1: "rw1"
+      sa rw2: "rw2"
+      sa w1: "w1"
+      sa w2: "w2"
+
+      sa rw1 is: "rw1"
+      sa rw2 is: "rw2"
+      sa r1 is: nil
+      sa r2 is: nil
+    } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w2 } raises: NoMethodError
+
+    SlotAccessors remove_slot_accessors_for: ('rw1, 'r1, 'w1)
+
+    { sa rw1 } raises: NoMethodError
+    { sa rw1: "foo"} raises: NoMethodError
+
+    {
+      sa rw2
+      sa rw2: "foo"
+    } does_not raise: NoMethodError
+
+    { sa r1 } raises: NoMethodError
+    { sa r2 } does_not raise: NoMethodError
+
+    { sa w1 } raises: NoMethodError
+    { sa w1: "foo" } raises: NoMethodError
+
+    { sa w2 } raises: NoMethodError
+    { sa w2: "foo" } does_not raise: NoMethodError
   }
 }
