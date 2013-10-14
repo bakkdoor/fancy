@@ -1,7 +1,3 @@
-# TODO: Maybe load from Gemfile?
-require "rubygems"
-require "rubinius/compiler"
-
 class Fancy
 
   class Compiler < Rubinius::ToolSet::Runtime::Compiler

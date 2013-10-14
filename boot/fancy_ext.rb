@@ -16,3 +16,5 @@ require base + "console"
 require base + "delegator"
 require base + "symbol"
 require base + "array"
+
+require "rubinius/compiler"
