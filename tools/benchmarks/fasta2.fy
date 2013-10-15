@@ -14,12 +14,11 @@ ALU = "GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG" + \
       "GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG" + \
       "AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC" + \
       "AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA"
-#
-
-
-# AA = Struct new: ['c, 'p]
 
 class AA {
+  # TODO: Read-write slots are less performant than manual definition (see
+  #       below for manual definition). Profile of read-write behavior is in
+  #       fasta-perf-read-write-profile.txt
   # read_write_slots: ['c, 'p]
   def initialize: tuple {
     @c = tuple[0]; @p = tuple[1]
