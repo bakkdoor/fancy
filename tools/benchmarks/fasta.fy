@@ -40,18 +40,22 @@ def make_cumulative: table {
 }
 
 def fasta_repeat: n seq: seq {
+  _stdout = *stdout* # Speed up dynamic variable lookup.
   i   = 0
   lenOut = 60
   s_length = seq length
   while: { n > 0 } do: {
     if: (n < lenOut) then: { lenOut = n }
     if: ((i + lenOut) < s_length) then: {
-      seq slice(i, lenOut) . println
+      #seq slice(i, lenOut) . println
+      _stdout raw_write(seq slice(i, lenOut)); *stdout* raw_write("\n")
       i = i + lenOut
     } else: {
-      seq slice(i, (s_length - i)) . print
+      #seq slice(i, (s_length - i)) . print
+      _stdout raw_write(seq slice(i, (s_length - i))); *stdout* raw_write("\n")
       i = lenOut - (s_length - i)
-      seq slice(0, i) . println
+      #seq slice(0, i) . println
+      _stdout raw_write(seq slice(0, i)); *stdout* raw_write("\n")
     }
     n = n - lenOut
   }
@@ -74,23 +78,8 @@ def fasta_random: n table: table {
         }
       }
     }
-    buff join: "" . println
+    #buff join: "" . println
+    *stdout* raw_write(buff join: ""); *stdout* raw_write("\n")
     n = n - line
   }
 }
-
-n = ARGV[1]
-if: (n nil?) then: {
-  "Usage: fancy fasta.fy N" println
-  System exit
-}
-n = n to_i
-
-">ONE Homo sapiens alu" println
-fasta_repeat: (2 * n) seq: ALU
-
-">TWO IUB ambiguity codes" println
-fasta_random: (3 * n) table: IUB
-
-">THREE Homo sapiens frequency" println
-fasta_random: (5 * n) table: HomoSap
