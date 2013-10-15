@@ -7,4 +7,3 @@ class Fancy FDoc {
     @documented_objects store(object, documentation)
   }
 }
-

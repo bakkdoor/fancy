@@ -197,4 +197,3 @@ escaped_newline "\\".*\n
   VALUE parser = rb_const_get(fancy, rb_intern("Parser"));
   yyerror(parser, yytext);
 }
-
