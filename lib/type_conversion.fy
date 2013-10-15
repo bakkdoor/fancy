@@ -15,10 +15,23 @@ class InvalidTypeConversionError : StandardError {
 }
 
 class Class {
+  class TypeConversionBuilder {
+    read_slot: 'type_conversions
+    def initialize {
+      @type_conversions = <[]>
+    }
+
+    def to: class with: callable {
+      @type_conversions[class]: callable
+    }
+  }
+
   lazy_slot: 'type_conversions value: { <[]> }
 
-  def to: class with: callable {
-    type_conversions[class]: callable
+  def type_convert: block {
+    cb = TypeConversionBuilder new
+    block call: [cb]
+    type_conversions merge!: $ cb type_conversions
   }
 
   def convert: instance to: class {
@@ -35,8 +48,10 @@ class Class {
 
   def invalid_conversions: classes {
     classes each: |c| {
-      to: c with: {
-        InvalidTypeConversionError new: self class: c . raise!
+      type_convert: @{
+        to: c with: {
+          InvalidTypeConversionError new: self class: c . raise!
+        }
       }
     }
   }
@@ -47,11 +62,13 @@ class Object {
     class convert: self to: klass
   }
 
-  to: Array   with: 'to_a
-  to: Symbol  with: 'to_sym
-  to: String  with: 'to_s
-  to: Hash    with: 'to_hash
-  to: Tuple   with: { Tuple with_values: to_a }
+  type_convert: @{
+    to: Array   with: 'to_a
+    to: Symbol  with: 'to_sym
+    to: String  with: 'to_s
+    to: Hash    with: 'to_hash
+    to: Tuple   with: { Tuple with_values: to_a }
+  }
 }
 
 class Float {

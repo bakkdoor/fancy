@@ -5,7 +5,9 @@ FancySpec describe: "Type Conversions" with: {
     11.11 =~> String is: "11.11"
 
     class UnknownClass {
-      to: Array with: { to_a << "test" }
+      type_convert: @{
+        to: Array with: { to_a << "test" }
+      }
     }
 
     u = UnknownClass new
