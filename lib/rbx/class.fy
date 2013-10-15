@@ -226,6 +226,7 @@ class Class {
     Useful for dynamically defining methods on a class etc.
 
     Example:
+
           Array class_eval: \"def foo { 'foo println }\"
           [1,2,3] foo  # => prints 'foo
     """
@@ -245,6 +246,7 @@ class Class {
     passed, use that name explicitly, otherwise uses @method_name.
 
     Example:
+
           class Foo {
             def === other {
               # ...

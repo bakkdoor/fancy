@@ -30,6 +30,7 @@ class Hash {
     If the key is not found, calls @else_block and returns the value it yields.
 
     Example:
+
           <['foo => 'bar]> at: 'foo else: { 42 } # => 'bar
           <['foo => 'bar]> at: 'unknown else: { 42 } # => 42
           <['nil => nil]> at: 'nil else: { 'not_found } # => nil
@@ -50,6 +51,7 @@ class Hash {
     @else_block @Block@ that gets called and its value inserted into @self if @key not in @self.
 
     Example:
+
           h = <['foo => 'bar]>
           h at: 'foo else_put: { 42 } # => 'bar
           h['foo] # => 'bar
@@ -126,6 +128,7 @@ class Hash {
     Creates and returns a new @Object@ with slot names and values based on keys and values in @self.
 
     Example:
+
           o = <['name => \"Christopher Bertels\", 'interest => \"programming languages\"]> to_object
           o name        # => \"Christopher Bertels\"
           o interest    # => 42
@@ -177,6 +180,7 @@ class Hash {
     @return @Array@ of all values for the given keys.
 
     Example:
+
           <['foo => 1, 'bar => 2, 'baz => 42]> values_at: ('foo, 'baz) # => [1, 42]
     """
 
@@ -189,6 +193,7 @@ class Hash {
     @return @Hash@ of entries for which @block called with its key yields @true.
 
     Example:
+
           h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
           h select_keys: @{ is_a?: Symbol } # => <['a => 1, 'b => \"hello\"]>
     """
@@ -208,6 +213,7 @@ class Hash {
     @return @Hash@ of entries for which @block called with its key yields @false.
 
     Example:
+
           h = <['a => 1, 42 => (1,2,3), 'b => \"hello\"]>
           h reject_keys: @{ is_a?: Symbol } # => <[42 => (1,2,3)]>
     """
@@ -249,6 +255,7 @@ class Hash {
     Sends each key-value pair as a message (with one argument) to @receiver.
 
     Example:
+
           Person = Struct new: ('firstname, 'lastname)
           p = Person new
           <['firstname => \"Tom\", 'lastname => \"Cruise\"]> call: [p]
@@ -275,6 +282,7 @@ class Hash {
     @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
 
     Example:
+
           <['x => 100, 'y => 150]> to_block
           # would be the same as:
           |receiver| {
@@ -301,6 +309,7 @@ class Hash {
     @block @Block@ that returns an updated value for each value in @self.
 
     Example:
+
           h = <['name => \"Tom\", 'age => 21 ]>
           h update_values: @{ * 2}
           h # => <['name => \”TomTom\”, 'age => 42]>
@@ -316,6 +325,7 @@ class Hash {
     @block @Block@ that returns an updated key for each key in @self.
 
     Example:
+
           h = <['name => \"Tom\", 'age => 21 ]>
           h update_keys: @{ to_s * 2}
           h # => <[\"namename\" => \”Tom\”, \"ageage\" => 21]>

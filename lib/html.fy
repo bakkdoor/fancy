@@ -3,6 +3,7 @@ class HTML {
   HTML generator class.
 
   Example:
+
         require: \"html\"
         html = HTML new: @{
           html: @{

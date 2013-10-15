@@ -28,6 +28,7 @@ class OptionParser {
     Creates a new OptionParser.
 
     Example:
+
           o = OptionParser new: @{
             with: \"--my-option\" doc: \"Sets some option value\" do: {
               # do stuff in here...
@@ -57,6 +58,7 @@ class OptionParser {
     @block @Block@ to be executed if @option_string is matched during parsing. If the option takes an argument it will be passed to @block as an argument.
 
     Example:
+
           o = OptionParser new
           o with: \"--file [filename]\" doc: \"Use this file for processing\" do: |filename| {
             # do something with filename
@@ -107,6 +109,7 @@ class OptionParser {
     Parses options as @Hash@ from @args and executes registered option handlers.
 
     Example:
+
           o = OptionParser new: @{
             with: \"--some-option [option_value]\" doc: \"some docstring\"
             # ...

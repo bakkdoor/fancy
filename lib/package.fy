@@ -15,6 +15,7 @@ class Fancy Package {
   the system.
 
   Example:
+
         $ fancy install bakkdoor/mongo.fy
 
   Will install the mongo.fy package from http://github.com/bakkdoor/mongo.fy

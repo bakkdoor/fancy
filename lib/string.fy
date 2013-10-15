@@ -18,12 +18,14 @@ class String {
       @return Uppercased version of @self.
 
       Example:
+
             \"hello world\" uppercase # => \"HELLO WORLD\"
     """,
     'lowercase => """
       @return Lowercased version of @self.
 
       Example:
+
             \"HELLO WORLD\" lowercase # => \"hello world\"
     """
   ]>
@@ -71,6 +73,7 @@ class String {
     Returns a @String@ that is the num-fold concatenation of itself.
 
     Example:
+
           \"foo\" * 3 # => \"foofoofoo\"
     """
 
@@ -86,6 +89,7 @@ class String {
     @return @Array@ of all the whitespace seperated words in @self.
 
     Example:
+
           \"hello world\" words  # => [\"hello\", \"world\"]
     """
 
@@ -129,6 +133,7 @@ class String {
     Appends @object's @String@ representation to @self.
 
     Example:
+
           str = \"hello\"
           str << \" \"
           str << 42
@@ -187,6 +192,7 @@ class String {
     @return Absolute @File@ path relative to @self.
 
     Example:
+
           __FILE__ relative: \"../foo/bar\"
     """
 
@@ -198,6 +204,7 @@ class String {
     @return @true if @self is a multiline string, @false otherwise.
 
     Example:
+
           \"foo\nbar\" multiline? # => true
           \"foo bar\" multiline?  # => false
           \"\" multiline?         # => false
@@ -251,6 +258,7 @@ class String {
     @return @true if @self is completely uppercase, @false otherwise.
 
     Example:
+
         \"F\"   uppercase? # => true
         \"FOO\" uppercase? # => true
         \"f\”   uppercase? # => false
@@ -266,6 +274,7 @@ class String {
     @return @true if @self is completely lowercase, @false otherwise.
 
     Example:
+
         \"f\”   lowercase? # => true
         \"foo\" lowercase? # => true
         \"F\"   lowercase? # => false

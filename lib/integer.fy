@@ -27,6 +27,7 @@ class Integer {
     value or raising the last exception raised from @block after @self tries.
 
     Example:
+
           2 times_try: {
             # this code will be tried 2 times.
             # if it succeeds the first time, simply return its value, otherwise try once more.
@@ -56,6 +57,7 @@ class Integer {
     Returns all decimals of an Integer as an Array.
 
     Example:
+
           100 decimals   # => [1, 0, 0]
           12345 decimals # => [1, 2, 3, 4, 5]
     """

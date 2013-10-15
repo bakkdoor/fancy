@@ -54,6 +54,7 @@ class Block {
     Calls a @Block@ with @receiver as the receiver (referenced by @self within the Block).
 
     Example:
+
           r1 = [1,2,3]
           r2 = \"hello world\"
           b = { self class }
@@ -72,6 +73,7 @@ class Block {
     Same as @call_with_receiver: but passing along arguments to the @Block@.
 
     Example:
+
           r1 = [1,2,3]
           r2 = \"hello world\"
           b = |arg| { self to_s + arg }

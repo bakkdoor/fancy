@@ -15,6 +15,7 @@ class Tuple {
     Creates a new @Tuple@ with the @values passed in.
 
     Example:
+
           Tuple with_values: [1,2,3] # => (1,2,3)
     """
 
@@ -93,6 +94,7 @@ class Tuple {
     @return @self.
 
     Example:
+
           (1,2,3) reverse_each: @{print}
           # prints: 321
     """

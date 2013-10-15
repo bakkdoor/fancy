@@ -384,6 +384,7 @@ class Object {
     only if @self responds to them.
 
     Example:
+
           # only send 'some_message: if object responds to it:
           object if_responds? some_message: some_parameter
     """
@@ -396,9 +397,11 @@ class Object {
     This is the default implementation for backtick: which gets called when using the backtick syntax.
 
     For example:
+
           `cat README`
 
     Gets translated to the following message send:
+
           self backtick: \"cat README\"
 
     Which allows for custom implementations of the backtick: method, if needed.
@@ -655,6 +658,7 @@ class Object {
     If you pass it a block with 1 argument this method behaves exactly like @Object#tap:@
 
     Example:
+
           some_complex_object do: @{
             method_1: arg1
             method_2: arg2
@@ -712,6 +716,7 @@ class Object {
     Those raised in @block will be reraised up the callstack.
 
     Example:
+
           File write: \"/tmp/output.txt\" with: |f| {
             let: '*stdout* be: f in: {
               \"hello, world!\" println # writes it to file not STDOUT
@@ -744,6 +749,7 @@ class Object {
     Opens @filename and rebinds `*stdout*` to it within @block.
 
     Example:
+
           with_output_to: \"/tmp/hello_world.txt\" do: {
             \"hello\" println
             \"world\" println
@@ -801,6 +807,7 @@ class Object {
     @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
 
     Example:
+
           ignoring: (IOError, ZeroDivisionError) do: {
             # do something
           }
@@ -821,6 +828,7 @@ class Object {
     If @within_block takes an argument, it is called with @self.
 
     Example:
+
           class MyRebindableClass {
             def foo {
               42

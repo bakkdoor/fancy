@@ -40,6 +40,7 @@ class Fancy {
       It will move the internal position forward (compared to e.g. #peek, which doesn't).
 
       Example:
+
             a = [1,2,3]
             e = a to_enum
             e next # => 1
@@ -79,6 +80,7 @@ class Fancy {
       raised.
 
       Example:
+
             a = [1,2,3]
             e = a to_enum
             e next p #=> 1

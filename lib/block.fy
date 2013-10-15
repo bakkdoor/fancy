@@ -19,6 +19,7 @@ class Block {
     Executes a given @Block@ while self evals to @nil or @false.
 
     Example:
+
           i = 0
           { i >= 10 } while_false: {
             i println
@@ -156,6 +157,7 @@ class Block {
     Looks and feels similar to Javascript object literals.
 
     Example:
+
           o = {
             something: \"foo bar baz\"
             with: 42
@@ -175,6 +177,7 @@ class Block {
     Nested blocks are converted to objects as well.
 
     Example:
+
           o = {
             something: \"foo bar baz\"
             with: {
@@ -202,6 +205,7 @@ class Block {
     Similar to @Block#object@ but returning a @Hash@ instead of an @Object@
 
     Example:
+
           o = {
             something: \"foo bar baz\"
             with: 42
@@ -217,6 +221,7 @@ class Block {
     Similar to @Block#to_hash@ but converting any value that's a @Block@ to a @Hash@ as well.
 
     Example:
+
           o = {
             something: \"foo bar baz\"
             with: 42
@@ -235,6 +240,7 @@ class Block {
     Similar to @Block#to_hash@ but returning an @Array@ instead of a @Hash@
 
     Example:
+
           a = {
             something: \"foo bar baz\"
             with: 42
@@ -253,6 +259,7 @@ class Block {
     Same as: `iterations times: self`
 
     Example:
+
           { \"Hello, World\" println } * 2
           # => prints \"Hello, World\" 2 times
     """
@@ -266,6 +273,7 @@ class Block {
     @return @Block@ that calls @self, then @block.
 
     Example:
+
           # prints \"Hello World!\"
           { \"Hello\" print } then: { \"World!\" println }
     """
@@ -281,6 +289,7 @@ class Block {
     @return @Block@ that calls @self after calling @block.
 
     Example:
+
           # prints \"Hello World!\"
           { \"World!\" println } after: { \"Hello\" print }
     """

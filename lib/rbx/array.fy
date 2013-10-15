@@ -16,6 +16,7 @@ class Array {
     store the return value.
 
     Example:
+
           Array new: 3 with: 'hello    # => ['hello, 'hello, 'hello]
           # default can also be a block, taking the current index.
           Array new: 3 with: @{ * 2 }  # => [0, 2, 4]
@@ -122,6 +123,7 @@ class Array {
     Joins all elements in the Array with a given @String@.
 
     Example:
+
           [1,2,3] join: \", \” # => \”1, 2, 3\"
     """
 
@@ -135,6 +137,7 @@ class Array {
     Joins all elements with the empty @String@.
 
     Example:
+
           [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
     """
 
@@ -149,6 +152,7 @@ class Array {
     Inserts a value at the front of @self.
 
     Example:
+
           a = [1,2,3]
           a unshift: 10
           a # => [10,1,2,3]

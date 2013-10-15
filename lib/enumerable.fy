@@ -12,8 +12,9 @@ class Fancy {
       @return Value in @self at 0-based position defined by @index.
 
       Example:
-            \"foo\” at: 2 # => \"o\"
-            \"foo\” at: 3 # => nil
+
+            \"foo\" at: 2 # => \"o\"
+            \"foo\" at: 3 # => nil
       """
 
       each_with_index: |x i| {
@@ -98,6 +99,7 @@ class Fancy {
       @return @Array@ of first @amount elements in @self.
 
       Example:
+
             (1,2,3,4) first: 2 # => [1,2]
       """
 
@@ -110,6 +112,7 @@ class Fancy {
       @return @Array@ of last @amount elements in @self.
 
       Example:
+
             (1,2,3,4) last: 2 # => [3,4]
       """
 
@@ -138,6 +141,7 @@ class Fancy {
       calling the first @Block@ for each element in self.
 
       Example:
+
             result = \"\"
             [1,2,3,4,5] each: |i| {
               result << i
@@ -162,6 +166,7 @@ class Fancy {
       Joins a collection with a @String@ between each element, returning a new @String@.
 
       Example:
+
             \"hello, world\" join: \"-\" # => \"h-e-l-l-o-,- -w-o-r-l-d\"
       """
 
@@ -182,6 +187,7 @@ class Fancy {
       Works similar to @Fancy::Enumerable#inject:into:@ but uses first element as value injected.
 
       Example:
+
             (1,2,3) join_by: '+  # => same as: (2,3) inject: 1 into: '+
       """
 
@@ -259,6 +265,7 @@ class Fancy {
       Similar to @find:@ but takes a block that is called for each element to find it.
 
       Example:
+
             [1,2,3,4,5] find_by: @{ even? } # => 2
             [1,2,3,4,5] find_by: @{ odd? } # => 1
             [1,2,3,4,5] find_by: @{ % 3 == 0 } # => 3
@@ -310,6 +317,7 @@ class Fancy {
       Calls @block with @item for each occurance of @item in @self.
 
       Example:
+
             count = 0
             [1,2,3,2,1] for_every: 1 do: { count = count + 1 }
             # count is now 2
@@ -369,6 +377,7 @@ class Fancy {
       @return Collection of all values in @self successively called with all blocks in @blocks.
 
       Example:
+
             (1,2,3) map_chained: (@{ + 1 }, 'to_s, @{ * 2 })
             # => [\"22\", \"33\", \"44\"]
       """
@@ -443,6 +452,7 @@ class Fancy {
       as long as they meet the given condition block.
 
       Example:
+
             [1,2,3,4,5] take_while: |x| { x < 4 } # => [1,2,3]
       """
 
@@ -464,6 +474,7 @@ class Fancy {
       as long as they meet the given condition block.
 
       Example:
+
             [1,2,3,4,5] drop_while: |x| { x < 4 } # => [4,5]
       """
 
@@ -491,6 +502,7 @@ class Fancy {
       @return @Array@ of first @amount elements in @self.
 
       Example:
+
             [1,2,3,4] take: 2 # => [1,2]
       """
 
@@ -507,6 +519,7 @@ class Fancy {
       @return An @Array@ of all but the first @amount elements in @self.
 
       Example:
+
             [1,2,3,4,5] drop: 2 # => [3,4,5]
       """
 
@@ -525,6 +538,7 @@ class Fancy {
       @return New @Array@ without last @amount elements.
 
       Example:
+
             [1,2,3,4] drop_last: 2  # => [1,2]
       """
 
@@ -537,6 +551,7 @@ class Fancy {
       value and an initial value.
 
       Example:
+
             [1,2,3] reduce: |sum val| { sum + val } init_val: 0 # => 6
       """
 
@@ -553,6 +568,7 @@ class Fancy {
       and the reducing block as second parameter.
 
       Example:
+
             [1,2,3] inject: 0 into: |sum val| { sum + val } # => 6
       """
 
@@ -566,6 +582,7 @@ class Fancy {
       Returns a new Array with all unique values (double entries are skipped).
 
       Example:
+
             [1,2,1,2,3] unique # => [1,2,3]
       """
 
@@ -609,6 +626,7 @@ class Fancy {
       Returns a new @Array@ with all values removed that are @nil ( return @true on @nil? ).
 
       Example:
+
             [1,2,nil,3,nil] compact # => [1,2,3]
       """
 
@@ -627,6 +645,7 @@ class Fancy {
       @selection_block defaults to @identity.
 
       Examples:
+
             [1,2,5,3,4] superior_by: '> # => 5
             [1,2,5,3,4] superior_by: '< # => 1
             [[1,2], [2,3,4], [], [1]] superior_by: '> taking: 'size # => [2,3,4]
@@ -666,6 +685,7 @@ class Fancy {
       Returns the maximum value in the Enumerable (via the '>' comparison message).
 
       Example:
+
             [[1,2,3], [1,2], [1]] max_by: @{ size } # => [1,2,3]
       """
 
@@ -690,6 +710,7 @@ class Fancy {
       Returns the minimum value in the Enumerable (via the '<' comparison message).
 
       Example:
+
             [[1,2,3], [1,2], [1]] min_by: @{ size } # => [1]
       """
 
@@ -703,6 +724,7 @@ class Fancy {
       If @self is empty, returns (nil, nil).
 
       Example:
+
             (1,2,3,4) min_max # => (1, 3)
       """
 
@@ -718,6 +740,7 @@ class Fancy {
       If @self is empty, returns (nil, nil).
 
       Example:
+
             (\"a\", \”bc\", \”def\") min_max_by: 'size # => (1, 3)
       """
 
@@ -766,6 +789,7 @@ class Fancy {
       @return @Array@ of @Array@s, partitioned by equal return values of calling @block with each element
 
       Example:
+
             (0..10) partition_by: @{ < 3 }  # => [[0, 1, 2], [3, 4, 5, 6, 7, 8, 9, 10]]
       """
       last = block call: [first]
@@ -794,6 +818,7 @@ class Fancy {
       calling @block with an element within the chunk.
 
       Example:
+
             [1,3,4,5,6,8,10] chunk_by: 'odd?
             # => [[true, [1,3]], [false, [4]], [true, [5]], [false, [6,8,10]]]
       """
@@ -847,6 +872,7 @@ class Fancy {
       and using the return values for comparison.
 
       Example:
+
             [\"abc\", \"abcd\", \"ab\", \"a\", \"\"] sort_by: @{ size }
             # => [\"\", \"a\", \"ab\", \"abc\", \"abcd\"]
       """
@@ -861,7 +887,8 @@ class Fancy {
       @size Maximum size of each group.
       @return @Array@ of @Array@s with a max size of @size (grouped).
 
-      Example usage:
+      Example:
+
             [1,2,3,4,5] in_groups_of: 3 # => [[1,2,3],[4,5]]
       """
 
@@ -897,6 +924,7 @@ class Fancy {
       value of calling @block with the elements).
 
       Example:
+
             ('foo, 1, 2, 'bar) group_by: @{ class }
             # => <[Symbol => ['foo, 'bar], Fixnum => [1,2]]>
       """
@@ -939,6 +967,7 @@ class Fancy {
       @return @Hash@ of key/value pairs based on values in @self.
 
       Example:
+
               [\"foo\", \”hello\", \"ok\", \"\"] to_hash: @{ size }
               # => <[3 => \"foo\", 5 => \"hello\", 2 => \"ok\", 0 => \"\"]>
       """
@@ -969,6 +998,7 @@ class Fancy {
       @return @Fixnum@ that is the amount of elements in @self for which @block yields @true.
 
       Example:
+
             (0..10) count: @{ even? }                   # => 6 (even numbers are: 0,2,4,6,8,10)
             [1,2,3] count: @{ odd? }                    # => 2
             [1,2, \"foo\"] count: @{ class == String }  # => 1
@@ -986,6 +1016,7 @@ class Fancy {
       @return @String@ concatenation of elements in @self.
 
       Example:
+
             (1,2,3) to_s # => \"123\"
             [1,2,3] to_s # => \"123\"
             \"foo\" to_s # => \"foo\"
@@ -999,6 +1030,7 @@ class Fancy {
       @return @true if @self is sorted, @false otherwise.
 
       Example:
+
             (1,2,3) sorted? # => true
             (2,1,3) sorted? # => false
             \"abc\" sorted? # => true
@@ -1021,6 +1053,7 @@ class Fancy {
       @return @Array@ of 2 @Array@s of elements in self splitted at @index.
 
       Example:
+
             [1,2,3,4,5] split_at: 2 # => [[1,2], [3,4,5]]
       """
 
@@ -1033,6 +1066,7 @@ class Fancy {
       @return @Array@ of 2 @Array@s of elements split based on @predicate_block.
 
       Example:
+
             [1,2,3,4,5] split_with: @{ < 3 } # => [[1, 2], [3, 4, 5]]
       """
 
@@ -1045,6 +1079,7 @@ class Fancy {
       @return Elements in @self for which @pattern matches.
 
       Example:
+
             \"hello world\" grep: /[a-h]/                 # => [\"h\", \"e\", \"d\"]
             [\"hello\", \"world\", 1, 2, 3] grep: String  # => [\"hello\", \"world\"]
       """
@@ -1059,6 +1094,7 @@ class Fancy {
       @return Return values of elements in @self called with @block for which @pattern matches.
 
       Example:
+
             \"hello world\" grep: /[a-h]/ taking: @{ upcase }             # => [\"H\", \"E\", \"D\"]
             [\"hello\", \"world\", 1, 2, 3] grep: String taking: 'upcase  # => [\"HELLO\", \"WORLD\"]
       """
@@ -1078,6 +1114,7 @@ class Fancy {
       @return @true if @block yields @true only once for all elements in @self.
 
       Example:
+
             (0,1,2) one?: 'odd?  # => true
             (0,1,2) one?: 'even? # => false
       """
@@ -1098,6 +1135,7 @@ class Fancy {
       @return @true if none of the elements in @self called with @block yield @true.
 
       Example:
+
             (0,2,4) none?: 'odd?   # => true
             (0,2,5) none?: 'odd? # => false
       """

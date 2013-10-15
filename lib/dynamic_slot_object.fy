@@ -3,6 +3,7 @@ class DynamicSlotObject : Fancy BasicObject {
   Helper class to dynamically create @Object@s with slots defined by sending messages to it.
 
   Example:
+
         dso = DynamicSlotObject new
         dso name: \"Chris\"
         dso age: 25
@@ -36,6 +37,7 @@ class DynamicKeyHash : Fancy BasicObject {
   Helper class to dynamically create @Hash@es with keys and values defined by sending messages to it.
 
   Example:
+
         dkh = DynamicKeyHash new
         dkh name: \"Chris\"
         dkh age: 25
@@ -78,6 +80,7 @@ class DynamicValueArray : Fancy BasicObject {
   Helper class to dynamically create @Array@s with values defined by sending messages to it.
 
   Example:
+
         dva = DynamicValueArray new
         dva name: \"Chris\"
         dva age: 25

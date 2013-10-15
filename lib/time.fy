@@ -7,6 +7,7 @@ class Time {
     Calls @block and times the runtime duration of doing so in seconds.
 
     Example:
+
           Time duration: { Thread sleep: 1 } # => >= 1.0
     """
 

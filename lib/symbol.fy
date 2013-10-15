@@ -14,6 +14,7 @@ class Symbol {
     This allows Symbols to be used like Blocks (e.g. in all methods of Enumerable).
 
     Example:
+
           [1, 2, 3] map: 'squared # => [1, 4, 9]
     """
 
@@ -29,6 +30,7 @@ class Symbol {
     Sends @self as message to the sender in its context.
 
     Example:
+
           'foo call
            # => same as
            self foo
@@ -75,6 +77,7 @@ class Symbol {
     @return @Block@ that sends @self to its first argument, passing along any remaining arguments.
 
     Example:
+
           'inspect to_block
           # is equal to:
           @{ inspect }

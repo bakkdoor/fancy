@@ -69,6 +69,7 @@ class Proxies {
     returning @nil instead of a @FutureSend@, as expected.
 
     Example:
+
           ap = ActorProxy new: target_actor
 
           # this:
@@ -103,6 +104,7 @@ class Proxies {
     in a @Fancy::Enumerable@ specified upon creation.
 
     Example:
+
           p = DistributingProxy new: [worker1, worker2, worker3, worker4]
           loop: {
             req = @input receive_request

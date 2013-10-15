@@ -6,6 +6,7 @@ class KVO {
   with Fancy's semantics.
 
   Example:
+
         class Person {
           include: KVO
           read_write_slots: ('name, 'age, 'city)
