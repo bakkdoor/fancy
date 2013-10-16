@@ -81,8 +81,11 @@ class Array {
     """
 
     if: (index is_a?: Fancy Enumerable) then: {
-      start, end = index
-      from: start to: end
+      # start, end = index
+      # from: start to: end
+      # Avoiding initializing variables in the block to make life easier for
+      # the GC.
+      from: (index[0]) to: (index[1])
     } else: {
       at: index
     }

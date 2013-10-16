@@ -2,13 +2,19 @@ TODO: Improve `read_write_slots:` performance (see fasta2.fy and
       fasta-perf-read-write-profile.txt).
 
 TODO: Check performance of array indexing (Array#:[] and Array:::[])
+
 TODO: Also investigate Array#:[] vs. Array#at:
+^ DONE: [] does stuff with enumerables whereas at: is a simple Fixnum-index.
 
 TODO: Check performance of Rubinius::Type and how that's being used by Fancy.
       Notes:
         Rubinius::Type.coerce_to_constant_name
         Rubinius::Type.coerce_to_symbol
 
+
+
 TODO: Check for scoping optimizations. (Rubinius::ConstantScope)
+^ DONE: No optimizations really possible.
 
 TODO: Check performance of Kernel#is_a?.
+^ DONE: 645a99125248fec5e0a8ede810afe5ac6608c985
