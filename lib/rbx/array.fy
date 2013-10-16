@@ -63,16 +63,17 @@ class Array {
     nil
   }
 
-  def at: idx {
-    """
-    @idx Index for value to retrieve.
-    @return Value with the given index (if available), or @nil.
-
-    Returns the element in the @Array@ at a given index.
-    """
-
-    at(idx)
-  }
+  # def at: idx {
+  #   """
+  #   @idx Index for value to retrieve.
+  #   @return Value with the given index (if available), or @nil.
+  # 
+  #   Returns the element in the @Array@ at a given index.
+  #   """
+  # 
+  #   at(idx)
+  # }
+  alias_method: 'at: for: 'at
 
   alias_method('at_put, '[]=)
 

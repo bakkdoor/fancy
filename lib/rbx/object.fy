@@ -79,25 +79,27 @@ class Object {
     metaclass undefine_method: name
   }
 
-  def is_a?: class {
-    """
-    @class @Class@ to check for if @self is an instance of.
-    @return @true if @self is an instance of @class, @false otherwise.
+  # def is_a?: class {
+  #   """
+  #   @class @Class@ to check for if @self is an instance of.
+  #   @return @true if @self is an instance of @class, @false otherwise.
+  # 
+  #   Indicates, if an object is an instance of a given Class.
+  #   """
+  # 
+  #   is_a?(class)
+  # }
+  alias_method: 'is_a?: for: 'is_a?
 
-    Indicates, if an object is an instance of a given Class.
-    """
-
-    is_a?(class)
-  }
-
-  def kind_of?: class {
-    """
-    Same as Object#is_a?:
-    Indicates, if an object is an instance of a given Class.
-    """
-
-    kind_of?(class)
-  }
+  # def kind_of?: class {
+  #   """
+  #   Same as Object#is_a?:
+  #   Indicates, if an object is an instance of a given Class.
+  #   """
+  # 
+  #   kind_of?(class)
+  # }
+  alias_method: 'kind_of?: for: 'kind_of?
 
   def receive_message: message {
     """
