@@ -95,10 +95,9 @@ class Array {
     If given a single @Fixnum@, returns the element at that index.
     """
 
-    if: (index is_a?: Fancy Enumerable) then: {
-      from: (index[0]) to: (index[1])
-    } else: {
-      at: index
+    match index {
+      case Integer          -> at: index
+      case Fancy Enumerable -> from: (index[0]) to: (index[1])
     }
   }
 
