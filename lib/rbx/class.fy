@@ -264,7 +264,7 @@ class Class {
       case _ -> alias_method(ruby_method_name, method_name message_name)
     }
   }
-  
+
   def method_documentation: documentation_hash {
     """
     @documentation_hash @Hash@ of method name to documentation string.
@@ -286,12 +286,12 @@ class Class {
       instance_method: method_name . documentation: doc
     }
   }
-  
+
   def method: method_name doc: doc_string {
     """
     @method_name Name of method to set documentation string for.
     @doc Documentation string.
-    
+
     Sets the documentation string @doc for the method @method_name.
     """
     instance_method: method_name . documentation: doc_string

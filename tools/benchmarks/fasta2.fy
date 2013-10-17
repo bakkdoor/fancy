@@ -90,10 +90,10 @@ def fasta_repeat: n seq: seq {
 
 def fasta_random: count genelist: list {
   _stdout = *stdout*
-  
+
   #buff = Array new: WIDTH
   make_cumulative: list
-  
+
   while: { count > 0 } do: {
     buff = StringIO new
     line = WIDTH min: count
@@ -102,7 +102,7 @@ def fasta_random: count genelist: list {
     while: { pos < line } do: {
       Last = (Last * A + C) % M
       r = (Last to_f) / M
-      
+
       i = 0
       # Linear search
       while: { (list[i] p) < r } do: {

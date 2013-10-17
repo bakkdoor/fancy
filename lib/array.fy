@@ -4,28 +4,28 @@ class Array {
   Arrays are dynamically resizable containers with a constant-time
   index-based access to members.
   """
-  
+
   include: Fancy Enumerable
-  
+
   # Late-documentation of Rbx-methods.
   # lib/rbx/array.fy#L66
   method_documentation: <[
     'at: => """
       @idx Index for value to retrieve.
       @return Value with the given index (if available), or @nil.
-      
+
       Returns the element in the @Array@ at a given index.
     """,
-    
+
     '[]: => """
       @idx Index to set a value for.
       @obj Value (object) to be set at the given index.
       @return @obj.
-      
+
       Inserts a given object at a given index (position) in the Array.
     """
   ]>
-  
+
   def Array new: size {
     """
     @size Initial size of the @Array@ to be created (values default to @nil).

@@ -62,11 +62,11 @@ class Array {
     }
     nil
   }
-  
+
   # Late-documented in lib/array.fy#L10
   alias_method: 'at: for: 'at
   alias_method: '[]: for_ruby: '[]=
-  
+
   alias_method: 'at:put: for: '[]:
   alias_method('at_put, '[]=)
 
