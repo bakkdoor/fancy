@@ -3,7 +3,26 @@ class Object {
   Root class of Fancy's class hierarchy.
   All classes inherit from Object.
   """
+  
+  # Late-documentation of Rbx-methods.
+  # lib/rbx/object.fy#L82
+  method_documentation: <[
+    'is_a?: => """
+      @class @Class@ to check for if @self is an instance of.
+      @return @true if @self is an instance of @class, @false otherwise.
 
+      Indicates, if an object is an instance of a given Class.
+    """,
+    
+    'kind_of?: => """
+      @class @Class@ to check for if @self is an instance of.
+      @return @true if @self is an instance of @class, @false otherwise.
+      
+      Same as Object#is_a?:
+      Indicates, if an object is an instance of a given Class.
+    """
+  ]>
+  
   def ++ other {
     """
     @other Other object to concatenate its @String value with.

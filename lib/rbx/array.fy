@@ -62,34 +62,13 @@ class Array {
     }
     nil
   }
-
-  # def at: idx {
-  #   """
-  #   @idx Index for value to retrieve.
-  #   @return Value with the given index (if available), or @nil.
-  # 
-  #   Returns the element in the @Array@ at a given index.
-  #   """
-  # 
-  #   at(idx)
-  # }
+  
+  # Late-documented in lib/array.fy#L10
   alias_method: 'at: for: 'at
-
-  alias_method('at_put, '[]=)
-
-  def [idx]: obj {
-    """
-    @idx Index to set a value for.
-    @obj Value (object) to be set at the given index.
-    @return @obj.
-
-    Inserts a given object at a given index (position) in the Array.
-    """
-
-    at_put(idx, obj)
-  }
-
+  alias_method: '[]: for_ruby: '[]=
+  
   alias_method: 'at:put: for: '[]:
+  alias_method('at_put, '[]=)
 
   def index: item {
     """
