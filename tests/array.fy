@@ -494,9 +494,15 @@ FancySpec describe: Array with: {
   }
 
   it: "returns a clone" with: 'clone when: {
-    [1,2,3] clone is: [1,2,3]
-    [1] clone is: [1]
-    [] clone is: []
+    [[1,2,3], [1,2], [1], []] each: |array| {
+      clone = array clone
+
+      clone == array is: true
+      clone object_id is_not: $ array object_id
+
+      clone << 1
+      clone is: $ array << 1
+    }
   }
 
   it: "calculates the sum for an Array of numbers" with: 'sum when: {

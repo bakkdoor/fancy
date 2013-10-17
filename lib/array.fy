@@ -43,11 +43,7 @@ class Array {
     Clones (shallow copy) the @Array@.
     """
 
-    new = []
-    each: |x| {
-      new << x
-    }
-    new
+    dup
   }
 
   def append: enum {
