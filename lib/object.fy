@@ -789,7 +789,7 @@ class Object {
     @return @Array@ of all class methods defined in Fancy.
     """
 
-    methods select: @{ includes?: ":" }
+    methods select: @{ to_s includes?: ":" }
   }
 
   def ruby_methods {
