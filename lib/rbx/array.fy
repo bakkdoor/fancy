@@ -68,7 +68,6 @@ class Array {
   alias_method: '[]: for_ruby: '[]=
 
   alias_method: 'at:put: for: '[]:
-  alias_method('at_put, '[]=)
 
   def index: item {
     """
