@@ -1,4 +1,6 @@
 Makefile
+bundle
+.ruby-version
 .DS_Store
 *.o
 *~
