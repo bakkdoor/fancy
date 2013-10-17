@@ -574,26 +574,4 @@ class Class {
       }
     }
   }
-
-  def method_documentation: documentation_hash {
-    """
-    @documentation_hash @Hash@ of method name to documentation string.
-
-    Sets documentation strings for methods defined in @documentation_hash.
-    Useful for documenting methods without touching their implementation.
-
-    Example:
-
-          class SomeRubyLibraryClass {
-            method_documentation: <[
-              'some_method_a => \"Docstring A\",
-              'some_method_b => \"Docstring B\"
-            ]>
-          }
-    """
-
-    documentation_hash each: |method_name doc| {
-      instance_method: method_name . documentation: doc
-    }
-  }
 }

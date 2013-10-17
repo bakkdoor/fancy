@@ -264,4 +264,36 @@ class Class {
       case _ -> alias_method(ruby_method_name, method_name message_name)
     }
   }
+  
+  def method_documentation: documentation_hash {
+    """
+    @documentation_hash @Hash@ of method name to documentation string.
+
+    Sets documentation strings for methods defined in @documentation_hash.
+    Useful for documenting methods without touching their implementation.
+
+    Example:
+
+          class SomeRubyLibraryClass {
+            method_documentation: <[
+              'some_method_a => \"Docstring A\",
+              'some_method_b => \"Docstring B\"
+            ]>
+          }
+    """
+
+    documentation_hash each: |method_name doc| {
+      instance_method: method_name . documentation: doc
+    }
+  }
+  
+  def method: method_name doc: doc_string {
+    """
+    @method_name Name of method to set documentation string for.
+    @doc Documentation string.
+    
+    Sets the documentation string @doc for the method @method_name.
+    """
+    instance_method: method_name . documentation: doc_string
+  }
 }
