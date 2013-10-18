@@ -3,3 +3,4 @@
 # improved performance.
 
 require: "asm/array"
+require: "asm/integer"

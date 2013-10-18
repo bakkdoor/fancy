@@ -8,7 +8,7 @@ class Integer {
 
     Calls a given @Block@ with each number between 0 and @self.
     """
-
+    # NOTE: Semantic reference; actual implementation in lib/asm/integer.fy
     try {
       times(&block)
     } catch Fancy BreakIteration => b {
