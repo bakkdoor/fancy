@@ -46,6 +46,10 @@ require: "kvo"
 require: "time"
 require: "message"
 
+# asm.fy loads stuff in lib/asm/, which holds Rubinius bytecode
+# implementations of certain methods for improved performance.
+require: "asm"
+
 # version holds fancy's version number
 require: "version"
 require: "argv"
