@@ -5,6 +5,7 @@ class TestModuleConstant {
     Constant = true
   }
 }
+TestModuleConstantMultiA, TestModuleConstantMultiB = 1, 2
 
 FancySpec describe: Module with: {
   it: "preserves method documentation when dynamically overwriting" \
@@ -35,6 +36,10 @@ FancySpec describe: Module with: {
     TestModuleTopLevelConstant is_not: 'other
     TestModuleTopLevelConstant = 'other
     TestModuleTopLevelConstant is: 'other
+  }
+  it: "multiple-assigns constants" when: {
+    TestModuleConstantMultiA is: 1
+    TestModuleConstantMultiB is: 2
   }
 
 }#/Module
