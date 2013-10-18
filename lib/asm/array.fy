@@ -1,6 +1,6 @@
 class Array {
   # lib/array.fy#L89: def [index]
-  dynamic_method(':[]) |g| {
+  overwrite_method: ':[] with_dynamic: |g| {
     check_enumerable = g new_label()
     err = g new_label()
     g total_args=(1)

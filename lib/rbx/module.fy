@@ -32,4 +32,21 @@ class Module {
     # do nothing by default
     nil
   }
+  
+  def overwrite_method: name with_dynamic: block {
+    prev = nil
+    try {
+      # Try to get a previous documentation instance so that we don't overwrite it.
+      prev = self method_table lookup(name) method() documentation
+    } catch ArgumentError => e { }
+    # Call to Rubinius to set up the method.
+    code = self dynamic_method(name, &block)
+
+    if: prev then: {
+      # Janky since docs method isn't always available when this is called.
+      docstring = prev instance_variable_get('@docs)
+      self method_table lookup(name) method() documentation: docstring
+    }
+    return code
+  }
 }
