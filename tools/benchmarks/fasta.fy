@@ -71,7 +71,7 @@ def fasta_random: n table: table {
     0 upto: (line - 1) . each: |pos| {
       Last = (Last * A + C) % M
       r = (Last to_f) / M
-      table each: |c, p| { # char, probability
+      table each: |c p| { # char, probability
         if: (p >= r) then: {
           buff at: pos put: c
           break

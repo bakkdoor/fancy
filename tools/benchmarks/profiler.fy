@@ -3,8 +3,12 @@ require("profiler")
 
 Profiler = nil
 DEV_NULL = File open: (File NULL) modes: ['write]
+def start_graph_profile! {
+  Profiler = Rubinius::Profiler::Instrumenter.new(<['graph => true]>)
+  Profiler start()
+}
 def start_profile! {
-  Profiler = Rubinius::Profiler::Instrumenter.new#(<['graph => true]>)
+  Profiler = Rubinius::Profiler::Instrumenter.new
   Profiler start()
 }
 def stop_profile! {
