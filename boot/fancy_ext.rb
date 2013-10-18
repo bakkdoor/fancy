@@ -16,6 +16,7 @@ require base + "console"
 require base + "delegator"
 require base + "symbol"
 require base + "array"
+require base + "rubinius"
 
 unless Rubinius::VERSION =~ /^1\./
   begin

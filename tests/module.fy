@@ -1,3 +1,11 @@
+TestModuleTopLevelConstant = true
+class TestModuleConstant {
+  Constant = true
+  class Nested {
+    Constant = true
+  }
+}
+
 FancySpec describe: Module with: {
   it: "preserves method documentation when dynamically overwriting" \
   with: 'overwrite_method:with_dynamic: when: {
@@ -17,5 +25,16 @@ FancySpec describe: Module with: {
     # Make sure it's preserved
     Bar instance_method: 'foo . documentation to_s is: "bar"
   }#/preserve method documentation
+  
+  it: "gets constants" when: {
+    TestModuleTopLevelConstant is_not: nil
+    TestModuleConstant Constant is: true
+    TestModuleConstant Nested Constant is: true
+  }
+  it: "sets top-level constants" when: {
+    TestModuleTopLevelConstant is_not: 'other
+    TestModuleTopLevelConstant = 'other
+    TestModuleTopLevelConstant is: 'other
+  }
 
 }#/Module

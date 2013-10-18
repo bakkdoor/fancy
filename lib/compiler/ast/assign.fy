@@ -85,7 +85,11 @@ class Fancy AST {
   class Constant {
     def bytecode: g assign: value {
       pos(g)
-      Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
+      # Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
+      g push_scope()
+      g push_literal(name)
+      value bytecode: g
+      g send('const_set_fast, 2)
     }
   }
 

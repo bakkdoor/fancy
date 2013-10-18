@@ -91,7 +91,8 @@ class Fancy AST {
     def initialize: @line string: @string
     def bytecode: g {
       pos(g)
-      Rubinius AST ConstantAccess new(@line, name) bytecode(g)
+      # Rubinius AST ConstantAccess new(@line, name) bytecode(g)
+      g push_const(name)
     }
   }
 
