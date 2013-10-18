@@ -34,6 +34,14 @@ class Module {
   }
   
   def overwrite_method: name with_dynamic: block {
+    """
+    @name @Symbol name of method to overwrite.
+    @block Block called with @Rubinius Generator@ as argument for generating
+    bytecode body of method.
+    
+    Overwrites method of @self with bytecode implementation. Preserves any
+    @Fancy Documentation@ of method.
+    """
     prev = nil
     try {
       # Try to get a previous documentation instance so that we don't overwrite it.
