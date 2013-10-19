@@ -91,7 +91,7 @@ class Fancy AST {
     def initialize: @line string: @string
     def bytecode: g {
       pos(g)
-      # Rubinius AST ConstantAccess new(@line, name) bytecode(g)
+      # Use quick constant lookup (top-level handled in TopLevelConstant).
       g push_const(name)
     }
   }

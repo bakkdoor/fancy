@@ -83,14 +83,14 @@ class Fancy AST {
   }
 
   class Constant {
+    # NOTE: Based off of Rubinius::AST::ConstantAssignment
     def bytecode: g assign: value {
       pos(g)
-      #Rubinius AST ConstantAssignment new(@line, name, value) bytecode(g)
-      # Must eventually be: scope, literal, value
-      value bytecode: g
-      g push_literal(name)
-      g push_scope()
-      g rotate(3)
+      value bytecode: g    # S: value
+      g push_literal(name) # S: value, name
+      g push_scope()       # S: value, name, scope
+      g rotate(3) # Flip, so S: scope, name, value
+      # Invoke Fancy-specific Module#const_set_fast (boot/fancy_ext/module.rb).
       g send('const_set_fast, 2)
     }
   }
