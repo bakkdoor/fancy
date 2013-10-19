@@ -280,6 +280,16 @@ class Class {
     alias_method_rbx: new_method_name for: old_method_name
   }
 
+  def alias_ruby_setters {
+    """
+    Creates fancy alias methods for any ruby setter methods.
+    """
+
+    ruby_instance_methods select: /\w+\=$/ . each: |m| {
+      alias_method: (m to_s replace: "=" with: ":") for_ruby: m
+    }
+  }
+
   def delegate: methods to_slot: slotname {
     """
     @methods @Fancy::Enumerable@ of method names to be delegated.
