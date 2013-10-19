@@ -16,7 +16,7 @@ class Array {
     err = g new_label()
     g total_args=(1)
     g required_args=(1)
-    
+
     # Push Integer Class onto stack followed by first argument.
     g push_const('Integer)
     g push_local(0)
@@ -29,7 +29,7 @@ class Array {
     g push_local(0) # Push Integer arg back onto the stack.
     g send('at:, 1)
     g ret()
-    
+
     check_enumerable set!()
     # Make sure it's an Enumerable.
     g push_const('Fancy)      # S: Fancy
@@ -49,7 +49,7 @@ class Array {
     # Now called with from:to:
     g send('from:to:, 2)
     g ret()
-    
+
     err set!()
     g push_const('ArgumentError)
     g push_literal("Index must be Integer or Fancy Enumerable")

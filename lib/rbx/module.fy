@@ -32,21 +32,25 @@ class Module {
     # do nothing by default
     nil
   }
-  
+
   def overwrite_method: name with_dynamic: block {
     """
     @name @Symbol name of method to overwrite.
     @block Block called with @Rubinius Generator@ as argument for generating
     bytecode body of method.
-    
+
     Overwrites method of @self with bytecode implementation. Preserves any
     @Fancy Documentation@ of method.
     """
+
     prev = nil
+
     try {
-      # Try to get a previous documentation instance so that we don't overwrite it.
+      # Try to get a previous documentation instance
+      # so that we don't overwrite it.
       prev = self method_table lookup(name) method() documentation
-    } catch ArgumentError => e { }
+    } catch ArgumentError { }
+
     # Call to Rubinius to set up the method.
     code = self dynamic_method(name, &block)
 
@@ -55,6 +59,7 @@ class Module {
       docstring = prev instance_variable_get('@docs)
       self method_table lookup(name) method() documentation: docstring
     }
+
     return code
   }
 }
