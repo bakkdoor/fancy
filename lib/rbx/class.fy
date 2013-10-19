@@ -209,9 +209,7 @@ class Class {
     Creates ruby_alias methods for any unary ruby methods of a class.
     """
 
-    instance_methods select() |m| {
-      m =~(/^[a-z]+/)
-    } select() |m| {
+    instance_methods grep(/^[a-z]+/) select() |m| {
       instance_method(m) arity() == 0
     } each() |m| {
       ruby_alias: m
