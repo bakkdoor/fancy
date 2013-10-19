@@ -77,5 +77,18 @@ class Module
     return self
   end
 
+  # Fast constant setter. @name *must* be Symbol; @value probably shouldn't be
+  # a Module.
+  def const_set_fast(name, value)
+    # if Rubinius::Type.object_kind_of?(value, Module))
+    #   Rubinius::Type.set_module_name(value, name, self)
+    # end
+
+    @constant_table.store(name, value, :public)
+    Rubinius.inc_global_serial()
+
+    return value
+  end
+
   public :public, :private, :protected, :include, :extend
 end
