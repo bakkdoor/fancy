@@ -103,7 +103,7 @@ class Fancy AST {
           @expr = Identifier from: "Object" line: @line
         }
       }
-      @match_args = @match_args map: 'name
+      @match_args = @match_args map: @{ name }
     }
   }
 }
