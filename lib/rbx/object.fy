@@ -101,7 +101,7 @@ class Object {
     Dynamically sends a given message with parameters to @self.
     """
 
-    ruby: (message message_name) args: params
+    __send__(message message_name, *params)
   }
 
   def responds_to?: message {
