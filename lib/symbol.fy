@@ -18,10 +18,9 @@ class Symbol {
           [1, 2, 3] map: 'squared # => [1, 4, 9]
     """
 
-    if: (arg is_a?: Array) then: {
-      arg first receive_message: self with_params: $ arg rest
-    } else: {
-      arg receive_message: self
+    match arg {
+      case Array -> arg[0] receive_message: self with_params: $ arg rest
+      case _     -> arg receive_message: self
     }
   }
 
