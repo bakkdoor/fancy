@@ -65,6 +65,21 @@ Once the bootstrapping process is done, you can run the hello world example:
 
     $ ./bin/fancy examples/hello_world.fy
 
+#### Build commands
+While working on the Fancy core and standard library (files in boot/ and lib/),
+changes should be automatically picked up by Rake. This means running
+`rake` will recompile just those changed files.
+
+##### Modifying the compiler
+If you're working on the Fancy language compiler (lib/compiler/ and boot/rbx-compiler/),
+you should run `rake clean` before running `rake`. This will rebuild the compiler so
+you can test your changes.
+
+##### Modifying the parser
+If you're working on the Fancy language parser (lib/parser and boot/rbx-compiler/parser),
+you will need to run `rake clean_all` before running `rake`. This will clean all the
+parser and compiler stuff.
+
 ## Some technical information:
 As the language is running on the Rubinius VM, Fancy shares the same
 runtime with Ruby. All of Fancy is built upon Ruby objects, so for
