@@ -56,7 +56,3 @@ require: "documentation"
 require: "package"
 require: "contracts"
 require: "matchers"
-
-# asm.fy loads stuff in lib/asm/, which holds Rubinius bytecode
-# implementations of certain methods for improved performance.
-require: "asm"
