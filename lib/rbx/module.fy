@@ -62,4 +62,8 @@ class Module {
 
     return code
   }
+
+  def dynamic_method: method_name with: block {
+    dynamic_method(method_name, &block)
+  }
 }
