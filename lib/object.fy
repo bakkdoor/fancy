@@ -722,6 +722,22 @@ class Object {
     Thread sleep: seconds
   }
 
+  def in?: enumerable {
+    """
+    @enumerable @Fancy::Enumerable@ to check if it includes @self.
+    @return @true if @self is in @enumerable, @false otherwise.
+
+    Indicates if @self is included in @enumerable.
+
+    Example:
+
+          1 in?: [1,2,3] # => true
+          4 in?: [1,2,3] # => false
+    """
+
+    enumerable includes?: self
+  }
+
   def let: var_name be: value in: block (nil) ensuring: ensure_block ({}) {
     """
     @var_name @Symbol@ that represents the name of the dynamic variable to be set.
