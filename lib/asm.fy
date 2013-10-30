@@ -1,4 +1,4 @@
-# optimizations.fy
+# asm.fy
 # This file loads Rubinius bytecode versions of some core methods for
 # improved performance.
 
@@ -11,6 +11,6 @@ class Rubinius Generator {
   }
 }
 
-require: "optimizations/array"
-require: "optimizations/class"
-require: "optimizations/integer"
+require: "asm/array"
+require: "asm/class"
+require: "asm/integer"

@@ -28,9 +28,9 @@ begin
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/rbx/eval", base)
 
 
-  # load runtime optimizations including Rubinius bytecode implementations
-  # of certain methods for improved performance.
-  Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/optimizations", base)
+  # load Rubinius bytecode implementations of certain core methods
+  # for improved performance.
+  Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/asm", base)
 
   # Run main
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/main", base)
