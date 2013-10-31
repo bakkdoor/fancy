@@ -1119,14 +1119,7 @@ class Fancy {
             (0,1,2) one?: 'even? # => false
       """
 
-      got_one? = false
-      each: |x| {
-        if: (block call: [x]) then: {
-          { return false } if: got_one?
-          got_one? = true
-        }
-      }
-      return got_one?
+      count: block == 1
     }
 
     def none?: block {
