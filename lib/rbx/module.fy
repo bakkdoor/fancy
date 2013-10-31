@@ -43,6 +43,18 @@ class Module {
     @Fancy Documentation@ of method.
     """
 
+    overwrite_method: name with: block dynamic: true
+  }
+
+  def overwrite_method: name with: block dynamic: dynamic? (false) {
+    """
+    @name @Symbol@ name of method to overwrite.
+    @block @Block@ used to generate the method's body.
+
+    Overwrites method of @self with new implementation. Preserves any
+    @Fancy Documentation@ of method.
+    """
+
     prev = nil
 
     try {
@@ -52,7 +64,10 @@ class Module {
     } catch ArgumentError { }
 
     # Call to Rubinius to set up the method.
-    code = self dynamic_method(name, &block)
+    code = match dynamic? {
+      case true -> dynamic_method(name, &block)
+      case _    -> define_method(name, &block)
+    }
 
     if: prev then: {
       # Janky since docs method isn't always available when this is called.
