@@ -246,7 +246,8 @@ class FancySpec {
           }
         }
 
-        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
+        secs = sprintf("%.4f", Time now - start_time)
+        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{secs} seconds." println
       }
 
       if: (@@failed_count == 0) then: ok_block else: error_block
