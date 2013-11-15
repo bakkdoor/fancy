@@ -570,4 +570,13 @@ FancySpec describe: Array with: {
     [0,1,2,3] from: 0 to: 3 . is: [0,1,2,3]
     [0,1,2,3] from: -1 to: 3 . is: [3]
   }
+
+  it: "returns an array of permutations of self" with: 'permutations: when: {
+    [] permutations to_a      is: [[]]
+    [] permutations: 0 . to_a is: [[]]
+    [1] permutations to_a     is: [[1]]
+    [1,2] permutations to_a   is: [[1,2], [2,1]]
+    [1,2,3] permutations to_a is: \
+      [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+  }
 }

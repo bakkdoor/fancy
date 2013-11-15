@@ -139,4 +139,20 @@ class Array {
 
     unshift(value)
   }
+
+  def permutations: size (self size) {
+    """
+    @size Optional size of permutations to be returned. Defaults to @self's size.
+    @return @Enumerable::Enumerator@ of all permutations of @self.
+
+    Example:
+
+          [1,2,3] permutations to_a
+          # => [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+          [1,2,3] permutations: 2 . to_a
+          # => [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    """
+
+    to_enum('permutation, size)
+  }
 }
