@@ -1,4 +1,6 @@
 class Module {
+  ruby_aliases: [ '===, 'instance_methods, 'methods, 'to_s, 'constants ]
+
   forwards_unary_ruby_methods
 
   def [constant_name] {
