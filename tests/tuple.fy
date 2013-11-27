@@ -72,4 +72,18 @@ FancySpec describe: Tuple with: {
     (4,5,6,7,8,9) from: 3 to: 5 . is: [7,8,9]
     (1,2,3) from: 1 to: -1 . is: [2,3]
   }
+
+  it: "returns a new tuple with the sum of elements" with: '+ when: {
+    (1,2,3) + (4,5,6) is: (1,2,3,4,5,6)
+    (1,2,3) + (1,2,3) is: (1,2,3,1,2,3)
+    ("hello", "world") + "!" is: ("hello", "world", "!")
+    (1,2) + [1,2,3] is: (1,2,1,2,3)
+  }
+
+  it: "returns a new tuple without any element in the given argument" with: '- when: {
+    (1,2,3,4) - (2,3) is: (1,4)
+    (1,2,3,2,1,2,3,2,1) - (1,2) is: (3,3)
+    ((1,2), (3,4), (5,6)) - (3,4) is: ((1,2), (3,4), (5,6))
+    ((1,2), (3,4), (5,6)) - [(3,4)] is: ((1,2), (5,6))
+  }
 }

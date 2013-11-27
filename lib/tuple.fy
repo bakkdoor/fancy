@@ -148,4 +148,30 @@ class Tuple {
 
     join
   }
+
+  def + other {
+    """
+    @other @Enumerable@ of elements.
+    @return @Tuple@ with elements of @self and @other.
+
+    Example:
+
+          (1,2,3) + (4,5)    # => (1,2,3,4,5)
+    """
+
+    to_a + (other to_a) to_tuple
+  }
+
+  def - other {
+    """
+    @other @Enumerable@ of elements.
+    @return @Tuple@ with elements of @self and excluding those in @other.
+
+    Example:
+
+          (1,2,3) + (4,5)    # => (1,2,3,4,5)
+    """
+
+    to_a - (other to_a) to_tuple
+  }
 }
