@@ -1,4 +1,6 @@
 class Module {
+  ruby_aliases: [ '===, 'instance_methods, 'methods, 'to_s, 'constants ]
+
   forwards_unary_ruby_methods
 
   def [constant_name] {
@@ -31,5 +33,54 @@ class Module {
 
     # do nothing by default
     nil
+  }
+
+  def overwrite_method: name with_dynamic: block {
+    """
+    @name @Symbol name of method to overwrite.
+    @block Block called with @Rubinius Generator@ as argument for generating
+    bytecode body of method.
+
+    Overwrites method of @self with bytecode implementation. Preserves any
+    @Fancy Documentation@ of method.
+    """
+
+    overwrite_method: name with: block dynamic: true
+  }
+
+  def overwrite_method: name with: block dynamic: dynamic? (false) {
+    """
+    @name @Symbol@ name of method to overwrite.
+    @block @Block@ used to generate the method's body.
+
+    Overwrites method of @self with new implementation. Preserves any
+    @Fancy Documentation@ of method.
+    """
+
+    prev = nil
+
+    try {
+      # Try to get a previous documentation instance
+      # so that we don't overwrite it.
+      prev = self method_table lookup(name) method() documentation
+    } catch ArgumentError { }
+
+    # Call to Rubinius to set up the method.
+    code = match dynamic? {
+      case true -> dynamic_method(name, &block)
+      case _    -> define_method(name, &block)
+    }
+
+    if: prev then: {
+      # Janky since docs method isn't always available when this is called.
+      docstring = prev instance_variable_get('@docs)
+      self method_table lookup(name) method() documentation: docstring
+    }
+
+    return code
+  }
+
+  def dynamic_method: method_name with: block {
+    dynamic_method(method_name, &block)
   }
 }

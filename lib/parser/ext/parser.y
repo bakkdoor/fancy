@@ -338,7 +338,7 @@ class_super:    CLASS const_identifier COLON const_identifier expression_block {
                 }
                 ;
 
-def:            DEF { 
+def:            DEF {
                   $$ = rb_intern("def:");
                 }
                 ;
@@ -348,7 +348,7 @@ method_def:     def method_spec {
                 }
                 | def any_identifier method_spec {
                   $$ = rb_funcall(self, rb_intern("ast:define:method:on:"), 4, INT2NUM(yylineno), $1, $3, $2);
-                } 
+                }
                 | any_identifier def method_spec {
                   $$ = rb_funcall(self, rb_intern("ast:define:method:on:"), 4, INT2NUM(yylineno), $2, $3, $1);
                 }
@@ -818,4 +818,3 @@ int yyerror(VALUE self, char *s)
   rb_funcall(self, rb_intern("ast:parse_error:"), 2, INT2NUM(yylineno), rb_str_new2(s));
   return 1;
 }
-

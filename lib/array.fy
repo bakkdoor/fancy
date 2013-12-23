@@ -7,6 +7,25 @@ class Array {
 
   include: Fancy Enumerable
 
+  # Late-documentation of Rbx-methods.
+  # lib/rbx/array.fy#L66
+  method_documentation: <[
+    'at: => """
+      @idx Index for value to retrieve.
+      @return Value with the given index (if available), or @nil.
+
+      Returns the element in the @Array@ at a given index.
+    """,
+
+    '[]: => """
+      @idx Index to set a value for.
+      @obj Value (object) to be set at the given index.
+      @return @obj.
+
+      Inserts a given object at a given index (position) in the Array.
+    """
+  ]>
+
   def Array new: size {
     """
     @size Initial size of the @Array@ to be created (values default to @nil).
@@ -24,11 +43,7 @@ class Array {
     Clones (shallow copy) the @Array@.
     """
 
-    new = []
-    each: |x| {
-      new << x
-    }
-    new
+    dup
   }
 
   def append: enum {
@@ -39,6 +54,7 @@ class Array {
     Appends another @Fancy::Enumerable@ onto this one.
 
     Example:
+
           a = [1,2,3]
           a append: [3,4,5]
           a # => [1,2,3,3,4,5]
@@ -58,6 +74,7 @@ class Array {
     Prepends another @Fancy::Enumerable@ to this one.
 
     Example:
+
           a = [1,2,3]
           a prepend: [4,5,6]
           a # => [4,5,6,1,2,3]
@@ -77,12 +94,10 @@ class Array {
     Given an @Fancy::Enumerable@ of 2 @Fixnum@s, it returns the sub-array between the given indices.
     If given a single @Fixnum@, returns the element at that index.
     """
-
-    if: (index is_a?: Fancy Enumerable) then: {
-      start, end = index
-      from: start to: end
-    } else: {
-      at: index
+    # NOTE: Semantic reference; actual implementation in lib/asm/array.fy
+    match index {
+      case Integer          -> at: index
+      case Fancy Enumerable -> from: (index[0]) to: (index[1])
     }
   }
 
@@ -117,6 +132,7 @@ class Array {
     @return @self.
 
     Example:
+
           [1,2,3] reverse_each: @{print}
           # prints: 321
     """
@@ -274,7 +290,9 @@ class Array {
     @return Pretty-printed @String@ representation of @self.
 
     Returns a pretty-printed @String@ representation of @self.
+
     Example:
+
           [1, 'foo, \"bar\", 42] inspect # => \"[1, 'foo, \\\"bar\\\", 42]\"
     """
 
@@ -320,6 +338,7 @@ class Array {
     Returns concatenation with another @Fancy::Enumerable@.
 
     Example:
+
           [1,2,3] + [3,4,5] # => [1,2,3,3,4,5]
     """
 
@@ -334,6 +353,7 @@ class Array {
     Returns an @Array@ of all values in @self that are not in @other.
 
     Example:
+
           [1,2,3,4] - [2,4,5] # => [1,3]
     """
 
@@ -345,6 +365,7 @@ class Array {
     @return @Array@ of all indices of @self.
 
     Returns an @Array@ of all the indices of an @Array@.
+
           [1,2,3] indices # => [0,1,2]
     """
 
@@ -357,6 +378,7 @@ class Array {
     @return @Array@ of all indices for a given value within an @Array@ (possibly empty).
 
     Returns an Array of all indices of this item. Empty Array if item does not occur.
+
           [1, 'foo, 2, 'foo] indices_of: 'foo # => [1, 3]
     """
 
@@ -395,6 +417,7 @@ class Array {
     Expects values in @self to be 2-element @Array@s (used as key-value pairs).
 
     Example:
+
           [[1,2],[3,4]] to_hash  # => <[1 => 2, 3 => 4]>
     """
 

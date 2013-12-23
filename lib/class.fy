@@ -19,6 +19,7 @@ class Class {
     Sets any given method names to private on this @Class@.
 
     Example:
+
           class MyClass {
             def foo {}
             def bar {}
@@ -53,6 +54,7 @@ class Class {
     Sets any given method names to protected on this @Class@.
 
     Example:
+
           class MyClass {
             def foo {}
             def bar {}
@@ -87,6 +89,7 @@ class Class {
     Sets any given method names to public on this @Class@.
 
     Example:
+
           class MyClass {
             def foo {}
             def bar {}
@@ -277,12 +280,23 @@ class Class {
     alias_method_rbx: new_method_name for: old_method_name
   }
 
+  def alias_ruby_setters {
+    """
+    Creates fancy alias methods for any ruby setter methods.
+    """
+
+    ruby_instance_methods select: /\w+\=$/ . each: |m| {
+      alias_method: (m to_s replace: "=" with: ":") for_ruby: m
+    }
+  }
+
   def delegate: methods to_slot: slotname {
     """
     @methods @Fancy::Enumerable@ of method names to be delegated.
     @slotname Name of slot to delegate @methods to.
 
     Example:
+
           class MyClass {
             delegate: ('to_s, 'inspect) to_slot: 'my_slot
             def initialize: @my_slot
@@ -329,6 +343,7 @@ class Class {
     @return Name of class and its superclass as a @String@.
 
     Example:
+
           Fixnum inspect # => \"Fixnum : Integer\"
           Object inspect # => \"Object\"
     """
@@ -374,6 +389,7 @@ class Class {
     Runs / Calls @block_or_method everytime before running @method_name.
 
     Example:
+
           Array before_method: 'inspect run: 'compact!
           [1, nil, 2, nil, 3] inspect # => \"[1, 2, 3]\"
 
@@ -392,6 +408,7 @@ class Class {
     Runs / Calls @block_or_method_name everytime after running @method_name.
 
     Example:
+
           Array after_method: 'inspect run: 'compact!
           x = [1, nil, 2, nil, 3]
           x inspect # => \"[1, nil, 2, nil, 3]\"
@@ -412,6 +429,7 @@ class Class {
     Runs / Calls @block_or_method_name everytime before & after running @method_name.
 
     Example:
+
           class MyController {
             def do_stuff {
               \"Doing stuff\" println
@@ -445,6 +463,7 @@ class Class {
     @method_name Name of method to define calling chain for.
 
     Example:
+
           class Foo {
             def foo { 'foo println }
             def bar { 'bar println }
@@ -563,27 +582,6 @@ class Class {
       } else: {
         undefine_method: method_name
       }
-    }
-  }
-
-  def method_documentation: documentation_hash {
-    """
-    @documentation_hash @Hash@ of method name to documentation string.
-
-    Sets documentation strings for methods defined in @documentation_hash.
-    Useful for documenting methods without touching their implementation.
-
-    Example:
-          class SomeRubyLibraryClass {
-            method_documentation: <[
-              'some_method_a => \"Docstring A\",
-              'some_method_b => \"Docstring B\"
-            ]>
-          }
-    """
-
-    documentation_hash each: |method_name doc| {
-      instance_method: method_name . documentation: doc
     }
   }
 }

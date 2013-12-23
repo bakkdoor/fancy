@@ -16,12 +16,13 @@ require base + "console"
 require base + "delegator"
 require base + "symbol"
 require base + "array"
+require base + "rubinius"
 
 unless Rubinius::VERSION =~ /^1\./
   begin
-    require "rubygems"
-    require "rubinius/toolset"
-    require "rubinius/compiler"
+    # require "rubygems"
+    # require "rubinius/toolset"
+    # require "rubinius/compiler"
 
     Rubinius::Compiler  = Rubinius::ToolSet.current::TS::Compiler
     Rubinius::AST       = Rubinius::ToolSet.current::TS::AST

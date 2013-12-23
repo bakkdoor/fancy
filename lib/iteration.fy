@@ -21,7 +21,7 @@ class Fancy {
           Done!
     """
 
-    read_slots: ['result]
+    read_slot: 'result
     def initialize: @result
   }
 
@@ -31,7 +31,7 @@ class Fancy {
     It is rescued by Block#loop.
     """
 
-    read_slots: ['result]
+    read_slot: 'result
     def initialize: @result
   }
 
@@ -53,8 +53,7 @@ class Fancy {
           Done!
     """
 
-    def initialize { @result = nil }
-    def initialize: @result
+    def initialize: @result (nil);
 
     def result {
       """

@@ -2,10 +2,10 @@
 Block = Rubinius::BlockEnvironment
 
 class Block
-  # call without arguments
-  alias_method :":call", :call
-
-  define_method("call:") do |args|
-    call *args
+  def _fancy_call_(args)
+    call(*args)
   end
+
+  alias_method :":call", :call
+  alias_method :"call:", :_fancy_call_
 end

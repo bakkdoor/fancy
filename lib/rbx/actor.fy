@@ -12,6 +12,7 @@ class Actor {
   using the @ and @@ syntax.
 
   Example:
+
         a = Actor spawn: {
           loop: {
             match Actor receive {
@@ -40,6 +41,7 @@ class Actor {
     @return A new @Actor@ running @block in a seperate @Thread@.
 
     Example:
+
           Actor spawn: {
             loop: {
               Actor receive println # print all incoming messages

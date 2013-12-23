@@ -55,6 +55,7 @@ class Directory {
     @return @Array@ of files matching directory @pattern.
 
     Example:
+
           Directory list: \"tests/**/*.fy\"  # => [\"tests/file1.fy\", \"tests/more/file2.fy\"]
     """
 

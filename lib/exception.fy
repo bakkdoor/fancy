@@ -4,6 +4,7 @@ class StandardError {
     Raises new @Exception@ with @message.
 
     Example:
+
           StandardError raise: \"Error!\"
           ArgumentError raise: \"Missing argument!\"
           # is the same as:

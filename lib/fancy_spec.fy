@@ -23,6 +23,7 @@ class FancySpec {
     Calls @block with the new FancySpec instance as the receiver, then runs it.
 
     Example:
+
           FancySpec describe: MyTestClass with: {
             # test cases using it:with:when: here.
           }
@@ -38,6 +39,7 @@ class FancySpec {
     Similar to @FancySpec~describe:with:@ but also taking an explicit @test_obj.
 
     Example:
+
           FancySpec describe: \"My cool class\" for: MyCoolClass with: {
             # test cases using it:for:when: here.
           }
@@ -54,6 +56,7 @@ class FancySpec {
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
     Example:
+
           it: \"should be an empty Array\" when: {
             arr = [1,2,3]
             3 times: { arr pop }
@@ -72,6 +75,7 @@ class FancySpec {
     @spec_block @Block@ that holds the testcase's code (including assertions).
 
     Example:
+
           it: \"should be an empty Array\" with: 'empty? when: {
             arr = [1,2,3]
             3 times: { arr pop }
@@ -242,7 +246,8 @@ class FancySpec {
           }
         }
 
-        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{Time now - start_time} seconds." println
+        secs = sprintf("%.4f", Time now - start_time)
+        "\nRan #{@@total_tests} tests (#{@@total_expectations} expectations) with #{@@failed_count} failures in #{secs} seconds." println
       }
 
       if: (@@failed_count == 0) then: ok_block else: error_block

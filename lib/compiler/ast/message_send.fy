@@ -12,17 +12,20 @@ class Fancy AST {
       ':> => 'meta_send_op_gt
     ]>
 
-    def initialize: @line message: @name to: @receiver (Self new: @line) args: @args (MessageArgs new: @line);
+    def initialize: @line message: @name      \
+        to: @receiver (Self new: @line)       \
+        args: @args (MessageArgs new: @line);
 
     def redirect_via: redirect_message {
-      message_name = SymbolLiteral new: @line value: (@name string to_sym)
-      orig_args = ArrayLiteral new: @line array: $ @args args
-      args = MessageArgs new: @line args: $ [message_name, orig_args]
+      message_name   = SymbolLiteral new: @line value: $ @name string to_sym
+      orig_args      = ArrayLiteral new: @line array: $ @args args
+      args           = MessageArgs new: @line args: $ [message_name, orig_args]
+      redirect_ident = Identifier from: (redirect_message to_s) line: @line
 
-      ms = MessageSend new: @line \
-                       message: (Identifier from: (redirect_message to_s) line: @line) \
-                       to: @receiver \
-                       args: args
+      MessageSend new: @line               \
+                  message: redirect_ident  \
+                  to: @receiver            \
+                  args: args
     }
 
     def return_send? {
@@ -34,36 +37,43 @@ class Fancy AST {
 
     def bytecode: g {
       pos(g)
+
       if: (@receiver is_a?: Super) then: {
         SuperSend new: @line message: @name args: @args . bytecode: g
+        return nil
+      }
+
+      if: return_send? then: {
+        Return new: @line expr: @receiver . bytecode: g
+        return nil
+      }
+
+      @receiver bytecode: g
+      @args bytecode: g
+      { g allow_private() } if: $ @receiver is_a?: Self
+
+      sym = @name method_name: @receiver ruby_send: ruby_send?
+      emit_send: sym bytecode: g
+    }
+
+    def emit_send: method_name bytecode: g {
+      if: has_splat? then: {
+        { g push_nil() } unless: ruby_block?
+        g send_with_splat(method_name, @args size, false)
+        return nil
+      }
+
+      if: ruby_block? then: {
+        g send_with_block(method_name, @args size, false)
       } else: {
-        if: return_send? then: {
-          Return new: @line expr: @receiver . bytecode: g
-          return nil
-        }
-
-        @receiver bytecode: g
-        @args bytecode: g
-        pos(g)
-        { g allow_private() } if: (@receiver is_a?: Self)
-
-        sym = @name method_name: @receiver ruby_send: ruby_send?
-        if: has_splat? then: {
-          { g push_nil() } unless: ruby_block?
-          g send_with_splat(sym, @args size, false)
-          return nil
-        }
-        if: ruby_block? then: {
-          g send_with_block(sym, @args size, false)
+        # use fast instruction, if available.
+        if: (FastOps[method_name]) then: |op| {
+          g __send__(op, g find_literal(method_name))
         } else: {
-          # use fast instruction, if available.
-          if: (FastOps[sym]) then: |op| {
-            g __send__(op, g find_literal(sym))
-          } else: {
-            g send(sym, @args size, false)
-          }
+          g send(method_name, @args size, false)
         }
       }
+
     }
 
     def ruby_block? {

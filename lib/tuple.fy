@@ -15,6 +15,7 @@ class Tuple {
     Creates a new @Tuple@ with the @values passed in.
 
     Example:
+
           Tuple with_values: [1,2,3] # => (1,2,3)
     """
 
@@ -93,6 +94,7 @@ class Tuple {
     @return @self.
 
     Example:
+
           (1,2,3) reverse_each: @{print}
           # prints: 321
     """
@@ -145,5 +147,31 @@ class Tuple {
     """
 
     join
+  }
+
+  def + other {
+    """
+    @other @Enumerable@ of elements.
+    @return @Tuple@ with elements of @self and @other.
+
+    Example:
+
+          (1,2,3) + (4,5)    # => (1,2,3,4,5)
+    """
+
+    to_a + (other to_a) to_tuple
+  }
+
+  def - other {
+    """
+    @other @Enumerable@ of elements.
+    @return @Tuple@ with elements of @self and excluding those in @other.
+
+    Example:
+
+          (1,2,3) + (4,5)    # => (1,2,3,4,5)
+    """
+
+    to_a - (other to_a) to_tuple
   }
 }

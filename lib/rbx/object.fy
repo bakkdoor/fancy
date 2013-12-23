@@ -79,25 +79,9 @@ class Object {
     metaclass undefine_method: name
   }
 
-  def is_a?: class {
-    """
-    @class @Class@ to check for if @self is an instance of.
-    @return @true if @self is an instance of @class, @false otherwise.
-
-    Indicates, if an object is an instance of a given Class.
-    """
-
-    is_a?(class)
-  }
-
-  def kind_of?: class {
-    """
-    Same as Object#is_a?:
-    Indicates, if an object is an instance of a given Class.
-    """
-
-    kind_of?(class)
-  }
+  # Documented in lib/object.fy#L7
+  alias_method: 'is_a?: for: 'is_a?
+  alias_method: 'kind_of?: for: 'kind_of?
 
   def receive_message: message {
     """
@@ -117,7 +101,7 @@ class Object {
     Dynamically sends a given message with parameters to @self.
     """
 
-    ruby: (message message_name) args: params
+    __send__(message message_name, *params)
   }
 
   def responds_to?: message {

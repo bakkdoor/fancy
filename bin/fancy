@@ -27,6 +27,11 @@ begin
   # Load compiler+eval support
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/rbx/eval", base)
 
+
+  # load Rubinius bytecode implementations of certain core methods
+  # for improved performance.
+  Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/asm", base)
+
   # Run main
   Fancy::CodeLoader.load_compiled_file File.expand_path("../lib/main", base)
 

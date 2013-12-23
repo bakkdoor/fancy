@@ -385,4 +385,20 @@ FancySpec describe: Object with: {
     @val = nil
     check
   }
+
+  it: "returns true if it is in a collection" with: 'in?: when: {
+    "foo" in?: ["hello", "foo", "bar"] . is: true
+
+    [" ", "foo", "bar", "baz"] each: @{
+      in?: "foo bar baz" . is: true
+    }
+
+    1 in?: (1,2,3) . is: true
+    'a in?: <['a => 0, 'b => 10, 'c => 20]> . is: true
+
+    1 in?: (2,3,4) . is: false
+    5 in?: (2,3,4) . is: false
+    "foo" in?: "fobar" . is: false
+    'a in?: <['b => 10, 'c => 20]> . is: false
+  }
 }

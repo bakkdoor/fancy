@@ -209,9 +209,7 @@ class Class {
     Creates ruby_alias methods for any unary ruby methods of a class.
     """
 
-    instance_methods select() |m| {
-      m =~(/^[a-z]+/)
-    } select() |m| {
+    instance_methods grep(/^[a-z]+/) select() |m| {
       instance_method(m) arity() == 0
     } each() |m| {
       ruby_alias: m
@@ -226,6 +224,7 @@ class Class {
     Useful for dynamically defining methods on a class etc.
 
     Example:
+
           Array class_eval: \"def foo { 'foo println }\"
           [1,2,3] foo  # => prints 'foo
     """
@@ -245,6 +244,7 @@ class Class {
     passed, use that name explicitly, otherwise uses @method_name.
 
     Example:
+
           class Foo {
             def === other {
               # ...
@@ -261,5 +261,37 @@ class Class {
       case nil -> alias_method(method_name, method_name message_name)
       case _ -> alias_method(ruby_method_name, method_name message_name)
     }
+  }
+
+  def method_documentation: documentation_hash {
+    """
+    @documentation_hash @Hash@ of method name to documentation string.
+
+    Sets documentation strings for methods defined in @documentation_hash.
+    Useful for documenting methods without touching their implementation.
+
+    Example:
+
+          class SomeRubyLibraryClass {
+            method_documentation: <[
+              'some_method_a => \"Docstring A\",
+              'some_method_b => \"Docstring B\"
+            ]>
+          }
+    """
+
+    documentation_hash each: |method_name doc| {
+      instance_method: method_name . documentation: doc
+    }
+  }
+
+  def method: method_name doc: doc_string {
+    """
+    @method_name Name of method to set documentation string for.
+    @doc Documentation string.
+
+    Sets the documentation string @doc for the method @method_name.
+    """
+    instance_method: method_name . documentation: doc_string
   }
 }

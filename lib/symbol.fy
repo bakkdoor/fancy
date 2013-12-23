@@ -14,13 +14,13 @@ class Symbol {
     This allows Symbols to be used like Blocks (e.g. in all methods of Enumerable).
 
     Example:
+
           [1, 2, 3] map: 'squared # => [1, 4, 9]
     """
 
-    if: (arg is_a?: Array) then: {
-      arg first receive_message: self with_params: $ arg rest
-    } else: {
-      arg receive_message: self
+    match arg {
+      case Array -> arg[0] receive_message: self with_params: $ arg rest
+      case _     -> arg receive_message: self
     }
   }
 
@@ -29,6 +29,7 @@ class Symbol {
     Sends @self as message to the sender in its context.
 
     Example:
+
           'foo call
            # => same as
            self foo
@@ -75,6 +76,7 @@ class Symbol {
     @return @Block@ that sends @self to its first argument, passing along any remaining arguments.
 
     Example:
+
           'inspect to_block
           # is equal to:
           @{ inspect }

@@ -1,8 +1,4 @@
 class Regexp {
-  """
-  Regular Expression class. Used by Regexp literals in Fancy.
-  """
-
   ruby_alias: 'inspect
   ruby_alias: 'to_s
 
@@ -21,27 +17,13 @@ class Regexp {
     Regexp new(source(), Regexp EXTENDED)
   }
 
-  def Regexp new: string {
-    new(string)
-  }
-
-  def Regexp [string] {
-    new(string)
-  }
-
-  def call: args {
-    args first =~ self
-  }
-
-  def matches?: string {
+  def Regexp new: pattern {
     """
-    @string @String@ to match against @self.
-    @return @true, if @string matches @self, @false otherwise.
+    @pattern @String@ pattern to create @Regexp@ from.
+
+    Creates a new @Regexp@ from @pattern.
     """
 
-    if: (string =~ self) then: {
-      return true
-    }
-    return false
+    new(pattern)
   }
 }

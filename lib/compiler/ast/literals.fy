@@ -114,7 +114,7 @@ class Fancy AST {
   class SymbolLiteral : Rubinius AST SymbolLiteral {
     read_slot: 'value
     def initialize: line value: value {
-     initialize(line, value)
+     initialize(line, value to_sym)
     }
     def string {
       value

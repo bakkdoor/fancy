@@ -16,6 +16,7 @@ class Array {
     store the return value.
 
     Example:
+
           Array new: 3 with: 'hello    # => ['hello, 'hello, 'hello]
           # default can also be a block, taking the current index.
           Array new: 3 with: @{ * 2 }  # => [0, 2, 4]
@@ -62,30 +63,9 @@ class Array {
     nil
   }
 
-  def at: idx {
-    """
-    @idx Index for value to retrieve.
-    @return Value with the given index (if available), or @nil.
-
-    Returns the element in the @Array@ at a given index.
-    """
-
-    at(idx)
-  }
-
-  alias_method('at_put, '[]=)
-
-  def [idx]: obj {
-    """
-    @idx Index to set a value for.
-    @obj Value (object) to be set at the given index.
-    @return @obj.
-
-    Inserts a given object at a given index (position) in the Array.
-    """
-
-    at_put(idx, obj)
-  }
+  # Late-documented in lib/array.fy#L10
+  alias_method: 'at: for: 'at
+  alias_method: '[]: for_ruby: '[]=
 
   alias_method: 'at:put: for: '[]:
 
@@ -122,6 +102,7 @@ class Array {
     Joins all elements in the Array with a given @String@.
 
     Example:
+
           [1,2,3] join: \", \” # => \”1, 2, 3\"
     """
 
@@ -135,6 +116,7 @@ class Array {
     Joins all elements with the empty @String@.
 
     Example:
+
           [\"hello\", \"world\", \"!\"] join # => \"hello,world!\"
     """
 
@@ -149,11 +131,32 @@ class Array {
     Inserts a value at the front of @self.
 
     Example:
+
           a = [1,2,3]
           a unshift: 10
           a # => [10,1,2,3]
     """
 
     unshift(value)
+  }
+
+  def permutations: size (nil) {
+    """
+    @size Optional size of permutations to be returned. Defaults to @self's size.
+    @return @Enumerable::Enumerator@ of all permutations of @self.
+
+    Example:
+
+          [1,2,3] permutations to_a
+          # => [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+          [1,2,3] permutations: 2 . to_a
+          # => [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    """
+
+    match size {
+      case nil -> size = self size
+    }
+
+    to_enum('permutation, size)
   }
 }

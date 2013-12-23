@@ -25,6 +25,7 @@ class Class {
     Declares a required interface (collection of method signatures) an including class has to provide.
 
     Example:
+
           class Enumerable {
             expects_interface_on_inclusion: ['each:]
           }
@@ -40,6 +41,7 @@ class Class {
     @methods Collection of method signatures this class explicitly declares to provide.
 
     Example:
+
           class MyCollection {
             # you can skip this if you actually define each: before you include Fancy Enumerable.
             provides_interface: ['each]

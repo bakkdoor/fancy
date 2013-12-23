@@ -494,9 +494,15 @@ FancySpec describe: Array with: {
   }
 
   it: "returns a clone" with: 'clone when: {
-    [1,2,3] clone is: [1,2,3]
-    [1] clone is: [1]
-    [] clone is: []
+    [[1,2,3], [1,2], [1], []] each: |array| {
+      clone = array clone
+
+      clone == array is: true
+      clone object_id is_not: $ array object_id
+
+      clone << 1
+      clone is: $ array << 1
+    }
   }
 
   it: "calculates the sum for an Array of numbers" with: 'sum when: {
@@ -563,5 +569,18 @@ FancySpec describe: Array with: {
     [1] from: 0 to: -2 . is: []
     [0,1,2,3] from: 0 to: 3 . is: [0,1,2,3]
     [0,1,2,3] from: -1 to: 3 . is: [3]
+  }
+
+  it: "returns an array of permutations of self" with: 'permutations: when: {
+    [] permutations to_a           is: [[]]
+    [] permutations: 0 . to_a      is: [[]]
+    [1] permutations to_a          is: [[1]]
+    [1,2] permutations to_a        is: [[1,2], [2,1]]
+
+    [1,2,3] permutations: 2 . to_a is: \
+      [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+
+    [1,2,3] permutations to_a      is: \
+      [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
   }
 }

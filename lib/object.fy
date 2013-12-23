@@ -4,6 +4,25 @@ class Object {
   All classes inherit from Object.
   """
 
+  # Late-documentation of Rbx-methods.
+  # lib/rbx/object.fy#L82
+  method_documentation: <[
+    'is_a?: => """
+      @class @Class@ to check for if @self is an instance of.
+      @return @true if @self is an instance of @class, @false otherwise.
+
+      Indicates, if an object is an instance of a given Class.
+    """,
+
+    'kind_of?: => """
+      @class @Class@ to check for if @self is an instance of.
+      @return @true if @self is an instance of @class, @false otherwise.
+
+      Same as Object#is_a?:
+      Indicates, if an object is an instance of a given Class.
+    """
+  ]>
+
   def ++ other {
     """
     @other Other object to concatenate its @String value with.
@@ -384,6 +403,7 @@ class Object {
     only if @self responds to them.
 
     Example:
+
           # only send 'some_message: if object responds to it:
           object if_responds? some_message: some_parameter
     """
@@ -396,9 +416,11 @@ class Object {
     This is the default implementation for backtick: which gets called when using the backtick syntax.
 
     For example:
+
           `cat README`
 
     Gets translated to the following message send:
+
           self backtick: \"cat README\"
 
     Which allows for custom implementations of the backtick: method, if needed.
@@ -655,6 +677,7 @@ class Object {
     If you pass it a block with 1 argument this method behaves exactly like @Object#tap:@
 
     Example:
+
           some_complex_object do: @{
             method_1: arg1
             method_2: arg2
@@ -699,6 +722,22 @@ class Object {
     Thread sleep: seconds
   }
 
+  def in?: enumerable {
+    """
+    @enumerable @Fancy::Enumerable@ to check if it includes @self.
+    @return @true if @self is in @enumerable, @false otherwise.
+
+    Indicates if @self is included in @enumerable.
+
+    Example:
+
+          1 in?: [1,2,3] # => true
+          4 in?: [1,2,3] # => false
+    """
+
+    enumerable includes?: self
+  }
+
   def let: var_name be: value in: block (nil) ensuring: ensure_block ({}) {
     """
     @var_name @Symbol@ that represents the name of the dynamic variable to be set.
@@ -712,6 +751,7 @@ class Object {
     Those raised in @block will be reraised up the callstack.
 
     Example:
+
           File write: \"/tmp/output.txt\" with: |f| {
             let: '*stdout* be: f in: {
               \"hello, world!\" println # writes it to file not STDOUT
@@ -744,6 +784,7 @@ class Object {
     Opens @filename and rebinds `*stdout*` to it within @block.
 
     Example:
+
           with_output_to: \"/tmp/hello_world.txt\" do: {
             \"hello\" println
             \"world\" println
@@ -764,7 +805,7 @@ class Object {
     @return @Array@ of all class methods defined in Fancy.
     """
 
-    methods select: @{ includes?: ":" }
+    methods select: @{ to_s includes?: ":" }
   }
 
   def ruby_methods {
@@ -801,6 +842,7 @@ class Object {
     @block @Block@ to be executed while ignoring (catching but not handling) @Exception@s defined in @exception_classes.
 
     Example:
+
           ignoring: (IOError, ZeroDivisionError) do: {
             # do something
           }
@@ -821,6 +863,7 @@ class Object {
     If @within_block takes an argument, it is called with @self.
 
     Example:
+
           class MyRebindableClass {
             def foo {
               42

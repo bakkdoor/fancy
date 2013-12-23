@@ -130,6 +130,7 @@ class File {
     Reads a .fy source file as a config file.
 
     Example:
+
           # Given a file config.fy with these contents:
           {
             host: \"127.0.0.1\"
@@ -179,6 +180,7 @@ class File {
     @return Expanded (absolute) path of @self.
 
     Example:
+
           f = File open: \"README.txt\"
           f expanded_path # => \"/path/to/README.txt\" (when run from /path/to/)
     """
