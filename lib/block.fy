@@ -153,7 +153,8 @@ class Block {
 
   def to_object {
     """
-    Creates and returns a new @Object@ with slots defined dynamically in @self.
+    @return New @Object@ with slots defined dynamically in @self.
+
     Looks and feels similar to Javascript object literals.
 
     Example:
@@ -172,7 +173,8 @@ class Block {
 
   def to_object_deep {
     """
-    Creates and returns a new @Object@ with slots defined dynamically in @self.
+    @return New @Object@ with slots defined dynamically in @self.
+
     Looks and feels similar to Javascript object literals.
     Nested blocks are converted to objects as well.
 
@@ -201,8 +203,9 @@ class Block {
 
   def to_hash {
     """
-    Creates and returns a new @Hash@ with keys and values defined dynamically in @self.
-    Similar to @Block#object@ but returning a @Hash@ instead of an @Object@
+    @return New @Hash@ with keys and values defined dynamically in @self.
+
+    Similar to @Block#object@ but returning a @Hash@ instead of an @Object@.
 
     Example:
 
@@ -217,18 +220,22 @@ class Block {
 
   def to_hash_deep {
     """
-    Creates and returns a new @Hash@ with keys and values defined dynamically in @self.
-    Similar to @Block#to_hash@ but converting any value that's a @Block@ to a @Hash@ as well.
+    @return New @Hash@ with keys and values defined dynamically in @self.
+
+    Similar to @Block#to_hash@ but converting any value that's a @Block@
+    to a @Hash@ as well.
 
     Example:
 
           o = {
-            something: \"foo bar baz\"
+            something: \"foo\"
             with: 42
             and: {
-              another: 'field
+              x: 'y
             }
-          } to_hash_deep   # => <['something => \"foo bar baz\", 'with => 42, 'and => <['another => 'field]>]>
+          } to_hash_deep
+
+          # => <['something => \"foo\", 'with => 42, 'and => <['x => 'y]>]>
     """
 
     DynamicKeyHash new: true . do: self . hash
@@ -236,16 +243,17 @@ class Block {
 
   def to_a {
     """
-    Creates and returns a new @Array@ with values defined dynamically in @self.
+    @return New @Array@ with values defined dynamically in @self.
+
     Similar to @Block#to_hash@ but returning an @Array@ instead of a @Hash@
 
     Example:
 
           a = {
-            something: \"foo bar baz\"
+            something: \"foo\"
             with: 42
             something; else
-          } to_a   # => [['something, \"foo bar baz\"], ['with, 42], 'something, 'else]
+          } to_a   # => [['something, \"foo\"], ['with, 42], 'something, 'else]
     """
 
     DynamicValueArray new do: self . array
