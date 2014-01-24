@@ -55,7 +55,7 @@ class OptionParser {
     """
     @option_string Option flag and (optional) argument within \"[]\", e.g. \"--file [filename]\".
     @doc_string Documentation @String@ for @option_string that is used in the standard @--help option.
-    @block @Block@ to be executed if @option_string is matched during parsing. If the option takes an argument it will be passed to @block as an argument.
+    @block @Block@ called if @option_string is matched during parsing. If the option takes an argument it will be passed to @block as an argument.
 
     Example:
 
