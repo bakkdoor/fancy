@@ -1,9 +1,11 @@
 class FutureSend {
   """
-  A @FutureSend@ gets created whenever an asynchronous message via the @ operator gets sent, yielding a @FutureSend@.
+  A @FutureSend@ gets created whenever an asynchronous message via
+  the @ operator gets sent, yielding a @FutureSend@.
   They represent Futures/Promises in Fancy.
 
   Example:
+
         f = some_object @ some_method: some_argument
         f class # => FutureSend
         f value # => Value returned by some_method, but may block the current Thread if f hasn't completed yet.
