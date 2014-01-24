@@ -1,2 +1,3 @@
 require: "parser/methods"
-require(File.expand_path("parser/ext/fancy_parser", File.dirname(__FILE__)))
+# load parser c-extension
+require(File expand_path("parser/ext/fancy_parser", __DIR__))
