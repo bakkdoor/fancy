@@ -144,7 +144,8 @@ class Hash {
 
   def to_object_deep {
     """
-    Similar to @Hash#to_object@ but converting any nested @Hash@ slots to @Object@s as well.
+    Similar to @Hash#to_object@ but converting any nested @Hash@ slots
+    to @Object@s as well.
     """
 
     o = dup to_hash_deep to_object
@@ -181,7 +182,7 @@ class Hash {
 
     Example:
 
-          <['foo => 1, 'bar => 2, 'baz => 42]> values_at: ('foo, 'baz) # => [1, 42]
+          <['a => 1, 'b => 2, 'c => 42]> values_at: ('a, 'c) # => [1, 42]
     """
 
     keys map: |k| { at: k }
@@ -279,7 +280,7 @@ class Hash {
 
   def to_block {
     """
-    @return @Block@ that sends each key-value pair in @self as a message (with one argument) to its argument.
+    @return @Block@ that sends each of its key-value pairs as a message to its argument.
 
     Example:
 
