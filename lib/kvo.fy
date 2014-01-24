@@ -21,8 +21,12 @@ class KVO {
         tom observe: 'name with: |new old| {
           new println
         }
-        tom name: \"Tommy Cruise\"              # will cause \"Tommy Cruise\" to be printed
-        tom age: 56                           # No observer Blocks defined, so nothing will happen
+
+        # will cause \"Tommy Cruise\" to be printed:
+        tom name: \"Tommy Cruise\"
+
+        # No observer Blocks defined, so nothing will happen
+        tom age: 56
   """
 
   class ClassMethods {
