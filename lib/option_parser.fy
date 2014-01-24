@@ -70,7 +70,9 @@ class OptionParser {
       match arg {
         case /\[(.+)\]/ -> |_, arg_name|
           arg = arg_name downcase
-        case _ -> InvalidOptionsError new: "Could not correctly parse option argument: #{arg}" . raise!
+        case _ ->
+          error_reason = "Could not correctly parse option argument: #{arg}"
+          InvalidOptionsError raise: error_reason
       }
     }
 
