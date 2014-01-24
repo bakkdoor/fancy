@@ -132,7 +132,10 @@ class Proxies {
       val
     }
 
-    instance_methods reject: /^(:initialize|initialize:|__with_target__:|unknown_message:with_params:|send_async:with_params:|send_future:with_params:|__send__)$/ . each: |m| {
+    RemovedMethodsPattern = \
+      /^(:initialize|initialize:|__with_target__:|unknown_message:with_params:|send_async:with_params:|send_future:with_params:|__send__)$/
+
+    instance_methods reject: RemovedMethodsPattern . each: |m| {
       undef_method(m)
     }
 
