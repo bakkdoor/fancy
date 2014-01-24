@@ -222,8 +222,10 @@ class Class {
     @slotname Name of slot to be lazily set.
     @block @Block@ to be called to get the slot's lazy evaluated value.
 
-    Defines a lazy getter for @slotname that yields the result of calling @block and caches it in @slotname.
-    @block will be called with @self as the implicit receiver, so other slots can be used within @block.
+    Defines a lazy getter for @slotname that yields the result of
+    calling @block and caches it in @slotname. @block will be called
+    with @self as the implicit receiver, so other slots can be used
+    within @block.
     """
 
     define_method: slotname with: {
@@ -454,7 +456,11 @@ class Class {
           MyController around_method: 'do_stuff run: { \"Log data\" println }
     """
 
-    define_calling_chain: [block_or_method_name, method_name, block_or_method_name] for_method: method_name
+    define_calling_chain: [
+      block_or_method_name,
+      method_name,
+      block_or_method_name
+    ] for_method: method_name
   }
 
   def define_calling_chain: blocks_or_method_names for_method: method_name {
@@ -488,7 +494,8 @@ class Class {
           # baz
     """
 
-    # optimize for methods if all arguments are symbols (generate code instead of using dynamic #call: messages)
+    # optimize for methods if all arguments are symbols
+    # (generate code instead of using dynamic #call: messages)
     if: (blocks_or_method_names all?: @{ is_a?: Symbol }) then: {
       return define_method_calling_chain: blocks_or_method_names for_method: method_name
     }
@@ -539,8 +546,13 @@ class Class {
     before_methods = method_names take_while: |m| { m != method_name }
     _orig_method, *after_methods = method_names drop_while: |m| { m != method_name }
 
-    before_methods = before_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
-    after_methods = after_methods map: |m| { instance_method: m . selector_with_args } . join: ";"
+    before_methods = before_methods map: |m| {
+      instance_method: m . selector_with_args
+    } . join: ";"
+
+    after_methods = after_methods map: |m| {
+      instance_method: m . selector_with_args
+    } . join: ";"
 
     class_eval: """
       def #{method selector_with_args} {
@@ -552,7 +564,11 @@ class Class {
     """
   }
 
-  def rebind_instance_method: method_name with: rebind_callable within: within_block receiver: receiver (self) {
+  def rebind_instance_method: method_name \
+      with: rebind_callable               \
+      within: within_block                \
+      receiver: receiver (self) {
+
     """
     @method_name Name of instance method to rebind in @self.
     @rebind_callable Name of method or @Block@ to rebind @method_name to.
@@ -561,7 +577,8 @@ class Class {
     @return Value of calling @within_block with @receiver.
 
     Rebinds @method_name to @rebind_callable within @within_block.
-    If @within_block takes an argument, it will be called with @receiver (defaults to @self).
+    If @within_block takes an argument, it will be called with @receiver
+    (defaults to @self).
     """
 
     try {
