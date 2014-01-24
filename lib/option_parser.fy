@@ -124,7 +124,8 @@ class OptionParser {
 
   def print_help_info {
     """
-    Displays the @--help information on @*stdout* based on all options that were registered via @OptionParser#with:doc:do:@.
+    Displays the @--help information on @*stdout* based on all options that
+    were registered via @OptionParser#with:doc:do:@.
     """
 
     max_size = @options map: |name opt| { opt name_with_arg size } . max
