@@ -19,14 +19,11 @@ require base + "array"
 require base + "rubinius"
 
 unless Rubinius::VERSION =~ /^1\./
-  begin
-    # require "rubygems"
-    # require "rubinius/toolset"
-    # require "rubinius/compiler"
+  # require "rubygems"
+  require "rubinius/toolset"
+  require "rubinius/compiler"
 
-    Rubinius::Compiler  = Rubinius::ToolSet.current::TS::Compiler
-    Rubinius::AST       = Rubinius::ToolSet.current::TS::AST
-    Rubinius::Generator = Rubinius::ToolSet.current::TS::Generator
-  rescue NameError
-  end
+  Rubinius::Compiler  = Rubinius::ToolSets.current::ToolSet::Compiler
+  Rubinius::AST       = Rubinius::ToolSets.current::ToolSet::AST
+  Rubinius::Generator = Rubinius::ToolSets.current::ToolSet::Generator
 end
