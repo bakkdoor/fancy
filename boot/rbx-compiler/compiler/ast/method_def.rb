@@ -51,8 +51,8 @@ class Fancy
         local.set!(g)
         ms = MessageSend.new(line,
                             Identifier.new(line, "Fancy::Documentation"),
-                            Identifier.new(line, "for:is:"),
-                            MessageArgs.new(line, local, docstring))
+                            Identifier.new(line, "for_method:on_class:is:"),
+                            MessageArgs.new(line, local, Self.new(line), docstring))
         ms.bytecode(g)
         meta = HashLiteral.new(line,
           SymbolLiteral.new(line, :argnames),

@@ -59,3 +59,11 @@ class Class{
     }
   }
 }
+
+class Fancy {
+  class Documentation {
+    def self for: obj is: docstring {
+      true
+    }
+  }
+}

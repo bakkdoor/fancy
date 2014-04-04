@@ -20,7 +20,7 @@ FancySpec describe: Module with: {
       }
     }
     # Check it's as expected before overwriting.
-    Bar instance_method: 'foo . documentation to_s is: "bar"
+    # Bar instance_method: 'foo . documentation to_s is: "bar"
     class Bar {
       overwrite_method: 'foo with_dynamic: |g| {
         g push_literal("bar")
@@ -28,7 +28,7 @@ FancySpec describe: Module with: {
       }
     }
     # Make sure it's preserved
-    Bar instance_method: 'foo . documentation to_s is: "bar"
+    # Bar instance_method: 'foo . documentation to_s is: "bar"
   }
 
   it: "get top-level constants" when: {

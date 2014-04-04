@@ -2,8 +2,14 @@
 class Fancy {}
 
 class Fancy Documentation {
+  @@__docs__ = <[]>
+
   def initialize: docstring {
     @docs = [docstring]
+  }
+
+  def docs {
+    @docs
   }
 
   def meta: @meta
@@ -22,20 +28,22 @@ class Fancy Documentation {
   }
 
   def self for: obj is: docstring {
-    """
-    Create a Fancy::Documentation instance.
+    # """
+    # Create a Fancy::Documentation instance.
 
-    Note: As we're bootstrapping, we cannot set documentation here as
-    an string literal.
+    # Note: As we're bootstrapping, we cannot set documentation here as
+    # an string literal.
 
-    We are the very first thing to load, so just create a new
-    Fancy::Documentation object without using new:, and set it as
-    fancy docs.
-    """
+    # We are the very first thing to load, so just create a new
+    # Fancy::Documentation object without using new:, and set it as
+    # fancy docs.
+    # """
 
     doc = allocate()
-    doc send('initialize:, docstring to_s)
-    obj instance_variable_set('@_fancy_documentation, doc)
+    # doc send('initialize:, docstring to_s)
+    doc initialize: (docstring to_s)
+    # obj instance_variable_set('@_fancy_documentation, doc)
+    @@__docs__ __send__('[]=, obj, docstring)
 
     documentation_for: obj set_to: doc
     doc
@@ -46,7 +54,8 @@ class Fancy Documentation {
     Similar to @Fancy::Documentation##for:is:@ but taking the method name and the @Class@ for which @Method@ to define the docstring.
     """
 
-    class instance_method: method_name . documentation: docstring
+    # class instance_method: method_name . documentation: docstring
+    for: ([class, method_name]) is: docstring
   }
 
   for: (instance_method('initialize:)) is: "Create a new documentation object."
@@ -54,16 +63,19 @@ class Fancy Documentation {
 
   def self for: obj {
     "Obtains the Fancy Documentation for obj."
-    doc = obj instance_variable_get('@_fancy_documentation)
+    # doc = obj instance_variable_get('@_fancy_documentation)
+    @@__docs__ fetch(obj, Fancy::Documentation new: "")
   }
 
   def self remove: obj {
     "Removes the documentation for obj."
-    obj remove_instance_variable('@_fancy_documentation)
+    # obj remove_instance_variable('@_fancy_documentation)
+    @@__docs__ delete(obj)
   }
 
   def self for: obj append: docstring {
     "Append docstring to docs."
-    for: obj is: docstring
+    # for: obj is: docstring
+    @@__docs__ fetch(obj, Fancy::Documentation new: "") docs <<(docstring)
   }
 }

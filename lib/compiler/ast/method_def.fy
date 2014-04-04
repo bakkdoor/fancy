@@ -44,13 +44,17 @@ class Fancy AST {
       local = StackLocal new: line
       local set: g
       ms = MessageSend new: line \
-                       message: (Identifier from: "for:is:" line: line) \
+                       message: (Identifier from: "for_method:on_class:is:" line: line) \
                        to: (Identifier from: "Fancy::Documentation" line: line) \
-                       args: $ MessageArgs new: line args: [local, docstring]
+                       args: $ MessageArgs new: line args: [local, Self new: line, docstring]
       ms bytecode: g
 
-      meta = HashLiteral new: line entries: [SymbolLiteral new: line value: 'argnames,
-                                             ArrayLiteral new: line array: $ argnames map: |arg| { StringLiteral new: line value: $ arg to_s }]
+      meta = HashLiteral new: line entries: [
+        SymbolLiteral new: line value: 'argnames,
+        ArrayLiteral new: line array: $ argnames map: |arg| {
+          StringLiteral new: line value: $ arg to_s
+        }
+      ]
       ms = MessageSend new: line \
                        message: (Identifier from: "meta:" line: line) \
                        to: (Nothing new: line) \
