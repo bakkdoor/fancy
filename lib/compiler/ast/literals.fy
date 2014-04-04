@@ -86,7 +86,8 @@ class Fancy AST {
   class StackLocal : Node {
     def initialize: @line
     def set: g {
-      @local = g new_stack_local(); g set_stack_local(@local)
+      @local = g new_stack_local()
+      g set_stack_local(@local)
     }
     def bytecode: g {
       pos(g)
