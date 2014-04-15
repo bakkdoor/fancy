@@ -15,7 +15,9 @@ def say(*msg)
   puts(*msg) unless RakeFileUtils.verbose_flag == false
 end
 def say_bold(*msg)
-  puts((msg.map(&:to_s).join "\n").bright) unless RakeFileUtils.verbose_flag == false
+  msg = msg.map(&:to_s).join "\n"
+  msg = msg.bright if msg.respond_to?(:bright)
+  puts(msg) unless RakeFileUtils.verbose_flag == false
 end
 
 def sh!(*args, &block)
