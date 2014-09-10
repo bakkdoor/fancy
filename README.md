@@ -21,6 +21,8 @@ similar to Io.
 For a quick feature overview, have a look at `doc/features.md`
 There's also a work-in-progress tutorial/book on Fancy here:
 https://github.com/fancy-lang/infancy
+A GitBook version (with PDF, ePub & Mobi formats) is available here:
+https://www.gitbook.io/book/kary/infancy
 
 ## Related links
 * **Website**: http://www.fancy-lang.org
