@@ -61,13 +61,13 @@ module CodeRay
               encoder.text_token match, :operator
             elsif match = scan(Regexp.new((%W(+ - @ > < == != >= <= % ** * = && || =~).map {|x| Regexp.escape x }).join '|'))
               encoder.text_token match, :operator
-            elsif match = scan(/\.|\$/)
+            elsif match = scan(/\:\:/)
+              encoder.text_token match, :constant
+            elsif match = scan(/\.|\$|\:/)
               encoder.text_token match, :predefined_constant
             elsif match = scan(CAPTURE)
               encoder.text_token match, :predefined_constant
             elsif match = scan(CLASS_IDENTIFIER)
-              encoder.text_token match, :constant
-            elsif match = scan(/\:\:/)
               encoder.text_token match, :constant
             elsif match = scan(MESSAGE)
               encoder.text_token match, :keyword
